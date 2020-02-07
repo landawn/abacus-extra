@@ -34,7 +34,7 @@ public class Maven {
         IOUtil.copy(sourceDir, targetDir);
 
         StreamEx.listFiles(new File("./target/"))
-                .filter(f -> f.getName().startsWith("abacus-da") && f.getName().endsWith(".jar"))
+                .filter(f -> f.getName().startsWith("abacus-extra") && f.getName().endsWith(".jar"))
                 .peek(f -> N.println(f.getName()))
                 .forEach(f -> IOUtil.copy(f, targetDir));
 
