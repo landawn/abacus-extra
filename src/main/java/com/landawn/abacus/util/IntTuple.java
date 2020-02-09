@@ -255,7 +255,12 @@ public abstract class IntTuple<TP> {
 
         @Override
         public int sum() {
-            return _1 + _2;
+            return N.sum(_1, _2);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2);
         }
 
         @Override
@@ -344,7 +349,12 @@ public abstract class IntTuple<TP> {
 
         @Override
         public int sum() {
-            return _1 + _2 + _3;
+            return N.sum(_1, _2, _3);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3);
         }
 
         @Override
