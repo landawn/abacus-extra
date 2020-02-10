@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final ShortTuple0 EMPTY = new ShortTuple0();
+
     protected transient short[] elements;
 
     public static ShortTuple1 of(short _1) {
@@ -54,6 +59,44 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     public static ShortTuple9 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8, short _9) {
         return new ShortTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+    }
+
+    public static <TP extends ShortTuple<TP>> TP from(final short[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) ShortTuple.of(a[0]);
+
+            case 2:
+                return (TP) ShortTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) ShortTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) ShortTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
     }
 
     public short min() {
@@ -120,6 +163,62 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     protected abstract short[] elements();
+
+    static final class ShortTuple0 extends ShortTuple<ShortTuple0> {
+
+        ShortTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public short min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public short max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public short median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public ShortTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final short elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected short[] elements() {
+            return N.EMPTY_SHORT_ARRAY;
+        }
+    }
 
     public static final class ShortTuple1 extends ShortTuple<ShortTuple1> {
 

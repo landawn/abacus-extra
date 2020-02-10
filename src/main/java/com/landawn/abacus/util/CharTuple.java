@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.CharStream;
 
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final CharTuple0 EMPTY = new CharTuple0();
+
     protected transient char[] elements;
 
     public static CharTuple1 of(char _1) {
@@ -56,8 +61,43 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         return new CharTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    @Override
-    public abstract int arity();
+    public static <TP extends CharTuple<TP>> TP from(final char[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) CharTuple.of(a[0]);
+
+            case 2:
+                return (TP) CharTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) CharTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
+    }
 
     public char min() {
         return N.min(elements());
@@ -123,6 +163,62 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     protected abstract char[] elements();
+
+    static final class CharTuple0 extends CharTuple<CharTuple0> {
+
+        CharTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public char min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public char max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public char median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public CharTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final char elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected char[] elements() {
+            return N.EMPTY_CHAR_ARRAY;
+        }
+    }
 
     public static final class CharTuple1 extends CharTuple<CharTuple1> {
 

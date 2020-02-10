@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final FloatTuple0 EMPTY = new FloatTuple0();
+
     protected transient float[] elements;
 
     public static FloatTuple1 of(float _1) {
@@ -56,8 +61,43 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         return new FloatTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    @Override
-    public abstract int arity();
+    public static <TP extends FloatTuple<TP>> TP from(final float[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) FloatTuple.of(a[0]);
+
+            case 2:
+                return (TP) FloatTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) FloatTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
+    }
 
     public float min() {
         return N.min(elements());
@@ -123,6 +163,62 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     protected abstract float[] elements();
+
+    static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
+
+        FloatTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public float min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public float max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public float median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public float sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public FloatTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final float elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected float[] elements() {
+            return N.EMPTY_FLOAT_ARRAY;
+        }
+    }
 
     public static final class FloatTuple1 extends FloatTuple<FloatTuple1> {
 

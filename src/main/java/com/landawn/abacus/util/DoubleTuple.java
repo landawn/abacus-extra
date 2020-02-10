@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final DoubleTuple0 EMPTY = new DoubleTuple0();
+
     protected transient double[] elements;
 
     public static DoubleTuple1 of(double _1) {
@@ -56,8 +61,43 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         return new DoubleTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    @Override
-    public abstract int arity();
+    public static <TP extends DoubleTuple<TP>> TP from(final double[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) DoubleTuple.of(a[0]);
+
+            case 2:
+                return (TP) DoubleTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) DoubleTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
+    }
 
     public double min() {
         return N.min(elements());
@@ -123,6 +163,62 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     protected abstract double[] elements();
+
+    static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
+
+        DoubleTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public double min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public double max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public double median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public double sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public DoubleTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final double elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected double[] elements() {
+            return N.EMPTY_DOUBLE_ARRAY;
+        }
+    }
 
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
 

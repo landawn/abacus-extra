@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final IntTuple0 EMPTY = new IntTuple0();
+
     protected transient int[] elements;
 
     public static IntTuple1 of(int _1) {
@@ -56,8 +61,43 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         return new IntTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    @Override
-    public abstract int arity();
+    public static <TP extends IntTuple<TP>> TP from(final int[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) IntTuple.of(a[0]);
+
+            case 2:
+                return (TP) IntTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) IntTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
+    }
 
     public int min() {
         return N.min(elements());
@@ -123,6 +163,62 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     protected abstract int[] elements();
+
+    static final class IntTuple0 extends IntTuple<IntTuple0> {
+
+        IntTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public int min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public IntTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final int elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected int[] elements() {
+            return N.EMPTY_INT_ARRAY;
+        }
+    }
 
     public static final class IntTuple1 extends IntTuple<IntTuple1> {
 

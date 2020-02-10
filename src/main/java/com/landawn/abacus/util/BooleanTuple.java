@@ -18,6 +18,9 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
 
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final BooleanTuple0 EMPTY = new BooleanTuple0();
+
     protected transient boolean[] elements;
 
     public static BooleanTuple1 of(boolean _1) {
@@ -54,6 +57,44 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     public static BooleanTuple9 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
         return new BooleanTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+    }
+
+    public static <TP extends BooleanTuple<TP>> TP from(final boolean[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) BooleanTuple.of(a[0]);
+
+            case 2:
+                return (TP) BooleanTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) BooleanTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
     }
 
     public abstract TP reverse();
@@ -100,6 +141,37 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     protected abstract boolean[] elements();
+
+    static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
+
+        BooleanTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public BooleanTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected boolean[] elements() {
+            return N.EMPTY_BOOLEAN_ARRAY;
+        }
+    }
 
     public static final class BooleanTuple1 extends BooleanTuple<BooleanTuple1> {
 

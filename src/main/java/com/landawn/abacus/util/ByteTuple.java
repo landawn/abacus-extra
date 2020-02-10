@@ -14,10 +14,15 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
+
+    private static final ByteTuple0 EMPTY = new ByteTuple0();
+
     protected transient byte[] elements;
 
     public static ByteTuple1 of(byte _1) {
@@ -54,6 +59,44 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     public static ByteTuple9 of(byte _1, byte _2, byte _3, byte _4, byte _5, byte _6, byte _7, byte _8, byte _9) {
         return new ByteTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+    }
+
+    public static <TP extends ByteTuple<TP>> TP from(final byte[] a) {
+        if (a == null || a.length == 0) {
+            return (TP) EMPTY;
+        }
+
+        switch (a.length) {
+            case 1:
+                return (TP) ByteTuple.of(a[0]);
+
+            case 2:
+                return (TP) ByteTuple.of(a[0], a[1]);
+
+            case 3:
+                return (TP) ByteTuple.of(a[0], a[1], a[2]);
+
+            case 4:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3]);
+
+            case 5:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3], a[4]);
+
+            case 6:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+
+            case 7:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+
+            case 8:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+
+            case 9:
+                return (TP) ByteTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+
+            default:
+                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+        }
     }
 
     public byte min() {
@@ -120,6 +163,62 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     protected abstract byte[] elements();
+
+    static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
+
+        ByteTuple0() {
+        }
+
+        @Override
+        public int arity() {
+            return 0;
+        }
+
+        @Override
+        public byte min() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public byte max() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public byte median() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public int sum() {
+            return 0;
+        }
+
+        @Override
+        public double average() {
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public ByteTuple0 reverse() {
+            return this;
+        }
+
+        @Override
+        public boolean contains(final byte elementToFind) {
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[]";
+        }
+
+        @Override
+        protected byte[] elements() {
+            return N.EMPTY_BYTE_ARRAY;
+        }
+    }
 
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
 
