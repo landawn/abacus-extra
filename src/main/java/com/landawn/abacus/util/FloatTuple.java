@@ -14,10 +14,9 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
-public abstract class FloatTuple<TP> {
+public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
     protected transient float[] elements;
 
     public static FloatTuple1 of(float _1) {
@@ -56,6 +55,7 @@ public abstract class FloatTuple<TP> {
         return new FloatTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
+    @Override
     public abstract int arity();
 
     public float min() {
@@ -94,18 +94,6 @@ public abstract class FloatTuple<TP> {
         for (float e : elements()) {
             comsumer.accept(e);
         }
-    }
-
-    public <E extends Exception> void accept(Throwables.Consumer<TP, E> action) throws E {
-        action.accept((TP) this);
-    }
-
-    public <U, E extends Exception> U map(Throwables.Function<TP, U, E> mapper) throws E {
-        return mapper.apply((TP) this);
-    }
-
-    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<TP, E> predicate) throws E {
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
 
     public FloatStream stream() {

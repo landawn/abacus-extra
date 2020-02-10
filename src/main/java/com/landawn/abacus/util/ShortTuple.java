@@ -14,10 +14,9 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
-public abstract class ShortTuple<TP> {
+public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
     protected transient short[] elements;
 
     public static ShortTuple1 of(short _1) {
@@ -56,8 +55,6 @@ public abstract class ShortTuple<TP> {
         return new ShortTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    public abstract int arity();
-
     public short min() {
         return N.min(elements());
     }
@@ -94,18 +91,6 @@ public abstract class ShortTuple<TP> {
         for (short e : elements()) {
             comsumer.accept(e);
         }
-    }
-
-    public <E extends Exception> void accept(Throwables.Consumer<TP, E> action) throws E {
-        action.accept((TP) this);
-    }
-
-    public <U, E extends Exception> U map(Throwables.Function<TP, U, E> mapper) throws E {
-        return mapper.apply((TP) this);
-    }
-
-    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<TP, E> predicate) throws E {
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
 
     public ShortStream stream() {

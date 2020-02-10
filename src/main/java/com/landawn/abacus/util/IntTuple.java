@@ -14,10 +14,9 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
-public abstract class IntTuple<TP> {
+public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
     protected transient int[] elements;
 
     public static IntTuple1 of(int _1) {
@@ -56,6 +55,7 @@ public abstract class IntTuple<TP> {
         return new IntTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
+    @Override
     public abstract int arity();
 
     public int min() {
@@ -94,18 +94,6 @@ public abstract class IntTuple<TP> {
         for (int e : elements()) {
             comsumer.accept(e);
         }
-    }
-
-    public <E extends Exception> void accept(Throwables.Consumer<TP, E> action) throws E {
-        action.accept((TP) this);
-    }
-
-    public <U, E extends Exception> U map(Throwables.Function<TP, U, E> mapper) throws E {
-        return mapper.apply((TP) this);
-    }
-
-    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<TP, E> predicate) throws E {
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
 
     public IntStream stream() {

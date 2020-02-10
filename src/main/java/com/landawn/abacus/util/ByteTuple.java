@@ -14,10 +14,9 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
-public abstract class ByteTuple<TP> {
+public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
     protected transient byte[] elements;
 
     public static ByteTuple1 of(byte _1) {
@@ -56,8 +55,6 @@ public abstract class ByteTuple<TP> {
         return new ByteTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
-    public abstract int arity();
-
     public byte min() {
         return N.min(elements());
     }
@@ -94,18 +91,6 @@ public abstract class ByteTuple<TP> {
         for (byte e : elements()) {
             comsumer.accept(e);
         }
-    }
-
-    public <E extends Exception> void accept(Throwables.Consumer<TP, E> action) throws E {
-        action.accept((TP) this);
-    }
-
-    public <U, E extends Exception> U map(Throwables.Function<TP, U, E> mapper) throws E {
-        return mapper.apply((TP) this);
-    }
-
-    public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<TP, E> predicate) throws E {
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
 
     public ByteStream stream() {

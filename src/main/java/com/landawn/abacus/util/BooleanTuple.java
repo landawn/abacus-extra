@@ -1,0 +1,601 @@
+/*
+ * Copyright (C) 2020 HaiYang Li
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.landawn.abacus.util;
+
+import com.landawn.abacus.util.stream.Stream;
+
+public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
+    protected transient boolean[] elements;
+
+    public static BooleanTuple1 of(boolean _1) {
+        return new BooleanTuple1(_1);
+    }
+
+    public static BooleanTuple2 of(boolean _1, boolean _2) {
+        return new BooleanTuple2(_1, _2);
+    }
+
+    public static BooleanTuple3 of(boolean _1, boolean _2, boolean _3) {
+        return new BooleanTuple3(_1, _2, _3);
+    }
+
+    public static BooleanTuple4 of(boolean _1, boolean _2, boolean _3, boolean _4) {
+        return new BooleanTuple4(_1, _2, _3, _4);
+    }
+
+    public static BooleanTuple5 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5) {
+        return new BooleanTuple5(_1, _2, _3, _4, _5);
+    }
+
+    public static BooleanTuple6 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6) {
+        return new BooleanTuple6(_1, _2, _3, _4, _5, _6);
+    }
+
+    public static BooleanTuple7 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7) {
+        return new BooleanTuple7(_1, _2, _3, _4, _5, _6, _7);
+    }
+
+    public static BooleanTuple8 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8) {
+        return new BooleanTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
+    }
+
+    public static BooleanTuple9 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
+        return new BooleanTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+    }
+
+    public abstract TP reverse();
+
+    public abstract boolean contains(boolean elementToFind);
+
+    public boolean[] toArray() {
+        return elements().clone();
+    }
+
+    public BooleanList toList() {
+        return BooleanList.of(elements().clone());
+    }
+
+    public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
+        for (boolean e : elements()) {
+            comsumer.accept(e);
+        }
+    }
+
+    public Stream<Boolean> stream() {
+        return Stream.of(elements());
+    }
+
+    @Override
+    public int hashCode() {
+        return N.hashCode(elements());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        } else if (!(this.getClass().equals(obj.getClass()))) {
+            return false;
+        } else {
+            return N.equals(elements(), ((BooleanTuple<TP>) obj).elements());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return N.toString(elements());
+    }
+
+    protected abstract boolean[] elements();
+
+    public static final class BooleanTuple1 extends BooleanTuple<BooleanTuple1> {
+
+        public final boolean _1;
+
+        BooleanTuple1() {
+            this(false);
+        }
+
+        BooleanTuple1(boolean _1) {
+            this._1 = _1;
+        }
+
+        @Override
+        public int arity() {
+            return 1;
+        }
+
+        @Override
+        public BooleanTuple1 reverse() {
+            return new BooleanTuple1(_1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind;
+        }
+
+        @Override
+        public int hashCode() {
+            return _1 ? 1231 : 1237;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof BooleanTuple1)) {
+                return false;
+            } else {
+                BooleanTuple1 other = (BooleanTuple1) obj;
+                return this._1 == other._1;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "[" + _1 + "]";
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (this.elements == null) {
+                elements = new boolean[] { _1 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple2 extends BooleanTuple<BooleanTuple2> {
+
+        public final boolean _1;
+        public final boolean _2;
+
+        BooleanTuple2() {
+            this(false, false);
+        }
+
+        BooleanTuple2(boolean _1, boolean _2) {
+            this._1 = _1;
+            this._2 = _2;
+        }
+
+        @Override
+        public int arity() {
+            return 2;
+        }
+
+        @Override
+        public BooleanTuple2 reverse() {
+            return new BooleanTuple2(_2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind;
+        }
+
+        @Override
+        public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
+            comsumer.accept(this._1);
+            comsumer.accept(this._2);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof BooleanTuple2)) {
+                return false;
+            } else {
+                BooleanTuple2 other = (BooleanTuple2) obj;
+                return this._1 == other._1 && this._2 == other._2;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + "]";
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (this.elements == null) {
+                elements = new boolean[] { _1, _2 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+
+        BooleanTuple3() {
+            this(false, false, false);
+        }
+
+        BooleanTuple3(boolean _1, boolean _2, boolean _3) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+        }
+
+        @Override
+        public int arity() {
+            return 3;
+        }
+
+        @Override
+        public BooleanTuple3 reverse() {
+            return new BooleanTuple3(_3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind;
+        }
+
+        @Override
+        public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
+            comsumer.accept(this._1);
+            comsumer.accept(this._2);
+            comsumer.accept(this._3);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof BooleanTuple3)) {
+                return false;
+            } else {
+                BooleanTuple3 other = (BooleanTuple3) obj;
+                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + "]";
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (this.elements == null) {
+                elements = new boolean[] { _1, _2, _3 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple4 extends BooleanTuple<BooleanTuple4> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+
+        BooleanTuple4() {
+            this(false, false, false, false);
+        }
+
+        BooleanTuple4(boolean _1, boolean _2, boolean _3, boolean _4) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+        }
+
+        @Override
+        public int arity() {
+            return 4;
+        }
+
+        @Override
+        public BooleanTuple4 reverse() {
+            return new BooleanTuple4(_4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple5 extends BooleanTuple<BooleanTuple5> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+        public final boolean _5;
+
+        BooleanTuple5() {
+            this(false, false, false, false, false);
+        }
+
+        BooleanTuple5(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+            this._5 = _5;
+        }
+
+        @Override
+        public int arity() {
+            return 5;
+        }
+
+        @Override
+        public BooleanTuple5 reverse() {
+            return new BooleanTuple5(_5, _4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4, _5 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple6 extends BooleanTuple<BooleanTuple6> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+        public final boolean _5;
+        public final boolean _6;
+
+        BooleanTuple6() {
+            this(false, false, false, false, false, false);
+        }
+
+        BooleanTuple6(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+            this._5 = _5;
+            this._6 = _6;
+        }
+
+        @Override
+        public int arity() {
+            return 6;
+        }
+
+        @Override
+        public BooleanTuple6 reverse() {
+            return new BooleanTuple6(_6, _5, _4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4, _5, _6 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple7 extends BooleanTuple<BooleanTuple7> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+        public final boolean _5;
+        public final boolean _6;
+        public final boolean _7;
+
+        BooleanTuple7() {
+            this(false, false, false, false, false, false, false);
+        }
+
+        BooleanTuple7(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+            this._5 = _5;
+            this._6 = _6;
+            this._7 = _7;
+        }
+
+        @Override
+        public int arity() {
+            return 7;
+        }
+
+        @Override
+        public BooleanTuple7 reverse() {
+            return new BooleanTuple7(_7, _6, _5, _4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
+                    || _7 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple8 extends BooleanTuple<BooleanTuple8> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+        public final boolean _5;
+        public final boolean _6;
+        public final boolean _7;
+        public final boolean _8;
+
+        BooleanTuple8() {
+            this(false, false, false, false, false, false, false, false);
+        }
+
+        BooleanTuple8(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+            this._5 = _5;
+            this._6 = _6;
+            this._7 = _7;
+            this._8 = _8;
+        }
+
+        @Override
+        public int arity() {
+            return 8;
+        }
+
+        @Override
+        public BooleanTuple8 reverse() {
+            return new BooleanTuple8(_8, _7, _6, _5, _4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
+                    || _7 == elementToFind || _8 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8 };
+            }
+
+            return elements;
+        }
+    }
+
+    public static final class BooleanTuple9 extends BooleanTuple<BooleanTuple9> {
+
+        public final boolean _1;
+        public final boolean _2;
+        public final boolean _3;
+        public final boolean _4;
+        public final boolean _5;
+        public final boolean _6;
+        public final boolean _7;
+        public final boolean _8;
+        public final boolean _9;
+
+        BooleanTuple9() {
+            this(false, false, false, false, false, false, false, false, false);
+        }
+
+        BooleanTuple9(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
+            this._1 = _1;
+            this._2 = _2;
+            this._3 = _3;
+            this._4 = _4;
+            this._5 = _5;
+            this._6 = _6;
+            this._7 = _7;
+            this._8 = _8;
+            this._9 = _9;
+        }
+
+        @Override
+        public int arity() {
+            return 9;
+        }
+
+        @Override
+        public BooleanTuple9 reverse() {
+            return new BooleanTuple9(_9, _8, _7, _6, _5, _4, _3, _2, _1);
+        }
+
+        @Override
+        public boolean contains(final boolean elementToFind) {
+            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
+                    || _7 == elementToFind || _8 == elementToFind || _9 == elementToFind;
+        }
+
+        @Override
+        protected boolean[] elements() {
+            if (elements == null) {
+                elements = new boolean[] { _1, _2, _3, _4, _5, _6, _7, _8, _9 };
+            }
+
+            return elements;
+        }
+    }
+
+}
