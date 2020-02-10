@@ -30,4 +30,8 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> {
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
+
+    public Optional<TP> toOptional() {
+        return Optional.of((TP) this);
+    }
 }
