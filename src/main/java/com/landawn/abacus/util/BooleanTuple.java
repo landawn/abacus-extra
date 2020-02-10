@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
 
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
@@ -194,6 +195,39 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             comsumer.accept(this._2);
         }
 
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.BooleanBiConsumer<E> action) throws E {
+            action.accept(_1, _2);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.BooleanBiFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<BooleanTuple2> empty();
+        }
+
         @Override
         public int hashCode() {
             int result = 1;
@@ -267,6 +301,39 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             comsumer.accept(this._1);
             comsumer.accept(this._2);
             comsumer.accept(this._3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.BooleanTriConsumer<E> action) throws E {
+            action.accept(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.BooleanTriFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<BooleanTuple3> empty();
         }
 
         @Override

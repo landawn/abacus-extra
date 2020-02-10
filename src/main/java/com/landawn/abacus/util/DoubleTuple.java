@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
@@ -267,6 +268,39 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             comsumer.accept(this._2);
         }
 
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.DoubleBiConsumer<E> action) throws E {
+            action.accept(_1, _2);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.DoubleBiFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<DoubleTuple2> empty();
+        }
+
         @Override
         public int hashCode() {
             return (int) (31 * _1 + _2);
@@ -360,6 +394,39 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             comsumer.accept(this._1);
             comsumer.accept(this._2);
             comsumer.accept(this._3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.DoubleTriConsumer<E> action) throws E {
+            action.accept(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.DoubleTriFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<DoubleTuple3> empty();
         }
 
         @Override

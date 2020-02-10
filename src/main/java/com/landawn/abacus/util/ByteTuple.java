@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
@@ -264,6 +265,39 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             comsumer.accept(this._2);
         }
 
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.ByteBiConsumer<E> action) throws E {
+            action.accept(_1, _2);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.ByteBiFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<ByteTuple2> empty();
+        }
+
         @Override
         public int hashCode() {
             return 31 * _1 + _2;
@@ -357,6 +391,39 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             comsumer.accept(this._1);
             comsumer.accept(this._2);
             comsumer.accept(this._3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param action
+         * @throws E the e
+         */
+        public <E extends Exception> void accept(Throwables.ByteTriConsumer<E> action) throws E {
+            action.accept(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <U>
+         * @param <E>
+         * @param mapper
+         * @return
+         * @throws E the e
+         */
+        public <U, E extends Exception> U map(Throwables.ByteTriFunction<U, E> mapper) throws E {
+            return mapper.apply(_1, _2, _3);
+        }
+
+        /**
+         *
+         * @param <E>
+         * @param predicate
+         * @return
+         * @throws E the e
+         */
+        public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<ByteTuple3> empty();
         }
 
         @Override
