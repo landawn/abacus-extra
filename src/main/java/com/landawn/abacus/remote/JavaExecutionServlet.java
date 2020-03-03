@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.http.AbstractHttpServlet;
 import com.landawn.abacus.http.ContentFormat;
+import com.landawn.abacus.http.HttpUtil;
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
 import com.landawn.abacus.parser.JSONParser;
@@ -125,7 +127,8 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
      * @throws UncheckedIOException the unchecked IO exception
      */
     protected void execute(final HttpServletRequest request, final HttpServletResponse response) throws UncheckedIOException {
-        final ContentFormat contentFormat = getContentFormat(request);
+        final ContentFormat requestContentFormat = getRequestContentFormat(request);
+        final Charset requestCharset = HttpUtil.getCharset(getContentType(request));
         final long startTime = System.currentTimeMillis();
         final RemoteExecutionResponse remoteResponse = new RemoteExecutionResponse();
 
@@ -133,9 +136,9 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         InputStream is = null;
 
         try {
-            is = getInputStream(request, contentFormat);
+            is = getInputStream(request, requestContentFormat);
 
-            switch (contentFormat) {
+            switch (requestContentFormat) {
                 case KRYO:
                     remoteRequest = kryoParser.deserialize(RemoteExecutionRequest.class, is);
                     break;
@@ -146,7 +149,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
 
                 default:
                     remoteResponse.setErrorCode(getClassName(RuntimeException.class));
-                    remoteResponse.setErrorMessage("Unsupported content format: " + contentFormat + ". Only format JSON/Kryo is supported");
+                    remoteResponse.setErrorMessage("Unsupported content format: " + requestContentFormat + ". Only format JSON/Kryo is supported");
             }
 
             if (remoteResponse.getErrorCode() == null) {
@@ -193,9 +196,9 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         OutputStream os = null;
 
         try {
-            os = getOutputStream(response, contentFormat);
+            os = getOutputStream(response, requestContentFormat, requestCharset);
 
-            switch (contentFormat) {
+            switch (requestContentFormat) {
                 case KRYO:
                     kryoParser.serialize(os, remoteResponse);
                     break;
