@@ -17,11 +17,6 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
-import com.landawn.abacus.util.Array;
-import com.landawn.abacus.util.CharList;
-import com.landawn.abacus.util.IntPair;
-import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalChar;
 import com.landawn.abacus.util.function.IntConsumer;
