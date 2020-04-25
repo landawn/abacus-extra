@@ -53,10 +53,38 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         return new ShortTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static ShortTuple8 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8) {
         return new ShortTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static ShortTuple9 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8, short _9) {
         return new ShortTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

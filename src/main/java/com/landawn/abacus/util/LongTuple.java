@@ -53,10 +53,38 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         return new LongTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static LongTuple8 of(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8) {
         return new LongTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static LongTuple9 of(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8, long _9) {
         return new LongTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

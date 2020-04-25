@@ -53,10 +53,39 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static DoubleTuple8 of(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8) {
         return new DoubleTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static DoubleTuple9 of(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8, double _9) {
         return new DoubleTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

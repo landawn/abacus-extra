@@ -51,10 +51,39 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         return new BooleanTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static BooleanTuple8 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8) {
         return new BooleanTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static BooleanTuple9 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
         return new BooleanTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

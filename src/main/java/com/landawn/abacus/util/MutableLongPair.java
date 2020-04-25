@@ -21,7 +21,7 @@ import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.LongStream;
 
-public class MutableLongPair {
+public class MutableLongPair implements Mutable {
     public long left;
     public long right;
 

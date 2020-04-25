@@ -53,10 +53,39 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         return new CharTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static CharTuple8 of(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8) {
         return new CharTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static CharTuple9 of(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8, char _9) {
         return new CharTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

@@ -21,7 +21,7 @@ import com.landawn.abacus.util.IntTuple.IntTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
-public class MutableIntPair {
+public class MutableIntPair implements Mutable {
     public int left;
     public int right;
 

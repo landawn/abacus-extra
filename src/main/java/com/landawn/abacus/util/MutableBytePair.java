@@ -21,7 +21,7 @@ import com.landawn.abacus.util.ByteTuple.ByteTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
-public class MutableBytePair {
+public class MutableBytePair implements Mutable {
     public byte left;
     public byte right;
 
@@ -92,7 +92,7 @@ public class MutableBytePair {
     public byte[] toArray() {
         return new byte[] { left, right };
     }
-    
+
     public <E extends Exception> void forEach(Throwables.ByteConsumer<E> comsumer) throws E {
         comsumer.accept(left);
         comsumer.accept(right);

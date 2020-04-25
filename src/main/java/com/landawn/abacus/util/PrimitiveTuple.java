@@ -16,7 +16,7 @@ package com.landawn.abacus.util;
 
 import com.landawn.abacus.util.u.Optional;
 
-abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> {
+abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
     public abstract int arity();
 
     public <E extends Exception> void accept(Throwables.Consumer<? super TP, E> action) throws E {

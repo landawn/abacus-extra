@@ -53,10 +53,38 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         return new FloatTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static FloatTuple8 of(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8) {
         return new FloatTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static FloatTuple9 of(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8, float _9) {
         return new FloatTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

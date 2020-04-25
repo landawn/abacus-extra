@@ -53,10 +53,39 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         return new ByteTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static ByteTuple8 of(byte _1, byte _2, byte _3, byte _4, byte _5, byte _6, byte _7, byte _8) {
         return new ByteTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static ByteTuple9 of(byte _1, byte _2, byte _3, byte _4, byte _5, byte _6, byte _7, byte _8, byte _9) {
         return new ByteTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }

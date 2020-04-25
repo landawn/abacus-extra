@@ -53,10 +53,38 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         return new IntTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static IntTuple8 of(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8) {
         return new IntTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
+    /**
+     * 
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @param _9
+     * @return
+     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     */
+    @Deprecated
     public static IntTuple9 of(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9) {
         return new IntTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
