@@ -6,20 +6,20 @@
 
 
 * Matrix: 
-[AbstractMatrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/AbstractMatrix_view.html), 
-[Matrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/Matrix_view.html), 
-[ByteMatrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/ByteMatrix_view.html), 
-[IntMatrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/IntMatrix_view.html), 
-[LongMatrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/LongMatrix_view.html), 
-[DoubleMatrix](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/DoubleMatrix_view.html)...
+[AbstractMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/AbstractMatrix_view.html), 
+[Matrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/Matrix_view.html), 
+[ByteMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/ByteMatrix_view.html), 
+[IntMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/IntMatrix_view.html), 
+[LongMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/LongMatrix_view.html), 
+[DoubleMatrix](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/DoubleMatrix_view.html)...
 
 
 * [Run on remote servers without deploying first](https://github.com/landawn/abacus-extra/wiki/Deploy-Once,-Run-Anytime):
-[RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/RemoteExecutor_view.html).
+[RemoteExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/RemoteExecutor_view.html).
 
 
-* More: [Sheet](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/Sheet_view.html), [Points](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/Points_view.html), 
-[f](https://cdn.staticaly.com/gh/landawn/abacus-extra/master/docs/f_view.html), ...
+* More: [Sheet](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/Sheet_view.html), [Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/Points_view.html), 
+[f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/f_view.html), ...
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-extra/blob/master/CHANGES.md):
