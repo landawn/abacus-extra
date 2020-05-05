@@ -260,10 +260,56 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(Throwables.IntBiConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 action.accept(i, j);
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
+     * @throws E
+     */
+    public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBiConsumer<E> action) throws E {
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+
+        for (int i = fromRowIndex; i < toRowIndex; i++) {
+            for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                action.accept(i, j);
+            }
+        }
+    }
+
+    public <E extends Exception> void forEach(final BiIntObjConsumer<X, E> action) throws E {
+        final X x = (X) this;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                action.accept(i, j, x);
+            }
+        }
+    }
+
+    public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final BiIntObjConsumer<X, E> action) throws E {
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+
+        final X x = (X) this;
+
+        for (int i = fromRowIndex; i < toRowIndex; i++) {
+            for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                action.accept(i, j, x);
             }
         }
     }
