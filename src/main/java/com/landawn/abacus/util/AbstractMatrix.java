@@ -34,6 +34,8 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> {
 
+    static final int MIN_COUNT_FOR_PARALLEL = 8192;
+
     /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
 
@@ -581,7 +583,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return true, if is parallelable
      */
     boolean isParallelable() {
-        return isParallelStreamSupported && count > 8192;
+        return isParallelStreamSupported && count > MIN_COUNT_FOR_PARALLEL;
     }
 
     /**
@@ -591,7 +593,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return true, if is parallelable
      */
     boolean isParallelable(final int bm) {
-        return isParallelStreamSupported && count * bm > 8192;
+        return isParallelStreamSupported && count * bm > MIN_COUNT_FOR_PARALLEL;
     }
 
     /**
