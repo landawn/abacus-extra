@@ -179,7 +179,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (!(this.getClass().equals(obj.getClass()))) {
+        } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
             return N.equals(elements(), ((CharTuple<TP>) obj).elements());

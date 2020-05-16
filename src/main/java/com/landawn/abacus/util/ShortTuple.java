@@ -178,7 +178,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (!(this.getClass().equals(obj.getClass()))) {
+        } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
             return N.equals(elements(), ((ShortTuple<TP>) obj).elements());

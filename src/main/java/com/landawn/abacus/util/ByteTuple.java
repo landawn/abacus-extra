@@ -179,7 +179,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (!(this.getClass().equals(obj.getClass()))) {
+        } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
             return N.equals(elements(), ((ByteTuple<TP>) obj).elements());

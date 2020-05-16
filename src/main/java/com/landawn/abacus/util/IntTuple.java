@@ -178,7 +178,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        } else if (!(this.getClass().equals(obj.getClass()))) {
+        } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
             return false;
         } else {
             return N.equals(elements(), ((IntTuple<TP>) obj).elements());
