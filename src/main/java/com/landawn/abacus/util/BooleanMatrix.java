@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalBoolean;
-import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -442,42 +441,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsBoolean(a[i][j]);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -488,41 +453,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -533,41 +465,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -579,41 +478,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -624,45 +490,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix map(final Throwables.BooleanUnaryOperator<E> func) throws E {
-        final boolean[][] c = new boolean[rows][cols];
+        final boolean[][] result = new boolean[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return BooleanMatrix.of(c);
+        return BooleanMatrix.of(result);
     }
 
     /**
@@ -670,55 +503,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param <T>
      * @param <E>
-     * @param cls
+     * @param targetElementType
      * @param func
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Throwables.BooleanFunction<? extends T, E> func) throws E {
-        final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> targetElementType, final Throwables.BooleanFunction<? extends T, E> func) throws E {
+        final T[][] result = Matrixes.newArray(targetElementType, rows, cols);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        for (int i = 0; i < rows; i++) {
-            c[i] = N.newArray(cls, cols);
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return Matrix.of(c);
+        return Matrix.of(result);
     }
 
     /**
@@ -1242,47 +1038,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
-        final boolean[][] result = new boolean[rows][cols];
         final boolean[][] b = matrixB.a;
+        final boolean[][] result = new boolean[rows][cols];
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
 
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return new BooleanMatrix(result);
+        return BooleanMatrix.of(result);
     }
 
     /**
@@ -1298,48 +1061,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
-        final boolean[][] result = new boolean[rows][cols];
         final boolean[][] b = matrixB.a;
         final boolean[][] c = matrixC.a;
+        final boolean[][] result = new boolean[rows][cols];
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
 
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return new BooleanMatrix(result);
+        return BooleanMatrix.of(result);
     }
 
     /**

@@ -471,41 +471,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(a[i][j]);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -516,41 +483,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<T, E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -561,41 +495,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -607,41 +508,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1648,53 +1516,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB,
             final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction) throws E {
-        N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two or more matrices which don't have same shape");
-
-        final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), rows);
-
-        for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(targetElementType, cols);
-        }
+        N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
+        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
 
-        return new Matrix<>(result);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+
+        return Matrix.of(result);
     }
 
     /**
@@ -1728,54 +1559,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB, final Matrix<C> matrixC,
             final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction) throws E {
-        N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two or more matrices which don't have same shape");
-
-        final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), rows);
-
-        for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(targetElementType, cols);
-        }
+        N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
         final C[][] c = matrixC.a;
+        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
 
-        return new Matrix<>(result);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+
+        return Matrix.of(result);
     }
 
     /**

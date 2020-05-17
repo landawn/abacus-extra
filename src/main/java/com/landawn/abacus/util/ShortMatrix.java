@@ -487,42 +487,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.ShortUnaryOperator<E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.applyAsShort(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.applyAsShort(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.applyAsShort(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.applyAsShort(a[i][j]);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsShort(a[i][j]);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -533,41 +499,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Short, E> func) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.apply(i, j);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.apply(i, j);
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -578,41 +511,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -624,41 +524,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final short newValue) throws E {
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-                    }
-                }
-            }
-        }
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
@@ -716,56 +583,18 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <T>
      * @param <E>
-     * @param cls
+     * @param targetElementType
      * @param func
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Throwables.ShortFunction<? extends T, E> func) throws E {
-        final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> targetElementType, final Throwables.ShortFunction<? extends T, E> func) throws E {
+        final T[][] result = Matrixes.newArray(targetElementType, rows, cols);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        for (int i = 0; i < rows; i++) {
-            c[i] = N.newArray(cls, cols);
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return Matrix.of(c);
+        return Matrix.of(result);
     }
 
     /**
@@ -1260,48 +1089,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public ShortMatrix add(final ShortMatrix b) {
-        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
 
-        final short[][] c = new short[rows][cols];
+        final short[][] ba = b.a;
+        final short[][] result = new short[rows][cols];
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (short) (a[i][j] + ba[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
-                    @Override
-                    public void accept(final int i) {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = (short) (a[i][j] + b.a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-                    @Override
-                    public void accept(final int j) {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = (short) (a[i][j] + b.a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = (short) (a[i][j] + b.a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = (short) (a[i][j] + b.a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return new ShortMatrix(c);
+        return ShortMatrix.of(result);
     }
 
     /**
@@ -1310,48 +1106,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public ShortMatrix subtract(final ShortMatrix b) {
-        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
 
-        final short[][] c = new short[rows][cols];
+        final short[][] ba = b.a;
+        final short[][] result = new short[rows][cols];
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (short) (a[i][j] - ba[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
-                    @Override
-                    public void accept(final int i) {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = (short) (a[i][j] - b.a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-                    @Override
-                    public void accept(final int j) {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = (short) (a[i][j] - b.a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = (short) (a[i][j] - b.a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = (short) (a[i][j] - b.a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return new ShortMatrix(c);
+        return ShortMatrix.of(result);
     }
 
     /**
@@ -1623,47 +1386,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
-        final short[][] result = new short[rows][cols];
         final short[][] b = matrixB.a;
+        final short[][] result = new short[rows][cols];
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
 
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return new ShortMatrix(result);
+        return ShortMatrix.of(result);
     }
 
     /**
@@ -1679,48 +1409,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
-        final short[][] result = new short[rows][cols];
         final short[][] b = matrixB.a;
         final short[][] c = matrixC.a;
+        final short[][] result = new short[rows][cols];
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
 
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return new ShortMatrix(result);
+        return ShortMatrix.of(result);
     }
 
     /**
