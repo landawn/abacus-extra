@@ -189,6 +189,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         }
     }
 
+    public static CharMatrix unbox(final Matrix<Character> x) {
+        return CharMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

@@ -254,6 +254,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    public static IntMatrix unbox(final Matrix<Integer> x) {
+        return IntMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

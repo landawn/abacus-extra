@@ -169,6 +169,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    public static FloatMatrix unbox(final Matrix<Float> x) {
+        return FloatMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

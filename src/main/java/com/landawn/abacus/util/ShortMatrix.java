@@ -189,6 +189,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    public static ShortMatrix unbox(final Matrix<Short> x) {
+        return ShortMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

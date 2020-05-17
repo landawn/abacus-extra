@@ -213,6 +213,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         }
     }
 
+    public static DoubleMatrix unbox(final Matrix<Double> x) {
+        return DoubleMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

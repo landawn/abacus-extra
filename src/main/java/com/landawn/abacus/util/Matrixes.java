@@ -19,6 +19,8 @@ import java.util.Iterator;
 
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
+import com.landawn.abacus.util.function.ByteNFunction;
+import com.landawn.abacus.util.function.IntFunction;
 import com.landawn.abacus.util.stream.IntStream;
 
 public final class Matrixes {
@@ -206,6 +208,147 @@ public final class Matrixes {
         }
 
         return new IntMatrix(result);
+    }
+
+    public static <T, E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
+
+        if (c.size() == 1) {
+            return matrixes[0].copy();
+        } else if (c.size() == 2) {
+            return matrixes[0].zipWith(matrixes[1], zipFunction);
+        }
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final byte[][] result = new byte[rows][cols];
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            result[i][j] = matrixes[0].a[i][j];
+
+            for (int k = 1; k < size; k++) {
+                result[i][j] = zipFunction.applyAsByte(result[i][j], matrixes[k].a[i][j]);
+            }
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new ByteMatrix(result);
+    }
+
+    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
+            final ByteNFunction<R> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+
+        final IntFunction<byte[]> intermediateArrayCreator = len -> new byte[len];
+
+        return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
+    }
+
+    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
+            final ByteNFunction<R> zipFunction, final IntFunction<byte[]> intermediateArrayCreator) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final Class<?> subArrayType = N.newArray(targetElementType, 0).getClass();
+        final Class<?> eleType = subArrayType.getComponentType();
+
+        final R[][] result = N.newArray(subArrayType, rows);
+
+        for (int i = 0; i < rows; i++) {
+            result[i] = N.newArray(eleType, cols);
+        }
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            final byte[] tmp = intermediateArrayCreator.apply(size);
+
+            for (int k = 0; k < size; k++) {
+                tmp[k] = matrixes[k].a[i][j];
+            }
+
+            result[i][j] = zipFunction.apply(tmp);
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new Matrix<R>(result);
     }
 
     public static <E extends Exception> IntMatrix zip(final IntMatrix a, final IntMatrix b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
@@ -538,9 +681,9 @@ public final class Matrixes {
         return a.zipWith(b, zipFunction);
     }
 
-    public static <A, B, R, E extends Exception> Matrix<R> zip(final Class<R> targetComponentType, final Matrix<A> a, final Matrix<B> b,
+    public static <A, B, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
-        return a.zipWith(targetComponentType, b, zipFunction);
+        return a.zipWith(targetElementType, b, zipFunction);
     }
 
     public static <A, B, C, E extends Exception> Matrix<A> zip(final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
@@ -548,9 +691,158 @@ public final class Matrixes {
         return a.zipWith(b, c, zipFunction);
     }
 
-    public static <A, B, C, R, E extends Exception> Matrix<R> zip(final Class<R> targetComponentType, final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
+    public static <A, B, C, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
             final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
-        return a.zipWith(targetComponentType, b, c, zipFunction);
+        return a.zipWith(targetElementType, b, c, zipFunction);
+    }
+
+    public static <T, E extends Exception> Matrix<T> zip(final Collection<Matrix<T>> c, final Throwables.BinaryOperator<T, E> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
+
+        if (c.size() == 1) {
+            return matrixes[0].copy();
+        } else if (c.size() == 2) {
+            return matrixes[0].zipWith(matrixes[1], zipFunction);
+        }
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final Class<?> subArrayType = matrixes[0].getClass().getComponentType();
+        final Class<?> eleType = subArrayType.getComponentType();
+
+        final T[][] result = N.newArray(subArrayType, rows);
+
+        for (int i = 0; i < rows; i++) {
+            result[i] = N.newArray(eleType, cols);
+        }
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            result[i][j] = matrixes[0].a[i][j];
+
+            for (int k = 1; k < size; k++) {
+                result[i][j] = zipFunction.apply(result[i][j], matrixes[k].a[i][j]);
+            }
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new Matrix<>(result);
+    }
+
+    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<Matrix<T>> c,
+            final Throwables.Function<? super T[], R, E> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+
+        final Class<?> eleType = N.firstOrNullIfEmpty(c).a.getClass().getComponentType().getComponentType();
+        final IntFunction<T[]> intermediateArrayCreator = len -> N.newArray(eleType, len);
+
+        return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
+    }
+
+    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<Matrix<T>> c,
+            final Throwables.Function<? super T[], R, E> zipFunction, final IntFunction<T[]> intermediateArrayCreator) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final Class<?> subArrayType = N.newArray(targetElementType, 0).getClass();
+        final Class<?> eleType = subArrayType.getComponentType();
+
+        final R[][] result = N.newArray(subArrayType, rows);
+
+        for (int i = 0; i < rows; i++) {
+            result[i] = N.newArray(eleType, cols);
+        }
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            final T[] tmp = intermediateArrayCreator.apply(size);
+
+            for (int k = 0; k < size; k++) {
+                tmp[k] = matrixes[k].a[i][j];
+            }
+
+            result[i][j] = zipFunction.apply(tmp);
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new Matrix<R>(result);
     }
 
 }

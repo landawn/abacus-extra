@@ -144,6 +144,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         }
     }
 
+    public static BooleanMatrix unbox(final Matrix<Boolean> x) {
+        return BooleanMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

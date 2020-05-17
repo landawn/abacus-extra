@@ -1640,20 +1640,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <B>
      * @param <R>
      * @param <E>
-     * @param targetComponentType
+     * @param targetElementType
      * @param matrixB
      * @param zipFunction
      * @return
      * @throws E the e
      */
-    public <B, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetComponentType, final Matrix<B> matrixB,
+    public <B, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB,
             final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction) throws E {
         N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two or more matrices which don't have same shape");
 
-        final R[][] result = N.newArray(N.newArray(targetComponentType, 0).getClass(), rows);
+        final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(targetComponentType, cols);
+            result[i] = N.newArray(targetElementType, cols);
         }
 
         final B[][] b = matrixB.a;
@@ -1719,21 +1719,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <C>
      * @param <R>
      * @param <E>
-     * @param targetComponentType
+     * @param targetElementType
      * @param matrixB
      * @param matrixC
      * @param zipFunction
      * @return
      * @throws E the e
      */
-    public <B, C, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetComponentType, final Matrix<B> matrixB, final Matrix<C> matrixC,
+    public <B, C, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB, final Matrix<C> matrixC,
             final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction) throws E {
         N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two or more matrices which don't have same shape");
 
-        final R[][] result = N.newArray(N.newArray(targetComponentType, 0).getClass(), rows);
+        final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(targetComponentType, cols);
+            result[i] = N.newArray(targetElementType, cols);
         }
 
         final B[][] b = matrixB.a;

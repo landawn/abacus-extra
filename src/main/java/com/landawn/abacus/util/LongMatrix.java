@@ -211,6 +211,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    public static LongMatrix unbox(final Matrix<Long> x) {
+        return LongMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i

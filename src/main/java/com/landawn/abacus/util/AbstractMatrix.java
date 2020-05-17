@@ -551,6 +551,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
+    public <E extends Exception> void accept(final Throwables.Consumer<? super X, E> action) throws E {
+        action.accept((X) this);
+    }
+
+    public <R, E extends Exception> R apply(final Throwables.Function<? super X, R, E> action) throws E {
+        return action.apply((X) this);
+    }
+
     /**
      *
      * @param a

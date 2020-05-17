@@ -189,6 +189,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    public static ByteMatrix unbox(final Matrix<Byte> x) {
+        return ByteMatrix.of(Array.unbox(x.a));
+    }
+
     /**
      *
      * @param i
