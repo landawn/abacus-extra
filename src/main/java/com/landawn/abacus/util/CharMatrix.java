@@ -483,7 +483,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.CharUnaryOperator<E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -528,7 +528,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Character, E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -573,7 +573,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -619,7 +619,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final char newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -666,7 +666,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     public <E extends Exception> CharMatrix map(final Throwables.CharUnaryOperator<E> func) throws E {
         final char[][] c = new char[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -722,7 +722,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             c[i] = N.newArray(cls, cols);
         }
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1257,7 +1257,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         final char[][] c = new char[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1306,7 +1306,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
         final char[][] c = new char[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1356,7 +1356,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[][] c = new char[rows][b.cols];
         final char[][] a2 = b.a;
 
-        if (isParallelable(b.cols)) {
+        if (Matrixes.isParallelable(this, b.cols)) {
             if (N.min(rows, cols, b.cols) == rows) {
                 if (N.min(cols, b.cols) == cols) {
                     IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
@@ -1608,12 +1608,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final char[][] result = new char[rows][cols];
         final char[][] b = matrixB.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1663,13 +1663,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final CharMatrix matrixC, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final char[][] result = new char[rows][cols];
         final char[][] b = matrixB.a;
         final char[][] c = matrixC.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override

@@ -507,7 +507,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -552,7 +552,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -597,7 +597,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -643,7 +643,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final double newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -690,7 +690,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     public <E extends Exception> DoubleMatrix map(final Throwables.DoubleUnaryOperator<E> func) throws E {
         final double[][] c = new double[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -746,7 +746,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
             c[i] = N.newArray(cls, cols);
         }
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1281,7 +1281,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final double[][] c = new double[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1330,7 +1330,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         final double[][] c = new double[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1380,7 +1380,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final double[][] c = new double[rows][b.cols];
         final double[][] a2 = b.a;
 
-        if (isParallelable(b.cols)) {
+        if (Matrixes.isParallelable(this, b.cols)) {
             if (N.min(rows, cols, b.cols) == rows) {
                 if (N.min(cols, b.cols) == cols) {
                     IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
@@ -1548,12 +1548,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final double[][] result = new double[rows][cols];
         final double[][] b = matrixB.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1603,13 +1603,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final double[][] result = new double[rows][cols];
         final double[][] b = matrixB.a;
         final double[][] c = matrixC.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override

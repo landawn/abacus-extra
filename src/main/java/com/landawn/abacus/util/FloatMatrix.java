@@ -463,7 +463,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.FloatUnaryOperator<E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -508,7 +508,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Float, E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -553,7 +553,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -599,7 +599,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final float newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -646,7 +646,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public <E extends Exception> FloatMatrix map(final Throwables.FloatUnaryOperator<E> func) throws E {
         final float[][] c = new float[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -702,7 +702,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             c[i] = N.newArray(cls, cols);
         }
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1237,7 +1237,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final float[][] c = new float[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1286,7 +1286,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         final float[][] c = new float[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
                     @Override
@@ -1336,7 +1336,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[][] c = new float[rows][b.cols];
         final float[][] a2 = b.a;
 
-        if (isParallelable(b.cols)) {
+        if (Matrixes.isParallelable(this, b.cols)) {
             if (N.min(rows, cols, b.cols) == rows) {
                 if (N.min(cols, b.cols) == cols) {
                     IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
@@ -1513,12 +1513,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final float[][] result = new float[rows][cols];
         final float[][] b = matrixB.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1568,13 +1568,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC, final Throwables.FloatTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final float[][] result = new float[rows][cols];
         final float[][] b = matrixB.a;
         final float[][] c = matrixC.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override

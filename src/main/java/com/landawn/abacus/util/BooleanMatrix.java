@@ -438,7 +438,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -484,7 +484,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> func) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -529,7 +529,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -575,7 +575,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -622,7 +622,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public <E extends Exception> BooleanMatrix map(final Throwables.BooleanUnaryOperator<E> func) throws E {
         final boolean[][] c = new boolean[rows][cols];
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -678,7 +678,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             c[i] = N.newArray(cls, cols);
         }
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1236,12 +1236,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final boolean[][] result = new boolean[rows][cols];
         final boolean[][] b = matrixB.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
@@ -1292,13 +1292,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final boolean[][] result = new boolean[rows][cols];
         final boolean[][] b = matrixB.a;
         final boolean[][] c = matrixC.a;
 
-        if (isParallelable()) {
+        if (Matrixes.isParallelable(this)) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override

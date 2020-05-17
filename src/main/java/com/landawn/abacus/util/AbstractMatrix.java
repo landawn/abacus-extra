@@ -34,8 +34,6 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> {
 
-    static final int MIN_COUNT_FOR_PARALLEL = 8192;
-
     /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
 
@@ -47,23 +45,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
 
     /** The Constant SHORT_0. */
     static final short SHORT_0 = (short) 0;
-
-    /** The Constant isParallelStreamSupported. */
-    static final boolean isParallelStreamSupported;
-    static {
-        boolean tmp = false;
-
-        try {
-            if (ClassUtil.forClass("com.landawn.abacus.util.stream.ParallelArrayIntStream") != null
-                    && ClassUtil.forClass("com.landawn.abacus.util.stream.ParallelIteratorIntStream") != null) {
-                tmp = true;
-            }
-        } catch (Exception e) {
-            // ignore.
-        }
-
-        isParallelStreamSupported = tmp;
-    }
 
     /**
      * Row length.
@@ -576,27 +557,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return
      */
     protected abstract int length(A a);
-
-    /**
-     * Checks if is parallelable.
-     *
-     * @return true, if is parallelable
-     */
-    boolean isParallelable() {
-        return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count > MIN_COUNT_FOR_PARALLEL));
-    }
-
-    /**
-     * Checks if is parallelable.
-     *
-     * @param bm
-     * @return true, if is parallelable
-     */
-    boolean isParallelable(final int bm) {
-        return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count * bm > MIN_COUNT_FOR_PARALLEL));
-    }
 
     /**
      * Check same shape.
