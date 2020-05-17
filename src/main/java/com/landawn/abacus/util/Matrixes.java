@@ -110,7 +110,7 @@ public final class Matrixes {
         return a.zipWith(b, c, zipFunction);
     }
 
-    public static <T, E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
 
@@ -174,7 +174,7 @@ public final class Matrixes {
         return new ByteMatrix(result);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
             final ByteNFunction<R, E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
 
@@ -183,7 +183,7 @@ public final class Matrixes {
         return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<ByteMatrix> c,
             final ByteNFunction<R, E> zipFunction, final IntFunction<byte[]> intermediateArrayCreator) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -359,7 +359,7 @@ public final class Matrixes {
         return a.zipWith(b, c, zipFunction);
     }
 
-    public static <T, E extends Exception> IntMatrix zip(final Collection<IntMatrix> c, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> IntMatrix zip(final Collection<IntMatrix> c, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
 
@@ -423,8 +423,8 @@ public final class Matrixes {
         return new IntMatrix(result);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<IntMatrix> c,
-            final IntNFunction<R, E> zipFunction) throws E {
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<IntMatrix> c, final IntNFunction<R, E> zipFunction)
+            throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
 
         final IntFunction<int[]> intermediateArrayCreator = len -> new int[len];
@@ -432,8 +432,8 @@ public final class Matrixes {
         return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<IntMatrix> c,
-            final IntNFunction<R, E> zipFunction, final IntFunction<int[]> intermediateArrayCreator) throws E {
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<IntMatrix> c, final IntNFunction<R, E> zipFunction,
+            final IntFunction<int[]> intermediateArrayCreator) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
 
@@ -599,6 +599,75 @@ public final class Matrixes {
         return new LongMatrix(result);
     }
 
+    public static <E extends Exception> LongMatrix zipToLong(final Collection<IntMatrix> c, final IntNFunction<Long, E> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+
+        final IntFunction<int[]> intermediateArrayCreator = len -> new int[len];
+
+        return zipToLong(c, zipFunction, intermediateArrayCreator);
+    }
+
+    public static <E extends Exception> LongMatrix zipToLong(final Collection<IntMatrix> c, final IntNFunction<Long, E> zipFunction,
+            final IntFunction<int[]> intermediateArrayCreator) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final long[][] result = new long[rows][cols];
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            final int[] tmp = intermediateArrayCreator.apply(size);
+
+            for (int k = 0; k < size; k++) {
+                tmp[k] = matrixes[k].a[i][j];
+            }
+
+            result[i][j] = zipFunction.apply(tmp);
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new LongMatrix(result);
+    }
+
     public static <E extends Exception> DoubleMatrix zipToDouble(final IntMatrix a, final IntMatrix b, final Throwables.IntBiFunction<Double, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
@@ -698,6 +767,75 @@ public final class Matrixes {
         return new DoubleMatrix(result);
     }
 
+    public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final IntNFunction<Double, E> zipFunction) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+
+        final IntFunction<int[]> intermediateArrayCreator = len -> new int[len];
+
+        return zipToDouble(c, zipFunction, intermediateArrayCreator);
+    }
+
+    public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final IntNFunction<Double, E> zipFunction,
+            final IntFunction<int[]> intermediateArrayCreator) throws E {
+        N.checkArgNotNullOrEmpty(c, "matrixes");
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+
+        final int size = c.size();
+        final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
+
+        final int rows = matrixes[0].rows;
+        final int cols = matrixes[0].cols;
+        final double[][] result = new double[rows][cols];
+
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
+            final int[] tmp = intermediateArrayCreator.apply(size);
+
+            for (int k = 0; k < size; k++) {
+                tmp[k] = matrixes[k].a[i][j];
+            }
+
+            result[i][j] = zipFunction.apply(tmp);
+        };
+
+        if (Matrixes.isParallelable(matrixes[0])) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int i) throws E {
+                        for (int j = 0; j < cols; j++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                    @Override
+                    public void accept(final int j) throws E {
+                        for (int i = 0; i < rows; i++) {
+                            cmd.accept(i, j);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        cmd.accept(i, j);
+                    }
+                }
+            }
+        }
+
+        return new DoubleMatrix(result);
+    }
+
     public static <E extends Exception> LongMatrix zip(final LongMatrix a, final LongMatrix b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         return a.zipWith(b, zipFunction);
     }
@@ -707,7 +845,7 @@ public final class Matrixes {
         return a.zipWith(b, c, zipFunction);
     }
 
-    public static <T, E extends Exception> LongMatrix zip(final Collection<LongMatrix> c, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> LongMatrix zip(final Collection<LongMatrix> c, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
 
@@ -771,7 +909,7 @@ public final class Matrixes {
         return new LongMatrix(result);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<LongMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<LongMatrix> c,
             final LongNFunction<R, E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
 
@@ -780,7 +918,7 @@ public final class Matrixes {
         return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<LongMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<LongMatrix> c,
             final LongNFunction<R, E> zipFunction, final IntFunction<long[]> intermediateArrayCreator) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -957,7 +1095,7 @@ public final class Matrixes {
         return a.zipWith(b, c, zipFunction);
     }
 
-    public static <T, E extends Exception> DoubleMatrix zip(final Collection<DoubleMatrix> c, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> DoubleMatrix zip(final Collection<DoubleMatrix> c, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
 
@@ -1021,7 +1159,7 @@ public final class Matrixes {
         return new DoubleMatrix(result);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<DoubleMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<DoubleMatrix> c,
             final DoubleNFunction<R, E> zipFunction) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
 
@@ -1030,7 +1168,7 @@ public final class Matrixes {
         return zip(targetElementType, c, zipFunction, intermediateArrayCreator);
     }
 
-    public static <T, R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<DoubleMatrix> c,
+    public static <R, E extends Exception> Matrix<R> zip(final Class<R> targetElementType, final Collection<DoubleMatrix> c,
             final DoubleNFunction<R, E> zipFunction, final IntFunction<double[]> intermediateArrayCreator) throws E {
         N.checkArgNotNullOrEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
