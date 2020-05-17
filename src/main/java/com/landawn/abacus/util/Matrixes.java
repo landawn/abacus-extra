@@ -22,27 +22,20 @@ public final class Matrixes {
     /** The Constant logger. */
     static final Logger logger = LoggerFactory.getLogger(Matrixes.class);
 
-    static final ThreadLocal<Integer> isParallelEnabled_TL = ThreadLocal.withInitial(() -> -1);
+    static final ThreadLocal<ParallelEnabled> isParallelEnabled_TL = ThreadLocal.withInitial(() -> ParallelEnabled.DEFAULT);
 
     private Matrixes() {
         // singleton: utility class.
     }
 
-    public static void enableParallel(final boolean b) {
-        isParallelEnabled_TL.set(b ? 1 : 0);
+    public static void setParallelEnabled(final ParallelEnabled flag) {
+        N.checkArgNotNull(flag);
+
+        isParallelEnabled_TL.set(flag);
     }
 
-    public static void resetParallelEnabled() {
-        isParallelEnabled_TL.set(-1);
-    }
-
-    /**
-     * Checks if parallel is enabled or not in current thread.
-     *
-     * @return {@code true} if it's enabled, otherwise {@code false} is returned.
-     */
-    public static boolean isParallelEnabled() {
-        return isParallelEnabled_TL.get() == 1;
+    public static ParallelEnabled getParallelEnabled() {
+        return isParallelEnabled_TL.get();
     }
 
     public static <E extends Exception> IntMatrix zip(final IntMatrix a, final IntMatrix b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
