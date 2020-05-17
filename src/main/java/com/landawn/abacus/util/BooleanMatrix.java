@@ -1235,7 +1235,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return
      * @throws E the e
      */
-    public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+    public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final boolean[][] result = new boolean[rows][cols];
@@ -1247,7 +1247,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1257,7 +1257,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1266,13 +1266,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
                     }
                 }
             }
@@ -1291,7 +1291,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
-            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
         final boolean[][] result = new boolean[rows][cols];
@@ -1304,7 +1304,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1314,7 +1314,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1323,13 +1323,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             }

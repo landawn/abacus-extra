@@ -1512,7 +1512,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final float[][] result = new float[rows][cols];
@@ -1524,7 +1524,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1533,7 +1533,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1542,13 +1542,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j]);
                     }
                 }
             }
@@ -1566,8 +1566,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC,
-            final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC, final Throwables.FloatTernaryOperator<E> zipFunction)
+            throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
         final float[][] result = new float[rows][cols];
@@ -1580,7 +1580,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1589,7 +1589,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1598,13 +1598,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             }

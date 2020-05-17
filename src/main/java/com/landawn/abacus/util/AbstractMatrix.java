@@ -583,7 +583,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return true, if is parallelable
      */
     boolean isParallelable() {
-        return isParallelStreamSupported && count > MIN_COUNT_FOR_PARALLEL;
+        return isParallelStreamSupported
+                && (Matrixes.isParallelEnabled_TL.get() == 1 || (Matrixes.isParallelEnabled_TL.get() == -1 && count > MIN_COUNT_FOR_PARALLEL));
     }
 
     /**
@@ -593,7 +594,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return true, if is parallelable
      */
     boolean isParallelable(final int bm) {
-        return isParallelStreamSupported && count * bm > MIN_COUNT_FOR_PARALLEL;
+        return isParallelStreamSupported
+                && (Matrixes.isParallelEnabled_TL.get() == 1 || (Matrixes.isParallelEnabled_TL.get() == -1 && count * bm > MIN_COUNT_FOR_PARALLEL));
     }
 
     /**

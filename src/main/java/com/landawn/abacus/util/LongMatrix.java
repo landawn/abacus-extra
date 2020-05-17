@@ -1579,7 +1579,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      * @throws E the e
      */
-    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final long[][] result = new long[rows][cols];
@@ -1591,7 +1591,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1600,7 +1600,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1609,13 +1609,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j]);
                     }
                 }
             }
@@ -1633,7 +1633,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      * @throws E the e
      */
-    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final LongMatrix matrixC, final Throwables.LongTriFunction<Long, E> zipFunction)
+    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final LongMatrix matrixC, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
@@ -1647,7 +1647,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1656,7 +1656,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1665,13 +1665,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsLong(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             }

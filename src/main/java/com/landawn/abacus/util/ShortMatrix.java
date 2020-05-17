@@ -1616,7 +1616,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final short[][] result = new short[rows][cols];
@@ -1628,7 +1628,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1638,7 +1638,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
                         }
                     }
                 });
@@ -1647,13 +1647,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
+                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j]);
                     }
                 }
             }
@@ -1671,8 +1671,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC,
-            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC, final Throwables.ShortTernaryOperator<E> zipFunction)
+            throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
         final short[][] result = new short[rows][cols];
@@ -1685,7 +1685,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1695,7 +1695,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                            result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
                         }
                     }
                 });
@@ -1704,13 +1704,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
+                        result[i][j] = zipFunction.applyAsShort(a[i][j], b[i][j], c[i][j]);
                     }
                 }
             }
