@@ -58,4 +58,30 @@ class MatrixesTest {
 
     }
 
+    @Test
+    void test_multiply() {
+        {
+            ByteMatrix mxa = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
+            mxa.println();
+
+            ByteMatrix mxb = ByteMatrix.range((byte) 0, (byte) 8).reshape(4, 2);
+            mxb.println();
+
+            mxa.multiply(mxb).println();
+        }
+
+        N.println(StringUtil.repeat('=', 80));
+        N.println(StringUtil.repeat('=', 80));
+
+        {
+            IntMatrix mxa = IntMatrix.range(0, 8).reshape(2, 4);
+            mxa.println();
+
+            IntMatrix mxb = IntMatrix.range(0, 8).reshape(4, 2);
+            mxb.println();
+
+            mxa.multiply(mxb).println();
+        }
+    }
+
 }
