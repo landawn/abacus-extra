@@ -19,8 +19,6 @@ import java.util.NoSuchElementException;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalLong;
-import com.landawn.abacus.util.function.IntConsumer;
-import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.LongIteratorEx;
 import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
@@ -558,45 +556,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E the e
      */
     public <E extends Exception> LongMatrix map(final Throwables.LongUnaryOperator<E> func) throws E {
-        final long[][] c = new long[rows][cols];
+        final long[][] result = new long[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return LongMatrix.of(c);
+        return LongMatrix.of(result);
     }
 
     /**
@@ -1146,142 +1111,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public LongMatrix multiply(final LongMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
-        final long[][] c = new long[rows][b.cols];
-        final long[][] a2 = b.a;
+        final long[][] ba = b.a;
+        final long[][] result = new long[rows][b.cols];
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * ba[k][j];
 
-        if (Matrixes.isParallelable(this, b.cols)) {
-            if (N.min(rows, cols, b.cols) == rows) {
-                if (N.min(cols, b.cols) == cols) {
-                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int i) {
-                            for (int k = 0; k < cols; k++) {
-                                for (int j = 0; j < b.cols; j++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int i) {
-                            for (int j = 0; j < b.cols; j++) {
-                                for (int k = 0; k < cols; k++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                }
-            } else if (N.min(rows, cols, b.cols) == cols) {
-                if (N.min(rows, b.cols) == rows) {
-                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int k) {
-                            for (int i = 0; i < rows; i++) {
-                                for (int j = 0; j < b.cols; j++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int k) {
-                            for (int j = 0; j < b.cols; j++) {
-                                for (int i = 0; i < rows; i++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                }
-            } else {
-                if (N.min(rows, cols) == rows) {
-                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int j) {
-                            for (int i = 0; i < rows; i++) {
-                                for (int k = 0; k < cols; k++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int j) {
-                            for (int k = 0; k < cols; k++) {
-                                for (int i = 0; i < rows; i++) {
-                                    c[i][j] += a[i][k] * a2[k][j];
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        } else {
-            if (N.min(rows, cols, b.cols) == rows) {
-                if (N.min(cols, b.cols) == cols) {
-                    for (int i = 0; i < rows; i++) {
-                        for (int k = 0; k < cols; k++) {
-                            for (int j = 0; j < b.cols; j++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < rows; i++) {
-                        for (int j = 0; j < b.cols; j++) {
-                            for (int k = 0; k < cols; k++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                }
-            } else if (N.min(rows, cols, b.cols) == cols) {
-                if (N.min(rows, b.cols) == rows) {
-                    for (int k = 0; k < cols; k++) {
-                        for (int i = 0; i < rows; i++) {
-                            for (int j = 0; j < b.cols; j++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                } else {
-                    for (int k = 0; k < cols; k++) {
-                        for (int j = 0; j < b.cols; j++) {
-                            for (int i = 0; i < rows; i++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (N.min(rows, cols) == rows) {
-                    for (int j = 0; j < b.cols; j++) {
-                        for (int i = 0; i < rows; i++) {
-                            for (int k = 0; k < cols; k++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                } else {
-                    for (int j = 0; j < b.cols; j++) {
-                        for (int k = 0; k < cols; k++) {
-                            for (int i = 0; i < rows; i++) {
-                                c[i][j] += a[i][k] * a2[k][j];
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        Matrixes.multiply(this, b, cmd);
 
-        return new LongMatrix(c);
+        return new LongMatrix(result);
     }
 
     /**

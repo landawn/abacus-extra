@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
+import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.IntStream;
 
 public final class Matrixes {
@@ -151,6 +152,152 @@ public final class Matrixes {
         }
     }
 
+    /**
+     *
+     * @param b
+     * @return
+     */
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd) {
+        N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
+
+        final int rowsA = a.rows;
+        final int colsA = a.cols;
+        final int colsB = b.cols;
+
+        if (Matrixes.isParallelable(a, colsB)) {
+            if (N.min(rowsA, colsA, colsB) == rowsA) {
+                if (N.min(colsA, colsB) == colsA) {
+                    IntStream.range(0, rowsA).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int i) {
+                            for (int k = 0; k < colsA; k++) {
+                                for (int j = 0; j < colsB; j++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, rowsA).parallel().forEach(new IntConsumer() {
+
+                        @Override
+                        public void accept(final int i) {
+                            for (int j = 0; j < colsB; j++) {
+                                for (int k = 0; k < colsA; k++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                }
+            } else if (N.min(rowsA, colsA, colsB) == colsA) {
+                if (N.min(rowsA, colsB) == rowsA) {
+                    IntStream.range(0, colsA).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int i = 0; i < rowsA; i++) {
+                                for (int j = 0; j < colsB; j++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, colsA).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int j = 0; j < colsB; j++) {
+                                for (int i = 0; i < rowsA; i++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                if (N.min(rowsA, colsA) == rowsA) {
+                    IntStream.range(0, colsB).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int j) {
+                            for (int i = 0; i < rowsA; i++) {
+                                for (int k = 0; k < colsA; k++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, colsB).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int j) {
+                            for (int k = 0; k < colsA; k++) {
+                                for (int i = 0; i < rowsA; i++) {
+                                    cmd.accept(i, j, k);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        } else {
+            if (N.min(rowsA, colsA, colsB) == rowsA) {
+                if (N.min(colsA, colsB) == colsA) {
+                    for (int i = 0; i < rowsA; i++) {
+                        for (int k = 0; k < colsA; k++) {
+                            for (int j = 0; j < colsB; j++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < rowsA; i++) {
+                        for (int j = 0; j < colsB; j++) {
+                            for (int k = 0; k < colsA; k++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                }
+            } else if (N.min(rowsA, colsA, colsB) == colsA) {
+                if (N.min(rowsA, colsB) == rowsA) {
+                    for (int k = 0; k < colsA; k++) {
+                        for (int i = 0; i < rowsA; i++) {
+                            for (int j = 0; j < colsB; j++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                } else {
+                    for (int k = 0; k < colsA; k++) {
+                        for (int j = 0; j < colsB; j++) {
+                            for (int i = 0; i < rowsA; i++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (N.min(rowsA, colsA) == rowsA) {
+                    for (int j = 0; j < colsB; j++) {
+                        for (int i = 0; i < rowsA; i++) {
+                            for (int k = 0; k < colsA; k++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < colsB; j++) {
+                        for (int k = 0; k < colsA; k++) {
+                            for (int i = 0; i < rowsA; i++) {
+                                cmd.accept(i, j, k);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static <E extends Exception> ByteMatrix zip(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         return a.zipWith(b, zipFunction);
     }
@@ -230,7 +377,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final byte[][] aa = a.a;
         final byte[][] ba = b.a;
         final int[][] result = new int[rows][cols];
@@ -247,7 +394,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final byte[][] aa = a.a;
         final byte[][] ba = b.a;
         final byte[][] ca = c.a;
@@ -373,7 +520,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final int[][] aa = a.a;
         final int[][] ba = b.a;
         final long[][] result = new long[rows][cols];
@@ -390,7 +537,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final int[][] aa = a.a;
         final int[][] ba = b.a;
         final int[][] ca = c.a;
@@ -442,7 +589,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final int[][] aa = a.a;
         final int[][] ba = b.a;
         final double[][] result = new double[rows][cols];
@@ -459,7 +606,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final int[][] aa = a.a;
         final int[][] ba = b.a;
         final int[][] ca = c.a;
@@ -587,7 +734,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final long[][] aa = a.a;
         final long[][] ba = b.a;
         final double[][] result = new double[rows][cols];
@@ -604,7 +751,7 @@ public final class Matrixes {
         N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
 
         final int rows = a.rows;
-        final int cols = b.cols;
+        final int cols = a.cols;
         final long[][] aa = a.a;
         final long[][] ba = b.a;
         final long[][] ca = c.a;

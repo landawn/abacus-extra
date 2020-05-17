@@ -21,7 +21,6 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.f.ff;
 import com.landawn.abacus.util.u.Nullable;
-import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -527,55 +526,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <R>
      * @param <E>
-     * @param cls
+     * @param targetElementType
      * @param func
      * @return
      * @throws E the e
      */
-    public <R, E extends Exception> Matrix<R> map(final Class<R> cls, final Throwables.Function<? super T, R, E> func) throws E {
-        final R[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
+    public <R, E extends Exception> Matrix<R> map(final Class<R> targetElementType, final Throwables.Function<? super T, R, E> func) throws E {
+        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        for (int i = 0; i < rows; i++) {
-            c[i] = N.newArray(cls, cols);
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return Matrix.of(c);
+        return Matrix.of(result);
     }
 
     /**
@@ -587,45 +549,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix mapToBoolean(final Throwables.ToBooleanFunction<? super T, E> func) throws E {
-        final boolean[][] c = new boolean[rows][cols];
+        final boolean[][] result = new boolean[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return BooleanMatrix.of(c);
+        return BooleanMatrix.of(result);
     }
 
     /**
@@ -637,45 +566,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> ByteMatrix mapToByte(final Throwables.ToByteFunction<? super T, E> func) throws E {
-        final byte[][] c = new byte[rows][cols];
+        final byte[][] result = new byte[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsByte(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsByte(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsByte(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsByte(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsByte(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return ByteMatrix.of(c);
+        return ByteMatrix.of(result);
     }
 
     /**
@@ -687,45 +583,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> CharMatrix mapToChar(final Throwables.ToCharFunction<? super T, E> func) throws E {
-        final char[][] c = new char[rows][cols];
+        final char[][] result = new char[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsChar(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsChar(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsChar(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsChar(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsChar(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return CharMatrix.of(c);
+        return CharMatrix.of(result);
     }
 
     /**
@@ -737,45 +600,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> ShortMatrix mapToShort(final Throwables.ToShortFunction<? super T, E> func) throws E {
-        final short[][] c = new short[rows][cols];
+        final short[][] result = new short[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsShort(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsShort(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsShort(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsShort(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsShort(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return ShortMatrix.of(c);
+        return ShortMatrix.of(result);
     }
 
     /**
@@ -787,45 +617,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> IntMatrix mapToInt(final Throwables.ToIntFunction<? super T, E> func) throws E {
-        final int[][] c = new int[rows][cols];
+        final int[][] result = new int[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsInt(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsInt(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsInt(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsInt(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return IntMatrix.of(c);
+        return IntMatrix.of(result);
     }
 
     /**
@@ -837,45 +634,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.ToLongFunction<? super T, E> func) throws E {
-        final long[][] c = new long[rows][cols];
+        final long[][] result = new long[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return LongMatrix.of(c);
+        return LongMatrix.of(result);
     }
 
     /**
@@ -887,45 +651,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> FloatMatrix mapToFloat(final Throwables.ToFloatFunction<? super T, E> func) throws E {
-        final float[][] c = new float[rows][cols];
+        final float[][] result = new float[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsFloat(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return FloatMatrix.of(c);
+        return FloatMatrix.of(result);
     }
 
     /**
@@ -937,45 +668,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.ToDoubleFunction<? super T, E> func) throws E {
-        final double[][] c = new double[rows][cols];
+        final double[][] result = new double[rows][cols];
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
 
-        if (Matrixes.isParallelable(this)) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsDouble(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsDouble(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsDouble(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsDouble(a[i][j]);
-                    }
-                }
-            }
-        }
+        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 
-        return DoubleMatrix.of(c);
+        return DoubleMatrix.of(result);
     }
 
     /**
