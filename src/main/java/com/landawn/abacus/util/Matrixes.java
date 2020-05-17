@@ -102,8 +102,8 @@ public final class Matrixes {
     }
 
     public static <T> T[][] newArray(final Class<T> targetElementType, final int rows, final int cols) {
-        final Class<T[]> subArrayType = (Class<T[]>) N.newArray(targetElementType, 0).getClass();
-        final Class<T> eleType = (Class<T>) subArrayType.getComponentType();
+        final Class<T> eleType = (Class<T>) Primitives.wrap(targetElementType);
+        final Class<T[]> subArrayType = (Class<T[]>) N.newArray(eleType, 0).getClass();
 
         final T[][] result = N.newArray(subArrayType, rows);
 
