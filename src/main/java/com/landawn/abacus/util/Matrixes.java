@@ -958,7 +958,7 @@ public final class Matrixes {
 
         final int rows = matrixes[0].rows;
         final int cols = matrixes[0].cols;
-        final T[][] result = newArray((Class<T>) matrixes[0].a.getClass().getComponentType().getComponentType(), rows, cols);
+        final T[][] result = newArray(matrixes[0].elementType, rows, cols);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
             result[i][j] = matrixes[0].a[i][j];
@@ -990,7 +990,7 @@ public final class Matrixes {
         final int cols = matrixes[0].cols;
         final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
         final boolean shareArray = shareIntermediateArray && zipInParallel == false;
-        final T[] intermediateArray = N.newArray(matrixes[0].a.getClass().getComponentType().getComponentType(), size);
+        final T[] intermediateArray = N.newArray(matrixes[0].elementType, size);
         final R[][] result = newArray(targetElementType, rows, cols);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {

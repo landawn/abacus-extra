@@ -34,11 +34,9 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
 
-    /** The array type. */
-    private final Class<T[]> arrayType;
+    final Class<T[]> arrayType;
 
-    /** The component type. */
-    private final Class<T> componentType;
+    final Class<T> elementType;
 
     /**
      * Instantiates a new matrix.
@@ -48,7 +46,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public Matrix(final T[][] a) {
         super(a);
         this.arrayType = (Class<T[]>) this.a.getClass().getComponentType();
-        this.componentType = (Class<T>) this.arrayType.getComponentType();
+        this.elementType = (Class<T>) this.arrayType.getComponentType();
     }
 
     /**
@@ -310,7 +308,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public T[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
-        final T[] c = N.newArray(componentType, rows);
+        final T[] c = N.newArray(elementType, rows);
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i][columnIndex];
@@ -379,7 +377,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public T[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final T[] res = N.newArray(componentType, rows);
+        final T[] res = N.newArray(elementType, rows);
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][i];
@@ -425,7 +423,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public T[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final T[] res = N.newArray(componentType, rows);
+        final T[] res = N.newArray(elementType, rows);
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][cols - i - 1];
@@ -519,7 +517,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> func) throws E {
-        return map(this.componentType, func);
+        return map(this.elementType, func);
     }
 
     /**
@@ -793,7 +791,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final T[][] b = N.newArray(arrayType, newRows);
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : (T[]) N.newArray(componentType, newCols);
+                b[i] = i < rows ? N.copyOf(a[i], newCols) : (T[]) N.newArray(elementType, newCols);
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
@@ -844,7 +842,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final T[][] b = N.newArray(arrayType, newRows);
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = N.newArray(componentType, newCols);
+                b[i] = N.newArray(elementType, newCols);
 
                 if (i >= toUp && i < toUp + rows) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, cols);
@@ -923,7 +921,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, cols);
 
         for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.componentType, rows);
+            c[i] = N.newArray(this.elementType, rows);
         }
 
         if (rows <= cols) {
@@ -968,7 +966,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, cols);
 
         for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.componentType, rows);
+            c[i] = N.newArray(this.elementType, rows);
         }
 
         if (rows <= cols) {
@@ -997,7 +995,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, cols);
 
         for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(componentType, rows);
+            c[i] = N.newArray(elementType, rows);
         }
 
         if (rows <= cols) {
@@ -1027,7 +1025,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, newRows);
 
         for (int i = 0; i < newRows; i++) {
-            c[i] = N.newArray(componentType, newCols);
+            c[i] = N.newArray(elementType, newCols);
         }
 
         if (newRows == 0 || newCols == 0 || N.isNullOrEmpty(a)) {
@@ -1068,7 +1066,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
 
         for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(componentType, cols * colRepeats);
+            c[i] = N.newArray(elementType, cols * colRepeats);
         }
 
         for (int i = 0; i < rows; i++) {
@@ -1102,7 +1100,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
 
         for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(componentType, cols * colRepeats);
+            c[i] = N.newArray(elementType, cols * colRepeats);
         }
 
         for (int i = 0; i < rows; i++) {
@@ -1126,7 +1124,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public List<T> flatten() {
-        final T[] c = N.newArray(componentType, rows * cols);
+        final T[] c = N.newArray(elementType, rows * cols);
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c, i * cols, cols);
@@ -1198,7 +1196,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <B, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, T, E> zipFunction) throws E {
-        return zipWith(componentType, matrixB, zipFunction);
+        return zipWith(elementType, matrixB, zipFunction);
     }
 
     /**
@@ -1239,7 +1237,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
             final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
-        return zipWith(componentType, matrixB, matrixC, zipFunction);
+        return zipWith(elementType, matrixB, matrixC, zipFunction);
     }
 
     /**
