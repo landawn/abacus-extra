@@ -153,18 +153,35 @@ public final class Matrixes {
     }
 
     /**
-     *
+     * 
+     * @param <X>
+     * @param a
      * @param b
-     * @return
+     * @param cmd
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd) {
+        N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
+
+        multiply(a, b, cmd, Matrixes.isParallelable(a, b.cols));
+    }
+
+    /**
+     * 
+     * @param <X>
+     * @param a
+     * @param b
+     * @param cmd
+     * @param inParallel
+     */
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd,
+            final boolean inParallel) {
         N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
 
         final int rowsA = a.rows;
         final int colsA = a.cols;
         final int colsB = b.cols;
 
-        if (Matrixes.isParallelable(a, colsB)) {
+        if (inParallel) {
             if (N.min(rowsA, colsA, colsB) == rowsA) {
                 if (N.min(colsA, colsB) == colsA) {
                     IntStream.range(0, rowsA).parallel().forEach(new IntConsumer() {
