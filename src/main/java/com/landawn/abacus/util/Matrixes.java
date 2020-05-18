@@ -114,22 +114,53 @@ public final class Matrixes {
         return result;
     }
 
+    /**
+     * 
+     * @param <E>
+     * @param rows
+     * @param cols
+     * @param cmd
+     * @param inParallel
+     * @throws E
+     */
     public static <E extends Exception> void run(final int rows, final int cols, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws E {
+        run(0, rows, 0, cols, cmd, inParallel);
+    }
+
+    /**
+     * 
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param cmd
+     * @param inParallel
+     * @throws E
+     */
+    public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws E {
+        N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
+
+        final int rows = toRowIndex - fromRowIndex;
+        final int cols = toColumnIndex - fromColumnIndex;
+
         if (inParallel) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
+                IntStream.range(fromRowIndex, toRowIndex).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
+                        for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
                             cmd.accept(i, j);
                         }
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
+                IntStream.range(fromColumnIndex, toColumnIndex).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
+                        for (int i = fromRowIndex; i < toRowIndex; i++) {
                             cmd.accept(i, j);
                         }
                     }
@@ -137,14 +168,14 @@ public final class Matrixes {
             }
         } else {
             if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
+                for (int i = fromRowIndex; i < toRowIndex; i++) {
+                    for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
                         cmd.accept(i, j);
                     }
                 }
             } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
+                for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
+                    for (int i = fromRowIndex; i < toRowIndex; i++) {
                         cmd.accept(i, j);
                     }
                 }
