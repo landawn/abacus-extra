@@ -169,12 +169,12 @@ public final class Matrixes {
         } else {
             if (rows <= cols) {
                 for (int i = fromRowIndex; i < toRowIndex; i++) {
-                    for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
+                    for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                         cmd.accept(i, j);
                     }
                 }
             } else {
-                for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
+                for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                     for (int i = fromRowIndex; i < toRowIndex; i++) {
                         cmd.accept(i, j);
                     }
