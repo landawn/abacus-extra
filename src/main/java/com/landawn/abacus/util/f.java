@@ -19,7 +19,6 @@ import com.landawn.abacus.annotation.Beta;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class f.
  */
 @Beta
 public final class f {

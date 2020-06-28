@@ -16,7 +16,6 @@ import com.landawn.abacus.util.function.Predicate;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class DependencyFinder.
  */
 public final class DependencyFinder {
     //    public static void main(String[] args) {

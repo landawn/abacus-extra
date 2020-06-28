@@ -26,7 +26,6 @@ import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CharMatrix.
  *
  * @author Haiyang Li
  * @since 0.8

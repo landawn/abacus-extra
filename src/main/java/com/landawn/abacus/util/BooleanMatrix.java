@@ -24,7 +24,6 @@ import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class BooleanMatrix.
  *
  * @author Haiyang Li
  * @since 0.8
