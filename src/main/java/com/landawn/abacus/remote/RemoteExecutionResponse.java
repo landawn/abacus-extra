@@ -25,31 +25,22 @@ import com.landawn.abacus.util.N;
  */
 public class RemoteExecutionResponse {
 
-    /** The result. */
     private Object result;
 
-    /** The error code. */
     private String errorCode;
 
-    /** The error message. */
     private String errorMessage;
 
-    /** The request host. */
     private String requestHost;
 
-    /** The request time. */
     private long requestTime;
 
-    /** The response time. */
     private long responseTime;
 
-    /** The Execution time. */
     private long ExecutionTime;
 
-    /** The Execution host. */
     private String ExecutionHost;
 
-    /** The elapsed time. */
     private long elapsedTime;
 
     //    public static void main(String[] args) {
@@ -254,10 +245,6 @@ public class RemoteExecutionResponse {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     public RemoteExecutionResponse copy() {
         final RemoteExecutionResponse copy = new RemoteExecutionResponse();
 
@@ -274,10 +261,6 @@ public class RemoteExecutionResponse {
         return copy;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         int h = 17;
@@ -320,10 +303,6 @@ public class RemoteExecutionResponse {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "{result=" + N.toString(result) + ", errorCode=" + N.toString(errorCode) + ", errorMessage=" + N.toString(errorMessage) + ", requestHost="

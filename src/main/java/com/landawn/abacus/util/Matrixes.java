@@ -24,7 +24,6 @@ import com.landawn.abacus.util.stream.IntStream;
 
 public final class Matrixes {
 
-    /** The Constant logger. */
     static final Logger logger = LoggerFactory.getLogger(Matrixes.class);
 
     static final int MIN_COUNT_FOR_PARALLEL = 8192;

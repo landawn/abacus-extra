@@ -30,22 +30,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {
 
-    /** The Constant EMPTY_BOOLEAN_MATRIX. */
     static final BooleanMatrix EMPTY_BOOLEAN_MATRIX = new BooleanMatrix(new boolean[0][0]);
 
-    /**
-     * Instantiates a new boolean matrix.
-     *
-     * @param a
-     */
     public BooleanMatrix(final boolean[][] a) {
         super(a == null ? new boolean[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static BooleanMatrix empty() {
         return EMPTY_BOOLEAN_MATRIX;
     }
@@ -549,10 +539,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanMatrix copy() {
         final boolean[][] c = new boolean[rows][];
@@ -752,10 +738,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanMatrix rotate90() {
         final boolean[][] c = new boolean[cols][rows];
@@ -777,10 +759,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return new BooleanMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanMatrix rotate180() {
         final boolean[][] c = new boolean[rows][];
@@ -793,10 +771,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return new BooleanMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanMatrix rotate270() {
         final boolean[][] c = new boolean[cols][rows];
@@ -818,10 +792,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return new BooleanMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanMatrix transpose() {
         final boolean[][] c = new boolean[cols][rows];
@@ -934,10 +904,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return new BooleanMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public BooleanList flatten() {
         final boolean[] c = new boolean[rows * cols];
@@ -1002,10 +968,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return BooleanMatrix.of(c);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Boolean> boxed() {
         final Boolean[][] c = new Boolean[rows][cols];
 
@@ -1551,10 +1513,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1580,10 +1538,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

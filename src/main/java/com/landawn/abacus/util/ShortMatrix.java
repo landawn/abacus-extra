@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
 
-    /** The Constant EMPTY_SHORT_MATRIX. */
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
-    /**
-     * Instantiates a new short matrix.
-     *
-     * @param a
-     */
     public ShortMatrix(final short[][] a) {
         super(a == null ? new short[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static ShortMatrix empty() {
         return EMPTY_SHORT_MATRIX;
     }
@@ -593,10 +583,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortMatrix copy() {
         final short[][] c = new short[rows][];
@@ -796,10 +782,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortMatrix rotate90() {
         final short[][] c = new short[cols][rows];
@@ -821,10 +803,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortMatrix rotate180() {
         final short[][] c = new short[rows][];
@@ -837,10 +815,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortMatrix rotate270() {
         final short[][] c = new short[cols][rows];
@@ -862,10 +836,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortMatrix transpose() {
         final short[][] c = new short[cols][rows];
@@ -978,10 +948,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ShortList flatten() {
         final short[] c = new short[rows * cols];
@@ -1097,10 +1063,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Short> boxed() {
         final Short[][] c = new Short[rows][cols];
 
@@ -1724,10 +1686,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1753,10 +1711,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

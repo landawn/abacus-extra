@@ -18,29 +18,20 @@ import java.math.RoundingMode;
 import com.landawn.abacus.annotation.Beta;
 
 // TODO: Auto-generated Javadoc
-/**
- */
+
 @Beta
 public final class f {
 
-    /** The Constant ARRAY_PRINT_SEPERATOR. */
     private static final String ARRAY_PRINT_SEPERATOR = IOUtil.LINE_SEPARATOR;
 
-    /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
 
-    /** The Constant BYTE_0. */
     static final byte BYTE_0 = (byte) 0;
 
-    /** The Constant BYTE_1. */
     static final byte BYTE_1 = (byte) 1;
 
-    /** The Constant SHORT_0. */
     static final short SHORT_0 = (short) 0;
 
-    /**
-     * Instantiates a new f.
-     */
     private f() {
         // utility class.
     }

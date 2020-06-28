@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 
-    /** The Constant EMPTY_DOUBLE_MATRIX. */
     static final DoubleMatrix EMPTY_DOUBLE_MATRIX = new DoubleMatrix(new double[0][0]);
 
-    /**
-     * Instantiates a new double matrix.
-     *
-     * @param a
-     */
     public DoubleMatrix(final double[][] a) {
         super(a == null ? new double[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static DoubleMatrix empty() {
         return EMPTY_DOUBLE_MATRIX;
     }
@@ -617,10 +607,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleMatrix copy() {
         final double[][] c = new double[rows][];
@@ -820,10 +806,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleMatrix rotate90() {
         final double[][] c = new double[cols][rows];
@@ -845,10 +827,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleMatrix rotate180() {
         final double[][] c = new double[rows][];
@@ -861,10 +839,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleMatrix rotate270() {
         final double[][] c = new double[cols][rows];
@@ -886,10 +860,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleMatrix transpose() {
         final double[][] c = new double[cols][rows];
@@ -1002,10 +972,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public DoubleList flatten() {
         final double[] c = new double[rows * cols];
@@ -1121,10 +1087,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Double> boxed() {
         final Double[][] c = new Double[rows][cols];
 
@@ -1664,10 +1626,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1693,10 +1651,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

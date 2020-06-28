@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 
-    /** The Constant EMPTY_BYTE_MATRIX. */
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
-    /**
-     * Instantiates a new byte matrix.
-     *
-     * @param a
-     */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static ByteMatrix empty() {
         return EMPTY_BYTE_MATRIX;
     }
@@ -593,10 +583,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteMatrix copy() {
         final byte[][] c = new byte[rows][];
@@ -796,10 +782,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteMatrix rotate90() {
         final byte[][] c = new byte[cols][rows];
@@ -821,10 +803,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteMatrix rotate180() {
         final byte[][] c = new byte[rows][];
@@ -837,10 +815,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteMatrix rotate270() {
         final byte[][] c = new byte[cols][rows];
@@ -862,10 +836,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteMatrix transpose() {
         final byte[][] c = new byte[cols][rows];
@@ -978,10 +948,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public ByteList flatten() {
         final byte[] c = new byte[rows * cols];
@@ -1097,10 +1063,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rows][cols];
 
@@ -1723,10 +1685,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1752,10 +1710,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

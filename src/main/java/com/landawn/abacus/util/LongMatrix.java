@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
 
-    /** The Constant EMPTY_LONG_MATRIX. */
     static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
 
-    /**
-     * Instantiates a new long matrix.
-     *
-     * @param a
-     */
     public LongMatrix(final long[][] a) {
         super(a == null ? new long[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static LongMatrix empty() {
         return EMPTY_LONG_MATRIX;
     }
@@ -615,10 +605,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongMatrix copy() {
         final long[][] c = new long[rows][];
@@ -818,10 +804,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongMatrix rotate90() {
         final long[][] c = new long[cols][rows];
@@ -843,10 +825,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongMatrix rotate180() {
         final long[][] c = new long[rows][];
@@ -859,10 +837,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongMatrix rotate270() {
         final long[][] c = new long[cols][rows];
@@ -884,10 +858,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongMatrix transpose() {
         final long[][] c = new long[cols][rows];
@@ -1000,10 +970,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public LongList flatten() {
         final long[] c = new long[rows * cols];
@@ -1119,10 +1085,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Long> boxed() {
         final Long[][] c = new Long[rows][cols];
 
@@ -1696,10 +1658,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1725,10 +1683,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

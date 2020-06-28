@@ -34,16 +34,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> {
 
-    /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
 
-    /** The Constant BYTE_0. */
     static final byte BYTE_0 = (byte) 0;
 
-    /** The Constant BYTE_1. */
     static final byte BYTE_1 = (byte) 1;
 
-    /** The Constant SHORT_0. */
     static final short SHORT_0 = (short) 0;
 
     /**
@@ -56,17 +52,10 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public final int cols;
 
-    /** The count. */
     public final long count;
 
-    /** The a. */
     final A[] a;
 
-    /**
-     * Instantiates a new abstract matrix.
-     *
-     * @param a
-     */
     protected AbstractMatrix(A[] a) {
         this.a = a;
         this.rows = a.length;
@@ -83,10 +72,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         this.count = this.cols * this.rows * 1L;
     }
 
-    /**
-     *
-     * @return
-     */
     public A[] array() {
         return a;
     }
@@ -155,10 +140,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract X rotate270();
 
-    /**
-     *
-     * @return
-     */
     public abstract X transpose();
 
     /**
@@ -208,10 +189,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract X repmat(int rowRepeats, int colRepeats);
 
-    /**
-     *
-     * @return
-     */
     public abstract PL flatten();
 
     /**
@@ -329,10 +306,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         });
     }
 
-    /**
-     *
-     * @return
-     */
     public Stream<IntPair> pointsH() {
         return pointsH(0, rows);
     }
@@ -368,10 +341,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         });
     }
 
-    /**
-     *
-     * @return
-     */
     public Stream<IntPair> pointsV() {
         return pointsV(0, cols);
     }
@@ -407,10 +376,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         });
     }
 
-    /**
-     *
-     * @return
-     */
     public Stream<Stream<IntPair>> pointsR() {
         return pointsR(0, rows);
     }
@@ -437,10 +402,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         });
     }
 
-    /**
-     *
-     * @return
-     */
     public Stream<Stream<IntPair>> pointsC() {
         return pointsR(0, cols);
     }
@@ -481,10 +442,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract ES streamRU2LD();
 
-    /**
-     *
-     * @return
-     */
     public abstract ES streamH();
 
     /**
@@ -502,10 +459,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
 
-    /**
-     *
-     * @return
-     */
     public abstract ES streamV();
 
     /**
@@ -523,10 +476,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
 
-    /**
-     *
-     * @return
-     */
     public abstract RS streamR();
 
     /**
@@ -537,10 +486,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
 
-    /**
-     *
-     * @return
-     */
     public abstract RS streamC();
 
     /**

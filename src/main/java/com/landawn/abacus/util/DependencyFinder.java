@@ -15,8 +15,7 @@ import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.function.Predicate;
 
 // TODO: Auto-generated Javadoc
-/**
- */
+
 public final class DependencyFinder {
     //    public static void main(String[] args) {
     //        try {
@@ -531,10 +530,8 @@ public final class DependencyFinder {
         return endMarkerPosition - start - 1;
     }
 
-    /** The Constant ARRAY_START_CHAR. */
     private static final char ARRAY_START_CHAR = '[';
 
-    /** The Constant CONSTANT_InvokeDynamic. */
     // Constant pool data type constants:
     private static final byte CONSTANT_Utf8 = 1, CONSTANT_Integer = 3, CONSTANT_Float = 4, CONSTANT_Long = 5, CONSTANT_Double = 6, CONSTANT_Class = 7,
             CONSTANT_String = 8, CONSTANT_FieldRef = 9, CONSTANT_MethodRef = 10, CONSTANT_InterfaceMethodRef = 11, CONSTANT_NameAndType = 12,

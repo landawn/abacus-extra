@@ -70,22 +70,16 @@ import com.landawn.abacus.util.N;
 @SuppressWarnings("deprecation")
 public class JavaExecutionServlet extends AbstractHttpServlet {
 
-    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 778742360481398056L;
 
-    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(JavaExecutionServlet.class);
 
-    /** The Constant jsonParser. */
     static final JSONParser jsonParser = ParserFactory.createJSONParser();
 
-    /** The Constant xmlParser. */
     static final XMLParser xmlParser = ParserFactory.isXMLAvailable() ? ParserFactory.createXMLParser() : null;
 
-    /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;
 
-    /** The Constant defineClassMethod. */
     private static final Method defineClassMethod;
 
     static {
@@ -93,7 +87,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         defineClassMethod.setAccessible(true);
     }
 
-    /** The Constant rootClassLoader. */
     private static final ClassLoader rootClassLoader = JavaExecutionServlet.class.getClassLoader();
 
     static {

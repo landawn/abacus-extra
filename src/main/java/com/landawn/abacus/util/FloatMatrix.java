@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatStream, Stream<FloatStream>, FloatMatrix> {
 
-    /** The Constant EMPTY_FLOAT_MATRIX. */
     static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
 
-    /**
-     * Instantiates a new float matrix.
-     *
-     * @param a
-     */
     public FloatMatrix(final float[][] a) {
         super(a == null ? new float[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static FloatMatrix empty() {
         return EMPTY_FLOAT_MATRIX;
     }
@@ -573,10 +563,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatMatrix copy() {
         final float[][] c = new float[rows][];
@@ -776,10 +762,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatMatrix rotate90() {
         final float[][] c = new float[cols][rows];
@@ -801,10 +783,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatMatrix rotate180() {
         final float[][] c = new float[rows][];
@@ -817,10 +795,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatMatrix rotate270() {
         final float[][] c = new float[cols][rows];
@@ -842,10 +816,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatMatrix transpose() {
         final float[][] c = new float[cols][rows];
@@ -958,10 +928,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public FloatList flatten() {
         final float[] c = new float[rows * cols];
@@ -1077,10 +1043,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Float> boxed() {
         final Float[][] c = new Float[rows][cols];
 
@@ -1629,10 +1591,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1658,10 +1616,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

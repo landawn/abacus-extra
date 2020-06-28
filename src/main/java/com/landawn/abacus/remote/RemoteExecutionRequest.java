@@ -31,31 +31,23 @@ import com.landawn.abacus.util.N;
 @Deprecated
 public class RemoteExecutionRequest {
 
-    /** The request host. */
     private String requestHost;
 
-    /** The request id. */
     // TODO
     private String requestId;
 
-    /** The run mode. */
     // TODO
     private RunMode runMode;
 
-    /** The request time. */
     private long requestTime;
 
-    /** The schedule. */
     // TODO: quartz scheduler?    
     private String schedule;
 
-    /** The class name. */
     private String className;
 
-    /** The parameter. */
     private Object parameter;
 
-    /** The class bytes map. */
     private Map<String, byte[]> classBytesMap;
 
     //    public static void main(String[] args) {
@@ -231,10 +223,6 @@ public class RemoteExecutionRequest {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     public RemoteExecutionRequest copy() {
         final RemoteExecutionRequest copy = new RemoteExecutionRequest();
 
@@ -250,10 +238,6 @@ public class RemoteExecutionRequest {
         return copy;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         int h = 17;
@@ -291,10 +275,6 @@ public class RemoteExecutionRequest {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return "{requestHost=" + N.toString(requestHost) + ", requestId=" + N.toString(requestId) + ", runMode=" + N.toString(runMode) + ", requestTime="

@@ -23,9 +23,6 @@ package com.landawn.abacus.util;
  */
 public final class Points {
 
-    /**
-     * Instantiates a new points.
-     */
     private Points() {
         // singleton.
     }

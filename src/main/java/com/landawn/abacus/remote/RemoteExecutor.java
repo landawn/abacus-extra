@@ -84,10 +84,8 @@ import com.landawn.abacus.util.function.Predicate;
  */
 public final class RemoteExecutor {
 
-    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(RemoteExecutor.class);
 
-    /** The Constant filteredClassNameSet. */
     private static final Set<String> filteredClassNameSet = N.asSet();
 
     static {
@@ -136,7 +134,6 @@ public final class RemoteExecutor {
         filteredClassNameSet.add("com.google.protobuf.*");
     }
 
-    /** The Constant classBytesMapPool. */
     private static final Map<Class<?>, LinkedHashMap<String, byte[]>> classBytesMapPool = new ConcurrentHashMap<>();
 
     /**
@@ -144,7 +141,6 @@ public final class RemoteExecutor {
      */
     static final KeyedObjectPool<Object, PoolableWrapper<Object>> pool = PoolFactory.createKeyedObjectPool(8192);
 
-    /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;
 
     /**
@@ -206,51 +202,24 @@ public final class RemoteExecutor {
         return pool.remove(key);
     }
 
-    /** The http clients. */
     private final List<HttpClient> httpClients;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /** The class namefilter. */
     private final Predicate<? super String> classNamefilter;
 
-    /**
-     * Instantiates a new remote executor.
-     *
-     * @param servers a string containing whitespace or comma separated host or IP addresses and port numbers of the form
-     * "host:port host2:port" or "host:port, host2:port"
-     */
     public RemoteExecutor(String servers) {
         this(servers, null);
     }
 
-    /**
-     * Instantiates a new remote executor.
-     *
-     * @param servers a string containing whitespace or comma separated host or IP addresses and port numbers of the form
-     * "host:port host2:port" or "host:port, host2:port"
-     * @param classNamefilter
-     */
     public RemoteExecutor(String servers, Predicate<? super String> classNamefilter) {
         this(AddrUtil.getServerList(servers), classNamefilter);
     }
 
-    /**
-     * Instantiates a new remote executor.
-     *
-     * @param servers
-     */
     public RemoteExecutor(Collection<String> servers) {
         this(servers, null);
     }
 
-    /**
-     * Instantiates a new remote executor.
-     *
-     * @param servers
-     * @param classNamefilter
-     */
     public RemoteExecutor(final Collection<String> servers, final Predicate<? super String> classNamefilter) {
         httpClients = new ArrayList<>(servers.size());
 

@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {
 
-    /** The Constant EMPTY_INT_MATRIX. */
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
-    /**
-     * Instantiates a new int matrix.
-     *
-     * @param a
-     */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static IntMatrix empty() {
         return EMPTY_INT_MATRIX;
     }
@@ -659,10 +649,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntMatrix copy() {
         final int[][] c = new int[rows][];
@@ -862,10 +848,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntMatrix rotate90() {
         final int[][] c = new int[cols][rows];
@@ -887,10 +869,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntMatrix rotate180() {
         final int[][] c = new int[rows][];
@@ -903,10 +881,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntMatrix rotate270() {
         final int[][] c = new int[cols][rows];
@@ -928,10 +902,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntMatrix transpose() {
         final int[][] c = new int[cols][rows];
@@ -1044,10 +1014,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public IntList flatten() {
         final int[] c = new int[rows * cols];
@@ -1187,10 +1153,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Integer> boxed() {
         final Integer[][] c = new Integer[rows][cols];
 
@@ -1757,10 +1719,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1786,10 +1744,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

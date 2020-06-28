@@ -32,22 +32,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 
-    /** The Constant EMPTY_CHAR_MATRIX. */
     static final CharMatrix EMPTY_CHAR_MATRIX = new CharMatrix(new char[0][0]);
 
-    /**
-     * Instantiates a new char matrix.
-     *
-     * @param a
-     */
     public CharMatrix(final char[][] a) {
         super(a == null ? new char[0][0] : a);
     }
 
-    /**
-     *
-     * @return
-     */
     public static CharMatrix empty() {
         return EMPTY_CHAR_MATRIX;
     }
@@ -593,10 +583,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharMatrix copy() {
         final char[][] c = new char[rows][];
@@ -796,10 +782,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharMatrix rotate90() {
         final char[][] c = new char[cols][rows];
@@ -821,10 +803,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return new CharMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharMatrix rotate180() {
         final char[][] c = new char[rows][];
@@ -837,10 +815,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return new CharMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharMatrix rotate270() {
         final char[][] c = new char[cols][rows];
@@ -862,10 +836,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return new CharMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharMatrix transpose() {
         final char[][] c = new char[cols][rows];
@@ -978,10 +948,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return new CharMatrix(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public CharList flatten() {
         final char[] c = new char[rows * cols];
@@ -1097,10 +1063,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return new CharMatrix(result);
     }
 
-    /**
-     *
-     * @return
-     */
     public Matrix<Character> boxed() {
         final Character[][] c = new Character[rows][cols];
 
@@ -1724,10 +1686,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1753,10 +1711,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);

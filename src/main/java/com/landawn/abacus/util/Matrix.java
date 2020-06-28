@@ -37,11 +37,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     final Class<T> elementType;
 
-    /**
-     * Instantiates a new matrix.
-     *
-     * @param a
-     */
     public Matrix(final T[][] a) {
         super(a);
         this.arrayType = (Class<T[]>) this.a.getClass().getComponentType();
@@ -706,10 +701,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Matrix<T> copy() {
         final T[][] c = N.newArray(arrayType, rows);
@@ -911,10 +902,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return res;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Matrix<T> rotate90() {
         final T[][] c = N.newArray(arrayType, cols);
@@ -940,10 +927,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return new Matrix<>(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Matrix<T> rotate180() {
         final T[][] c = N.newArray(arrayType, rows);
@@ -956,10 +939,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return new Matrix<>(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Matrix<T> rotate270() {
         final T[][] c = N.newArray(arrayType, cols);
@@ -985,10 +964,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return new Matrix<>(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Matrix<T> transpose() {
         final T[][] c = N.newArray(arrayType, cols);
@@ -1117,10 +1092,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return new Matrix<>(c);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public List<T> flatten() {
         final T[] c = N.newArray(elementType, rows * cols);
@@ -1747,10 +1718,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         f.println(a);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
@@ -1776,10 +1743,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return N.deepToString(a);
