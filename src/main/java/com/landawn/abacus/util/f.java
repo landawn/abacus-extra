@@ -39,62 +39,6 @@ public final class f {
     /**
      *
      * @param <T>
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
-     */
-    public static <T, E extends Exception> void replaceAlll(final T[] a, final Throwables.UnaryOperator<T, E> operator) throws E {
-        if (N.isNullOrEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            a[i] = operator.apply(a[i]);
-        }
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
-     */
-    public static <T, E extends Exception> void replaceIff(final T[] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
-        if (N.isNullOrEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (predicate.test(a[i])) {
-                a[i] = newValue;
-            }
-        }
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
-     */
-    public static <T, E extends Exception> T[] mapp(final T[] a, final Throwables.UnaryOperator<T, E> func) throws E {
-        if (a == null) {
-            return null;
-        }
-
-        return map((Class<T>) a.getClass().getComponentType(), a, func);
-    }
-
-    /**
-     *
-     * @param <T>
      * @param <R>
      * @param <E>
      * @param targetElementType
@@ -968,272 +912,6 @@ public final class f {
 
     /**
      *
-     * @param <A>
-     * @param <B>
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, E extends Exception> A[] zipp(final A[] a, final B[] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-        return zip((Class<A>) a.getClass().getComponentType(), a, b, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <R>
-     * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, R, E extends Exception> R[] zip(final Class<R> targetElementType, final A[] a, final B[] b,
-            final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final R[] result = N.newArray(targetElementType, N.min(lenA, lenB));
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
-        }
-
-        return result;
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, E extends Exception> A[] zipp(final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
-            final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-        return zip((Class<A>) a.getClass().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <R>
-     * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, R, E extends Exception> R[] zip(final Class<R> targetElementType, final A[] a, final B[] b, final A valueForNoneA,
-            final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        return zip(N.max(lenA, lenB), targetElementType, a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <R>
-     * @param <E>
-     * @param len
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    private static <A, B, R, E extends Exception> R[] zip(final int len, final Class<R> targetElementType, final A[] a, final B[] b, final A valueForNoneA,
-            final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final R[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
-        }
-
-        if (lenA < lenB && lenA < len) {
-            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
-            }
-        } else if (lenB < lenA && lenB < len) {
-            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
-            }
-        }
-
-        if (N.max(lenA, lenB) < len) {
-            for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, valueForNoneB);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, C, E extends Exception> A[] zipp(final A[] a, final B[] b, final C[] c,
-            final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-        return zip((Class<A>) a.getClass().getComponentType(), a, b, c, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <R>
-     * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, C, R, E extends Exception> R[] zip(final Class<R> targetElementType, final A[] a, final B[] b, final C[] c,
-            final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final R[] result = N.newArray(targetElementType, N.min(lenA, lenB, lenC));
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
-        }
-
-        return result;
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, C, E extends Exception> A[] zipp(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
-            final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-        return zip((Class<A>) a.getClass().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <R>
-     * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    public static <A, B, C, R, E extends Exception> R[] zip(final Class<R> targetElementType, final A[] a, final B[] b, final C[] c, final A valueForNoneA,
-            final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        return zip(N.max(lenA, lenB, lenC), targetElementType, a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-    }
-
-    /**
-     *
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <R>
-     * @param <E>
-     * @param len
-     * @param targetElementType
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
-     */
-    private static <A, B, C, R, E extends Exception> R[] zip(final int len, final Class<R> targetElementType, final A[] a, final B[] b, final C[] c,
-            final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-            final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final R[] result = N.newArray(targetElementType, len);
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
-        }
-
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     *
      * @param <T>
      * @param a
      * @return
@@ -1294,7 +972,7 @@ public final class f {
             }
 
             for (int i = 0, n = a.length; i < n; i++) {
-                f.replaceAlll(a[i], operator);
+                N.replaceAll(a[i], operator);
             }
         }
 
@@ -1313,7 +991,7 @@ public final class f {
             }
 
             for (int i = 0, n = a.length; i < n; i++) {
-                f.replaceIff(a[i], predicate, newValue);
+                N.replaceIf(a[i], predicate, newValue);
             }
         }
 
@@ -1772,7 +1450,7 @@ public final class f {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = f.zip(targetElementType, a[i], b[i], zipFunction);
+                result[i] = N.zip(targetElementType, a[i], b[i], zipFunction);
             }
 
             return result;
@@ -1906,7 +1584,7 @@ public final class f {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = f.zip(targetElementType, a[i], b[i], c[i], zipFunction);
+                result[i] = N.zip(targetElementType, a[i], b[i], c[i], zipFunction);
             }
 
             return result;
