@@ -416,7 +416,7 @@ public final class Matrixes {
 
         run(rows, cols, cmd, zipInParallel);
 
-        return new Matrix<R>(result);
+        return new Matrix<>(result);
     }
 
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBiFunction<Integer, E> zipFunction)
@@ -559,7 +559,7 @@ public final class Matrixes {
 
         run(rows, cols, cmd, zipInParallel);
 
-        return new Matrix<R>(result);
+        return new Matrix<>(result);
     }
 
     public static <E extends Exception> LongMatrix zipToLong(final IntMatrix a, final IntMatrix b, final Throwables.IntBiFunction<Long, E> zipFunction)
@@ -773,7 +773,7 @@ public final class Matrixes {
 
         run(rows, cols, cmd, zipInParallel);
 
-        return new Matrix<R>(result);
+        return new Matrix<>(result);
     }
 
     public static <E extends Exception> DoubleMatrix zipToDouble(final LongMatrix a, final LongMatrix b, final Throwables.LongBiFunction<Double, E> zipFunction)
@@ -919,7 +919,7 @@ public final class Matrixes {
 
         run(rows, cols, cmd, zipInParallel);
 
-        return new Matrix<R>(result);
+        return new Matrix<>(result);
     }
 
     public static <A, B, E extends Exception> Matrix<A> zip(final Matrix<A> a, final Matrix<B> b,
@@ -1004,7 +1004,7 @@ public final class Matrixes {
 
         run(rows, cols, cmd, zipInParallel);
 
-        return new Matrix<R>(result);
+        return new Matrix<>(result);
     }
 
     public static interface ByteNFunction<R, E extends Throwable> {

@@ -33,7 +33,7 @@ public class MutableDoublePair implements Mutable {
         this.right = r;
     }
 
-    public static <L, R> MutableDoublePair of(final double l, final double r) {
+    public static MutableDoublePair of(final double l, final double r) {
         return new MutableDoublePair(l, r);
     }
 

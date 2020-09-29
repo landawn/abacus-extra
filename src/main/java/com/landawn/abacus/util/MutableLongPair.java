@@ -33,7 +33,7 @@ public class MutableLongPair implements Mutable {
         this.right = r;
     }
 
-    public static <L, R> MutableLongPair of(final long l, final long r) {
+    public static MutableLongPair of(final long l, final long r) {
         return new MutableLongPair(l, r);
     }
 

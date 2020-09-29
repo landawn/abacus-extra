@@ -33,7 +33,7 @@ public class MutableBytePair implements Mutable {
         this.right = r;
     }
 
-    public static <L, R> MutableBytePair of(final byte l, final byte r) {
+    public static MutableBytePair of(final byte l, final byte r) {
         return new MutableBytePair(l, r);
     }
 

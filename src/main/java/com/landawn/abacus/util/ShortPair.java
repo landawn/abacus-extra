@@ -34,7 +34,7 @@ public class ShortPair {
         this.right = r;
     }
 
-    public static <L, R> ShortPair of(final short l, final short r) {
+    public static ShortPair of(final short l, final short r) {
         return new ShortPair(l, r);
     }
 
