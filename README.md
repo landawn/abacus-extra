@@ -25,7 +25,7 @@
 [RemoteExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/RemoteExecutor_view.html).
 
 * More: [Matrixes](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/Matrixes_view.html), 
-[Points](https://github.com/landawn/abacus-extra/master/docs/Points_view.html), 
+[Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/Points_view.html), 
 [f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/master/docs/f_view.html), ...
 
 
