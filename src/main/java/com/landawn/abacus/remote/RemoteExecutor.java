@@ -42,8 +42,8 @@ import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.DependencyFinder;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Pair;
 import com.landawn.abacus.util.StringUtil;
+import com.landawn.abacus.util.function.BiPredicate;
 import com.landawn.abacus.util.function.Predicate;
 
 // TODO: Auto-generated Javadoc
@@ -291,7 +291,7 @@ public final class RemoteExecutor {
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
-            final HttpSettings httpSettings, final long totalExecutionTimeout, final Predicate<Pair<String, Object>> serverFilter) {
+            final HttpSettings httpSettings, final long totalExecutionTimeout, final BiPredicate<String, Object> serverFilter) {
         return execute(remoteTask, parameter, null, httpSettings, totalExecutionTimeout, serverFilter);
     }
 
@@ -373,7 +373,7 @@ public final class RemoteExecutor {
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask, final Object parameter, final HttpSettings httpSettings,
-            final long totalExecutionTimeout, final Predicate<Pair<String, Object>> serverFilter) {
+            final long totalExecutionTimeout, final BiPredicate<String, Object> serverFilter) {
         return execute((Class<? extends RemoteTask<?, T>>) remoteTask.getClass(), parameter, httpSettings, totalExecutionTimeout, serverFilter);
     }
 
@@ -423,7 +423,7 @@ public final class RemoteExecutor {
      */
     private <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
             final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final long totalExecutionTimeout,
-            final Predicate<Pair<String, Object>> serverFilter) {
+            final BiPredicate<String, Object> serverFilter) {
         final long startTime = System.currentTimeMillis();
 
         final List<ContinuableFuture<RemoteExecutionResponse>> futureResponses = asyncExecute(remoteTask, parameter, serverParameterMapper, httpSettings,
@@ -496,7 +496,7 @@ public final class RemoteExecutor {
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
-            final HttpSettings httpSettings, final Predicate<Pair<String, Object>> serverFilter) {
+            final HttpSettings httpSettings, final BiPredicate<String, Object> serverFilter) {
         return asyncExecute(remoteTask, parameter, null, httpSettings, serverFilter);
     }
 
@@ -577,7 +577,7 @@ public final class RemoteExecutor {
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask, final Object parameter,
-            final HttpSettings httpSettings, final Predicate<Pair<String, Object>> serverFilter) {
+            final HttpSettings httpSettings, final BiPredicate<String, Object> serverFilter) {
         return asyncExecute((Class<? extends RemoteTask<?, T>>) remoteTask.getClass(), parameter, httpSettings, serverFilter);
     }
 
@@ -626,7 +626,7 @@ public final class RemoteExecutor {
      */
     @SuppressWarnings("deprecation")
     private <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
-            final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final Predicate<Pair<String, Object>> serverFilter) {
+            final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final BiPredicate<String, Object> serverFilter) {
         if (kryoParser == null) {
             throw new RuntimeException("Kryo libraries are required");
         }
@@ -657,7 +657,7 @@ public final class RemoteExecutor {
             final HttpClient httpClient = httpClients.get(i);
 
             if (serverParameterMapper == null) {
-                if (serverFilter != null && serverFilter.test(Pair.of(httpClient.url(), parameter)) == false) {
+                if (serverFilter != null && serverFilter.test(httpClient.url(), parameter) == false) {
                     continue;
                 }
 
