@@ -297,7 +297,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind;
+            return N.equals(_1, elementToFind);
         }
 
         @Override
@@ -313,7 +313,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                 return false;
             } else {
                 FloatTuple1 other = (FloatTuple1) obj;
-                return this._1 == other._1;
+                return N.equals(this._1, other._1);
             }
         }
 
@@ -383,7 +383,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind);
         }
 
         @Override
@@ -438,7 +438,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                 return false;
             } else {
                 FloatTuple2 other = (FloatTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return N.equals(this._1, other._1) && this._2 == other._2;
             }
         }
 
@@ -510,7 +510,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind);
         }
 
         @Override
@@ -566,7 +566,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                 return false;
             } else {
                 FloatTuple3 other = (FloatTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return N.equals(this._1, other._1) && this._2 == other._2 && this._3 == other._3;
             }
         }
 
@@ -615,7 +615,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind);
         }
 
         @Override
@@ -660,7 +660,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
+                    || N.equals(_5, elementToFind);
         }
 
         @Override
@@ -707,7 +708,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
+                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind);
         }
 
         @Override
@@ -756,8 +758,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
+                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind);
         }
 
         @Override
@@ -808,8 +810,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind || _8 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
+                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind) || N.equals(_8, elementToFind);
         }
 
         @Override
@@ -862,8 +864,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         public boolean contains(final float elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind || _8 == elementToFind || _9 == elementToFind;
+            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
+                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind) || N.equals(_8, elementToFind)
+                    || N.equals(_9, elementToFind);
         }
 
         @Override
