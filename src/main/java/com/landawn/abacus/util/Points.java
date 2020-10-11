@@ -21,6 +21,7 @@ package com.landawn.abacus.util;
  *
  * @author haiyangl
  */
+@com.landawn.abacus.annotation.Immutable
 public final class Points {
 
     private Points() {
@@ -30,6 +31,7 @@ public final class Points {
     /**
      * The Class xy.
      */
+    @com.landawn.abacus.annotation.Immutable
     public static final class xy {
 
         /**
@@ -42,7 +44,8 @@ public final class Points {
         /**
          * The Class ByteBytePoint.
          */
-        public static final class ByteBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteBytePoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -124,7 +127,8 @@ public final class Points {
         /**
          * The Class ByteIntPoint.
          */
-        public static final class ByteIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteIntPoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -206,7 +210,8 @@ public final class Points {
         /**
          * The Class ByteLongPoint.
          */
-        public static final class ByteLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteLongPoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -288,7 +293,8 @@ public final class Points {
         /**
          * The Class ByteDoublePoint.
          */
-        public static final class ByteDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteDoublePoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -372,7 +378,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class ByteObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteObjPoint<T> implements Immutable {
 
             /** The x. */
             public byte x;
@@ -455,7 +462,8 @@ public final class Points {
         /**
          * The Class IntBytePoint.
          */
-        public static final class IntBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntBytePoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -537,7 +545,8 @@ public final class Points {
         /**
          * The Class IntIntPoint.
          */
-        public static final class IntIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntIntPoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -619,7 +628,8 @@ public final class Points {
         /**
          * The Class IntLongPoint.
          */
-        public static final class IntLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntLongPoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -701,7 +711,8 @@ public final class Points {
         /**
          * The Class IntDoublePoint.
          */
-        public static final class IntDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntDoublePoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -785,7 +796,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class IntObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntObjPoint<T> implements Immutable {
 
             /** The x. */
             public int x;
@@ -868,7 +880,8 @@ public final class Points {
         /**
          * The Class LongBytePoint.
          */
-        public static final class LongBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongBytePoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -950,7 +963,8 @@ public final class Points {
         /**
          * The Class LongIntPoint.
          */
-        public static final class LongIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongIntPoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -1032,7 +1046,8 @@ public final class Points {
         /**
          * The Class LongLongPoint.
          */
-        public static final class LongLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongLongPoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -1114,7 +1129,8 @@ public final class Points {
         /**
          * The Class LongDoublePoint.
          */
-        public static final class LongDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongDoublePoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -1198,7 +1214,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class LongObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongObjPoint<T> implements Immutable {
 
             /** The x. */
             public long x;
@@ -1281,7 +1298,8 @@ public final class Points {
         /**
          * The Class DoubleBytePoint.
          */
-        public static final class DoubleBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleBytePoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -1363,7 +1381,8 @@ public final class Points {
         /**
          * The Class DoubleIntPoint.
          */
-        public static final class DoubleIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleIntPoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -1445,7 +1464,8 @@ public final class Points {
         /**
          * The Class DoubleLongPoint.
          */
-        public static final class DoubleLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleLongPoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -1527,7 +1547,8 @@ public final class Points {
         /**
          * The Class DoubleDoublePoint.
          */
-        public static final class DoubleDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleDoublePoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -1611,7 +1632,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class DoubleObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleObjPoint<T> implements Immutable {
 
             /** The x. */
             public double x;
@@ -1691,7 +1713,7 @@ public final class Points {
             }
         }
 
-        //        public static final class ByteByteTimePoint {
+        //        public static final class ByteByteTimePoint  implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public long t; // timestamp
@@ -1736,7 +1758,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteIntTimePoint {
+        //        public static final class ByteIntTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public long t; // timestamp
@@ -1781,7 +1803,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteLongTimePoint {
+        //        public static final class ByteLongTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public long t; // timestamp
@@ -1826,7 +1848,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteDoubleTimePoint {
+        //        public static final class ByteDoubleTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public long t; // timestamp
@@ -1871,7 +1893,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteObjTimePoint<T> {
+        //        public static final class ByteObjTimePoint<T> implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public long t; // timestamp
@@ -1916,7 +1938,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntByteTimePoint {
+        //        public static final class IntByteTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public long t; // timestamp
@@ -1961,7 +1983,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntIntTimePoint {
+        //        public static final class IntIntTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public long t; // timestamp
@@ -2006,7 +2028,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntLongTimePoint {
+        //        public static final class IntLongTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public long t; // timestamp
@@ -2051,7 +2073,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntDoubleTimePoint {
+        //        public static final class IntDoubleTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public long t; // timestamp
@@ -2096,7 +2118,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntObjTimePoint<T> {
+        //        public static final class IntObjTimePoint<T> implements Immutable {
         //            public int x;
         //            public int y;
         //            public long t; // timestamp
@@ -2141,7 +2163,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongByteTimePoint {
+        //        public static final class LongByteTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long t; // timestamp
@@ -2186,7 +2208,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongIntTimePoint {
+        //        public static final class LongIntTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long t; // timestamp
@@ -2231,7 +2253,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongLongTimePoint {
+        //        public static final class LongLongTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long t; // timestamp
@@ -2276,7 +2298,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongDoubleTimePoint {
+        //        public static final class LongDoubleTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long t; // timestamp
@@ -2321,7 +2343,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongObjTimePoint<T> {
+        //        public static final class LongObjTimePoint<T> implements Immutable {
         //            public long x;
         //            public long y;
         //            public long t; // timestamp
@@ -2366,7 +2388,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleByteTimePoint {
+        //        public static final class DoubleByteTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public long t; // timestamp
@@ -2411,7 +2433,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleIntTimePoint {
+        //        public static final class DoubleIntTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public long t; // timestamp
@@ -2456,7 +2478,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleLongTimePoint {
+        //        public static final class DoubleLongTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public long t; // timestamp
@@ -2501,7 +2523,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleDoubleTimePoint {
+        //        public static final class DoubleDoubleTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public long t; // timestamp
@@ -2546,7 +2568,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleObjTimePoint<T> {
+        //        public static final class DoubleObjTimePoint<T> implements Immutable {
         //            public double x;
         //            public double y;
         //            public long t; // timestamp
@@ -2591,7 +2613,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteBytePoint {
+        //        public static final class ImmutableByteBytePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte v; // value
@@ -2631,7 +2653,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteIntPoint {
+        //        public static final class ImmutableByteIntPoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final int v; // value
@@ -2671,7 +2693,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteLongPoint {
+        //        public static final class ImmutableByteLongPoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final long v; // value
@@ -2711,7 +2733,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteDoublePoint {
+        //        public static final class ImmutableByteDoublePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final double v; // value
@@ -2751,7 +2773,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteObjPoint<T> {
+        //        public static final class ImmutableByteObjPoint<T> implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final T v; // value
@@ -2791,7 +2813,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntBytePoint {
+        //        public static final class ImmutableIntBytePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final byte v; // value
@@ -2831,7 +2853,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntIntPoint {
+        //        public static final class ImmutableIntIntPoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int v; // value
@@ -2871,7 +2893,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntLongPoint {
+        //        public static final class ImmutableIntLongPoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final long v; // value
@@ -2911,7 +2933,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntDoublePoint {
+        //        public static final class ImmutableIntDoublePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final double v; // value
@@ -2951,7 +2973,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntObjPoint<T> {
+        //        public static final class ImmutableIntObjPoint<T> implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final T v; // value
@@ -2991,7 +3013,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongBytePoint {
+        //        public static final class ImmutableLongBytePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final byte v; // value
@@ -3031,7 +3053,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongIntPoint {
+        //        public static final class ImmutableLongIntPoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final int v; // value
@@ -3071,7 +3093,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongLongPoint {
+        //        public static final class ImmutableLongLongPoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long v; // value
@@ -3111,7 +3133,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongDoublePoint {
+        //        public static final class ImmutableLongDoublePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final double v; // value
@@ -3151,7 +3173,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongObjPoint<T> {
+        //        public static final class ImmutableLongObjPoint<T> implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final T v; // value
@@ -3191,7 +3213,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleBytePoint {
+        //        public static final class ImmutableDoubleBytePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final byte v; // value
@@ -3231,7 +3253,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleIntPoint {
+        //        public static final class ImmutableDoubleIntPoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final int v; // value
@@ -3271,7 +3293,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleLongPoint {
+        //        public static final class ImmutableDoubleLongPoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final long v; // value
@@ -3311,7 +3333,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleDoublePoint {
+        //        public static final class ImmutableDoubleDoublePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double v; // value
@@ -3391,7 +3413,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteByteTimePoint {
+        //        public static final class ImmutableByteByteTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final long t; // timestamp
@@ -3433,7 +3455,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteIntTimePoint {
+        //        public static final class ImmutableByteIntTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final long t; // timestamp
@@ -3475,7 +3497,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteLongTimePoint {
+        //        public static final class ImmutableByteLongTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final long t; // timestamp
@@ -3517,7 +3539,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteDoubleTimePoint {
+        //        public static final class ImmutableByteDoubleTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final long t; // timestamp
@@ -3601,7 +3623,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntByteTimePoint {
+        //        public static final class ImmutableIntByteTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final long t; // timestamp
@@ -3643,7 +3665,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntIntTimePoint {
+        //        public static final class ImmutableIntIntTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final long t; // timestamp
@@ -3685,7 +3707,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntLongTimePoint {
+        //        public static final class ImmutableIntLongTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final long t; // timestamp
@@ -3727,7 +3749,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntDoubleTimePoint {
+        //        public static final class ImmutableIntDoubleTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final long t; // timestamp
@@ -3811,7 +3833,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongByteTimePoint {
+        //        public static final class ImmutableLongByteTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long t; // timestamp
@@ -3853,7 +3875,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongIntTimePoint {
+        //        public static final class ImmutableLongIntTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long t; // timestamp
@@ -3895,7 +3917,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongLongTimePoint {
+        //        public static final class ImmutableLongLongTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long t; // timestamp
@@ -3937,7 +3959,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongDoubleTimePoint {
+        //        public static final class ImmutableLongDoubleTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long t; // timestamp
@@ -4021,7 +4043,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleByteTimePoint {
+        //        public static final class ImmutableDoubleByteTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final long t; // timestamp
@@ -4063,7 +4085,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleIntTimePoint {
+        //        public static final class ImmutableDoubleIntTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final long t; // timestamp
@@ -4105,7 +4127,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleLongTimePoint {
+        //        public static final class ImmutableDoubleLongTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final long t; // timestamp
@@ -4147,7 +4169,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleDoubleTimePoint {
+        //        public static final class ImmutableDoubleDoubleTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final long t; // timestamp
@@ -4235,6 +4257,7 @@ public final class Points {
     /**
      * The Class xyz.
      */
+    @com.landawn.abacus.annotation.Immutable
     public static final class xyz {
 
         /**
@@ -4247,7 +4270,8 @@ public final class Points {
         /**
          * The Class ByteBytePoint.
          */
-        public static final class ByteBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteBytePoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -4335,7 +4359,8 @@ public final class Points {
         /**
          * The Class ByteIntPoint.
          */
-        public static final class ByteIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteIntPoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -4423,7 +4448,8 @@ public final class Points {
         /**
          * The Class ByteLongPoint.
          */
-        public static final class ByteLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteLongPoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -4511,7 +4537,8 @@ public final class Points {
         /**
          * The Class ByteDoublePoint.
          */
-        public static final class ByteDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class ByteDoublePoint implements Immutable {
 
             /** The x. */
             public byte x;
@@ -4601,6 +4628,7 @@ public final class Points {
          *
          * @param <T>
          */
+        @com.landawn.abacus.annotation.Immutable
         public static final class ByteObjPoint<T> {
 
             /** The x. */
@@ -4690,7 +4718,8 @@ public final class Points {
         /**
          * The Class IntBytePoint.
          */
-        public static final class IntBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntBytePoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -4778,7 +4807,8 @@ public final class Points {
         /**
          * The Class IntIntPoint.
          */
-        public static final class IntIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntIntPoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -4866,7 +4896,8 @@ public final class Points {
         /**
          * The Class IntLongPoint.
          */
-        public static final class IntLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntLongPoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -4954,7 +4985,8 @@ public final class Points {
         /**
          * The Class IntDoublePoint.
          */
-        public static final class IntDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class IntDoublePoint implements Immutable {
 
             /** The x. */
             public int x;
@@ -5044,6 +5076,7 @@ public final class Points {
          *
          * @param <T>
          */
+        @com.landawn.abacus.annotation.Immutable
         public static final class IntObjPoint<T> {
 
             /** The x. */
@@ -5133,7 +5166,8 @@ public final class Points {
         /**
          * The Class LongBytePoint.
          */
-        public static final class LongBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongBytePoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -5221,7 +5255,8 @@ public final class Points {
         /**
          * The Class LongIntPoint.
          */
-        public static final class LongIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongIntPoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -5309,7 +5344,8 @@ public final class Points {
         /**
          * The Class LongLongPoint.
          */
-        public static final class LongLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongLongPoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -5397,7 +5433,8 @@ public final class Points {
         /**
          * The Class LongDoublePoint.
          */
-        public static final class LongDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongDoublePoint implements Immutable {
 
             /** The x. */
             public long x;
@@ -5487,7 +5524,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class LongObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class LongObjPoint<T> implements Immutable {
 
             /** The x. */
             public long x;
@@ -5576,7 +5614,8 @@ public final class Points {
         /**
          * The Class DoubleBytePoint.
          */
-        public static final class DoubleBytePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleBytePoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -5664,7 +5703,8 @@ public final class Points {
         /**
          * The Class DoubleIntPoint.
          */
-        public static final class DoubleIntPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleIntPoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -5752,7 +5792,8 @@ public final class Points {
         /**
          * The Class DoubleLongPoint.
          */
-        public static final class DoubleLongPoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleLongPoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -5840,7 +5881,8 @@ public final class Points {
         /**
          * The Class DoubleDoublePoint.
          */
-        public static final class DoubleDoublePoint {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleDoublePoint implements Immutable {
 
             /** The x. */
             public double x;
@@ -5930,7 +5972,8 @@ public final class Points {
          *
          * @param <T>
          */
-        public static final class DoubleObjPoint<T> {
+        @com.landawn.abacus.annotation.Immutable
+        public static final class DoubleObjPoint<T> implements Mutable {
 
             /** The x. */
             public double x;
@@ -6016,7 +6059,7 @@ public final class Points {
             }
         }
 
-        //        public static final class ByteByteTimePoint {
+        //        public static final class ByteByteTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public byte z;
@@ -6063,7 +6106,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteIntTimePoint {
+        //        public static final class ByteIntTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public byte z;
@@ -6110,7 +6153,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteLongTimePoint {
+        //        public static final class ByteLongTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public byte z;
@@ -6157,7 +6200,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ByteDoubleTimePoint {
+        //        public static final class ByteDoubleTimePoint implements Immutable {
         //            public byte x;
         //            public byte y;
         //            public byte z;
@@ -6251,7 +6294,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntByteTimePoint {
+        //        public static final class IntByteTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public int z;
@@ -6298,7 +6341,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntIntTimePoint {
+        //        public static final class IntIntTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public int z;
@@ -6345,7 +6388,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntLongTimePoint {
+        //        public static final class IntLongTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public int z;
@@ -6392,7 +6435,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class IntDoubleTimePoint {
+        //        public static final class IntDoubleTimePoint implements Immutable {
         //            public int x;
         //            public int y;
         //            public int z;
@@ -6486,7 +6529,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongByteTimePoint {
+        //        public static final class LongByteTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long z;
@@ -6533,7 +6576,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongIntTimePoint {
+        //        public static final class LongIntTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long z;
@@ -6580,7 +6623,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongLongTimePoint {
+        //        public static final class LongLongTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long z;
@@ -6627,7 +6670,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class LongDoubleTimePoint {
+        //        public static final class LongDoubleTimePoint implements Immutable {
         //            public long x;
         //            public long y;
         //            public long z;
@@ -6721,7 +6764,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleByteTimePoint {
+        //        public static final class DoubleByteTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public double z;
@@ -6768,7 +6811,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleIntTimePoint {
+        //        public static final class DoubleIntTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public double z;
@@ -6815,7 +6858,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleLongTimePoint {
+        //        public static final class DoubleLongTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public double z;
@@ -6862,7 +6905,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class DoubleDoubleTimePoint {
+        //        public static final class DoubleDoubleTimePoint implements Immutable {
         //            public double x;
         //            public double y;
         //            public double z;
@@ -6958,7 +7001,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteBytePoint {
+        //        public static final class ImmutableByteBytePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7000,7 +7043,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteIntPoint {
+        //        public static final class ImmutableByteIntPoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7042,7 +7085,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteLongPoint {
+        //        public static final class ImmutableByteLongPoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7084,7 +7127,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteDoublePoint {
+        //        public static final class ImmutableByteDoublePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7168,7 +7211,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntBytePoint {
+        //        public static final class ImmutableIntBytePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -7210,7 +7253,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntIntPoint {
+        //        public static final class ImmutableIntIntPoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -7252,7 +7295,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntLongPoint {
+        //        public static final class ImmutableIntLongPoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -7294,7 +7337,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntDoublePoint {
+        //        public static final class ImmutableIntDoublePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -7378,7 +7421,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongBytePoint {
+        //        public static final class ImmutableLongBytePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -7420,7 +7463,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongIntPoint {
+        //        public static final class ImmutableLongIntPoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -7462,7 +7505,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongLongPoint {
+        //        public static final class ImmutableLongLongPoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -7504,7 +7547,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongDoublePoint {
+        //        public static final class ImmutableLongDoublePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -7588,7 +7631,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleBytePoint {
+        //        public static final class ImmutableDoubleBytePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -7630,7 +7673,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleIntPoint {
+        //        public static final class ImmutableDoubleIntPoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -7672,7 +7715,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleLongPoint {
+        //        public static final class ImmutableDoubleLongPoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -7714,7 +7757,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleDoublePoint {
+        //        public static final class ImmutableDoubleDoublePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -7798,7 +7841,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteByteTimePoint {
+        //        public static final class ImmutableByteByteTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7842,7 +7885,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteIntTimePoint {
+        //        public static final class ImmutableByteIntTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7886,7 +7929,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteLongTimePoint {
+        //        public static final class ImmutableByteLongTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -7930,7 +7973,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableByteDoubleTimePoint {
+        //        public static final class ImmutableByteDoubleTimePoint implements Immutable {
         //            public final byte x;
         //            public final byte y;
         //            public final byte z;
@@ -8018,7 +8061,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntByteTimePoint {
+        //        public static final class ImmutableIntByteTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -8062,7 +8105,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntIntTimePoint {
+        //        public static final class ImmutableIntIntTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -8106,7 +8149,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntLongTimePoint {
+        //        public static final class ImmutableIntLongTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -8150,7 +8193,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableIntDoubleTimePoint {
+        //        public static final class ImmutableIntDoubleTimePoint implements Immutable {
         //            public final int x;
         //            public final int y;
         //            public final int z;
@@ -8238,7 +8281,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongByteTimePoint {
+        //        public static final class ImmutableLongByteTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -8282,7 +8325,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongIntTimePoint {
+        //        public static final class ImmutableLongIntTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -8326,7 +8369,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongLongTimePoint {
+        //        public static final class ImmutableLongLongTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -8370,7 +8413,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableLongDoubleTimePoint {
+        //        public static final class ImmutableLongDoubleTimePoint implements Immutable {
         //            public final long x;
         //            public final long y;
         //            public final long z;
@@ -8458,7 +8501,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleByteTimePoint {
+        //        public static final class ImmutableDoubleByteTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -8502,7 +8545,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleIntTimePoint {
+        //        public static final class ImmutableDoubleIntTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -8546,7 +8589,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleLongTimePoint {
+        //        public static final class ImmutableDoubleLongTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
@@ -8590,7 +8633,7 @@ public final class Points {
         //            }
         //        }
         //
-        //        public static final class ImmutableDoubleDoubleTimePoint {
+        //        public static final class ImmutableDoubleDoubleTimePoint implements Immutable {
         //            public final double x;
         //            public final double y;
         //            public final double z;
