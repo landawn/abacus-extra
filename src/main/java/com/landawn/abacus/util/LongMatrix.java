@@ -1677,7 +1677,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         if (obj instanceof LongMatrix) {
             final LongMatrix another = (LongMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

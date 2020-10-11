@@ -1705,7 +1705,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         if (obj instanceof CharMatrix) {
             final CharMatrix another = (CharMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

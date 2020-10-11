@@ -1645,7 +1645,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         if (obj instanceof DoubleMatrix) {
             final DoubleMatrix another = (DoubleMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

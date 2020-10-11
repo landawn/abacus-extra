@@ -1737,7 +1737,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         if (obj instanceof Matrix) {
             final Matrix<T> another = (Matrix<T>) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

@@ -1738,7 +1738,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         if (obj instanceof IntMatrix) {
             final IntMatrix another = (IntMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

@@ -1705,7 +1705,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         if (obj instanceof ShortMatrix) {
             final ShortMatrix another = (ShortMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

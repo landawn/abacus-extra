@@ -1610,7 +1610,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         if (obj instanceof FloatMatrix) {
             final FloatMatrix another = (FloatMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

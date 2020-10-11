@@ -1704,7 +1704,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         if (obj instanceof ByteMatrix) {
             final ByteMatrix another = (ByteMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;

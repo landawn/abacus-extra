@@ -1532,7 +1532,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         if (obj instanceof BooleanMatrix) {
             final BooleanMatrix another = (BooleanMatrix) obj;
 
-            return N.deepEquals(this.a, another.a);
+            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
         }
 
         return false;
