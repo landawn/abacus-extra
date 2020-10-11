@@ -21,6 +21,12 @@ import com.landawn.abacus.util.ByteTuple.ByteTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
 
+/** 
+ * 
+ * @deprecated Not a good idea?
+ */
+@Deprecated
+@Beta
 public class MutableBytePair implements Mutable {
     public byte left;
     public byte right;

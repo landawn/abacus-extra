@@ -21,6 +21,12 @@ import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
+/** 
+ * 
+ * @deprecated Not a good idea?
+ */
+@Deprecated
+@Beta
 public class MutableDoublePair implements Mutable {
     public double left;
     public double right;
