@@ -263,7 +263,7 @@ public class RemoteExecutorTest {
         addRespList = remoteExecutor.execute(remoteAddTask, N.asList(1, 2, 3));
         N.println(addRespList);
 
-        remoteAddTask = new PublicRemoteTask<Object, Integer>();
+        remoteAddTask = new PublicRemoteTask<>();
         addRespList = remoteExecutor.execute(remoteAddTask, N.asList(1, 2, 3));
         N.println(addRespList);
     }
