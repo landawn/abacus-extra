@@ -1010,7 +1010,7 @@ public final class f {
             //        }
 
             final int len = a.length;
-            final int n = Matth.divide(len, m, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, m, RoundingMode.CEILING);
             final T[][] c = N.newArray(a.getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -1846,11 +1846,11 @@ public final class f {
             //        }
 
             final int len = a.length;
-            final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
             final T[][][] c = N.newArray(N.newArray(a.getClass(), 0).getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++) {
-                c[i] = N.newArray(a.getClass(), N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING)));
+                c[i] = N.newArray(a.getClass(), N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING)));
 
                 for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                     c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -2590,7 +2590,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final boolean[][] c = new boolean[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -2615,11 +2615,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final boolean[][][] c = new boolean[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new boolean[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new boolean[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -3707,7 +3707,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final char[][] c = new char[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -3732,11 +3732,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final char[][][] c = new char[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new char[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new char[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -4969,7 +4969,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final byte[][] c = new byte[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -4994,11 +4994,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final byte[][][] c = new byte[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new byte[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new byte[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -7879,7 +7879,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final short[][] c = new short[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -7904,11 +7904,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final short[][][] c = new short[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new short[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new short[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -10942,7 +10942,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final int[][] c = new int[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -10967,11 +10967,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final int[][][] c = new int[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new int[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new int[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -13994,7 +13994,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final long[][] c = new long[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -14019,11 +14019,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final long[][][] c = new long[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new long[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new long[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -17052,7 +17052,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final float[][] c = new float[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -17077,11 +17077,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final float[][][] c = new float[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new float[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new float[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
@@ -20115,7 +20115,7 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
         final double[][] c = new double[n][];
 
         for (int i = 0, from = 0; i < n; i++, from += m) {
@@ -20140,11 +20140,11 @@ public final class f {
         }
 
         final int len = a.length;
-        final int n = Matth.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
         final double[][][] c = new double[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new double[N.min(m, Matth.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new double[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
 
             for (int j = 0, y = c[i].length; j < y; j++, from += l) {
                 c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));

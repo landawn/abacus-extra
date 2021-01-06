@@ -1,3 +1,8 @@
+### 1.1
+
+* Bug fixes and improvements.
+
+
 ### 1.0
 
 * Bug fixes and improvements.
