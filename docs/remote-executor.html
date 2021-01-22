@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
 
 
-<title>AbacusUtil</title>
+<title>abacus-common</title>
 
 <script type="text/javascript" src="./css/ga.js"></script>
 <script type="text/javascript">
@@ -32,7 +32,7 @@
 <body>
 	<div id="site">
 		<h1>
-			<a href="./index.html">AbacusUtil</a> <span id="navigation"> <a href="./docs.html">Docs</a> | <a href="./download.html">Download</a>
+			<a href="./index.html">abacus-common</a> <span id="navigation"> <a href="./docs.html">Docs</a> | <a href="./download.html">Download</a>
 				| <a href="./api-docs/index.html">Javadoc</a> | <a href="./faq.html">FAQ</a> | <a href="./community.html">Community</a>
 			</span>
 		</h1>
@@ -51,20 +51,20 @@
 			
 			<li><b>Step 1: Deploy com.landawn.abacus.da.http.JavaExecutionServlet under <a href="http://tomcat.apache.org/">Tomcat</a> on target remote servers with below configuration: web.xml. JDK 7 or above (JDK 8 for Lambda/stream) is required.</b>
 			(One of the easy way to prepare the application xxx*.war file is: 
-			1) Unzip the abacus.war in HelloAbacusUtil.zip; 
+			1) Unzip the abacus.war in Helloabacus-common.zip; 
 			2) Put the common libraries and configuration files which are required to run the tasks in the folders: ./WEB-INF/lib/ and ./WEB-INF/config/; 
-			3) Replace the abacus-util-*.jar file with the latest abacus-util-*.jar file.
+			3) Replace the abacus-common-*.jar file with the latest abacus-common-*.jar file.
 			4) Zip folders: ./META-INF/ and ./WEB-INF/ with the application name: xxx.war;
 			5) Put the xxx.war file under folder: ./Tomcat Home Directory/webapps/;
 			6) Start Tomcat. 
-			Refer to abacus.war in <a href="./HelloAbacusUtil.zip" onclick="ga.push(['_trackEvent', 'Download', 'HelloAbacusUtil.zip', 'HelloAbacusUtil project']);">HelloAbacusUtil.zip</a>)
+			Refer to abacus.war in <a href="./Helloabacus-common.zip" onclick="ga.push(['_trackEvent', 'Download', 'Helloabacus-common.zip', 'Helloabacus-common project']);">Helloabacus-common.zip</a>)
 			</li>
 <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
 <span style="color: #008000; font-weight: bold">&lt;web-app</span> <span style="color: #7D9029">xmlns=</span><span style="color: #BA2121">&quot;http://java.sun.com/xml/ns/javaee&quot;</span> <span style="color: #7D9029">xmlns:xsi=</span><span style="color: #BA2121">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
 	<span style="color: #7D9029">xsi:schemaLocation=</span><span style="color: #BA2121">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span>
 	<span style="color: #7D9029">version=</span><span style="color: #BA2121">&quot;2.5&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-	<span style="color: #008000; font-weight: bold">&lt;display-name&gt;</span>AbacusUtil<span style="color: #008000; font-weight: bold">&lt;/display-name&gt;</span>
+	<span style="color: #008000; font-weight: bold">&lt;display-name&gt;</span>abacus-common<span style="color: #008000; font-weight: bold">&lt;/display-name&gt;</span>
 	
 	 <span style="color: #008000; font-weight: bold">&lt;servlet&gt;</span>
 	     <span style="color: #008000; font-weight: bold">&lt;servlet-name&gt;</span>javaExecution<span style="color: #008000; font-weight: bold">&lt;/servlet-name&gt;</span>
