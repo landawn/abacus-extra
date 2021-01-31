@@ -1614,7 +1614,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     @Override
-    protected int length(long[] a) {
+    protected int length(@SuppressWarnings("hiding") long[] a) {
         return a == null ? 0 : a.length;
     }
 

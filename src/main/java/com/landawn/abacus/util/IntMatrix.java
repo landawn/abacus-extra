@@ -1675,7 +1675,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     @Override
-    protected int length(int[] a) {
+    protected int length(@SuppressWarnings("hiding") int[] a) {
         return a == null ? 0 : a.length;
     }
 

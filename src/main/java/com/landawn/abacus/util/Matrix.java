@@ -127,6 +127,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param rightUp2LeftDownDiagonal
      * @return
      */
+    @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, T[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -1674,7 +1675,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     @Override
-    protected int length(T[] a) {
+    protected int length(@SuppressWarnings("hiding") T[] a) {
         return a == null ? 0 : a.length;
     }
 

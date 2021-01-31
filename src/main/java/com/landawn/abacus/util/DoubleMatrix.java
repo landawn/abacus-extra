@@ -1582,7 +1582,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      */
     @Override
-    protected int length(double[] a) {
+    protected int length(@SuppressWarnings("hiding") double[] a) {
         return a == null ? 0 : a.length;
     }
 

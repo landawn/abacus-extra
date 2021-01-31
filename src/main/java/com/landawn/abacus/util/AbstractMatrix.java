@@ -509,7 +509,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param a
      * @return
      */
-    protected abstract int length(A a);
+    protected abstract int length(@SuppressWarnings("hiding") A a);
 
     /**
      * Check same shape.

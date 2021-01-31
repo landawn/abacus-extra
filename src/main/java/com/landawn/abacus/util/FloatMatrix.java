@@ -1547,7 +1547,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return
      */
     @Override
-    protected int length(float[] a) {
+    protected int length(@SuppressWarnings("hiding") float[] a) {
         return a == null ? 0 : a.length;
     }
 

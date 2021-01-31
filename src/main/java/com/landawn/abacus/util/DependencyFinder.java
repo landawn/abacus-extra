@@ -386,6 +386,7 @@ public final class DependencyFinder {
      * @param currentConstantIndex
      * @return
      */
+    @SuppressWarnings("fallthrough")
     private static int readOneConstantPoolItemAndSetFlagIfClassOrNamedType(ByteBuffer readBuffer, ConstantPoolItemFlags flags, int currentConstantIndex) {
         switch (readBuffer.get()) {
             case CONSTANT_Utf8:

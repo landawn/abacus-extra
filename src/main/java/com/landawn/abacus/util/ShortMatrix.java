@@ -1642,7 +1642,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     @Override
-    protected int length(short[] a) {
+    protected int length(@SuppressWarnings("hiding") short[] a) {
         return a == null ? 0 : a.length;
     }
 

@@ -1642,7 +1642,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return
      */
     @Override
-    protected int length(char[] a) {
+    protected int length(@SuppressWarnings("hiding") char[] a) {
         return a == null ? 0 : a.length;
     }
 

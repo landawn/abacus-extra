@@ -1469,7 +1469,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return
      */
     @Override
-    protected int length(boolean[] a) {
+    protected int length(@SuppressWarnings("hiding") boolean[] a) {
         return a == null ? 0 : a.length;
     }
 

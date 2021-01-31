@@ -624,7 +624,7 @@ public final class RemoteExecutor {
      * @param serverFilter
      * @return
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "null" })
     private <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
             final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final BiPredicate<String, Object> serverFilter) {
         if (kryoParser == null) {

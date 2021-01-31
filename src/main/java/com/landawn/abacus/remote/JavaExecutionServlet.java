@@ -119,6 +119,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
      * @param response
      * @throws UncheckedIOException the unchecked IO exception
      */
+    @SuppressWarnings({ "static-method", "null" })
     protected void execute(final HttpServletRequest request, final HttpServletResponse response) throws UncheckedIOException {
         final ContentFormat requestContentFormat = getRequestContentFormat(request);
         final Charset requestCharset = HttpUtil.getCharset(getContentType(request));
@@ -269,6 +270,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
      * @param cls
      * @return
      */
+    @SuppressWarnings("null")
     private static <T> T newInstance(final Class<T> cls) {
         try {
             if (Modifier.isStatic(cls.getModifiers()) == false && (cls.isAnonymousClass() || cls.isMemberClass())) {
@@ -289,6 +291,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
                 N.reverse(toInstantiate);
 
                 Object instance = null;
+
                 for (Class<?> current : toInstantiate) {
                     instance = instance == null ? invoke(current.getDeclaredConstructor())
                             : invoke(current.getDeclaredConstructor(instance.getClass()), instance);

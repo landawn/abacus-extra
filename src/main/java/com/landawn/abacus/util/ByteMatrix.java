@@ -1641,7 +1641,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      */
     @Override
-    protected int length(byte[] a) {
+    protected int length(@SuppressWarnings("hiding") byte[] a) {
         return a == null ? 0 : a.length;
     }
 
