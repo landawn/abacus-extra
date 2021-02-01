@@ -1149,7 +1149,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1194,7 +1194,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1266,7 +1266,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1363,7 +1363,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * FloatMatrix.this.rows * 1L - i) {
@@ -1441,7 +1441,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1514,7 +1514,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     }
 
                     @Override
-                    public void skip(long n) {
+                    public void advance(long n) {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1528,7 +1528,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public void skip(long n) {
+            public void advance(long n) {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
