@@ -250,7 +250,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         }
     }
 
-    public <E extends Exception> void forEach(final BiIntObjConsumer<X, E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
         final X x = (X) this;
 
         for (int i = 0; i < rows; i++) {
@@ -261,7 +261,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final BiIntObjConsumer<X, E> action) throws E {
+            final Throwables.BiIntObjConsumer<X, E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
