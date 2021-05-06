@@ -21,9 +21,6 @@
 [LongTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/LongTuple_view.html), 
 [DoubleTuple](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/DoubleTuple_view.html)...
 
-* [Run on remote servers without deploying first](https://github.com/landawn/abacus-extra/wiki/Deploy-Once,-Run-Anytime):
-[RemoteExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/RemoteExecutor_view.html).
-
 * More: [Matrixes](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Matrixes_view.html), 
 [Points](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/Points_view.html), 
 [f](https://htmlpreview.github.io/?https://github.com/landawn/abacus-extra/blob/master/docs/f_view.html), ...
