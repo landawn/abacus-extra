@@ -71,4 +71,19 @@ public final class ImmutableIntArray implements Immutable {
 
         return N.copyOfRange(elements, fromIndex, toIndex);
     }
+
+    @Override
+    public int hashCode() {
+        return N.hashCode(elements);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof ImmutableIntArray && N.equals(this.elements, ((ImmutableIntArray) obj).elements);
+    }
+
+    @Override
+    public String toString() {
+        return N.toString(elements);
+    }
 }
