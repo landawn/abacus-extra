@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2019, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -59,7 +59,7 @@ public final class Points {
             /**
              * Instantiates a new byte byte point.
              */
-            public ByteBytePoint() {
+            ByteBytePoint() {
             }
 
             /**
@@ -69,7 +69,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public ByteBytePoint(byte x, byte y, byte v) {
+            ByteBytePoint(byte x, byte y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -142,7 +142,7 @@ public final class Points {
             /**
              * Instantiates a new byte int point.
              */
-            public ByteIntPoint() {
+            ByteIntPoint() {
             }
 
             /**
@@ -152,7 +152,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public ByteIntPoint(byte x, byte y, int v) {
+            ByteIntPoint(byte x, byte y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -225,7 +225,7 @@ public final class Points {
             /**
              * Instantiates a new byte long point.
              */
-            public ByteLongPoint() {
+            ByteLongPoint() {
             }
 
             /**
@@ -235,7 +235,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public ByteLongPoint(byte x, byte y, long v) {
+            ByteLongPoint(byte x, byte y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -308,7 +308,7 @@ public final class Points {
             /**
              * Instantiates a new byte double point.
              */
-            public ByteDoublePoint() {
+            ByteDoublePoint() {
             }
 
             /**
@@ -318,7 +318,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public ByteDoublePoint(byte x, byte y, double v) {
+            ByteDoublePoint(byte x, byte y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -393,7 +393,7 @@ public final class Points {
             /**
              * Instantiates a new byte obj point.
              */
-            public ByteObjPoint() {
+            ByteObjPoint() {
             }
 
             /**
@@ -403,7 +403,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public ByteObjPoint(byte x, byte y, T v) {
+            ByteObjPoint(byte x, byte y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -477,7 +477,7 @@ public final class Points {
             /**
              * Instantiates a new int byte point.
              */
-            public IntBytePoint() {
+            IntBytePoint() {
             }
 
             /**
@@ -487,7 +487,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public IntBytePoint(int x, int y, byte v) {
+            IntBytePoint(int x, int y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -560,7 +560,7 @@ public final class Points {
             /**
              * Instantiates a new int int point.
              */
-            public IntIntPoint() {
+            IntIntPoint() {
             }
 
             /**
@@ -570,7 +570,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public IntIntPoint(int x, int y, int v) {
+            IntIntPoint(int x, int y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -643,7 +643,7 @@ public final class Points {
             /**
              * Instantiates a new int long point.
              */
-            public IntLongPoint() {
+            IntLongPoint() {
             }
 
             /**
@@ -653,7 +653,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public IntLongPoint(int x, int y, long v) {
+            IntLongPoint(int x, int y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -726,7 +726,7 @@ public final class Points {
             /**
              * Instantiates a new int double point.
              */
-            public IntDoublePoint() {
+            IntDoublePoint() {
             }
 
             /**
@@ -736,7 +736,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public IntDoublePoint(int x, int y, double v) {
+            IntDoublePoint(int x, int y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -811,7 +811,7 @@ public final class Points {
             /**
              * Instantiates a new int obj point.
              */
-            public IntObjPoint() {
+            IntObjPoint() {
             }
 
             /**
@@ -821,7 +821,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public IntObjPoint(int x, int y, T v) {
+            IntObjPoint(int x, int y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -895,7 +895,7 @@ public final class Points {
             /**
              * Instantiates a new long byte point.
              */
-            public LongBytePoint() {
+            LongBytePoint() {
             }
 
             /**
@@ -905,7 +905,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public LongBytePoint(long x, long y, byte v) {
+            LongBytePoint(long x, long y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -978,7 +978,7 @@ public final class Points {
             /**
              * Instantiates a new long int point.
              */
-            public LongIntPoint() {
+            LongIntPoint() {
             }
 
             /**
@@ -988,7 +988,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public LongIntPoint(long x, long y, int v) {
+            LongIntPoint(long x, long y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1061,7 +1061,7 @@ public final class Points {
             /**
              * Instantiates a new long long point.
              */
-            public LongLongPoint() {
+            LongLongPoint() {
             }
 
             /**
@@ -1071,7 +1071,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public LongLongPoint(long x, long y, long v) {
+            LongLongPoint(long x, long y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1144,7 +1144,7 @@ public final class Points {
             /**
              * Instantiates a new long double point.
              */
-            public LongDoublePoint() {
+            LongDoublePoint() {
             }
 
             /**
@@ -1154,7 +1154,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public LongDoublePoint(long x, long y, double v) {
+            LongDoublePoint(long x, long y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1229,7 +1229,7 @@ public final class Points {
             /**
              * Instantiates a new long obj point.
              */
-            public LongObjPoint() {
+            LongObjPoint() {
             }
 
             /**
@@ -1239,7 +1239,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public LongObjPoint(long x, long y, T v) {
+            LongObjPoint(long x, long y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1313,7 +1313,7 @@ public final class Points {
             /**
              * Instantiates a new double byte point.
              */
-            public DoubleBytePoint() {
+            DoubleBytePoint() {
             }
 
             /**
@@ -1323,7 +1323,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public DoubleBytePoint(double x, double y, byte v) {
+            DoubleBytePoint(double x, double y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1396,7 +1396,7 @@ public final class Points {
             /**
              * Instantiates a new double int point.
              */
-            public DoubleIntPoint() {
+            DoubleIntPoint() {
             }
 
             /**
@@ -1406,7 +1406,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public DoubleIntPoint(double x, double y, int v) {
+            DoubleIntPoint(double x, double y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1479,7 +1479,7 @@ public final class Points {
             /**
              * Instantiates a new double long point.
              */
-            public DoubleLongPoint() {
+            DoubleLongPoint() {
             }
 
             /**
@@ -1489,7 +1489,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public DoubleLongPoint(double x, double y, long v) {
+            DoubleLongPoint(double x, double y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1562,7 +1562,7 @@ public final class Points {
             /**
              * Instantiates a new double double point.
              */
-            public DoubleDoublePoint() {
+            DoubleDoublePoint() {
             }
 
             /**
@@ -1572,7 +1572,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public DoubleDoublePoint(double x, double y, double v) {
+            DoubleDoublePoint(double x, double y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1647,7 +1647,7 @@ public final class Points {
             /**
              * Instantiates a new double obj point.
              */
-            public DoubleObjPoint() {
+            DoubleObjPoint() {
             }
 
             /**
@@ -1657,7 +1657,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            public DoubleObjPoint(double x, double y, T v) {
+            DoubleObjPoint(double x, double y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -4288,7 +4288,7 @@ public final class Points {
             /**
              * Instantiates a new byte byte point.
              */
-            public ByteBytePoint() {
+            ByteBytePoint() {
             }
 
             /**
@@ -4299,7 +4299,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public ByteBytePoint(byte x, byte y, byte z, byte v) {
+            ByteBytePoint(byte x, byte y, byte z, byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4377,7 +4377,7 @@ public final class Points {
             /**
              * Instantiates a new byte int point.
              */
-            public ByteIntPoint() {
+            ByteIntPoint() {
             }
 
             /**
@@ -4388,7 +4388,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public ByteIntPoint(byte x, byte y, byte z, int v) {
+            ByteIntPoint(byte x, byte y, byte z, int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4466,7 +4466,7 @@ public final class Points {
             /**
              * Instantiates a new byte long point.
              */
-            public ByteLongPoint() {
+            ByteLongPoint() {
             }
 
             /**
@@ -4477,7 +4477,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public ByteLongPoint(byte x, byte y, byte z, long v) {
+            ByteLongPoint(byte x, byte y, byte z, long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4555,7 +4555,7 @@ public final class Points {
             /**
              * Instantiates a new byte double point.
              */
-            public ByteDoublePoint() {
+            ByteDoublePoint() {
             }
 
             /**
@@ -4566,7 +4566,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public ByteDoublePoint(byte x, byte y, byte z, double v) {
+            ByteDoublePoint(byte x, byte y, byte z, double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4646,7 +4646,7 @@ public final class Points {
             /**
              * Instantiates a new byte obj point.
              */
-            public ByteObjPoint() {
+            ByteObjPoint() {
             }
 
             /**
@@ -4657,7 +4657,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public ByteObjPoint(byte x, byte y, byte z, T v) {
+            ByteObjPoint(byte x, byte y, byte z, T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4736,7 +4736,7 @@ public final class Points {
             /**
              * Instantiates a new int byte point.
              */
-            public IntBytePoint() {
+            IntBytePoint() {
             }
 
             /**
@@ -4747,7 +4747,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public IntBytePoint(int x, int y, int z, byte v) {
+            IntBytePoint(int x, int y, int z, byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4825,7 +4825,7 @@ public final class Points {
             /**
              * Instantiates a new int int point.
              */
-            public IntIntPoint() {
+            IntIntPoint() {
             }
 
             /**
@@ -4836,7 +4836,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public IntIntPoint(int x, int y, int z, int v) {
+            IntIntPoint(int x, int y, int z, int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4914,7 +4914,7 @@ public final class Points {
             /**
              * Instantiates a new int long point.
              */
-            public IntLongPoint() {
+            IntLongPoint() {
             }
 
             /**
@@ -4925,7 +4925,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public IntLongPoint(int x, int y, int z, long v) {
+            IntLongPoint(int x, int y, int z, long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5003,7 +5003,7 @@ public final class Points {
             /**
              * Instantiates a new int double point.
              */
-            public IntDoublePoint() {
+            IntDoublePoint() {
             }
 
             /**
@@ -5014,7 +5014,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public IntDoublePoint(int x, int y, int z, double v) {
+            IntDoublePoint(int x, int y, int z, double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5094,7 +5094,7 @@ public final class Points {
             /**
              * Instantiates a new int obj point.
              */
-            public IntObjPoint() {
+            IntObjPoint() {
             }
 
             /**
@@ -5105,7 +5105,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public IntObjPoint(int x, int y, int z, T v) {
+            IntObjPoint(int x, int y, int z, T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5184,7 +5184,7 @@ public final class Points {
             /**
              * Instantiates a new long byte point.
              */
-            public LongBytePoint() {
+            LongBytePoint() {
             }
 
             /**
@@ -5195,7 +5195,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public LongBytePoint(long x, long y, long z, byte v) {
+            LongBytePoint(long x, long y, long z, byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5273,7 +5273,7 @@ public final class Points {
             /**
              * Instantiates a new long int point.
              */
-            public LongIntPoint() {
+            LongIntPoint() {
             }
 
             /**
@@ -5284,7 +5284,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public LongIntPoint(long x, long y, long z, int v) {
+            LongIntPoint(long x, long y, long z, int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5362,7 +5362,7 @@ public final class Points {
             /**
              * Instantiates a new long long point.
              */
-            public LongLongPoint() {
+            LongLongPoint() {
             }
 
             /**
@@ -5373,7 +5373,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public LongLongPoint(long x, long y, long z, long v) {
+            LongLongPoint(long x, long y, long z, long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5451,7 +5451,7 @@ public final class Points {
             /**
              * Instantiates a new long double point.
              */
-            public LongDoublePoint() {
+            LongDoublePoint() {
             }
 
             /**
@@ -5462,7 +5462,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public LongDoublePoint(long x, long y, long z, double v) {
+            LongDoublePoint(long x, long y, long z, double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5542,7 +5542,7 @@ public final class Points {
             /**
              * Instantiates a new long obj point.
              */
-            public LongObjPoint() {
+            LongObjPoint() {
             }
 
             /**
@@ -5553,7 +5553,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public LongObjPoint(long x, long y, long z, T v) {
+            LongObjPoint(long x, long y, long z, T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5632,7 +5632,7 @@ public final class Points {
             /**
              * Instantiates a new double byte point.
              */
-            public DoubleBytePoint() {
+            DoubleBytePoint() {
             }
 
             /**
@@ -5643,7 +5643,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public DoubleBytePoint(double x, double y, double z, byte v) {
+            DoubleBytePoint(double x, double y, double z, byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5721,7 +5721,7 @@ public final class Points {
             /**
              * Instantiates a new double int point.
              */
-            public DoubleIntPoint() {
+            DoubleIntPoint() {
             }
 
             /**
@@ -5732,7 +5732,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public DoubleIntPoint(double x, double y, double z, int v) {
+            DoubleIntPoint(double x, double y, double z, int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5810,7 +5810,7 @@ public final class Points {
             /**
              * Instantiates a new double long point.
              */
-            public DoubleLongPoint() {
+            DoubleLongPoint() {
             }
 
             /**
@@ -5821,7 +5821,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public DoubleLongPoint(double x, double y, double z, long v) {
+            DoubleLongPoint(double x, double y, double z, long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5899,7 +5899,7 @@ public final class Points {
             /**
              * Instantiates a new double double point.
              */
-            public DoubleDoublePoint() {
+            DoubleDoublePoint() {
             }
 
             /**
@@ -5910,7 +5910,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public DoubleDoublePoint(double x, double y, double z, double v) {
+            DoubleDoublePoint(double x, double y, double z, double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5990,7 +5990,7 @@ public final class Points {
             /**
              * Instantiates a new double obj point.
              */
-            public DoubleObjPoint() {
+            DoubleObjPoint() {
             }
 
             /**
@@ -6001,7 +6001,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            public DoubleObjPoint(double x, double y, double z, T v) {
+            DoubleObjPoint(double x, double y, double z, T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
