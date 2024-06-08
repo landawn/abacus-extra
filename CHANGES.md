@@ -1,3 +1,8 @@
+### 1.5
+
+* Bug fixes and improvements.
+
+
 ### 1.4
 
 * Move `remote` package to `abacus-web`
