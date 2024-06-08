@@ -1,8 +1,7 @@
 # abacus-extra 
  
-
 [![Maven Central](https://img.shields.io/maven-central/v/com.landawn/abacus-extra.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn/abacus-extra/)
-[![Javadocs](https://www.javadoc.io/badge/com.landawn/abacus-extra.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra)
+[![Javadocs](https://img.shields.io/badge/javadoc-1.6-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/1.6/index.html)
 
 
 * Matrixes: 
