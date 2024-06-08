@@ -33,7 +33,7 @@
 * Gradle:
 ```gradle
 // JDK 1.8 or above:
-compile 'com.landawn:abacus-extra:1.5'
+compile 'com.landawn:abacus-extra:1.6'
 ```
 
 
