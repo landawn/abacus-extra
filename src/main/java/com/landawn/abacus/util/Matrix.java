@@ -73,19 +73,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public static <T> Matrix<T> repeat(final T element, final int len) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
 
-        return repeat((Class<T>) element.getClass(), element, len);
+        return repeat(element, len, (Class<T>) element.getClass());
     }
 
     /**
      *
-     * @param <T>
-     * @param elementClass
      * @param element
      * @param len
+     * @param elementClass
+     * @param <T>
      * @return
      * @throws IllegalArgumentException
      */
-    public static <T> Matrix<T> repeat(final Class<T> elementClass, final T element, final int len) throws IllegalArgumentException {
+    public static <T> Matrix<T> repeat(final T element, final int len, final Class<T> elementClass) throws IllegalArgumentException {
         N.checkArgNotNull(elementClass, "elementClass");
 
         final T[][] c = N.newArray(N.newArray(elementClass, 0).getClass(), 1);
@@ -105,7 +105,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
 
-        return repeat((Class<T>) element.getClass(), element, len);
+        return repeat(element, len, (Class<T>) element.getClass());
     }
 
     /**
@@ -521,20 +521,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> func) throws E {
-        return map(this.elementType, func);
+        return map(func, this.elementType);
     }
 
     /**
      *
+     * @param func
+     * @param targetElementType
      * @param <R>
      * @param <E>
-     * @param targetElementType
-     * @param func
      * @return
      * @throws E the e
      */
-    public <R, E extends Exception> Matrix<R> map(final Class<R> targetElementType, final Throwables.Function<? super T, R, E> func) throws E {
-        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
+    public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
+        final R[][] result = Matrixes.newArray(rows, cols, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
@@ -1206,26 +1206,26 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <B, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, T, E> zipFunction) throws E {
-        return zipWith(elementType, matrixB, zipFunction);
+        return zipWith(matrixB, zipFunction, elementType);
     }
 
     /**
      *
+     * @param matrixB
+     * @param zipFunction
+     * @param targetElementType
      * @param <B>
      * @param <R>
      * @param <E>
-     * @param targetElementType
-     * @param matrixB
-     * @param zipFunction
      * @return
      * @throws E the e
      */
-    public <B, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB,
-            final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction) throws E {
+    public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
+            final Class<R> targetElementType) throws E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
-        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
+        final R[][] result = Matrixes.newArray(rows, cols, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j]);
 
@@ -1247,29 +1247,29 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
             final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
-        return zipWith(elementType, matrixB, matrixC, zipFunction);
+        return zipWith(matrixB, matrixC, zipFunction, elementType);
     }
 
     /**
      *
+     * @param matrixB
+     * @param matrixC
+     * @param zipFunction
+     * @param targetElementType
      * @param <B>
      * @param <C>
      * @param <R>
      * @param <E>
-     * @param targetElementType
-     * @param matrixB
-     * @param matrixC
-     * @param zipFunction
      * @return
      * @throws E the e
      */
-    public <B, C, R, E extends Exception> Matrix<R> zipWith(final Class<R> targetElementType, final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction) throws E {
+    public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
+            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
         final C[][] c = matrixC.a;
-        final R[][] result = Matrixes.newArray(targetElementType, rows, cols);
+        final R[][] result = Matrixes.newArray(rows, cols, targetElementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.apply(a[i][j], b[i][j], c[i][j]);
 

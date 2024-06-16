@@ -328,6 +328,5 @@ public class MutableBytePair implements Mutable {
     @Override
     public String toString() {
         return "[" + N.toString(left) + ", " + N.toString(right) + "]";
-        // return N.toString(left) + "=" + N.toString(right);
     }
 }

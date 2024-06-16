@@ -18,7 +18,7 @@ import com.landawn.abacus.util.u.Optional;
 
 @com.landawn.abacus.annotation.Immutable
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
-    
+
     /**
      * 
      *

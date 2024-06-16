@@ -174,8 +174,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public static DoubleMatrix diagonal(final double[] leftUp2RighDownDiagonal, double[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
-                N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
-                        || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RighDownDiagonal)) {
@@ -604,16 +603,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Map to obj.
+     * @param func
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param func
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> targetElementType, final Throwables.DoubleFunction<? extends T, E> func) throws E {
-        final T[][] result = Matrixes.newArray(targetElementType, rows, cols);
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+        final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));

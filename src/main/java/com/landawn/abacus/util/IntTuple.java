@@ -196,7 +196,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
                 return (TP) IntTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
 
             default:
-                throw new RuntimeException("Too many elements(" + a.length + ") to fill in Tuple.");
+                throw new IllegalArgumentException("Too many elements((" + a.length + ") to fill in Tuple.");
         }
     }
 

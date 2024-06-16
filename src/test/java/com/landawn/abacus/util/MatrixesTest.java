@@ -43,7 +43,7 @@ class MatrixesTest {
             Matrixes.zip(N.asList(mx, mx, mx, mx), (i, j) -> (byte) (i + j)).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(Byte.class, N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a)).println();
+            Matrixes.zip(N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), Byte.class).println();
 
             N.println(Strings.repeat('-', 80));
             Matrixes.zipToInt(N.asList(mx, mx, mx, mx), N::sum).println();
@@ -69,7 +69,7 @@ class MatrixesTest {
             Matrixes.zip(N.asList(mx, mx, mx, mx), (i, j) -> i + j).println();
 
             N.println(Strings.repeat('-', 80));
-            Matrixes.zip(byte.class, N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a)).println();
+            Matrixes.zip(N.asList(mx, mx, mx, mx), a -> (byte) N.sum(a), byte.class).println();
 
             N.println(Strings.repeat('-', 80));
             Matrixes.zipToLong(N.asList(mx, mx, mx, mx), a -> (long) N.sum(a)).println();

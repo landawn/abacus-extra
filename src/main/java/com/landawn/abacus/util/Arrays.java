@@ -48,16 +48,16 @@ public abstract class Arrays {
 
     /**
      *
+     * @param a
+     * @param func
+     * @param targetElementType
      * @param <T>
      * @param <R>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param func
      * @return
      * @throws E the e
      */
-    public static <T, R, E extends Exception> R[] map(final Class<R> targetElementType, final T[] a, final Throwables.Function<? super T, R, E> func) throws E {
+    public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -274,17 +274,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final boolean[] a,
-            final Throwables.BooleanFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -301,17 +301,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final boolean[][] a,
-            final Throwables.BooleanFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -320,7 +320,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -328,17 +328,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final boolean[][][] a,
-            final Throwables.BooleanFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -347,7 +347,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -355,16 +355,16 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final char[] a, final Throwables.CharFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -382,17 +382,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final char[][] a,
-            final Throwables.CharFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -401,7 +401,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -409,17 +409,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final char[][][] a,
-            final Throwables.CharFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -428,7 +428,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -436,16 +436,16 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -463,17 +463,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final byte[][] a,
-            final Throwables.ByteFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -482,7 +482,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -490,17 +490,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final byte[][][] a,
-            final Throwables.ByteFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -509,7 +509,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -517,17 +517,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final short[] a,
-            final Throwables.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -544,17 +544,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final short[][] a,
-            final Throwables.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -563,7 +563,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -571,17 +571,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final short[][][] a,
-            final Throwables.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -590,7 +590,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -598,16 +598,16 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final int[] a, final Throwables.IntFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -625,17 +625,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final int[][] a,
-            final Throwables.IntFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -644,7 +644,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -652,17 +652,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final int[][][] a,
-            final Throwables.IntFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -671,7 +671,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -679,16 +679,16 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final long[] a, final Throwables.LongFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -706,17 +706,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final long[][] a,
-            final Throwables.LongFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -725,7 +725,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -733,17 +733,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final long[][][] a,
-            final Throwables.LongFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -752,7 +752,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -760,17 +760,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final float[] a,
-            final Throwables.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -787,17 +787,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final float[][] a,
-            final Throwables.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -806,7 +806,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -814,17 +814,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final float[][][] a,
-            final Throwables.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -833,7 +833,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -841,17 +841,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> targetElementType, final double[] a,
-            final Throwables.DoubleFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -868,17 +868,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> targetElementType, final double[][] a,
-            final Throwables.DoubleFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -887,7 +887,7 @@ public abstract class Arrays {
         final T[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -895,17 +895,17 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
+     * @param a
+     * @param mapper
+     * @param targetElementType
      *
      * @param <T>
      * @param <E>
-     * @param targetElementType
-     * @param a
-     * @param mapper
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> targetElementType, final double[][][] a,
-            final Throwables.DoubleFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
+            final Class<T> targetElementType) throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -914,7 +914,7 @@ public abstract class Arrays {
         final T[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
         for (int i = 0; i < len; i++) {
-            result[i] = mapToObj(targetElementType, a[i], mapper);
+            result[i] = mapToObj(a[i], mapper, targetElementType);
         }
 
         return result;
@@ -1520,21 +1520,21 @@ public abstract class Arrays {
                 return null; // NOSONAR
             }
 
-            return map((Class<T>) a.getClass().getComponentType().getComponentType(), a, func);
+            return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param func
+         * @param targetElementType
          * @param <T>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param func
          * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][] map(final Class<R> targetElementType, final T[][] a, final Throwables.Function<? super T, R, E> func)
+        public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType)
                 throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -1544,7 +1544,7 @@ public abstract class Arrays {
             final R[][] c = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.map(targetElementType, a[i], func);
+                c[i] = Arrays.map(a[i], func, targetElementType);
             }
 
             return c;
@@ -1757,17 +1757,17 @@ public abstract class Arrays {
          * @param <R>
          * @param <E>
          * @param len
-         * @param targetElementType
          * @param a
          * @param b
          * @param valueForNoneA
          * @param valueForNoneB
          * @param zipFunction
+         * @param targetElementType
          * @return
          * @throws E the e
          */
-        private static <A, B, R, E extends Exception> R[] zip(final int len, final Class<R> targetElementType, final A[] a, final B[] b, final A valueForNoneA,
-                final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+        private static <A, B, R, E extends Exception> R[] zip(final int len, final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1798,13 +1798,6 @@ public abstract class Arrays {
 
         /**
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param len
-         * @param targetElementType
          * @param a
          * @param b
          * @param c
@@ -1812,12 +1805,19 @@ public abstract class Arrays {
          * @param valueForNoneB
          * @param valueForNoneC
          * @param zipFunction
+         * @param len
+         * @param targetElementType
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
          * @return
          * @throws E the e
          */
-        private static <A, B, C, R, E extends Exception> R[] zip(final int len, final Class<R> targetElementType, final A[] a, final B[] b, final C[] c,
-                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+        private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final int len,
+                final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -1850,31 +1850,31 @@ public abstract class Arrays {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, zipFunction);
+            return zip(a, b, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param b
+         * @param zipFunction
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param b
-         * @param zipFunction
          * @return
          * @throws E the e
          */
-        public static <A, B, R, E extends Exception> R[][] zip(final Class<R> targetElementType, final A[][] a, final B[][] b,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+        public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = N.zip(targetElementType, a[i], b[i], zipFunction);
+                result[i] = N.zip(a[i], b[i], zipFunction, targetElementType);
             }
 
             return result;
@@ -1895,71 +1895,72 @@ public abstract class Arrays {
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
+            return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param targetElementType
          * @param a
          * @param b
          * @param valueForNoneA
          * @param valueForNoneB
          * @param zipFunction
-         * @return
-         * @throws E the e
-         */
-        public static <A, B, R, E extends Exception> R[][] zip(final Class<R> targetElementType, final A[][] a, final B[][] b, final A valueForNoneA,
-                final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
-            return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), targetElementType, a, b, valueForNoneA, valueForNoneB,
-                    zipFunction);
-        }
-
-        /**
-         *
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <R>
          * @param <E>
+         * @return
+         * @throws E the e
+         */
+        public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+            return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)),
+                    targetElementType);
+        }
+
+        /**
+         *
+         * @param a
+         * @param b
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param zipFunction
          * @param len
          * @param rowLen
          * @param targetElementType
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
          * @return
          * @throws E the e
          */
-        private static <A, B, R, E extends Exception> R[][] zip(final int len, final int rowLen, final Class<R> targetElementType, final A[][] a, final B[][] b,
-                final A valueForNoneA, final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+        private static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final int len, final int rowLen, final Class<R> targetElementType)
+                throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-                result[i] = zip(rowLen, targetElementType, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(rowLen, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
             }
 
             if (lenA < lenB && lenA < len) {
                 for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-                    result[i] = zip(rowLen, targetElementType, null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                    result[i] = zip(rowLen, null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
                 }
             } else if (lenB < lenA && lenB < len) {
                 for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-                    result[i] = zip(rowLen, targetElementType, a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                    result[i] = zip(rowLen, a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
                 }
             }
 
             if (N.max(lenA, lenB) < len) {
                 for (int i = N.max(lenA, lenB); i < len; i++) {
-                    result[i] = zip(rowLen, targetElementType, null, null, valueForNoneA, valueForNoneB, zipFunction);
+                    result[i] = zip(rowLen, null, null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
                 }
             }
 
@@ -1981,26 +1982,26 @@ public abstract class Arrays {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, c, zipFunction);
+            return zip(a, b, c, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param b
+         * @param c
+         * @param zipFunction
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <C>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
          * @return
          * @throws E the e
          */
-        public static <A, B, C, R, E extends Exception> R[][] zip(final Class<R> targetElementType, final A[][] a, final B[][] b, final C[][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+        public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2008,7 +2009,7 @@ public abstract class Arrays {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = N.zip(targetElementType, a[i], b[i], c[i], zipFunction);
+                result[i] = N.zip(a[i], b[i], c[i], zipFunction, targetElementType);
             }
 
             return result;
@@ -2032,17 +2033,11 @@ public abstract class Arrays {
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param targetElementType
          * @param a
          * @param b
          * @param c
@@ -2050,39 +2045,45 @@ public abstract class Arrays {
          * @param valueForNoneB
          * @param valueForNoneC
          * @param zipFunction
-         * @return
-         * @throws E the e
-         */
-        public static <A, B, C, R, E extends Exception> R[][] zip(final Class<R> targetElementType, final A[][] a, final B[][] b, final C[][] c,
-                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
-            return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), targetElementType, a, b, c,
-                    valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-        }
-
-        /**
-         *
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <C>
          * @param <R>
          * @param <E>
+         * @return
+         * @throws E the e
+         */
+        public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
+                throws E {
+            return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, N.max(N.len(a), N.len(b), N.len(c)),
+                    N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), targetElementType);
+        }
+
+        /**
+         *
+         * @param a
+         * @param b
+         * @param c
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param valueForNoneC
+         * @param zipFunction
          * @param len
          * @param rowLen
          * @param targetElementType
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
          * @return
          * @throws E the e
          */
-        private static <A, B, C, R, E extends Exception> R[][] zip(final int len, final int rowLen, final Class<R> targetElementType, final A[][] a,
-                final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+        private static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final int len, final int rowLen,
+                final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2090,13 +2091,13 @@ public abstract class Arrays {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-                result[i] = zip(rowLen, targetElementType, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+                result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, rowLen, targetElementType);
             }
 
             if (N.min(lenA, lenB, lenC) < len) {
                 for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                    result[i] = zip(rowLen, targetElementType, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA,
-                            valueForNoneB, valueForNoneC, zipFunction);
+                    result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                            zipFunction, rowLen, targetElementType);
                 }
             }
 
@@ -2380,22 +2381,22 @@ public abstract class Arrays {
                 return null; // NOSONAR
             }
 
-            return map((Class<T>) a.getClass().getComponentType().getComponentType().getComponentType(), a, func);
+            return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param func
+         * @param targetElementType
          * @param <T>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param func
          * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][][] map(final Class<R> targetElementType, final T[][][] a,
-                final Throwables.Function<? super T, R, E> func) throws E {
+        public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, R, E> func,
+                final Class<R> targetElementType) throws E {
             if (a == null) {
                 return null; // NOSONAR
             }
@@ -2404,7 +2405,7 @@ public abstract class Arrays {
             final R[][][] c = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.map(targetElementType, a[i], func);
+                c[i] = ff.map(a[i], func, targetElementType);
             }
 
             return c;
@@ -2623,31 +2624,31 @@ public abstract class Arrays {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, zipFunction);
+            return zip(a, b, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param b
+         * @param zipFunction
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param b
-         * @param zipFunction
          * @return
          * @throws E the e
          */
-        public static <A, B, R, E extends Exception> R[][][] zip(final Class<R> targetElementType, final A[][][] a, final B[][][] b,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+        public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = ff.zip(targetElementType, a[i], b[i], zipFunction);
+                result[i] = ff.zip(a[i], b[i], zipFunction, targetElementType);
             }
 
             return result;
@@ -2668,42 +2669,42 @@ public abstract class Arrays {
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
+            return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param targetElementType
          * @param a
          * @param b
          * @param valueForNoneA
          * @param valueForNoneB
          * @param zipFunction
+         * @param targetElementType
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
          * @return
          * @throws E the e
          */
-        public static <A, B, R, E extends Exception> R[][][] zip(final Class<R> targetElementType, final A[][][] a, final B[][][] b, final A valueForNoneA,
-                final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+        public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.max(lenA, lenB));
 
             for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = ff.zip(targetElementType, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = ff.zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
             }
 
             if (lenA < lenB) {
                 for (int i = lenA; i < lenB; i++) {
-                    result[i] = ff.zip(targetElementType, null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                    result[i] = ff.zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
                 }
             } else if (lenB < lenA) {
                 for (int i = lenB; i < lenA; i++) {
-                    result[i] = ff.zip(targetElementType, a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                    result[i] = ff.zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
                 }
             }
 
@@ -2725,26 +2726,26 @@ public abstract class Arrays {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, c, zipFunction);
+            return zip(a, b, c, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
          *
+         * @param a
+         * @param b
+         * @param c
+         * @param zipFunction
+         * @param targetElementType
          * @param <A>
          * @param <B>
          * @param <C>
          * @param <R>
          * @param <E>
-         * @param targetElementType
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
          * @return
          * @throws E the e
          */
-        public static <A, B, C, R, E extends Exception> R[][][] zip(final Class<R> targetElementType, final A[][][] a, final B[][][] b, final C[][][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+        public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2752,7 +2753,7 @@ public abstract class Arrays {
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = ff.zip(targetElementType, a[i], b[i], c[i], zipFunction);
+                result[i] = ff.zip(a[i], b[i], c[i], zipFunction, targetElementType);
             }
 
             return result;
@@ -2776,18 +2777,12 @@ public abstract class Arrays {
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
                 final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC,
-                    zipFunction);
+            return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction,
+                    (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param targetElementType
          * @param a
          * @param b
          * @param c
@@ -2795,12 +2790,18 @@ public abstract class Arrays {
          * @param valueForNoneB
          * @param valueForNoneC
          * @param zipFunction
+         * @param targetElementType
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
          * @return
          * @throws E the e
          */
-        public static <A, B, C, R, E extends Exception> R[][][] zip(final Class<R> targetElementType, final A[][][] a, final B[][][] b, final C[][][] c,
-                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+        public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
+                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction,
+                final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2808,12 +2809,12 @@ public abstract class Arrays {
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), N.max(lenA, lenB, lenC));
 
             for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
-                result[i] = ff.zip(targetElementType, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+                result[i] = ff.zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
             }
 
             for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
-                result[i] = ff.zip(targetElementType, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB,
-                        valueForNoneC, zipFunction);
+                result[i] = ff.zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                        zipFunction, targetElementType);
             }
 
             return result;
