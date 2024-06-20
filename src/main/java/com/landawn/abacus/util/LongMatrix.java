@@ -601,12 +601,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Map to obj.
-     * @param func
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param func 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.LongFunction<? extends T, E> func, final Class<T> targetElementType) throws E {

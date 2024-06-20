@@ -47,14 +47,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param func
-     * @param targetElementType
-     * @param <T>
-     * @param <R>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <R> 
+     * @param <E> 
+     * @param a 
+     * @param func 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
@@ -274,13 +275,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -301,13 +302,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -328,13 +329,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -355,13 +356,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -382,13 +383,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -409,13 +410,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -436,13 +437,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -463,13 +464,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -490,13 +491,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -517,13 +518,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -544,13 +545,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -571,13 +572,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -598,13 +599,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -625,13 +626,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -652,13 +653,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -679,13 +680,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -706,13 +707,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -733,13 +734,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -760,13 +761,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -787,13 +788,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -814,13 +815,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -841,13 +842,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -868,13 +869,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -895,13 +896,13 @@ public abstract class Arrays {
 
     /**
      * Map to obj.
-     * @param a
-     * @param mapper
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param a 
+     * @param mapper 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -1524,14 +1525,15 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param func
-         * @param targetElementType
-         * @param <T>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <T> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param func 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType)
@@ -1854,16 +1856,17 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
@@ -1899,18 +1902,19 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param valueForNoneA 
+         * @param valueForNoneB 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
@@ -1986,18 +1990,19 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <C> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param c 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -2037,21 +2042,22 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <C> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param c 
+         * @param valueForNoneA 
+         * @param valueForNoneB 
+         * @param valueForNoneC 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
@@ -2385,14 +2391,15 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param func
-         * @param targetElementType
-         * @param <T>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <T> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param func 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, R, E> func,
@@ -2628,16 +2635,17 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
@@ -2673,18 +2681,19 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param valueForNoneA 
+         * @param valueForNoneB 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
@@ -2730,18 +2739,19 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <C> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param c 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
@@ -2782,21 +2792,22 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
+         * @param <A> 
+         * @param <B> 
+         * @param <C> 
+         * @param <R> 
+         * @param <E> 
+         * @param a 
+         * @param b 
+         * @param c 
+         * @param valueForNoneA 
+         * @param valueForNoneB 
+         * @param valueForNoneC 
+         * @param zipFunction 
+         * @param targetElementType 
+         * @return 
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,

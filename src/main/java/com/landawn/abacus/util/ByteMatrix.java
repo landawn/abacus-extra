@@ -547,12 +547,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Map to obj.
-     * @param func
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param func 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ByteFunction<? extends T, E> func, final Class<T> targetElementType) throws E {

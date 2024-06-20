@@ -547,12 +547,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Map to obj.
-     * @param func
-     * @param targetElementType
      *
-     * @param <T>
-     * @param <E>
-     * @return
+     * @param <T> 
+     * @param <E> 
+     * @param func 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.CharFunction<? extends T, E> func, final Class<T> targetElementType) throws E {

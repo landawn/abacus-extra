@@ -148,13 +148,13 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param rows
-     * @param cols
-     * @param targetElementType
-     * @param <T>
-     * @return
+     * @param <T> 
+     * @param rows 
+     * @param cols 
+     * @param targetElementType 
+     * @return 
      */
     public static <T> T[][] newArray(final int rows, final int cols, final Class<T> targetElementType) {
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
@@ -471,15 +471,15 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -487,16 +487,16 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param shareIntermediateArray
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param shareIntermediateArray 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws E {
@@ -707,15 +707,15 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -723,16 +723,16 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param shareIntermediateArray
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param shareIntermediateArray 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws E {
@@ -1054,15 +1054,15 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -1070,16 +1070,16 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param shareIntermediateArray
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param shareIntermediateArray 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws E {
@@ -1294,15 +1294,15 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -1310,16 +1310,16 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param shareIntermediateArray
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param shareIntermediateArray 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws E {
@@ -1369,18 +1369,18 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @param targetElementType
-     * @param <A>
-     * @param <B>
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <A> 
+     * @param <B> 
+     * @param <R> 
+     * @param <E> 
+     * @param a 
+     * @param b 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <A, B, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -1407,20 +1407,20 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <A>
-     * @param <B>
-     * @param <C>
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <A> 
+     * @param <B> 
+     * @param <C> 
+     * @param <R> 
+     * @param <E> 
+     * @param a 
+     * @param b 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <A, B, C, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
             final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -1468,16 +1468,16 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param targetElementType
-     * @param <T>
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <T> 
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -1485,17 +1485,17 @@ public final class Matrixes {
     }
 
     /**
+     * 
      *
-     *
-     * @param c
-     * @param zipFunction
-     * @param shareIntermediateArray
-     * @param targetElementType
-     * @param <T>
-     * @param <R>
-     * @param <E>
-     * @return
-     * @throws E
+     * @param <T> 
+     * @param <R> 
+     * @param <E> 
+     * @param c 
+     * @param zipFunction 
+     * @param shareIntermediateArray 
+     * @param targetElementType 
+     * @return 
+     * @throws E 
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws E {

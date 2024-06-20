@@ -77,13 +77,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param element
-     * @param len
-     * @param elementClass
-     * @param <T>
-     * @return
-     * @throws IllegalArgumentException
+     * @param <T> 
+     * @param element 
+     * @param len 
+     * @param elementClass 
+     * @return 
+     * @throws IllegalArgumentException 
      */
     public static <T> Matrix<T> repeat(final T element, final int len, final Class<T> elementClass) throws IllegalArgumentException {
         N.checkArgNotNull(elementClass, "elementClass");
@@ -526,12 +527,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param func
-     * @param targetElementType
-     * @param <R>
-     * @param <E>
-     * @return
+     * @param <R> 
+     * @param <E> 
+     * @param func 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
@@ -1211,14 +1213,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param matrixB
-     * @param zipFunction
-     * @param targetElementType
-     * @param <B>
-     * @param <R>
-     * @param <E>
-     * @return
+     * @param <B> 
+     * @param <R> 
+     * @param <E> 
+     * @param matrixB 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
@@ -1252,16 +1255,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param matrixB
-     * @param matrixC
-     * @param zipFunction
-     * @param targetElementType
-     * @param <B>
-     * @param <C>
-     * @param <R>
-     * @param <E>
-     * @return
+     * @param <B> 
+     * @param <C> 
+     * @param <R> 
+     * @param <E> 
+     * @param matrixB 
+     * @param matrixC 
+     * @param zipFunction 
+     * @param targetElementType 
+     * @return 
      * @throws E the e
      */
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
