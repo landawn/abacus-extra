@@ -1,3 +1,7 @@
+### 1.8.1
+
+* Bug fixes and improvements.
+
 ### 1.7
 
 * Bug fixes and improvements.
