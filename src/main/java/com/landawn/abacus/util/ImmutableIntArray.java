@@ -63,9 +63,10 @@ public final class ImmutableIntArray implements Immutable {
      *
      * @param <E> 
      * @param action 
+     * @throws IllegalArgumentException 
      * @throws E 
      */
-    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
 
         for (int i = 0; i < length; i++) {
@@ -78,9 +79,10 @@ public final class ImmutableIntArray implements Immutable {
      *
      * @param <E> 
      * @param action 
+     * @throws IllegalArgumentException 
      * @throws E 
      */
-    public <E extends Exception> void forEachIndexed(final Throwables.IndexedIntConsumer<E> action) throws E {
+    public <E extends Exception> void forEachIndexed(final Throwables.IndexedIntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
 
         for (int i = 0; i < length; i++) {
@@ -103,8 +105,9 @@ public final class ImmutableIntArray implements Immutable {
      * @param fromIndex 
      * @param toIndex 
      * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public ImmutableIntArray copy(final int fromIndex, final int toIndex) {
+    public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return ImmutableIntArray.of(N.copyOfRange(elements, fromIndex, toIndex));
@@ -116,8 +119,9 @@ public final class ImmutableIntArray implements Immutable {
      * @param fromIndex 
      * @param toIndex 
      * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public int[] copyToArray(final int fromIndex, final int toIndex) {
+    public int[] copyToArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
 
         return N.copyOfRange(elements, fromIndex, toIndex);

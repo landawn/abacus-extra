@@ -244,17 +244,19 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
+     * 
      *
-     * @param <E>
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @param action
-     * @throws E
+     * @param <E> 
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @param action 
+     * @throws IndexOutOfBoundsException 
+     * @throws E 
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntBiConsumer<E> action) throws E {
+            final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -291,10 +293,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param fromColumnIndex 
      * @param toColumnIndex 
      * @param action 
+     * @throws IndexOutOfBoundsException 
      * @throws E 
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.BiIntObjConsumer<X, E> action) throws E {
+            final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -358,12 +361,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) {
+    public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         return IntStream.range(fromRowIndex, toRowIndex).flatMapToObj(new IntFunction<Stream<IntPair>>() {
@@ -398,12 +403,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) {
+    public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         return IntStream.range(fromColumnIndex, toColumnIndex).flatMapToObj(new IntFunction<Stream<IntPair>>() {
@@ -429,12 +436,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) {
+    public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         return IntStream.range(fromRowIndex, toRowIndex).mapToObj(new IntFunction<Stream<IntPair>>() {
@@ -460,12 +469,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
-    public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) {
+    public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         return IntStream.range(fromColumnIndex, toColumnIndex).mapToObj(new IntFunction<Stream<IntPair>>() {

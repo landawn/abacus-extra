@@ -143,12 +143,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param leftUp2RighDownDiagonal
-     * @param rightUp2LeftDownDiagonal
-     * @return
+     * @param leftUp2RighDownDiagonal 
+     * @param rightUp2LeftDownDiagonal 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, char[] rightUp2LeftDownDiagonal) {
+    public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -310,22 +312,26 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param rowIndex
-     * @return
+     * @param rowIndex 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public char[] row(final int rowIndex) {
+    public char[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
     /**
+     * 
      *
-     * @param columnIndex
-     * @return
+     * @param columnIndex 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public char[] column(final int columnIndex) {
+    public char[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
         final char[] c = new char[rows];
@@ -340,10 +346,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the row.
      *
-     * @param rowIndex
-     * @param row
+     * @param rowIndex 
+     * @param row 
+     * @throws IllegalArgumentException 
      */
-    public void setRow(int rowIndex, char[] row) {
+    public void setRow(int rowIndex, char[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -352,10 +359,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the column.
      *
-     * @param columnIndex
-     * @param column
+     * @param columnIndex 
+     * @param column 
+     * @throws IllegalArgumentException 
      */
-    public void setColumn(int columnIndex, char[] column) {
+    public void setColumn(int columnIndex, char[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -410,8 +418,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Sets the lu2rd.
      *
      * @param diagonal the new lu2rd
+     * @throws IllegalArgumentException 
      */
-    public void setLU2RD(final char[] diagonal) {
+    public void setLU2RD(final char[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -456,8 +465,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Sets the ru2ld.
      *
      * @param diagonal the new ru2ld
+     * @throws IllegalArgumentException 
      */
-    public void setRU2LD(final char[] diagonal) {
+    public void setRU2LD(final char[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -583,12 +593,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param fromColumnIndex
-     * @param b
+     * @param fromRowIndex 
+     * @param fromColumnIndex 
+     * @param b 
+     * @throws IndexOutOfBoundsException 
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -614,13 +626,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public CharMatrix copy(final int fromRowIndex, final int toRowIndex) {
+    public CharMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         final char[][] c = new char[toRowIndex - fromRowIndex][];
@@ -633,15 +647,17 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -665,13 +681,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param newRows
-     * @param newCols
-     * @param defaultValueForNewCell
-     * @return
+     * @param newRows 
+     * @param newCols 
+     * @param defaultValueForNewCell 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public CharMatrix extend(final int newRows, final int newCols, final char defaultValueForNewCell) {
+    public CharMatrix extend(final int newRows, final int newCols, final char defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
@@ -710,15 +728,18 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param toUp
-     * @param toDown
-     * @param toLeft
-     * @param toRight
-     * @param defaultValueForNewCell
-     * @return
+     * @param toUp 
+     * @param toDown 
+     * @param toLeft 
+     * @param toRight 
+     * @param defaultValueForNewCell 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell) {
+    public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell)
+            throws IllegalArgumentException {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -932,13 +953,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats
-     * @param colRepeats
+     * @param rowRepeats 
+     * @param colRepeats 
      * @return a new matrix
+     * @throws IllegalArgumentException 
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public CharMatrix repelem(final int rowRepeats, final int colRepeats) {
+    public CharMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
         final char[][] c = new char[rows * rowRepeats][cols * colRepeats];
@@ -961,13 +983,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats
-     * @param colRepeats
+     * @param rowRepeats 
+     * @param colRepeats 
      * @return a new matrix
+     * @throws IllegalArgumentException 
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public CharMatrix repmat(final int rowRepeats, final int colRepeats) {
+    public CharMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
         final char[][] c = new char[rows * rowRepeats][cols * colRepeats];
@@ -1015,12 +1038,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public CharMatrix vstack(final CharMatrix b) {
+    public CharMatrix vstack(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
         final char[][] c = new char[this.rows + b.rows][];
@@ -1038,12 +1063,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public CharMatrix hstack(final CharMatrix b) {
+    public CharMatrix hstack(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final char[][] c = new char[rows][cols + b.cols];
@@ -1057,11 +1084,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public CharMatrix add(final CharMatrix b) {
+    public CharMatrix add(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
 
         final char[][] ba = b.a;
@@ -1074,11 +1103,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public CharMatrix subtract(final CharMatrix b) {
+    public CharMatrix subtract(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
 
         final char[][] ba = b.a;
@@ -1091,11 +1122,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public CharMatrix multiply(final CharMatrix b) {
+    public CharMatrix multiply(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
         final char[][] ba = b.a;
@@ -1217,14 +1250,17 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param <E>
-     * @param matrixB
-     * @param zipFunction
-     * @return
+     * @param <E> 
+     * @param matrixB 
+     * @param zipFunction 
+     * @return 
+     * @throws IllegalArgumentException 
      * @throws E the e
      */
-    public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
+    public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final Throwables.CharBinaryOperator<E> zipFunction)
+            throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final char[][] b = matrixB.a;
@@ -1293,7 +1329,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1338,7 +1374,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1371,13 +1407,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
+     * @param fromRowIndex 
+     * @param toRowIndex 
      * @return a stream based on the order of row.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public CharStream streamH(final int fromRowIndex, final int toRowIndex) {
+    public CharStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
@@ -1410,7 +1448,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1467,14 +1505,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
      * @return a stream based on the order of column.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
     @Beta
-    public CharStream streamV(final int fromColumnIndex, final int toColumnIndex) {
+    public CharStream streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
@@ -1507,7 +1547,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * CharMatrix.this.rows * 1L - i) {
@@ -1553,13 +1593,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
+     * @param fromRowIndex 
+     * @param toRowIndex 
      * @return a row stream based on the order of row.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public Stream<CharStream> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<CharStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
@@ -1585,7 +1627,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1609,14 +1651,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
      * @return a column stream based on the order of column.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
     @Beta
-    public Stream<CharStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<CharStream> streamC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
@@ -1658,7 +1702,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
                     }
 
                     @Override
-                    public void advance(long n) {
+                    public void advance(long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1672,7 +1716,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1706,17 +1750,19 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
+     * 
      *
-     * @param <E>
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @param action
+     * @param <E> 
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @param action 
+     * @throws IndexOutOfBoundsException 
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.CharConsumer<E> action) throws E {
+            final Throwables.CharConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

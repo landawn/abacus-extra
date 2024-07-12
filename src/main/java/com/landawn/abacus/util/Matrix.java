@@ -132,14 +132,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param <T>
-     * @param leftUp2RighDownDiagonal
-     * @param rightUp2LeftDownDiagonal
-     * @return
+     * @param <T> 
+     * @param leftUp2RighDownDiagonal 
+     * @param rightUp2LeftDownDiagonal 
+     * @return 
+     * @throws IllegalArgumentException 
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, T[] rightUp2LeftDownDiagonal) {
+    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -295,22 +297,26 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param rowIndex
-     * @return
+     * @param rowIndex 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public T[] row(final int rowIndex) {
+    public T[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
     /**
+     * 
      *
-     * @param columnIndex
-     * @return
+     * @param columnIndex 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public T[] column(final int columnIndex) {
+    public T[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
         final T[] c = N.newArray(elementType, rows);
@@ -325,10 +331,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Sets the row.
      *
-     * @param rowIndex
-     * @param row
+     * @param rowIndex 
+     * @param row 
+     * @throws IllegalArgumentException 
      */
-    public void setRow(int rowIndex, T[] row) {
+    public void setRow(int rowIndex, T[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -337,10 +344,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Sets the column.
      *
-     * @param columnIndex
-     * @param column
+     * @param columnIndex 
+     * @param column 
+     * @throws IllegalArgumentException 
      */
-    public void setColumn(int columnIndex, T[] column) {
+    public void setColumn(int columnIndex, T[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -395,8 +403,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Sets the lu2rd.
      *
      * @param diagonal the new lu2rd
+     * @throws IllegalArgumentException 
      */
-    public void setLU2RD(final T[] diagonal) {
+    public void setLU2RD(final T[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -441,8 +450,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Sets the ru2ld.
      *
      * @param diagonal the new ru2ld
+     * @throws IllegalArgumentException 
      */
-    public void setRU2LD(final T[] diagonal) {
+    public void setRU2LD(final T[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -700,12 +710,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param fromColumnIndex
-     * @param b
+     * @param fromRowIndex 
+     * @param fromColumnIndex 
+     * @param b 
+     * @throws IndexOutOfBoundsException 
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -731,13 +743,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) {
+    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
@@ -750,15 +764,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @return 
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -782,13 +798,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param newRows
-     * @param newCols
-     * @param defaultValueForNewCell
-     * @return
+     * @param newRows 
+     * @param newCols 
+     * @param defaultValueForNewCell 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public Matrix<T> extend(final int newRows, final int newCols, final T defaultValueForNewCell) {
+    public Matrix<T> extend(final int newRows, final int newCols, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
@@ -827,15 +845,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param toUp
-     * @param toDown
-     * @param toLeft
-     * @param toRight
-     * @param defaultValueForNewCell
-     * @return
+     * @param toUp 
+     * @param toDown 
+     * @param toLeft 
+     * @param toRight 
+     * @param defaultValueForNewCell 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell) {
+    public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell)
+            throws IllegalArgumentException {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -1066,13 +1087,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats
-     * @param colRepeats
+     * @param rowRepeats 
+     * @param colRepeats 
      * @return a new matrix
+     * @throws IllegalArgumentException 
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public Matrix<T> repelem(final int rowRepeats, final int colRepeats) {
+    public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
@@ -1100,13 +1122,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats
-     * @param colRepeats
+     * @param rowRepeats 
+     * @param colRepeats 
      * @return a new matrix
+     * @throws IllegalArgumentException 
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public Matrix<T> repmat(final int rowRepeats, final int colRepeats) {
+    public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
@@ -1158,12 +1181,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public Matrix<T> vstack(final Matrix<? extends T> b) {
+    public Matrix<T> vstack(final Matrix<? extends T> b) throws IllegalArgumentException {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
         final T[][] c = N.newArray(arrayType, this.rows + b.rows);
@@ -1181,12 +1206,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param b
-     * @return
+     * @param b 
+     * @return 
+     * @throws IllegalArgumentException 
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public Matrix<T> hstack(final Matrix<? extends T> b) {
+    public Matrix<T> hstack(final Matrix<? extends T> b) throws IllegalArgumentException {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final T[][] c = N.newArray(arrayType, rows);
@@ -1222,10 +1249,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param zipFunction 
      * @param targetElementType 
      * @return 
+     * @throws IllegalArgumentException 
      * @throws E the e
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
-            final Class<R> targetElementType) throws E {
+            final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
@@ -1266,10 +1294,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param zipFunction 
      * @param targetElementType 
      * @return 
+     * @throws IllegalArgumentException 
      * @throws E the e
      */
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
+            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
+            throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
@@ -1315,7 +1345,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1360,7 +1390,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1393,13 +1423,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
+     * @param fromRowIndex 
+     * @param toRowIndex 
      * @return a stream based on the order of row.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public Stream<T> streamH(final int fromRowIndex, final int toRowIndex) {
+    public Stream<T> streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
@@ -1432,7 +1464,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1492,14 +1524,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
      * @return a stream based on the order of column.
+     * @throws IndexOutOfBoundsException 
      */
     @Beta
     @Override
-    public Stream<T> streamV(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<T> streamV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
@@ -1532,7 +1566,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * Matrix.this.rows * 1L - i) {
@@ -1581,13 +1615,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromRowIndex
-     * @param toRowIndex
+     * @param fromRowIndex 
+     * @param toRowIndex 
      * @return a row stream based on the order of row.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
-    public Stream<Stream<T>> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<Stream<T>> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
@@ -1613,7 +1649,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1637,14 +1673,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
      * @return a column stream based on the order of column.
+     * @throws IndexOutOfBoundsException 
      */
     @Override
     @Beta
-    public Stream<Stream<T>> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<Stream<T>> streamC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
@@ -1686,7 +1724,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     }
 
                     @Override
-                    public void advance(long n) {
+                    public void advance(long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1700,7 +1738,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) {
+            public void advance(long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1734,17 +1772,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param <E>
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @param action
+     * @param <E> 
+     * @param fromRowIndex 
+     * @param toRowIndex 
+     * @param fromColumnIndex 
+     * @param toColumnIndex 
+     * @param action 
+     * @throws IndexOutOfBoundsException 
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.Consumer<? super T, E> action) throws E {
+            final Throwables.Consumer<? super T, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -1756,12 +1796,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param columnNames
-     * @return
+     * @param columnNames 
+     * @return 
+     * @throws IllegalArgumentException 
      */
     @Beta
-    public DataSet toDataSetH(final Collection<String> columnNames) {
+    public DataSet toDataSetH(final Collection<String> columnNames) throws IllegalArgumentException {
         N.checkArgument(columnNames.size() == cols, "The size({}) of specified columnNames and column count({}) of this Matrix are not equals",
                 columnNames.size(), cols);
 
@@ -1782,12 +1824,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
+     * 
      *
-     * @param columnNames
-     * @return
+     * @param columnNames 
+     * @return 
+     * @throws IllegalArgumentException 
      */
     @Beta
-    public DataSet toDataSetV(final Collection<String> columnNames) {
+    public DataSet toDataSetV(final Collection<String> columnNames) throws IllegalArgumentException {
         N.checkArgument(columnNames.size() == rows, "The size({}) of specified columnNames and row count({}) of this Matrix are not equals", columnNames.size(),
                 rows);
 

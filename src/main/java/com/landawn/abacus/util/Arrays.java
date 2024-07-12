@@ -1421,13 +1421,15 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param <T>
-         * @param a
-         * @param m
-         * @return
+         * @param <T> 
+         * @param a 
+         * @param m 
+         * @return 
+         * @throws IllegalArgumentException 
          */
-        public static <T> T[][] reshape(final T[] a, final int m) {
+        public static <T> T[][] reshape(final T[] a, final int m) throws IllegalArgumentException {
             N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
             //        if (N.isEmpty(a)) {
@@ -2261,14 +2263,16 @@ public abstract class Arrays {
         }
 
         /**
+         * 
          *
-         * @param <T>
-         * @param a
-         * @param m
-         * @param l
-         * @return
+         * @param <T> 
+         * @param a 
+         * @param m 
+         * @param l 
+         * @return 
+         * @throws IllegalArgumentException 
          */
-        public static <T> T[][][] reshape(final T[] a, final int m, final int l) {
+        public static <T> T[][][] reshape(final T[] a, final int m, final int l) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
             N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
@@ -3013,12 +3017,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static boolean[][] reshape(final boolean[] a, final int m) {
+    public static boolean[][] reshape(final boolean[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -3037,13 +3043,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static boolean[][][] reshape(final boolean[] a, final int m, final int l) {
+    public static boolean[][][] reshape(final boolean[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -4130,12 +4138,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static char[][] reshape(final char[] a, final int m) {
+    public static char[][] reshape(final char[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -4154,13 +4164,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static char[][][] reshape(final char[] a, final int m, final int l) {
+    public static char[][][] reshape(final char[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -5392,12 +5404,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static byte[][] reshape(final byte[] a, final int m) {
+    public static byte[][] reshape(final byte[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -5416,13 +5430,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static byte[][][] reshape(final byte[] a, final int m, final int l) {
+    public static byte[][][] reshape(final byte[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -8302,12 +8318,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static short[][] reshape(final short[] a, final int m) {
+    public static short[][] reshape(final short[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -8326,13 +8344,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static short[][][] reshape(final short[] a, final int m, final int l) {
+    public static short[][][] reshape(final short[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -11365,12 +11385,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static int[][] reshape(final int[] a, final int m) {
+    public static int[][] reshape(final int[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -11389,13 +11411,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static int[][][] reshape(final int[] a, final int m, final int l) {
+    public static int[][][] reshape(final int[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -14417,12 +14441,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static long[][] reshape(final long[] a, final int m) {
+    public static long[][] reshape(final long[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -14441,13 +14467,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static long[][][] reshape(final long[] a, final int m, final int l) {
+    public static long[][][] reshape(final long[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -17475,12 +17503,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static float[][] reshape(final float[] a, final int m) {
+    public static float[][] reshape(final float[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -17499,13 +17529,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static float[][][] reshape(final float[] a, final int m, final int l) {
+    public static float[][][] reshape(final float[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
@@ -20538,12 +20570,14 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @return
+     * @param a 
+     * @param m 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static double[][] reshape(final double[] a, final int m) {
+    public static double[][] reshape(final double[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
 
         if (N.isEmpty(a)) {
@@ -20562,13 +20596,15 @@ public abstract class Arrays {
     }
 
     /**
+     * 
      *
-     * @param a
-     * @param m
-     * @param l
-     * @return
+     * @param a 
+     * @param m 
+     * @param l 
+     * @return 
+     * @throws IllegalArgumentException 
      */
-    public static double[][][] reshape(final double[] a, final int m, final int l) {
+    public static double[][][] reshape(final double[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
 
         if (N.isEmpty(a)) {
