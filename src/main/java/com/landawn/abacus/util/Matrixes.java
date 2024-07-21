@@ -14,13 +14,16 @@
 
 package com.landawn.abacus.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
 import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.IntStream;
+import com.landawn.abacus.util.stream.Stream;
 
 public final class Matrixes {
 
@@ -209,7 +212,7 @@ public final class Matrixes {
                 IntStream.range(fromRowIndex, toRowIndex).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
-                        for (int j = fromColumnIndex; toColumnIndex < cols; j++) {
+                        for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                             cmd.accept(i, j);
                         }
                     }
@@ -238,6 +241,148 @@ public final class Matrixes {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     *
+     *
+     * @param <T>
+     * @param <E>
+     * @param rows
+     * @param cols
+     * @param cmd
+     * @param inParallel
+     * @return
+     * @throws E
+     */
+    public static <T, E extends Exception> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, E> cmd,
+            final boolean inParallel) throws E {
+        return call(0, rows, 0, cols, cmd, inParallel);
+    }
+
+    /**
+     *
+     *
+     * @param <T>
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param cmd
+     * @param inParallel
+     * @return
+     * @throws IndexOutOfBoundsException
+     * @throws E
+     */
+    @SuppressWarnings("resource")
+    public static <T, E extends Exception> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBiFunction<? extends T, E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
+        N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
+
+        final int rows = toRowIndex - fromRowIndex;
+        final int cols = toColumnIndex - fromColumnIndex;
+
+        if (rows <= cols) {
+            return IntStream.range(fromRowIndex, toRowIndex).transform(s -> inParallel ? s.parallel() : s).flatmapToObj(i -> {
+                final List<T> ret = new ArrayList<>(cols);
+
+                try {
+                    for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                        ret.add(cmd.apply(i, j));
+                    }
+                } catch (Exception e) {
+                    N.toRuntimeException(e);
+                }
+
+                return ret;
+            });
+        } else {
+            return IntStream.range(fromColumnIndex, toColumnIndex).transform(s -> inParallel ? s.parallel() : s).flatmapToObj(j -> {
+                final List<T> ret = new ArrayList<>(rows);
+
+                try {
+                    for (int i = fromRowIndex; i < toRowIndex; i++) {
+                        ret.add(cmd.apply(i, j));
+                    }
+                } catch (Exception e) {
+                    N.toRuntimeException(e);
+                }
+
+                return ret;
+            });
+        }
+    }
+
+    /**
+     *
+     *
+     * @param <E>
+     * @param rows
+     * @param cols
+     * @param cmd
+     * @param inParallel
+     * @return
+     * @throws E
+     */
+    public static <E extends Exception> IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel)
+            throws E {
+        return callToInt(0, rows, 0, cols, cmd, inParallel);
+    }
+
+    /**
+     *
+     *
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param cmd
+     * @param inParallel
+     * @return
+     * @throws IndexOutOfBoundsException
+     * @throws E
+     */
+    @SuppressWarnings("resource")
+    public static <E extends Exception> IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
+        N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
+
+        final int rows = toRowIndex - fromRowIndex;
+        final int cols = toColumnIndex - fromColumnIndex;
+
+        if (rows <= cols) {
+            return IntStream.range(fromRowIndex, toRowIndex).transform(s -> inParallel ? s.parallel() : s).flatmap(i -> {
+                final int[] ret = new int[cols];
+
+                try {
+                    for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                        ret[j - fromColumnIndex] = cmd.applyAsInt(i, j);
+                    }
+                } catch (Exception e) {
+                    N.toRuntimeException(e);
+                }
+
+                return ret;
+            });
+        } else {
+            return IntStream.range(fromColumnIndex, toColumnIndex).transform(s -> inParallel ? s.parallel() : s).flatmap(j -> {
+                final int[] ret = new int[rows];
+
+                try {
+                    for (int i = fromRowIndex; i < toRowIndex; i++) {
+                        ret[i - fromRowIndex] = cmd.applyAsInt(i, j);
+                    }
+                } catch (Exception e) {
+                    N.toRuntimeException(e);
+                }
+
+                return ret;
+            });
         }
     }
 
