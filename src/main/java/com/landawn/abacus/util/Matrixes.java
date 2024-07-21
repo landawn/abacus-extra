@@ -51,10 +51,10 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param flag 
-     * @throws IllegalArgumentException 
+     *
+     * @param flag
+     * @throws IllegalArgumentException
      */
     public static void setParallelEnabled(final ParallelEnabled flag) throws IllegalArgumentException {
         N.checkArgNotNull(flag);
@@ -149,13 +149,13 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <T> 
-     * @param rows 
-     * @param cols 
-     * @param targetElementType 
-     * @return 
+     *
+     * @param <T>
+     * @param rows
+     * @param cols
+     * @param targetElementType
+     * @return
      */
     public static <T> T[][] newArray(final int rows, final int cols, final Class<T> targetElementType) {
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
@@ -184,17 +184,17 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @param cmd 
-     * @param inParallel 
-     * @throws IndexOutOfBoundsException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param cmd
+     * @param inParallel
+     * @throws IndexOutOfBoundsException
+     * @throws E
      */
     public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
@@ -242,13 +242,13 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <X> 
-     * @param a 
-     * @param b 
-     * @param cmd 
-     * @throws IllegalArgumentException 
+     *
+     * @param <X>
+     * @param a
+     * @param b
+     * @param cmd
+     * @throws IllegalArgumentException
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd)
             throws IllegalArgumentException {
@@ -258,14 +258,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <X> 
-     * @param a 
-     * @param b 
-     * @param cmd 
-     * @param inParallel 
-     * @throws IllegalArgumentException 
+     *
+     * @param <X>
+     * @param a
+     * @param b
+     * @param cmd
+     * @param inParallel
+     * @throws IllegalArgumentException
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd,
             final boolean inParallel) throws IllegalArgumentException {
@@ -440,14 +440,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -481,35 +481,35 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<? extends R, E> zipFunction,
             final Class<R> targetElementType) throws E {
         return zip(c, zipFunction, false, targetElementType);
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @param targetElementType 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @param targetElementType
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgNotEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -567,16 +567,16 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param a
+     * @param b
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final ByteMatrix c,
             final Throwables.ByteTriFunction<Integer, E> zipFunction) throws IllegalArgumentException, E {
@@ -610,15 +610,15 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> IntMatrix zipToInt(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<Integer, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
@@ -681,14 +681,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> IntMatrix zip(final Collection<IntMatrix> c, final Throwables.IntBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -722,35 +722,35 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<? extends R, E> zipFunction,
             final Class<R> targetElementType) throws E {
         return zip(c, zipFunction, false, targetElementType);
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @param targetElementType 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @param targetElementType
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgNotEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -808,16 +808,16 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param a
+     * @param b
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> LongMatrix zipToLong(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Long, E> zipFunction) throws IllegalArgumentException, E {
@@ -851,15 +851,15 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> LongMatrix zipToLong(final Collection<IntMatrix> c, final Throwables.IntNFunction<Long, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
@@ -919,16 +919,16 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param a
+     * @param b
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
@@ -949,14 +949,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final Throwables.IntNFunction<Double, E> zipFunction)
             throws IllegalArgumentException, E {
@@ -966,15 +966,15 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final Throwables.IntNFunction<Double, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
@@ -1037,14 +1037,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> LongMatrix zip(final Collection<LongMatrix> c, final Throwables.LongBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1078,35 +1078,35 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<? extends R, E> zipFunction,
             final Class<R> targetElementType) throws E {
         return zip(c, zipFunction, false, targetElementType);
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @param targetElementType 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @param targetElementType
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgNotEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -1164,16 +1164,16 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param a
+     * @param b
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final LongMatrix a, final LongMatrix b, final LongMatrix c,
             final Throwables.LongTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
@@ -1210,15 +1210,15 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareLongermediateArray 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareLongermediateArray
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<LongMatrix> c, final Throwables.LongNFunction<Double, E> zipFunction,
             final boolean shareLongermediateArray) throws IllegalArgumentException, E {
@@ -1282,14 +1282,14 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <E extends Exception> DoubleMatrix zip(final Collection<DoubleMatrix> c, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1323,35 +1323,35 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<? extends R, E> zipFunction,
             final Class<R> targetElementType) throws E {
         return zip(c, zipFunction, false, targetElementType);
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @param targetElementType 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @param targetElementType
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
-    public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<R, E> zipFunction,
+    public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgNotEmpty(c, "matrixes");
         N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
@@ -1399,18 +1399,18 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <A> 
-     * @param <B> 
-     * @param <R> 
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <A>
+     * @param <B>
+     * @param <R>
+     * @param <E>
+     * @param a
+     * @param b
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
     public static <A, B, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -1437,20 +1437,20 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <A> 
-     * @param <B> 
-     * @param <C> 
-     * @param <R> 
-     * @param <E> 
-     * @param a 
-     * @param b 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <A>
+     * @param <B>
+     * @param <C>
+     * @param <R>
+     * @param <E>
+     * @param a
+     * @param b
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
     public static <A, B, C, R, E extends Exception> Matrix<R> zip(final Matrix<A> a, final Matrix<B> b, final Matrix<C> c,
             final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -1458,15 +1458,15 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <T> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <T>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <T, E extends Exception> Matrix<T> zip(final Collection<Matrix<T>> c, final Throwables.BinaryOperator<T, E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1500,16 +1500,16 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <T> 
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param targetElementType 
-     * @return 
-     * @throws E 
+     *
+     * @param <T>
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param targetElementType
+     * @return
+     * @throws E
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -1517,18 +1517,18 @@ public final class Matrixes {
     }
 
     /**
-     * 
      *
-     * @param <T> 
-     * @param <R> 
-     * @param <E> 
-     * @param c 
-     * @param zipFunction 
-     * @param shareIntermediateArray 
-     * @param targetElementType 
-     * @return 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <T>
+     * @param <R>
+     * @param <E>
+     * @param c
+     * @param zipFunction
+     * @param shareIntermediateArray
+     * @param targetElementType
+     * @return
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {

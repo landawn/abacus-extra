@@ -34,18 +34,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
     /**
-     * 
      *
-     * @param a 
+     *
+     * @param a
      */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public static ByteMatrix empty() {
         return EMPTY_BYTE_MATRIX;
@@ -143,12 +143,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param leftUp2RighDownDiagonal 
-     * @param rightUp2LeftDownDiagonal 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param leftUp2RighDownDiagonal
+     * @param rightUp2LeftDownDiagonal
+     * @return
+     * @throws IllegalArgumentException
      */
     public static ByteMatrix diagonal(final byte[] leftUp2RighDownDiagonal, byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -187,10 +187,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param x 
-     * @return 
+     *
+     * @param x
+     * @return
      */
     public static ByteMatrix unbox(final Matrix<Byte> x) {
         return ByteMatrix.of(Array.unbox(x.a));
@@ -312,11 +312,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param rowIndex 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param rowIndex
+     * @return
+     * @throws IllegalArgumentException
      */
     public byte[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -325,11 +325,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param columnIndex 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param columnIndex
+     * @return
+     * @throws IllegalArgumentException
      */
     public byte[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -346,9 +346,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Sets the row.
      *
-     * @param rowIndex 
-     * @param row 
-     * @throws IllegalArgumentException 
+     * @param rowIndex
+     * @param row
+     * @throws IllegalArgumentException
      */
     public void setRow(int rowIndex, byte[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -359,9 +359,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Sets the column.
      *
-     * @param columnIndex 
-     * @param column 
-     * @throws IllegalArgumentException 
+     * @param columnIndex
+     * @param column
+     * @throws IllegalArgumentException
      */
     public void setColumn(int columnIndex, byte[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -418,7 +418,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Sets the lu2rd.
      *
      * @param diagonal the new lu2rd
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
     public void setLU2RD(final byte[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -465,7 +465,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Sets the ru2ld.
      *
      * @param diagonal the new ru2ld
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
     public void setRU2LD(final byte[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -558,11 +558,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param func 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param func
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ByteFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
@@ -593,12 +593,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param fromColumnIndex 
-     * @param b 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromRowIndex
+     * @param fromColumnIndex
+     * @param b
+     * @throws IndexOutOfBoundsException
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final byte[][] b) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, rows, rows);
@@ -610,9 +610,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteMatrix copy() {
@@ -626,12 +626,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     @Override
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -647,14 +647,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     @Override
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -681,13 +681,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param newRows 
-     * @param newCols 
-     * @param defaultValueForNewCell 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param newRows
+     * @param newCols
+     * @param defaultValueForNewCell
+     * @return
+     * @throws IllegalArgumentException
      */
     public ByteMatrix extend(final int newRows, final int newCols, final byte defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -728,15 +728,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param toUp 
-     * @param toDown 
-     * @param toLeft 
-     * @param toRight 
-     * @param defaultValueForNewCell 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @param defaultValueForNewCell
+     * @return
+     * @throws IllegalArgumentException
      */
     public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final byte defaultValueForNewCell)
             throws IllegalArgumentException {
@@ -823,9 +823,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteMatrix rotate90() {
@@ -849,9 +849,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteMatrix rotate180() {
@@ -866,9 +866,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteMatrix rotate270() {
@@ -892,9 +892,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteMatrix transpose() {
@@ -953,10 +953,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats 
-     * @param colRepeats 
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      * @see IntMatrix#repelem(int, int)
      */
     @Override
@@ -983,10 +983,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats 
-     * @param colRepeats 
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      * @see IntMatrix#repmat(int, int)
      */
     @Override
@@ -1011,9 +1011,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public ByteList flatten() {
@@ -1033,16 +1033,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<byte[], E> op) throws E {
+    public <E extends Exception> void flatOp(Throwables.Consumer<? super byte[], E> op) throws E {
         Arrays.flatOp(a, op);
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param b
+     * @return
+     * @throws IllegalArgumentException
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ByteMatrix vstack(final ByteMatrix b) throws IllegalArgumentException {
@@ -1063,11 +1063,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param b
+     * @return
+     * @throws IllegalArgumentException
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ByteMatrix hstack(final ByteMatrix b) throws IllegalArgumentException {
@@ -1084,11 +1084,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param b
+     * @return
+     * @throws IllegalArgumentException
      */
     public ByteMatrix add(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
@@ -1103,11 +1103,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param b
+     * @return
+     * @throws IllegalArgumentException
      */
     public ByteMatrix subtract(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
@@ -1122,11 +1122,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param b 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param b
+     * @return
+     * @throws IllegalArgumentException
      */
     public ByteMatrix multiply(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
@@ -1141,9 +1141,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rows][cols];
@@ -1250,13 +1250,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param matrixB 
-     * @param zipFunction 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param <E>
+     * @param matrixB
+     * @param zipFunction
+     * @return
+     * @throws IllegalArgumentException
      * @throws E the e
      */
     public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final Throwables.ByteBinaryOperator<E> zipFunction)
@@ -1407,12 +1407,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a stream based on the order of row.
-     * @throws IndexOutOfBoundsException 
+     * @throws IndexOutOfBoundsException
      */
     @Override
     public ByteStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1505,12 +1505,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
+     *
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a stream based on the order of column.
-     * @throws IndexOutOfBoundsException 
+     * @throws IndexOutOfBoundsException
      */
     @Override
     @Beta
@@ -1592,12 +1592,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a row stream based on the order of row.
-     * @throws IndexOutOfBoundsException 
+     * @throws IndexOutOfBoundsException
      */
     @Override
     public Stream<ByteStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1650,12 +1650,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
+     *
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a column stream based on the order of column.
-     * @throws IndexOutOfBoundsException 
+     * @throws IndexOutOfBoundsException
      */
     @Override
     @Beta
@@ -1749,15 +1749,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @param action 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
+     * @throws IndexOutOfBoundsException
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -1781,9 +1781,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -1811,9 +1811,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {

@@ -47,18 +47,19 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param <T> 
-     * @param <R> 
-     * @param <E> 
-     * @param a 
-     * @param func 
-     * @param targetElementType 
-     * @return 
+     *
+     * @param <T>
+     * @param <R>
+     * @param <E>
+     * @param a
+     * @param func
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
-    public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
+    public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func, final Class<R> targetElementType)
+            throws E {
         if (a == null) {
             return null; // NOSONAR
         }
@@ -276,12 +277,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -303,12 +304,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -330,12 +331,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -357,12 +358,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -384,12 +385,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -411,12 +412,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -438,12 +439,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -465,12 +466,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -492,12 +493,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -519,12 +520,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -546,12 +547,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -573,12 +574,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -600,12 +601,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -627,12 +628,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -654,12 +655,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -681,12 +682,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -708,12 +709,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -735,12 +736,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -762,12 +763,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -789,12 +790,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -816,12 +817,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -843,12 +844,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -870,12 +871,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -897,12 +898,12 @@ public abstract class Arrays {
     /**
      * Map to obj.
      *
-     * @param <T> 
-     * @param <E> 
-     * @param a 
-     * @param mapper 
-     * @param targetElementType 
-     * @return 
+     * @param <T>
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @param targetElementType
+     * @return
      * @throws E the e
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -1397,7 +1398,15 @@ public abstract class Arrays {
             }
 
             for (int i = 0, n = a.length; i < n; i++) {
-                N.replaceAll(a[i], operator);
+                if (N.isEmpty(a[i])) {
+                    continue;
+                }
+
+                final T[] aa = a[i];
+
+                for (int j = 0, m = aa.length; j < m; j++) {
+                    aa[j] = operator.apply(aa[j]);
+                }
             }
         }
 
@@ -1416,18 +1425,28 @@ public abstract class Arrays {
             }
 
             for (int i = 0, n = a.length; i < n; i++) {
-                N.replaceIf(a[i], predicate, newValue);
+                if (N.isEmpty(a[i])) {
+                    continue;
+                }
+
+                final T[] aa = a[i];
+
+                for (int j = 0, m = aa.length; j < m; j++) {
+                    if (predicate.test(aa[j])) {
+                        aa[j] = newValue;
+                    }
+                }
             }
         }
 
         /**
-         * 
          *
-         * @param <T> 
-         * @param a 
-         * @param m 
-         * @return 
-         * @throws IllegalArgumentException 
+         *
+         * @param <T>
+         * @param a
+         * @param m
+         * @return
+         * @throws IllegalArgumentException
          */
         public static <T> T[][] reshape(final T[] a, final int m) throws IllegalArgumentException {
             N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -1490,7 +1509,7 @@ public abstract class Arrays {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][] a, Throwables.Consumer<T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][] a, Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
@@ -1527,19 +1546,19 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <T> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param func 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <T>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param func
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType)
-                throws E {
+        public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
+                final Class<R> targetElementType) throws E {
             if (a == null) {
                 return null; // NOSONAR
             }
@@ -1771,7 +1790,7 @@ public abstract class Arrays {
          * @throws E the e
          */
         private static <A, B, R, E extends Exception> R[] zip(final int len, final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1820,7 +1839,7 @@ public abstract class Arrays {
          * @throws E the e
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
-                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final int len,
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final int len,
                 final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -1858,28 +1877,37 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = N.zip(a[i], b[i], zipFunction, targetElementType);
+                final A[] aa = a[i];
+                final B[] bb = b[i];
+                final int minLen = N.min(N.len(aa), N.len(bb));
+                final R[] ret = N.newArray(targetElementType, minLen);
+
+                for (int j = 0; j < minLen; j++) {
+                    ret[j] = zipFunction.apply(aa[j], bb[j]);
+                }
+
+                result[i] = ret;
             }
 
             return result;
@@ -1904,23 +1932,23 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param valueForNoneA 
-         * @param valueForNoneB 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)),
                     targetElementType);
         }
@@ -1943,8 +1971,8 @@ public abstract class Arrays {
          * @throws E the e
          */
         private static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final int len, final int rowLen, final Class<R> targetElementType)
-                throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final int len, final int rowLen,
+                final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1992,23 +2020,23 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <C> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param c 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param c
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2016,7 +2044,17 @@ public abstract class Arrays {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), N.min(lenA, lenB, lenC));
 
             for (int i = 0, len = result.length; i < len; i++) {
-                result[i] = N.zip(a[i], b[i], c[i], zipFunction, targetElementType);
+                final A[] aa = a[i];
+                final B[] bb = b[i];
+                final C[] cc = c[i];
+                final int minLen = N.min(N.len(aa), N.len(bb), N.len(cc));
+                final R[] ret = N.newArray(targetElementType, minLen);
+
+                for (int j = 0; j < minLen; j++) {
+                    ret[j] = zipFunction.apply(aa[j], bb[j], cc[j]);
+                }
+
+                result[i] = ret;
             }
 
             return result;
@@ -2044,27 +2082,27 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <C> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param c 
-         * @param valueForNoneA 
-         * @param valueForNoneB 
-         * @param valueForNoneC 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param c
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param valueForNoneC
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
-                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
-                throws E {
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
+                final Class<R> targetElementType) throws E {
             return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, N.max(N.len(a), N.len(b), N.len(c)),
                     N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), targetElementType);
         }
@@ -2090,8 +2128,8 @@ public abstract class Arrays {
          * @throws E the e
          */
         private static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
-                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final int len, final int rowLen,
-                final Class<R> targetElementType) throws E {
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final int len,
+                final int rowLen, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2263,14 +2301,14 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <T> 
-         * @param a 
-         * @param m 
-         * @param l 
-         * @return 
-         * @throws IllegalArgumentException 
+         *
+         * @param <T>
+         * @param a
+         * @param m
+         * @param l
+         * @return
+         * @throws IllegalArgumentException
          */
         public static <T> T[][][] reshape(final T[] a, final int m, final int l) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
@@ -2354,7 +2392,7 @@ public abstract class Arrays {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][][] a, Throwables.Consumer<T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][][] a, Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
@@ -2395,18 +2433,18 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <T> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param func 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <T>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param func
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, R, E> func,
+        public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -2639,21 +2677,21 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -2685,23 +2723,23 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param valueForNoneA 
-         * @param valueForNoneB 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
-                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -2743,23 +2781,23 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <C> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param c 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param c
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
-                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2796,26 +2834,26 @@ public abstract class Arrays {
         }
 
         /**
-         * 
          *
-         * @param <A> 
-         * @param <B> 
-         * @param <C> 
-         * @param <R> 
-         * @param <E> 
-         * @param a 
-         * @param b 
-         * @param c 
-         * @param valueForNoneA 
-         * @param valueForNoneB 
-         * @param valueForNoneC 
-         * @param zipFunction 
-         * @param targetElementType 
-         * @return 
+         *
+         * @param <A>
+         * @param <B>
+         * @param <C>
+         * @param <R>
+         * @param <E>
+         * @param a
+         * @param b
+         * @param c
+         * @param valueForNoneA
+         * @param valueForNoneB
+         * @param valueForNoneC
+         * @param zipFunction
+         * @param targetElementType
+         * @return
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
-                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction,
+                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -3017,12 +3055,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static boolean[][] reshape(final boolean[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -3043,13 +3081,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static boolean[][][] reshape(final boolean[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -3166,7 +3204,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][] a, Throwables.Consumer<boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][] a, Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -3198,7 +3236,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][][] a, Throwables.Consumer<boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][][] a, Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -4138,12 +4176,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static char[][] reshape(final char[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -4164,13 +4202,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static char[][][] reshape(final char[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -4287,7 +4325,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][] a, Throwables.Consumer<char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][] a, Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -4319,7 +4357,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][][] a, Throwables.Consumer<char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][][] a, Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -5348,7 +5386,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][] a, Throwables.Consumer<byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][] a, Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -5380,7 +5418,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][][] a, Throwables.Consumer<byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][][] a, Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -5404,12 +5442,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static byte[][] reshape(final byte[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -5430,13 +5468,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static byte[][][] reshape(final byte[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -8318,12 +8356,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static short[][] reshape(final short[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -8344,13 +8382,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static short[][][] reshape(final short[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -8467,7 +8505,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][] a, Throwables.Consumer<short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][] a, Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -8499,7 +8537,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][][] a, Throwables.Consumer<short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][][] a, Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -11385,12 +11423,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static int[][] reshape(final int[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -11411,13 +11449,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static int[][][] reshape(final int[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -11534,7 +11572,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][] a, Throwables.Consumer<int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][] a, Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -11566,7 +11604,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][][] a, Throwables.Consumer<int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][][] a, Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -14441,12 +14479,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static long[][] reshape(final long[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -14467,13 +14505,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static long[][][] reshape(final long[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -14590,7 +14628,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][] a, Throwables.Consumer<long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][] a, Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -14622,7 +14660,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][][] a, Throwables.Consumer<long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][][] a, Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -17503,12 +17541,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static float[][] reshape(final float[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -17529,13 +17567,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static float[][][] reshape(final float[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -17652,7 +17690,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][] a, Throwables.Consumer<float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][] a, Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -17684,7 +17722,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][][] a, Throwables.Consumer<float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][][] a, Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -20570,12 +20608,12 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @return
+     * @throws IllegalArgumentException
      */
     public static double[][] reshape(final double[] a, final int m) throws IllegalArgumentException {
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
@@ -20596,13 +20634,13 @@ public abstract class Arrays {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @param m 
-     * @param l 
-     * @return 
-     * @throws IllegalArgumentException 
+     *
+     * @param a
+     * @param m
+     * @param l
+     * @return
+     * @throws IllegalArgumentException
      */
     public static double[][][] reshape(final double[] a, final int m, final int l) throws IllegalArgumentException {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
@@ -20719,7 +20757,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][] a, Throwables.Consumer<double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][] a, Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -20751,7 +20789,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][][] a, Throwables.Consumer<double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][][] a, Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }

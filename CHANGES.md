@@ -1,3 +1,7 @@
+### 1.9.0
+
+* Bug fixes and improvements.
+
 ### 1.8.2
 
 * Bug fixes and improvements.

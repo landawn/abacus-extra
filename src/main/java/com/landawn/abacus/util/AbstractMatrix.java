@@ -73,9 +73,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public A[] array() {
         return a;
@@ -146,9 +146,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X rotate270();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract X transpose();
 
@@ -200,9 +200,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X repmat(int rowRepeats, int colRepeats);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract PL flatten();
 
@@ -218,7 +218,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param op
      * @throws E the e
      */
-    public abstract <E extends Exception> void flatOp(Throwables.Consumer<A, E> op) throws E;
+    public abstract <E extends Exception> void flatOp(Throwables.Consumer<? super A, E> op) throws E;
 
     /**
      * <pre>
@@ -244,16 +244,16 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @param action 
-     * @throws IndexOutOfBoundsException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
+     * @throws IndexOutOfBoundsException
+     * @throws E
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
@@ -268,11 +268,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
         final X x = (X) this;
@@ -285,16 +285,16 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @param action 
-     * @throws IndexOutOfBoundsException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
+     * @throws IndexOutOfBoundsException
+     * @throws E
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
@@ -343,9 +343,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Stream<IntPair> pointsH() {
         return pointsH(0, rows);
@@ -361,12 +361,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -385,9 +385,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Stream<IntPair> pointsV() {
         return pointsV(0, cols);
@@ -403,12 +403,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
@@ -427,21 +427,21 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Stream<Stream<IntPair>> pointsR() {
         return pointsR(0, rows);
     }
 
     /**
-     * 
      *
-     * @param fromRowIndex 
-     * @param toRowIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -460,21 +460,21 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Stream<Stream<IntPair>> pointsC() {
         return pointsR(0, cols);
     }
 
     /**
-     * 
      *
-     * @param fromColumnIndex 
-     * @param toColumnIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
@@ -507,9 +507,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamRU2LD();
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract ES streamH();
 
@@ -529,9 +529,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract ES streamV();
 
@@ -551,9 +551,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract RS streamR();
 
@@ -566,9 +566,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract RS streamC();
 
@@ -581,24 +581,24 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super X, E> action) throws E {
         action.accept((X) this);
     }
 
     /**
-     * 
      *
-     * @param <R> 
-     * @param <E> 
-     * @param action 
-     * @return 
-     * @throws E 
+     *
+     * @param <R>
+     * @param <E>
+     * @param action
+     * @return
+     * @throws E
      */
     public <R, E extends Exception> R apply(final Throwables.Function<? super X, R, E> action) throws E {
         return action.apply((X) this);
