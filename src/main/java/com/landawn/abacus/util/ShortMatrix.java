@@ -966,10 +966,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         final short[][] c = new short[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
+            final short[] aa = a[i];
             final short[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1150,8 +1151,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final short[] aa = a[i];
+                final Short[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j];
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1184,8 +1188,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final short[] aa = a[i];
+                final long[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j];
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1209,8 +1216,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final short[] aa = a[i];
+                final float[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j];
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1234,8 +1244,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final short[] aa = a[i];
+                final double[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j];
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1767,8 +1780,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
+            final short[] aa = a[i];
+
             for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(a[i][j]);
+                action.accept(aa[j]);
             }
         }
     }

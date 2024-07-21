@@ -75,8 +75,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][a[0].length];
 
         for (int i = 0, len = a.length; i < len; i++) {
+            final char[] aa = a[i];
+            final int[] cc = c[i];
+
             for (int j = 0, col = a[0].length; j < col; j++) {
-                c[i][j] = a[i][j];
+                cc[j] = aa[j];
             }
         }
 
@@ -97,8 +100,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][a[0].length];
 
         for (int i = 0, len = a.length; i < len; i++) {
+            final byte[] aa = a[i];
+            final int[] cc = c[i];
+
             for (int j = 0, col = a[0].length; j < col; j++) {
-                c[i][j] = a[i][j];
+                cc[j] = aa[j];
             }
         }
 
@@ -119,8 +125,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][a[0].length];
 
         for (int i = 0, len = a.length; i < len; i++) {
+            final short[] aa = a[i];
+            final int[] cc = c[i];
+
             for (int j = 0, col = a[0].length; j < col; j++) {
-                c[i][j] = a[i][j];
+                cc[j] = aa[j];
             }
         }
 
@@ -1064,10 +1073,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
+            final int[] aa = a[i];
             final int[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1270,8 +1280,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final int[] aa = a[i];
+                final Integer[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j];
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1830,8 +1843,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
+            final int[] aa = a[i];
+
             for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(a[i][j]);
+                action.accept(aa[j]);
             }
         }
     }

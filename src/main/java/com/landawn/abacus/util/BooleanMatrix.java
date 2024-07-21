@@ -923,10 +923,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         final boolean[][] c = new boolean[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
+            final boolean[] aa = a[i];
             final boolean[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1050,8 +1051,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
+                final boolean[] aa = a[i];
+                final Boolean[] cc = c[i];
+
                 for (int j = 0; j < cols; j++) {
-                    c[i][j] = a[i][j]; // NOSONAR
+                    cc[j] = aa[j]; // NOSONAR
                 }
             }
         } else {
@@ -1591,8 +1595,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
+            final boolean[] aa = a[i];
+
             for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(a[i][j]);
+                action.accept(aa[j]);
             }
         }
     }

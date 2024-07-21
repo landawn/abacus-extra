@@ -468,10 +468,11 @@ public final class Matrixes {
         final byte[][] result = new byte[rows][cols];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
-            result[i][j] = matrixes[0].a[i][j];
+            final byte[] ret = result[i];
+            ret[j] = matrixes[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                result[i][j] = zipFunction.applyAsByte(result[i][j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsByte(ret[j], matrixes[k].a[i][j]);
             }
         };
 
@@ -709,10 +710,11 @@ public final class Matrixes {
         final int[][] result = new int[rows][cols];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
-            result[i][j] = matrixes[0].a[i][j];
+            final int[] ret = result[i];
+            ret[j] = matrixes[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                result[i][j] = zipFunction.applyAsInt(result[i][j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsInt(ret[j], matrixes[k].a[i][j]);
             }
         };
 
@@ -1065,10 +1067,11 @@ public final class Matrixes {
         final long[][] result = new long[rows][cols];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
-            result[i][j] = matrixes[0].a[i][j];
+            final long[] ret = result[i];
+            ret[j] = matrixes[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                result[i][j] = zipFunction.applyAsLong(result[i][j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsLong(ret[j], matrixes[k].a[i][j]);
             }
         };
 
@@ -1310,10 +1313,11 @@ public final class Matrixes {
         final double[][] result = new double[rows][cols];
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
-            result[i][j] = matrixes[0].a[i][j];
+            final double[] ret = result[i];
+            ret[j] = matrixes[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                result[i][j] = zipFunction.applyAsDouble(result[i][j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.applyAsDouble(ret[j], matrixes[k].a[i][j]);
             }
         };
 
@@ -1487,10 +1491,11 @@ public final class Matrixes {
         final T[][] result = newArray(rows, cols, matrixes[0].elementType);
 
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> {
-            result[i][j] = matrixes[0].a[i][j];
+            final T[] ret = result[i];
+            ret[j] = matrixes[0].a[i][j];
 
             for (int k = 1; k < size; k++) {
-                result[i][j] = zipFunction.apply(result[i][j], matrixes[k].a[i][j]);
+                ret[j] = zipFunction.apply(ret[j], matrixes[k].a[i][j]);
             }
         };
 

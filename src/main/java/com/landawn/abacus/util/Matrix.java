@@ -1106,11 +1106,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
 
         for (int i = 0; i < rows; i++) {
+            final T[] aa = a[i];
             final T[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
                 // N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
-                N.fill(fr, j * colRepeats, j * colRepeats + colRepeats, a[i][j]);
+                N.fill(fr, j * colRepeats, j * colRepeats + colRepeats, aa);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1791,8 +1792,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
+            final T[] aa = a[i];
+
             for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(a[i][j]);
+                action.accept(aa[j]);
             }
         }
     }
@@ -1841,10 +1844,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final List<List<Object>> newColumnList = new ArrayList<>(newColumnNameList.size());
 
         for (int i = 0; i < rows; i++) {
+            final T[] aa = a[i];
             final List<Object> column = new ArrayList<>(cols);
 
             for (int j = 0; j < cols; j++) {
-                column.add(a[i][j]);
+                column.add(aa[j]);
             }
 
             newColumnList.add(column);
