@@ -236,9 +236,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @throws E the e
      */
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                action.accept(i, j);
+        if (Matrixes.isParallelable(this)) {
+            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j);
+            Matrixes.run(rows, cols, cmd, true);
+        } else {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    action.accept(i, j);
+                }
             }
         }
     }
@@ -260,9 +265,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        for (int i = fromRowIndex; i < toRowIndex; i++) {
-            for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(i, j);
+        if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+        } else {
+            for (int i = fromRowIndex; i < toRowIndex; i++) {
+                for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                    action.accept(i, j);
+                }
             }
         }
     }
@@ -276,10 +286,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
         final X x = (X) this;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                action.accept(i, j, x);
+        if (Matrixes.isParallelable(this)) {
+            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j, x);
+            Matrixes.run(rows, cols, cmd, true);
+        } else {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    action.accept(i, j, x);
+                }
             }
         }
     }
@@ -303,9 +317,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
 
         final X x = (X) this;
 
-        for (int i = fromRowIndex; i < toRowIndex; i++) {
-            for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(i, j, x);
+        if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j, x);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+        } else {
+            for (int i = fromRowIndex; i < toRowIndex; i++) {
+                for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                    action.accept(i, j, x);
+                }
             }
         }
     }

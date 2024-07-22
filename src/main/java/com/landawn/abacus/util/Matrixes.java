@@ -81,20 +81,19 @@ public final class Matrixes {
      * @return
      */
     public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
-        return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && x.count > MIN_COUNT_FOR_PARALLEL));
+        return isParallelable(x, x.count);
     }
 
     /**
      *
      *
      * @param x
-     * @param bm
+     * @param count
      * @return
      */
-    public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x, final int bm) {
+    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) {
         return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
-                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && x.count * bm > MIN_COUNT_FOR_PARALLEL));
+                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
     /**
@@ -399,7 +398,7 @@ public final class Matrixes {
             throws IllegalArgumentException {
         N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
 
-        multiply(a, b, cmd, Matrixes.isParallelable(a, b.cols));
+        multiply(a, b, cmd, Matrixes.isParallelable(a, a.count * b.cols));
     }
 
     /**

@@ -1778,11 +1778,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        for (int i = fromRowIndex; i < toRowIndex; i++) {
-            final byte[] aa = a[i];
+        if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+        } else {
+            for (int i = fromRowIndex; i < toRowIndex; i++) {
+                final byte[] aa = a[i];
 
-            for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                action.accept(aa[j]);
+                for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                    action.accept(aa[j]);
+                }
             }
         }
     }
