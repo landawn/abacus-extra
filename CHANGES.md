@@ -1,3 +1,7 @@
+### 1.9.1
+
+* Bug fixes and improvements.
+
 ### 1.9.0
 
 * Bug fixes and improvements.
