@@ -173,6 +173,25 @@ public final class Matrixes {
     }
 
     /**
+     * Executes the specified {@code cmd} under the specified {@code parallelEnabled} and reset {@code ParallelEnabled} after the command is completed.
+     *
+     * @param <E>
+     * @param parallelEnabled
+     * @param cmd
+     * @throws E
+     */
+    public static <E extends Exception> void run(final ParallelEnabled parallelEnabled, final Throwables.Runnable<E> cmd) throws E {
+        final ParallelEnabled original = Matrixes.getParallelEnabled();
+        Matrixes.setParallelEnabled(parallelEnabled);
+
+        try {
+            cmd.run();
+        } finally {
+            Matrixes.setParallelEnabled(original);
+        }
+    }
+
+    /**
      *
      * @param <E>
      * @param rows
