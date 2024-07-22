@@ -229,6 +229,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return DoubleMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return double.class;
+    }
+
     /**
      *
      * @param i

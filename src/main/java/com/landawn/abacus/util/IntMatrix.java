@@ -271,6 +271,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return IntMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return int.class;
+    }
+
     /**
      *
      * @param i

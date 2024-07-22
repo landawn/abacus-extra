@@ -152,6 +152,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         return BooleanMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return boolean.class;
+    }
+
     /**
      *
      * @param i

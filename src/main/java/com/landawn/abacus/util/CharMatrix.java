@@ -196,6 +196,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         return CharMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return char.class;
+    }
+
     /**
      *
      * @param i

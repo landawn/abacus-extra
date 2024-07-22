@@ -196,6 +196,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return ShortMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return short.class;
+    }
+
     /**
      *
      * @param i

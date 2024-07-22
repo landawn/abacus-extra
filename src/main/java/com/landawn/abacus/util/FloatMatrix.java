@@ -179,6 +179,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return FloatMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return float.class;
+    }
+
     /**
      *
      * @param i

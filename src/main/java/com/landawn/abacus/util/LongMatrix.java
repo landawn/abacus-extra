@@ -221,6 +221,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return LongMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return long.class;
+    }
+
     /**
      *
      * @param i

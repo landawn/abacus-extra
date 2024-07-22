@@ -196,6 +196,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return ByteMatrix.of(Array.unbox(x.a));
     }
 
+    @SuppressWarnings("rawtypes")
+    @Override
+    public Class componentType() {
+        return byte.class;
+    }
+
     /**
      *
      * @param i

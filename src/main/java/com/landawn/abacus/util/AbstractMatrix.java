@@ -72,6 +72,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         this.count = this.cols * this.rows * 1L;
     }
 
+    @SuppressWarnings("rawtypes")
+    public abstract Class componentType();
+
     /**
      *
      *
