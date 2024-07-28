@@ -254,10 +254,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * 
      *
-     * @param elementToFind 
+     * @param valueToFind 
      * @return 
      */
-    public abstract boolean contains(double elementToFind);
+    public abstract boolean contains(double valueToFind);
 
     /**
      * 
@@ -379,7 +379,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         @Override
-        public boolean contains(final double elementToFind) {
+        public boolean contains(final double valueToFind) {
             return false;
         }
 
@@ -479,12 +479,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind);
         }
 
         /**
@@ -622,12 +622,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind);
         }
 
         /**
@@ -813,12 +813,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind);
         }
 
         /**
@@ -957,12 +957,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind);
         }
 
         @Override
@@ -1018,13 +1018,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
-                    || N.equals(_5, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind);
         }
 
         @Override
@@ -1082,13 +1082,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
-                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind) || N.equals(_6, valueToFind);
         }
 
         @Override
@@ -1148,13 +1148,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
-                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind) || N.equals(_6, valueToFind) || N.equals(_7, valueToFind);
         }
 
         @Override
@@ -1216,13 +1216,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
-                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind) || N.equals(_8, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind) || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind);
         }
 
         @Override
@@ -1286,14 +1286,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final double elementToFind) {
-            return N.equals(_1, elementToFind) || N.equals(_2, elementToFind) || N.equals(_3, elementToFind) || N.equals(_4, elementToFind)
-                    || N.equals(_5, elementToFind) || N.equals(_6, elementToFind) || N.equals(_7, elementToFind) || N.equals(_8, elementToFind)
-                    || N.equals(_9, elementToFind);
+        public boolean contains(final double valueToFind) {
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind) || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind)
+                    || N.equals(_9, valueToFind);
         }
 
         @Override

@@ -29,42 +29,42 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @return 
+     *
+     * @param a
+     * @return
      */
     public static ImmutableIntArray of(final int[] a) {
         return new ImmutableIntArray(a);
     }
 
     /**
-     * 
      *
-     * @param a 
-     * @return 
+     *
+     * @param a
+     * @return
      */
     public static ImmutableIntArray copyOf(final int[] a) {
         return new ImmutableIntArray(a == null ? N.EMPTY_INT_ARRAY : a.clone());
     }
 
     /**
-     * 
      *
-     * @param index 
-     * @return 
+     *
+     * @param index
+     * @return
      */
     public int get(int index) {
         return elements[index];
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws IllegalArgumentException
+     * @throws E
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
@@ -75,14 +75,14 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws IllegalArgumentException 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws IllegalArgumentException
+     * @throws E
      */
-    public <E extends Exception> void forEachIndexed(final Throwables.IndexedIntConsumer<E> action) throws IllegalArgumentException, E {
+    public <E extends Exception> void forEachIndexed(final Throwables.IntIntConsumer<E> action) throws IllegalArgumentException, E {
         N.checkArgNotNull(action);
 
         for (int i = 0; i < length; i++) {
@@ -91,21 +91,21 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public IntStream stream() {
         return IntStream.of(elements);
     }
 
     /**
-     * 
      *
-     * @param fromIndex 
-     * @param toIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromIndex
+     * @param toIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
@@ -114,12 +114,12 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @param fromIndex 
-     * @param toIndex 
-     * @return 
-     * @throws IndexOutOfBoundsException 
+     *
+     * @param fromIndex
+     * @param toIndex
+     * @return
+     * @throws IndexOutOfBoundsException
      */
     public int[] copyToArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
@@ -128,9 +128,9 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -138,10 +138,10 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
     public boolean equals(final Object obj) {
@@ -149,9 +149,9 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {

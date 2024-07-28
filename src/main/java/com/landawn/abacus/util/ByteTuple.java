@@ -254,10 +254,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * 
      *
-     * @param elementToFind 
+     * @param valueToFind 
      * @return 
      */
-    public abstract boolean contains(byte elementToFind);
+    public abstract boolean contains(byte valueToFind);
 
     /**
      * 
@@ -379,7 +379,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
-        public boolean contains(final byte elementToFind) {
+        public boolean contains(final byte valueToFind) {
             return false;
         }
 
@@ -479,12 +479,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind;
         }
 
         /**
@@ -622,12 +622,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind;
         }
 
         /**
@@ -813,12 +813,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind;
         }
 
         /**
@@ -957,12 +957,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
         }
 
         @Override
@@ -1018,12 +1018,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
         }
 
         @Override
@@ -1081,12 +1081,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
         }
 
         @Override
@@ -1146,13 +1146,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind;
         }
 
         @Override
@@ -1214,13 +1214,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind || _8 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind || _8 == valueToFind;
         }
 
         @Override
@@ -1284,13 +1284,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * 
          *
-         * @param elementToFind 
+         * @param valueToFind 
          * @return 
          */
         @Override
-        public boolean contains(final byte elementToFind) {
-            return _1 == elementToFind || _2 == elementToFind || _3 == elementToFind || _4 == elementToFind || _5 == elementToFind || _6 == elementToFind
-                    || _7 == elementToFind || _8 == elementToFind || _9 == elementToFind;
+        public boolean contains(final byte valueToFind) {
+            return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
+                    || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
         }
 
         @Override
