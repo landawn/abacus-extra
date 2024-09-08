@@ -40,7 +40,7 @@ public abstract class Arrays {
         // utility class.
     }
 
-    public static final class f extends Arrays {
+    public static final class f extends Arrays { // NOSONAR
         private f() {
             // utility class
         }
@@ -1375,7 +1375,7 @@ public abstract class Arrays {
     /**
      * The Class ff.
      */
-    public static final class ff {
+    public static final class ff { // NOSONAR
 
         /**
          * Instantiates a new ff.
@@ -2254,7 +2254,7 @@ public abstract class Arrays {
     /**
      * The Class fff.
      */
-    public static final class fff {
+    public static final class fff { // NOSONAR
 
         /**
          * Instantiates a new fff.
@@ -3063,7 +3063,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static boolean[][] reshape(final boolean[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new boolean[0][0];
@@ -4184,7 +4184,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static char[][] reshape(final char[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new char[0][0];
@@ -5450,7 +5450,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static byte[][] reshape(final byte[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new byte[0][0];
@@ -8364,7 +8364,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static short[][] reshape(final short[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new short[0][0];
@@ -11431,7 +11431,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static int[][] reshape(final int[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new int[0][0];
@@ -14487,7 +14487,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static long[][] reshape(final long[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new long[0][0];
@@ -17549,7 +17549,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static float[][] reshape(final float[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new float[0][0];
@@ -20616,7 +20616,7 @@ public abstract class Arrays {
      * @throws IllegalArgumentException
      */
     public static double[][] reshape(final double[] a, final int m) throws IllegalArgumentException {
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+        checkMForReshape(m);
 
         if (N.isEmpty(a)) {
             return new double[0][0];
@@ -24891,7 +24891,7 @@ public abstract class Arrays {
         return result;
     }
 
-    private static void checkMForReshape(final int m) {
+    private static void checkMForReshape(final int m) { // NOSONAR
         N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
     }
 

@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.LongStream;
 @Deprecated
 @Beta
 public class MutableLongPair implements Mutable {
-    public long left;
-    public long right;
+    public long left; // NOSONAR
+    public long right; // NOSONAR
 
     /**
      *

@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.ByteStream;
 @Deprecated
 @Beta
 public class MutableBytePair implements Mutable {
-    public byte left;
-    public byte right;
+    public byte left; // NOSONAR
+    public byte right; // NOSONAR
 
     /**
      *

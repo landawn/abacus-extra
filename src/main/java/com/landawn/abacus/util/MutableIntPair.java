@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.IntStream;
 @Deprecated
 @Beta
 public class MutableIntPair implements Mutable {
-    public int left;
-    public int right;
+    public int left; // NOSONAR
+    public int right; // NOSONAR
 
     /**
      *

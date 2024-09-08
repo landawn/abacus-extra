@@ -22,9 +22,8 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
 public class ShortPair {
-    public short left;
-
-    public short right;
+    public short left; // NOSONAR
+    public short right; // NOSONAR
 
     /**
      *

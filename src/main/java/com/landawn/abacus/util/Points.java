@@ -32,7 +32,7 @@ public final class Points {
      * The Class xy.
      */
     @com.landawn.abacus.annotation.Immutable
-    public static final class xy {
+    public static final class xy { // NOSONAR
 
         /**
          * Instantiates a new xy.
@@ -4122,7 +4122,7 @@ public final class Points {
      * The Class xyz.
      */
     @com.landawn.abacus.annotation.Immutable
-    public static final class xyz {
+    public static final class xyz { // NOSONAR
 
         /**
          * Instantiates a new xyz.

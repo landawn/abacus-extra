@@ -180,23 +180,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
-        if (N.isEmpty(leftUp2RighDownDiagonal)) {
-            if (N.isEmpty(rightUp2LeftDownDiagonal)) {
-                return empty();
-            } else {
-                final int len = rightUp2LeftDownDiagonal.length;
-                final long[][] c = new long[len][len];
+        final int len = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.length : rightUp2LeftDownDiagonal.length;
+        final long[][] c = new long[len][len];
 
+        if (N.isEmpty(leftUp2RighDownDiagonal)) {
+            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
-
-                return new LongMatrix(c);
             }
         } else {
-            final int len = leftUp2RighDownDiagonal.length;
-            final long[][] c = new long[len][len];
-
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
             }
@@ -206,9 +199,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
             }
-
-            return new LongMatrix(c);
         }
+
+        return new LongMatrix(c);
     }
 
     /**
@@ -1357,7 +1350,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1402,7 +1395,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1581,7 +1574,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long count() {
-                return (toColumnIndex - j) * rows - i;
+                return (toColumnIndex - j) * rows - i; // NOSONAR
             }
 
             @Override
@@ -1655,7 +1648,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1730,7 +1723,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
                     @Override
                     public long count() {
-                        return toIndex2 - cursor2;
+                        return toIndex2 - cursor2; // NOSONAR
                     }
                 });
             }
@@ -1744,7 +1737,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }

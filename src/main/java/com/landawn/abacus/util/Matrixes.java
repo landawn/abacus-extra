@@ -259,14 +259,13 @@ public final class Matrixes {
      *
      *
      * @param <T>
-     * @param <E>
      * @param rows
      * @param cols
      * @param cmd
      * @param inParallel
      * @return
      */
-    public static <T, E extends Exception> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, E> cmd,
+    public static <T> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
             final boolean inParallel) {
         return call(0, rows, 0, cols, cmd, inParallel);
     }
@@ -275,7 +274,6 @@ public final class Matrixes {
      *
      *
      * @param <T>
-     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex
@@ -286,8 +284,8 @@ public final class Matrixes {
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public static <T, E extends Exception> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntBiFunction<? extends T, E> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
+    public static <T> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
 
@@ -328,22 +326,19 @@ public final class Matrixes {
     /**
      *
      *
-     * @param <E>
      * @param rows
      * @param cols
      * @param cmd
      * @param inParallel
      * @return
      */
-    public static <E extends Exception> IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<E> cmd,
-            final boolean inParallel) {
+    public static IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) {
         return callToInt(0, rows, 0, cols, cmd, inParallel);
     }
 
     /**
      *
      *
-     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex
@@ -354,8 +349,8 @@ public final class Matrixes {
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public static <E extends Exception> IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
+    public static IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
+            final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
 
@@ -584,8 +579,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
@@ -645,8 +639,7 @@ public final class Matrixes {
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
@@ -685,7 +678,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBiFunction<Integer, E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -714,7 +707,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final ByteMatrix c,
             final Throwables.ByteTriFunction<Integer, E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -756,8 +749,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> IntMatrix zipToInt(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<Integer, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final ByteMatrix[] matrixes = c.toArray(new ByteMatrix[size]);
@@ -826,8 +818,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> IntMatrix zip(final Collection<IntMatrix> c, final Throwables.IntBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
@@ -887,8 +878,7 @@ public final class Matrixes {
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<IntMatrix> c, final Throwables.IntNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
@@ -927,7 +917,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> LongMatrix zipToLong(final IntMatrix a, final IntMatrix b, final Throwables.IntBiFunction<Long, E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -956,7 +946,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> LongMatrix zipToLong(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Long, E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -998,8 +988,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> LongMatrix zipToLong(final Collection<IntMatrix> c, final Throwables.IntNFunction<Long, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
@@ -1038,7 +1027,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final IntMatrix a, final IntMatrix b, final Throwables.IntBiFunction<Double, E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1067,7 +1056,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1113,8 +1102,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final Throwables.IntNFunction<Double, E> zipFunction,
             final boolean shareIntermediateArray) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final IntMatrix[] matrixes = c.toArray(new IntMatrix[size]);
@@ -1183,8 +1171,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> LongMatrix zip(final Collection<LongMatrix> c, final Throwables.LongBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
@@ -1244,8 +1231,7 @@ public final class Matrixes {
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<LongMatrix> c, final Throwables.LongNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
@@ -1284,7 +1270,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final LongMatrix a, final LongMatrix b, final Throwables.LongBiFunction<Double, E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1313,7 +1299,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final LongMatrix a, final LongMatrix b, final LongMatrix c,
             final Throwables.LongTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        checkShapeForZip(a, b);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1358,8 +1344,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<LongMatrix> c, final Throwables.LongNFunction<Double, E> zipFunction,
             final boolean shareLongermediateArray) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final LongMatrix[] matrixes = c.toArray(new LongMatrix[size]);
@@ -1429,8 +1414,7 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zip(final Collection<DoubleMatrix> c, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final DoubleMatrix[] matrixes = c.toArray(new DoubleMatrix[size]);
@@ -1490,8 +1474,7 @@ public final class Matrixes {
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<DoubleMatrix> c, final Throwables.DoubleNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final DoubleMatrix[] matrixes = c.toArray(new DoubleMatrix[size]);
@@ -1607,8 +1590,7 @@ public final class Matrixes {
      */
     public static <T, E extends Exception> Matrix<T> zip(final Collection<Matrix<T>> c, final Throwables.BinaryOperator<T, E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
@@ -1670,8 +1652,7 @@ public final class Matrixes {
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        checkShapeForZip(c);
 
         final int size = c.size();
         final Matrix<T>[] matrixes = c.toArray(new Matrix[size]);
@@ -1698,4 +1679,13 @@ public final class Matrixes {
         return new Matrix<>(result);
     }
 
+    private static void checkShapeForZip(final AbstractMatrix<?, ?, ?, ?, ?> a, final AbstractMatrix<?, ?, ?, ?, ?> b) {
+        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+    }
+
+    private static void checkShapeForZip(final Collection<? extends AbstractMatrix<?, ?, ?, ?, ?>> c) {
+        N.checkArgNotEmpty(c, "matrixes");
+
+        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+    }
 }

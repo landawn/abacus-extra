@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.DoubleStream;
 @Deprecated
 @Beta
 public class MutableDoublePair implements Mutable {
-    public double left;
-    public double right;
+    public double left; // NOSONAR
+    public double right; // NOSONAR
 
     /**
      *

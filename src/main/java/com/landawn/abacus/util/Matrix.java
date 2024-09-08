@@ -1358,7 +1358,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1403,7 +1403,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1585,7 +1585,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return (toColumnIndex - j) * rows - i;
+                return (toColumnIndex - j) * rows - i; // NOSONAR
             }
 
             @Override
@@ -1662,7 +1662,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
@@ -1737,7 +1737,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
                     @Override
                     public long count() {
-                        return toIndex2 - cursor2;
+                        return toIndex2 - cursor2; // NOSONAR
                     }
                 });
             }
@@ -1751,7 +1751,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return toIndex - cursor;
+                return toIndex - cursor; // NOSONAR
             }
         });
     }
