@@ -1084,8 +1084,6 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<IntMatrix> c, final Throwables.IntNFunction<Double, E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgNotEmpty(c, "matrixes");
-
         return zipToDouble(c, zipFunction, false);
     }
 
@@ -1326,8 +1324,6 @@ public final class Matrixes {
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<LongMatrix> c, final Throwables.LongNFunction<Double, E> zipFunction)
             throws E {
-        N.checkArgNotEmpty(c, "matrixes");
-
         return zipToDouble(c, zipFunction, false);
     }
 

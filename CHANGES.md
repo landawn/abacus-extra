@@ -1,3 +1,7 @@
+### 1.9.6
+
+* Bug fixes and improvements.
+
 ### 1.9.5
 
 * Bug fixes and improvements.
