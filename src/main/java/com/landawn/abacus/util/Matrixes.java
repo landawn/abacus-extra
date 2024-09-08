@@ -90,7 +90,7 @@ public final class Matrixes {
      * @param count
      * @return
      */
-    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) {
+    public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
                 || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
@@ -265,10 +265,9 @@ public final class Matrixes {
      * @param cmd
      * @param inParallel
      * @return
-     * @throws E
      */
     public static <T, E extends Exception> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, E> cmd,
-            final boolean inParallel) throws E {
+            final boolean inParallel) {
         return call(0, rows, 0, cols, cmd, inParallel);
     }
 
@@ -335,10 +334,9 @@ public final class Matrixes {
      * @param cmd
      * @param inParallel
      * @return
-     * @throws E
      */
-    public static <E extends Exception> IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel)
-            throws E {
+    public static <E extends Exception> IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<E> cmd,
+            final boolean inParallel) {
         return callToInt(0, rows, 0, cols, cmd, inParallel);
     }
 

@@ -173,7 +173,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             final char[][] c = new char[len][len];
 
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i];
+                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -414,7 +414,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         final char[] res = new char[rows];
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][i];
+            res[i] = a[i][i]; // NOSONAR
         }
 
         return res;
@@ -431,7 +431,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = diagonal[i];
+            a[i][i] = diagonal[i]; // NOSONAR
         }
     }
 

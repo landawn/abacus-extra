@@ -159,15 +159,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         }
 
         if (N.isEmpty(leftUp2RighDownDiagonal)) {
-            if (N.isEmpty(rightUp2LeftDownDiagonal)) {
-            } else {
+            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
             }
         } else {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i];
+                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -176,6 +175,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
         }
+
         return new Matrix<>(c);
     }
 
@@ -397,7 +397,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[] res = N.newArray(elementType, rows);
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][i];
+            res[i] = a[i][i]; // NOSONAR
         }
 
         return res;
@@ -414,7 +414,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = diagonal[i];
+            a[i][i] = diagonal[i]; // NOSONAR
         }
     }
 

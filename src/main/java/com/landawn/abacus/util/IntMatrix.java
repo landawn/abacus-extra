@@ -79,7 +79,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             final int[] cc = c[i];
 
             for (int j = 0, col = a[0].length; j < col; j++) {
-                cc[j] = aa[j];
+                cc[j] = aa[j]; // NOSONAR
             }
         }
 
@@ -104,7 +104,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             final int[] cc = c[i];
 
             for (int j = 0, col = a[0].length; j < col; j++) {
-                cc[j] = aa[j];
+                cc[j] = aa[j]; // NOSONAR
             }
         }
 
@@ -129,7 +129,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             final int[] cc = c[i];
 
             for (int j = 0, col = a[0].length; j < col; j++) {
-                cc[j] = aa[j];
+                cc[j] = aa[j]; // NOSONAR
             }
         }
 
@@ -248,7 +248,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             final int[][] c = new int[len][len];
 
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i];
+                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -489,7 +489,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[] res = new int[rows];
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][i];
+            res[i] = a[i][i]; // NOSONAR
         }
 
         return res;
@@ -506,7 +506,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = diagonal[i];
+            a[i][i] = diagonal[i]; // NOSONAR
         }
     }
 

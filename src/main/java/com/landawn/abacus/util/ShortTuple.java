@@ -132,7 +132,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static ShortTuple8 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8) {
+    public static ShortTuple8 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7,
+            final short _8) {
         return new ShortTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -151,7 +152,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8, final short _9) {
+    public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
+            final short _9) {
         return new ShortTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
@@ -1247,7 +1249,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple9(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8, final short _9) {
+        ShortTuple9(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
+                final short _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;

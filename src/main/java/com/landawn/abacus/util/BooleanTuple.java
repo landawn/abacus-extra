@@ -111,7 +111,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _7
      * @return
      */
-    public static BooleanTuple7 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7) {
+    public static BooleanTuple7 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6,
+            final boolean _7) {
         return new BooleanTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
@@ -129,7 +130,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8) {
+    public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
+            final boolean _8) {
         return new BooleanTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -148,7 +150,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8, final boolean _9) {
+    public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
+            final boolean _8, final boolean _9) {
         return new BooleanTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
@@ -962,7 +965,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false, false, false);
         }
 
-        BooleanTuple8(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8) {
+        BooleanTuple8(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
+                final boolean _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1031,7 +1035,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false, false, false, false);
         }
 
-        BooleanTuple9(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8, final boolean _9) {
+        BooleanTuple9(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
+                final boolean _8, final boolean _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;

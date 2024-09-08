@@ -79,7 +79,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             final float[] cc = c[i];
 
             for (int j = 0, col = a[0].length; j < col; j++) {
-                cc[j] = aa[j];
+                cc[j] = aa[j]; // NOSONAR
             }
         }
 
@@ -156,7 +156,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             final float[][] c = new float[len][len];
 
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i];
+                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -397,7 +397,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         final float[] res = new float[rows];
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][i];
+            res[i] = a[i][i]; // NOSONAR
         }
 
         return res;
@@ -414,7 +414,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = diagonal[i];
+            a[i][i] = diagonal[i]; // NOSONAR
         }
     }
 
