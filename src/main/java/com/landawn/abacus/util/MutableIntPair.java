@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,8 +21,8 @@ import com.landawn.abacus.util.IntTuple.IntTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
-/** 
- * 
+/**
+ *
  * @deprecated Not a good idea?
  */
 @Deprecated
@@ -32,68 +32,68 @@ public class MutableIntPair implements Mutable {
     public int right;
 
     /**
-     * 
+     *
      */
     public MutableIntPair() {
     }
 
     MutableIntPair(final int l, final int r) {
-        this.left = l;
-        this.right = r;
+        left = l;
+        right = r;
     }
 
     /**
-     * 
      *
-     * @param l 
-     * @param r 
-     * @return 
+     *
+     * @param l
+     * @param r
+     * @return
      */
     public static MutableIntPair of(final int l, final int r) {
         return new MutableIntPair(l, r);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getLeft() {
         return left;
     }
 
     /**
-     * 
      *
-     * @param left 
+     *
+     * @param left
      */
     public void setLeft(final int left) {
         this.left = left;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int getRight() {
         return right;
     }
 
     /**
-     * 
      *
-     * @param right 
+     *
+     * @param right
      */
     public void setRight(final int right) {
         this.right = right;
     }
 
     /**
-     * 
      *
-     * @param left 
-     * @param right 
+     *
+     * @param left
+     * @param right
      */
     public void set(final int left, final int right) {
         this.left = left;
@@ -101,10 +101,10 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public int getAndSetLeft(final int newLeft) {
         final int res = left;
@@ -113,10 +113,10 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public int setAndGetLeft(final int newLeft) {
         left = newLeft;
@@ -124,10 +124,10 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public int getAndSetRight(final int newRight) {
         final int res = newRight;
@@ -136,10 +136,10 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public int setAndGetRight(final int newRight) {
         right = newRight;
@@ -147,163 +147,162 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Beta
     public MutableIntPair reverse() {
-        return new MutableIntPair(this.right, this.left);
+        return new MutableIntPair(right, left);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public MutableIntPair copy() {
-        return new MutableIntPair(this.left, this.right);
+        return new MutableIntPair(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[] toArray() {
         return new int[] { left, right };
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.IntConsumer<E> comsumer) throws E {
+    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> comsumer) throws E {
         comsumer.accept(left);
         comsumer.accept(right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
         action.accept(left, right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super MutableIntPair, E> action) throws E {
         action.accept(this);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
         return mapper.apply(left, right);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.Function<? super MutableIntPair, U, E> mapper) throws E {
         return mapper.apply(this);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<MutableIntPair> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
         return predicate.test(left, right) ? Optional.of(this) : Optional.<MutableIntPair> empty();
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<MutableIntPair> filter(final Throwables.Predicate<? super MutableIntPair, E> predicate) throws E {
         return predicate.test(this) ? Optional.of(this) : Optional.<MutableIntPair> empty();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public IntStream stream() {
         return IntStream.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Optional<MutableIntPair> toOptional() {
         return Optional.of(this);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public IntTuple2 toTuple() {
         return IntTuple.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + N.hashCode(left);
-        result = prime * result + N.hashCode(right);
-        return result;
+        return prime * result + N.hashCode(right);
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
     public boolean equals(final Object obj) {
@@ -311,9 +310,7 @@ public class MutableIntPair implements Mutable {
             return true;
         }
 
-        if (obj instanceof MutableIntPair) {
-            final MutableIntPair other = (MutableIntPair) obj;
-
+        if (obj instanceof final MutableIntPair other) {
             return N.equals(left, other.left) && N.equals(right, other.right);
         }
 
@@ -321,9 +318,9 @@ public class MutableIntPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {

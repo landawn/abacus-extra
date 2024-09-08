@@ -1,3 +1,16 @@
+/*
+ * Copyright (C) 2024 HaiYang Li
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.landawn.abacus.util;
 
 import org.junit.jupiter.api.Test;
@@ -8,7 +21,7 @@ class MatrixesTest {
     void test_toString() {
 
         {
-            ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
+            final ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
 
             mx.println();
             mx.boxed().println();
@@ -27,7 +40,7 @@ class MatrixesTest {
     void test_zipMatrix() {
 
         {
-            ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
+            final ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
             mx.println();
 
             N.println(Strings.repeat('-', 80));
@@ -53,7 +66,7 @@ class MatrixesTest {
         N.println(Strings.repeat('=', 80));
 
         {
-            IntMatrix mx = IntMatrix.range(0, 8).reshape(2, 4);
+            final IntMatrix mx = IntMatrix.range(0, 8).reshape(2, 4);
             mx.println();
 
             N.println(Strings.repeat('-', 80));
@@ -80,10 +93,10 @@ class MatrixesTest {
     @Test
     void test_multiply() {
         {
-            ByteMatrix mxa = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
+            final ByteMatrix mxa = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
             mxa.println();
 
-            ByteMatrix mxb = ByteMatrix.range((byte) 0, (byte) 8).reshape(4, 2);
+            final ByteMatrix mxb = ByteMatrix.range((byte) 0, (byte) 8).reshape(4, 2);
             mxb.println();
 
             mxa.multiply(mxb).println();
@@ -93,10 +106,10 @@ class MatrixesTest {
         N.println(Strings.repeat('=', 80));
 
         {
-            IntMatrix mxa = IntMatrix.range(0, 8).reshape(2, 4);
+            final IntMatrix mxa = IntMatrix.range(0, 8).reshape(2, 4);
             mxa.println();
 
-            IntMatrix mxb = IntMatrix.range(0, 8).reshape(4, 2);
+            final IntMatrix mxb = IntMatrix.range(0, 8).reshape(4, 2);
             mxb.println();
 
             mxa.multiply(mxb).println();

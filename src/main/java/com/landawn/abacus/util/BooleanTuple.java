@@ -25,93 +25,93 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected boolean[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static BooleanTuple1 of(boolean _1) {
+    public static BooleanTuple1 of(final boolean _1) {
         return new BooleanTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static BooleanTuple2 of(boolean _1, boolean _2) {
+    public static BooleanTuple2 of(final boolean _1, final boolean _2) {
         return new BooleanTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static BooleanTuple3 of(boolean _1, boolean _2, boolean _3) {
+    public static BooleanTuple3 of(final boolean _1, final boolean _2, final boolean _3) {
         return new BooleanTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static BooleanTuple4 of(boolean _1, boolean _2, boolean _3, boolean _4) {
+    public static BooleanTuple4 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4) {
         return new BooleanTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static BooleanTuple5 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5) {
+    public static BooleanTuple5 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5) {
         return new BooleanTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static BooleanTuple6 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6) {
+    public static BooleanTuple6 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6) {
         return new BooleanTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static BooleanTuple7 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7) {
+    public static BooleanTuple7 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7) {
         return new BooleanTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
@@ -129,7 +129,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static BooleanTuple8 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8) {
+    public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8) {
         return new BooleanTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -148,16 +148,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static BooleanTuple9 of(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
+    public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8, final boolean _9) {
         return new BooleanTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends BooleanTuple<TP>> TP create(final boolean[] a) {
         if (a == null || a.length == 0) {
@@ -198,64 +198,64 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(boolean valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public boolean[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public BooleanList toList() {
         return BooleanList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
-        for (boolean e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> comsumer) throws E {
+        for (final boolean e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Stream<Boolean> stream() {
         return Stream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -263,13 +263,13 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -280,9 +280,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -330,14 +330,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false);
         }
 
-        BooleanTuple1(boolean _1) {
+        BooleanTuple1(final boolean _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -345,9 +345,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple1 reverse() {
@@ -355,10 +355,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -366,9 +366,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -376,27 +376,26 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof BooleanTuple1)) {
+            } else if (!(obj instanceof final BooleanTuple1 other)) {
                 return false;
             } else {
-                BooleanTuple1 other = (BooleanTuple1) obj;
-                return this._1 == other._1;
+                return _1 == other._1;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -405,7 +404,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         @Override
         protected boolean[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new boolean[] { _1 };
             }
 
@@ -422,15 +421,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false);
         }
 
-        BooleanTuple2(boolean _1, boolean _2) {
+        BooleanTuple2(final boolean _1, final boolean _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -438,9 +437,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple2 reverse() {
@@ -448,10 +447,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -459,16 +458,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -477,7 +476,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.BooleanBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.BooleanBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -489,7 +488,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.BooleanBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.BooleanBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -505,42 +504,39 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
             int result = 1;
 
             result = 31 * result + (_1 ? 1231 : 1237);
-            result = 31 * result + (_2 ? 1231 : 1237);
-
-            return result;
+            return 31 * result + (_2 ? 1231 : 1237);
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof BooleanTuple2)) {
+            } else if (!(obj instanceof final BooleanTuple2 other)) {
                 return false;
             } else {
-                BooleanTuple2 other = (BooleanTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return _1 == other._1 && _2 == other._2;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -549,7 +545,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         @Override
         protected boolean[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new boolean[] { _1, _2 };
             }
 
@@ -567,16 +563,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false);
         }
 
-        BooleanTuple3(boolean _1, boolean _2, boolean _3) {
+        BooleanTuple3(final boolean _1, final boolean _2, final boolean _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -584,9 +580,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple3 reverse() {
@@ -594,10 +590,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -605,17 +601,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.BooleanConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -624,7 +620,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.BooleanTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.BooleanTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -636,7 +632,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.BooleanTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.BooleanTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -652,9 +648,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -662,33 +658,30 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
             result = 31 * result + (_1 ? 1231 : 1237);
             result = 31 * result + (_2 ? 1231 : 1237);
-            result = 31 * result + (_3 ? 1231 : 1237);
-
-            return result;
+            return 31 * result + (_3 ? 1231 : 1237);
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof BooleanTuple3)) {
+            } else if (!(obj instanceof final BooleanTuple3 other)) {
                 return false;
             } else {
-                BooleanTuple3 other = (BooleanTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return _1 == other._1 && _2 == other._2 && _3 == other._3;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -697,7 +690,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         @Override
         protected boolean[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new boolean[] { _1, _2, _3 };
             }
 
@@ -716,7 +709,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false);
         }
 
-        BooleanTuple4(boolean _1, boolean _2, boolean _3, boolean _4) {
+        BooleanTuple4(final boolean _1, final boolean _2, final boolean _3, final boolean _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -724,9 +717,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -734,9 +727,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple4 reverse() {
@@ -744,10 +737,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -776,7 +769,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false);
         }
 
-        BooleanTuple5(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5) {
+        BooleanTuple5(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -785,9 +778,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -795,9 +788,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple5 reverse() {
@@ -805,10 +798,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -838,7 +831,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false);
         }
 
-        BooleanTuple6(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6) {
+        BooleanTuple6(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -848,9 +841,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -858,9 +851,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple6 reverse() {
@@ -868,10 +861,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -902,7 +895,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false, false);
         }
 
-        BooleanTuple7(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7) {
+        BooleanTuple7(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -913,9 +906,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -923,9 +916,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple7 reverse() {
@@ -933,10 +926,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -969,7 +962,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false, false, false);
         }
 
-        BooleanTuple8(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8) {
+        BooleanTuple8(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -981,9 +974,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -991,9 +984,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple8 reverse() {
@@ -1001,10 +994,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -1038,7 +1031,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             this(false, false, false, false, false, false, false, false, false);
         }
 
-        BooleanTuple9(boolean _1, boolean _2, boolean _3, boolean _4, boolean _5, boolean _6, boolean _7, boolean _8, boolean _9) {
+        BooleanTuple9(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7, final boolean _8, final boolean _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1051,9 +1044,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1061,9 +1054,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public BooleanTuple9 reverse() {
@@ -1071,10 +1064,10 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final boolean valueToFind) {

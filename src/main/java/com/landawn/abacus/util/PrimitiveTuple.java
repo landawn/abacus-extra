@@ -20,52 +20,52 @@ import com.landawn.abacus.util.u.Optional;
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract int arity();
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
-    public <E extends Exception> void accept(Throwables.Consumer<? super TP, E> action) throws E {
+    public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         action.accept((TP) this);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
-    public <U, E extends Exception> U map(Throwables.Function<? super TP, U, E> mapper) throws E {
+    public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
         return mapper.apply((TP) this);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Optional<TP> toOptional() {
         return Optional.of((TP) this);

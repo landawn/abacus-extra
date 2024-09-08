@@ -54,7 +54,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param index
      * @return
      */
-    public int get(int index) {
+    public int get(final int index) {
         return elements[index];
     }
 
@@ -145,7 +145,7 @@ public final class ImmutableIntArray implements Immutable {
      */
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof ImmutableIntArray && N.equals(this.elements, ((ImmutableIntArray) obj).elements);
+        return obj instanceof ImmutableIntArray && N.equals(elements, ((ImmutableIntArray) obj).elements);
     }
 
     /**

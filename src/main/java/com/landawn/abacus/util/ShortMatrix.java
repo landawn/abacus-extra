@@ -86,7 +86,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param endExclusive
      * @return
      */
-    public static ShortMatrix range(short startInclusive, final short endExclusive) {
+    public static ShortMatrix range(final short startInclusive, final short endExclusive) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive) });
     }
 
@@ -97,7 +97,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param by
      * @return
      */
-    public static ShortMatrix range(short startInclusive, final short endExclusive, final short by) {
+    public static ShortMatrix range(final short startInclusive, final short endExclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
@@ -107,7 +107,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param endInclusive
      * @return
      */
-    public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive) {
+    public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
@@ -118,7 +118,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param by
      * @return
      */
-    public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive, final short by) {
+    public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
@@ -150,7 +150,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws IllegalArgumentException
      */
-    public static ShortMatrix diagonal(final short[] leftUp2RighDownDiagonal, short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static ShortMatrix diagonal(final short[] leftUp2RighDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -356,7 +356,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param row
      * @throws IllegalArgumentException
      */
-    public void setRow(int rowIndex, short[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final short[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -369,7 +369,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param column
      * @throws IllegalArgumentException
      */
-    public void setColumn(int columnIndex, short[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final short[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -384,7 +384,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsShort(a[rowIndex][i]);
         }
@@ -397,7 +397,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsShort(a[i][columnIndex]);
         }
@@ -948,7 +948,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
-                    c[i][j] = a[(int) (cnt / this.cols)][(int) (cnt % this.cols)];
+                    c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
         }
@@ -1040,7 +1040,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<? super short[], E> op) throws E {
+    public <E extends Exception> void flatOp(final Throwables.Consumer<? super short[], E> op) throws E {
         Arrays.flatOp(a, op);
     }
 
@@ -1053,9 +1053,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ShortMatrix vstack(final ShortMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final short[][] c = new short[this.rows + b.rows][];
+        final short[][] c = new short[rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1078,7 +1078,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ShortMatrix hstack(final ShortMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final short[][] c = new short[rows][cols + b.cols];
 
@@ -1136,7 +1136,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws IllegalArgumentException
      */
     public ShortMatrix multiply(final ShortMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
 
         final short[][] ba = b.a;
         final short[][] result = new short[rows][b.cols];
@@ -1348,7 +1348,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1393,7 +1393,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1467,7 +1467,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1566,7 +1566,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * ShortMatrix.this.rows * 1L - i) {
@@ -1646,7 +1646,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1721,7 +1721,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
 
                     @Override
-                    public void advance(long n) throws IllegalArgumentException {
+                    public void advance(final long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1735,7 +1735,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1754,7 +1754,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     @Override
-    protected int length(@SuppressWarnings("hiding") short[] a) {
+    protected int length(@SuppressWarnings("hiding") final short[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1823,15 +1823,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return true, if successful
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj instanceof ShortMatrix) {
-            final ShortMatrix another = (ShortMatrix) obj;
-
-            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
+        if (obj instanceof final ShortMatrix another) {
+            return cols == another.cols && rows == another.rows && N.deepEquals(a, another.a);
         }
 
         return false;

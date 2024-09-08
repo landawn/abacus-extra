@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
-import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -40,7 +39,7 @@ public final class Matrixes {
                     && ClassUtil.forClass("com.landawn.abacus.util.stream.ParallelIteratorIntStream") != null) {
                 tmp = true;
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // ignore.
         }
 
@@ -227,21 +226,15 @@ public final class Matrixes {
 
         if (inParallel) {
             if (rows <= cols) {
-                IntStream.range(fromRowIndex, toRowIndex).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                            cmd.accept(i, j);
-                        }
+                IntStream.range(fromRowIndex, toRowIndex).parallel().forEach(i -> {
+                    for (int j = fromColumnIndex; j < toColumnIndex; j++) {
+                        cmd.accept(i, j);
                     }
                 });
             } else {
-                IntStream.range(fromColumnIndex, toColumnIndex).parallel().forEach(new Throwables.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = fromRowIndex; i < toRowIndex; i++) {
-                            cmd.accept(i, j);
-                        }
+                IntStream.range(fromColumnIndex, toColumnIndex).parallel().forEach(j -> {
+                    for (int i = fromRowIndex; i < toRowIndex; i++) {
+                        cmd.accept(i, j);
                     }
                 });
             }
@@ -311,7 +304,7 @@ public final class Matrixes {
                     for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                         ret.add(cmd.apply(i, j));
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     N.toRuntimeException(e);
                 }
 
@@ -325,7 +318,7 @@ public final class Matrixes {
                     for (int i = fromRowIndex; i < toRowIndex; i++) {
                         ret.add(cmd.apply(i, j));
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     N.toRuntimeException(e);
                 }
 
@@ -381,7 +374,7 @@ public final class Matrixes {
                     for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                         ret[j - fromColumnIndex] = cmd.applyAsInt(i, j);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     N.toRuntimeException(e);
                 }
 
@@ -395,7 +388,7 @@ public final class Matrixes {
                     for (int i = fromRowIndex; i < toRowIndex; i++) {
                         ret[i - fromRowIndex] = cmd.applyAsInt(i, j);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     N.toRuntimeException(e);
                 }
 
@@ -441,73 +434,54 @@ public final class Matrixes {
         if (inParallel) {
             if (N.min(rowsA, colsA, colsB) == rowsA) {
                 if (N.min(colsA, colsB) == colsA) {
-                    IntStream.range(0, rowsA).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int i) {
-                            for (int k = 0; k < colsA; k++) {
-                                for (int j = 0; j < colsB; j++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, rowsA).parallel().forEach(i -> {
+                        for (int k = 0; k < colsA; k++) {
+                            for (int j = 0; j < colsB; j++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });
                 } else {
-                    IntStream.range(0, rowsA).parallel().forEach(new IntConsumer() {
-
-                        @Override
-                        public void accept(final int i) {
-                            for (int j = 0; j < colsB; j++) {
-                                for (int k = 0; k < colsA; k++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, rowsA).parallel().forEach(i -> {
+                        for (int j = 0; j < colsB; j++) {
+                            for (int k = 0; k < colsA; k++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });
                 }
             } else if (N.min(rowsA, colsA, colsB) == colsA) {
                 if (N.min(rowsA, colsB) == rowsA) {
-                    IntStream.range(0, colsA).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int k) {
-                            for (int i = 0; i < rowsA; i++) {
-                                for (int j = 0; j < colsB; j++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, colsA).parallel().forEach(k -> {
+                        for (int i = 0; i < rowsA; i++) {
+                            for (int j = 0; j < colsB; j++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });
                 } else {
-                    IntStream.range(0, colsA).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int k) {
-                            for (int j = 0; j < colsB; j++) {
-                                for (int i = 0; i < rowsA; i++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, colsA).parallel().forEach(k -> {
+                        for (int j = 0; j < colsB; j++) {
+                            for (int i = 0; i < rowsA; i++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });
                 }
             } else {
                 if (N.min(rowsA, colsA) == rowsA) {
-                    IntStream.range(0, colsB).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int j) {
-                            for (int i = 0; i < rowsA; i++) {
-                                for (int k = 0; k < colsA; k++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, colsB).parallel().forEach(j -> {
+                        for (int i = 0; i < rowsA; i++) {
+                            for (int k = 0; k < colsA; k++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });
                 } else {
-                    IntStream.range(0, colsB).parallel().forEach(new IntConsumer() {
-                        @Override
-                        public void accept(final int j) {
-                            for (int k = 0; k < colsA; k++) {
-                                for (int i = 0; i < rowsA; i++) {
-                                    cmd.accept(i, j, k);
-                                }
+                    IntStream.range(0, colsB).parallel().forEach(j -> {
+                        for (int k = 0; k < colsA; k++) {
+                            for (int i = 0; i < rowsA; i++) {
+                                cmd.accept(i, j, k);
                             }
                         }
                     });

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,68 +27,68 @@ public class ShortPair {
     public short right;
 
     /**
-     * 
+     *
      */
     public ShortPair() {
     }
 
     ShortPair(final short l, final short r) {
-        this.left = l;
-        this.right = r;
+        left = l;
+        right = r;
     }
 
     /**
-     * 
      *
-     * @param l 
-     * @param r 
-     * @return 
+     *
+     * @param l
+     * @param r
+     * @return
      */
     public static ShortPair of(final short l, final short r) {
         return new ShortPair(l, r);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short getLeft() {
         return left;
     }
 
     /**
-     * 
      *
-     * @param left 
+     *
+     * @param left
      */
     public void setLeft(final short left) {
         this.left = left;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short getRight() {
         return right;
     }
 
     /**
-     * 
      *
-     * @param right 
+     *
+     * @param right
      */
     public void setRight(final short right) {
         this.right = right;
     }
 
     /**
-     * 
      *
-     * @param left 
-     * @param right 
+     *
+     * @param left
+     * @param right
      */
     public void set(final short left, final short right) {
         this.left = left;
@@ -96,10 +96,10 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public short getAndSetLeft(final short newLeft) {
         final short res = left;
@@ -108,10 +108,10 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public short setAndGetLeft(final short newLeft) {
         left = newLeft;
@@ -119,10 +119,10 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public short getAndSetRight(final short newRight) {
         final short res = newRight;
@@ -131,10 +131,10 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public short setAndGetRight(final short newRight) {
         right = newRight;
@@ -142,163 +142,162 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Beta
     public ShortPair reverse() {
-        return new ShortPair(this.right, this.left);
+        return new ShortPair(right, left);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ShortPair copy() {
-        return new ShortPair(this.left, this.right);
+        return new ShortPair(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short[] toArray() {
         return new short[] { left, right };
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.ShortConsumer<E> comsumer) throws E {
+    public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> comsumer) throws E {
         comsumer.accept(left);
         comsumer.accept(right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
         action.accept(left, right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super ShortPair, E> action) throws E {
         action.accept(this);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
         return mapper.apply(left, right);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.Function<? super ShortPair, U, E> mapper) throws E {
         return mapper.apply(this);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<ShortPair> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
         return predicate.test(left, right) ? Optional.of(this) : Optional.<ShortPair> empty();
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<ShortPair> filter(final Throwables.Predicate<? super ShortPair, E> predicate) throws E {
         return predicate.test(this) ? Optional.of(this) : Optional.<ShortPair> empty();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ShortStream stream() {
         return ShortStream.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Optional<ShortPair> toOptional() {
         return Optional.of(this);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ShortTuple2 toTuple() {
         return ShortTuple.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + N.hashCode(left);
-        result = prime * result + N.hashCode(right);
-        return result;
+        return prime * result + N.hashCode(right);
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
     public boolean equals(final Object obj) {
@@ -306,9 +305,7 @@ public class ShortPair {
             return true;
         }
 
-        if (obj instanceof ShortPair) {
-            final ShortPair other = (ShortPair) obj;
-
+        if (obj instanceof final ShortPair other) {
             return N.equals(left, other.left) && N.equals(right, other.right);
         }
 
@@ -316,9 +313,9 @@ public class ShortPair {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {

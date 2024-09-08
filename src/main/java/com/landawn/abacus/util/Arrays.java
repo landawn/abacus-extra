@@ -992,13 +992,13 @@ public abstract class Arrays {
     }
 
     /**
-    *
-    * @param <E>
-    * @param a
-    * @param mapper
-    * @return
-    * @throws E the e
-    */
+     *
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @return
+     * @throws E the e
+     */
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1015,13 +1015,13 @@ public abstract class Arrays {
     }
 
     /**
-    *
-    * @param <E>
-    * @param a
-    * @param mapper
-    * @return
-    * @throws E the e
-    */
+     *
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @return
+     * @throws E the e
+     */
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1038,13 +1038,13 @@ public abstract class Arrays {
     }
 
     /**
-    *
-    * @param <E>
-    * @param a
-    * @param mapper
-    * @return
-    * @throws E the e
-    */
+     *
+     * @param <E>
+     * @param a
+     * @param mapper
+     * @return
+     * @throws E the e
+     */
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1397,12 +1397,12 @@ public abstract class Arrays {
                 return;
             }
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                if (N.isEmpty(a[i])) {
+            for (final T[] element : a) {
+                if (N.isEmpty(element)) {
                     continue;
                 }
 
-                final T[] aa = a[i];
+                final T[] aa = element;
 
                 for (int j = 0, m = aa.length; j < m; j++) {
                     aa[j] = operator.apply(aa[j]);
@@ -1424,12 +1424,12 @@ public abstract class Arrays {
                 return;
             }
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                if (N.isEmpty(a[i])) {
+            for (final T[] element : a) {
+                if (N.isEmpty(element)) {
                     continue;
                 }
 
-                final T[] aa = a[i];
+                final T[] aa = element;
 
                 for (int j = 0, m = aa.length; j < m; j++) {
                     if (predicate.test(aa[j])) {
@@ -1475,21 +1475,21 @@ public abstract class Arrays {
         public static <T> T[] flatten(final T[][] a) {
             int count = 0;
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                count += (a[i] == null ? 0 : a[i].length);
+            for (final T[] element : a) {
+                count += (element == null ? 0 : element.length);
             }
 
             final T[] c = N.newArray(a.getClass().getComponentType().getComponentType(), count);
             int from = 0;
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                if (N.isEmpty(a[i])) {
+            for (final T[] element : a) {
+                if (N.isEmpty(element)) {
                     continue;
                 }
 
-                N.copy(a[i], 0, c, from, a[i].length);
+                N.copy(element, 0, c, from, element.length);
 
-                from += a[i].length;
+                from += element.length;
             }
 
             return c;
@@ -1509,7 +1509,7 @@ public abstract class Arrays {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][] a, Throwables.Consumer<? super T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
@@ -1520,7 +1520,7 @@ public abstract class Arrays {
 
             int idx = 0;
 
-            for (T[] e : a) {
+            for (final T[] e : a) {
                 if (N.notEmpty(e)) {
                     N.copy(tmp, idx, e, 0, e.length);
                     idx += e.length;
@@ -2157,7 +2157,7 @@ public abstract class Arrays {
          * @param a
          * @return
          */
-        public static <T> int minSubArrayLen(T[][] a) {
+        public static <T> int minSubArrayLen(final T[][] a) {
             if (a == null) {
                 return 0;
             }
@@ -2179,7 +2179,7 @@ public abstract class Arrays {
          * @param a
          * @return
          */
-        public static <T> int maxSubArrayLen(T[][] a) {
+        public static <T> int maxSubArrayLen(final T[][] a) {
             if (a == null) {
                 return 0;
             }
@@ -2276,8 +2276,8 @@ public abstract class Arrays {
                 return;
             }
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                ff.replaceAll(a[i], operator);
+            for (final T[][] element : a) {
+                ff.replaceAll(element, operator);
             }
         }
 
@@ -2295,8 +2295,8 @@ public abstract class Arrays {
                 return;
             }
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                ff.replaceIf(a[i], predicate, newValue);
+            for (final T[][] element : a) {
+                ff.replaceIf(element, predicate, newValue);
             }
         }
 
@@ -2342,36 +2342,36 @@ public abstract class Arrays {
         public static <T> T[] flatten(final T[][][] a) {
             int count = 0;
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                if (N.isEmpty(a[i])) {
+            for (final T[][] element : a) {
+                if (N.isEmpty(element)) {
                     continue;
                 }
 
-                for (int j = 0, m = a[i].length; j < m; j++) {
-                    if (N.isEmpty(a[i][j])) {
+                for (int j = 0, m = element.length; j < m; j++) {
+                    if (N.isEmpty(element[j])) {
                         continue;
                     }
 
-                    count += (a[i][j] == null ? 0 : a[i][j].length);
+                    count += (element[j] == null ? 0 : element[j].length);
                 }
             }
 
             final T[] c = N.newArray(a.getClass().getComponentType().getComponentType().getComponentType(), count);
             int from = 0;
 
-            for (int i = 0, n = a.length; i < n; i++) {
-                if (N.isEmpty(a[i])) {
+            for (final T[][] element : a) {
+                if (N.isEmpty(element)) {
                     continue;
                 }
 
-                for (int j = 0, m = a[i].length; j < m; j++) {
-                    if (N.isEmpty(a[i][j])) {
+                for (int j = 0, m = element.length; j < m; j++) {
+                    if (N.isEmpty(element[j])) {
                         continue;
                     }
 
-                    N.copy(a[i][j], 0, c, from, a[i][j].length);
+                    N.copy(element[j], 0, c, from, element[j].length);
 
-                    from += a[i][j].length;
+                    from += element[j].length;
                 }
             }
 
@@ -2392,7 +2392,7 @@ public abstract class Arrays {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][][] a, Throwables.Consumer<? super T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
@@ -2403,9 +2403,9 @@ public abstract class Arrays {
 
             int idx = 0;
 
-            for (T[][] e : a) {
+            for (final T[][] e : a) {
                 if (N.notEmpty(e)) {
-                    for (T[] ee : e) {
+                    for (final T[] ee : e) {
                         if (N.notEmpty(ee)) {
                             N.copy(tmp, idx, ee, 0, ee.length);
                             idx += ee.length;
@@ -2976,8 +2976,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final boolean[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -2993,8 +2993,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final boolean[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -3031,8 +3031,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final boolean[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -3049,8 +3049,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final boolean[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -3123,21 +3123,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final boolean[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final boolean[] c = new boolean[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final boolean[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -3155,36 +3155,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final boolean[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final boolean[] c = new boolean[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final boolean[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -3204,7 +3204,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][] a, Throwables.Consumer<? super boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -3215,7 +3215,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (boolean[] e : a) {
+        for (final boolean[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -3236,7 +3236,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][][] a, Throwables.Consumer<? super boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -3247,9 +3247,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (boolean[][] e : a) {
+        for (final boolean[][] e : a) {
             if (N.notEmpty(e)) {
-                for (boolean[] ee : e) {
+                for (final boolean[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -3852,7 +3852,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(boolean[][] a) {
+    public static int minSubArrayLen(final boolean[][] a) {
         if (a == null) {
             return 0;
         }
@@ -3873,7 +3873,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(boolean[][] a) {
+    public static int maxSubArrayLen(final boolean[][] a) {
         if (a == null) {
             return 0;
         }
@@ -3913,8 +3913,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final char[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -3928,8 +3928,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final char[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -3958,8 +3958,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final char[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -3973,8 +3973,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final char[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -4003,8 +4003,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final char[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -4018,8 +4018,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final char[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -4048,8 +4048,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final char[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -4063,8 +4063,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final char[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -4097,8 +4097,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final char[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -4114,8 +4114,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final char[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -4152,8 +4152,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final char[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -4170,8 +4170,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final char[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -4244,21 +4244,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final char[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final char[] c = new char[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final char[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -4276,36 +4276,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final char[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final char[] c = new char[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final char[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -4325,7 +4325,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][] a, Throwables.Consumer<? super char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -4336,7 +4336,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (char[] e : a) {
+        for (final char[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -4357,7 +4357,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][][] a, Throwables.Consumer<? super char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -4368,9 +4368,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (char[][] e : a) {
+        for (final char[][] e : a) {
             if (N.notEmpty(e)) {
-                for (char[] ee : e) {
+                for (final char[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -4970,7 +4970,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(char[][] a) {
+    public static int minSubArrayLen(final char[][] a) {
         if (a == null) {
             return 0;
         }
@@ -4991,7 +4991,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(char[][] a) {
+    public static int maxSubArrayLen(final char[][] a) {
         if (a == null) {
             return 0;
         }
@@ -5031,8 +5031,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final byte[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -5046,8 +5046,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final byte[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -5076,8 +5076,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final byte[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -5091,8 +5091,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final byte[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -5121,8 +5121,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final byte[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -5136,8 +5136,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final byte[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -5166,8 +5166,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final byte[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -5181,8 +5181,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final byte[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -5215,8 +5215,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final byte[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -5232,8 +5232,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final byte[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -5270,8 +5270,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final byte[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -5288,8 +5288,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final byte[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -5305,21 +5305,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final byte[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final byte[] c = new byte[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final byte[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -5337,36 +5337,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final byte[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final byte[] c = new byte[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final byte[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -5386,7 +5386,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][] a, Throwables.Consumer<? super byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -5397,7 +5397,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (byte[] e : a) {
+        for (final byte[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -5418,7 +5418,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][][] a, Throwables.Consumer<? super byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -5429,9 +5429,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (byte[][] e : a) {
+        for (final byte[][] e : a) {
             if (N.notEmpty(e)) {
-                for (byte[] ee : e) {
+                for (final byte[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -8032,7 +8032,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(byte[][] a) {
+    public static int minSubArrayLen(final byte[][] a) {
         if (a == null) {
             return 0;
         }
@@ -8053,7 +8053,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(byte[][] a) {
+    public static int maxSubArrayLen(final byte[][] a) {
         if (a == null) {
             return 0;
         }
@@ -8093,8 +8093,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final short[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -8108,8 +8108,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final short[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -8138,8 +8138,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final short[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -8153,8 +8153,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final short[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -8183,8 +8183,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final short[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -8198,8 +8198,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final short[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -8228,8 +8228,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final short[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -8243,8 +8243,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final short[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -8277,8 +8277,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final short[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -8294,8 +8294,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final short[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -8332,8 +8332,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final short[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -8350,8 +8350,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final short[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -8424,21 +8424,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final short[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final short[] c = new short[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final short[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -8456,36 +8456,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final short[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final short[] c = new short[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final short[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -8505,7 +8505,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][] a, Throwables.Consumer<? super short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -8516,7 +8516,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (short[] e : a) {
+        for (final short[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -8537,7 +8537,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][][] a, Throwables.Consumer<? super short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -8548,9 +8548,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (short[][] e : a) {
+        for (final short[][] e : a) {
             if (N.notEmpty(e)) {
-                for (short[] ee : e) {
+                for (final short[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -11099,7 +11099,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(short[][] a) {
+    public static int minSubArrayLen(final short[][] a) {
         if (a == null) {
             return 0;
         }
@@ -11120,7 +11120,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(short[][] a) {
+    public static int maxSubArrayLen(final short[][] a) {
         if (a == null) {
             return 0;
         }
@@ -11160,8 +11160,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final int[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -11175,8 +11175,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final int[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -11205,8 +11205,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final int[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -11220,8 +11220,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final int[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -11250,8 +11250,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final int[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -11265,8 +11265,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final int[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -11295,8 +11295,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final int[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -11310,8 +11310,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final int[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -11344,8 +11344,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final int[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -11361,8 +11361,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final int[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -11399,8 +11399,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final int[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -11417,8 +11417,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final int[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -11491,21 +11491,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final int[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final int[] c = new int[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final int[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -11523,36 +11523,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final int[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final int[] c = new int[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final int[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -11572,7 +11572,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][] a, Throwables.Consumer<? super int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -11583,7 +11583,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (int[] e : a) {
+        for (final int[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -11604,7 +11604,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][][] a, Throwables.Consumer<? super int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -11615,9 +11615,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (int[][] e : a) {
+        for (final int[][] e : a) {
             if (N.notEmpty(e)) {
-                for (int[] ee : e) {
+                for (final int[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -14155,7 +14155,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(int[][] a) {
+    public static int minSubArrayLen(final int[][] a) {
         if (a == null) {
             return 0;
         }
@@ -14176,7 +14176,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(int[][] a) {
+    public static int maxSubArrayLen(final int[][] a) {
         if (a == null) {
             return 0;
         }
@@ -14216,8 +14216,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final long[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -14231,8 +14231,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final long[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -14261,8 +14261,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final long[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -14276,8 +14276,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final long[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -14306,8 +14306,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final long[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -14321,8 +14321,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final long[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -14351,8 +14351,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final long[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -14366,8 +14366,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final long[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -14400,8 +14400,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final long[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -14417,8 +14417,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final long[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -14455,8 +14455,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final long[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -14473,8 +14473,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final long[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -14547,21 +14547,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final long[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final long[] c = new long[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final long[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -14579,36 +14579,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final long[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final long[] c = new long[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final long[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -14628,7 +14628,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][] a, Throwables.Consumer<? super long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -14639,7 +14639,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (long[] e : a) {
+        for (final long[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -14660,7 +14660,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][][] a, Throwables.Consumer<? super long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -14671,9 +14671,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (long[][] e : a) {
+        for (final long[][] e : a) {
             if (N.notEmpty(e)) {
-                for (long[] ee : e) {
+                for (final long[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -17217,7 +17217,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(long[][] a) {
+    public static int minSubArrayLen(final long[][] a) {
         if (a == null) {
             return 0;
         }
@@ -17238,7 +17238,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(long[][] a) {
+    public static int maxSubArrayLen(final long[][] a) {
         if (a == null) {
             return 0;
         }
@@ -17278,8 +17278,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final float[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -17293,8 +17293,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final float[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -17323,8 +17323,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final float[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -17338,8 +17338,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final float[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -17368,8 +17368,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final float[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -17383,8 +17383,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final float[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -17413,8 +17413,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final float[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -17428,8 +17428,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final float[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -17462,8 +17462,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final float[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -17479,8 +17479,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final float[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -17517,8 +17517,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final float[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -17535,8 +17535,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final float[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -17609,21 +17609,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final float[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final float[] c = new float[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final float[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -17641,36 +17641,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final float[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final float[] c = new float[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final float[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -17690,7 +17690,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][] a, Throwables.Consumer<? super float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -17701,7 +17701,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (float[] e : a) {
+        for (final float[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -17722,7 +17722,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][][] a, Throwables.Consumer<? super float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -17733,9 +17733,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (float[][] e : a) {
+        for (final float[][] e : a) {
             if (N.notEmpty(e)) {
-                for (float[] ee : e) {
+                for (final float[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -20284,7 +20284,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(float[][] a) {
+    public static int minSubArrayLen(final float[][] a) {
         if (a == null) {
             return 0;
         }
@@ -20305,7 +20305,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(float[][] a) {
+    public static int maxSubArrayLen(final float[][] a) {
         if (a == null) {
             return 0;
         }
@@ -20345,8 +20345,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final double[] element : a) {
+            plus(element, param);
         }
     }
 
@@ -20360,8 +20360,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            plus(a[i], param);
+        for (final double[][] element : a) {
+            plus(element, param);
         }
     }
 
@@ -20390,8 +20390,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final double[] element : a) {
+            minus(element, param);
         }
     }
 
@@ -20405,8 +20405,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            minus(a[i], param);
+        for (final double[][] element : a) {
+            minus(element, param);
         }
     }
 
@@ -20435,8 +20435,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final double[] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -20450,8 +20450,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            multipliedBy(a[i], param);
+        for (final double[][] element : a) {
+            multipliedBy(element, param);
         }
     }
 
@@ -20480,8 +20480,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final double[] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -20495,8 +20495,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            dividedBy(a[i], param);
+        for (final double[][] element : a) {
+            dividedBy(element, param);
         }
     }
 
@@ -20529,8 +20529,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final double[] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -20546,8 +20546,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceAll(a[i], operator);
+        for (final double[][] element : a) {
+            replaceAll(element, operator);
         }
     }
 
@@ -20584,8 +20584,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final double[] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -20602,8 +20602,8 @@ public abstract class Arrays {
             return;
         }
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            replaceIf(a[i], predicate, newValue);
+        for (final double[][] element : a) {
+            replaceIf(element, predicate, newValue);
         }
     }
 
@@ -20676,21 +20676,21 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            count += (a[i] == null ? 0 : a[i].length);
+        for (final double[] element : a) {
+            count += (element == null ? 0 : element.length);
         }
 
         final double[] c = new double[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final double[] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            N.copy(a[i], 0, c, from, a[i].length);
+            N.copy(element, 0, c, from, element.length);
 
-            from += a[i].length;
+            from += element.length;
         }
 
         return c;
@@ -20708,36 +20708,36 @@ public abstract class Arrays {
 
         int count = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final double[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                count += (a[i][j] == null ? 0 : a[i][j].length);
+                count += (element[j] == null ? 0 : element[j].length);
             }
         }
 
         final double[] c = new double[count];
         int from = 0;
 
-        for (int i = 0, n = a.length; i < n; i++) {
-            if (N.isEmpty(a[i])) {
+        for (final double[][] element : a) {
+            if (N.isEmpty(element)) {
                 continue;
             }
 
-            for (int j = 0, m = a[i].length; j < m; j++) {
-                if (N.isEmpty(a[i][j])) {
+            for (int j = 0, m = element.length; j < m; j++) {
+                if (N.isEmpty(element[j])) {
                     continue;
                 }
 
-                N.copy(a[i][j], 0, c, from, a[i][j].length);
+                N.copy(element[j], 0, c, from, element[j].length);
 
-                from += a[i][j].length;
+                from += element[j].length;
             }
         }
 
@@ -20757,7 +20757,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][] a, Throwables.Consumer<? super double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -20768,7 +20768,7 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (double[] e : a) {
+        for (final double[] e : a) {
             if (N.notEmpty(e)) {
                 N.copy(tmp, idx, e, 0, e.length);
                 idx += e.length;
@@ -20789,7 +20789,7 @@ public abstract class Arrays {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][][] a, Throwables.Consumer<? super double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -20800,9 +20800,9 @@ public abstract class Arrays {
 
         int idx = 0;
 
-        for (double[][] e : a) {
+        for (final double[][] e : a) {
             if (N.notEmpty(e)) {
-                for (double[] ee : e) {
+                for (final double[] ee : e) {
                     if (N.notEmpty(ee)) {
                         N.copy(tmp, idx, ee, 0, ee.length);
                         idx += ee.length;
@@ -23355,7 +23355,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int minSubArrayLen(double[][] a) {
+    public static int minSubArrayLen(final double[][] a) {
         if (a == null) {
             return 0;
         }
@@ -23376,7 +23376,7 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static int maxSubArrayLen(double[][] a) {
+    public static int maxSubArrayLen(final double[][] a) {
         if (a == null) {
             return 0;
         }

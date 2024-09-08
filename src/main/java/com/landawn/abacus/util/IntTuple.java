@@ -27,112 +27,112 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     protected int[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static IntTuple1 of(int _1) {
+    public static IntTuple1 of(final int _1) {
         return new IntTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static IntTuple2 of(int _1, int _2) {
+    public static IntTuple2 of(final int _1, final int _2) {
         return new IntTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static IntTuple3 of(int _1, int _2, int _3) {
+    public static IntTuple3 of(final int _1, final int _2, final int _3) {
         return new IntTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static IntTuple4 of(int _1, int _2, int _3, int _4) {
+    public static IntTuple4 of(final int _1, final int _2, final int _3, final int _4) {
         return new IntTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static IntTuple5 of(int _1, int _2, int _3, int _4, int _5) {
+    public static IntTuple5 of(final int _1, final int _2, final int _3, final int _4, final int _5) {
         return new IntTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static IntTuple6 of(int _1, int _2, int _3, int _4, int _5, int _6) {
+    public static IntTuple6 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6) {
         return new IntTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static IntTuple7 of(int _1, int _2, int _3, int _4, int _5, int _6, int _7) {
+    public static IntTuple7 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7) {
         return new IntTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @param _8 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static IntTuple8 of(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8) {
+    public static IntTuple8 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8) {
         return new IntTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -151,16 +151,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static IntTuple9 of(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9) {
+    public static IntTuple9 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
         return new IntTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends IntTuple<TP>> TP create(final int[] a) {
         if (a == null || a.length == 0) {
@@ -201,109 +201,109 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(int valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public IntList toList() {
         return IntList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.IntConsumer<E> comsumer) throws E {
-        for (int e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.IntConsumer<E> comsumer) throws E {
+        for (final int e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public IntStream stream() {
         return IntStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -311,13 +311,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -328,9 +328,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -403,14 +403,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0);
         }
 
-        IntTuple1(int _1) {
+        IntTuple1(final int _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -418,9 +418,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int min() {
@@ -428,9 +428,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int max() {
@@ -438,9 +438,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int median() {
@@ -448,9 +448,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -458,9 +458,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -468,9 +468,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple1 reverse() {
@@ -478,10 +478,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -489,9 +489,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -499,27 +499,26 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof IntTuple1)) {
+            } else if (!(obj instanceof final IntTuple1 other)) {
                 return false;
             } else {
-                IntTuple1 other = (IntTuple1) obj;
-                return this._1 == other._1;
+                return _1 == other._1;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -528,7 +527,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         @Override
         protected int[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new int[] { _1 };
             }
 
@@ -545,15 +544,15 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0);
         }
 
-        IntTuple2(int _1, int _2) {
+        IntTuple2(final int _1, final int _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -561,9 +560,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int min() {
@@ -571,9 +570,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int max() {
@@ -581,9 +580,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int median() {
@@ -591,9 +590,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -601,9 +600,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -611,9 +610,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple2 reverse() {
@@ -621,10 +620,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -632,16 +631,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.IntConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -650,7 +649,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.IntBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -662,7 +661,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.IntBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -678,9 +677,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -688,27 +687,26 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof IntTuple2)) {
+            } else if (!(obj instanceof final IntTuple2 other)) {
                 return false;
             } else {
-                IntTuple2 other = (IntTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return _1 == other._1 && _2 == other._2;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -717,7 +715,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         @Override
         protected int[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new int[] { _1, _2 };
             }
 
@@ -735,16 +733,16 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0);
         }
 
-        IntTuple3(int _1, int _2, int _3) {
+        IntTuple3(final int _1, final int _2, final int _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -752,9 +750,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int min() {
@@ -762,9 +760,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int max() {
@@ -772,9 +770,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int median() {
@@ -782,9 +780,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -792,9 +790,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -802,9 +800,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple3 reverse() {
@@ -812,10 +810,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -823,17 +821,17 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.IntConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -842,7 +840,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.IntTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -854,7 +852,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.IntTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -870,9 +868,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -880,27 +878,26 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof IntTuple3)) {
+            } else if (!(obj instanceof final IntTuple3 other)) {
                 return false;
             } else {
-                IntTuple3 other = (IntTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return _1 == other._1 && _2 == other._2 && _3 == other._3;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -909,7 +906,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         @Override
         protected int[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new int[] { _1, _2, _3 };
             }
 
@@ -928,7 +925,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0);
         }
 
-        IntTuple4(int _1, int _2, int _3, int _4) {
+        IntTuple4(final int _1, final int _2, final int _3, final int _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -936,9 +933,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -946,9 +943,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple4 reverse() {
@@ -956,10 +953,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -988,7 +985,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0, 0);
         }
 
-        IntTuple5(int _1, int _2, int _3, int _4, int _5) {
+        IntTuple5(final int _1, final int _2, final int _3, final int _4, final int _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -997,9 +994,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1007,9 +1004,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple5 reverse() {
@@ -1017,10 +1014,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1050,7 +1047,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0, 0, 0);
         }
 
-        IntTuple6(int _1, int _2, int _3, int _4, int _5, int _6) {
+        IntTuple6(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1060,9 +1057,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1070,9 +1067,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple6 reverse() {
@@ -1080,10 +1077,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1114,7 +1111,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
-        IntTuple7(int _1, int _2, int _3, int _4, int _5, int _6, int _7) {
+        IntTuple7(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1125,9 +1122,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1135,9 +1132,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple7 reverse() {
@@ -1145,10 +1142,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1181,7 +1178,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        IntTuple8(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8) {
+        IntTuple8(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1193,9 +1190,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1203,9 +1200,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple8 reverse() {
@@ -1213,10 +1210,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1250,7 +1247,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        IntTuple9(int _1, int _2, int _3, int _4, int _5, int _6, int _7, int _8, int _9) {
+        IntTuple9(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1263,9 +1260,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1273,9 +1270,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public IntTuple9 reverse() {
@@ -1283,10 +1280,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final int valueToFind) {

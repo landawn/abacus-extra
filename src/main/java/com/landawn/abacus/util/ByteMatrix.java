@@ -86,7 +86,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param endExclusive
      * @return
      */
-    public static ByteMatrix range(byte startInclusive, final byte endExclusive) {
+    public static ByteMatrix range(final byte startInclusive, final byte endExclusive) {
         return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive) });
     }
 
@@ -97,7 +97,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param by
      * @return
      */
-    public static ByteMatrix range(byte startInclusive, final byte endExclusive, final byte by) {
+    public static ByteMatrix range(final byte startInclusive, final byte endExclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
@@ -107,7 +107,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param endInclusive
      * @return
      */
-    public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive) {
+    public static ByteMatrix rangeClosed(final byte startInclusive, final byte endInclusive) {
         return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
@@ -118,7 +118,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param by
      * @return
      */
-    public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive, final byte by) {
+    public static ByteMatrix rangeClosed(final byte startInclusive, final byte endInclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
@@ -150,7 +150,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      * @throws IllegalArgumentException
      */
-    public static ByteMatrix diagonal(final byte[] leftUp2RighDownDiagonal, byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static ByteMatrix diagonal(final byte[] leftUp2RighDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -356,7 +356,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param row
      * @throws IllegalArgumentException
      */
-    public void setRow(int rowIndex, byte[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final byte[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -369,7 +369,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param column
      * @throws IllegalArgumentException
      */
-    public void setColumn(int columnIndex, byte[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final byte[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -384,7 +384,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsByte(a[rowIndex][i]);
         }
@@ -397,7 +397,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsByte(a[i][columnIndex]);
         }
@@ -948,7 +948,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
-                    c[i][j] = a[(int) (cnt / this.cols)][(int) (cnt % this.cols)];
+                    c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
         }
@@ -1040,7 +1040,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<? super byte[], E> op) throws E {
+    public <E extends Exception> void flatOp(final Throwables.Consumer<? super byte[], E> op) throws E {
         Arrays.flatOp(a, op);
     }
 
@@ -1053,9 +1053,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ByteMatrix vstack(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final byte[][] c = new byte[this.rows + b.rows][];
+        final byte[][] c = new byte[rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1078,7 +1078,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ByteMatrix hstack(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final byte[][] c = new byte[rows][cols + b.cols];
 
@@ -1136,7 +1136,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IllegalArgumentException
      */
     public ByteMatrix multiply(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
 
         final byte[][] ba = b.a;
         final byte[][] result = new byte[rows][b.cols];
@@ -1348,7 +1348,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1393,7 +1393,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1467,7 +1467,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1565,7 +1565,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * ByteMatrix.this.rows * 1L - i) {
@@ -1645,7 +1645,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1720,7 +1720,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
 
                     @Override
-                    public void advance(long n) throws IllegalArgumentException {
+                    public void advance(final long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1734,7 +1734,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1753,7 +1753,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      */
     @Override
-    protected int length(@SuppressWarnings("hiding") byte[] a) {
+    protected int length(@SuppressWarnings("hiding") final byte[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1822,15 +1822,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return true, if successful
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj instanceof ByteMatrix) {
-            final ByteMatrix another = (ByteMatrix) obj;
-
-            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
+        if (obj instanceof final ByteMatrix another) {
+            return cols == another.cols && rows == another.rows && N.deepEquals(a, another.a);
         }
 
         return false;

@@ -63,7 +63,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            ByteBytePoint(byte x, byte y, byte v) {
+            ByteBytePoint(final byte x, final byte y, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -76,7 +76,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteBytePoint of(byte x, byte y, byte v) {
+            public static ByteBytePoint of(final byte x, final byte y, final byte v) {
                 return new ByteBytePoint(x, y, v);
             }
 
@@ -95,14 +95,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteBytePoint) {
-                    ByteBytePoint other = (ByteBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final ByteBytePoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -140,7 +139,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            ByteIntPoint(byte x, byte y, int v) {
+            ByteIntPoint(final byte x, final byte y, final int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -153,7 +152,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteIntPoint of(byte x, byte y, int v) {
+            public static ByteIntPoint of(final byte x, final byte y, final int v) {
                 return new ByteIntPoint(x, y, v);
             }
 
@@ -172,14 +171,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteIntPoint) {
-                    ByteIntPoint other = (ByteIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final ByteIntPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -217,7 +215,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            ByteLongPoint(byte x, byte y, long v) {
+            ByteLongPoint(final byte x, final byte y, final long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -230,7 +228,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteLongPoint of(byte x, byte y, long v) {
+            public static ByteLongPoint of(final byte x, final byte y, final long v) {
                 return new ByteLongPoint(x, y, v);
             }
 
@@ -249,14 +247,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteLongPoint) {
-                    ByteLongPoint other = (ByteLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final ByteLongPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -294,7 +291,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            ByteDoublePoint(byte x, byte y, double v) {
+            ByteDoublePoint(final byte x, final byte y, final double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -307,7 +304,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteDoublePoint of(byte x, byte y, double v) {
+            public static ByteDoublePoint of(final byte x, final byte y, final double v) {
                 return new ByteDoublePoint(x, y, v);
             }
 
@@ -326,14 +323,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteDoublePoint) {
-                    ByteDoublePoint other = (ByteDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                if (obj instanceof final ByteDoublePoint other) {
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -373,7 +369,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            ByteObjPoint(byte x, byte y, T v) {
+            ByteObjPoint(final byte x, final byte y, final T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -387,7 +383,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> ByteObjPoint<T> of(byte x, byte y, T v) {
+            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T v) {
                 return new ByteObjPoint<>(x, y, v);
             }
 
@@ -406,14 +402,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof ByteObjPoint) {
-                    ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                    final ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -451,7 +447,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            IntBytePoint(int x, int y, byte v) {
+            IntBytePoint(final int x, final int y, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -464,7 +460,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntBytePoint of(int x, int y, byte v) {
+            public static IntBytePoint of(final int x, final int y, final byte v) {
                 return new IntBytePoint(x, y, v);
             }
 
@@ -483,14 +479,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntBytePoint) {
-                    IntBytePoint other = (IntBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final IntBytePoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -528,7 +523,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            IntIntPoint(int x, int y, int v) {
+            IntIntPoint(final int x, final int y, final int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -541,7 +536,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntIntPoint of(int x, int y, int v) {
+            public static IntIntPoint of(final int x, final int y, final int v) {
                 return new IntIntPoint(x, y, v);
             }
 
@@ -560,14 +555,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntIntPoint) {
-                    IntIntPoint other = (IntIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final IntIntPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -605,7 +599,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            IntLongPoint(int x, int y, long v) {
+            IntLongPoint(final int x, final int y, final long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -618,7 +612,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntLongPoint of(int x, int y, long v) {
+            public static IntLongPoint of(final int x, final int y, final long v) {
                 return new IntLongPoint(x, y, v);
             }
 
@@ -637,14 +631,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntLongPoint) {
-                    IntLongPoint other = (IntLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final IntLongPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -682,7 +675,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            IntDoublePoint(int x, int y, double v) {
+            IntDoublePoint(final int x, final int y, final double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -695,7 +688,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntDoublePoint of(int x, int y, double v) {
+            public static IntDoublePoint of(final int x, final int y, final double v) {
                 return new IntDoublePoint(x, y, v);
             }
 
@@ -714,14 +707,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntDoublePoint) {
-                    IntDoublePoint other = (IntDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                if (obj instanceof final IntDoublePoint other) {
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -761,7 +753,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            IntObjPoint(int x, int y, T v) {
+            IntObjPoint(final int x, final int y, final T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -775,7 +767,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> IntObjPoint<T> of(int x, int y, T v) {
+            public static <T> IntObjPoint<T> of(final int x, final int y, final T v) {
                 return new IntObjPoint<>(x, y, v);
             }
 
@@ -794,14 +786,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof IntObjPoint) {
-                    IntObjPoint<?> other = (IntObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                    final IntObjPoint<?> other = (IntObjPoint<?>) obj;
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -839,7 +831,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            LongBytePoint(long x, long y, byte v) {
+            LongBytePoint(final long x, final long y, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -852,7 +844,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongBytePoint of(long x, long y, byte v) {
+            public static LongBytePoint of(final long x, final long y, final byte v) {
                 return new LongBytePoint(x, y, v);
             }
 
@@ -871,14 +863,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongBytePoint) {
-                    LongBytePoint other = (LongBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final LongBytePoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -916,7 +907,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            LongIntPoint(long x, long y, int v) {
+            LongIntPoint(final long x, final long y, final int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -929,7 +920,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongIntPoint of(long x, long y, int v) {
+            public static LongIntPoint of(final long x, final long y, final int v) {
                 return new LongIntPoint(x, y, v);
             }
 
@@ -948,14 +939,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongIntPoint) {
-                    LongIntPoint other = (LongIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final LongIntPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -993,7 +983,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            LongLongPoint(long x, long y, long v) {
+            LongLongPoint(final long x, final long y, final long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1006,7 +996,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongLongPoint of(long x, long y, long v) {
+            public static LongLongPoint of(final long x, final long y, final long v) {
                 return new LongLongPoint(x, y, v);
             }
 
@@ -1025,14 +1015,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongLongPoint) {
-                    LongLongPoint other = (LongLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.v == other.v;
+                if (obj instanceof final LongLongPoint other) {
+                    return x == other.x && y == other.y && v == other.v;
                 }
 
                 return false;
@@ -1070,7 +1059,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            LongDoublePoint(long x, long y, double v) {
+            LongDoublePoint(final long x, final long y, final double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1083,7 +1072,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongDoublePoint of(long x, long y, double v) {
+            public static LongDoublePoint of(final long x, final long y, final double v) {
                 return new LongDoublePoint(x, y, v);
             }
 
@@ -1102,14 +1091,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongDoublePoint) {
-                    LongDoublePoint other = (LongDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                if (obj instanceof final LongDoublePoint other) {
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -1149,7 +1137,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            LongObjPoint(long x, long y, T v) {
+            LongObjPoint(final long x, final long y, final T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1163,7 +1151,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> LongObjPoint<T> of(long x, long y, T v) {
+            public static <T> LongObjPoint<T> of(final long x, final long y, final T v) {
                 return new LongObjPoint<>(x, y, v);
             }
 
@@ -1182,14 +1170,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof LongObjPoint) {
-                    LongObjPoint<?> other = (LongObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
+                    final LongObjPoint<?> other = (LongObjPoint<?>) obj;
+                    return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
                 return false;
@@ -1227,7 +1215,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            DoubleBytePoint(double x, double y, byte v) {
+            DoubleBytePoint(final double x, final double y, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1240,7 +1228,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleBytePoint of(double x, double y, byte v) {
+            public static DoubleBytePoint of(final double x, final double y, final byte v) {
                 return new DoubleBytePoint(x, y, v);
             }
 
@@ -1259,14 +1247,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleBytePoint) {
-                    DoubleBytePoint other = (DoubleBytePoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
+                if (obj instanceof final DoubleBytePoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && v == other.v;
                 }
 
                 return false;
@@ -1304,7 +1291,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            DoubleIntPoint(double x, double y, int v) {
+            DoubleIntPoint(final double x, final double y, final int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1317,7 +1304,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleIntPoint of(double x, double y, int v) {
+            public static DoubleIntPoint of(final double x, final double y, final int v) {
                 return new DoubleIntPoint(x, y, v);
             }
 
@@ -1336,14 +1323,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleIntPoint) {
-                    DoubleIntPoint other = (DoubleIntPoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
+                if (obj instanceof final DoubleIntPoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && v == other.v;
                 }
 
                 return false;
@@ -1381,7 +1367,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            DoubleLongPoint(double x, double y, long v) {
+            DoubleLongPoint(final double x, final double y, final long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1394,7 +1380,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleLongPoint of(double x, double y, long v) {
+            public static DoubleLongPoint of(final double x, final double y, final long v) {
                 return new DoubleLongPoint(x, y, v);
             }
 
@@ -1413,14 +1399,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleLongPoint) {
-                    DoubleLongPoint other = (DoubleLongPoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
+                if (obj instanceof final DoubleLongPoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && v == other.v;
                 }
 
                 return false;
@@ -1458,7 +1443,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            DoubleDoublePoint(double x, double y, double v) {
+            DoubleDoublePoint(final double x, final double y, final double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1471,7 +1456,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleDoublePoint of(double x, double y, double v) {
+            public static DoubleDoublePoint of(final double x, final double y, final double v) {
                 return new DoubleDoublePoint(x, y, v);
             }
 
@@ -1490,14 +1475,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleDoublePoint) {
-                    DoubleDoublePoint other = (DoubleDoublePoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.v, other.v);
+                if (obj instanceof final DoubleDoublePoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(v, other.v);
                 }
 
                 return false;
@@ -1537,7 +1521,7 @@ public final class Points {
              * @param y
              * @param v
              */
-            DoubleObjPoint(double x, double y, T v) {
+            DoubleObjPoint(final double x, final double y, final T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
@@ -1551,7 +1535,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> DoubleObjPoint<T> of(double x, double y, T v) {
+            public static <T> DoubleObjPoint<T> of(final double x, final double y, final T v) {
                 return new DoubleObjPoint<>(x, y, v);
             }
 
@@ -1570,14 +1554,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof DoubleObjPoint) {
-                    DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.v, other.v);
+                    final DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(v, other.v);
                 }
 
                 return false;
@@ -4173,7 +4157,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            ByteBytePoint(byte x, byte y, byte z, byte v) {
+            ByteBytePoint(final byte x, final byte y, final byte z, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4188,7 +4172,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteBytePoint of(byte x, byte y, byte z, byte v) {
+            public static ByteBytePoint of(final byte x, final byte y, final byte z, final byte v) {
                 return new ByteBytePoint(x, y, z, v);
             }
 
@@ -4207,14 +4191,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteBytePoint) {
-                    ByteBytePoint other = (ByteBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final ByteBytePoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4256,7 +4239,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            ByteIntPoint(byte x, byte y, byte z, int v) {
+            ByteIntPoint(final byte x, final byte y, final byte z, final int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4271,7 +4254,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteIntPoint of(byte x, byte y, byte z, int v) {
+            public static ByteIntPoint of(final byte x, final byte y, final byte z, final int v) {
                 return new ByteIntPoint(x, y, z, v);
             }
 
@@ -4290,14 +4273,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteIntPoint) {
-                    ByteIntPoint other = (ByteIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final ByteIntPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4339,7 +4321,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            ByteLongPoint(byte x, byte y, byte z, long v) {
+            ByteLongPoint(final byte x, final byte y, final byte z, final long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4354,7 +4336,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteLongPoint of(byte x, byte y, byte z, long v) {
+            public static ByteLongPoint of(final byte x, final byte y, final byte z, final long v) {
                 return new ByteLongPoint(x, y, z, v);
             }
 
@@ -4373,14 +4355,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteLongPoint) {
-                    ByteLongPoint other = (ByteLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final ByteLongPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4422,7 +4403,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            ByteDoublePoint(byte x, byte y, byte z, double v) {
+            ByteDoublePoint(final byte x, final byte y, final byte z, final double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4437,7 +4418,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static ByteDoublePoint of(byte x, byte y, byte z, double v) {
+            public static ByteDoublePoint of(final byte x, final byte y, final byte z, final double v) {
                 return new ByteDoublePoint(x, y, z, v);
             }
 
@@ -4456,14 +4437,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof ByteDoublePoint) {
-                    ByteDoublePoint other = (ByteDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                if (obj instanceof final ByteDoublePoint other) {
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -4507,7 +4487,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            ByteObjPoint(byte x, byte y, byte z, T v) {
+            ByteObjPoint(final byte x, final byte y, final byte z, final T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4523,7 +4503,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> ByteObjPoint<T> of(byte x, byte y, byte z, T v) {
+            public static <T> ByteObjPoint<T> of(final byte x, final byte y, final byte z, final T v) {
                 return new ByteObjPoint<>(x, y, z, v);
             }
 
@@ -4542,14 +4522,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof ByteObjPoint) {
-                    ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                    final ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -4591,7 +4571,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            IntBytePoint(int x, int y, int z, byte v) {
+            IntBytePoint(final int x, final int y, final int z, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4606,7 +4586,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntBytePoint of(int x, int y, int z, byte v) {
+            public static IntBytePoint of(final int x, final int y, final int z, final byte v) {
                 return new IntBytePoint(x, y, z, v);
             }
 
@@ -4625,14 +4605,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntBytePoint) {
-                    IntBytePoint other = (IntBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final IntBytePoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4674,7 +4653,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            IntIntPoint(int x, int y, int z, int v) {
+            IntIntPoint(final int x, final int y, final int z, final int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4689,7 +4668,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntIntPoint of(int x, int y, int z, int v) {
+            public static IntIntPoint of(final int x, final int y, final int z, final int v) {
                 return new IntIntPoint(x, y, z, v);
             }
 
@@ -4708,14 +4687,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntIntPoint) {
-                    IntIntPoint other = (IntIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final IntIntPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4757,7 +4735,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            IntLongPoint(int x, int y, int z, long v) {
+            IntLongPoint(final int x, final int y, final int z, final long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4772,7 +4750,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntLongPoint of(int x, int y, int z, long v) {
+            public static IntLongPoint of(final int x, final int y, final int z, final long v) {
                 return new IntLongPoint(x, y, z, v);
             }
 
@@ -4791,14 +4769,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntLongPoint) {
-                    IntLongPoint other = (IntLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final IntLongPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -4840,7 +4817,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            IntDoublePoint(int x, int y, int z, double v) {
+            IntDoublePoint(final int x, final int y, final int z, final double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4855,7 +4832,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static IntDoublePoint of(int x, int y, int z, double v) {
+            public static IntDoublePoint of(final int x, final int y, final int z, final double v) {
                 return new IntDoublePoint(x, y, z, v);
             }
 
@@ -4874,14 +4851,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof IntDoublePoint) {
-                    IntDoublePoint other = (IntDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                if (obj instanceof final IntDoublePoint other) {
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -4925,7 +4901,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            IntObjPoint(int x, int y, int z, T v) {
+            IntObjPoint(final int x, final int y, final int z, final T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -4941,7 +4917,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> IntObjPoint<T> of(int x, int y, int z, T v) {
+            public static <T> IntObjPoint<T> of(final int x, final int y, final int z, final T v) {
                 return new IntObjPoint<>(x, y, z, v);
             }
 
@@ -4960,14 +4936,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof IntObjPoint) {
-                    IntObjPoint<?> other = (IntObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                    final IntObjPoint<?> other = (IntObjPoint<?>) obj;
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -5009,7 +4985,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            LongBytePoint(long x, long y, long z, byte v) {
+            LongBytePoint(final long x, final long y, final long z, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5024,7 +5000,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongBytePoint of(long x, long y, long z, byte v) {
+            public static LongBytePoint of(final long x, final long y, final long z, final byte v) {
                 return new LongBytePoint(x, y, z, v);
             }
 
@@ -5043,14 +5019,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongBytePoint) {
-                    LongBytePoint other = (LongBytePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final LongBytePoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -5092,7 +5067,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            LongIntPoint(long x, long y, long z, int v) {
+            LongIntPoint(final long x, final long y, final long z, final int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5107,7 +5082,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongIntPoint of(long x, long y, long z, int v) {
+            public static LongIntPoint of(final long x, final long y, final long z, final int v) {
                 return new LongIntPoint(x, y, z, v);
             }
 
@@ -5126,14 +5101,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongIntPoint) {
-                    LongIntPoint other = (LongIntPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final LongIntPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -5175,7 +5149,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            LongLongPoint(long x, long y, long z, long v) {
+            LongLongPoint(final long x, final long y, final long z, final long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5190,7 +5164,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongLongPoint of(long x, long y, long z, long v) {
+            public static LongLongPoint of(final long x, final long y, final long z, final long v) {
                 return new LongLongPoint(x, y, z, v);
             }
 
@@ -5209,14 +5183,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongLongPoint) {
-                    LongLongPoint other = (LongLongPoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && this.v == other.v;
+                if (obj instanceof final LongLongPoint other) {
+                    return x == other.x && y == other.y && z == other.z && v == other.v;
                 }
 
                 return false;
@@ -5258,7 +5231,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            LongDoublePoint(long x, long y, long z, double v) {
+            LongDoublePoint(final long x, final long y, final long z, final double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5273,7 +5246,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static LongDoublePoint of(long x, long y, long z, double v) {
+            public static LongDoublePoint of(final long x, final long y, final long z, final double v) {
                 return new LongDoublePoint(x, y, z, v);
             }
 
@@ -5292,14 +5265,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof LongDoublePoint) {
-                    LongDoublePoint other = (LongDoublePoint) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                if (obj instanceof final LongDoublePoint other) {
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -5343,7 +5315,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            LongObjPoint(long x, long y, long z, T v) {
+            LongObjPoint(final long x, final long y, final long z, final T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5359,7 +5331,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> LongObjPoint<T> of(long x, long y, long z, T v) {
+            public static <T> LongObjPoint<T> of(final long x, final long y, final long z, final T v) {
                 return new LongObjPoint<>(x, y, z, v);
             }
 
@@ -5378,14 +5350,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof LongObjPoint) {
-                    LongObjPoint<?> other = (LongObjPoint<?>) obj;
-                    return this.x == other.x && this.y == other.y && this.z == other.z && N.equals(this.v, other.v);
+                    final LongObjPoint<?> other = (LongObjPoint<?>) obj;
+                    return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
                 return false;
@@ -5427,7 +5399,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            DoubleBytePoint(double x, double y, double z, byte v) {
+            DoubleBytePoint(final double x, final double y, final double z, final byte v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5442,7 +5414,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleBytePoint of(double x, double y, double z, byte v) {
+            public static DoubleBytePoint of(final double x, final double y, final double z, final byte v) {
                 return new DoubleBytePoint(x, y, z, v);
             }
 
@@ -5461,14 +5433,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleBytePoint) {
-                    DoubleBytePoint other = (DoubleBytePoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.z, other.z) && this.v == other.v;
+                if (obj instanceof final DoubleBytePoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && v == other.v;
                 }
 
                 return false;
@@ -5510,7 +5481,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            DoubleIntPoint(double x, double y, double z, int v) {
+            DoubleIntPoint(final double x, final double y, final double z, final int v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5525,7 +5496,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleIntPoint of(double x, double y, double z, int v) {
+            public static DoubleIntPoint of(final double x, final double y, final double z, final int v) {
                 return new DoubleIntPoint(x, y, z, v);
             }
 
@@ -5544,14 +5515,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleIntPoint) {
-                    DoubleIntPoint other = (DoubleIntPoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.z, other.z) && this.v == other.v;
+                if (obj instanceof final DoubleIntPoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && v == other.v;
                 }
 
                 return false;
@@ -5593,7 +5563,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            DoubleLongPoint(double x, double y, double z, long v) {
+            DoubleLongPoint(final double x, final double y, final double z, final long v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5608,7 +5578,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleLongPoint of(double x, double y, double z, long v) {
+            public static DoubleLongPoint of(final double x, final double y, final double z, final long v) {
                 return new DoubleLongPoint(x, y, z, v);
             }
 
@@ -5627,14 +5597,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleLongPoint) {
-                    DoubleLongPoint other = (DoubleLongPoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.z, other.z) && this.v == other.v;
+                if (obj instanceof final DoubleLongPoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && v == other.v;
                 }
 
                 return false;
@@ -5676,7 +5645,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            DoubleDoublePoint(double x, double y, double z, double v) {
+            DoubleDoublePoint(final double x, final double y, final double z, final double v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5691,7 +5660,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static DoubleDoublePoint of(double x, double y, double z, double v) {
+            public static DoubleDoublePoint of(final double x, final double y, final double z, final double v) {
                 return new DoubleDoublePoint(x, y, z, v);
             }
 
@@ -5710,14 +5679,13 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
-                if (obj instanceof DoubleDoublePoint) {
-                    DoubleDoublePoint other = (DoubleDoublePoint) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.z, other.z) && N.equals(this.v, other.v);
+                if (obj instanceof final DoubleDoublePoint other) {
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && N.equals(v, other.v);
                 }
 
                 return false;
@@ -5761,7 +5729,7 @@ public final class Points {
              * @param z
              * @param v
              */
-            DoubleObjPoint(double x, double y, double z, T v) {
+            DoubleObjPoint(final double x, final double y, final double z, final T v) {
                 this.x = x;
                 this.y = y;
                 this.z = z;
@@ -5777,7 +5745,7 @@ public final class Points {
              * @param v
              * @return
              */
-            public static <T> DoubleObjPoint<T> of(double x, double y, double z, T v) {
+            public static <T> DoubleObjPoint<T> of(final double x, final double y, final double z, final T v) {
                 return new DoubleObjPoint<>(x, y, z, v);
             }
 
@@ -5796,14 +5764,14 @@ public final class Points {
              * @return true, if successful
              */
             @Override
-            public boolean equals(Object obj) {
+            public boolean equals(final Object obj) {
                 if (this == obj) {
                     return true;
                 }
 
                 if (obj instanceof DoubleObjPoint) {
-                    DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
-                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.z, other.z) && N.equals(this.v, other.v);
+                    final DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
+                    return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && N.equals(v, other.v);
                 }
 
                 return false;

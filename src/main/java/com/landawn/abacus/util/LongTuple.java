@@ -27,112 +27,112 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     protected long[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static LongTuple1 of(long _1) {
+    public static LongTuple1 of(final long _1) {
         return new LongTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static LongTuple2 of(long _1, long _2) {
+    public static LongTuple2 of(final long _1, final long _2) {
         return new LongTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static LongTuple3 of(long _1, long _2, long _3) {
+    public static LongTuple3 of(final long _1, final long _2, final long _3) {
         return new LongTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static LongTuple4 of(long _1, long _2, long _3, long _4) {
+    public static LongTuple4 of(final long _1, final long _2, final long _3, final long _4) {
         return new LongTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static LongTuple5 of(long _1, long _2, long _3, long _4, long _5) {
+    public static LongTuple5 of(final long _1, final long _2, final long _3, final long _4, final long _5) {
         return new LongTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static LongTuple6 of(long _1, long _2, long _3, long _4, long _5, long _6) {
+    public static LongTuple6 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6) {
         return new LongTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static LongTuple7 of(long _1, long _2, long _3, long _4, long _5, long _6, long _7) {
+    public static LongTuple7 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7) {
         return new LongTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @param _8 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static LongTuple8 of(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8) {
+    public static LongTuple8 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
         return new LongTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -151,16 +151,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static LongTuple9 of(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8, long _9) {
+    public static LongTuple9 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8, final long _9) {
         return new LongTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends LongTuple<TP>> TP create(final long[] a) {
         if (a == null || a.length == 0) {
@@ -201,109 +201,109 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(long valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public LongList toList() {
         return LongList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.LongConsumer<E> comsumer) throws E {
-        for (long e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.LongConsumer<E> comsumer) throws E {
+        for (final long e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public LongStream stream() {
         return LongStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -311,13 +311,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -328,9 +328,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -403,14 +403,14 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0);
         }
 
-        LongTuple1(long _1) {
+        LongTuple1(final long _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -418,9 +418,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long min() {
@@ -428,9 +428,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long max() {
@@ -438,9 +438,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long median() {
@@ -448,9 +448,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long sum() {
@@ -458,9 +458,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -468,9 +468,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple1 reverse() {
@@ -478,10 +478,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -489,9 +489,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -499,27 +499,26 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof LongTuple1)) {
+            } else if (!(obj instanceof final LongTuple1 other)) {
                 return false;
             } else {
-                LongTuple1 other = (LongTuple1) obj;
-                return this._1 == other._1;
+                return _1 == other._1;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -528,7 +527,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected long[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new long[] { _1 };
             }
 
@@ -545,15 +544,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0);
         }
 
-        LongTuple2(long _1, long _2) {
+        LongTuple2(final long _1, final long _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -561,9 +560,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long min() {
@@ -571,9 +570,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long max() {
@@ -581,9 +580,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long median() {
@@ -591,9 +590,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long sum() {
@@ -601,9 +600,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -611,9 +610,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple2 reverse() {
@@ -621,10 +620,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -632,16 +631,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.LongConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -650,7 +649,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.LongBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -662,7 +661,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.LongBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -678,9 +677,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -688,27 +687,26 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof LongTuple2)) {
+            } else if (!(obj instanceof final LongTuple2 other)) {
                 return false;
             } else {
-                LongTuple2 other = (LongTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return _1 == other._1 && _2 == other._2;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -717,7 +715,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected long[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new long[] { _1, _2 };
             }
 
@@ -735,16 +733,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0);
         }
 
-        LongTuple3(long _1, long _2, long _3) {
+        LongTuple3(final long _1, final long _2, final long _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -752,9 +750,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long min() {
@@ -762,9 +760,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long max() {
@@ -772,9 +770,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long median() {
@@ -782,9 +780,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public long sum() {
@@ -792,9 +790,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -802,9 +800,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple3 reverse() {
@@ -812,10 +810,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -823,17 +821,17 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.LongConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -842,7 +840,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.LongTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.LongTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -854,7 +852,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.LongTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.LongTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -870,9 +868,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -880,27 +878,26 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof LongTuple3)) {
+            } else if (!(obj instanceof final LongTuple3 other)) {
                 return false;
             } else {
-                LongTuple3 other = (LongTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return _1 == other._1 && _2 == other._2 && _3 == other._3;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -909,7 +906,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected long[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new long[] { _1, _2, _3 };
             }
 
@@ -928,7 +925,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0);
         }
 
-        LongTuple4(long _1, long _2, long _3, long _4) {
+        LongTuple4(final long _1, final long _2, final long _3, final long _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -936,9 +933,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -946,9 +943,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple4 reverse() {
@@ -956,10 +953,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -988,7 +985,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0, 0);
         }
 
-        LongTuple5(long _1, long _2, long _3, long _4, long _5) {
+        LongTuple5(final long _1, final long _2, final long _3, final long _4, final long _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -997,9 +994,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1007,9 +1004,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple5 reverse() {
@@ -1017,10 +1014,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1050,7 +1047,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0, 0, 0);
         }
 
-        LongTuple6(long _1, long _2, long _3, long _4, long _5, long _6) {
+        LongTuple6(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1060,9 +1057,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1070,9 +1067,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple6 reverse() {
@@ -1080,10 +1077,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1114,7 +1111,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
-        LongTuple7(long _1, long _2, long _3, long _4, long _5, long _6, long _7) {
+        LongTuple7(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1125,9 +1122,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1135,9 +1132,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple7 reverse() {
@@ -1145,10 +1142,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1181,7 +1178,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        LongTuple8(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8) {
+        LongTuple8(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1193,9 +1190,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1203,9 +1200,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple8 reverse() {
@@ -1213,10 +1210,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1250,7 +1247,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        LongTuple9(long _1, long _2, long _3, long _4, long _5, long _6, long _7, long _8, long _9) {
+        LongTuple9(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8, final long _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1263,9 +1260,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1273,9 +1270,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public LongTuple9 reverse() {
@@ -1283,10 +1280,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final long valueToFind) {

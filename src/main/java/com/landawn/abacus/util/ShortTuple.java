@@ -27,112 +27,112 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     protected short[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static ShortTuple1 of(short _1) {
+    public static ShortTuple1 of(final short _1) {
         return new ShortTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static ShortTuple2 of(short _1, short _2) {
+    public static ShortTuple2 of(final short _1, final short _2) {
         return new ShortTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static ShortTuple3 of(short _1, short _2, short _3) {
+    public static ShortTuple3 of(final short _1, final short _2, final short _3) {
         return new ShortTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static ShortTuple4 of(short _1, short _2, short _3, short _4) {
+    public static ShortTuple4 of(final short _1, final short _2, final short _3, final short _4) {
         return new ShortTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static ShortTuple5 of(short _1, short _2, short _3, short _4, short _5) {
+    public static ShortTuple5 of(final short _1, final short _2, final short _3, final short _4, final short _5) {
         return new ShortTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static ShortTuple6 of(short _1, short _2, short _3, short _4, short _5, short _6) {
+    public static ShortTuple6 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6) {
         return new ShortTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static ShortTuple7 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7) {
+    public static ShortTuple7 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7) {
         return new ShortTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @param _8 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static ShortTuple8 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8) {
+    public static ShortTuple8 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8) {
         return new ShortTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -151,16 +151,16 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static ShortTuple9 of(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8, short _9) {
+    public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8, final short _9) {
         return new ShortTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends ShortTuple<TP>> TP create(final short[] a) {
         if (a == null || a.length == 0) {
@@ -201,109 +201,109 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(short valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public short[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ShortList toList() {
         return ShortList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.ShortConsumer<E> comsumer) throws E {
-        for (short e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> comsumer) throws E {
+        for (final short e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public ShortStream stream() {
         return ShortStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -311,13 +311,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -328,9 +328,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -403,14 +403,14 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0);
         }
 
-        ShortTuple1(short _1) {
+        ShortTuple1(final short _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -418,9 +418,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short min() {
@@ -428,9 +428,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short max() {
@@ -438,9 +438,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short median() {
@@ -448,9 +448,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -458,9 +458,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -468,9 +468,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple1 reverse() {
@@ -478,10 +478,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -489,9 +489,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -499,27 +499,26 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof ShortTuple1)) {
+            } else if (!(obj instanceof final ShortTuple1 other)) {
                 return false;
             } else {
-                ShortTuple1 other = (ShortTuple1) obj;
-                return this._1 == other._1;
+                return _1 == other._1;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -528,7 +527,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         @Override
         protected short[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new short[] { _1 };
             }
 
@@ -545,15 +544,15 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0);
         }
 
-        ShortTuple2(short _1, short _2) {
+        ShortTuple2(final short _1, final short _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -561,9 +560,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short min() {
@@ -571,9 +570,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short max() {
@@ -581,9 +580,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short median() {
@@ -591,9 +590,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -601,9 +600,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -611,9 +610,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple2 reverse() {
@@ -621,10 +620,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -632,16 +631,16 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.ShortConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -650,7 +649,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.ShortBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -662,7 +661,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.ShortBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -678,9 +677,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -688,27 +687,26 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof ShortTuple2)) {
+            } else if (!(obj instanceof final ShortTuple2 other)) {
                 return false;
             } else {
-                ShortTuple2 other = (ShortTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return _1 == other._1 && _2 == other._2;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -717,7 +715,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         @Override
         protected short[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new short[] { _1, _2 };
             }
 
@@ -735,16 +733,16 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple3(short _1, short _2, short _3) {
+        ShortTuple3(final short _1, final short _2, final short _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -752,9 +750,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short min() {
@@ -762,9 +760,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short max() {
@@ -772,9 +770,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public short median() {
@@ -782,9 +780,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -792,9 +790,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -802,9 +800,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple3 reverse() {
@@ -812,10 +810,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -823,17 +821,17 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.ShortConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -842,7 +840,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.ShortTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -854,7 +852,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.ShortTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.ShortTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -870,9 +868,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -880,27 +878,26 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof ShortTuple3)) {
+            } else if (!(obj instanceof final ShortTuple3 other)) {
                 return false;
             } else {
-                ShortTuple3 other = (ShortTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return _1 == other._1 && _2 == other._2 && _3 == other._3;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -909,7 +906,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         @Override
         protected short[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new short[] { _1, _2, _3 };
             }
 
@@ -928,7 +925,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple4(short _1, short _2, short _3, short _4) {
+        ShortTuple4(final short _1, final short _2, final short _3, final short _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -936,9 +933,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -946,9 +943,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple4 reverse() {
@@ -956,10 +953,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -988,7 +985,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple5(short _1, short _2, short _3, short _4, short _5) {
+        ShortTuple5(final short _1, final short _2, final short _3, final short _4, final short _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -997,9 +994,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1007,9 +1004,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple5 reverse() {
@@ -1017,10 +1014,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1050,7 +1047,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple6(short _1, short _2, short _3, short _4, short _5, short _6) {
+        ShortTuple6(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1060,9 +1057,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1070,9 +1067,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple6 reverse() {
@@ -1080,10 +1077,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1114,7 +1111,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple7(short _1, short _2, short _3, short _4, short _5, short _6, short _7) {
+        ShortTuple7(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1125,9 +1122,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1135,9 +1132,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple7 reverse() {
@@ -1145,10 +1142,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1181,7 +1178,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple8(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8) {
+        ShortTuple8(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1193,9 +1190,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1203,9 +1200,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple8 reverse() {
@@ -1213,10 +1210,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1250,7 +1247,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             this((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
         }
 
-        ShortTuple9(short _1, short _2, short _3, short _4, short _5, short _6, short _7, short _8, short _9) {
+        ShortTuple9(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8, final short _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1263,9 +1260,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1273,9 +1270,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public ShortTuple9 reverse() {
@@ -1283,10 +1280,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final short valueToFind) {

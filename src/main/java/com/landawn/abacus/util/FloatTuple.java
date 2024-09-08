@@ -27,112 +27,112 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     protected float[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static FloatTuple1 of(float _1) {
+    public static FloatTuple1 of(final float _1) {
         return new FloatTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static FloatTuple2 of(float _1, float _2) {
+    public static FloatTuple2 of(final float _1, final float _2) {
         return new FloatTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static FloatTuple3 of(float _1, float _2, float _3) {
+    public static FloatTuple3 of(final float _1, final float _2, final float _3) {
         return new FloatTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static FloatTuple4 of(float _1, float _2, float _3, float _4) {
+    public static FloatTuple4 of(final float _1, final float _2, final float _3, final float _4) {
         return new FloatTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static FloatTuple5 of(float _1, float _2, float _3, float _4, float _5) {
+    public static FloatTuple5 of(final float _1, final float _2, final float _3, final float _4, final float _5) {
         return new FloatTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static FloatTuple6 of(float _1, float _2, float _3, float _4, float _5, float _6) {
+    public static FloatTuple6 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6) {
         return new FloatTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static FloatTuple7 of(float _1, float _2, float _3, float _4, float _5, float _6, float _7) {
+    public static FloatTuple7 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7) {
         return new FloatTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @param _8 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @param _8
+     * @return
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static FloatTuple8 of(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8) {
+    public static FloatTuple8 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8) {
         return new FloatTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -151,16 +151,16 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static FloatTuple9 of(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8, float _9) {
+    public static FloatTuple9 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8, final float _9) {
         return new FloatTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends FloatTuple<TP>> TP create(final float[] a) {
         if (a == null || a.length == 0) {
@@ -201,109 +201,109 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public float min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public float max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public float median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public float sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(float valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public float[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public FloatList toList() {
         return FloatList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.FloatConsumer<E> comsumer) throws E {
-        for (float e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> comsumer) throws E {
+        for (final float e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public FloatStream stream() {
         return FloatStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -311,13 +311,13 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -328,9 +328,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -403,14 +403,14 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0);
         }
 
-        FloatTuple1(float _1) {
+        FloatTuple1(final float _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -418,9 +418,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float min() {
@@ -428,9 +428,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float max() {
@@ -438,9 +438,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float median() {
@@ -448,9 +448,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float sum() {
@@ -458,9 +458,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -468,9 +468,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple1 reverse() {
@@ -478,10 +478,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -489,9 +489,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -499,27 +499,26 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof FloatTuple1)) {
+            } else if (!(obj instanceof final FloatTuple1 other)) {
                 return false;
             } else {
-                FloatTuple1 other = (FloatTuple1) obj;
-                return N.equals(this._1, other._1);
+                return N.equals(_1, other._1);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -528,7 +527,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         protected float[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new float[] { _1 };
             }
 
@@ -545,15 +544,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0);
         }
 
-        FloatTuple2(float _1, float _2) {
+        FloatTuple2(final float _1, final float _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -561,9 +560,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float min() {
@@ -571,9 +570,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float max() {
@@ -581,9 +580,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float median() {
@@ -591,9 +590,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float sum() {
@@ -601,9 +600,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -611,9 +610,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple2 reverse() {
@@ -621,10 +620,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -632,16 +631,16 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.FloatConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -650,7 +649,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.FloatBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -662,7 +661,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.FloatBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -678,9 +677,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -688,27 +687,26 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof FloatTuple2)) {
+            } else if (!(obj instanceof final FloatTuple2 other)) {
                 return false;
             } else {
-                FloatTuple2 other = (FloatTuple2) obj;
-                return N.equals(this._1, other._1) && N.equals(this._2, other._2);
+                return N.equals(_1, other._1) && N.equals(_2, other._2);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -717,7 +715,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         protected float[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new float[] { _1, _2 };
             }
 
@@ -735,16 +733,16 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0);
         }
 
-        FloatTuple3(float _1, float _2, float _3) {
+        FloatTuple3(final float _1, final float _2, final float _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -752,9 +750,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float min() {
@@ -762,9 +760,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float max() {
@@ -772,9 +770,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float median() {
@@ -782,9 +780,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public float sum() {
@@ -792,9 +790,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -802,9 +800,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple3 reverse() {
@@ -812,10 +810,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -823,17 +821,17 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.FloatConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -842,7 +840,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.FloatTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -854,7 +852,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.FloatTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -870,9 +868,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -880,27 +878,26 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof FloatTuple3)) {
+            } else if (!(obj instanceof final FloatTuple3 other)) {
                 return false;
             } else {
-                FloatTuple3 other = (FloatTuple3) obj;
-                return N.equals(this._1, other._1) && N.equals(this._2, other._2) && N.equals(this._3, other._3);
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -909,7 +906,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         @Override
         protected float[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new float[] { _1, _2, _3 };
             }
 
@@ -928,7 +925,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0);
         }
 
-        FloatTuple4(float _1, float _2, float _3, float _4) {
+        FloatTuple4(final float _1, final float _2, final float _3, final float _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -936,9 +933,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -946,9 +943,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple4 reverse() {
@@ -956,10 +953,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -988,7 +985,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0, 0);
         }
 
-        FloatTuple5(float _1, float _2, float _3, float _4, float _5) {
+        FloatTuple5(final float _1, final float _2, final float _3, final float _4, final float _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -997,9 +994,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1007,9 +1004,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple5 reverse() {
@@ -1017,10 +1014,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1051,7 +1048,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0, 0, 0);
         }
 
-        FloatTuple6(float _1, float _2, float _3, float _4, float _5, float _6) {
+        FloatTuple6(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1061,9 +1058,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1071,9 +1068,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple6 reverse() {
@@ -1081,10 +1078,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1116,7 +1113,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
-        FloatTuple7(float _1, float _2, float _3, float _4, float _5, float _6, float _7) {
+        FloatTuple7(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1127,9 +1124,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1137,9 +1134,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple7 reverse() {
@@ -1147,10 +1144,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1183,7 +1180,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        FloatTuple8(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8) {
+        FloatTuple8(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1195,9 +1192,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1205,9 +1202,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple8 reverse() {
@@ -1215,10 +1212,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1252,7 +1249,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        FloatTuple9(float _1, float _2, float _3, float _4, float _5, float _6, float _7, float _8, float _9) {
+        FloatTuple9(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8, final float _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1265,9 +1262,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1275,9 +1272,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public FloatTuple9 reverse() {
@@ -1285,10 +1282,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final float valueToFind) {

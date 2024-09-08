@@ -45,8 +45,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public Matrix(final T[][] a) {
         super(a);
-        this.arrayType = (Class<T[]>) this.a.getClass().getComponentType();
-        this.elementType = (Class<T>) this.arrayType.getComponentType();
+        arrayType = (Class<T[]>) this.a.getClass().getComponentType();
+        elementType = (Class<T>) arrayType.getComponentType();
     }
 
     /**
@@ -143,7 +143,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -160,14 +160,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         if (N.isEmpty(leftUp2RighDownDiagonal)) {
             if (N.isEmpty(rightUp2LeftDownDiagonal)) {
-                return new Matrix<>(c);
             } else {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
-
-                return new Matrix<>(c);
             }
+            return new Matrix<>(c);
         } else {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
@@ -343,7 +341,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param row
      * @throws IllegalArgumentException
      */
-    public void setRow(int rowIndex, T[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -356,7 +354,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param column
      * @throws IllegalArgumentException
      */
-    public void setColumn(int columnIndex, T[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -371,7 +369,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.apply(a[rowIndex][i]);
         }
@@ -384,7 +382,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.apply(a[i][columnIndex]);
         }
@@ -541,7 +539,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> func) throws E {
-        return map(func, this.elementType);
+        return map(func, elementType);
     }
 
     /**
@@ -959,7 +957,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, cols);
 
         for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.elementType, rows);
+            c[i] = N.newArray(elementType, rows);
         }
 
         if (rows <= cols) {
@@ -1006,7 +1004,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final T[][] c = N.newArray(arrayType, cols);
 
         for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.elementType, rows);
+            c[i] = N.newArray(elementType, rows);
         }
 
         if (rows <= cols) {
@@ -1084,7 +1082,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
-                    c[i][j] = a[(int) (cnt / this.cols)][(int) (cnt % this.cols)];
+                    c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
         }
@@ -1185,7 +1183,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<? super T[], E> op) throws E {
+    public <E extends Exception> void flatOp(final Throwables.Consumer<? super T[], E> op) throws E {
         ff.flatOp(a, op);
     }
 
@@ -1198,9 +1196,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#vstack(IntMatrix)
      */
     public Matrix<T> vstack(final Matrix<? extends T> b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final T[][] c = N.newArray(arrayType, this.rows + b.rows);
+        final T[][] c = N.newArray(arrayType, rows + b.rows);
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1223,7 +1221,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#hstack(IntMatrix)
      */
     public Matrix<T> hstack(final Matrix<? extends T> b) throws IllegalArgumentException {
-        N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final T[][] c = N.newArray(arrayType, rows);
 
@@ -1354,7 +1352,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1399,7 +1397,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1473,7 +1471,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1575,7 +1573,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * Matrix.this.rows * 1L - i) {
@@ -1658,7 +1656,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1733,7 +1731,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     }
 
                     @Override
-                    public void advance(long n) throws IllegalArgumentException {
+                    public void advance(final long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1747,7 +1745,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1766,7 +1764,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     @Override
-    protected int length(@SuppressWarnings("hiding") T[] a) {
+    protected int length(@SuppressWarnings("hiding") final T[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1892,7 +1890,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return true, if successful
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -1900,7 +1898,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         if (obj instanceof Matrix) {
             final Matrix<T> another = (Matrix<T>) obj;
 
-            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
+            return cols == another.cols && rows == another.rows && N.deepEquals(a, another.a);
         }
 
         return false;

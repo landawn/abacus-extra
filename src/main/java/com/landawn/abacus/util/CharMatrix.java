@@ -86,7 +86,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param endExclusive
      * @return
      */
-    public static CharMatrix range(char startInclusive, final char endExclusive) {
+    public static CharMatrix range(final char startInclusive, final char endExclusive) {
         return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive) });
     }
 
@@ -97,7 +97,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param by
      * @return
      */
-    public static CharMatrix range(char startInclusive, final char endExclusive, final int by) {
+    public static CharMatrix range(final char startInclusive, final char endExclusive, final int by) {
         return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
@@ -107,7 +107,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param endInclusive
      * @return
      */
-    public static CharMatrix rangeClosed(char startInclusive, final char endInclusive) {
+    public static CharMatrix rangeClosed(final char startInclusive, final char endInclusive) {
         return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
@@ -118,7 +118,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param by
      * @return
      */
-    public static CharMatrix rangeClosed(char startInclusive, final char endInclusive, final int by) {
+    public static CharMatrix rangeClosed(final char startInclusive, final char endInclusive, final int by) {
         return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
@@ -150,7 +150,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return
      * @throws IllegalArgumentException
      */
-    public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -356,7 +356,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param row
      * @throws IllegalArgumentException
      */
-    public void setRow(int rowIndex, char[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -369,7 +369,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param column
      * @throws IllegalArgumentException
      */
-    public void setColumn(int columnIndex, char[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -384,7 +384,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsChar(a[rowIndex][i]);
         }
@@ -397,7 +397,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsChar(a[i][columnIndex]);
         }
@@ -948,7 +948,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
-                    c[i][j] = a[(int) (cnt / this.cols)][(int) (cnt % this.cols)];
+                    c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
         }
@@ -1040,7 +1040,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<? super char[], E> op) throws E {
+    public <E extends Exception> void flatOp(final Throwables.Consumer<? super char[], E> op) throws E {
         Arrays.flatOp(a, op);
     }
 
@@ -1053,9 +1053,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public CharMatrix vstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final char[][] c = new char[this.rows + b.rows][];
+        final char[][] c = new char[rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1078,7 +1078,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public CharMatrix hstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final char[][] c = new char[rows][cols + b.cols];
 
@@ -1136,7 +1136,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException
      */
     public CharMatrix multiply(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
 
         final char[][] ba = b.a;
         final char[][] result = new char[rows][b.cols];
@@ -1348,7 +1348,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1393,7 +1393,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1467,7 +1467,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1566,7 +1566,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * CharMatrix.this.rows * 1L - i) {
@@ -1646,7 +1646,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1721,7 +1721,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
                     }
 
                     @Override
-                    public void advance(long n) throws IllegalArgumentException {
+                    public void advance(final long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1735,7 +1735,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1754,7 +1754,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return
      */
     @Override
-    protected int length(@SuppressWarnings("hiding") char[] a) {
+    protected int length(@SuppressWarnings("hiding") final char[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1823,15 +1823,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return true, if successful
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj instanceof CharMatrix) {
-            final CharMatrix another = (CharMatrix) obj;
-
-            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
+        if (obj instanceof final CharMatrix another) {
+            return cols == another.cols && rows == another.rows && N.deepEquals(a, another.a);
         }
 
         return false;

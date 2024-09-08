@@ -14,7 +14,6 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.function.IntFunction;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -56,20 +55,20 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
 
     final A[] a;
 
-    protected AbstractMatrix(A[] a) {
+    protected AbstractMatrix(final A[] a) {
         this.a = a;
-        this.rows = a.length;
-        this.cols = a.length == 0 ? 0 : length(a[0]);
+        rows = a.length;
+        cols = a.length == 0 ? 0 : length(a[0]);
 
         if (a.length > 1) {
             for (int i = 1, len = a.length; i < len; i++) {
-                if (length(a[i]) != this.cols) {
+                if (length(a[i]) != cols) {
                     throw new IllegalArgumentException("The length of sub arrays must be same");
                 }
             }
         }
 
-        this.count = this.cols * this.rows * 1L;
+        count = cols * rows * 1L;
     }
 
     @SuppressWarnings("rawtypes")
@@ -160,7 +159,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param newCols
      * @return
      */
-    public X reshape(int newCols) {
+    public X reshape(final int newCols) {
         return reshape((int) (count % newCols == 0 ? count / newCols : count / newCols + 1), newCols);
     }
 
@@ -178,8 +177,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param x
      * @return true, if is same shape
      */
-    public boolean isSameShape(X x) {
-        return this.rows == x.rows && this.cols == x.cols;
+    public boolean isSameShape(final X x) {
+        return rows == x.rows && cols == x.cols;
     }
 
     /**
@@ -340,12 +339,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<IntPair> pointsLU2RD() {
         checkIfRowAndColumnSizeAreSame();
 
-        return IntStream.range(0, rows).mapToObj(new IntFunction<IntPair>() {
-            @Override
-            public IntPair apply(int i) {
-                return IntPair.of(i, i);
-            }
-        });
+        return IntStream.range(0, rows).mapToObj(i -> IntPair.of(i, i));
     }
 
     /**
@@ -356,12 +350,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<IntPair> pointsRU2LD() {
         checkIfRowAndColumnSizeAreSame();
 
-        return IntStream.range(0, rows).mapToObj(new IntFunction<IntPair>() {
-            @Override
-            public IntPair apply(int i) {
-                return IntPair.of(i, cols - i - 1);
-            }
-        });
+        return IntStream.range(0, rows).mapToObj(i -> IntPair.of(i, cols - i - 1));
     }
 
     /**
@@ -378,7 +367,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param rowIndex
      * @return
      */
-    public Stream<IntPair> pointsH(int rowIndex) {
+    public Stream<IntPair> pointsH(final int rowIndex) {
         return pointsH(rowIndex, rowIndex + 1);
     }
 
@@ -390,20 +379,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return
      * @throws IndexOutOfBoundsException
      */
-    public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
+    @SuppressWarnings("resource")
+    public Stream<IntPair> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        return IntStream.range(fromRowIndex, toRowIndex).flatMapToObj(new IntFunction<Stream<IntPair>>() {
-            @Override
-            public Stream<IntPair> apply(final int rowIndex) {
-                return IntStream.range(0, cols).mapToObj(new IntFunction<IntPair>() {
-                    @Override
-                    public IntPair apply(final int columnIndex) {
-                        return IntPair.of(rowIndex, columnIndex);
-                    }
-                });
-            }
-        });
+        return IntStream.range(fromRowIndex, toRowIndex).flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -420,7 +400,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param columnIndex
      * @return
      */
-    public Stream<IntPair> pointsV(int columnIndex) {
+    public Stream<IntPair> pointsV(final int columnIndex) {
         return pointsV(columnIndex, columnIndex + 1);
     }
 
@@ -432,20 +412,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return
      * @throws IndexOutOfBoundsException
      */
-    public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
+    @SuppressWarnings("resource")
+    public Stream<IntPair> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        return IntStream.range(fromColumnIndex, toColumnIndex).flatMapToObj(new IntFunction<Stream<IntPair>>() {
-            @Override
-            public Stream<IntPair> apply(final int columnIndex) {
-                return IntStream.range(0, rows).mapToObj(new IntFunction<IntPair>() {
-                    @Override
-                    public IntPair apply(final int rowIndex) {
-                        return IntPair.of(rowIndex, columnIndex);
-                    }
-                });
-            }
-        });
+        return IntStream.range(fromColumnIndex, toColumnIndex).flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -465,20 +436,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return
      * @throws IndexOutOfBoundsException
      */
-    public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) throws IndexOutOfBoundsException {
+    @SuppressWarnings("resource")
+    public Stream<Stream<IntPair>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        return IntStream.range(fromRowIndex, toRowIndex).mapToObj(new IntFunction<Stream<IntPair>>() {
-            @Override
-            public Stream<IntPair> apply(final int rowIndex) {
-                return IntStream.range(0, cols).mapToObj(new IntFunction<IntPair>() {
-                    @Override
-                    public IntPair apply(final int columnIndex) {
-                        return IntPair.of(rowIndex, columnIndex);
-                    }
-                });
-            }
-        });
+        return IntStream.range(fromRowIndex, toRowIndex).mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -498,20 +460,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @return
      * @throws IndexOutOfBoundsException
      */
-    public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) throws IndexOutOfBoundsException {
+    @SuppressWarnings("resource")
+    public Stream<Stream<IntPair>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        return IntStream.range(fromColumnIndex, toColumnIndex).mapToObj(new IntFunction<Stream<IntPair>>() {
-            @Override
-            public Stream<IntPair> apply(final int columnIndex) {
-                return IntStream.range(0, rows).mapToObj(new IntFunction<IntPair>() {
-                    @Override
-                    public IntPair apply(final int rowIndex) {
-                        return IntPair.of(rowIndex, columnIndex);
-                    }
-                });
-            }
-        });
+        return IntStream.range(fromColumnIndex, toColumnIndex).mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -628,7 +581,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
 
     protected abstract int length(@SuppressWarnings("hiding") A a);
 
-    protected void checkSameShape(X x) {
+    protected void checkSameShape(final X x) {
         N.checkArgument(this.isSameShape(x), "Must be same shape");
     }
 

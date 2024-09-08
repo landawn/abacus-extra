@@ -27,93 +27,93 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected char[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static CharTuple1 of(char _1) {
+    public static CharTuple1 of(final char _1) {
         return new CharTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static CharTuple2 of(char _1, char _2) {
+    public static CharTuple2 of(final char _1, final char _2) {
         return new CharTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static CharTuple3 of(char _1, char _2, char _3) {
+    public static CharTuple3 of(final char _1, final char _2, final char _3) {
         return new CharTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static CharTuple4 of(char _1, char _2, char _3, char _4) {
+    public static CharTuple4 of(final char _1, final char _2, final char _3, final char _4) {
         return new CharTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static CharTuple5 of(char _1, char _2, char _3, char _4, char _5) {
+    public static CharTuple5 of(final char _1, final char _2, final char _3, final char _4, final char _5) {
         return new CharTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static CharTuple6 of(char _1, char _2, char _3, char _4, char _5, char _6) {
+    public static CharTuple6 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6) {
         return new CharTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static CharTuple7 of(char _1, char _2, char _3, char _4, char _5, char _6, char _7) {
+    public static CharTuple7 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7) {
         return new CharTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
@@ -131,7 +131,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static CharTuple8 of(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8) {
+    public static CharTuple8 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
         return new CharTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -150,16 +150,16 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static CharTuple9 of(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8, char _9) {
+    public static CharTuple9 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8, final char _9) {
         return new CharTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends CharTuple<TP>> TP create(final char[] a) {
         if (a == null || a.length == 0) {
@@ -200,109 +200,109 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public char min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public char max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public char median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(char valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public char[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public CharList toList() {
         return CharList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.CharConsumer<E> comsumer) throws E {
-        for (char e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.CharConsumer<E> comsumer) throws E {
+        for (final char e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public CharStream stream() {
         return CharStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -310,13 +310,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -327,9 +327,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -402,14 +402,14 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0);
         }
 
-        CharTuple1(char _1) {
+        CharTuple1(final char _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -417,9 +417,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char min() {
@@ -427,9 +427,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char max() {
@@ -437,9 +437,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char median() {
@@ -447,9 +447,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -457,9 +457,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -467,9 +467,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple1 reverse() {
@@ -477,10 +477,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -488,9 +488,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -498,27 +498,26 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof CharTuple1)) {
+            } else if (!(obj instanceof final CharTuple1 other)) {
                 return false;
             } else {
-                CharTuple1 other = (CharTuple1) obj;
-                return this._1 == other._1;
+                return _1 == other._1;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -527,7 +526,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected char[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new char[] { _1 };
             }
 
@@ -544,15 +543,15 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0);
         }
 
-        CharTuple2(char _1, char _2) {
+        CharTuple2(final char _1, final char _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -560,9 +559,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char min() {
@@ -570,9 +569,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char max() {
@@ -580,9 +579,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char median() {
@@ -590,9 +589,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -600,9 +599,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -610,9 +609,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple2 reverse() {
@@ -620,10 +619,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -631,16 +630,16 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.CharConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -649,7 +648,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.CharBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.CharBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -661,7 +660,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.CharBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.CharBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -677,9 +676,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -687,27 +686,26 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof CharTuple2)) {
+            } else if (!(obj instanceof final CharTuple2 other)) {
                 return false;
             } else {
-                CharTuple2 other = (CharTuple2) obj;
-                return this._1 == other._1 && this._2 == other._2;
+                return _1 == other._1 && _2 == other._2;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -716,7 +714,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected char[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new char[] { _1, _2 };
             }
 
@@ -734,16 +732,16 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple3(char _1, char _2, char _3) {
+        CharTuple3(final char _1, final char _2, final char _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -751,9 +749,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char min() {
@@ -761,9 +759,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char max() {
@@ -771,9 +769,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public char median() {
@@ -781,9 +779,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int sum() {
@@ -791,9 +789,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -801,9 +799,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple3 reverse() {
@@ -811,10 +809,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -822,17 +820,17 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.CharConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -841,7 +839,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.CharTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.CharTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -853,7 +851,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.CharTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.CharTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -869,9 +867,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -879,27 +877,26 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof CharTuple3)) {
+            } else if (!(obj instanceof final CharTuple3 other)) {
                 return false;
             } else {
-                CharTuple3 other = (CharTuple3) obj;
-                return this._1 == other._1 && this._2 == other._2 && this._3 == other._3;
+                return _1 == other._1 && _2 == other._2 && _3 == other._3;
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -908,7 +905,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         @Override
         protected char[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new char[] { _1, _2, _3 };
             }
 
@@ -927,7 +924,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple4(char _1, char _2, char _3, char _4) {
+        CharTuple4(final char _1, final char _2, final char _3, final char _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -935,9 +932,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -945,9 +942,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple4 reverse() {
@@ -955,10 +952,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -987,7 +984,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple5(char _1, char _2, char _3, char _4, char _5) {
+        CharTuple5(final char _1, final char _2, final char _3, final char _4, final char _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -996,9 +993,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1006,9 +1003,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple5 reverse() {
@@ -1016,10 +1013,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1049,7 +1046,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple6(char _1, char _2, char _3, char _4, char _5, char _6) {
+        CharTuple6(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1059,9 +1056,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1069,9 +1066,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple6 reverse() {
@@ -1079,10 +1076,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1113,7 +1110,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple7(char _1, char _2, char _3, char _4, char _5, char _6, char _7) {
+        CharTuple7(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1124,9 +1121,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1134,9 +1131,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple7 reverse() {
@@ -1144,10 +1141,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1180,7 +1177,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple8(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8) {
+        CharTuple8(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1192,9 +1189,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1202,9 +1199,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple8 reverse() {
@@ -1212,10 +1209,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1249,7 +1246,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             this((char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0, (char) 0);
         }
 
-        CharTuple9(char _1, char _2, char _3, char _4, char _5, char _6, char _7, char _8, char _9) {
+        CharTuple9(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8, final char _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1262,9 +1259,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1272,9 +1269,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public CharTuple9 reverse() {
@@ -1282,10 +1279,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final char valueToFind) {

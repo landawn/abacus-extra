@@ -111,7 +111,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param endExclusive
      * @return
      */
-    public static LongMatrix range(long startInclusive, final long endExclusive) {
+    public static LongMatrix range(final long startInclusive, final long endExclusive) {
         return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive) });
     }
 
@@ -122,7 +122,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param by
      * @return
      */
-    public static LongMatrix range(long startInclusive, final long endExclusive, final long by) {
+    public static LongMatrix range(final long startInclusive, final long endExclusive, final long by) {
         return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
@@ -132,7 +132,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param endInclusive
      * @return
      */
-    public static LongMatrix rangeClosed(long startInclusive, final long endInclusive) {
+    public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive) {
         return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
@@ -143,7 +143,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param by
      * @return
      */
-    public static LongMatrix rangeClosed(long startInclusive, final long endInclusive, final long by) {
+    public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive, final long by) {
         return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
@@ -175,7 +175,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      * @throws IllegalArgumentException
      */
-    public static LongMatrix diagonal(final long[] leftUp2RighDownDiagonal, long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static LongMatrix diagonal(final long[] leftUp2RighDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
                 N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
@@ -381,7 +381,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param row
      * @throws IllegalArgumentException
      */
-    public void setRow(int rowIndex, long[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final long[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -394,7 +394,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param column
      * @throws IllegalArgumentException
      */
-    public void setColumn(int columnIndex, long[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final long[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -409,7 +409,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.LongUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsLong(a[rowIndex][i]);
         }
@@ -422,7 +422,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.LongUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsLong(a[i][columnIndex]);
         }
@@ -1005,7 +1005,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
-                    c[i][j] = a[(int) (cnt / this.cols)][(int) (cnt % this.cols)];
+                    c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
         }
@@ -1097,7 +1097,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Throwables.Consumer<? super long[], E> op) throws E {
+    public <E extends Exception> void flatOp(final Throwables.Consumer<? super long[], E> op) throws E {
         Arrays.flatOp(a, op);
     }
 
@@ -1110,9 +1110,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public LongMatrix vstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final long[][] c = new long[this.rows + b.rows][];
+        final long[][] c = new long[rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1135,7 +1135,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public LongMatrix hstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
         final long[][] c = new long[rows][cols + b.cols];
 
@@ -1193,7 +1193,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException
      */
     public LongMatrix multiply(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
 
         final long[][] ba = b.a;
         final long[][] result = new long[rows][b.cols];
@@ -1349,7 +1349,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1394,7 +1394,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1468,7 +1468,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toRowIndex - i) * cols * 1L - j) {
@@ -1567,7 +1567,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 if (n >= (toColumnIndex - j) * LongMatrix.this.rows * 1L - i) {
@@ -1647,7 +1647,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1722,7 +1722,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     }
 
                     @Override
-                    public void advance(long n) throws IllegalArgumentException {
+                    public void advance(final long n) throws IllegalArgumentException {
                         N.checkArgNotNegative(n, "n");
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
@@ -1736,7 +1736,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public void advance(long n) throws IllegalArgumentException {
+            public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
@@ -1755,7 +1755,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     @Override
-    protected int length(@SuppressWarnings("hiding") long[] a) {
+    protected int length(@SuppressWarnings("hiding") final long[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1824,15 +1824,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return true, if successful
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj instanceof LongMatrix) {
-            final LongMatrix another = (LongMatrix) obj;
-
-            return this.cols == another.cols && this.rows == another.rows && N.deepEquals(this.a, another.a);
+        if (obj instanceof final LongMatrix another) {
+            return cols == another.cols && rows == another.rows && N.deepEquals(a, another.a);
         }
 
         return false;

@@ -27,93 +27,93 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     protected double[] elements;
 
     /**
-     * 
      *
-     * @param _1 
-     * @return 
+     *
+     * @param _1
+     * @return
      */
-    public static DoubleTuple1 of(double _1) {
+    public static DoubleTuple1 of(final double _1) {
         return new DoubleTuple1(_1);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @return
      */
-    public static DoubleTuple2 of(double _1, double _2) {
+    public static DoubleTuple2 of(final double _1, final double _2) {
         return new DoubleTuple2(_1, _2);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @return
      */
-    public static DoubleTuple3 of(double _1, double _2, double _3) {
+    public static DoubleTuple3 of(final double _1, final double _2, final double _3) {
         return new DoubleTuple3(_1, _2, _3);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @return
      */
-    public static DoubleTuple4 of(double _1, double _2, double _3, double _4) {
+    public static DoubleTuple4 of(final double _1, final double _2, final double _3, final double _4) {
         return new DoubleTuple4(_1, _2, _3, _4);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @return
      */
-    public static DoubleTuple5 of(double _1, double _2, double _3, double _4, double _5) {
+    public static DoubleTuple5 of(final double _1, final double _2, final double _3, final double _4, final double _5) {
         return new DoubleTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @return
      */
-    public static DoubleTuple6 of(double _1, double _2, double _3, double _4, double _5, double _6) {
+    public static DoubleTuple6 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
         return new DoubleTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
-     * 
      *
-     * @param _1 
-     * @param _2 
-     * @param _3 
-     * @param _4 
-     * @param _5 
-     * @param _6 
-     * @param _7 
-     * @return 
+     *
+     * @param _1
+     * @param _2
+     * @param _3
+     * @param _4
+     * @param _5
+     * @param _6
+     * @param _7
+     * @return
      */
-    public static DoubleTuple7 of(double _1, double _2, double _3, double _4, double _5, double _6, double _7) {
+    public static DoubleTuple7 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
@@ -131,7 +131,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static DoubleTuple8 of(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8) {
+    public static DoubleTuple8 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8) {
         return new DoubleTuple8(_1, _2, _3, _4, _5, _6, _7, _8);
     }
 
@@ -150,16 +150,16 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
      */
     @Deprecated
-    public static DoubleTuple9 of(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8, double _9) {
+    public static DoubleTuple9 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8, final double _9) {
         return new DoubleTuple9(_1, _2, _3, _4, _5, _6, _7, _8, _9);
     }
 
     /**
-     * 
      *
-     * @param <TP> 
-     * @param a 
-     * @return 
+     *
+     * @param <TP>
+     * @param a
+     * @return
      */
     public static <TP extends DoubleTuple<TP>> TP create(final double[] a) {
         if (a == null || a.length == 0) {
@@ -200,109 +200,109 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double min() {
         return N.min(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double max() {
         return N.max(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double median() {
         return N.median(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double sum() {
         return N.sum(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public abstract TP reverse();
 
     /**
-     * 
      *
-     * @param valueToFind 
-     * @return 
+     *
+     * @param valueToFind
+     * @return
      */
     public abstract boolean contains(double valueToFind);
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public double[] toArray() {
         return elements().clone();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public DoubleList toList() {
         return DoubleList.of(elements().clone());
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.DoubleConsumer<E> comsumer) throws E {
-        for (double e : elements()) {
+    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
+        for (final double e : elements()) {
             comsumer.accept(e);
         }
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public DoubleStream stream() {
         return DoubleStream.of(elements());
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
@@ -310,13 +310,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         } else if (obj == null || !(this.getClass().equals(obj.getClass()))) {
@@ -327,9 +327,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
@@ -402,14 +402,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0);
         }
 
-        DoubleTuple1(double _1) {
+        DoubleTuple1(final double _1) {
             this._1 = _1;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -417,9 +417,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double min() {
@@ -427,9 +427,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double max() {
@@ -437,9 +437,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double median() {
@@ -447,9 +447,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double sum() {
@@ -457,9 +457,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -467,9 +467,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple1 reverse() {
@@ -477,10 +477,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -488,9 +488,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -498,27 +498,26 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof DoubleTuple1)) {
+            } else if (!(obj instanceof final DoubleTuple1 other)) {
                 return false;
             } else {
-                DoubleTuple1 other = (DoubleTuple1) obj;
-                return N.equals(this._1, other._1);
+                return N.equals(_1, other._1);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -527,7 +526,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         @Override
         protected double[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new double[] { _1 };
             }
 
@@ -544,15 +543,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0);
         }
 
-        DoubleTuple2(double _1, double _2) {
+        DoubleTuple2(final double _1, final double _2) {
             this._1 = _1;
             this._2 = _2;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -560,9 +559,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double min() {
@@ -570,9 +569,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double max() {
@@ -580,9 +579,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double median() {
@@ -590,9 +589,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double sum() {
@@ -600,9 +599,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -610,9 +609,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple2 reverse() {
@@ -620,10 +619,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -631,16 +630,16 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.DoubleConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
         }
 
         /**
@@ -649,7 +648,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.DoubleBiConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
@@ -661,7 +660,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.DoubleBiFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
@@ -677,9 +676,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -687,27 +686,26 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof DoubleTuple2)) {
+            } else if (!(obj instanceof final DoubleTuple2 other)) {
                 return false;
             } else {
-                DoubleTuple2 other = (DoubleTuple2) obj;
-                return N.equals(this._1, other._1) && N.equals(this._2, other._2);
+                return N.equals(_1, other._1) && N.equals(_2, other._2);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -716,7 +714,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         @Override
         protected double[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new double[] { _1, _2 };
             }
 
@@ -734,16 +732,16 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0);
         }
 
-        DoubleTuple3(double _1, double _2, double _3) {
+        DoubleTuple3(final double _1, final double _2, final double _3) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -751,9 +749,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double min() {
@@ -761,9 +759,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double max() {
@@ -771,9 +769,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double median() {
@@ -781,9 +779,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double sum() {
@@ -791,9 +789,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public double average() {
@@ -801,9 +799,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple3 reverse() {
@@ -811,10 +809,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -822,17 +820,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param <E> 
-         * @param comsumer 
-         * @throws E 
+         *
+         * @param <E>
+         * @param comsumer
+         * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(Throwables.DoubleConsumer<E> comsumer) throws E {
-            comsumer.accept(this._1);
-            comsumer.accept(this._2);
-            comsumer.accept(this._3);
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
+            comsumer.accept(_1);
+            comsumer.accept(_2);
+            comsumer.accept(_3);
         }
 
         /**
@@ -841,7 +839,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @param action
          * @throws E the e
          */
-        public <E extends Exception> void accept(Throwables.DoubleTriConsumer<E> action) throws E {
+        public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
@@ -853,7 +851,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return
          * @throws E the e
          */
-        public <U, E extends Exception> U map(Throwables.DoubleTriFunction<U, E> mapper) throws E {
+        public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
@@ -869,9 +867,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int hashCode() {
@@ -879,27 +877,26 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param obj 
-         * @return 
+         *
+         * @param obj
+         * @return
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(final Object obj) {
             if (this == obj) {
                 return true;
-            } else if (!(obj instanceof DoubleTuple3)) {
+            } else if (!(obj instanceof final DoubleTuple3 other)) {
                 return false;
             } else {
-                DoubleTuple3 other = (DoubleTuple3) obj;
-                return N.equals(this._1, other._1) && N.equals(this._2, other._2) && N.equals(this._3, other._3);
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3);
             }
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public String toString() {
@@ -908,7 +905,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         @Override
         protected double[] elements() {
-            if (this.elements == null) {
+            if (elements == null) {
                 elements = new double[] { _1, _2, _3 };
             }
 
@@ -927,7 +924,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0);
         }
 
-        DoubleTuple4(double _1, double _2, double _3, double _4) {
+        DoubleTuple4(final double _1, final double _2, final double _3, final double _4) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -935,9 +932,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -945,9 +942,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple4 reverse() {
@@ -955,10 +952,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -987,7 +984,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0, 0);
         }
 
-        DoubleTuple5(double _1, double _2, double _3, double _4, double _5) {
+        DoubleTuple5(final double _1, final double _2, final double _3, final double _4, final double _5) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -996,9 +993,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1006,9 +1003,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple5 reverse() {
@@ -1016,10 +1013,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1050,7 +1047,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0, 0, 0);
         }
 
-        DoubleTuple6(double _1, double _2, double _3, double _4, double _5, double _6) {
+        DoubleTuple6(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1060,9 +1057,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1070,9 +1067,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple6 reverse() {
@@ -1080,10 +1077,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1115,7 +1112,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0, 0, 0, 0);
         }
 
-        DoubleTuple7(double _1, double _2, double _3, double _4, double _5, double _6, double _7) {
+        DoubleTuple7(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1126,9 +1123,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1136,9 +1133,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple7 reverse() {
@@ -1146,10 +1143,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1182,7 +1179,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        DoubleTuple8(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8) {
+        DoubleTuple8(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1194,9 +1191,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1204,9 +1201,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple8 reverse() {
@@ -1214,10 +1211,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1251,7 +1248,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
             this(0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        DoubleTuple9(double _1, double _2, double _3, double _4, double _5, double _6, double _7, double _8, double _9) {
+        DoubleTuple9(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7, final double _8, final double _9) {
             this._1 = _1;
             this._2 = _2;
             this._3 = _3;
@@ -1264,9 +1261,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public int arity() {
@@ -1274,9 +1271,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @return 
+         *
+         * @return
          */
         @Override
         public DoubleTuple9 reverse() {
@@ -1284,10 +1281,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * 
          *
-         * @param valueToFind 
-         * @return 
+         *
+         * @param valueToFind
+         * @return
          */
         @Override
         public boolean contains(final double valueToFind) {

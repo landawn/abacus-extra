@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,8 +21,8 @@ import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.LongStream;
 
-/** 
- * 
+/**
+ *
  * @deprecated Not a good idea?
  */
 @Deprecated
@@ -32,68 +32,68 @@ public class MutableLongPair implements Mutable {
     public long right;
 
     /**
-     * 
+     *
      */
     public MutableLongPair() {
     }
 
     MutableLongPair(final long l, final long r) {
-        this.left = l;
-        this.right = r;
+        left = l;
+        right = r;
     }
 
     /**
-     * 
      *
-     * @param l 
-     * @param r 
-     * @return 
+     *
+     * @param l
+     * @param r
+     * @return
      */
     public static MutableLongPair of(final long l, final long r) {
         return new MutableLongPair(l, r);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long getLeft() {
         return left;
     }
 
     /**
-     * 
      *
-     * @param left 
+     *
+     * @param left
      */
     public void setLeft(final long left) {
         this.left = left;
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long getRight() {
         return right;
     }
 
     /**
-     * 
      *
-     * @param right 
+     *
+     * @param right
      */
     public void setRight(final long right) {
         this.right = right;
     }
 
     /**
-     * 
      *
-     * @param left 
-     * @param right 
+     *
+     * @param left
+     * @param right
      */
     public void set(final long left, final long right) {
         this.left = left;
@@ -101,10 +101,10 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public long getAndSetLeft(final long newLeft) {
         final long res = left;
@@ -113,10 +113,10 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newLeft 
-     * @return 
+     *
+     * @param newLeft
+     * @return
      */
     public long setAndGetLeft(final long newLeft) {
         left = newLeft;
@@ -124,10 +124,10 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public long getAndSetRight(final long newRight) {
         final long res = newRight;
@@ -136,10 +136,10 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @param newRight 
-     * @return 
+     *
+     * @param newRight
+     * @return
      */
     public long setAndGetRight(final long newRight) {
         right = newRight;
@@ -147,163 +147,162 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Beta
     public MutableLongPair reverse() {
-        return new MutableLongPair(this.right, this.left);
+        return new MutableLongPair(right, left);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public MutableLongPair copy() {
-        return new MutableLongPair(this.left, this.right);
+        return new MutableLongPair(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public long[] toArray() {
         return new long[] { left, right };
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param comsumer 
-     * @throws E 
+     *
+     * @param <E>
+     * @param comsumer
+     * @throws E
      */
-    public <E extends Exception> void forEach(Throwables.LongConsumer<E> comsumer) throws E {
+    public <E extends Exception> void forEach(final Throwables.LongConsumer<E> comsumer) throws E {
         comsumer.accept(left);
         comsumer.accept(right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.LongBiConsumer<E> action) throws E {
         action.accept(left, right);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param action 
-     * @throws E 
+     *
+     * @param <E>
+     * @param action
+     * @throws E
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super MutableLongPair, E> action) throws E {
         action.accept(this);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.LongBiFunction<U, E> mapper) throws E {
         return mapper.apply(left, right);
     }
 
     /**
-     * 
      *
-     * @param <U> 
-     * @param <E> 
-     * @param mapper 
-     * @return 
-     * @throws E 
+     *
+     * @param <U>
+     * @param <E>
+     * @param mapper
+     * @return
+     * @throws E
      */
     public <U, E extends Exception> U map(final Throwables.Function<? super MutableLongPair, U, E> mapper) throws E {
         return mapper.apply(this);
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<MutableLongPair> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
         return predicate.test(left, right) ? Optional.of(this) : Optional.<MutableLongPair> empty();
     }
 
     /**
-     * 
      *
-     * @param <E> 
-     * @param predicate 
-     * @return 
-     * @throws E 
+     *
+     * @param <E>
+     * @param predicate
+     * @return
+     * @throws E
      */
     public <E extends Exception> Optional<MutableLongPair> filter(final Throwables.Predicate<? super MutableLongPair, E> predicate) throws E {
         return predicate.test(this) ? Optional.of(this) : Optional.<MutableLongPair> empty();
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public LongStream stream() {
         return LongStream.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public Optional<MutableLongPair> toOptional() {
         return Optional.of(this);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     public LongTuple2 toTuple() {
         return LongTuple.of(left, right);
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + N.hashCode(left);
-        result = prime * result + N.hashCode(right);
-        return result;
+        return prime * result + N.hashCode(right);
     }
 
     /**
-     * 
      *
-     * @param obj 
-     * @return 
+     *
+     * @param obj
+     * @return
      */
     @Override
     public boolean equals(final Object obj) {
@@ -311,9 +310,7 @@ public class MutableLongPair implements Mutable {
             return true;
         }
 
-        if (obj instanceof MutableLongPair) {
-            final MutableLongPair other = (MutableLongPair) obj;
-
+        if (obj instanceof final MutableLongPair other) {
             return N.equals(left, other.left) && N.equals(right, other.right);
         }
 
@@ -321,9 +318,9 @@ public class MutableLongPair implements Mutable {
     }
 
     /**
-     * 
      *
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
