@@ -239,7 +239,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      */
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
         if (Matrixes.isParallelable(this)) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j);
+            final Throwables.IntBiConsumer<E> cmd = action::accept;
             Matrixes.run(rows, cols, cmd, true);
         } else {
             for (int i = 0; i < rows; i++) {
@@ -268,7 +268,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j);
+            final Throwables.IntBiConsumer<E> cmd = action::accept;
             Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
@@ -383,7 +383,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<IntPair> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        return IntStream.range(fromRowIndex, toRowIndex).flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
+        return IntStream.range(fromRowIndex, toRowIndex)
+                .flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -416,7 +417,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<IntPair> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        return IntStream.range(fromColumnIndex, toColumnIndex).flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
+        return IntStream.range(fromColumnIndex, toColumnIndex)
+                .flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -440,7 +442,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<Stream<IntPair>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        return IntStream.range(fromRowIndex, toRowIndex).mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
+        return IntStream.range(fromRowIndex, toRowIndex)
+                .mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -464,7 +467,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public Stream<Stream<IntPair>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        return IntStream.range(fromColumnIndex, toColumnIndex).mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
+        return IntStream.range(fromColumnIndex, toColumnIndex)
+                .mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
     }
 
     /**

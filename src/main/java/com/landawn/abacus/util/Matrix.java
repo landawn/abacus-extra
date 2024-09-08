@@ -165,7 +165,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
             }
-            return new Matrix<>(c);
         } else {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
@@ -176,9 +175,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
             }
-
-            return new Matrix<>(c);
         }
+        return new Matrix<>(c);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1853,14 +1851,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         final List<List<Object>> newColumnList = new ArrayList<>(newColumnNameList.size());
 
         for (int i = 0; i < rows; i++) {
-            final T[] aa = a[i];
-            final List<Object> column = new ArrayList<>(cols);
-
-            for (int j = 0; j < cols; j++) {
-                column.add(aa[j]);
-            }
-
-            newColumnList.add(column);
+            newColumnList.add(new ArrayList<>(Array.asList(a[i])));
         }
 
         return new RowDataSet(newColumnNameList, newColumnList);

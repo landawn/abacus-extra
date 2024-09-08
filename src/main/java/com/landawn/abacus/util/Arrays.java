@@ -23645,7 +23645,7 @@ public abstract class Arrays {
         final short[] result = new short[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -23765,7 +23765,7 @@ public abstract class Arrays {
         final int[] result = new int[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -23825,7 +23825,7 @@ public abstract class Arrays {
         final int[] result = new int[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -23885,7 +23885,7 @@ public abstract class Arrays {
         final int[] result = new int[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24065,7 +24065,7 @@ public abstract class Arrays {
         final long[] result = new long[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24125,7 +24125,7 @@ public abstract class Arrays {
         final long[] result = new long[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24185,7 +24185,7 @@ public abstract class Arrays {
         final long[] result = new long[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24365,7 +24365,7 @@ public abstract class Arrays {
         final float[] result = new float[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24425,7 +24425,7 @@ public abstract class Arrays {
         final float[] result = new float[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24485,7 +24485,7 @@ public abstract class Arrays {
         final float[] result = new float[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24545,7 +24545,7 @@ public abstract class Arrays {
         final float[] result = new float[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24605,7 +24605,7 @@ public abstract class Arrays {
         final double[] result = new double[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24665,7 +24665,7 @@ public abstract class Arrays {
         final double[] result = new double[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24725,7 +24725,7 @@ public abstract class Arrays {
         final double[] result = new double[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24785,7 +24785,7 @@ public abstract class Arrays {
         final double[] result = new double[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;
@@ -24845,7 +24845,7 @@ public abstract class Arrays {
         final double[] result = new double[len];
 
         for (int i = 0; i < len; i++) {
-            result[i] = a[i];
+            result[i] = a[i]; // NOSONAR
         }
 
         return result;

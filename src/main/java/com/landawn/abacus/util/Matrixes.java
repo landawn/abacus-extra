@@ -285,11 +285,10 @@ public final class Matrixes {
      * @param inParallel
      * @return
      * @throws IndexOutOfBoundsException
-     * @throws E
      */
     @SuppressWarnings("resource")
     public static <T, E extends Exception> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntBiFunction<? extends T, E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
+            final Throwables.IntBiFunction<? extends T, E> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
 
@@ -355,11 +354,10 @@ public final class Matrixes {
      * @param inParallel
      * @return
      * @throws IndexOutOfBoundsException
-     * @throws E
      */
     @SuppressWarnings("resource")
     public static <E extends Exception> IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
+            final Throwables.IntBinaryOperator<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, Integer.MAX_VALUE);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, Integer.MAX_VALUE);
 
