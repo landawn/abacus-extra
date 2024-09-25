@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -336,10 +337,10 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<IntPair> pointsLU2RD() {
+    public Stream<Point> pointsLU2RD() {
         checkIfRowAndColumnSizeAreSame();
 
-        return IntStream.range(0, rows).mapToObj(i -> IntPair.of(i, i));
+        return IntStream.range(0, rows).mapToObj(i -> Point.of(i, i));
     }
 
     /**
@@ -347,10 +348,10 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<IntPair> pointsRU2LD() {
+    public Stream<Point> pointsRU2LD() {
         checkIfRowAndColumnSizeAreSame();
 
-        return IntStream.range(0, rows).mapToObj(i -> IntPair.of(i, cols - i - 1));
+        return IntStream.range(0, rows).mapToObj(i -> Point.of(i, cols - i - 1));
     }
 
     /**
@@ -358,7 +359,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<IntPair> pointsH() {
+    public Stream<Point> pointsH() {
         return pointsH(0, rows);
     }
 
@@ -367,7 +368,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param rowIndex
      * @return
      */
-    public Stream<IntPair> pointsH(final int rowIndex) {
+    public Stream<Point> pointsH(final int rowIndex) {
         return pointsH(rowIndex, rowIndex + 1);
     }
 
@@ -380,11 +381,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public Stream<IntPair> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<Point> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         return IntStream.range(fromRowIndex, toRowIndex)
-                .flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
+                .flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -392,7 +393,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<IntPair> pointsV() {
+    public Stream<Point> pointsV() {
         return pointsV(0, cols);
     }
 
@@ -401,7 +402,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param columnIndex
      * @return
      */
-    public Stream<IntPair> pointsV(final int columnIndex) {
+    public Stream<Point> pointsV(final int columnIndex) {
         return pointsV(columnIndex, columnIndex + 1);
     }
 
@@ -414,11 +415,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public Stream<IntPair> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<Point> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
-                .flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
+                .flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -426,7 +427,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<Stream<IntPair>> pointsR() {
+    public Stream<Stream<Point>> pointsR() {
         return pointsR(0, rows);
     }
 
@@ -439,11 +440,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public Stream<Stream<IntPair>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public Stream<Stream<Point>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         return IntStream.range(fromRowIndex, toRowIndex)
-                .mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> IntPair.of(rowIndex, columnIndex)));
+                .mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -451,7 +452,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      *
      * @return
      */
-    public Stream<Stream<IntPair>> pointsC() {
+    public Stream<Stream<Point>> pointsC() {
         return pointsR(0, cols);
     }
 
@@ -464,11 +465,11 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @throws IndexOutOfBoundsException
      */
     @SuppressWarnings("resource")
-    public Stream<Stream<IntPair>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
+    public Stream<Stream<Point>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
-                .mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> IntPair.of(rowIndex, columnIndex)));
+                .mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -592,4 +593,5 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     protected void checkIfRowAndColumnSizeAreSame() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
     }
+
 }

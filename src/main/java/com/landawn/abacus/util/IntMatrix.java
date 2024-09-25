@@ -17,6 +17,7 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalInt;
 import com.landawn.abacus.util.stream.IntIteratorEx;
 import com.landawn.abacus.util.stream.IntStream;
@@ -285,8 +286,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param point
      * @return
      */
-    public int get(final IntPair point) {
-        return a[point._1][point._2];
+    public int get(final Point point) {
+        return a[point.rowIndex()][point.columnIndex()];
     }
 
     /**
@@ -304,8 +305,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param point
      * @param val
      */
-    public void set(final IntPair point, final int val) {
-        a[point._1][point._2] = val;
+    public void set(final Point point, final int val) {
+        a[point.rowIndex()][point.columnIndex()] = val;
     }
 
     /**
@@ -355,11 +356,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param j
      * @return
      */
-    public Stream<IntPair> adjacent4Points(final int i, final int j) {
-        final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
-        final IntPair right = j == cols - 1 ? null : IntPair.of(i, j + 1);
-        final IntPair down = i == rows - 1 ? null : IntPair.of(i + 1, j);
-        final IntPair left = j == 0 ? null : IntPair.of(i, j - 1);
+    public Stream<Point> adjacent4Points(final int i, final int j) {
+        final Point up = i == 0 ? null : Point.of(i - 1, j);
+        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
+        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
+        final Point left = j == 0 ? null : Point.of(i, j - 1);
 
         return Stream.of(up, right, down, left);
     }
@@ -371,16 +372,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param j
      * @return
      */
-    public Stream<IntPair> adjacent8Points(final int i, final int j) {
-        final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
-        final IntPair right = j == cols - 1 ? null : IntPair.of(i, j + 1);
-        final IntPair down = i == rows - 1 ? null : IntPair.of(i + 1, j);
-        final IntPair left = j == 0 ? null : IntPair.of(i, j - 1);
+    public Stream<Point> adjacent8Points(final int i, final int j) {
+        final Point up = i == 0 ? null : Point.of(i - 1, j);
+        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
+        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
+        final Point left = j == 0 ? null : Point.of(i, j - 1);
 
-        final IntPair leftUp = i > 0 && j > 0 ? IntPair.of(i - 1, j - 1) : null;
-        final IntPair rightUp = i > 0 && j < cols - 1 ? IntPair.of(i - 1, j + 1) : null;
-        final IntPair rightDown = i < rows - 1 && j < cols - 1 ? IntPair.of(j + 1, j + 1) : null;
-        final IntPair leftDown = i < rows - 1 && j > 0 ? IntPair.of(i + 1, j - 1) : null;
+        final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
+        final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
+        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(j + 1, j + 1) : null;
+        final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
 
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
