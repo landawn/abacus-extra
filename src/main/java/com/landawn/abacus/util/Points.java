@@ -19,7 +19,6 @@ package com.landawn.abacus.util;
 // TODO: Auto-generated Javadoc
 /**
  *
- * @author haiyangl
  */
 @com.landawn.abacus.annotation.Immutable
 public final class Points {
@@ -92,7 +91,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -168,7 +167,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -244,7 +243,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -320,7 +319,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -399,7 +398,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -476,7 +475,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -552,7 +551,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -628,7 +627,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -704,7 +703,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -783,7 +782,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -860,7 +859,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -936,7 +935,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1012,7 +1011,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1088,7 +1087,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1167,7 +1166,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1244,7 +1243,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1320,7 +1319,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1396,7 +1395,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1472,7 +1471,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1551,7 +1550,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4188,7 +4187,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4270,7 +4269,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4352,7 +4351,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4434,7 +4433,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4519,7 +4518,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4602,7 +4601,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4684,7 +4683,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4766,7 +4765,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4848,7 +4847,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -4933,7 +4932,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5016,7 +5015,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5098,7 +5097,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5180,7 +5179,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5262,7 +5261,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5347,7 +5346,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5430,7 +5429,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5512,7 +5511,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5594,7 +5593,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5676,7 +5675,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {
@@ -5761,7 +5760,7 @@ public final class Points {
             /**
              *
              * @param obj
-             * @return true, if successful
+             * @return {@code true}, if successful
              */
             @Override
             public boolean equals(final Object obj) {

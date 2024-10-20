@@ -18,9 +18,8 @@ import java.math.RoundingMode;
 import com.landawn.abacus.annotation.Beta;
 
 /**
- * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case. It's not going to handle null scenarios like what handled in abacus-common. It's developer's responsibility to handle null scenarios. // TODO
+ * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case. It's not going to handle {@code null} scenarios like what handled in abacus-common. It's developer's responsibility to handle {@code null} scenarios. // TODO
  *
- * @author haiyangl
  *
  */
 @Beta

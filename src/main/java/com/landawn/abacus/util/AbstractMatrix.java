@@ -24,13 +24,11 @@ import com.landawn.abacus.util.stream.Stream;
  * {@code R} = Row, {@code C} = Column, {@code H} = Horizontal, {@code V} = Vertical.
  * </li>
  *
- * @author Haiyang Li
  * @param <A>
  * @param <PL>
  * @param <ES> element stream
  * @param <RS> row/column stream.
  * @param <X>
- * @since 0.8
  */
 public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> {
 
@@ -92,7 +90,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Checks if is empty.
      *
-     * @return true, if is empty
+     * @return {@code true}, if is empty
      */
     public boolean isEmpty() {
         return count == 0;
@@ -176,14 +174,14 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * Checks if is same shape.
      *
      * @param x
-     * @return true, if is same shape
+     * @return {@code true}, if is same shape
      */
     public boolean isSameShape(final X x) {
         return rows == x.rows && cols == x.cols;
     }
 
     /**
-     * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat elements {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
@@ -193,7 +191,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X repelem(int rowRepeats, int colRepeats);
 
     /**
-     * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

@@ -29,9 +29,7 @@ import com.landawn.abacus.util.stream.Stream;
 // TODO: Auto-generated Javadoc
 /**
  *
- * @author Haiyang Li
  * @param <T>
- * @since 0.8
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
 
@@ -67,7 +65,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param element
      * @param len
      * @return
-     * @throws IllegalArgumentException if {@code element} is null.
+     * @throws IllegalArgumentException if {@code element} is {@code null}.
      * @see #repeat(Object, int, Class)
      * @see #repeatNonNull(Object, int)
      * @deprecated Prefer to {@code Matrix.repeat(Object, int, Class)}
@@ -104,7 +102,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param element
      * @param len
      * @return
-     * @throws IllegalArgumentException if the specified {@code element} is null.
+     * @throws IllegalArgumentException if the specified {@code element} is {@code null}.
      */
     public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
@@ -265,7 +263,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
+     * Returns the four adjacencies with order: up, right, down, left. {@code null} is set if the adjacency doesn't exist.
      *
      * @param i
      * @param j
@@ -281,7 +279,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
+     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. {@code null} is set if the adjacency doesn't exist.
      *
      * @param i
      * @param j
@@ -1090,7 +1088,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat elements {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
@@ -1126,7 +1124,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
@@ -1879,7 +1877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      *
      * @param obj
-     * @return true, if successful
+     * @return {@code true}, if successful
      */
     @Override
     public boolean equals(final Object obj) {

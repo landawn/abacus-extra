@@ -27,8 +27,6 @@ import com.landawn.abacus.util.stream.Stream;
 // TODO: Auto-generated Javadoc
 /**
  *
- * @author Haiyang Li
- * @since 0.8
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 
@@ -275,7 +273,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
+     * Returns the four adjacencies with order: up, right, down, left. {@code null} is set if the adjacency doesn't exist.
      *
      * @param i
      * @param j
@@ -291,7 +289,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
+     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. {@code null} is set if the adjacency doesn't exist.
      *
      * @param i
      * @param j
@@ -951,7 +949,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat elements {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
@@ -982,7 +980,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
@@ -1813,7 +1811,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      *
      * @param obj
-     * @return true, if successful
+     * @return {@code true}, if successful
      */
     @Override
     public boolean equals(final Object obj) {
