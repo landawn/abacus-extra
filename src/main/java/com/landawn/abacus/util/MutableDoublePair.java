@@ -31,9 +31,6 @@ public class MutableDoublePair implements Mutable {
     public double left; // NOSONAR
     public double right; // NOSONAR
 
-    /**
-     *
-     */
     public MutableDoublePair() {
     }
 

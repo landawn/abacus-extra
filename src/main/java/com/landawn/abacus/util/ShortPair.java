@@ -25,9 +25,6 @@ public class ShortPair {
     public short left; // NOSONAR
     public short right; // NOSONAR
 
-    /**
-     *
-     */
     public ShortPair() {
     }
 

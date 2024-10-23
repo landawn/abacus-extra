@@ -31,9 +31,6 @@ public class MutableLongPair implements Mutable {
     public long left; // NOSONAR
     public long right; // NOSONAR
 
-    /**
-     *
-     */
     public MutableLongPair() {
     }
 

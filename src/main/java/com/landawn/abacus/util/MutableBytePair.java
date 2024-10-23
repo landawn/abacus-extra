@@ -31,9 +31,6 @@ public class MutableBytePair implements Mutable {
     public byte left; // NOSONAR
     public byte right; // NOSONAR
 
-    /**
-     *
-     */
     public MutableBytePair() {
     }
 

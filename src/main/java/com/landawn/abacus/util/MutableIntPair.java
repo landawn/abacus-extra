@@ -31,9 +31,6 @@ public class MutableIntPair implements Mutable {
     public int left; // NOSONAR
     public int right; // NOSONAR
 
-    /**
-     *
-     */
     public MutableIntPair() {
     }
 
