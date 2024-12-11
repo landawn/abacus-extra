@@ -17,6 +17,7 @@
 package com.landawn.abacus.util;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.ByteTuple.ByteTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ByteStream;
@@ -34,6 +35,7 @@ public class MutableBytePair implements Mutable {
     public MutableBytePair() {
     }
 
+    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
     MutableBytePair(final byte l, final byte r) {
         left = l;
         right = r;

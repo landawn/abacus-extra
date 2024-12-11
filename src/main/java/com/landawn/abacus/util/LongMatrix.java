@@ -17,6 +17,7 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.stream.LongIteratorEx;
@@ -978,6 +979,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param newCols
      * @return
      */
+    @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public LongMatrix reshape(final int newRows, final int newCols) {
         final long[][] c = new long[newRows][newCols];

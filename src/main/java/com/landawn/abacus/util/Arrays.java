@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 import java.math.RoundingMode;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
  * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case. It's not going to handle {@code null} scenarios like what handled in abacus-common. It's developer's responsibility to handle {@code null} scenarios. // TODO
@@ -39,6 +40,7 @@ public abstract class Arrays {
         // utility class.
     }
 
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class f extends Arrays { // NOSONAR
         private f() {
             // utility class
@@ -1374,6 +1376,7 @@ public abstract class Arrays {
     /**
      * The Class ff.
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
 
         /**
@@ -2253,6 +2256,7 @@ public abstract class Arrays {
     /**
      * The Class fff.
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
 
         /**

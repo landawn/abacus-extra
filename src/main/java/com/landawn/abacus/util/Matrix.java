@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.Nullable;
@@ -1056,6 +1057,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newCols
      * @return
      */
+    @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public Matrix<T> reshape(final int newRows, final int newCols) {
         final T[][] c = N.newArray(arrayType, newRows);

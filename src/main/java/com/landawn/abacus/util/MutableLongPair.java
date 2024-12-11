@@ -17,6 +17,7 @@
 package com.landawn.abacus.util;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.LongStream;
@@ -34,6 +35,7 @@ public class MutableLongPair implements Mutable {
     public MutableLongPair() {
     }
 
+    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
     MutableLongPair(final long l, final long r) {
         left = l;
         right = r;

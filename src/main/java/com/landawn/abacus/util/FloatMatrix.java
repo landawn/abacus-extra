@@ -17,6 +17,7 @@ package com.landawn.abacus.util;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalFloat;
 import com.landawn.abacus.util.stream.FloatIteratorEx;
@@ -904,6 +905,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param newCols
      * @return
      */
+    @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public FloatMatrix reshape(final int newRows, final int newCols) {
         final float[][] c = new float[newRows][newCols];

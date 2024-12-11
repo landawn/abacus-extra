@@ -17,6 +17,9 @@
 package com.landawn.abacus.util;
 
 // TODO: Auto-generated Javadoc
+
+import com.landawn.abacus.annotation.SuppressFBWarnings;
+
 /**
  *
  */
@@ -30,6 +33,7 @@ public final class Points {
     /**
      * The Class xy.
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     @com.landawn.abacus.annotation.Immutable
     public static final class xy { // NOSONAR
 
@@ -4120,6 +4124,7 @@ public final class Points {
     /**
      * The Class xyz.
      */
+    @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     @com.landawn.abacus.annotation.Immutable
     public static final class xyz { // NOSONAR
 

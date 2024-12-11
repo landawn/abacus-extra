@@ -17,6 +17,7 @@
 package com.landawn.abacus.util;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.ShortTuple.ShortTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
@@ -28,6 +29,7 @@ public class ShortPair {
     public ShortPair() {
     }
 
+    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
     ShortPair(final short l, final short r) {
         left = l;
         right = r;

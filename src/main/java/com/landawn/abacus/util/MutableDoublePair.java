@@ -17,6 +17,7 @@
 package com.landawn.abacus.util;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
@@ -34,6 +35,7 @@ public class MutableDoublePair implements Mutable {
     public MutableDoublePair() {
     }
 
+    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
     MutableDoublePair(final double l, final double r) {
         left = l;
         right = r;
