@@ -1538,7 +1538,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
             @Override
             public long count() {
-                return (toRowIndex - i) * cols * 1L - j;
+                return (long) (toRowIndex - i) * cols - j;
             }
 
             @Override
