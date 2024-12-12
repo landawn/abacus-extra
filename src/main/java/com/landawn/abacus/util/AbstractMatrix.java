@@ -19,7 +19,6 @@ import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
-
 /**
  * <li>
  * {@code R} = Row, {@code C} = Column, {@code H} = Horizontal, {@code V} = Vertical.
@@ -31,7 +30,8 @@ import com.landawn.abacus.util.stream.Stream;
  * @param <RS> row/column stream.
  * @param <X>
  */
-public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> permits BooleanMatrix, CharMatrix, ByteMatrix, ShortMatrix, DoubleMatrix, FloatMatrix, IntMatrix, LongMatrix, Matrix {
+public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>>
+        permits BooleanMatrix, CharMatrix, ByteMatrix, ShortMatrix, DoubleMatrix, FloatMatrix, IntMatrix, LongMatrix, Matrix {
 
     static final char CHAR_0 = (char) 0;
 
@@ -252,7 +252,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -298,7 +298,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

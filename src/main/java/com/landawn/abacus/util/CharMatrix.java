@@ -152,7 +152,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public static CharMatrix diagonal(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {

@@ -152,7 +152,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      */
     public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {

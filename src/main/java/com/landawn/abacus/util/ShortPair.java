@@ -29,7 +29,7 @@ public class ShortPair {
     public ShortPair() {
     }
 
-    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
+    @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
     ShortPair(final short l, final short r) {
         left = l;
         right = r;

@@ -134,7 +134,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      */
     public static DoubleMatrix random(final int len) {
-        return new DoubleMatrix(new double[][]{DoubleList.random(len).array()});
+        return new DoubleMatrix(new double[][] { DoubleList.random(len).array() });
     }
 
     /**
@@ -143,7 +143,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      */
     public static DoubleMatrix repeat(final double val, final int len) {
-        return new DoubleMatrix(new double[][]{Array.repeat(val, len)});
+        return new DoubleMatrix(new double[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -174,7 +174,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public static DoubleMatrix diagonal(final double[] leftUp2RightDownDiagonal, final double[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -813,7 +814,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             double tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1197,7 +1198,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E                        the e
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
-                                                      final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final double[][] b = matrixB.a;
@@ -1658,7 +1659,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.DoubleConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.DoubleConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

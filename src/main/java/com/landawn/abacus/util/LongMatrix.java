@@ -86,7 +86,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix random(final int len) {
-        return new LongMatrix(new long[][]{LongList.random(len).array()});
+        return new LongMatrix(new long[][] { LongList.random(len).array() });
     }
 
     /**
@@ -95,7 +95,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix repeat(final long val, final int len) {
-        return new LongMatrix(new long[][]{Array.repeat(val, len)});
+        return new LongMatrix(new long[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -104,7 +104,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix range(final long startInclusive, final long endExclusive) {
-        return new LongMatrix(new long[][]{Array.range(startInclusive, endExclusive)});
+        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
@@ -114,7 +114,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix range(final long startInclusive, final long endExclusive, final long by) {
-        return new LongMatrix(new long[][]{Array.range(startInclusive, endExclusive, by)});
+        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
@@ -123,7 +123,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive) {
-        return new LongMatrix(new long[][]{Array.rangeClosed(startInclusive, endInclusive)});
+        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
@@ -133,7 +133,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return
      */
     public static LongMatrix rangeClosed(final long startInclusive, final long endInclusive, final long by) {
-        return new LongMatrix(new long[][]{Array.rangeClosed(startInclusive, endInclusive, by)});
+        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
@@ -164,7 +164,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -802,7 +803,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             long tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1683,7 +1684,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.LongConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.LongConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

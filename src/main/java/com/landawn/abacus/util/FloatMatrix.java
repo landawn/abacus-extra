@@ -86,7 +86,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return
      */
     public static FloatMatrix random(final int len) {
-        return new FloatMatrix(new float[][]{FloatList.random(len).array()});
+        return new FloatMatrix(new float[][] { FloatList.random(len).array() });
     }
 
     /**
@@ -95,7 +95,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return
      */
     public static FloatMatrix repeat(final float val, final int len) {
-        return new FloatMatrix(new float[][]{Array.repeat(val, len)});
+        return new FloatMatrix(new float[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -126,7 +126,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -734,7 +735,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             float tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1587,7 +1588,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.FloatConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.FloatConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

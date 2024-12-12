@@ -62,7 +62,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix random(final int len) {
-        return new ShortMatrix(new short[][]{ShortList.random(len).array()});
+        return new ShortMatrix(new short[][] { ShortList.random(len).array() });
     }
 
     /**
@@ -71,7 +71,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix repeat(final short val, final int len) {
-        return new ShortMatrix(new short[][]{Array.repeat(val, len)});
+        return new ShortMatrix(new short[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -80,7 +80,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix range(final short startInclusive, final short endExclusive) {
-        return new ShortMatrix(new short[][]{Array.range(startInclusive, endExclusive)});
+        return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
@@ -90,7 +90,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix range(final short startInclusive, final short endExclusive, final short by) {
-        return new ShortMatrix(new short[][]{Array.range(startInclusive, endExclusive, by)});
+        return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
@@ -99,7 +99,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive) {
-        return new ShortMatrix(new short[][]{Array.rangeClosed(startInclusive, endInclusive)});
+        return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
@@ -109,7 +109,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      */
     public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive, final short by) {
-        return new ShortMatrix(new short[][]{Array.rangeClosed(startInclusive, endInclusive, by)});
+        return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
@@ -140,7 +140,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      */
     public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -748,7 +749,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             short tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1685,7 +1686,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.ShortConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.ShortConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

@@ -60,7 +60,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return
      */
     public static BooleanMatrix random(final int len) {
-        return new BooleanMatrix(new boolean[][]{BooleanList.random(len).array()});
+        return new BooleanMatrix(new boolean[][] { BooleanList.random(len).array() });
     }
 
     /**
@@ -69,7 +69,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return
      */
     public static BooleanMatrix repeat(final boolean val, final int len) {
-        return new BooleanMatrix(new boolean[][]{Array.repeat(val, len)});
+        return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -100,7 +100,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -709,7 +710,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             boolean tmp = false;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1042,7 +1043,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E                        the e
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
-                                                       final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final boolean[][] b = matrixB.a;
@@ -1509,7 +1510,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.BooleanConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.BooleanConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

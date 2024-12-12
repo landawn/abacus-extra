@@ -136,7 +136,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
@@ -216,7 +217,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> upOf(final int i, final int j) {
-        return i == 0 ? Nullable.<T>empty() : Nullable.of(a[i - 1][j]);
+        return i == 0 ? Nullable.<T> empty() : Nullable.of(a[i - 1][j]);
     }
 
     /**
@@ -225,7 +226,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> downOf(final int i, final int j) {
-        return i == rows - 1 ? Nullable.<T>empty() : Nullable.of(a[i + 1][j]);
+        return i == rows - 1 ? Nullable.<T> empty() : Nullable.of(a[i + 1][j]);
     }
 
     /**
@@ -234,7 +235,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> leftOf(final int i, final int j) {
-        return j == 0 ? Nullable.<T>empty() : Nullable.of(a[i][j - 1]);
+        return j == 0 ? Nullable.<T> empty() : Nullable.of(a[i][j - 1]);
     }
 
     /**
@@ -243,7 +244,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> rightOf(final int i, final int j) {
-        return j == cols - 1 ? Nullable.<T>empty() : Nullable.of(a[i][j + 1]);
+        return j == cols - 1 ? Nullable.<T> empty() : Nullable.of(a[i][j + 1]);
     }
 
     /**
@@ -872,7 +873,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             T tmp = null;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1195,7 +1196,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E                        the e
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
-                                                         final Class<R> targetElementType) throws IllegalArgumentException, E {
+            final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
@@ -1219,7 +1220,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-                                                         final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
+            final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
         return zipWith(matrixB, matrixC, zipFunction, elementType);
     }
 
@@ -1237,7 +1238,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E                        the e
      */
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-                                                            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
+            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
             throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
 
@@ -1705,7 +1706,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.Consumer<? super T, E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.Consumer<? super T, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

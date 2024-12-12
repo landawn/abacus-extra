@@ -35,7 +35,7 @@ public class MutableLongPair implements Mutable {
     public MutableLongPair() {
     }
 
-    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
+    @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
     MutableLongPair(final long l, final long r) {
         left = l;
         right = r;

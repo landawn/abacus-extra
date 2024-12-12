@@ -35,7 +35,7 @@ public class MutableIntPair implements Mutable {
     public MutableIntPair() {
     }
 
-    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
+    @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
     MutableIntPair(final int l, final int r) {
         left = l;
         right = r;

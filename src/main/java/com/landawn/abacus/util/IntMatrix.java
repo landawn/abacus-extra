@@ -134,7 +134,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix random(final int len) {
-        return new IntMatrix(new int[][]{IntList.random(len).array()});
+        return new IntMatrix(new int[][] { IntList.random(len).array() });
     }
 
     /**
@@ -143,7 +143,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix repeat(final int val, final int len) {
-        return new IntMatrix(new int[][]{Array.repeat(val, len)});
+        return new IntMatrix(new int[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -152,7 +152,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive) {
-        return new IntMatrix(new int[][]{Array.range(startInclusive, endExclusive)});
+        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
@@ -162,7 +162,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive, final int by) {
-        return new IntMatrix(new int[][]{Array.range(startInclusive, endExclusive, by)});
+        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
@@ -171,7 +171,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive) {
-        return new IntMatrix(new int[][]{Array.rangeClosed(startInclusive, endInclusive)});
+        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
@@ -181,7 +181,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int by) {
-        return new IntMatrix(new int[][]{Array.rangeClosed(startInclusive, endInclusive, by)});
+        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
@@ -212,7 +212,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+                        || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
         if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
@@ -850,7 +851,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             int tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1747,7 +1748,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-                                              final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
+            final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

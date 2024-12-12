@@ -35,7 +35,7 @@ public class MutableBytePair implements Mutable {
     public MutableBytePair() {
     }
 
-    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
+    @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
     MutableBytePair(final byte l, final byte r) {
         left = l;
         right = r;

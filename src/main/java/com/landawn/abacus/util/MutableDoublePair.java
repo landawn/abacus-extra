@@ -35,7 +35,7 @@ public class MutableDoublePair implements Mutable {
     public MutableDoublePair() {
     }
 
-    @SuppressFBWarnings({"PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE"})
+    @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
     MutableDoublePair(final double l, final double r) {
         left = l;
         right = r;
