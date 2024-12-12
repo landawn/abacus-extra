@@ -30,7 +30,7 @@ public final class Matrixes {
 
     static final int MIN_COUNT_FOR_PARALLEL = 8192;
 
-    static final boolean isParallelStreamSupported;
+    static final boolean IS_PARALLEL_STREAM_SUPPORTED;
     static {
         boolean tmp = false;
 
@@ -43,7 +43,7 @@ public final class Matrixes {
             // ignore.
         }
 
-        isParallelStreamSupported = tmp;
+        IS_PARALLEL_STREAM_SUPPORTED = tmp;
     }
 
     static final ThreadLocal<ParallelEnabled> isParallelEnabled_TL = ThreadLocal.withInitial(() -> ParallelEnabled.DEFAULT);
@@ -91,7 +91,7 @@ public final class Matrixes {
      * @return
      */
     public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
-        return isParallelStreamSupported && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
+        return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
                 || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
@@ -414,7 +414,7 @@ public final class Matrixes {
      * @param inParallel
      * @throws IllegalArgumentException
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd,
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
         N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
 

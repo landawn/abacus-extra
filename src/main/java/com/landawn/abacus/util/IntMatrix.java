@@ -26,6 +26,7 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
+
 /**
  *
  */
@@ -34,8 +35,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
     /**
-     *
-     *
      * @param a
      */
     public IntMatrix(final int[][] a) {
@@ -43,8 +42,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     public static IntMatrix empty() {
@@ -52,7 +49,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -62,7 +58,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -87,7 +82,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -112,7 +106,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -137,64 +130,58 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param len
      * @return
      */
     public static IntMatrix random(final int len) {
-        return new IntMatrix(new int[][] { IntList.random(len).array() });
+        return new IntMatrix(new int[][]{IntList.random(len).array()});
     }
 
     /**
-     *
      * @param val
      * @param len
      * @return
      */
     public static IntMatrix repeat(final int val, final int len) {
-        return new IntMatrix(new int[][] { Array.repeat(val, len) });
+        return new IntMatrix(new int[][]{Array.repeat(val, len)});
     }
 
     /**
-     *
      * @param startInclusive
      * @param endExclusive
      * @return
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive) {
-        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive) });
+        return new IntMatrix(new int[][]{Array.range(startInclusive, endExclusive)});
     }
 
     /**
-     *
      * @param startInclusive
      * @param endExclusive
      * @param by
      * @return
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive, final int by) {
-        return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
+        return new IntMatrix(new int[][]{Array.range(startInclusive, endExclusive, by)});
     }
 
     /**
-     *
      * @param startInclusive
      * @param endInclusive
      * @return
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive) {
-        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive) });
+        return new IntMatrix(new int[][]{Array.rangeClosed(startInclusive, endInclusive)});
     }
 
     /**
-     *
      * @param startInclusive
      * @param endInclusive
      * @param by
      * @return
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int by) {
-        return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
+        return new IntMatrix(new int[][]{Array.rangeClosed(startInclusive, endInclusive, by)});
     }
 
     /**
@@ -218,22 +205,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @param rightUp2LeftDownDiagonal
      * @return
      * @throws IllegalArgumentException
      */
-    public static IntMatrix diagonal(final int[] leftUp2RighDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
-        final int len = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.length : rightUp2LeftDownDiagonal.length;
+        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+            return EMPTY_INT_MATRIX;
+        }
+
+        final int len = leftUp2RightDownDiagonal != null ? N.len(leftUp2RightDownDiagonal) : N.len(rightUp2LeftDownDiagonal);
         final int[][] c = new int[len][len];
 
-        if (N.isEmpty(leftUp2RighDownDiagonal)) {
+        if (N.isEmpty(leftUp2RightDownDiagonal)) {
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
@@ -241,7 +230,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             }
         } else {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
+                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -255,8 +244,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param x
      * @return
      */
@@ -271,7 +258,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -281,7 +267,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param point
      * @return
      */
@@ -290,7 +275,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @param val
@@ -300,7 +284,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param point
      * @param val
      */
@@ -309,7 +292,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -319,7 +301,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -329,7 +310,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -339,7 +319,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -386,8 +365,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param rowIndex
      * @return
      * @throws IllegalArgumentException
@@ -399,8 +376,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param columnIndex
      * @return
      * @throws IllegalArgumentException
@@ -446,7 +421,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param rowIndex
      * @param func
@@ -459,7 +433,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param columnIndex
      * @param func
@@ -566,7 +539,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @throws E the e
@@ -589,7 +561,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param predicate
      * @param newValue
@@ -614,7 +585,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @return
@@ -630,7 +600,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @return
@@ -646,7 +615,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @return
@@ -681,7 +649,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param val
      */
     public void fill(final int val) {
@@ -691,7 +658,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param b
      */
     public void fill(final int[][] b) {
@@ -699,8 +665,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param fromColumnIndex
      * @param b
@@ -716,8 +680,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -732,8 +694,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return
@@ -753,8 +713,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex
@@ -777,7 +735,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -787,8 +744,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param newRows
      * @param newCols
      * @param defaultValueForNewCell
@@ -822,7 +777,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -834,8 +788,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -898,7 +850,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             int tmp = 0;
-            for (int l = 0, h = rows - 1; l < h;) {
+            for (int l = 0, h = rows - 1; l < h; ) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -907,7 +859,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
@@ -918,7 +869,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
@@ -929,8 +879,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -955,8 +903,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -972,8 +918,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -998,8 +942,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1024,7 +966,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -1119,8 +1060,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1135,7 +1074,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param op
      * @throws E the e
@@ -1214,8 +1152,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1233,8 +1169,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1252,8 +1186,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1271,8 +1203,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     public Matrix<Integer> boxed() {
@@ -1326,14 +1256,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
      * @throws IllegalArgumentException
-     * @throws E the e
+     * @throws E                        the e
      */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final Throwables.IntBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1350,7 +1278,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param matrixB
      * @param matrixC
@@ -1464,7 +1391,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1473,7 +1399,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param rowIndex
      * @return
      */
@@ -1483,8 +1408,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a stream based on the order of row.
@@ -1561,7 +1484,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1571,7 +1493,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param columnIndex
      * @return
      */
@@ -1581,8 +1502,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a stream based on the order of column.
@@ -1660,7 +1579,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1669,8 +1587,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a row stream based on the order of row.
@@ -1717,7 +1633,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1727,8 +1642,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a column stream based on the order of column.
@@ -1806,7 +1719,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -1816,7 +1728,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param <E>
      * @param action
      * @throws E the e
@@ -1826,8 +1737,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
@@ -1835,10 +1744,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toColumnIndex
      * @param action
      * @throws IndexOutOfBoundsException
-     * @throws E the e
+     * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
+                                              final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -1865,8 +1774,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1875,7 +1782,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
      * @param obj
      * @return {@code true}, if successful
      */
@@ -1893,8 +1799,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override

@@ -28,8 +28,8 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
+
 /**
- *
  * @param <T>
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
@@ -39,8 +39,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     final Class<T> elementType;
 
     /**
-     *
-     *
      * @param a
      */
     public Matrix(final T[][] a) {
@@ -50,7 +48,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <T>
      * @param a
      * @return
@@ -61,7 +58,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <T>
      * @param element
      * @param len
@@ -79,8 +75,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param <T>
      * @param element
      * @param len
@@ -98,7 +92,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <T>
      * @param element
      * @param len
@@ -134,23 +127,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param <T>
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @param rightUp2LeftDownDiagonal
      * @return
      * @throws IllegalArgumentException
      */
     @SuppressWarnings("null")
-    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
-        final Class<?> arrayClass = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.getClass() : rightUp2LeftDownDiagonal.getClass();
+        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final Class<?> arrayClass = leftUp2RightDownDiagonal != null ? leftUp2RightDownDiagonal.getClass() : rightUp2LeftDownDiagonal.getClass();
         final Class<?> componentClass = arrayClass.getComponentType();
-        final int len = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.length : rightUp2LeftDownDiagonal.length;
 
         final T[][] c = N.newArray(arrayClass, len);
 
@@ -158,7 +149,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i] = N.newArray(componentClass, len);
         }
 
-        if (N.isEmpty(leftUp2RighDownDiagonal)) {
+        if (N.isEmpty(leftUp2RightDownDiagonal)) {
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
@@ -166,7 +157,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         } else {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
+                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -186,7 +177,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -196,7 +186,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param point
      * @return
      */
@@ -205,7 +194,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param i
      * @param j
      * @param val
@@ -215,7 +203,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param point
      * @param val
      */
@@ -224,43 +211,39 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
      */
     public Nullable<T> upOf(final int i, final int j) {
-        return i == 0 ? Nullable.<T> empty() : Nullable.of(a[i - 1][j]);
+        return i == 0 ? Nullable.<T>empty() : Nullable.of(a[i - 1][j]);
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
      */
     public Nullable<T> downOf(final int i, final int j) {
-        return i == rows - 1 ? Nullable.<T> empty() : Nullable.of(a[i + 1][j]);
+        return i == rows - 1 ? Nullable.<T>empty() : Nullable.of(a[i + 1][j]);
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
      */
     public Nullable<T> leftOf(final int i, final int j) {
-        return j == 0 ? Nullable.<T> empty() : Nullable.of(a[i][j - 1]);
+        return j == 0 ? Nullable.<T>empty() : Nullable.of(a[i][j - 1]);
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
      */
     public Nullable<T> rightOf(final int i, final int j) {
-        return j == cols - 1 ? Nullable.<T> empty() : Nullable.of(a[i][j + 1]);
+        return j == cols - 1 ? Nullable.<T>empty() : Nullable.of(a[i][j + 1]);
     }
 
     /**
@@ -301,8 +284,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param rowIndex
      * @return
      * @throws IllegalArgumentException
@@ -314,8 +295,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param columnIndex
      * @return
      * @throws IllegalArgumentException
@@ -361,7 +340,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param rowIndex
      * @param func
@@ -374,7 +352,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param columnIndex
      * @param func
@@ -481,8 +458,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     // TODO should the method name be "replaceAll"? If change the method name to replaceAll, what about updateLU2RD/updateRU2LD?
+
     /**
-     *
      * @param <E>
      * @param func
      * @throws E the e
@@ -505,7 +482,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param predicate
      * @param newValue
@@ -530,7 +506,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @return
@@ -541,8 +516,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param <R>
      * @param <E>
      * @param func
@@ -696,7 +669,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param val
      */
     public void fill(final T val) {
@@ -706,7 +678,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param b
      */
     public void fill(final T[][] b) {
@@ -714,8 +685,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param fromColumnIndex
      * @param b
@@ -731,8 +700,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -747,8 +714,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return
@@ -768,8 +733,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex
@@ -792,7 +755,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -802,8 +764,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param newRows
      * @param newCols
      * @param defaultValueForNewCell
@@ -837,7 +797,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -849,8 +808,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -915,7 +872,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             T tmp = null;
-            for (int l = 0, h = rows - 1; l < h;) {
+            for (int l = 0, h = rows - 1; l < h; ) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -924,7 +881,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return
      * @see IntMatrix#flipH()
      */
@@ -935,7 +891,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return
      * @see IntMatrix#flipV()
      */
@@ -946,8 +901,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -976,8 +929,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -993,8 +944,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1023,8 +972,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1052,7 +999,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -1160,8 +1106,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1176,7 +1120,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param op
      * @throws E the e
@@ -1187,8 +1130,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1212,8 +1153,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1233,7 +1172,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <B>
      * @param <E>
      * @param matrixB
@@ -1246,8 +1184,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param <B>
      * @param <R>
      * @param <E>
@@ -1256,10 +1192,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param targetElementType
      * @return
      * @throws IllegalArgumentException
-     * @throws E the e
+     * @throws E                        the e
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
-            final Class<R> targetElementType) throws IllegalArgumentException, E {
+                                                         final Class<R> targetElementType) throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
 
         final B[][] b = matrixB.a;
@@ -1273,7 +1209,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <B>
      * @param <C>
      * @param <E>
@@ -1284,13 +1219,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
+                                                         final Throwables.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
         return zipWith(matrixB, matrixC, zipFunction, elementType);
     }
 
     /**
-     *
-     *
      * @param <B>
      * @param <C>
      * @param <R>
@@ -1301,10 +1234,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param targetElementType
      * @return
      * @throws IllegalArgumentException
-     * @throws E the e
+     * @throws E                        the e
      */
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
+                                                            final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
             throws IllegalArgumentException, E {
         N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
 
@@ -1410,7 +1343,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1419,7 +1351,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param rowIndex
      * @return
      */
@@ -1429,8 +1360,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a stream based on the order of row.
@@ -1510,7 +1439,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1520,7 +1448,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param columnIndex
      * @return
      */
@@ -1530,8 +1457,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a stream based on the order of column.
@@ -1612,7 +1537,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1621,8 +1545,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a row stream based on the order of row.
@@ -1669,7 +1591,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1679,8 +1600,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a column stream based on the order of column.
@@ -1758,7 +1677,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -1768,7 +1686,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param <E>
      * @param action
      * @throws E the e
@@ -1778,8 +1695,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
@@ -1787,10 +1702,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toColumnIndex
      * @param action
      * @throws IndexOutOfBoundsException
-     * @throws E the e
+     * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.Consumer<? super T, E> action) throws IndexOutOfBoundsException, E {
+                                              final Throwables.Consumer<? super T, E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -1809,8 +1724,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param columnNames
      * @return
      * @throws IllegalArgumentException
@@ -1837,8 +1750,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @param columnNames
      * @return
      * @throws IllegalArgumentException
@@ -1867,8 +1778,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1877,7 +1786,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
      * @param obj
      * @return {@code true}, if successful
      */
@@ -1897,8 +1805,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override

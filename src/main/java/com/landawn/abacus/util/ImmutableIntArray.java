@@ -29,8 +29,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param a
      * @return
      */
@@ -39,8 +37,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param a
      * @return
      */
@@ -49,8 +45,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param index
      * @return
      */
@@ -59,8 +53,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param action
      * @throws IllegalArgumentException
@@ -75,8 +67,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param action
      * @throws IllegalArgumentException
@@ -91,8 +81,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @return
      */
     public IntStream stream() {
@@ -100,8 +88,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param fromIndex
      * @param toIndex
      * @return
@@ -114,8 +100,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param fromIndex
      * @param toIndex
      * @return
@@ -128,8 +112,6 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -138,19 +120,15 @@ public final class ImmutableIntArray implements Immutable {
     }
 
     /**
-     *
-     *
      * @param obj
      * @return
      */
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof ImmutableIntArray && N.equals(elements, ((ImmutableIntArray) obj).elements);
+        return obj instanceof ImmutableIntArray immutableintarray && N.equals(elements, immutableintarray.elements);
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override

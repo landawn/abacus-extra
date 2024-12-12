@@ -26,6 +26,7 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
+
 /**
  *
  */
@@ -34,8 +35,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
 
     /**
-     *
-     *
      * @param a
      */
     public FloatMatrix(final float[][] a) {
@@ -43,8 +42,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     public static FloatMatrix empty() {
@@ -52,7 +49,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -62,7 +58,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -87,22 +82,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param len
      * @return
      */
     public static FloatMatrix random(final int len) {
-        return new FloatMatrix(new float[][] { FloatList.random(len).array() });
+        return new FloatMatrix(new float[][]{FloatList.random(len).array()});
     }
 
     /**
-     *
      * @param val
      * @param len
      * @return
      */
     public static FloatMatrix repeat(final float val, final int len) {
-        return new FloatMatrix(new float[][] { Array.repeat(val, len) });
+        return new FloatMatrix(new float[][]{Array.repeat(val, len)});
     }
 
     /**
@@ -126,22 +119,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @param rightUp2LeftDownDiagonal
      * @return
      * @throws IllegalArgumentException
      */
-    public static FloatMatrix diagonal(final float[] leftUp2RighDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+    public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
-                N.isEmpty(leftUp2RighDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
-                "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal) || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
+                "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
-        final int len = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.length : rightUp2LeftDownDiagonal.length;
+        if (N.isEmpty(leftUp2RightDownDiagonal) && N.isEmpty(rightUp2LeftDownDiagonal)) {
+            return EMPTY_FLOAT_MATRIX;
+        }
+
+        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
         final float[][] c = new float[len][len];
 
-        if (N.isEmpty(leftUp2RighDownDiagonal)) {
+        if (N.isEmpty(leftUp2RightDownDiagonal)) {
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
@@ -149,7 +144,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         } else {
             for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RighDownDiagonal[i]; // NOSONAR
+                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
             }
 
             if (N.notEmpty(rightUp2LeftDownDiagonal)) {
@@ -163,8 +158,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param x
      * @return
      */
@@ -179,7 +172,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -189,7 +181,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param point
      * @return
      */
@@ -198,7 +189,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @param val
@@ -208,7 +198,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param point
      * @param val
      */
@@ -217,7 +206,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -227,7 +215,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -237,7 +224,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -247,7 +233,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param i
      * @param j
      * @return
@@ -294,8 +279,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param rowIndex
      * @return
      * @throws IllegalArgumentException
@@ -307,8 +290,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param columnIndex
      * @return
      * @throws IllegalArgumentException
@@ -354,7 +335,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param rowIndex
      * @param func
@@ -367,7 +347,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param columnIndex
      * @param func
@@ -474,7 +453,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @throws E the e
@@ -497,7 +475,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param predicate
      * @param newValue
@@ -522,7 +499,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param func
      * @return
@@ -557,7 +533,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param val
      */
     public void fill(final float val) {
@@ -567,7 +542,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param b
      */
     public void fill(final float[][] b) {
@@ -575,8 +549,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param fromColumnIndex
      * @param b
@@ -592,8 +564,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -608,8 +578,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return
@@ -629,8 +597,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex
@@ -653,7 +619,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -663,8 +628,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param newRows
      * @param newCols
      * @param defaultValueForNewCell
@@ -698,7 +661,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -710,8 +672,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param toUp
      * @param toDown
      * @param toLeft
@@ -774,7 +734,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             float tmp = 0;
-            for (int l = 0, h = rows - 1; l < h;) {
+            for (int l = 0, h = rows - 1; l < h; ) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -783,7 +743,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return
      * @see IntMatrix#flipH()
      */
@@ -794,7 +753,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return
      * @see IntMatrix#flipV()
      */
@@ -805,8 +763,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -831,8 +787,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -848,8 +802,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -874,8 +826,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -900,7 +850,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param newRows
      * @param newCols
      * @return
@@ -995,8 +944,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1011,7 +958,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param op
      * @throws E the e
@@ -1022,8 +968,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1047,8 +991,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1068,8 +1010,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1087,8 +1027,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1106,8 +1044,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param b
      * @return
      * @throws IllegalArgumentException
@@ -1125,8 +1061,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     public Matrix<Float> boxed() {
@@ -1162,14 +1096,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
      * @throws IllegalArgumentException
-     * @throws E the e
+     * @throws E                        the e
      */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Throwables.FloatBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1186,7 +1118,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param matrixB
      * @param matrixC
@@ -1300,7 +1231,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1309,7 +1239,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param rowIndex
      * @return
      */
@@ -1319,8 +1248,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a stream based on the order of row.
@@ -1397,7 +1324,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1407,7 +1333,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param columnIndex
      * @return
      */
@@ -1417,8 +1342,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a stream based on the order of column.
@@ -1496,7 +1419,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1505,8 +1427,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromRowIndex
      * @param toRowIndex
      * @return a row stream based on the order of row.
@@ -1553,7 +1473,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1563,8 +1482,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param fromColumnIndex
      * @param toColumnIndex
      * @return a column stream based on the order of column.
@@ -1642,7 +1559,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param a
      * @return
      */
@@ -1652,7 +1568,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param <E>
      * @param action
      * @throws E the e
@@ -1662,8 +1577,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
@@ -1671,10 +1584,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toColumnIndex
      * @param action
      * @throws IndexOutOfBoundsException
-     * @throws E the e
+     * @throws E                         the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Throwables.FloatConsumer<E> action) throws IndexOutOfBoundsException, E {
+                                              final Throwables.FloatConsumer<E> action) throws IndexOutOfBoundsException, E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -1701,8 +1614,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
@@ -1711,7 +1622,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
      * @param obj
      * @return {@code true}, if successful
      */
@@ -1729,8 +1639,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     *
-     *
      * @return
      */
     @Override
