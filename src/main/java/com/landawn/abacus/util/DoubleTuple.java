@@ -283,12 +283,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      *
      * @param <E>
-     * @param comsumer
+     * @param consumer
      * @throws E
      */
-    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
+    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
         for (final double e : elements()) {
-            comsumer.accept(e);
+            consumer.accept(e);
         }
     }
 
@@ -635,13 +635,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          *
          * @param <E>
-         * @param comsumer
+         * @param consumer
          * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
-            comsumer.accept(_1);
-            comsumer.accept(_2);
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
         }
 
         /**
@@ -825,14 +825,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          *
          * @param <E>
-         * @param comsumer
+         * @param consumer
          * @throws E
          */
         @Override
-        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> comsumer) throws E {
-            comsumer.accept(_1);
-            comsumer.accept(_2);
-            comsumer.accept(_3);
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
         }
 
         /**

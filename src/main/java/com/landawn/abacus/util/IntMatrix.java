@@ -187,11 +187,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @return
      */
-    public static IntMatrix diagonalLU2RD(final int[] leftUp2RighDownDiagonal) {
-        return diagonal(leftUp2RighDownDiagonal, null);
+    public static IntMatrix diagonalLU2RD(final int[] leftUp2RightDownDiagonal) {
+        return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -1450,7 +1450,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toRowIndex - i) * cols * 1L - j) {
+                if (n >= (long) (toRowIndex - i) * cols - j) {
                     i = toRowIndex;
                     j = 0;
                 } else {
@@ -1545,7 +1545,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * IntMatrix.this.rows * 1L - i) {
+                if (n >= (long) (toColumnIndex - j) * IntMatrix.this.rows - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {

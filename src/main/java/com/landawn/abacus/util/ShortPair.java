@@ -171,12 +171,12 @@ public class ShortPair {
      *
      *
      * @param <E>
-     * @param comsumer
+     * @param consumer
      * @throws E
      */
-    public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> comsumer) throws E {
-        comsumer.accept(left);
-        comsumer.accept(right);
+    public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+        consumer.accept(left);
+        consumer.accept(right);
     }
 
     /**

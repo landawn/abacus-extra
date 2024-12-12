@@ -177,12 +177,12 @@ public class MutableBytePair implements Mutable {
      *
      *
      * @param <E>
-     * @param comsumer
+     * @param consumer
      * @throws E
      */
-    public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> comsumer) throws E {
-        comsumer.accept(left);
-        comsumer.accept(right);
+    public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+        consumer.accept(left);
+        consumer.accept(right);
     }
 
     /**

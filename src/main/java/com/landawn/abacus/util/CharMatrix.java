@@ -126,11 +126,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @return
      */
-    public static CharMatrix diagonalLU2RD(final char[] leftUp2RighDownDiagonal) {
-        return diagonal(leftUp2RighDownDiagonal, null);
+    public static CharMatrix diagonalLU2RD(final char[] leftUp2RightDownDiagonal) {
+        return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -1469,7 +1469,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toRowIndex - i) * cols * 1L - j) {
+                if (n >= (long) (toRowIndex - i) * cols - j) {
                     i = toRowIndex;
                     j = 0;
                 } else {
@@ -1480,7 +1480,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
             @Override
             public long count() {
-                return (toRowIndex - i) * cols * 1L - j;
+                return (long) (toRowIndex - i) * cols - j;
             }
 
             @Override
@@ -1568,7 +1568,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * CharMatrix.this.rows * 1L - i) {
+                if (n >= (long) (toColumnIndex - j) * CharMatrix.this.rows - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {

@@ -108,11 +108,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Diagonal LU 2 RD.
      *
      * @param <T>
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @return
      */
-    public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RighDownDiagonal) {
-        return diagonal(leftUp2RighDownDiagonal, null);
+    public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RightDownDiagonal) {
+        return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
@@ -1402,7 +1402,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toRowIndex - i) * cols * 1L - j) {
+                if (n >= (long) (toRowIndex - i) * cols - j) {
                     i = toRowIndex;
                     j = 0;
                 } else {
@@ -1413,7 +1413,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
             @Override
             public long count() {
-                return (toRowIndex - i) * cols * 1L - j;
+                return (long) (toRowIndex - i) * cols - j;
             }
 
             @Override
@@ -1500,7 +1500,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             public void advance(final long n) throws IllegalArgumentException {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * Matrix.this.rows * 1L - i) {
+                if (n >= (long) (toColumnIndex - j) * Matrix.this.rows - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {

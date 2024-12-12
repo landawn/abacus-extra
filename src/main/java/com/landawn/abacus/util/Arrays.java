@@ -30,7 +30,7 @@ public abstract class Arrays {
     static final byte BYTE_0 = (byte) 0;
     static final byte BYTE_1 = (byte) 1;
     static final short SHORT_0 = (short) 0;
-    private static final String ARRAY_PRINT_SEPERATOR = IOUtil.LINE_SEPARATOR;
+    private static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR;
 
     private Arrays() {
         // utility class.
@@ -2209,7 +2209,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -3327,7 +3327,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -6389,7 +6389,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -9456,7 +9456,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -12513,7 +12513,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -15576,7 +15576,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -18644,7 +18644,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -21716,7 +21716,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -24849,7 +24849,7 @@ public abstract class Arrays {
 
                     for (int i = 0; i < len; i++) {
                         if (i > 0) {
-                            sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPERATOR).append(' ');
+                            sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
                         }
 
                         if (a[i] == null) {

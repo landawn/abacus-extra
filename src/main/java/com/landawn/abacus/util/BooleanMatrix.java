@@ -75,11 +75,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal
+     * @param leftUp2RightDownDiagonal
      * @return
      */
-    public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RighDownDiagonal) {
-        return diagonal(leftUp2RighDownDiagonal, null);
+    public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RightDownDiagonal) {
+        return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
