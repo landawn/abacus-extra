@@ -14,16 +14,16 @@
 
 package com.landawn.abacus.util;
 
-import java.util.NoSuchElementException;
-
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
-import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.stream.LongIteratorEx;
 import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
+import com.landawn.abacus.util.u.OptionalLong;
+
+import java.util.NoSuchElementException;
 
 // TODO: Auto-generated Javadoc
 
@@ -163,8 +163,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException
      */
     public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(
-                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+        N.checkArgument(N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
@@ -803,7 +802,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             long tmp = 0;
-            for (int l = 0, h = rows - 1; l < h;) {
+            for (int l = 0, h = rows - 1; l < h; ) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;

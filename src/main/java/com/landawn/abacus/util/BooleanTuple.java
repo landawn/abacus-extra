@@ -14,8 +14,8 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.Stream;
+import com.landawn.abacus.util.u.Optional;
 
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {

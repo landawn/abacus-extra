@@ -19,9 +19,8 @@ import com.landawn.abacus.util.stream.IntStream;
 
 @Beta
 public final class ImmutableIntArray implements Immutable {
-    private final int[] elements;
-
     public final int length;
+    private final int[] elements;
 
     ImmutableIntArray(final int[] a) {
         elements = a == null ? N.EMPTY_INT_ARRAY : a;

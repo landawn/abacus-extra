@@ -14,10 +14,10 @@
 
 package com.landawn.abacus.util;
 
-import java.util.NoSuchElementException;
-
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
+import com.landawn.abacus.util.u.Optional;
+
+import java.util.NoSuchElementException;
 
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
@@ -1023,8 +1023,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
-                    || N.equals(_5, valueToFind);
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5,
+                    valueToFind);
         }
 
         @Override

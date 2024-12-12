@@ -19,8 +19,8 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
+import com.landawn.abacus.util.u.Optional;
 
 /**
  *

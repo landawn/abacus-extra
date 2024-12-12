@@ -14,10 +14,10 @@
 
 package com.landawn.abacus.util;
 
-import java.util.NoSuchElementException;
-
-import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
+import com.landawn.abacus.util.u.Optional;
+
+import java.util.NoSuchElementException;
 
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
