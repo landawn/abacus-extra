@@ -129,7 +129,7 @@ public class MutableBytePair implements Mutable {
      * @return
      */
     public byte getAndSetRight(final byte newRight) {
-        final byte res = newRight;
+        final byte res = right;
         right = newRight;
         return res;
     }

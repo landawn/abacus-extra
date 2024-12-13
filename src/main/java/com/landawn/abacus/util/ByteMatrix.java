@@ -1625,7 +1625,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<ByteStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1684,7 +1684,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<ByteStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 

@@ -1511,7 +1511,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<DoubleStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1567,7 +1567,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<DoubleStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 

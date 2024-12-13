@@ -129,7 +129,7 @@ public class MutableLongPair implements Mutable {
      * @return
      */
     public long getAndSetRight(final long newRight) {
-        final long res = newRight;
+        final long res = right;
         right = newRight;
         return res;
     }

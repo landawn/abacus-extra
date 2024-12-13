@@ -1536,7 +1536,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<LongStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1592,7 +1592,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<LongStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 

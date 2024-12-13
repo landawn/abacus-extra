@@ -1626,7 +1626,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<CharStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1685,7 +1685,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<CharStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 

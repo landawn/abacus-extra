@@ -1069,7 +1069,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1114,7 +1114,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1177,7 +1177,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private int i = fromRowIndex;
             private int j = 0;
 
@@ -1275,7 +1275,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private int i = 0;
             private int j = fromColumnIndex;
 
@@ -1362,7 +1362,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<Boolean>>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1418,7 +1418,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<Boolean>>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private int cursor = fromColumnIndex;
 
@@ -1433,7 +1433,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return Stream.of(new ObjIteratorEx<Boolean>() {
+                return Stream.of(new ObjIteratorEx<>() {
                     private final int columnIndex = cursor++;
                     private final int toIndex2 = rows;
                     private int cursor2 = 0;

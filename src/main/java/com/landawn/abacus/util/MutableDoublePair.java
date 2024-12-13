@@ -129,7 +129,7 @@ public class MutableDoublePair implements Mutable {
      * @return
      */
     public double getAndSetRight(final double newRight) {
-        final double res = newRight;
+        final double res = right;
         right = newRight;
         return res;
     }

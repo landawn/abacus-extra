@@ -123,7 +123,7 @@ public class ShortPair {
      * @return
      */
     public short getAndSetRight(final short newRight) {
-        final short res = newRight;
+        final short res = right;
         right = newRight;
         return res;
     }

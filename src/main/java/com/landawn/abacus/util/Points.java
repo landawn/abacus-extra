@@ -410,8 +410,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof ByteObjPoint) {
-                    final ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
+                if (obj instanceof ByteObjPoint<?> other) {
                     return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
@@ -794,8 +793,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof IntObjPoint) {
-                    final IntObjPoint<?> other = (IntObjPoint<?>) obj;
+                if (obj instanceof IntObjPoint<?> other) {
                     return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
@@ -1178,8 +1176,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof LongObjPoint) {
-                    final LongObjPoint<?> other = (LongObjPoint<?>) obj;
+                if (obj instanceof LongObjPoint<?> other) {
                     return x == other.x && y == other.y && N.equals(v, other.v);
                 }
 
@@ -1562,8 +1559,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof DoubleObjPoint) {
-                    final DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
+                if (obj instanceof DoubleObjPoint<?> other) {
                     return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(v, other.v);
                 }
 
@@ -4531,8 +4527,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof ByteObjPoint) {
-                    final ByteObjPoint<?> other = (ByteObjPoint<?>) obj;
+                if (obj instanceof ByteObjPoint<?> other) {
                     return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
@@ -4945,8 +4940,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof IntObjPoint) {
-                    final IntObjPoint<?> other = (IntObjPoint<?>) obj;
+                if (obj instanceof IntObjPoint<?> other) {
                     return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
@@ -5359,8 +5353,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof LongObjPoint) {
-                    final LongObjPoint<?> other = (LongObjPoint<?>) obj;
+                if (obj instanceof LongObjPoint<?> other) {
                     return x == other.x && y == other.y && z == other.z && N.equals(v, other.v);
                 }
 
@@ -5773,8 +5766,7 @@ public final class Points {
                     return true;
                 }
 
-                if (obj instanceof DoubleObjPoint) {
-                    final DoubleObjPoint<?> other = (DoubleObjPoint<?>) obj;
+                if (obj instanceof DoubleObjPoint<?> other) {
                     return N.equals(x, other.x) && N.equals(y, other.y) && N.equals(z, other.z) && N.equals(v, other.v);
                 }
 

@@ -1346,20 +1346,18 @@ public abstract class Arrays {
      *
      * @param <T>
      * @param a
-     * @return
      */
-    public static <T> String println(final T[][] a) {
-        return ff.println(a);
+    public static <T> void println(final T[][] a) {
+        ff.println(a);
     }
 
     /**
      *
      * @param <T>
      * @param a
-     * @return
      */
-    public static <T> String println(final T[][][] a) {
-        return fff.println(a);
+    public static <T> void println(final T[][][] a) {
+        fff.println(a);
     }
 
     /**
@@ -2137,13 +2135,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final boolean[][] a) {
+    public static void println(final boolean[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -2184,8 +2181,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -3255,13 +3250,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final char[][] a) {
+    public static void println(final char[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -3302,21 +3296,18 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final char[][][] a) {
+    public static void println(final char[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -3374,8 +3365,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -6317,13 +6306,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final byte[][] a) {
+    public static void println(final byte[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -6364,21 +6352,18 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final byte[][][] a) {
+    public static void println(final byte[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -6436,8 +6421,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -9384,13 +9367,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final short[][] a) {
+    public static void println(final short[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -9431,8 +9413,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -9441,11 +9421,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static String println(final short[][][] a) {
+    public static void println(final short[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -9503,8 +9483,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -12441,13 +12419,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final int[][] a) {
+    public static void println(final int[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -12488,8 +12465,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -15504,13 +15479,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final long[][] a) {
+    public static void println(final long[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -15551,21 +15525,18 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final long[][][] a) {
+    public static void println(final long[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -15623,8 +15594,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -18574,11 +18543,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static String println(final float[][] a) {
+    public static void println(final float[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -18619,8 +18588,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -18629,11 +18596,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static String println(final float[][][] a) {
+    public static void println(final float[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -18691,8 +18658,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -21644,13 +21609,12 @@ public abstract class Arrays {
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final double[][] a) {
+    public static void println(final double[][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -21691,21 +21655,18 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
     /**
      *
      * @param a
-     * @return
      */
-    public static String println(final double[][][] a) {
+    public static void println(final double[][][] a) {
         if (a == null) {
-            return N.println("null");
+            N.println("null");
         } else if (a.length == 0) {
-            return N.println("[]");
+            N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -21763,8 +21724,6 @@ public abstract class Arrays {
             }
 
             N.println(str);
-
-            return str;
         }
     }
 
@@ -23356,10 +23315,8 @@ public abstract class Arrays {
                     continue;
                 }
 
-                final T[] aa = element;
-
-                for (int j = 0, m = aa.length; j < m; j++) {
-                    aa[j] = operator.apply(aa[j]);
+                for (int j = 0, m = element.length; j < m; j++) {
+                    element[j] = operator.apply(element[j]);
                 }
             }
         }
@@ -23383,11 +23340,9 @@ public abstract class Arrays {
                     continue;
                 }
 
-                final T[] aa = element;
-
-                for (int j = 0, m = aa.length; j < m; j++) {
-                    if (predicate.test(aa[j])) {
-                        aa[j] = newValue;
+                for (int j = 0, m = element.length; j < m; j++) {
+                    if (predicate.test(element[j])) {
+                        element[j] = newValue;
                     }
                 }
             }
@@ -24152,13 +24107,12 @@ public abstract class Arrays {
          *
          * @param <T>
          * @param a
-         * @return
          */
-        static <T> String println(final T[][] a) {
+        static <T> void println(final T[][] a) {
             if (a == null) {
-                return N.println("null");
+                N.println("null");
             } else if (a.length == 0) {
-                return N.println("[]");
+                N.println("[]");
             } else {
                 final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
@@ -24199,8 +24153,6 @@ public abstract class Arrays {
                 }
 
                 N.println(str);
-
-                return str;
             }
         }
     }

@@ -15,5 +15,5 @@
 package com.landawn.abacus.util;
 
 public enum ParallelEnabled {
-    YES, NO, DEFAULT;
+    YES, NO, DEFAULT
 }

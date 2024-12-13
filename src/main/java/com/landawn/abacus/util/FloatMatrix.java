@@ -1440,7 +1440,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<FloatStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1496,7 +1496,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<FloatStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 

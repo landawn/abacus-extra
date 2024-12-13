@@ -1600,7 +1600,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<IntStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1656,7 +1656,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<IntStream>() {
+        return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 
