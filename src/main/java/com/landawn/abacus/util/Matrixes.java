@@ -91,8 +91,8 @@ public final class Matrixes {
      * @return
      */
     public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
-        return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES || (
-                Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
+        return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
+                || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
 
     /**
@@ -132,14 +132,14 @@ public final class Matrixes {
             return true;
         }
 
-        final Iterator<? extends X> iter = xs.iterator();
-        final X first = iter.next();
+        final Iterator<? extends X> iterator = xs.iterator();
+        final X first = iterator.next();
         final int rows = first.rows;
         final int cols = first.cols;
         X next = null;
 
-        while (iter.hasNext()) {
-            next = iter.next();
+        while (iterator.hasNext()) {
+            next = iterator.next();
 
             if (next.rows != rows || next.cols != cols) {
                 return false;
@@ -1334,13 +1334,13 @@ public final class Matrixes {
      * @param <E>
      * @param c
      * @param zipFunction
-     * @param shareLongermediateArray
+     * @param shareIntermediateArray
      * @return
      * @throws IllegalArgumentException
      * @throws E
      */
     public static <E extends Exception> DoubleMatrix zipToDouble(final Collection<LongMatrix> c, final Throwables.LongNFunction<Double, E> zipFunction,
-            final boolean shareLongermediateArray) throws IllegalArgumentException, E {
+            final boolean shareIntermediateArray) throws IllegalArgumentException, E {
         checkShapeForZip(c);
 
         final int size = c.size();
@@ -1349,7 +1349,7 @@ public final class Matrixes {
         final int rows = matrixes[0].rows;
         final int cols = matrixes[0].cols;
         final boolean zipInParallel = Matrixes.isParallelable(matrixes[0]);
-        final boolean shareArray = shareLongermediateArray && !zipInParallel;
+        final boolean shareArray = shareIntermediateArray && !zipInParallel;
         final long[] intermediateArray = new long[size];
         final double[][] result = new double[rows][cols];
 

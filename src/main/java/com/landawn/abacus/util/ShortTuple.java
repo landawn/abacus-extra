@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final ShortTuple0 EMPTY = new ShortTuple0();
-
     protected short[] elements;
 
     /**
@@ -166,7 +164,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      */
     public static <TP extends ShortTuple<TP>> TP create(final short[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) ShortTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -342,6 +340,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     protected abstract short[] elements();
 
     static final class ShortTuple0 extends ShortTuple<ShortTuple0> {
+
+        private static final ShortTuple0 EMPTY = new ShortTuple0();
 
         ShortTuple0() {
         }
@@ -675,7 +675,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @throws E the e
          */
         public <E extends Exception> Optional<ShortTuple2> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<ShortTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -866,7 +866,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @throws E the e
          */
         public <E extends Exception> Optional<ShortTuple3> filter(final Throwables.ShortTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<ShortTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

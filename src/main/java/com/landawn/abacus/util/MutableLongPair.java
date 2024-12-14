@@ -242,7 +242,7 @@ public class MutableLongPair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableLongPair> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
-        return predicate.test(left, right) ? Optional.of(this) : Optional.<MutableLongPair> empty();
+        return predicate.test(left, right) ? Optional.of(this) : Optional.empty();
     }
 
     /**
@@ -254,7 +254,7 @@ public class MutableLongPair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableLongPair> filter(final Throwables.Predicate<? super MutableLongPair, E> predicate) throws E {
-        return predicate.test(this) ? Optional.of(this) : Optional.<MutableLongPair> empty();
+        return predicate.test(this) ? Optional.of(this) : Optional.empty();
     }
 
     /**

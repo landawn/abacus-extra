@@ -242,7 +242,7 @@ public class MutableBytePair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableBytePair> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
-        return predicate.test(left, right) ? Optional.of(this) : Optional.<MutableBytePair> empty();
+        return predicate.test(left, right) ? Optional.of(this) : Optional.empty();
     }
 
     /**
@@ -254,7 +254,7 @@ public class MutableBytePair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableBytePair> filter(final Throwables.Predicate<? super MutableBytePair, E> predicate) throws E {
-        return predicate.test(this) ? Optional.of(this) : Optional.<MutableBytePair> empty();
+        return predicate.test(this) ? Optional.of(this) : Optional.empty();
     }
 
     /**

@@ -2298,185 +2298,209 @@ public abstract class Arrays {
         return maxLen;
     }
 
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void plus(final char[] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            a[i] += param;
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void plus(final char[][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[] element : a) {
-            plus(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void plus(final char[][][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[][] element : a) {
-            plus(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void minus(final char[] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            a[i] -= param;
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void minus(final char[][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[] element : a) {
-            minus(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void minus(final char[][][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[][] element : a) {
-            minus(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void multipliedBy(final char[] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            a[i] *= param;
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void multipliedBy(final char[][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[] element : a) {
-            multipliedBy(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void multipliedBy(final char[][][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[][] element : a) {
-            multipliedBy(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void dividedBy(final char[] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (int i = 0, n = a.length; i < n; i++) {
-            a[i] /= param;
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void dividedBy(final char[][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[] element : a) {
-            dividedBy(element, param);
-        }
-    }
-
-    /**
-     *
-     * @param a
-     * @param param
-     */
-    public static void dividedBy(final char[][][] a, final int param) {
-        if (N.isEmpty(a)) {
-            return;
-        }
-
-        for (final char[][] element : a) {
-            dividedBy(element, param);
-        }
-    }
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void plus(final char[] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (int i = 0, n = a.length; i < n; i++) {
+    //            a[i] += param;
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void plus(final char[][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[] element : a) {
+    //            plus(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void plus(final char[][][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[][] element : a) {
+    //            plus(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void minus(final char[] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (int i = 0, n = a.length; i < n; i++) {
+    //            a[i] -= param;
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void minus(final char[][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[] element : a) {
+    //            minus(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void minus(final char[][][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[][] element : a) {
+    //            minus(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void multipliedBy(final char[] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (int i = 0, n = a.length; i < n; i++) {
+    //            a[i] *= param;
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void multipliedBy(final char[][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[] element : a) {
+    //            multipliedBy(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void multipliedBy(final char[][][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[][] element : a) {
+    //            multipliedBy(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void dividedBy(final char[] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (int i = 0, n = a.length; i < n; i++) {
+    //            a[i] /= param;
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void dividedBy(final char[][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[] element : a) {
+    //            dividedBy(element, param);
+    //        }
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param a
+    //     * @param param
+    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
+    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
+    //     */
+    //    public static void dividedBy(final char[][][] a, final int param) {
+    //        if (N.isEmpty(a)) {
+    //            return;
+    //        }
+    //
+    //        for (final char[][] element : a) {
+    //            dividedBy(element, param);
+    //        }
+    //    }
 
     /**
      *
@@ -4108,7 +4132,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (byte[]) null, (byte[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, (byte[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -4492,7 +4516,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (byte[]) null, (byte[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, (byte[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -4878,7 +4902,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (byte[]) null, (byte[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, (byte[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -5263,7 +5287,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (byte[]) null, (byte[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, (byte[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -5585,8 +5609,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
-                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -5660,7 +5684,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (byte[]) null, (byte[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, (byte[]) null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 
@@ -7165,7 +7189,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (short[]) null, (short[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, (short[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -7550,7 +7574,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (short[]) null, (short[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, (short[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -7936,7 +7960,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (short[]) null, (short[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, (short[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -8322,7 +8346,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (short[]) null, (short[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, (short[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -8644,8 +8668,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
-                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -8720,7 +8744,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (short[]) null, (short[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, (short[]) null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 
@@ -10226,7 +10250,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (int[]) null, (int[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, (int[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -10608,7 +10632,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (int[]) null, (int[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, (int[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -10992,7 +11016,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (int[]) null, (int[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, (int[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -11376,7 +11400,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (int[]) null, (int[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, (int[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -11698,9 +11722,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -11774,7 +11797,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (int[]) null, (int[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, (int[]) null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 
@@ -13280,7 +13303,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (long[]) null, (long[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, (long[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -13664,7 +13687,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (long[]) null, (long[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, (long[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -14050,7 +14073,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (long[]) null, (long[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, (long[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -14435,7 +14458,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (long[]) null, (long[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, (long[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -14757,9 +14780,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -14833,7 +14855,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (long[]) null, (long[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, (long[]) null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 
@@ -16338,7 +16360,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (float[]) null, (float[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, (float[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -16723,7 +16745,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (float[]) null, (float[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, (float[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -17109,7 +17131,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (float[]) null, (float[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, (float[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -17495,7 +17517,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (float[]) null, (float[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, (float[]) null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -17817,9 +17839,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -17894,7 +17915,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (float[]) null, (float[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, (float[]) null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 
@@ -19403,7 +19424,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = add(rowLen, (double[]) null, (double[]) null, valueForNoneA, valueForNoneB);
+                result[i] = add(rowLen, null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -19788,7 +19809,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = subtract(rowLen, (double[]) null, (double[]) null, valueForNoneA, valueForNoneB);
+                result[i] = subtract(rowLen, null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -20174,7 +20195,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = multipliedBy(rowLen, (double[]) null, (double[]) null, valueForNoneA, valueForNoneB);
+                result[i] = multipliedBy(rowLen, null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -20560,7 +20581,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (double[]) null, (double[]) null, valueForNoneA, valueForNoneB);
+                result[i] = dividedBy(rowLen, null, null, valueForNoneA, valueForNoneB);
             }
         }
 
@@ -20883,9 +20904,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -20960,7 +20980,7 @@ public abstract class Arrays {
 
         if (N.max(lenA, lenB) < len) {
             for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = dividedBy(rowLen, (double[]) null, (double[]) null, valueForNoneA, valueForNoneB, defaultValueForZero);
+                result[i] = dividedBy(rowLen, null, null, valueForNoneA, valueForNoneB, defaultValueForZero);
             }
         }
 

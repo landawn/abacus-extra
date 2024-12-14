@@ -20,8 +20,6 @@ import com.landawn.abacus.util.u.Optional;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final BooleanTuple0 EMPTY = new BooleanTuple0();
-
     protected boolean[] elements;
 
     /**
@@ -164,7 +162,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      */
     public static <TP extends BooleanTuple<TP>> TP create(final boolean[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) BooleanTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -295,6 +293,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected abstract boolean[] elements();
 
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
+        private static final BooleanTuple0 EMPTY = new BooleanTuple0();
 
         BooleanTuple0() {
         }
@@ -503,7 +502,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @throws E the e
          */
         public <E extends Exception> Optional<BooleanTuple2> filter(final Throwables.BooleanBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<BooleanTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -647,7 +646,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * @throws E the e
          */
         public <E extends Exception> Optional<BooleanTuple3> filter(final Throwables.BooleanTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<BooleanTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

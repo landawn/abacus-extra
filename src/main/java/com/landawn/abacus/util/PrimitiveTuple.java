@@ -59,7 +59,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @throws E
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
-        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.<TP> empty();
+        return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
     }
 
     /**

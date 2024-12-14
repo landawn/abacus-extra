@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final LongTuple0 EMPTY = new LongTuple0();
-
     protected long[] elements;
 
     /**
@@ -165,7 +163,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      */
     public static <TP extends LongTuple<TP>> TP create(final long[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) LongTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -341,6 +339,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     protected abstract long[] elements();
 
     static final class LongTuple0 extends LongTuple<LongTuple0> {
+
+        private static final LongTuple0 EMPTY = new LongTuple0();
 
         LongTuple0() {
         }
@@ -674,7 +674,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<LongTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -865,7 +865,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<LongTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

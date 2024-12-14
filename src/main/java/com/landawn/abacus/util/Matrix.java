@@ -135,7 +135,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+        N.checkArgument(
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
@@ -216,7 +217,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> upOf(final int i, final int j) {
-        return i == 0 ? Nullable.<T> empty() : Nullable.of(a[i - 1][j]);
+        return i == 0 ? Nullable.empty() : Nullable.of(a[i - 1][j]);
     }
 
     /**
@@ -225,7 +226,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> downOf(final int i, final int j) {
-        return i == rows - 1 ? Nullable.<T> empty() : Nullable.of(a[i + 1][j]);
+        return i == rows - 1 ? Nullable.empty() : Nullable.of(a[i + 1][j]);
     }
 
     /**
@@ -234,7 +235,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> leftOf(final int i, final int j) {
-        return j == 0 ? Nullable.<T> empty() : Nullable.of(a[i][j - 1]);
+        return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
     }
 
     /**
@@ -243,7 +244,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return
      */
     public Nullable<T> rightOf(final int i, final int j) {
-        return j == cols - 1 ? Nullable.<T> empty() : Nullable.of(a[i][j + 1]);
+        return j == cols - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
     }
 
     /**
@@ -872,7 +873,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             T tmp = null;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -1016,17 +1017,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             return new Matrix<>(c);
         }
 
-        if (a.length == 1) {
-            final T[] a0 = a[0];
+        final int rowLen = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1);
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
-                N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
+        if (a.length == 1) {
+            for (int i = 0; i < rowLen; i++) {
+                N.copy(a, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
             }
         } else {
             long cnt = 0;
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
-                for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
+            for (int i = 0; i < rowLen; i++) {
+                for (int j = 0, col = (int) N.min(newCols, count - (long) i * newCols); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
@@ -1406,8 +1407,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     i = toRowIndex;
                     j = 0;
                 } else {
-                    i += (n + j) / cols;
-                    j += (n + j) % cols;
+                    i += (int) ((n + j) / cols);
+                    j += (int) ((n + j) % cols);
                 }
             }
 
@@ -1504,14 +1505,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % Matrix.this.rows;
-                    j += (n + i) / Matrix.this.rows;
+                    i += (int) ((n + i) % Matrix.this.rows);
+                    j += (int) ((n + i) / Matrix.this.rows);
                 }
             }
 
             @Override
             public long count() {
-                return (toColumnIndex - j) * rows - i; // NOSONAR
+                return (long) (toColumnIndex - j) * rows - i; // NOSONAR
             }
 
             @Override
@@ -1616,7 +1617,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
-            private volatile int cursor = fromColumnIndex;
+            private int cursor = fromColumnIndex;
 
             @Override
             public boolean hasNext() {

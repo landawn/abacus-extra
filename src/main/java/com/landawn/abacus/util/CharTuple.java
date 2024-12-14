@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final CharTuple0 EMPTY = new CharTuple0();
-
     protected char[] elements;
 
     /**
@@ -164,7 +162,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      */
     public static <TP extends CharTuple<TP>> TP create(final char[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) CharTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -340,6 +338,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected abstract char[] elements();
 
     static final class CharTuple0 extends CharTuple<CharTuple0> {
+
+        private static final CharTuple0 EMPTY = new CharTuple0();
 
         CharTuple0() {
         }
@@ -673,7 +673,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<CharTuple2> filter(final Throwables.CharBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<CharTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -864,7 +864,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<CharTuple3> filter(final Throwables.CharTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<CharTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

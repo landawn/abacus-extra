@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final DoubleTuple0 EMPTY = new DoubleTuple0();
-
     protected double[] elements;
 
     /**
@@ -165,7 +163,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      */
     public static <TP extends DoubleTuple<TP>> TP create(final double[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) DoubleTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -341,6 +339,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     protected abstract double[] elements();
 
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
+
+        private static final DoubleTuple0 EMPTY = new DoubleTuple0();
 
         DoubleTuple0() {
         }
@@ -674,7 +674,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @throws E the e
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<DoubleTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -865,7 +865,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @throws E the e
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<DoubleTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -1022,8 +1022,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public boolean contains(final double valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5,
-                    valueToFind);
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind);
         }
 
         @Override

@@ -22,15 +22,21 @@ import com.landawn.abacus.util.ShortTuple.ShortTuple2;
 import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.u.Optional;
 
-public class ShortPair {
+/**
+ *
+ * @deprecated Not a good idea?
+ */
+@Deprecated
+@Beta
+public class MutableShortPair implements Mutable {
     public short left; // NOSONAR
     public short right; // NOSONAR
 
-    public ShortPair() {
+    public MutableShortPair() {
     }
 
     @SuppressFBWarnings({ "PA_PUBLIC_PRIMITIVE_ATTRIBUTE", "PA_PUBLIC_PRIMITIVE_ATTRIBUTE" })
-    ShortPair(final short l, final short r) {
+    MutableShortPair(final short l, final short r) {
         left = l;
         right = r;
     }
@@ -42,8 +48,8 @@ public class ShortPair {
      * @param r
      * @return
      */
-    public static ShortPair of(final short l, final short r) {
-        return new ShortPair(l, r);
+    public static MutableShortPair of(final short l, final short r) {
+        return new MutableShortPair(l, r);
     }
 
     /**
@@ -145,8 +151,8 @@ public class ShortPair {
      * @return
      */
     @Beta
-    public ShortPair reverse() {
-        return new ShortPair(right, left);
+    public MutableShortPair reverse() {
+        return new MutableShortPair(right, left);
     }
 
     /**
@@ -154,8 +160,8 @@ public class ShortPair {
      *
      * @return
      */
-    public ShortPair copy() {
-        return new ShortPair(left, right);
+    public MutableShortPair copy() {
+        return new MutableShortPair(left, right);
     }
 
     /**
@@ -197,7 +203,7 @@ public class ShortPair {
      * @param action
      * @throws E
      */
-    public <E extends Exception> void accept(final Throwables.Consumer<? super ShortPair, E> action) throws E {
+    public <E extends Exception> void accept(final Throwables.Consumer<? super MutableShortPair, E> action) throws E {
         action.accept(this);
     }
 
@@ -223,7 +229,7 @@ public class ShortPair {
      * @return
      * @throws E
      */
-    public <U, E extends Exception> U map(final Throwables.Function<? super ShortPair, U, E> mapper) throws E {
+    public <U, E extends Exception> U map(final Throwables.Function<? super MutableShortPair, U, E> mapper) throws E {
         return mapper.apply(this);
     }
 
@@ -235,8 +241,8 @@ public class ShortPair {
      * @return
      * @throws E
      */
-    public <E extends Exception> Optional<ShortPair> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
-        return predicate.test(left, right) ? Optional.of(this) : Optional.<ShortPair> empty();
+    public <E extends Exception> Optional<MutableShortPair> filter(final Throwables.ShortBiPredicate<E> predicate) throws E {
+        return predicate.test(left, right) ? Optional.of(this) : Optional.empty();
     }
 
     /**
@@ -247,8 +253,8 @@ public class ShortPair {
      * @return
      * @throws E
      */
-    public <E extends Exception> Optional<ShortPair> filter(final Throwables.Predicate<? super ShortPair, E> predicate) throws E {
-        return predicate.test(this) ? Optional.of(this) : Optional.<ShortPair> empty();
+    public <E extends Exception> Optional<MutableShortPair> filter(final Throwables.Predicate<? super MutableShortPair, E> predicate) throws E {
+        return predicate.test(this) ? Optional.of(this) : Optional.empty();
     }
 
     /**
@@ -265,7 +271,7 @@ public class ShortPair {
      *
      * @return
      */
-    public Optional<ShortPair> toOptional() {
+    public Optional<MutableShortPair> toOptional() {
         return Optional.of(this);
     }
 
@@ -303,7 +309,7 @@ public class ShortPair {
             return true;
         }
 
-        if (obj instanceof final ShortPair other) {
+        if (obj instanceof final MutableShortPair other) {
             return N.equals(left, other.left) && N.equals(right, other.right);
         }
 

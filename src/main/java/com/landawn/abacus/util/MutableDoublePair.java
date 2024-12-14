@@ -242,7 +242,7 @@ public class MutableDoublePair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableDoublePair> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
-        return predicate.test(left, right) ? Optional.of(this) : Optional.<MutableDoublePair> empty();
+        return predicate.test(left, right) ? Optional.of(this) : Optional.empty();
     }
 
     /**
@@ -254,7 +254,7 @@ public class MutableDoublePair implements Mutable {
      * @throws E
      */
     public <E extends Exception> Optional<MutableDoublePair> filter(final Throwables.Predicate<? super MutableDoublePair, E> predicate) throws E {
-        return predicate.test(this) ? Optional.of(this) : Optional.<MutableDoublePair> empty();
+        return predicate.test(this) ? Optional.of(this) : Optional.empty();
     }
 
     /**

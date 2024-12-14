@@ -60,7 +60,7 @@ public final class Points {
             public final byte v; // value
 
             /**
-             * Instantiates a new byte byte point.
+             * Instantiates a new byte point.
              *
              * @param x
              * @param y
@@ -519,7 +519,7 @@ public final class Points {
             public final int v; // value
 
             /**
-             * Instantiates a new int int point.
+             * Instantiates a new int point.
              *
              * @param x
              * @param y
@@ -978,7 +978,7 @@ public final class Points {
             public final long v; // value
 
             /**
-             * Instantiates a new long long point.
+             * Instantiates a new long point.
              *
              * @param x
              * @param y
@@ -1437,7 +1437,7 @@ public final class Points {
             public final double v; // value
 
             /**
-             * Instantiates a new double double point.
+             * Instantiates a new double point.
              *
              * @param x
              * @param y
@@ -4150,7 +4150,7 @@ public final class Points {
             public final byte v; // value
 
             /**
-             * Instantiates a new byte byte point.
+             * Instantiates a new byte point.
              *
              * @param x
              * @param y
@@ -4645,7 +4645,7 @@ public final class Points {
             public final int v; // value
 
             /**
-             * Instantiates a new int int point.
+             * Instantiates a new int point.
              *
              * @param x
              * @param y
@@ -5140,7 +5140,7 @@ public final class Points {
             public final long v; // value
 
             /**
-             * Instantiates a new long long point.
+             * Instantiates a new long point.
              *
              * @param x
              * @param y
@@ -5635,7 +5635,7 @@ public final class Points {
             public final double v; // value
 
             /**
-             * Instantiates a new double double point.
+             * Instantiates a new double point.
              *
              * @param x
              * @param y

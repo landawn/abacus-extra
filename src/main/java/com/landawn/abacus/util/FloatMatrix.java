@@ -125,7 +125,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException
      */
     public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+        N.checkArgument(
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
@@ -734,7 +735,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             float tmp = 0;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -863,17 +864,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return new FloatMatrix(c);
         }
 
-        if (a.length == 1) {
-            final float[] a0 = a[0];
+        final int rowLen = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1);
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
-                N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
+        if (a.length == 1) {
+            for (int i = 0; i < rowLen; i++) {
+                N.copy(a, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
             }
         } else {
             long cnt = 0;
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
-                for (int j = 0, col = (int) N.min(newCols, count - i * newCols); j < col; j++, cnt++) {
+            for (int i = 0; i < rowLen; i++) {
+                for (int j = 0, col = (int) N.min(newCols, count - (long) i * newCols); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
             }
@@ -1294,8 +1295,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     i = toRowIndex;
                     j = 0;
                 } else {
-                    i += (n + j) / cols;
-                    j += (n + j) % cols;
+                    i += (int) ((n + j) / cols);
+                    j += (int) ((n + j) % cols);
                 }
             }
 
@@ -1389,14 +1390,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % FloatMatrix.this.rows;
-                    j += (n + i) / FloatMatrix.this.rows;
+                    i += (int) ((n + i) % FloatMatrix.this.rows);
+                    j += (int) ((n + i) / FloatMatrix.this.rows);
                 }
             }
 
             @Override
             public long count() {
-                return (toColumnIndex - j) * rows - i; // NOSONAR
+                return (long) (toColumnIndex - j) * rows - i; // NOSONAR
             }
 
             @Override
@@ -1498,7 +1499,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         return Stream.of(new ObjIteratorEx<>() {
             private final int toIndex = toColumnIndex;
-            private volatile int cursor = fromColumnIndex;
+            private int cursor = fromColumnIndex;
 
             @Override
             public boolean hasNext() {

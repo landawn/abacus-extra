@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final IntTuple0 EMPTY = new IntTuple0();
-
     protected int[] elements;
 
     /**
@@ -164,7 +162,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      */
     public static <TP extends IntTuple<TP>> TP create(final int[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) IntTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -340,6 +338,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     protected abstract int[] elements();
 
     static final class IntTuple0 extends IntTuple<IntTuple0> {
+
+        private static final IntTuple0 EMPTY = new IntTuple0();
 
         IntTuple0() {
         }
@@ -673,7 +673,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @throws E the e
          */
         public <E extends Exception> Optional<IntTuple2> filter(final Throwables.IntBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<IntTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -864,7 +864,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @throws E the e
          */
         public <E extends Exception> Optional<IntTuple3> filter(final Throwables.IntTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<IntTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

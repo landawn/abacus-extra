@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final FloatTuple0 EMPTY = new FloatTuple0();
-
     protected float[] elements;
 
     /**
@@ -166,7 +164,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      */
     public static <TP extends FloatTuple<TP>> TP create(final float[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) FloatTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -342,6 +340,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     protected abstract float[] elements();
 
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
+
+        private static final FloatTuple0 EMPTY = new FloatTuple0();
 
         FloatTuple0() {
         }
@@ -675,7 +675,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @throws E the e
          */
         public <E extends Exception> Optional<FloatTuple2> filter(final Throwables.FloatBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<FloatTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -866,7 +866,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @throws E the e
          */
         public <E extends Exception> Optional<FloatTuple3> filter(final Throwables.FloatTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<FloatTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -1023,8 +1023,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public boolean contains(final float valueToFind) {
-            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5,
-                    valueToFind);
+            return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
+                    || N.equals(_5, valueToFind);
         }
 
         @Override

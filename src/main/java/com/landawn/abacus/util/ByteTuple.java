@@ -22,8 +22,6 @@ import java.util.NoSuchElementException;
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
 
-    private static final ByteTuple0 EMPTY = new ByteTuple0();
-
     protected byte[] elements;
 
     /**
@@ -164,7 +162,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      */
     public static <TP extends ByteTuple<TP>> TP create(final byte[] a) {
         if (a == null || a.length == 0) {
-            return (TP) EMPTY;
+            return (TP) ByteTuple0.EMPTY;
         }
 
         switch (a.length) {
@@ -340,6 +338,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     protected abstract byte[] elements();
 
     static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
+
+        private static final ByteTuple0 EMPTY = new ByteTuple0();
 
         ByteTuple0() {
         }
@@ -673,7 +673,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2) ? Optional.of(this) : Optional.<ByteTuple2> empty();
+            return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
@@ -864,7 +864,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * @throws E the e
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
-            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.<ByteTuple3> empty();
+            return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**

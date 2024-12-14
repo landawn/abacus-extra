@@ -99,7 +99,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
-        N.checkArgument(N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
+        N.checkArgument(
+                N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
@@ -616,17 +617,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != false; // NOSONAR
+            // NOSONAR
             final boolean[][] b = new boolean[newRows][];
 
             for (int i = 0; i < newRows; i++) {
                 b[i] = i < rows ? N.copyOf(a[i], newCols) : new boolean[newCols];
 
-                if (fillDefaultValue) {
+                if (defaultValueForNewCell) {
                     if (i >= rows) {
-                        N.fill(b[i], defaultValueForNewCell);
+                        N.fill(b[i], true);
                     } else if (cols < newCols) {
-                        N.fill(b[i], cols, newCols, defaultValueForNewCell);
+                        N.fill(b[i], cols, newCols, true);
                     }
                 }
             }
@@ -667,7 +668,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         } else {
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != false; // NOSONAR
+            // NOSONAR
             final boolean[][] b = new boolean[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
@@ -675,16 +676,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     N.copy(a[i - toUp], 0, b[i], toLeft, cols);
                 }
 
-                if (fillDefaultValue) {
+                if (defaultValueForNewCell) {
                     if (i < toUp || i >= toUp + rows) {
-                        N.fill(b[i], defaultValueForNewCell);
+                        N.fill(b[i], true);
                     } else if (cols < newCols) {
                         if (toLeft > 0) {
-                            N.fill(b[i], 0, toLeft, defaultValueForNewCell);
+                            N.fill(b[i], 0, toLeft, true);
                         }
 
                         if (toRight > 0) {
-                            N.fill(b[i], cols + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(b[i], cols + toLeft, newCols, true);
                         }
                     }
                 }
@@ -709,7 +710,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             boolean tmp = false;
-            for (int l = 0, h = rows - 1; l < h; ) {
+            for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
                 a[h--][j] = tmp;
@@ -838,16 +839,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return new BooleanMatrix(c);
         }
 
-        if (a.length == 1) {
-            final boolean[] a0 = a[0];
+        final int rowLen = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1);
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
-                N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
+        if (a.length == 1) {
+            for (int i = 0; i < rowLen; i++) {
+                N.copy(a, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
             }
         } else {
             long cnt = 0;
 
-            for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
+            for (int i = 0; i < rowLen; i++) {
                 for (int j = 0, col = (int) N.min(newCols, count - (long) i * newCols); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / cols)][(int) (cnt % cols)];
                 }
