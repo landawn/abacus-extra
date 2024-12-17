@@ -14,16 +14,16 @@
 
 package com.landawn.abacus.util;
 
+import java.util.NoSuchElementException;
+
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
+import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.stream.DoubleIteratorEx;
 import com.landawn.abacus.util.stream.DoubleStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.util.u.OptionalDouble;
-
-import java.util.NoSuchElementException;
 
 // TODO: Auto-generated Javadoc
 
@@ -947,7 +947,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
+                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
             }
         } else {
             long cnt = 0;

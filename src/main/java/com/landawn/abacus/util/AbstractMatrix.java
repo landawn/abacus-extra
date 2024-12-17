@@ -230,6 +230,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
         if (Matrixes.isParallelable(this)) {
+            //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> cmd = action::accept;
             Matrixes.run(rows, cols, cmd, true);
         } else {
@@ -257,6 +258,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
+            //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> cmd = action::accept;
             Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
         } else {
@@ -324,6 +326,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public Stream<Point> pointsLU2RD() {
         checkIfRowAndColumnSizeAreSame();
 
+        //noinspection resource
         return IntStream.range(0, rows).mapToObj(i -> Point.of(i, i));
     }
 
@@ -335,6 +338,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public Stream<Point> pointsRU2LD() {
         checkIfRowAndColumnSizeAreSame();
 
+        //noinspection resource
         return IntStream.range(0, rows).mapToObj(i -> Point.of(i, cols - i - 1));
     }
 

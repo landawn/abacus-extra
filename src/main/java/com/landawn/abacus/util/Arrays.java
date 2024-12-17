@@ -13,10 +13,10 @@
  */
 package com.landawn.abacus.util;
 
+import java.math.RoundingMode;
+
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
-
-import java.math.RoundingMode;
 
 /**
  * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case. It's not going to handle {@code null} scenarios like what handled in abacus-common. It's developer's responsibility to handle {@code null} scenarios. // TODO
@@ -1328,11 +1328,10 @@ public abstract class Arrays {
 
     /**
      *
-     * @param <T>
      * @param a
      * @return
      */
-    public static <T> String println(final T[] a) {
+    public static String println(final Object[] a) {
         if (a == null) {
             return N.println("null");
         } else if (a.length == 0) {
@@ -1346,18 +1345,19 @@ public abstract class Arrays {
      *
      * @param <T>
      * @param a
+     * @return
      */
-    public static <T> void println(final T[][] a) {
-        ff.println(a);
+    public static String println(final Object[][] a) {
+        return ff.println(a);
     }
 
     /**
      *
-     * @param <T>
      * @param a
+     * @return
      */
-    public static <T> void println(final T[][][] a) {
-        fff.println(a);
+    public static String println(final Object[][][] a) {
+        return fff.println(a);
     }
 
     /**
@@ -1534,11 +1534,7 @@ public abstract class Arrays {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        int count = 0;
-
-        for (final boolean[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final boolean[] c = new boolean[count];
         int from = 0;
@@ -1566,21 +1562,7 @@ public abstract class Arrays {
             return N.EMPTY_BOOLEAN_ARRAY;
         }
 
-        int count = 0;
-
-        for (final boolean[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final boolean[] c = new boolean[count];
         int from = 0;
@@ -1590,14 +1572,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final boolean[] booleans : element) {
+                if (N.isEmpty(booleans)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(booleans, 0, c, from, booleans.length);
 
-                from += element[j].length;
+                from += booleans.length;
             }
         }
 
@@ -2117,6 +2099,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final boolean[][] a) {
+        long count = 0;
+
+        for (final boolean[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final boolean[][][] a) {
+        long count = 0;
+
+        for (final boolean[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final boolean[] booleans : element) {
+                if (N.isEmpty(booleans)) {
+                    continue;
+                }
+
+                count += booleans.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final boolean[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final boolean[] booleans : a) {
+            minLen = N.min(minLen, booleans == null ? 0 : booleans.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final boolean[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final boolean[] booleans : a) {
+            maxLen = N.max(maxLen, booleans == null ? 0 : booleans.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -2136,11 +2188,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final boolean[][] a) {
+    public static String println(final boolean[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -2180,7 +2232,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -2254,48 +2306,6 @@ public abstract class Arrays {
 
             return str;
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final boolean[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final boolean[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     //    /**
@@ -2676,11 +2686,7 @@ public abstract class Arrays {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        int count = 0;
-
-        for (final char[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final char[] c = new char[count];
         int from = 0;
@@ -2708,21 +2714,7 @@ public abstract class Arrays {
             return N.EMPTY_CHAR_ARRAY;
         }
 
-        int count = 0;
-
-        for (final char[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final char[] c = new char[count];
         int from = 0;
@@ -2732,14 +2724,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final char[] chars : element) {
+                if (N.isEmpty(chars)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(chars, 0, c, from, chars.length);
 
-                from += element[j].length;
+                from += chars.length;
             }
         }
 
@@ -3256,6 +3248,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final char[][] a) {
+        long count = 0;
+
+        for (final char[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final char[][][] a) {
+        long count = 0;
+
+        for (final char[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final char[] chars : element) {
+                if (N.isEmpty(chars)) {
+                    continue;
+                }
+
+                count += chars.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final char[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final char[] chars : a) {
+            minLen = N.min(minLen, chars == null ? 0 : chars.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final char[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final char[] chars : a) {
+            maxLen = N.max(maxLen, chars == null ? 0 : chars.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -3275,11 +3337,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final char[][] a) {
+    public static String println(final char[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -3319,7 +3381,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -3327,11 +3389,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final char[][][] a) {
+    public static String println(final char[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -3388,50 +3450,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final char[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final char[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -3731,11 +3751,7 @@ public abstract class Arrays {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        int count = 0;
-
-        for (final byte[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final byte[] c = new byte[count];
         int from = 0;
@@ -3763,21 +3779,7 @@ public abstract class Arrays {
             return N.EMPTY_BYTE_ARRAY;
         }
 
-        int count = 0;
-
-        for (final byte[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final byte[] c = new byte[count];
         int from = 0;
@@ -3787,14 +3789,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final byte[] bytes : element) {
+                if (N.isEmpty(bytes)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(bytes, 0, c, from, bytes.length);
 
-                from += element[j].length;
+                from += bytes.length;
             }
         }
 
@@ -6312,6 +6314,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final byte[][] a) {
+        long count = 0;
+
+        for (final byte[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final byte[][][] a) {
+        long count = 0;
+
+        for (final byte[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final byte[] bytes : element) {
+                if (N.isEmpty(bytes)) {
+                    continue;
+                }
+
+                count += bytes.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final byte[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final byte[] bytes : a) {
+            minLen = N.min(minLen, bytes == null ? 0 : bytes.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final byte[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final byte[] bytes : a) {
+            maxLen = N.max(maxLen, bytes == null ? 0 : bytes.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -6331,11 +6403,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final byte[][] a) {
+    public static String println(final byte[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -6375,7 +6447,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -6383,11 +6455,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final byte[][][] a) {
+    public static String println(final byte[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -6444,50 +6516,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final byte[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final byte[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -6844,11 +6874,7 @@ public abstract class Arrays {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final short[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final short[] c = new short[count];
         int from = 0;
@@ -6876,21 +6902,7 @@ public abstract class Arrays {
             return N.EMPTY_SHORT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final short[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final short[] c = new short[count];
         int from = 0;
@@ -6900,14 +6912,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final short[] shorts : element) {
+                if (N.isEmpty(shorts)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(shorts, 0, c, from, shorts.length);
 
-                from += element[j].length;
+                from += shorts.length;
             }
         }
 
@@ -9373,6 +9385,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final short[][] a) {
+        long count = 0;
+
+        for (final short[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final short[][][] a) {
+        long count = 0;
+
+        for (final short[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final short[] shorts : element) {
+                if (N.isEmpty(shorts)) {
+                    continue;
+                }
+
+                count += shorts.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final short[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final short[] shorts : a) {
+            minLen = N.min(minLen, shorts == null ? 0 : shorts.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final short[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final short[] shorts : a) {
+            maxLen = N.max(maxLen, shorts == null ? 0 : shorts.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -9392,11 +9474,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final short[][] a) {
+    public static String println(final short[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -9436,7 +9518,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -9445,11 +9527,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static void println(final short[][][] a) {
+    public static String println(final short[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -9506,50 +9588,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final short[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final short[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -9906,11 +9946,7 @@ public abstract class Arrays {
             return N.EMPTY_INT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final int[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final int[] c = new int[count];
         int from = 0;
@@ -9938,21 +9974,7 @@ public abstract class Arrays {
             return N.EMPTY_INT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final int[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final int[] c = new int[count];
         int from = 0;
@@ -9962,14 +9984,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final int[] ints : element) {
+                if (N.isEmpty(ints)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(ints, 0, c, from, ints.length);
 
-                from += element[j].length;
+                from += ints.length;
             }
         }
 
@@ -12424,6 +12446,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final int[][] a) {
+        long count = 0;
+
+        for (final int[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final int[][][] a) {
+        long count = 0;
+
+        for (final int[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final int[] ints : element) {
+                if (N.isEmpty(ints)) {
+                    continue;
+                }
+
+                count += ints.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final int[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final int[] ints : a) {
+            minLen = N.min(minLen, ints == null ? 0 : ints.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final int[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final int[] ints : a) {
+            maxLen = N.max(maxLen, ints == null ? 0 : ints.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -12443,11 +12535,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final int[][] a) {
+    public static String println(final int[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -12487,7 +12579,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -12561,48 +12653,6 @@ public abstract class Arrays {
 
             return str;
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final int[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final int[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -12959,11 +13009,7 @@ public abstract class Arrays {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        int count = 0;
-
-        for (final long[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final long[] c = new long[count];
         int from = 0;
@@ -12991,21 +13037,7 @@ public abstract class Arrays {
             return N.EMPTY_LONG_ARRAY;
         }
 
-        int count = 0;
-
-        for (final long[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final long[] c = new long[count];
         int from = 0;
@@ -13015,14 +13047,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final long[] longs : element) {
+                if (N.isEmpty(longs)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(longs, 0, c, from, longs.length);
 
-                from += element[j].length;
+                from += longs.length;
             }
         }
 
@@ -15483,6 +15515,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final long[][] a) {
+        long count = 0;
+
+        for (final long[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final long[][][] a) {
+        long count = 0;
+
+        for (final long[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final long[] longs : element) {
+                if (N.isEmpty(longs)) {
+                    continue;
+                }
+
+                count += longs.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final long[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final long[] longs : a) {
+            minLen = N.min(minLen, longs == null ? 0 : longs.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final long[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final long[] longs : a) {
+            maxLen = N.max(maxLen, longs == null ? 0 : longs.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -15502,11 +15604,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final long[][] a) {
+    public static String println(final long[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -15546,7 +15648,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -15554,11 +15656,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final long[][][] a) {
+    public static String println(final long[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -15615,50 +15717,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final long[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final long[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -16015,11 +16075,7 @@ public abstract class Arrays {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final float[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final float[] c = new float[count];
         int from = 0;
@@ -16047,21 +16103,7 @@ public abstract class Arrays {
             return N.EMPTY_FLOAT_ARRAY;
         }
 
-        int count = 0;
-
-        for (final float[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final float[] c = new float[count];
         int from = 0;
@@ -16071,14 +16113,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final float[] floats : element) {
+                if (N.isEmpty(floats)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(floats, 0, c, from, floats.length);
 
-                from += element[j].length;
+                from += floats.length;
             }
         }
 
@@ -18544,6 +18586,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final float[][] a) {
+        long count = 0;
+
+        for (final float[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final float[][][] a) {
+        long count = 0;
+
+        for (final float[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final float[] floats : element) {
+                if (N.isEmpty(floats)) {
+                    continue;
+                }
+
+                count += floats.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final float[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final float[] floats : a) {
+            minLen = N.min(minLen, floats == null ? 0 : floats.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final float[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final float[] floats : a) {
+            maxLen = N.max(maxLen, floats == null ? 0 : floats.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -18564,11 +18676,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static void println(final float[][] a) {
+    public static String println(final float[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -18608,7 +18720,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -18617,11 +18729,11 @@ public abstract class Arrays {
      * @param a
      * @return
      */
-    public static void println(final float[][][] a) {
+    public static String println(final float[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -18678,50 +18790,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final float[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final float[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -19078,11 +19148,7 @@ public abstract class Arrays {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        int count = 0;
-
-        for (final double[] element : a) {
-            count += (element == null ? 0 : element.length);
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final double[] c = new double[count];
         int from = 0;
@@ -19110,21 +19176,7 @@ public abstract class Arrays {
             return N.EMPTY_DOUBLE_ARRAY;
         }
 
-        int count = 0;
-
-        for (final double[][] element : a) {
-            if (N.isEmpty(element)) {
-                continue;
-            }
-
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
-                    continue;
-                }
-
-                count += (element[j] == null ? 0 : element[j].length);
-            }
-        }
+        final int count = Numbers.toIntExact(totalCountOfElements(a));
 
         final double[] c = new double[count];
         int from = 0;
@@ -19134,14 +19186,14 @@ public abstract class Arrays {
                 continue;
             }
 
-            for (int j = 0, m = element.length; j < m; j++) {
-                if (N.isEmpty(element[j])) {
+            for (final double[] doubles : element) {
+                if (N.isEmpty(doubles)) {
                     continue;
                 }
 
-                N.copy(element[j], 0, c, from, element[j].length);
+                N.copy(doubles, 0, c, from, doubles.length);
 
-                from += element[j].length;
+                from += doubles.length;
             }
         }
 
@@ -21611,6 +21663,76 @@ public abstract class Arrays {
         return result;
     }
 
+    public static long totalCountOfElements(final double[][] a) {
+        long count = 0;
+
+        for (final double[] element : a) {
+            count += (element == null ? 0 : element.length);
+        }
+
+        return count;
+    }
+
+    public static long totalCountOfElements(final double[][][] a) {
+        long count = 0;
+
+        for (final double[][] element : a) {
+            if (N.isEmpty(element)) {
+                continue;
+            }
+
+            for (final double[] doubles : element) {
+                if (N.isEmpty(doubles)) {
+                    continue;
+                }
+
+                count += doubles.length;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * Min sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int minSubArrayLen(final double[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int minLen = 0;
+
+        for (final double[] doubles : a) {
+            minLen = N.min(minLen, doubles == null ? 0 : doubles.length);
+        }
+
+        return minLen;
+    }
+
+    /**
+     * Max sub array len.
+     *
+     * @param a
+     * @return
+     */
+    public static int maxSubArrayLen(final double[][] a) {
+        if (a == null) {
+            return 0;
+        }
+
+        int maxLen = 0;
+
+        for (final double[] doubles : a) {
+            maxLen = N.max(maxLen, doubles == null ? 0 : doubles.length);
+        }
+
+        return maxLen;
+    }
+
     /**
      *
      * @param a
@@ -21630,11 +21752,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final double[][] a) {
+    public static String println(final double[][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -21674,7 +21796,7 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
     }
 
@@ -21682,11 +21804,11 @@ public abstract class Arrays {
      *
      * @param a
      */
-    public static void println(final double[][][] a) {
+    public static String println(final double[][][] a) {
         if (a == null) {
-            N.println("null");
+            return N.println("null");
         } else if (a.length == 0) {
-            N.println("[]");
+            return N.println("[]");
         } else {
             final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
@@ -21743,50 +21865,8 @@ public abstract class Arrays {
                 Objectory.recycle(sb);
             }
 
-            N.println(str);
+            return N.println(str);
         }
-    }
-
-    /**
-     * Min sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int minSubArrayLen(final double[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int minLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return minLen;
-    }
-
-    /**
-     * Max sub array len.
-     *
-     * @param a
-     * @return
-     */
-    public static int maxSubArrayLen(final double[][] a) {
-        if (a == null) {
-            return 0;
-        }
-
-        final int len = a.length;
-        int maxLen = 0;
-
-        for (int i = 0; i < len; i++) {
-            maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
-        }
-
-        return maxLen;
     }
 
     /**
@@ -23402,11 +23482,7 @@ public abstract class Arrays {
          * @return
          */
         public static <T> T[] flatten(final T[][] a) {
-            int count = 0;
-
-            for (final T[] element : a) {
-                count += (element == null ? 0 : element.length);
-            }
+            final int count = Numbers.toIntExact(totalCountOfElements(a));
 
             final T[] c = N.newArray(a.getClass().getComponentType().getComponentType(), count);
             int from = 0;
@@ -24079,23 +24155,31 @@ public abstract class Arrays {
             return result;
         }
 
+        public static long totalCountOfElements(final Object[][] a) {
+            long count = 0;
+
+            for (final Object[] element : a) {
+                count += (element == null ? 0 : element.length);
+            }
+
+            return count;
+        }
+
         /**
          * Min sub array len.
          *
-         * @param <T>
          * @param a
          * @return
          */
-        public static <T> int minSubArrayLen(final T[][] a) {
+        public static int minSubArrayLen(final Object[][] a) {
             if (a == null) {
                 return 0;
             }
 
-            final int len = a.length;
             int minLen = 0;
 
-            for (int i = 0; i < len; i++) {
-                minLen = N.min(minLen, a[i] == null ? 0 : a[i].length);
+            for (final Object[] ts : a) {
+                minLen = N.min(minLen, ts == null ? 0 : ts.length);
             }
 
             return minLen;
@@ -24104,11 +24188,10 @@ public abstract class Arrays {
         /**
          * Max sub array len.
          *
-         * @param <T>
          * @param a
          * @return
          */
-        public static <T> int maxSubArrayLen(final T[][] a) {
+        public static int maxSubArrayLen(final Object[][] a) {
             if (a == null) {
                 return 0;
             }
@@ -24125,14 +24208,13 @@ public abstract class Arrays {
 
         /**
          *
-         * @param <T>
          * @param a
          */
-        static <T> void println(final T[][] a) {
+        static String println(final Object[][] a) {
             if (a == null) {
-                N.println("null");
+                return N.println("null");
             } else if (a.length == 0) {
-                N.println("[]");
+                return N.println("[]");
             } else {
                 final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
@@ -24151,7 +24233,7 @@ public abstract class Arrays {
                         } else if (a[i].length == 0) {
                             sb.append("[]");
                         } else {
-                            final T[] ai = a[i];
+                            final Object[] ai = a[i];
                             sb.append('[');
 
                             for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
@@ -24172,7 +24254,7 @@ public abstract class Arrays {
                     Objectory.recycle(sb);
                 }
 
-                N.println(str);
+                return N.println(str);
             }
         }
     }
@@ -24267,21 +24349,7 @@ public abstract class Arrays {
          * @return
          */
         public static <T> T[] flatten(final T[][][] a) {
-            int count = 0;
-
-            for (final T[][] element : a) {
-                if (N.isEmpty(element)) {
-                    continue;
-                }
-
-                for (int j = 0, m = element.length; j < m; j++) {
-                    if (N.isEmpty(element[j])) {
-                        continue;
-                    }
-
-                    count += (element[j] == null ? 0 : element[j].length);
-                }
-            }
+            final int count = Numbers.toIntExact(totalCountOfElements(a));
 
             final T[] c = N.newArray(a.getClass().getComponentType().getComponentType().getComponentType(), count);
             int from = 0;
@@ -24291,14 +24359,14 @@ public abstract class Arrays {
                     continue;
                 }
 
-                for (int j = 0, m = element.length; j < m; j++) {
-                    if (N.isEmpty(element[j])) {
+                for (final T[] ts : element) {
+                    if (N.isEmpty(ts)) {
                         continue;
                     }
 
-                    N.copy(element[j], 0, c, from, element[j].length);
+                    N.copy(ts, 0, c, from, ts.length);
 
-                    from += element[j].length;
+                    from += ts.length;
                 }
             }
 
@@ -24800,13 +24868,32 @@ public abstract class Arrays {
             return result;
         }
 
+        public static long totalCountOfElements(final Object[][][] a) {
+            long count = 0;
+
+            for (final Object[][] element : a) {
+                if (N.isEmpty(element)) {
+                    continue;
+                }
+
+                for (final Object[] ts : element) {
+                    if (N.isEmpty(ts)) {
+                        continue;
+                    }
+
+                    count += ts.length;
+                }
+            }
+
+            return count;
+        }
+
         /**
          *
-         * @param <T>
          * @param a
          * @return
          */
-        static <T> String println(final T[][][] a) {
+        static String println(final Object[][][] a) {
             if (a == null) {
                 return N.println("null");
             } else if (a.length == 0) {
@@ -24829,7 +24916,7 @@ public abstract class Arrays {
                         } else if (a[i].length == 0) {
                             sb.append("[]");
                         } else {
-                            final T[][] ai = a[i];
+                            final Object[][] ai = a[i];
                             sb.append('[');
 
                             for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
@@ -24842,7 +24929,7 @@ public abstract class Arrays {
                                 } else if (ai[j].length == 0) {
                                     sb.append("[]");
                                 } else {
-                                    final T[] aij = ai[j];
+                                    final Object[] aij = ai[j];
                                     sb.append('[');
 
                                     for (int k = 0, aijLen = aij.length; k < aijLen; k++) {

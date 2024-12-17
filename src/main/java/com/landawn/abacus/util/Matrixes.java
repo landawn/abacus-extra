@@ -226,12 +226,14 @@ public final class Matrixes {
 
         if (inParallel) {
             if (rows <= cols) {
+                //noinspection resource
                 IntStream.range(fromRowIndex, toRowIndex).parallel().forEach(i -> {
                     for (int j = fromColumnIndex; j < toColumnIndex; j++) {
                         cmd.accept(i, j);
                     }
                 });
             } else {
+                //noinspection resource
                 IntStream.range(fromColumnIndex, toColumnIndex).parallel().forEach(j -> {
                     for (int i = fromRowIndex; i < toRowIndex; i++) {
                         cmd.accept(i, j);
@@ -426,6 +428,7 @@ public final class Matrixes {
         if (inParallel) {
             if (N.min(rowsA, colsA, colsB) == rowsA) {
                 if (N.min(colsA, colsB) == colsA) {
+                    //noinspection resource
                     IntStream.range(0, rowsA).parallel().forEach(i -> {
                         for (int k = 0; k < colsA; k++) {
                             for (int j = 0; j < colsB; j++) {
@@ -434,6 +437,7 @@ public final class Matrixes {
                         }
                     });
                 } else {
+                    //noinspection resource
                     IntStream.range(0, rowsA).parallel().forEach(i -> {
                         for (int j = 0; j < colsB; j++) {
                             for (int k = 0; k < colsA; k++) {
@@ -444,6 +448,7 @@ public final class Matrixes {
                 }
             } else if (N.min(rowsA, colsA, colsB) == colsA) {
                 if (N.min(rowsA, colsB) == rowsA) {
+                    //noinspection resource
                     IntStream.range(0, colsA).parallel().forEach(k -> {
                         for (int i = 0; i < rowsA; i++) {
                             for (int j = 0; j < colsB; j++) {
@@ -452,6 +457,7 @@ public final class Matrixes {
                         }
                     });
                 } else {
+                    //noinspection resource
                     IntStream.range(0, colsA).parallel().forEach(k -> {
                         for (int j = 0; j < colsB; j++) {
                             for (int i = 0; i < rowsA; i++) {
@@ -462,6 +468,7 @@ public final class Matrixes {
                 }
             } else {
                 if (N.min(rowsA, colsA) == rowsA) {
+                    //noinspection resource
                     IntStream.range(0, colsB).parallel().forEach(j -> {
                         for (int i = 0; i < rowsA; i++) {
                             for (int k = 0; k < colsA; k++) {
@@ -470,6 +477,7 @@ public final class Matrixes {
                         }
                     });
                 } else {
+                    //noinspection resource
                     IntStream.range(0, colsB).parallel().forEach(j -> {
                         for (int k = 0; k < colsA; k++) {
                             for (int i = 0; i < rowsA; i++) {

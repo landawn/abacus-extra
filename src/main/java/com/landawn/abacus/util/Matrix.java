@@ -14,18 +14,18 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.annotation.Beta;
-import com.landawn.abacus.annotation.SuppressFBWarnings;
-import com.landawn.abacus.util.Arrays.ff;
-import com.landawn.abacus.util.Sheet.Point;
-import com.landawn.abacus.util.stream.ObjIteratorEx;
-import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.util.u.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.SuppressFBWarnings;
+import com.landawn.abacus.util.Arrays.ff;
+import com.landawn.abacus.util.Sheet.Point;
+import com.landawn.abacus.util.u.Nullable;
+import com.landawn.abacus.util.stream.ObjIteratorEx;
+import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 
@@ -1021,7 +1021,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a, i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
+                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, count - (long) i * newCols));
             }
         } else {
             long cnt = 0;
