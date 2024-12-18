@@ -1343,7 +1343,6 @@ public abstract class Arrays {
 
     /**
      *
-     * @param <T>
      * @param a
      * @return
      */
@@ -1468,12 +1467,12 @@ public abstract class Arrays {
     }
 
     /**
+     * Reshapes a one-dimensional boolean array into a two-dimensional boolean array with the specified number of columns.
      *
-     *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the one-dimensional boolean array to reshape
+     * @param cols the number of columns for the reshaped array
+     * @return a two-dimensional boolean array with the specified number of columns
+     * @throws IllegalArgumentException if the number of columns is less than or equal to zero
      */
     public static boolean[][] reshape(final boolean[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -1494,13 +1493,13 @@ public abstract class Arrays {
     }
 
     /**
+     * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      *
-     *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the one-dimensional boolean array to reshape
+     * @param rows the number of rows for the reshaped sub-array
+     * @param cols the number of columns for the reshaped sub-array
+     * @return a three-dimensional boolean array with the specified number of rows and columns
+     * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero
      */
     public static boolean[][][] reshape(final boolean[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -5611,8 +5610,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
+                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -8680,8 +8679,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
+                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -11744,8 +11743,9 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
+                        ? defaultValueForZero
+                        : c[i]) : valueForNoneC);
             }
         }
 
@@ -14812,8 +14812,9 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
+                        ? defaultValueForZero
+                        : c[i]) : valueForNoneC);
             }
         }
 
@@ -17881,8 +17882,9 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
+                        ? defaultValueForZero
+                        : c[i]) : valueForNoneC);
             }
         }
 
@@ -20956,8 +20958,9 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
-                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
+                        ? defaultValueForZero
+                        : c[i]) : valueForNoneC);
             }
         }
 
