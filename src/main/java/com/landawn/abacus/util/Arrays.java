@@ -1367,7 +1367,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -1384,13 +1384,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final boolean[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -1401,13 +1401,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final boolean[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -1471,23 +1471,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static boolean[][] reshape(final boolean[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static boolean[][] reshape(final boolean[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new boolean[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final boolean[][] c = new boolean[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -1497,27 +1497,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static boolean[][][] reshape(final boolean[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static boolean[][][] reshape(final boolean[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new boolean[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final boolean[][][] c = new boolean[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new boolean[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new boolean[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -2203,7 +2203,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -2256,7 +2256,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -2519,7 +2519,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -2536,13 +2536,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final char[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -2553,13 +2553,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final char[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -2623,23 +2623,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static char[][] reshape(final char[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static char[][] reshape(final char[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new char[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final char[][] c = new char[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -2649,27 +2649,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static char[][][] reshape(final char[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static char[][][] reshape(final char[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new char[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final char[][][] c = new char[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new char[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new char[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -3352,7 +3352,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -3404,7 +3404,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -3641,7 +3641,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -3658,13 +3658,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final byte[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -3675,13 +3675,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final byte[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -3875,23 +3875,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static byte[][] reshape(final byte[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static byte[][] reshape(final byte[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new byte[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final byte[][] c = new byte[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -3901,27 +3901,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static byte[][][] reshape(final byte[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static byte[][][] reshape(final byte[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new byte[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final byte[][][] c = new byte[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new byte[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new byte[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -6418,7 +6418,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -6470,7 +6470,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -6707,7 +6707,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -6724,13 +6724,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final short[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -6741,13 +6741,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final short[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -6811,23 +6811,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static short[][] reshape(final short[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static short[][] reshape(final short[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new short[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final short[][] c = new short[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -6837,27 +6837,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static short[][][] reshape(final short[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static short[][][] reshape(final short[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new short[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final short[][][] c = new short[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new short[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new short[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -9489,7 +9489,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -9542,7 +9542,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -9779,7 +9779,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -9796,13 +9796,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final int[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -9813,13 +9813,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final int[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -9883,23 +9883,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static int[][] reshape(final int[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static int[][] reshape(final int[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new int[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final int[][] c = new int[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -9909,27 +9909,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static int[][][] reshape(final int[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static int[][][] reshape(final int[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new int[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final int[][][] c = new int[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new int[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new int[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -12550,7 +12550,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -12603,7 +12603,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -12842,7 +12842,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -12859,13 +12859,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final long[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -12876,13 +12876,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final long[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -12946,23 +12946,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static long[][] reshape(final long[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static long[][] reshape(final long[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new long[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final long[][] c = new long[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -12972,27 +12972,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static long[][][] reshape(final long[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static long[][][] reshape(final long[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new long[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final long[][][] c = new long[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new long[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new long[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -15619,7 +15619,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -15671,7 +15671,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -15908,7 +15908,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -15925,13 +15925,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final float[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -15942,13 +15942,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final float[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -16012,23 +16012,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static float[][] reshape(final float[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static float[][] reshape(final float[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new float[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final float[][] c = new float[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -16038,27 +16038,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static float[][][] reshape(final float[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static float[][][] reshape(final float[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new float[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final float[][][] c = new float[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new float[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new float[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -18691,7 +18691,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -18744,7 +18744,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -18981,7 +18981,7 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
@@ -18998,13 +18998,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final double[] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -19015,13 +19015,13 @@ public abstract class Arrays {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
             return;
         }
 
         for (final double[][] element : a) {
-            replaceAll(element, operator);
+            updateAll(element, operator);
         }
     }
 
@@ -19085,23 +19085,23 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static double[][] reshape(final double[] a, final int m) throws IllegalArgumentException {
-        checkMForReshape(m);
+    public static double[][] reshape(final double[] a, final int cols) throws IllegalArgumentException {
+        checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new double[0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
         final double[][] c = new double[n][];
 
-        for (int i = 0, from = 0; i < n; i++, from += m) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+        for (int i = 0, from = 0; i < n; i++, from += cols) {
+            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
         return c;
@@ -19111,27 +19111,27 @@ public abstract class Arrays {
      *
      *
      * @param a
-     * @param m
-     * @param l
+     * @param rows
+     * @param cols
      * @return
      * @throws IllegalArgumentException
      */
-    public static double[][][] reshape(final double[] a, final int m, final int l) throws IllegalArgumentException {
-        checkMAndLForReshape(m, l);
+    public static double[][][] reshape(final double[] a, final int rows, final int cols) throws IllegalArgumentException {
+        checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new double[0][0][0];
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
         final double[][][] c = new double[n][][];
 
         for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new double[N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING))][];
+            c[i] = new double[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
@@ -21767,7 +21767,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -21819,7 +21819,7 @@ public abstract class Arrays {
 
                 for (int i = 0; i < len; i++) {
                     if (i > 0) {
-                        sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                        sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                     }
 
                     if (a[i] == null) {
@@ -23405,7 +23405,7 @@ public abstract class Arrays {
          * @param operator
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
+        public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
@@ -23453,23 +23453,23 @@ public abstract class Arrays {
          *
          * @param <T>
          * @param a
-         * @param m
+         * @param cols
          * @return
          * @throws IllegalArgumentException
          */
-        public static <T> T[][] reshape(final T[] a, final int m) throws IllegalArgumentException {
-            checkMForReshape(m);
+        public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
+            checkMForReshape(cols);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][0];
             //        }
 
             final int len = a.length;
-            final int n = Numbers.divide(len, m, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
             final T[][] c = N.newArray(a.getClass(), n);
 
-            for (int i = 0, from = 0; i < n; i++, from += m) {
-                c[i] = N.copyOfRange(a, from, from + N.min(len - from, m));
+            for (int i = 0, from = 0; i < n; i++, from += cols) {
+                c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
 
             return c;
@@ -24225,7 +24225,7 @@ public abstract class Arrays {
 
                     for (int i = 0; i < len; i++) {
                         if (i > 0) {
-                            sb.append(',').append(IOUtil.LINE_SEPARATOR).append(' ');
+                            sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                         }
 
                         if (a[i] == null) {
@@ -24280,13 +24280,13 @@ public abstract class Arrays {
          * @param operator
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
+        public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
                 return;
             }
 
             for (final T[][] element : a) {
-                ff.replaceAll(element, operator);
+                ff.updateAll(element, operator);
             }
         }
 
@@ -24314,28 +24314,28 @@ public abstract class Arrays {
          *
          * @param <T>
          * @param a
-         * @param m
-         * @param l
+         * @param rows
+         * @param cols
          * @return
          * @throws IllegalArgumentException
          */
-        public static <T> T[][][] reshape(final T[] a, final int m, final int l) throws IllegalArgumentException {
+        public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
-            N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
+            N.checkArgument(rows > 0 && cols > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", rows, cols);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][0][0];
             //        }
 
             final int len = a.length;
-            final int n = Numbers.divide(len, m * l, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
             final T[][][] c = N.newArray(N.newArray(a.getClass(), 0).getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++) {
-                c[i] = N.newArray(a.getClass(), N.min(m, Numbers.divide(len - from, l, RoundingMode.CEILING)));
+                c[i] = N.newArray(a.getClass(), N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING)));
 
-                for (int j = 0, y = c[i].length; j < y; j++, from += l) {
-                    c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, l));
+                for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
+                    c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
                 }
             }
 
@@ -24908,7 +24908,7 @@ public abstract class Arrays {
 
                     for (int i = 0; i < len; i++) {
                         if (i > 0) {
-                            sb.append(',').append(IOUtil.LINE_SEPARATOR).append(ARRAY_PRINT_SEPARATOR).append(' ');
+                            sb.append(',').append(ARRAY_PRINT_SEPARATOR).append(' ');
                         }
 
                         if (a[i] == null) {

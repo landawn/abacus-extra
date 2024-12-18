@@ -29,5 +29,27 @@ class ArraysTest {
 
     }
 
-}
+    @Test
+    void test_reshape() {
+        {
+            final int[] a = Array.rangeClosed(1, 9);
+            final int[][] b = Arrays.reshape(a, 2);
+            final int[][][] c = Arrays.reshape(a, 2, 2);
+            final int[][][] d = Arrays.reshape(a, 3, 2);
+            final int[][][] e = Arrays.reshape(a, 2, 3);
+            final int[][][] f = Arrays.reshape(a, 3, 3);
+            Arrays.println(a);
+            N.println(Strings.repeat('-', 80));
+            Arrays.println(b);
+            N.println(Strings.repeat('-', 80));
+            Arrays.println(c);
+            N.println(Strings.repeat('-', 80));
+            Arrays.println(d);
+            N.println(Strings.repeat('-', 80));
+            Arrays.println(e);
+            N.println(Strings.repeat('-', 80));
+            Arrays.println(f);
+        }
+    }
 
+}
