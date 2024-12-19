@@ -5610,8 +5610,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
-                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (byte) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -8679,8 +8679,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (
-                        c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
+                result[i] = (short) ((i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC));
             }
         }
 
@@ -11743,9 +11743,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -14812,9 +14811,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -17882,9 +17880,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -20958,9 +20955,8 @@ public abstract class Arrays {
 
         if (N.min(lenA, lenB, lenC) < len) {
             for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB) / (i < lenC ? (c[i] == 0
-                        ? defaultValueForZero
-                        : c[i]) : valueForNoneC);
+                result[i] = (i < lenA ? a[i] : valueForNoneA) / (i < lenB ? (b[i] == 0 ? defaultValueForZero : b[i]) : valueForNoneB)
+                        / (i < lenC ? (c[i] == 0 ? defaultValueForZero : c[i]) : valueForNoneC);
             }
         }
 
@@ -23452,13 +23448,13 @@ public abstract class Arrays {
         }
 
         /**
+         * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
          *
-         *
-         * @param <T>
-         * @param a
-         * @param cols
-         * @return
-         * @throws IllegalArgumentException
+         * @param <T> the type of the elements in the array
+         * @param a the one-dimensional array to be reshaped
+         * @param cols the number of columns for the resulting two-dimensional array
+         * @return a two-dimensional array with the specified number of columns
+         * @throws IllegalArgumentException if the number of columns is invalid
          */
         public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
             checkMForReshape(cols);
@@ -23479,10 +23475,11 @@ public abstract class Arrays {
         }
 
         /**
+         * Flattens a two-dimensional array into a one-dimensional array.
          *
-         * @param <T>
-         * @param a
-         * @return
+         * @param <T> the type of the elements in the array
+         * @param a the two-dimensional array to be flattened
+         * @return a one-dimensional array containing all the elements of the input array
          */
         public static <T> T[] flatten(final T[][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
@@ -24158,6 +24155,12 @@ public abstract class Arrays {
             return result;
         }
 
+        /**
+         * Calculates the total count of elements in a two-dimensional array.
+         *
+         * @param a the two-dimensional array whose elements are to be counted
+         * @return the total count of elements in the array, or 0 if the array is null
+         */
         public static long totalCountOfElements(final Object[][] a) {
             long count = 0;
 
@@ -24169,10 +24172,10 @@ public abstract class Arrays {
         }
 
         /**
-         * Min sub array len.
+         * Finds the minimum length of sub-arrays in a two-dimensional array.
          *
-         * @param a
-         * @return
+         * @param a the two-dimensional array to be checked
+         * @return the minimum length of sub-arrays, or Integer.MAX\_VALUE if the array is null or empty
          */
         public static int minSubArrayLen(final Object[][] a) {
             if (a == null) {
@@ -24189,10 +24192,10 @@ public abstract class Arrays {
         }
 
         /**
-         * Max sub array len.
+         * Finds the maximum length of sub-arrays in a two-dimensional array.
          *
-         * @param a
-         * @return
+         * @param a the two-dimensional array to be checked
+         * @return the maximum length of sub-arrays, or 0 if the array is null
          */
         public static int maxSubArrayLen(final Object[][] a) {
             if (a == null) {
@@ -24313,14 +24316,14 @@ public abstract class Arrays {
         }
 
         /**
+         * Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.
          *
-         *
-         * @param <T>
-         * @param a
-         * @param rows
-         * @param cols
-         * @return
-         * @throws IllegalArgumentException
+         * @param <T> the type of the elements in the array
+         * @param a the one-dimensional array to be reshaped
+         * @param rows the number of rows for the resulting three-dimensional array
+         * @param cols the number of columns for the resulting three-dimensional array
+         * @return a three-dimensional array with the specified number of rows and columns
+         * @throws IllegalArgumentException if the number of rows or columns is invalid
          */
         public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
@@ -24346,10 +24349,11 @@ public abstract class Arrays {
         }
 
         /**
+         * Flattens a three-dimensional array into a one-dimensional array.
          *
-         * @param <T>
-         * @param a
-         * @return
+         * @param <T> the type of the elements in the array
+         * @param a the three-dimensional array to be flattened
+         * @return a one-dimensional array containing all the elements of the input array
          */
         public static <T> T[] flatten(final T[][][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
@@ -24871,6 +24875,12 @@ public abstract class Arrays {
             return result;
         }
 
+        /**
+         * Calculates the total count of elements in a three-dimensional array.
+         *
+         * @param a the three-dimensional array whose elements are to be counted
+         * @return the total count of elements in the array, or 0 if the array is null
+         */
         public static long totalCountOfElements(final Object[][][] a) {
             long count = 0;
 
