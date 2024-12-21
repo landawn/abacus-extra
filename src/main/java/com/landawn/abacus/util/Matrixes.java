@@ -303,7 +303,7 @@ public final class Matrixes {
                         ret.add(cmd.apply(i, j));
                     }
                 } catch (final Exception e) {
-                    throw N.toRuntimeException(e);
+                    throw ExceptionUtil.toRuntimeException(e, true);
                 }
 
                 return ret;
@@ -317,7 +317,7 @@ public final class Matrixes {
                         ret.add(cmd.apply(i, j));
                     }
                 } catch (final Exception e) {
-                    throw N.toRuntimeException(e);
+                    throw ExceptionUtil.toRuntimeException(e, true);
                 }
 
                 return ret;
@@ -368,7 +368,7 @@ public final class Matrixes {
                         ret[j - fromColumnIndex] = cmd.applyAsInt(i, j);
                     }
                 } catch (final Exception e) {
-                    throw N.toRuntimeException(e);
+                    throw ExceptionUtil.toRuntimeException(e, true);
                 }
 
                 return ret;
@@ -382,7 +382,7 @@ public final class Matrixes {
                         ret[i - fromRowIndex] = cmd.applyAsInt(i, j);
                     }
                 } catch (final Exception e) {
-                    throw N.toRuntimeException(e);
+                    throw ExceptionUtil.toRuntimeException(e, true);
                 }
 
                 return ret;
