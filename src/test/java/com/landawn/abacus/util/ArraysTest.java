@@ -15,6 +15,7 @@ package com.landawn.abacus.util;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ArraysTest {
@@ -25,7 +26,7 @@ class ArraysTest {
         final String[][][] b = { { { "a", "b" } }, { { "1", "2" }, { "3", "4" } } };
         final int[][][] c = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
 
-        assertEquals(2, Arrays.ff.minSubArrayLen(a));
+        Assertions.assertEquals(2, Arrays.ff.minSubArrayLen(a));
         assertEquals(3, Arrays.ff.maxSubArrayLen(a));
         assertEquals(1, Arrays.ff.minSubArrayLen(b));
         assertEquals(2, Arrays.ff.maxSubArrayLen(b));
