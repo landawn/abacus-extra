@@ -24,7 +24,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *
  */
 @Beta
-public abstract class Arrays {
+public sealed class Arrays permits Arrays.f {
 
     static final char CHAR_0 = (char) 0;
     static final byte BYTE_0 = (byte) 0;
@@ -2135,14 +2135,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final boolean[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final boolean[] booleans : a) {
-            minLen = N.min(minLen, booleans == null ? 0 : booleans.length);
+        for (final boolean[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -2155,14 +2155,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final boolean[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final boolean[] booleans : a) {
-            maxLen = N.max(maxLen, booleans == null ? 0 : booleans.length);
+        for (final boolean[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -3284,14 +3284,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final char[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final char[] chars : a) {
-            minLen = N.min(minLen, chars == null ? 0 : chars.length);
+        for (final char[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -3304,14 +3304,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final char[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final char[] chars : a) {
-            maxLen = N.max(maxLen, chars == null ? 0 : chars.length);
+        for (final char[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -6350,14 +6350,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final byte[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final byte[] bytes : a) {
-            minLen = N.min(minLen, bytes == null ? 0 : bytes.length);
+        for (final byte[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -6370,14 +6370,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final byte[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final byte[] bytes : a) {
-            maxLen = N.max(maxLen, bytes == null ? 0 : bytes.length);
+        for (final byte[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -9441,14 +9441,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final short[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final short[] shorts : a) {
-            maxLen = N.max(maxLen, shorts == null ? 0 : shorts.length);
+        for (final short[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -12482,14 +12482,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final int[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final int[] ints : a) {
-            minLen = N.min(minLen, ints == null ? 0 : ints.length);
+        for (final int[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -12502,14 +12502,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final int[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final int[] ints : a) {
-            maxLen = N.max(maxLen, ints == null ? 0 : ints.length);
+        for (final int[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -15551,14 +15551,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final long[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final long[] longs : a) {
-            minLen = N.min(minLen, longs == null ? 0 : longs.length);
+        for (final long[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -15571,14 +15571,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final long[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final long[] longs : a) {
-            maxLen = N.max(maxLen, longs == null ? 0 : longs.length);
+        for (final long[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -18622,14 +18622,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final float[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final float[] floats : a) {
-            minLen = N.min(minLen, floats == null ? 0 : floats.length);
+        for (final float[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -18642,14 +18642,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final float[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final float[] floats : a) {
-            maxLen = N.max(maxLen, floats == null ? 0 : floats.length);
+        for (final float[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -21699,14 +21699,14 @@ public abstract class Arrays {
      * @return
      */
     public static int minSubArrayLen(final double[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        for (final double[] doubles : a) {
-            minLen = N.min(minLen, doubles == null ? 0 : doubles.length);
+        for (final double[] ae : a) {
+            minLen = N.min(minLen, ae == null ? 0 : ae.length);
         }
 
         return minLen;
@@ -21719,14 +21719,14 @@ public abstract class Arrays {
      * @return
      */
     public static int maxSubArrayLen(final double[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
         int maxLen = 0;
 
-        for (final double[] doubles : a) {
-            maxLen = N.max(maxLen, doubles == null ? 0 : doubles.length);
+        for (final double[] ae : a) {
+            maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
         }
 
         return maxLen;
@@ -24175,17 +24175,17 @@ public abstract class Arrays {
          * Finds the minimum length of sub-arrays in a two-dimensional array.
          *
          * @param a the two-dimensional array to be checked
-         * @return the minimum length of sub-arrays, or Integer.MAX\_VALUE if the array is null or empty
+         * @return the minimum length of sub-arrays, or 0 if the array is null
          */
         public static int minSubArrayLen(final Object[][] a) {
-            if (a == null) {
+            if (N.isEmpty(a)) {
                 return 0;
             }
 
-            int minLen = 0;
+            int minLen = Integer.MAX_VALUE;
 
-            for (final Object[] ts : a) {
-                minLen = N.min(minLen, ts == null ? 0 : ts.length);
+            for (final Object[] ae : a) {
+                minLen = N.min(minLen, ae == null ? 0 : ae.length);
             }
 
             return minLen;
@@ -24198,15 +24198,14 @@ public abstract class Arrays {
          * @return the maximum length of sub-arrays, or 0 if the array is null
          */
         public static int maxSubArrayLen(final Object[][] a) {
-            if (a == null) {
+            if (N.isEmpty(a)) {
                 return 0;
             }
 
-            final int len = N.len(a);
             int maxLen = 0;
 
-            for (int i = 0; i < len; i++) {
-                maxLen = N.max(maxLen, a[i] == null ? 0 : a[i].length);
+            for (final Object[] ae : a) {
+                maxLen = N.max(maxLen, ae == null ? 0 : ae.length);
             }
 
             return maxLen;
@@ -24900,6 +24899,46 @@ public abstract class Arrays {
 
             return count;
         }
+
+        //    /**
+        //     * Finds the minimum length of sub-sub-arrays in a three-dimensional array.
+        //     *
+        //     * @param a the three-dimensional array to be checked
+        //     * @return the minimum length of sub-sub-arrays, or 0 if the array is null
+        //     */
+        //    public static int minSubArrayLen(final Object[][][] a) {
+        //        if (N.isEmpty(a)) {
+        //            return 0;
+        //        }
+        //
+        //        int minLen = Integer.MAX_VALUE;
+        //
+        //        for (final Object[][] ae : a) {
+        //            minLen = N.min(minLen, ff.minSubArrayLen(ae));
+        //        }
+        //
+        //        return minLen;
+        //    }
+        //
+        //    /**
+        //     * Finds the maximum length of sub-sub-arrays in a three-dimensional array.
+        //     *
+        //     * @param a the three-dimensional array to be checked
+        //     * @return the maximum length of sub-sub-arrays, or 0 if the array is null
+        //     */
+        //    public static int maxSubArrayLen(final Object[][][] a) {
+        //        if (N.isEmpty(a)) {
+        //            return 0;
+        //        }
+        //
+        //        int maxLen = 0;
+        //
+        //        for (final Object[][] ae : a) {
+        //            maxLen = N.max(maxLen, ff.maxSubArrayLen(ae));
+        //        }
+        //
+        //        return maxLen;
+        //    }
 
         /**
          *

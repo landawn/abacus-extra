@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 class MatrixesTest {
 
     @Test
-    void test_toString() {
+    public void test_toString() {
 
         {
             final ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
@@ -37,7 +37,7 @@ class MatrixesTest {
     }
 
     @Test
-    void test_zipMatrix() {
+    public void test_zipMatrix() {
 
         {
             final ByteMatrix mx = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
@@ -91,7 +91,7 @@ class MatrixesTest {
     }
 
     @Test
-    void test_multiply() {
+    public void test_multiply() {
         {
             final ByteMatrix mxa = ByteMatrix.range((byte) 0, (byte) 8).reshape(2, 4);
             mxa.println();
@@ -114,6 +114,42 @@ class MatrixesTest {
 
             mxa.multiply(mxb).println();
         }
+    }
+
+    @Test
+    public void test_multiply_perf() {
+        final int rows = 2000;
+        final int cols = 3000;
+
+        final int[][] a = new int[rows][cols];
+        final int[][] b = new int[cols][rows];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                a[i][j] = 1;
+                b[j][i] = 2;
+            }
+        }
+
+        final IntMatrix mxa = IntMatrix.of(a);
+        final IntMatrix mxb = IntMatrix.of(b);
+
+        //    final IntMatrix mxc = mxa.multiply(mxb);
+        //
+        //    assertEquals(rows, mxc.rows);
+        //    assertEquals(rows, mxc.cols);
+        // mxc.println();
+
+        Profiler.run(1, 1, 1, "seq-multiply(" + rows + ", " + cols + ")", () -> {
+            Matrixes.setParallelEnabled(ParallelEnabled.NO);
+            mxa.multiply(mxb);
+        }).printResult();
+
+        Profiler.run(1, 1, 1, "parallel-multiply(" + rows + ", " + cols + ")", () -> {
+            Matrixes.setParallelEnabled(ParallelEnabled.YES);
+            mxa.multiply(mxb);
+        }).printResult();
+
     }
 
 }

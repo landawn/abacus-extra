@@ -14,15 +14,15 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.logging.Logger;
-import com.landawn.abacus.logging.LoggerFactory;
-import com.landawn.abacus.util.stream.IntStream;
-import com.landawn.abacus.util.stream.Stream;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import com.landawn.abacus.logging.Logger;
+import com.landawn.abacus.logging.LoggerFactory;
+import com.landawn.abacus.util.stream.IntStream;
+import com.landawn.abacus.util.stream.Stream;
 
 public final class Matrixes {
 
@@ -416,8 +416,7 @@ public final class Matrixes {
      * @param inParallel
      * @throws IllegalArgumentException
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd,
-            // NOSONAR
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
         N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
 

@@ -13,12 +13,23 @@
  */
 package com.landawn.abacus.util;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.jupiter.api.Test;
 
 class ArraysTest {
 
     @Test
-    void test_zip() {
+    public void test_minSubArrayLen() {
+        final String[][] a = { { "a", "b" }, { "c", "d", "d" } };
+
+        assertEquals(2, Arrays.ff.minSubArrayLen(a));
+        assertEquals(3, Arrays.ff.maxSubArrayLen(a));
+
+    }
+
+    @Test
+    public void test_zip() {
         final String[][][] a = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
         final String[][][] b = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
         N.println(a);
@@ -30,7 +41,7 @@ class ArraysTest {
     }
 
     @Test
-    void test_reshape() {
+    public void test_reshape() {
         {
             final int[] a = Array.rangeClosed(1, 9);
             final int[][] b = Arrays.reshape(a, 2);
