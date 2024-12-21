@@ -6313,6 +6313,486 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[] result = Array.newInstance(targetElementType, N.min(lenA, lenB));
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zipFunction.apply(a[i], b[i]);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
+    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        return zip(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param len
+    //     * @param a
+    //     * @param b
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    private static <R, E extends Exception> R[] zip(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
+    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[] result = Array.newInstance(targetElementType, len);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
+    //            result[i] = zipFunction.apply(a[i], b[i]);
+    //        }
+    //
+    //        if (lenA < lenB && lenA < len) {
+    //            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
+    //                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+    //            }
+    //        } else if (lenB < lenA && lenB < len) {
+    //            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
+    //                result[i] = zipFunction.apply(a[i], valueForNoneB);
+    //            }
+    //        }
+    //
+    //        if (N.max(lenA, lenB) < len) {
+    //            for (int i = N.max(lenA, lenB); i < len; i++) {
+    //                result[i] = zipFunction.apply(valueForNoneA, valueForNoneB);
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC));
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param valueForNoneC
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
+    //            final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        return zip(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param len
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param valueForNoneC
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    private static <R, E extends Exception> R[] zip(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA,
+    //            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[] result = Array.newInstance(targetElementType, len);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+    //            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+    //        }
+    //
+    //        if (N.min(lenA, lenB, lenC) < len) {
+    //            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+    //                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[][] result = Array.newInstance(targetElementType, N.min(lenA, lenB), 0);
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zip(a[i], b[i], zipFunction, targetElementType);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
+    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param len
+    //     * @param rowLen
+    //     * @param a
+    //     * @param b
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    private static <R, E extends Exception> R[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA,
+    //            final byte valueForNoneB, final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[][] result = Array.newInstance(targetElementType, len, 0);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
+    //            result[i] = zip(rowLen, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //        }
+    //
+    //        if (lenA < lenB && lenA < len) {
+    //            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
+    //                result[i] = zip(rowLen, null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //            }
+    //        } else if (lenB < lenA && lenB < len) {
+    //            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
+    //                result[i] = zip(rowLen, a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //            }
+    //        }
+    //
+    //        if (N.max(lenA, lenB) < len) {
+    //            for (int i = N.max(lenA, lenB); i < len; i++) {
+    //                result[i] = zip(rowLen, null, null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte[][] c,
+    //            final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[][] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC), 0);
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zip(a[i], b[i], c[i], zipFunction, targetElementType);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param valueForNoneC
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
+    //            final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
+    //                valueForNoneC, zipFunction, targetElementType);
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param len
+    //     * @param rowLen
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param valueForNoneC
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    private static <R, E extends Exception> R[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c,
+    //            final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[][] result = Array.newInstance(targetElementType, len, 0);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+    //            result[i] = zip(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
+    //        }
+    //
+    //        if (N.min(lenA, lenB, lenC) < len) {
+    //            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+    //                result[i] = zip(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+    //                        zipFunction, targetElementType);
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[][][] result = Array.newInstance(targetElementType, N.min(lenA, lenB), 0, 0);
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zip(a[i], b[i], zipFunction, targetElementType);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
+    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //
+    //        final R[][][] result = Array.newInstance(targetElementType, N.max(lenA, lenB), 0, 0);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
+    //            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //        }
+    //
+    //        if (lenA < lenB) {
+    //            for (int i = lenA; i < lenB; i++) {
+    //                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //            }
+    //        } else if (lenB < lenA) {
+    //            for (int i = lenB; i < lenA; i++) {
+    //                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
+    //            final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[][][] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC), 0, 0);
+    //
+    //        for (int i = 0, len = result.length; i < len; i++) {
+    //            result[i] = zip(a[i], b[i], c[i], zipFunction, targetElementType);
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //    /**
+    //     *
+    //     * @param <R>
+    //     * @param <E>
+    //     * @param a
+    //     * @param b
+    //     * @param c
+    //     * @param valueForNoneA
+    //     * @param valueForNoneB
+    //     * @param valueForNoneC
+    //     * @param zipFunction
+    //     * @param targetElementType
+    //     * @return
+    //     * @throws E the e
+    //     */
+    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
+    //            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
+    //            final Class<? extends R> targetElementType) throws E {
+    //        final int lenA = N.len(a);
+    //        final int lenB = N.len(b);
+    //        final int lenC = N.len(c);
+    //
+    //        final R[][][] result = Array.newInstance(targetElementType, N.max(lenA, lenB, lenC), 0, 0);
+    //
+    //        for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+    //            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
+    //        }
+    //
+    //        for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
+    //            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction,
+    //                    targetElementType);
+    //        }
+    //
+    //        return result;
+    //    }
+
     public static long totalCountOfElements(final byte[][] a) {
         long count = 0;
 
