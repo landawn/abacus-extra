@@ -36,13 +36,21 @@ class ArraysTest {
 
     @Test
     public void test_zip() {
-        final String[][][] a = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
-        final String[][][] b = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
-        N.println(a);
-        Arrays.fff.println(a);
+        {
+            final String[][][] a = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
+            final String[][][] b = { { { "a", "b" }, { "c", "d" } }, { { "1", "2" }, { "3", "4" } } };
+            N.println(a);
+            Arrays.fff.println(a);
 
-        final String[][][] c = Arrays.fff.zip(a, b, (t, u) -> t + u);
-        Arrays.fff.println(c);
+            final String[][][] c = Arrays.fff.zip(a, b, (t, u) -> t + u);
+            Arrays.fff.println(c);
+        }
+        {
+            final int[][][] a = Arrays.reshape(Array.rangeClosed(1, 9), 2, 3);
+            final int[][][] b = Arrays.reshape(Array.repeat(0, 9), 3, 2);
+            final int[][][] c = Arrays.zip(a, b, -1, -1, (p1, p2) -> p1 + p2);
+            Arrays.println(c);
+        }
 
     }
 
