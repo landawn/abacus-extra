@@ -52,7 +52,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param a
      * @return
      */
-    @SafeVarargs
     public static IntMatrix of(final int[]... a) {
         return N.isEmpty(a) ? EMPTY_INT_MATRIX : new IntMatrix(a);
     }
@@ -61,7 +60,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param a
      * @return
      */
-    @SafeVarargs
     public static IntMatrix create(final char[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
@@ -85,7 +83,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param a
      * @return
      */
-    @SafeVarargs
     public static IntMatrix create(final byte[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
@@ -109,7 +106,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param a
      * @return
      */
-    @SafeVarargs
     public static IntMatrix create(final short[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
@@ -1031,7 +1027,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

@@ -52,7 +52,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param a
      * @return
      */
-    @SafeVarargs
     public static DoubleMatrix of(final double[]... a) {
         return N.isEmpty(a) ? EMPTY_DOUBLE_MATRIX : new DoubleMatrix(a);
     }
@@ -61,7 +60,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param a
      * @return
      */
-    @SafeVarargs
     public static DoubleMatrix create(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
@@ -85,7 +83,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param a
      * @return
      */
-    @SafeVarargs
     public static DoubleMatrix create(final long[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
@@ -109,7 +106,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param a
      * @return
      */
-    @SafeVarargs
     public static DoubleMatrix create(final float[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
@@ -994,7 +990,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

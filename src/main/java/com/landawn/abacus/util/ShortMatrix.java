@@ -52,7 +52,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param a
      * @return
      */
-    @SafeVarargs
     public static ShortMatrix of(final short[]... a) {
         return N.isEmpty(a) ? EMPTY_SHORT_MATRIX : new ShortMatrix(a);
     }
@@ -929,7 +928,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

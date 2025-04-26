@@ -57,7 +57,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param a
      * @return
      */
-    @SafeVarargs
     public static ByteMatrix of(final byte[]... a) {
         return N.isEmpty(a) ? EMPTY_BYTE_MATRIX : new ByteMatrix(a);
     }
@@ -988,7 +987,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

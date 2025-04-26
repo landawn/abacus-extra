@@ -52,7 +52,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param a
      * @return
      */
-    @SafeVarargs
     public static LongMatrix of(final long[]... a) {
         return N.isEmpty(a) ? EMPTY_LONG_MATRIX : new LongMatrix(a);
     }
@@ -61,7 +60,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param a
      * @return
      */
-    @SafeVarargs
     public static LongMatrix create(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_LONG_MATRIX;
@@ -983,7 +981,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

@@ -50,7 +50,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param a
      * @return
      */
-    @SafeVarargs
     public static BooleanMatrix of(final boolean[]... a) {
         return N.isEmpty(a) ? EMPTY_BOOLEAN_MATRIX : new BooleanMatrix(a);
     }
@@ -890,7 +889,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

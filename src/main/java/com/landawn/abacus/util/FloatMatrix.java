@@ -52,7 +52,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param a
      * @return
      */
-    @SafeVarargs
     public static FloatMatrix of(final float[]... a) {
         return N.isEmpty(a) ? EMPTY_FLOAT_MATRIX : new FloatMatrix(a);
     }
@@ -61,7 +60,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param a
      * @return
      */
-    @SafeVarargs
     public static FloatMatrix create(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_FLOAT_MATRIX;
@@ -915,7 +913,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats

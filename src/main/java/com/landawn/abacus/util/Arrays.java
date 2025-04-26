@@ -1496,8 +1496,8 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      *
      * @param a the one-dimensional boolean array to reshape
-     * @param rows the number of rows for the reshaped sub-array
-     * @param cols the number of columns for the reshaped sub-array
+     * @param rows the number of rows for the reshaped subarray
+     * @param cols the number of columns for the reshaped subarray
      * @return a three-dimensional boolean array with the specified number of rows and columns
      * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero
      */
@@ -24652,10 +24652,10 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Finds the minimum length of sub-arrays in a two-dimensional array.
+         * Finds the minimum length of subarrays in a two-dimensional array.
          *
          * @param a the two-dimensional array to be checked
-         * @return the minimum length of sub-arrays, or 0 if the array is null
+         * @return the minimum length of subarrays, or 0 if the array is null
          */
         public static int minSubArrayLen(final Object[][] a) {
             if (N.isEmpty(a)) {
@@ -24672,10 +24672,10 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Finds the maximum length of sub-arrays in a two-dimensional array.
+         * Finds the maximum length of subarrays in a two-dimensional array.
          *
          * @param a the two-dimensional array to be checked
-         * @return the maximum length of sub-arrays, or 0 if the array is null
+         * @return the maximum length of subarrays, or 0 if the array is null
          */
         public static int maxSubArrayLen(final Object[][] a) {
             if (N.isEmpty(a)) {
@@ -25381,10 +25381,10 @@ public sealed class Arrays permits Arrays.f {
         }
 
         //    /**
-        //     * Finds the minimum length of sub-sub-arrays in a three-dimensional array.
+        //     * Finds the minimum length of sub-subarrays in a three-dimensional array.
         //     *
         //     * @param a the three-dimensional array to be checked
-        //     * @return the minimum length of sub-sub-arrays, or 0 if the array is null
+        //     * @return the minimum length of sub-subarrays, or 0 if the array is null
         //     */
         //    public static int minSubArrayLen(final Object[][][] a) {
         //        if (N.isEmpty(a)) {
@@ -25401,10 +25401,10 @@ public sealed class Arrays permits Arrays.f {
         //    }
         //
         //    /**
-        //     * Finds the maximum length of sub-sub-arrays in a three-dimensional array.
+        //     * Finds the maximum length of sub-subarrays in a three-dimensional array.
         //     *
         //     * @param a the three-dimensional array to be checked
-        //     * @return the maximum length of sub-sub-arrays, or 0 if the array is null
+        //     * @return the maximum length of sub-subarrays, or 0 if the array is null
         //     */
         //    public static int maxSubArrayLen(final Object[][][] a) {
         //        if (N.isEmpty(a)) {

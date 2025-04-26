@@ -57,7 +57,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param a
      * @return
      */
-    @SafeVarargs
     public static CharMatrix of(final char[]... a) {
         return N.isEmpty(a) ? EMPTY_CHAR_MATRIX : new CharMatrix(a);
     }
@@ -988,7 +987,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
+     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
      *
      * @param rowRepeats
      * @param colRepeats
