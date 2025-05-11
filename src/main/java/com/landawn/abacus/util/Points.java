@@ -202,22 +202,12 @@ public final class Points {
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteLongPoint implements Immutable {
 
-            /** The x. */
             public final byte x;
 
-            /** The y. */
             public final byte y;
 
-            /** The v. */
             public final long v; // value
 
-            /**
-             * Instantiates a new byte long point.
-             *
-             * @param x
-             * @param y
-             * @param v
-             */
             ByteLongPoint(final byte x, final byte y, final long v) {
                 this.x = x;
                 this.y = y;
@@ -4304,23 +4294,12 @@ public final class Points {
             /** The x. */
             public final byte x;
 
-            /** The y. */
             public final byte y;
 
-            /** The z. */
             public final byte z;
 
-            /** The v. */
             public final long v; // value
 
-            /**
-             * Instantiates a new byte long point.
-             *
-             * @param x
-             * @param y
-             * @param z
-             * @param v
-             */
             ByteLongPoint(final byte x, final byte y, final byte z, final long v) {
                 this.x = x;
                 this.y = y;
