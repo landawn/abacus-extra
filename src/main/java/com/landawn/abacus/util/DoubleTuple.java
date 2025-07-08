@@ -14,119 +14,154 @@
 
 package com.landawn.abacus.util;
 
-import com.landawn.abacus.util.stream.DoubleStream;
-import com.landawn.abacus.util.u.Optional;
-
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.util.u.Optional;
+import com.landawn.abacus.util.stream.DoubleStream;
+
+/**
+ * Abstract base class for immutable tuples containing double primitive values.
+ * This class provides a type-safe way to work with fixed-size collections of double values.
+ * 
+ * <p>DoubleTuple and its subclasses offer:</p>
+ * <ul>
+ *   <li>Type safety for double collections of known size</li>
+ *   <li>Immutability for thread-safe operations</li>
+ *   <li>Convenient factory methods and utilities</li>
+ *   <li>Statistical operations (min, max, median, sum, average)</li>
+ * </ul>
+ * 
+ * @param <TP> The specific DoubleTuple subtype for fluent method chaining
+ * @author HaiYang Li
+ * @since 3.0
+ */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
 
     protected double[] elements;
 
     /**
+     * Creates a DoubleTuple1 containing a single double value.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple1 single = DoubleTuple.of(3.14);
+     * double value = single._1; // 3.14
+     * }</pre>
      *
-     *
-     * @param _1
-     * @return
+     * @param _1 the double value to wrap in a tuple
+     * @return a new DoubleTuple1 containing the provided value
      */
     public static DoubleTuple1 of(final double _1) {
         return new DoubleTuple1(_1);
     }
 
     /**
+     * Creates a DoubleTuple2 containing two double values.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * double sum = pair._1 + pair._2; // 4.0
+     * }</pre>
      *
-     *
-     * @param _1
-     * @param _2
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @return a new DoubleTuple2 containing the provided values
      */
     public static DoubleTuple2 of(final double _1, final double _2) {
         return new DoubleTuple2(_1, _2);
     }
 
     /**
+     * Creates a DoubleTuple3 containing three double values.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * double average = triple.average(); // 2.0
+     * }</pre>
      *
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @return a new DoubleTuple3 containing the provided values
      */
     public static DoubleTuple3 of(final double _1, final double _2, final double _3) {
         return new DoubleTuple3(_1, _2, _3);
     }
 
     /**
+     * Creates a DoubleTuple4 containing four double values.
      *
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @return a new DoubleTuple4 containing the provided values
      */
     public static DoubleTuple4 of(final double _1, final double _2, final double _3, final double _4) {
         return new DoubleTuple4(_1, _2, _3, _4);
     }
 
     /**
+     * Creates a DoubleTuple5 containing five double values.
      *
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @param _5
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @param _5 the fifth double value
+     * @return a new DoubleTuple5 containing the provided values
      */
     public static DoubleTuple5 of(final double _1, final double _2, final double _3, final double _4, final double _5) {
         return new DoubleTuple5(_1, _2, _3, _4, _5);
     }
 
     /**
+     * Creates a DoubleTuple6 containing six double values.
      *
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @param _5
-     * @param _6
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @param _5 the fifth double value
+     * @param _6 the sixth double value
+     * @return a new DoubleTuple6 containing the provided values
      */
     public static DoubleTuple6 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
         return new DoubleTuple6(_1, _2, _3, _4, _5, _6);
     }
 
     /**
+     * Creates a DoubleTuple7 containing seven double values.
      *
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @param _5
-     * @param _6
-     * @param _7
-     * @return
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @param _5 the fifth double value
+     * @param _6 the sixth double value
+     * @param _7 the seventh double value
+     * @return a new DoubleTuple7 containing the provided values
      */
     public static DoubleTuple7 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
     }
 
     /**
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @param _5
-     * @param _6
-     * @param _7
-     * @param _8
-     * @return
-     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     * Creates a DoubleTuple8 containing eight double values.
+     * 
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @param _5 the fifth double value
+     * @param _6 the sixth double value
+     * @param _7 the seventh double value
+     * @param _8 the eighth double value
+     * @return a new DoubleTuple8 containing the provided values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static DoubleTuple8 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7,
@@ -135,18 +170,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     *
-     * @param _1
-     * @param _2
-     * @param _3
-     * @param _4
-     * @param _5
-     * @param _6
-     * @param _7
-     * @param _8
-     * @param _9
-     * @return
-     * @deprecated you should consider using <code>class SomeClass { final T1 propName1, final T2 propName2...}</code>
+     * Creates a DoubleTuple9 containing nine double values.
+     * 
+     * @param _1 the first double value
+     * @param _2 the second double value
+     * @param _3 the third double value
+     * @param _4 the fourth double value
+     * @param _5 the fifth double value
+     * @param _6 the sixth double value
+     * @param _7 the seventh double value
+     * @param _8 the eighth double value
+     * @param _9 the ninth double value
+     * @return a new DoubleTuple9 containing the provided values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static DoubleTuple9 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7,
@@ -155,11 +191,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
+     * Creates a DoubleTuple from an array of double values.
+     * The size of the returned tuple depends on the array length (0-9).
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * double[] values = {1.0, 2.0, 3.0};
+     * DoubleTuple3 tuple = DoubleTuple.create(values);
+     * }</pre>
      *
-     *
-     * @param <TP>
-     * @param a
-     * @return
+     * @param <TP> the specific DoubleTuple type to return
+     * @param a the array of double values (must have length 0-9)
+     * @return a DoubleTuple of appropriate size containing the array values
+     * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends DoubleTuple<TP>> TP create(final double[] a) {
         if (a == null || a.length == 0) {
@@ -200,89 +244,156 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
+     * Returns the minimum value among all elements in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
+     * double min = tuple.min(); // 1.0
+     * }</pre>
      *
-     *
-     * @return
+     * @return the minimum double value in this tuple
+     * @throws NoSuchElementException if the tuple is empty
      */
     public double min() {
         return N.min(elements());
     }
 
     /**
+     * Returns the maximum value among all elements in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
+     * double max = tuple.max(); // 3.0
+     * }</pre>
      *
-     *
-     * @return
+     * @return the maximum double value in this tuple
+     * @throws NoSuchElementException if the tuple is empty
      */
     public double max() {
         return N.max(elements());
     }
 
     /**
+     * Returns the median value of all elements in this tuple.
+     * For even-sized tuples, returns the average of the two middle values.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double median = tuple.median(); // 2.5
+     * }</pre>
      *
-     *
-     * @return
+     * @return the median double value in this tuple
+     * @throws NoSuchElementException if the tuple is empty
      */
     public double median() {
         return N.median(elements());
     }
 
     /**
+     * Returns the sum of all elements in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * double sum = tuple.sum(); // 6.0
+     * }</pre>
      *
-     *
-     * @return
+     * @return the sum of all double values in this tuple
      */
     public double sum() {
         return N.sum(elements());
     }
 
     /**
+     * Returns the arithmetic mean of all elements in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * double avg = tuple.average(); // 2.0
+     * }</pre>
      *
-     *
-     * @return
+     * @return the average of all double values in this tuple
+     * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
         return N.average(elements());
     }
 
     /**
+     * Returns a new tuple with elements in reversed order.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleTuple3 reversed = tuple.reverse(); // (3.0, 2.0, 1.0)
+     * }</pre>
      *
-     *
-     * @return
+     * @return a new tuple with elements in reverse order
      */
     public abstract TP reverse();
 
     /**
+     * Checks whether this tuple contains the specified double value.
+     * Uses {@link N#equals(double, double)} for comparison to handle NaN and precision.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * boolean hasTwo = tuple.contains(2.0); // true
+     * }</pre>
      *
-     *
-     * @param valueToFind
-     * @return
+     * @param valueToFind the double value to search for
+     * @return true if the value is found in this tuple, false otherwise
      */
     public abstract boolean contains(double valueToFind);
 
     /**
+     * Returns a new array containing all elements of this tuple.
+     * Modifications to the returned array do not affect the tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * double[] array = tuple.toArray(); // [1.0, 2.0, 3.0]
+     * }</pre>
      *
-     *
-     * @return
+     * @return a new double array containing all tuple elements
      */
     public double[] toArray() {
         return elements().clone();
     }
 
     /**
+     * Returns a new DoubleList containing all elements of this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * DoubleList list = tuple.toList();
+     * }</pre>
      *
-     *
-     * @return
+     * @return a new DoubleList containing all tuple elements
      */
     public DoubleList toList() {
         return DoubleList.of(elements().clone());
     }
 
     /**
+     * Performs the given action for each element in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * tuple.forEach(System.out::println); // prints each value
+     * }</pre>
      *
-     *
-     * @param <E>
-     * @param consumer
-     * @throws E
+     * @param <E> the type of exception that the consumer may throw
+     * @param consumer the action to perform for each element
+     * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
         for (final double e : elements()) {
@@ -291,18 +402,25 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
+     * Returns a DoubleStream of all elements in this tuple.
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+     * double sum = tuple.stream().sum(); // 6.0
+     * }</pre>
      *
-     *
-     * @return
+     * @return a DoubleStream containing all tuple elements
      */
     public DoubleStream stream() {
         return DoubleStream.of(elements());
     }
 
     /**
+     * Returns a hash code value for this tuple.
+     * The hash code is computed based on all elements using {@link N#hashCode(double[])}.
      *
-     *
-     * @return
+     * @return a hash code value for this tuple
      */
     @Override
     public int hashCode() {
@@ -310,10 +428,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
+     * Compares this tuple to another object for equality.
+     * Two tuples are equal if they are of the same class and contain equal elements
+     * in the same order.
      *
-     *
-     * @param obj
-     * @return
+     * @param obj the object to compare with
+     * @return true if the objects are equal, false otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -327,17 +447,28 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
+     * Returns a string representation of this tuple.
+     * The format is [element1, element2, ...].
      *
-     *
-     * @return
+     * @return a string representation of this tuple
      */
     @Override
     public String toString() {
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array of elements.
+     * Subclasses must implement this to provide access to their elements.
+     *
+     * @return the array of double elements
+     */
     protected abstract double[] elements();
 
+    /**
+     * An empty DoubleTuple containing no elements.
+     * This class is used as a singleton for efficiency.
+     */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
 
         private static final DoubleTuple0 EMPTY = new DoubleTuple0();
@@ -396,8 +527,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly one double value.
+     * Provides direct access to the element via the public final field {@code _1}.
+     */
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
 
+        /** The single double value in this tuple. */
         public final double _1;
 
         DoubleTuple1() {
@@ -409,9 +545,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 1.
          *
-         *
-         * @return
+         * @return 1
          */
         @Override
         public int arity() {
@@ -419,9 +555,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the minimum value in this tuple, which is the single element.
          *
-         *
-         * @return
+         * @return the value of _1
          */
         @Override
         public double min() {
@@ -429,9 +565,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the maximum value in this tuple, which is the single element.
          *
-         *
-         * @return
+         * @return the value of _1
          */
         @Override
         public double max() {
@@ -439,9 +575,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the median value in this tuple, which is the single element.
          *
-         *
-         * @return
+         * @return the value of _1
          */
         @Override
         public double median() {
@@ -449,9 +585,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the sum of elements in this tuple, which is the single element.
          *
-         *
-         * @return
+         * @return the value of _1
          */
         @Override
         public double sum() {
@@ -459,9 +595,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the average of elements in this tuple, which is the single element.
          *
-         *
-         * @return
+         * @return the value of _1
          */
         @Override
         public double average() {
@@ -469,9 +605,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
+         * For a single-element tuple, returns a copy of itself.
          *
-         *
-         * @return
+         * @return a new DoubleTuple1 with the same value
          */
         @Override
         public DoubleTuple1 reverse() {
@@ -479,10 +616,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if _1 equals valueToFind, false otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -490,9 +627,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a hash code for this tuple based on its single element.
          *
-         *
-         * @return
+         * @return the hash code
          */
         @Override
         public int hashCode() {
@@ -500,10 +637,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Compares this tuple to another object for equality.
          *
-         *
-         * @param obj
-         * @return
+         * @param obj the object to compare with
+         * @return true if obj is a DoubleTuple1 with equal value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -517,9 +654,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a string representation of this tuple.
          *
-         *
-         * @return
+         * @return "[value]" where value is _1
          */
         @Override
         public String toString() {
@@ -536,9 +673,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly two double values.
+     * Provides direct access to elements via public final fields {@code _1} and {@code _2}.
+     */
     public static final class DoubleTuple2 extends DoubleTuple<DoubleTuple2> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
 
         DoubleTuple2() {
@@ -551,9 +694,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 2.
          *
-         *
-         * @return
+         * @return 2
          */
         @Override
         public int arity() {
@@ -561,9 +704,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the minimum value among the two elements.
          *
-         *
-         * @return
+         * @return the smaller of _1 and _2
          */
         @Override
         public double min() {
@@ -571,9 +714,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the maximum value among the two elements.
          *
-         *
-         * @return
+         * @return the larger of _1 and _2
          */
         @Override
         public double max() {
@@ -581,9 +724,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the median value of the two elements.
          *
-         *
-         * @return
+         * @return the average of _1 and _2
          */
         @Override
         public double median() {
@@ -591,9 +734,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the sum of the two elements.
          *
-         *
-         * @return
+         * @return _1 + _2
          */
         @Override
         public double sum() {
@@ -601,9 +744,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the average of the two elements.
          *
-         *
-         * @return
+         * @return (_1 + _2) / 2
          */
         @Override
         public double average() {
@@ -611,9 +754,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple2 with (_2, _1)
          */
         @Override
         public DoubleTuple2 reverse() {
@@ -621,10 +764,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if either element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -632,11 +775,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Performs the given action for each element in order.
          *
-         *
-         * @param <E>
-         * @param consumer
-         * @throws E
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
@@ -645,42 +788,64 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Performs the given binary action on the two elements.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         * }</pre>
          *
-         * @param <E>
-         * @param action
-         * @throws E the e
+         * @param <E> the type of exception that the action may throw
+         * @param action the binary action to perform
+         * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
             action.accept(_1, _2);
         }
 
         /**
+         * Applies the given binary function to the two elements and returns the result.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * double product = tuple.map((a, b) -> a * b); // 12.0
+         * }</pre>
          *
-         * @param <U>
-         * @param <E>
-         * @param mapper
-         * @return
-         * @throws E the e
+         * @param <U> the type of the result
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the binary function to apply
+         * @return the result of applying the mapper to _1 and _2
+         * @throws E if the mapper throws an exception
          */
         public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
 
         /**
+         * Returns an Optional containing this tuple if the predicate is satisfied,
+         * or an empty Optional otherwise.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // present
+         * }</pre>
          *
-         * @param <E>
-         * @param predicate
-         * @return
-         * @throws E the e
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the binary predicate to test
+         * @return Optional containing this tuple if predicate returns true, empty otherwise
+         * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple2> filter(final Throwables.DoubleBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
         }
 
         /**
+         * Returns a hash code for this tuple based on both elements.
          *
-         *
-         * @return
+         * @return the hash code
          */
         @Override
         public int hashCode() {
@@ -688,10 +853,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Compares this tuple to another object for equality.
          *
-         *
-         * @param obj
-         * @return
+         * @param obj the object to compare with
+         * @return true if obj is a DoubleTuple2 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -705,9 +870,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a string representation of this tuple.
          *
-         *
-         * @return
+         * @return "[_1, _2]"
          */
         @Override
         public String toString() {
@@ -724,10 +889,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly three double values.
+     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, and {@code _3}.
+     */
     public static final class DoubleTuple3 extends DoubleTuple<DoubleTuple3> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
 
         DoubleTuple3() {
@@ -741,9 +913,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 3.
          *
-         *
-         * @return
+         * @return 3
          */
         @Override
         public int arity() {
@@ -751,9 +923,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the minimum value among the three elements.
          *
-         *
-         * @return
+         * @return the smallest of _1, _2, and _3
          */
         @Override
         public double min() {
@@ -761,9 +933,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the maximum value among the three elements.
          *
-         *
-         * @return
+         * @return the largest of _1, _2, and _3
          */
         @Override
         public double max() {
@@ -771,9 +943,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the median value of the three elements.
          *
-         *
-         * @return
+         * @return the middle value when sorted
          */
         @Override
         public double median() {
@@ -781,9 +953,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the sum of the three elements.
          *
-         *
-         * @return
+         * @return _1 + _2 + _3
          */
         @Override
         public double sum() {
@@ -791,9 +963,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the average of the three elements.
          *
-         *
-         * @return
+         * @return (_1 + _2 + _3) / 3
          */
         @Override
         public double average() {
@@ -801,9 +973,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple3 with (_3, _2, _1)
          */
         @Override
         public DoubleTuple3 reverse() {
@@ -811,10 +983,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -822,11 +994,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Performs the given action for each element in order.
          *
-         *
-         * @param <E>
-         * @param consumer
-         * @throws E
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
@@ -836,42 +1008,64 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Performs the given ternary action on the three elements.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
+         * }</pre>
          *
-         * @param <E>
-         * @param action
-         * @throws E the e
+         * @param <E> the type of exception that the action may throw
+         * @param action the ternary action to perform
+         * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
         }
 
         /**
+         * Applies the given ternary function to the three elements and returns the result.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * double product = tuple.map((a, b, c) -> a * b * c); // 6.0
+         * }</pre>
          *
-         * @param <U>
-         * @param <E>
-         * @param mapper
-         * @return
-         * @throws E the e
+         * @param <U> the type of the result
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the ternary function to apply
+         * @return the result of applying the mapper to _1, _2, and _3
+         * @throws E if the mapper throws an exception
          */
         public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
 
         /**
+         * Returns an Optional containing this tuple if the predicate is satisfied,
+         * or an empty Optional otherwise.
+         * 
+         * <p>Example usage:</p>
+         * <pre>{@code
+         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // present
+         * }</pre>
          *
-         * @param <E>
-         * @param predicate
-         * @return
-         * @throws E the e
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the ternary predicate to test
+         * @return Optional containing this tuple if predicate returns true, empty otherwise
+         * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<DoubleTuple3> filter(final Throwables.DoubleTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
         }
 
         /**
+         * Returns a hash code for this tuple based on all three elements.
          *
-         *
-         * @return
+         * @return the hash code
          */
         @Override
         public int hashCode() {
@@ -879,10 +1073,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Compares this tuple to another object for equality.
          *
-         *
-         * @param obj
-         * @return
+         * @param obj the object to compare with
+         * @return true if obj is a DoubleTuple3 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -896,9 +1090,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a string representation of this tuple.
          *
-         *
-         * @return
+         * @return "[_1, _2, _3]"
          */
         @Override
         public String toString() {
@@ -915,11 +1109,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly four double values.
+     * Provides direct access to elements via public final fields.
+     */
     public static final class DoubleTuple4 extends DoubleTuple<DoubleTuple4> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
 
         DoubleTuple4() {
@@ -934,9 +1136,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 4.
          *
-         *
-         * @return
+         * @return 4
          */
         @Override
         public int arity() {
@@ -944,9 +1146,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple4 with (_4, _3, _2, _1)
          */
         @Override
         public DoubleTuple4 reverse() {
@@ -954,10 +1156,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -974,12 +1176,21 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly five double values.
+     * Provides direct access to elements via public final fields.
+     */
     public static final class DoubleTuple5 extends DoubleTuple<DoubleTuple5> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
+        /** The fifth double value in this tuple. */
         public final double _5;
 
         DoubleTuple5() {
@@ -995,9 +1206,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 5.
          *
-         *
-         * @return
+         * @return 5
          */
         @Override
         public int arity() {
@@ -1005,9 +1216,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple5 with (_5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple5 reverse() {
@@ -1015,10 +1226,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1036,13 +1247,23 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly six double values.
+     * Provides direct access to elements via public final fields.
+     */
     public static final class DoubleTuple6 extends DoubleTuple<DoubleTuple6> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
+        /** The fifth double value in this tuple. */
         public final double _5;
+        /** The sixth double value in this tuple. */
         public final double _6;
 
         DoubleTuple6() {
@@ -1059,9 +1280,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 6.
          *
-         *
-         * @return
+         * @return 6
          */
         @Override
         public int arity() {
@@ -1069,9 +1290,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple6 reverse() {
@@ -1079,10 +1300,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1100,14 +1321,25 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly seven double values.
+     * Provides direct access to elements via public final fields.
+     */
     public static final class DoubleTuple7 extends DoubleTuple<DoubleTuple7> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
+        /** The fifth double value in this tuple. */
         public final double _5;
+        /** The sixth double value in this tuple. */
         public final double _6;
+        /** The seventh double value in this tuple. */
         public final double _7;
 
         DoubleTuple7() {
@@ -1125,9 +1357,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 7.
          *
-         *
-         * @return
+         * @return 7
          */
         @Override
         public int arity() {
@@ -1135,9 +1367,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple7 reverse() {
@@ -1145,10 +1377,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1166,15 +1398,29 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly eight double values.
+     * Provides direct access to elements via public final fields.
+     * 
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     */
     public static final class DoubleTuple8 extends DoubleTuple<DoubleTuple8> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
+        /** The fifth double value in this tuple. */
         public final double _5;
+        /** The sixth double value in this tuple. */
         public final double _6;
+        /** The seventh double value in this tuple. */
         public final double _7;
+        /** The eighth double value in this tuple. */
         public final double _8;
 
         DoubleTuple8() {
@@ -1193,9 +1439,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 8.
          *
-         *
-         * @return
+         * @return 8
          */
         @Override
         public int arity() {
@@ -1203,9 +1449,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple8 with elements in reverse order
          */
         @Override
         public DoubleTuple8 reverse() {
@@ -1213,10 +1459,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1234,16 +1480,31 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
     }
 
+    /**
+     * A DoubleTuple containing exactly nine double values.
+     * Provides direct access to elements via public final fields.
+     * 
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     */
     public static final class DoubleTuple9 extends DoubleTuple<DoubleTuple9> {
 
+        /** The first double value in this tuple. */
         public final double _1;
+        /** The second double value in this tuple. */
         public final double _2;
+        /** The third double value in this tuple. */
         public final double _3;
+        /** The fourth double value in this tuple. */
         public final double _4;
+        /** The fifth double value in this tuple. */
         public final double _5;
+        /** The sixth double value in this tuple. */
         public final double _6;
+        /** The seventh double value in this tuple. */
         public final double _7;
+        /** The eighth double value in this tuple. */
         public final double _8;
+        /** The ninth double value in this tuple. */
         public final double _9;
 
         DoubleTuple9() {
@@ -1264,9 +1525,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns the number of elements in this tuple, which is always 9.
          *
-         *
-         * @return
+         * @return 9
          */
         @Override
         public int arity() {
@@ -1274,9 +1535,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Returns a new tuple with elements in reversed order.
          *
-         *
-         * @return
+         * @return a new DoubleTuple9 with elements in reverse order
          */
         @Override
         public DoubleTuple9 reverse() {
@@ -1284,10 +1545,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
+         * Checks whether this tuple contains the specified value.
          *
-         *
-         * @param valueToFind
-         * @return
+         * @param valueToFind the value to search for
+         * @return true if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {

@@ -66,6 +66,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static ByteMatrix random(final int len) {
         return new ByteMatrix(new byte[][] { ByteList.random(len).array() });
     }

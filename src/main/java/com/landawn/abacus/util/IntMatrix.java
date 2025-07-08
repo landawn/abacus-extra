@@ -129,6 +129,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static IntMatrix random(final int len) {
         return new IntMatrix(new int[][] { IntList.random(len).array() });
     }

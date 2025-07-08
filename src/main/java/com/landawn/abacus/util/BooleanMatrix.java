@@ -58,6 +58,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static BooleanMatrix random(final int len) {
         return new BooleanMatrix(new boolean[][] { BooleanList.random(len).array() });
     }

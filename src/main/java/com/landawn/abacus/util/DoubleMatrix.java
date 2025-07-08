@@ -129,6 +129,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static DoubleMatrix random(final int len) {
         return new DoubleMatrix(new double[][] { DoubleList.random(len).array() });
     }

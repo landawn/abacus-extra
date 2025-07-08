@@ -30,7 +30,33 @@ import com.landawn.abacus.util.stream.Stream;
 // TODO: Auto-generated Javadoc
 
 /**
- * @param <T>
+ * A generic matrix implementation that stores elements in a two-dimensional array.
+ * This class provides comprehensive matrix operations including element access,
+ * transformations, and various utility methods for matrix manipulation.
+ * 
+ * <p>The matrix is immutable in terms of its dimensions once created, but individual
+ * elements can be modified. Most transformation operations return new matrix instances.</p>
+ * 
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * // Create a 3x3 matrix of integers
+ * Integer[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+ * Matrix<Integer> matrix = Matrix.of(data);
+ * 
+ * // Access elements
+ * Integer value = matrix.get(1, 2); // Gets 6
+ * 
+ * // Transform the matrix
+ * Matrix<Double> doubled = matrix.map(x -> x * 2.0, Double.class);
+ * 
+ * // Combine matrices
+ * Matrix<Integer> sum = matrix.zipWith(otherMatrix, (a, b) -> a + b);
+ * }</pre>
+ *
+ * @param <T> the type of elements in this matrix
+ * @see AbstractMatrix
+ * @see IntMatrix
+ * @see DoubleMatrix
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
 
@@ -39,7 +65,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     final Class<T> elementType;
 
     /**
-     * @param a
+     * Constructs a Matrix from a two-dimensional array.
+     * The array must be rectangular (all rows must have the same length).
+     *
+     * @param a the two-dimensional array of elements
+     * @throws IllegalArgumentException if the array is not rectangular
      */
     public Matrix(final T[][] a) {
         super(a);
@@ -48,9 +78,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <T>
-     * @param a
-     * @return
+     * Creates a Matrix from a two-dimensional array.
+     * This is a convenience factory method equivalent to calling the constructor.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * String[][] data = {{"a", "b"}, {"c", "d"}};
+     * Matrix<String> matrix = Matrix.of(data);
+     * }</pre>
+     *
+     * @param <T> the type of elements in the matrix
+     * @param a the two-dimensional array of elements
+     * @return a new Matrix containing the given elements
+     * @throws IllegalArgumentException if the array is not rectangular
      */
     @SafeVarargs
     public static <T> Matrix<T> of(final T[]... a) {
@@ -58,11 +98,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <T>
-     * @param element
-     * @param len
-     * @return
-     * @throws IllegalArgumentException if {@code element} is {@code null}.
+     * Creates a matrix with a single row containing the specified element repeated.
+     * 
+     * @param <T> the type of elements
+     * @param element the element to repeat (must not be null)
+     * @param len the number of columns
+     * @return a 1×len matrix filled with the element
+     * @throws IllegalArgumentException if element is null
      * @see #repeat(Object, int, Class)
      * @see #repeatNonNull(Object, int)
      * @deprecated Prefer to {@code Matrix.repeat(Object, int, Class)}
@@ -75,12 +117,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <T>
-     * @param element
-     * @param len
-     * @param elementClass
-     * @return
-     * @throws IllegalArgumentException
+     * Creates a matrix with a single row containing the specified element repeated.
+     * This method requires explicit specification of the element class for proper array creation.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Double> matrix = Matrix.repeat(0.0, 5, Double.class);
+     * // Creates: [[0.0, 0.0, 0.0, 0.0, 0.0]]
+     * }</pre>
+     *
+     * @param <T> the type of elements
+     * @param element the element to repeat (can be null)
+     * @param len the number of columns
+     * @param elementClass the class of the element type
+     * @return a 1×len matrix filled with the element
+     * @throws IllegalArgumentException if elementClass is null
      */
     public static <T> Matrix<T> repeat(final T element, final int len, final Class<T> elementClass) throws IllegalArgumentException {
         N.checkArgNotNull(elementClass, "elementClass");
@@ -92,11 +143,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <T>
-     * @param element
-     * @param len
-     * @return
-     * @throws IllegalArgumentException if the specified {@code element} is {@code null}.
+     * Creates a matrix with a single row containing the specified non-null element repeated.
+     * The element class is inferred from the element itself.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> matrix = Matrix.repeatNonNull("X", 3);
+     * // Creates: [["X", "X", "X"]]
+     * }</pre>
+     *
+     * @param <T> the type of elements
+     * @param element the element to repeat (must not be null)
+     * @param len the number of columns
+     * @return a 1×len matrix filled with the element
+     * @throws IllegalArgumentException if the specified element is null
      */
     public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
@@ -105,33 +165,67 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Diagonal LU 2 RD.
+     * Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
+     * All other elements are null.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[]{1, 2, 3});
+     * // Creates: [[1, null, null],
+     * //           [null, 2, null],
+     * //           [null, null, 3]]
+     * }</pre>
      *
-     * @param <T>
-     * @param leftUp2RightDownDiagonal
-     * @return
+     * @param <T> the type of elements
+     * @param leftUp2RightDownDiagonal the diagonal values
+     * @return a square matrix with the given diagonal values
      */
     public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Diagonal RU 2 LD.
+     * Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
+     * All other elements are null.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[]{1, 2, 3});
+     * // Creates: [[null, null, 1],
+     * //           [null, 2, null],
+     * //           [3, null, null]]
+     * }</pre>
      *
-     * @param <T>
-     * @param rightUp2LeftDownDiagonal
-     * @return
+     * @param <T> the type of elements
+     * @param rightUp2LeftDownDiagonal the anti-diagonal values
+     * @return a square matrix with the given anti-diagonal values
      */
     public static <T> Matrix<T> diagonalRU2LD(final T[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * @param <T>
-     * @param leftUp2RightDownDiagonal
-     * @param rightUp2LeftDownDiagonal
-     * @return
-     * @throws IllegalArgumentException
+     * Creates a square matrix with values on both diagonals.
+     * The main diagonal runs from left-up to right-down, and the anti-diagonal
+     * runs from right-up to left-down. If diagonals intersect (odd dimension),
+     * the main diagonal value takes precedence.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> diag = Matrix.diagonal(
+     *     new String[]{"A", "B", "C"},
+     *     new String[]{"X", "Y", "Z"}
+     * );
+     * // Creates: [["A", null, "X"],
+     * //           [null, "B", null],
+     * //           ["Z", null, "C"]]
+     * }</pre>
+     *
+     * @param <T> the type of elements
+     * @param leftUp2RightDownDiagonal the main diagonal values (can be null)
+     * @param rightUp2LeftDownDiagonal the anti-diagonal values (can be null)
+     * @return a square matrix with the given diagonal values
+     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
      */
     @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
@@ -171,6 +265,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         return new Matrix<>(c);
     }
 
+    /**
+     * Returns the component type of the elements in this matrix.
+     * For example, for a {@code Matrix<Integer>}, this returns {@code Integer.class}.
+     *
+     * @return the Class object representing the element type
+     */
     @SuppressWarnings("rawtypes")
     @Override
     public Class componentType() {
@@ -178,81 +278,124 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element at the specified row and column.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * String value = matrix.get(1, 0); // Returns "C"
+     * }</pre>
+     *
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return the element at position (i, j)
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public T get(final int i, final int j) {
         return a[i][j];
     }
 
     /**
-     * @param point
-     * @return
+     * Gets the element at the specified point.
+     *
+     * @param point the point containing row and column indices
+     * @return the element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public T get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
     }
 
     /**
-     * @param i
-     * @param j
-     * @param val
+     * Sets the element at the specified row and column.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.set(1, 2, "newValue");
+     * }</pre>
+     *
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @param val the new value to set
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final T val) {
         a[i][j] = val;
     }
 
     /**
-     * @param point
-     * @param val
+     * Sets the element at the specified point.
+     *
+     * @param point the point containing row and column indices
+     * @param val the new value to set
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public void set(final Point point, final T val) {
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element above the specified position.
+     * Returns empty if the position is in the first row.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a Nullable containing the element above, or empty if none exists
      */
     public Nullable<T> upOf(final int i, final int j) {
         return i == 0 ? Nullable.empty() : Nullable.of(a[i - 1][j]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element below the specified position.
+     * Returns empty if the position is in the last row.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a Nullable containing the element below, or empty if none exists
      */
     public Nullable<T> downOf(final int i, final int j) {
         return i == rows - 1 ? Nullable.empty() : Nullable.of(a[i + 1][j]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element to the left of the specified position.
+     * Returns empty if the position is in the first column.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a Nullable containing the element to the left, or empty if none exists
      */
     public Nullable<T> leftOf(final int i, final int j) {
         return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element to the right of the specified position.
+     * Returns empty if the position is in the last column.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a Nullable containing the element to the right, or empty if none exists
      */
     public Nullable<T> rightOf(final int i, final int j) {
         return j == cols - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
     }
 
     /**
-     * Returns the four adjacencies with order: up, right, down, left. {@code null} is set if the adjacency doesn't exist.
+     * Returns the four adjacent points (up, right, down, left) of the specified position.
+     * Points that would be outside the matrix bounds are returned as null.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Stream<Point> adjacent = matrix.adjacent4Points(1, 1);
+     * // For a position not on the edge, returns 4 points
+     * // For a corner position, returns 2 non-null points
+     * }</pre>
      *
-     * @param i
-     * @param j
-     * @return
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of Points representing the adjacencies, with null for non-existent positions
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -264,11 +407,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. {@code null} is set if the adjacency doesn't exist.
+     * Returns the eight adjacent points of the specified position in clockwise order.
+     * The order is: left-up, up, right-up, right, right-down, down, left-down, left.
+     * Points that would be outside the matrix bounds are returned as null.
      *
-     * @param i
-     * @param j
-     * @return
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of Points representing the adjacencies, with null for non-existent positions
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -285,9 +430,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param rowIndex
-     * @return
-     * @throws IllegalArgumentException
+     * Returns a reference to the array containing the specified row.
+     * Modifications to the returned array will affect the matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * T[] rowData = matrix.row(0);
+     * rowData[0] = newValue; // This modifies the matrix
+     * }</pre>
+     *
+     * @param rowIndex the row index to retrieve
+     * @return the array containing the row elements
+     * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public T[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -296,9 +450,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param columnIndex
-     * @return
-     * @throws IllegalArgumentException
+     * Returns a copy of the specified column as an array.
+     * Modifications to the returned array will not affect the matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * T[] colData = matrix.column(1);
+     * // colData contains a copy of all elements in column 1
+     * }</pre>
+     *
+     * @param columnIndex the column index to retrieve
+     * @return a new array containing the column elements
+     * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public T[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -313,11 +476,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the row.
+     * Replaces an entire row with the given array.
+     * The array must have the same length as the number of columns.
      *
-     * @param rowIndex
-     * @param row
-     * @throws IllegalArgumentException
+     * @param rowIndex the row index to replace
+     * @param row the new row data
+     * @throws IllegalArgumentException if the row array length doesn't match the matrix width
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -326,11 +490,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the column.
+     * Replaces an entire column with the given array.
+     * The array must have the same length as the number of rows.
      *
-     * @param columnIndex
-     * @param column
-     * @throws IllegalArgumentException
+     * @param columnIndex the column index to replace
+     * @param column the new column data
+     * @throws IllegalArgumentException if the column array length doesn't match the matrix height
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -341,10 +506,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <E>
-     * @param rowIndex
-     * @param func
-     * @throws E the e
+     * Updates all elements in the specified row by applying the given function.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Double all values in row 0
+     * matrix.updateRow(0, x -> x * 2);
+     * }</pre>
+     *
+     * @param <E> the type of exception that might be thrown
+     * @param rowIndex the row index to update
+     * @param func the function to apply to each element
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -353,10 +526,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <E>
-     * @param columnIndex
-     * @param func
-     * @throws E the e
+     * Updates all elements in the specified column by applying the given function.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Append suffix to all strings in column 1
+     * matrix.updateColumn(1, s -> s + "_suffix");
+     * }</pre>
+     *
+     * @param <E> the type of exception that might be thrown
+     * @param columnIndex the column index to update
+     * @param func the function to apply to each element
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -365,9 +546,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the lu2rd.
+     * Gets the main diagonal elements (left-up to right-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * Integer[] diag = m.getLU2RD(); // Returns [1, 5, 9]
+     * }</pre>
      *
-     * @return
+     * @return an array containing the diagonal elements
+     * @throws IllegalStateException if the matrix is not square
      */
     public T[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -382,10 +571,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the lu2rd.
+     * Sets the main diagonal elements (left-up to right-down).
+     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
      *
-     * @param diagonal the new lu2rd
-     * @throws IllegalArgumentException
+     * @param diagonal the new diagonal values
+     * @throws IllegalArgumentException if the diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
      */
     public void setLU2RD(final T[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -397,11 +588,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update LU 2 RD.
+     * Updates the main diagonal elements (left-up to right-down) by applying the given function.
+     * The matrix must be square.
      *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * @param <E> the type of exception that might be thrown
+     * @param func the function to apply to each diagonal element
+     * @throws E if the function throws an exception
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -412,9 +605,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the ru2ld.
+     * Gets the anti-diagonal elements (right-up to left-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * Integer[] diag = m.getRU2LD(); // Returns [3, 5, 7]
+     * }</pre>
      *
-     * @return
+     * @return an array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square
      */
     public T[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -429,10 +630,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the ru2ld.
+     * Sets the anti-diagonal elements (right-up to left-down).
+     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
      *
-     * @param diagonal the new ru2ld
-     * @throws IllegalArgumentException
+     * @param diagonal the new anti-diagonal values
+     * @throws IllegalArgumentException if the diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
      */
     public void setRU2LD(final T[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -444,11 +647,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update RU 2 LD.
+     * Updates the anti-diagonal elements (right-up to left-down) by applying the given function.
+     * The matrix must be square.
      *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * @param <E> the type of exception that might be thrown
+     * @param func the function to apply to each anti-diagonal element
+     * @throws E if the function throws an exception
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -461,9 +666,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     // TODO should the method name be "replaceAll"? If change the method name to replaceAll, what about updateLU2RD/updateRU2LD?
 
     /**
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * Updates all elements in the matrix by applying the given function.
+     * The operation can be performed in parallel for large matrices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Convert all elements to uppercase
+     * stringMatrix.updateAll(String::toUpperCase);
+     * }</pre>
+     *
+     * @param <E> the type of exception that might be thrown
+     * @param func the function to apply to each element
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> func) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(a[i][j]);
@@ -471,11 +685,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update all elements based on points.
+     * Updates all elements in the matrix based on their position.
+     * The function receives the row and column indices and returns the new value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Set each element to its row + column index
+     * matrix.updateAll((i, j) -> i + j);
+     * }</pre>
      *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * @param <E> the type of exception that might be thrown
+     * @param func the function that takes row and column indices and returns the new value
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> func) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
@@ -483,10 +704,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <E>
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * Replaces all elements that match the predicate with the new value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Replace all null values with empty string
+     * matrix.replaceIf(Objects::isNull, "");
+     * }</pre>
+     *
+     * @param <E> the type of exception that might be thrown
+     * @param predicate the condition to test each element
+     * @param newValue the value to use as replacement
+     * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
@@ -494,12 +723,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Replace elements by <code>Predicate.test(i, j)</code> based on points
+     * Replaces elements based on their position using a predicate.
+     * The predicate receives row and column indices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * // Replace diagonal elements with zero
+     * matrix.replaceIf((i, j) -> i == j, zero);
+     * }</pre>
      *
-     * @param <E>
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * @param <E> the type of exception that might be thrown
+     * @param predicate the condition based on position
+     * @param newValue the value to use as replacement
+     * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
@@ -507,10 +743,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * @param <E>
-     * @param func
-     * @return
-     * @throws E the e
+     * Creates a new matrix by applying a transformation function to each element.
+     * The result matrix has the same element type as the original.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> upper = stringMatrix.map(String::toUpperCase);
+     * }</pre>
+     *
+     * @param <E> the type of exception that might be thrown
+     * @param func the transformation function
+     * @return a new matrix with transformed elements
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> func) throws E {
         return map(func, elementType);

@@ -60,6 +60,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static ShortMatrix random(final int len) {
         return new ShortMatrix(new short[][] { ShortList.random(len).array() });
     }

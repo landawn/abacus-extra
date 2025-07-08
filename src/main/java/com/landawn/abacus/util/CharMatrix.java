@@ -66,6 +66,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static CharMatrix random(final int len) {
         return new CharMatrix(new char[][] { CharList.random(len).array() });
     }

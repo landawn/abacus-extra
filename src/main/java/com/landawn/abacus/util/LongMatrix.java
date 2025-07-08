@@ -83,6 +83,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static LongMatrix random(final int len) {
         return new LongMatrix(new long[][] { LongList.random(len).array() });
     }

@@ -83,6 +83,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static FloatMatrix random(final int len) {
         return new FloatMatrix(new float[][] { FloatList.random(len).array() });
     }
