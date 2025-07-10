@@ -37,16 +37,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     *
-     *
-     * @param <T>
-     * @param <R>
-     * @param <E>
-     * @param a
-     * @param func
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * Maps each element of the input array to a new type using the provided mapping function.
+     * 
+     * @param <T> the type of elements in the input array
+     * @param <R> the type of elements in the result array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the mapping function to apply to each element
+     * @param targetElementType the class of the target element type
+     * @return a new array containing the mapped elements, or null if input is null
+     * @throws E if the mapping function throws an exception
+     * 
+     * @example
+     * <pre>
+     * String[] strings = {"1", "2", "3"};
+     * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
+     * // Result: [1, 2, 3]
+     * </pre>
      */
     public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func, final Class<R> targetElementType)
             throws E {
@@ -65,14 +72,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to boolean.
+     * Maps each element of the input array to a boolean value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a boolean
+     * @return a boolean array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
+     *
+     * @example
+     * <pre>
+     * String[] words = {"hello", "hi", "world"};
+     * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
+     * // Result: [true, false, true]
+     * </pre>
      */
     public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -90,14 +104,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to char.
+     * Maps each element of the input array to a char value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a char
+     * @return a char array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
+     *
+     * @example
+     * <pre>
+     * String[] words = {"apple", "banana", "cherry"};
+     * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
+     * // Result: ['a', 'b', 'c']
+     * </pre>
      */
     public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -115,14 +136,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to byte.
+     * Maps each element of the input array to a byte value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a byte
+     * @return a byte array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
      */
     public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -140,14 +161,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to short.
+     * Maps each element of the input array to a short value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a short
+     * @return a short array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
      */
     public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -165,14 +186,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to int.
+     * Maps each element of the input array to an int value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to an int
+     * @return an int array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
+     *
+     * @example
+     * <pre>
+     * String[] numbers = {"10", "20", "30"};
+     * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
+     * // Result: [10, 20, 30]
+     * </pre>
      */
     public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -190,14 +218,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to long.
+     * Maps each element of the input array to a long value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a long
+     * @return a long array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
      */
     public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -215,14 +243,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to float.
+     * Maps each element of the input array to a float value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a float
+     * @return a float array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
      */
     public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -240,14 +268,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to double.
+     * Maps each element of the input array to a double value using the provided function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param func
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the input array
+     * @param <E> the type of exception that the mapping function may throw
+     * @param a the input array to map
+     * @param func the function that maps each element to a double
+     * @return a double array containing the mapped values, or null if input is null
+     * @throws E if the mapping function throws an exception
      */
     public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
         if (a == null) {
@@ -265,15 +293,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each boolean element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the boolean array to map
+     * @param mapper the function that maps each boolean to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
+     *
+     * @example
+     * <pre>
+     * boolean[] flags = {true, false, true};
+     * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
+     * // Result: ["YES", "NO", "YES"]
+     * </pre>
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -292,15 +327,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each boolean element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D boolean array to map
+     * @param mapper the function that maps each boolean to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -319,15 +354,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each boolean element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D boolean array to map
+     * @param mapper the function that maps each boolean to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -346,15 +381,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each char element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the char array to map
+     * @param mapper the function that maps each char to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -373,15 +408,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each char element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D char array to map
+     * @param mapper the function that maps each char to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -400,15 +435,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each char element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D char array to map
+     * @param mapper the function that maps each char to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -427,15 +462,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each byte element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the byte array to map
+     * @param mapper the function that maps each byte to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -454,15 +489,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each byte element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D byte array to map
+     * @param mapper the function that maps each byte to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -481,15 +516,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each byte element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D byte array to map
+     * @param mapper the function that maps each byte to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -508,15 +543,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each short element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the short array to map
+     * @param mapper the function that maps each short to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -535,15 +570,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each short element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D short array to map
+     * @param mapper the function that maps each short to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -562,15 +597,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each short element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D short array to map
+     * @param mapper the function that maps each short to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -589,15 +624,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each int element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the int array to map
+     * @param mapper the function that maps each int to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
+     *
+     * @example
+     * <pre>
+     * int[] numbers = {1, 2, 3};
+     * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
+     * // Result: ["Number: 1", "Number: 2", "Number: 3"]
+     * </pre>
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -616,15 +658,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each int element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D int array to map
+     * @param mapper the function that maps each int to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -643,15 +685,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each int element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D int array to map
+     * @param mapper the function that maps each int to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -670,15 +712,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each long element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the long array to map
+     * @param mapper the function that maps each long to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -697,15 +739,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each long element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D long array to map
+     * @param mapper the function that maps each long to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -724,15 +766,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each long element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D long array to map
+     * @param mapper the function that maps each long to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -751,15 +793,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each float element to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the float array to map
+     * @param mapper the function that maps each float to an object
+     * @param targetElementType the class of the target element type
+     * @return an object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -778,15 +820,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each float element in a 2D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 2D float array to map
+     * @param mapper the function that maps each float to an object
+     * @param targetElementType the class of the target element type
+     * @return a 2D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -805,15 +847,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps each float element in a 3D array to an object using the provided mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * @param <T> the type of elements in the result array
+     * @param <E> the type of exception that the mapper may throw
+     * @param a the 3D float array to map
+     * @param mapper the function that maps each float to an object
+     * @param targetElementType the class of the target element type
+     * @return a 3D object array containing the mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -832,15 +874,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps a double array to an object array using the provided mapper function.
+     * Each element in the input array is transformed using the mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * double[] doubles = {1.5, 2.5, 3.5};
+     * String[] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
+     * // Result: {"1.5", "2.5", "3.5"}
+     * }</pre>
+     *
+     * @param <T> the type of elements in the resulting array
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input double array
+     * @param mapper the function to transform each double element
+     * @param targetElementType the class of the target element type
+     * @return an array of type T with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -859,15 +909,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps a 2D double array to a 2D object array using the provided mapper function.
+     * Each element in the input array is transformed using the mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * double[][] doubles = {{1.5, 2.5}, {3.5, 4.5}};
+     * String[][] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
+     * // Result: {{"1.5", "2.5"}, {"3.5", "4.5"}}
+     * }</pre>
+     *
+     * @param <T> the type of elements in the resulting array
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D double array
+     * @param mapper the function to transform each double element
+     * @param targetElementType the class of the target element type
+     * @return a 2D array of type T with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -886,15 +944,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Map to obj.
+     * Maps a 3D double array to a 3D object array using the provided mapper function.
+     * Each element in the input array is transformed using the mapper function.
      *
-     * @param <T>
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * double[][][] doubles = {{{1.1, 2.2}}, {{3.3, 4.4}}};
+     * Integer[][][] integers = mapToObj(doubles, d -> (int) d, Integer.class);
+     * // Result: {{{1, 2}}, {{3, 4}}}
+     * }</pre>
+     *
+     * @param <T> the type of elements in the resulting array
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D double array
+     * @param mapper the function to transform each double element
+     * @param targetElementType the class of the target element type
+     * @return a 3D array of type T with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -913,12 +979,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D int array to a 1D long array using the provided mapper function.
+     * Each int element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * int[] ints = {1, 2, 3};
+     * long[] longs = mapToLong(ints, i -> i * 1000000000L);
+     * // Result: {1000000000L, 2000000000L, 3000000000L}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input int array
+     * @param mapper the function to transform each int to long
+     * @return a long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -936,12 +1011,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D int array to a 2D long array using the provided mapper function.
+     * Each int element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D int array
+     * @param mapper the function to transform each int to long
+     * @return a 2D long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -959,12 +1036,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D int array to a 3D long array using the provided mapper function.
+     * Each int element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D int array
+     * @param mapper the function to transform each int to long
+     * @return a 3D long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -982,12 +1061,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D int array to a 1D double array using the provided mapper function.
+     * Each int element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * int[] ints = {1, 2, 3};
+     * double[] doubles = mapToDouble(ints, i -> i / 2.0);
+     * // Result: {0.5, 1.0, 1.5}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input int array
+     * @param mapper the function to transform each int to double
+     * @return a double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1005,12 +1093,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D int array to a 2D double array using the provided mapper function.
+     * Each int element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D int array
+     * @param mapper the function to transform each int to double
+     * @return a 2D double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1028,12 +1118,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D int array to a 3D double array using the provided mapper function.
+     * Each int element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D int array
+     * @param mapper the function to transform each int to double
+     * @return a 3D double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1051,12 +1143,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D long array to a 1D int array using the provided mapper function.
+     * Each long element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * long[] longs = {1000L, 2000L, 3000L};
+     * int[] ints = mapToInt(longs, l -> (int)(l / 1000));
+     * // Result: {1, 2, 3}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input long array
+     * @param mapper the function to transform each long to int
+     * @return an int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1074,12 +1175,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D long array to a 2D int array using the provided mapper function.
+     * Each long element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D long array
+     * @param mapper the function to transform each long to int
+     * @return a 2D int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1097,12 +1200,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D long array to a 3D int array using the provided mapper function.
+     * Each long element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D long array
+     * @param mapper the function to transform each long to int
+     * @return a 3D int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1120,12 +1225,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D long array to a 1D double array using the provided mapper function.
+     * Each long element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input long array
+     * @param mapper the function to transform each long to double
+     * @return a double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1143,12 +1250,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D long array to a 2D double array using the provided mapper function.
+     * Each long element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D long array
+     * @param mapper the function to transform each long to double
+     * @return a 2D double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1166,12 +1275,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D long array to a 3D double array using the provided mapper function.
+     * Each long element is transformed to a double value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D long array
+     * @param mapper the function to transform each long to double
+     * @return a 3D double array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
@@ -1189,12 +1300,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D double array to a 1D int array using the provided mapper function.
+     * Each double element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * double[] doubles = {1.7, 2.3, 3.9};
+     * int[] ints = mapToInt(doubles, d -> (int) Math.round(d));
+     * // Result: {2, 2, 4}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input double array
+     * @param mapper the function to transform each double to int
+     * @return an int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1212,12 +1332,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D double array to a 2D int array using the provided mapper function.
+     * Each double element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D double array
+     * @param mapper the function to transform each double to int
+     * @return a 2D int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1235,12 +1357,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D double array to a 3D int array using the provided mapper function.
+     * Each double element is transformed to an int value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D double array
+     * @param mapper the function to transform each double to int
+     * @return a 3D int array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
@@ -1258,12 +1382,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 1D double array to a 1D long array using the provided mapper function.
+     * Each double element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input double array
+     * @param mapper the function to transform each double to long
+     * @return a long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -1281,12 +1407,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 2D double array to a 2D long array using the provided mapper function.
+     * Each double element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 2D double array
+     * @param mapper the function to transform each double to long
+     * @return a 2D long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -1304,12 +1432,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Maps a 3D double array to a 3D long array using the provided mapper function.
+     * Each double element is transformed to a long value.
      *
-     * @param <E>
-     * @param a
-     * @param mapper
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param a the input 3D double array
+     * @param mapper the function to transform each double to long
+     * @return a 3D long array with mapped values, or null if input is null
+     * @throws E if the mapper function throws an exception
      */
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
@@ -1327,9 +1457,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 1D object array to the console and returns the printed string.
+     * Handles null arrays and empty arrays appropriately.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * Object[] arr = {"Hello", "World", 123};
+     * String output = println(arr);
+     * // Prints and returns: [Hello, World, 123]
+     * }</pre>
+     *
+     * @param a the object array to print
+     * @return the string representation that was printed
      */
     public static String println(final Object[] a) {
         if (a == null) {
@@ -1342,29 +1481,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 2D object array to the console with proper formatting and returns the printed string.
+     * Uses the internal formatter for 2D arrays.
      *
-     * @param a
-     * @return
+     * @param a the 2D object array to print
+     * @return the string representation that was printed
      */
     public static String println(final Object[][] a) {
         return ff.println(a);
     }
 
     /**
+     * Prints a 3D object array to the console with proper formatting and returns the printed string.
+     * Uses the internal formatter for 3D arrays.
      *
-     * @param a
-     * @return
+     * @param a the 3D object array to print
+     * @return the string representation that was printed
      */
     public static String println(final Object[][][] a) {
         return fff.println(a);
     }
 
     /**
+     * Updates all elements in a boolean array using the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] arr = {true, false, true};
+     * updateAll(arr, b -> !b);
+     * // arr is now: {false, true, false}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the boolean array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1377,11 +1529,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a 2D boolean array using the provided unary operator.
+     * Each element in every sub-array is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the 2D boolean array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1394,11 +1548,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a 3D boolean array using the provided unary operator.
+     * Each element in every sub-array is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the 3D boolean array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1411,12 +1567,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a boolean array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] arr = {true, false, true, false};
+     * replaceIf(arr, b -> b == true, false);
+     * // arr is now: {false, false, false, false}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the boolean array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final boolean[] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -1431,12 +1596,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a 2D boolean array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the 2D boolean array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final boolean[][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -1449,12 +1616,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a 3D boolean array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the 3D boolean array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final boolean[][][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -1468,6 +1637,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional boolean array into a two-dimensional boolean array with the specified number of columns.
+     * The last row may have fewer elements if the total elements don't divide evenly.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] arr = {true, false, true, false, true};
+     * boolean[][] reshaped = reshape(arr, 2);
+     * // Result: {{true, false}, {true, false}, {true}}
+     * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape
      * @param cols the number of columns for the reshaped array
@@ -1494,6 +1671,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
+     * The array is divided into blocks of size rows × cols.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] arr = {true, false, true, false, true, false};
+     * boolean[][][] reshaped = reshape(arr, 2, 2);
+     * // Result: {{{true, false}, {true, false}}, {{true, false}}}
+     * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape
      * @param rows the number of rows for the reshaped subarray
@@ -1524,9 +1709,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D boolean array into a 1D boolean array.
+     * All elements from all sub-arrays are combined into a single array.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false}, {true}, {false, true}};
+     * boolean[] flattened = flatten(arr);
+     * // Result: {true, false, true, false, true}
+     * }</pre>
+     *
+     * @param a the 2D boolean array to flatten
+     * @return a 1D boolean array containing all elements, or empty array if input is null/empty
      */
     public static boolean[] flatten(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -1552,9 +1746,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D boolean array into a 1D boolean array.
+     * All elements from all sub-arrays are combined into a single array.
      *
-     * @param a
-     * @return
+     * @param a the 3D boolean array to flatten
+     * @return a 1D boolean array containing all elements, or empty array if input is null/empty
      */
     public static boolean[] flatten(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -1586,17 +1782,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 2D boolean array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false}, {false, true}};
+     * flatOp(arr, t -> Arrays.sort(t)); // Sorts all elements
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operation
+     * @param a the 2D boolean array to operate on
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -1618,17 +1816,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 3D boolean array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operation
+     * @param a the 3D boolean array to operate on
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -1654,13 +1848,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two boolean arrays element-wise using the provided zip function.
+     * The result array length is the minimum of the two input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] a = {true, false, true};
+     * boolean[] b = {false, false, true};
+     * boolean[] result = zip(a, b, (x, y) -> x && y);
+     * // Result: {false, false, true}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
             throws E {
@@ -1677,15 +1881,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different lengths, the default values are used for the shorter array.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] a = {true, false, true};
+     * boolean[] b = {false, true};
+     * boolean[] result = zip(a, b, false, true, (x, y) -> x || y);
+     * // Result: {true, true, true} (third element: true || true)
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new boolean array with length equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean valueForNoneA, final boolean valueForNoneB,
             final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -1696,16 +1910,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zip operation with specified result length.
+     * Combines two boolean arrays using the provided function and default values.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param len the desired length of the result array
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @param zipFunction the combining function
+     * @return a new boolean array of the specified length
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean valueForNoneA,
             final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -1738,14 +1954,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three boolean arrays element-wise using the provided zip function.
+     * The result array length is the minimum of the three input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] a = {true, false, true};
+     * boolean[] b = {false, true, false};
+     * boolean[] c = {true, true, false};
+     * boolean[] result = zip(a, b, c, (x, y, z) -> x && y && z);
+     * // Result: {false, false, false}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param c the third boolean array
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
             final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -1763,17 +1990,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different lengths, the default values are used for the shorter arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] a = {true, false};
+     * boolean[] b = {false};
+     * boolean[] c = {true, true, false};
+     * boolean[] result = zip(a, b, c, false, true, false, (x, y, z) -> x || y || z);
+     * // Result: {true, true, false}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param c the third boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param valueForNoneC the default value to use when array c is shorter
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new boolean array with length equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
             final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -1785,18 +2023,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zip operation with three arrays and specified result length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param len the desired length of the result array
+     * @param a the first boolean array
+     * @param b the second boolean array
+     * @param c the third boolean array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @param valueForNoneC the default value for array c
+     * @param zipFunction the combining function
+     * @return a new boolean array of the specified length
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
             final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -1820,13 +2059,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D boolean arrays element-wise using the provided zip function.
+     * The result array dimensions are the minimum of the two input array dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] a = {{true, false}, {false, true}};
+     * boolean[][] b = {{false, true}, {true, false}};
+     * boolean[][] result = zip(a, b, (x, y) -> x && y);
+     * // Result: {{false, false}, {false, false}}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new 2D boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
             throws E {
@@ -1843,15 +2092,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different dimensions, the default values are used for the shorter arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new 2D boolean array with dimensions equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
             final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -1859,17 +2110,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for 2D zip operation with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired number of columns in each row
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @param zipFunction the combining function
+     * @return a new 2D boolean array of the specified dimensions
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean valueForNoneA,
             final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -1902,14 +2154,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D boolean arrays element-wise using the provided zip function.
+     * The result array dimensions are the minimum of the three input array dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param c the third 2D boolean array
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new 2D boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
             final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -1927,17 +2181,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different dimensions, the default values are used for the shorter arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param c the third 2D boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param valueForNoneC the default value to use when array c is shorter
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new 2D boolean array with dimensions equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
             final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -1946,19 +2202,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for 2D zip operation with three arrays and specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired number of columns in each row
+     * @param a the first 2D boolean array
+     * @param b the second 2D boolean array
+     * @param c the third 2D boolean array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @param valueForNoneC the default value for array c
+     * @param zipFunction the combining function
+     * @return a new 2D boolean array of the specified dimensions
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean[][] c,
             final boolean valueForNoneA, final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction)
@@ -1984,13 +2241,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D boolean arrays element-wise using the provided zip function.
+     * The result array dimensions are the minimum of the two input array dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 3D boolean array
+     * @param b the second 3D boolean array
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new 3D boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b,
             final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -2007,15 +2266,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different dimensions, the default values are used for the shorter arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 3D boolean array
+     * @param b the second 3D boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param zipFunction the function to combine elements from both arrays
+     * @return a new 3D boolean array with dimensions equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
             final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -2042,14 +2303,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D boolean arrays element-wise using the provided zip function.
+     * The result array dimensions are the minimum of the three input array dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 3D boolean array
+     * @param b the second 3D boolean array
+     * @param c the third 3D boolean array
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new 3D boolean array containing the combined elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
             final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -2067,17 +2330,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D boolean arrays element-wise using the provided zip function, with default values for missing elements.
+     * When arrays have different dimensions, the default values are used for the shorter arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the zip function
+     * @param a the first 3D boolean array
+     * @param b the second 3D boolean array
+     * @param c the third 3D boolean array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param valueForNoneC the default value to use when array c is shorter
+     * @param zipFunction the function to combine elements from all three arrays
+     * @return a new 3D boolean array with dimensions equal to the maximum of the input arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
             final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
@@ -2098,6 +2363,20 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total count of elements in a 2D boolean array.
+     * Counts all elements across all sub-arrays, handling null sub-arrays gracefully.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
+     * long count = totalCountOfElements(arr);
+     * // Result: 6
+     * }</pre>
+     *
+     * @param a the 2D boolean array
+     * @return the total number of elements across all sub-arrays
+     */
     public static long totalCountOfElements(final boolean[][] a) {
         long count = 0;
 
@@ -2108,6 +2387,20 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total count of elements in a 3D boolean array.
+     * Counts all elements across all sub-arrays at all levels, handling null arrays gracefully.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
+     * long count = totalCountOfElements(arr);
+     * // Result: 6
+     * }</pre>
+     *
+     * @param a the 3D boolean array
+     * @return the total number of elements across all sub-arrays
+     */
     public static long totalCountOfElements(final boolean[][][] a) {
         long count = 0;
 
@@ -2129,10 +2422,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a 2D boolean array.
+     * Returns 0 if the input array is null or empty.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
+     * int minLen = minSubArrayLen(arr);
+     * // Result: 1
+     * }</pre>
+     *
+     * @param a the 2D boolean array
+     * @return the minimum length of sub-arrays, or 0 if array is empty
      */
     public static int minSubArrayLen(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -2149,10 +2450,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a 2D boolean array.
+     * Returns 0 if the input array is null or empty.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
+     * int maxLen = maxSubArrayLen(arr);
+     * // Result: 3
+     * }</pre>
+     *
+     * @param a the 2D boolean array
+     * @return the maximum length of sub-arrays, or 0 if array is empty
      */
     public static int maxSubArrayLen(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -2169,9 +2478,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 1D boolean array to the console and returns the printed string.
+     * Handles null arrays and empty arrays appropriately.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[] arr = {true, false, true};
+     * String output = println(arr);
+     * // Prints and returns: [true, false, true]
+     * }</pre>
+     *
+     * @param a the boolean array to print
+     * @return the string representation that was printed
      */
     public static String println(final boolean[] a) {
         if (a == null) {
@@ -2184,8 +2502,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 2D boolean array to the console with proper formatting and returns the printed string.
+     * Each sub-array is printed on a separate line with appropriate indentation.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>{@code
+     * boolean[][] arr = {{true, false}, {false, true}};
+     * String output = println(arr);
+     * // Prints: [[true, false],
+     * //          [false, true]]
+     * }</pre>
+     *
+     * @param a the 2D boolean array to print
+     * @return the string representation that was printed
      */
     public static String println(final boolean[][] a) {
         if (a == null) {
@@ -2236,9 +2565,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 3D boolean array to the console with proper formatting and returns the printed string.
+     * The array is formatted with multiple levels of indentation for readability.
      *
-     * @param a
-     * @return
+     * @param a the 3D boolean array to print
+     * @return the string representation that was printed
      */
     public static String println(final boolean[][][] a) {
         if (a == null) {
@@ -2307,216 +2638,21 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void plus(final char[] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (int i = 0, n = a.length; i < n; i++) {
-    //            a[i] += param;
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void plus(final char[][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[] element : a) {
-    //            plus(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void plus(final char[][][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[][] element : a) {
-    //            plus(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void minus(final char[] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (int i = 0, n = a.length; i < n; i++) {
-    //            a[i] -= param;
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void minus(final char[][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[] element : a) {
-    //            minus(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void minus(final char[][][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[][] element : a) {
-    //            minus(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void multipliedBy(final char[] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (int i = 0, n = a.length; i < n; i++) {
-    //            a[i] *= param;
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void multipliedBy(final char[][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[] element : a) {
-    //            multipliedBy(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void multipliedBy(final char[][][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[][] element : a) {
-    //            multipliedBy(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void dividedBy(final char[] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (int i = 0, n = a.length; i < n; i++) {
-    //            a[i] /= param;
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void dividedBy(final char[][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[] element : a) {
-    //            dividedBy(element, param);
-    //        }
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param a
-    //     * @param param
-    //     * @deprecated replaced by {@link #replaceAll(char[][][], Throwables.CharUnaryOperator)}
-    //     * @see #replaceAll(char[][][], Throwables.CharUnaryOperator)
-    //     */
-    //    public static void dividedBy(final char[][][] a, final int param) {
-    //        if (N.isEmpty(a)) {
-    //            return;
-    //        }
-    //
-    //        for (final char[][] element : a) {
-    //            dividedBy(element, param);
-    //        }
-    //    }
-
     /**
+     * Updates every element in the specified character array by applying a given operator.
+     * This method modifies the array in-place.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] array = {'a', 'b', 'c'};
+     * N.updateAll(array, c -> (char) (c + 1));
+     * // array becomes {'b', 'c', 'd'}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The character array to update. The update is performed in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -2529,11 +2665,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Recursively updates every element in the 2D character array by applying a given operator.
+     * The method iterates through each sub-array and applies the operator to every character.
+     * The operation is performed in-place.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a', 'b'}, {'c'}};
+     * N.updateAll(array, c -> Character.toUpperCase(c));
+     * // array becomes {{'A', 'B'}, {'C'}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The 2D character array to update. The update is performed in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -2546,11 +2692,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Recursively updates every element in the 3D character array by applying a given operator.
+     * It traverses the nested structure and applies the operator to each character.
+     * The operation is performed in-place.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] array = {{{'a'}}, {{'b', 'c'}}};
+     * N.updateAll(array, c -> '*');
+     * // array becomes {{{'*'}}, {{'*', '*'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The 3D character array to update. The update is performed in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -2563,12 +2719,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a character array with a new value if the element satisfies
+     * the given predicate. The operation is performed in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] array = {'a', 'b', 'c', 'a'};
+     * N.replaceIf(array, c -> c == 'a', 'x');
+     * // array becomes {'x', 'b', 'c', 'x'}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The character array to modify.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final char[] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -2583,12 +2748,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Recursively replaces each element of a 2D character array with a new value if the
+     * element satisfies the given predicate. The operation is performed in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a', 'b'}, {'c', 'A'}};
+     * N.replaceIf(array, c -> Character.isUpperCase(c), 'U');
+     * // array becomes {{'a', 'b'}, {'c', 'U'}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The 2D character array to modify.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final char[][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -2601,12 +2775,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Recursively replaces each element of a 3D character array with a new value if the
+     * element satisfies the given predicate. The operation is performed in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] array = {{{'a'}}, {{'B', 'c'}}};
+     * N.replaceIf(array, c -> Character.isUpperCase(c), 'X');
+     * // array becomes {{{'a'}}, {{'X', 'c'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The 3D character array to modify.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final char[][][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -2619,12 +2802,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D character array into a 2D character array with a specified number of columns.
+     * If the length of the input array is not a multiple of {@code cols}, the last sub-array
+     * will be shorter.
      *
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] array = {'a', 'b', 'c', 'd', 'e'};
+     * char[][] reshaped = N.reshape(array, 2);
+     * // reshaped is {{'a', 'b'}, {'c', 'd'}, {'e'}}
+     * }</pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a The 1D character array to reshape.
+     * @param cols The number of columns in the new 2D array.
+     * @return A new 2D character array.
+     * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static char[][] reshape(final char[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -2645,13 +2837,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D character array into a 3D character array with specified dimensions.
+     * If the input array's length is not a perfect multiple of {@code rows * cols},
+     * the last sub-arrays may be shorter.
      *
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] array = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+     * char[][][] reshaped = N.reshape(array, 2, 2);
+     * // reshaped is {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g'}}}
+     * }</pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a The 1D character array to reshape.
+     * @param rows The number of rows in each 2D sub-array.
+     * @param cols The number of columns in each 2D sub-array.
+     * @return A new 3D character array.
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static char[][][] reshape(final char[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -2676,9 +2877,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D character array into a new 1D character array by concatenating
+     * all its sub-arrays. Null or empty sub-arrays are skipped.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a', 'b'}, null, {'c'}};
+     * char[] flattened = N.flatten(array);
+     * // flattened is {'a', 'b', 'c'}
+     * }</pre>
+     *
+     * @param a The 2D character array to flatten.
+     * @return A new 1D character array containing all elements from the input array.
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -2704,9 +2914,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D character array into a new 1D character array by concatenating
+     * all its innermost sub-arrays.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] array = {{{'a'}, {'b'}}, {{'c', 'd'}}};
+     * char[] flattened = N.flatten(array);
+     * // flattened is {'a', 'b', 'c', 'd'}
+     * }</pre>
+     *
+     * @param a The 3D character array to flatten.
+     * @return A new 1D character array containing all elements from the input array.
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -2738,17 +2957,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 2D array, performs a specified operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 2D array.
+     * This allows for applying 1D array operations (like sorting) across a 2D structure.
+     * The operation is performed in-place on the original 2D array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'c', 'a'}, {'b'}};
+     * N.flatOp(array, t -> N.sort(t));
+     * // array becomes {{'a', 'b'}, {'c'}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the operation may throw.
+     * @param a The 2D character array to operate on.
+     * @param op The consumer operation to apply to the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final char[][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -2770,17 +2994,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 3D array, performs a specified operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 3D array.
+     * This is useful for applying 1D array operations across a 3D structure.
+     * The operation is performed in-place on the original 3D array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
+     * N.flatOp(array, t -> N.sort(t));
+     * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception that the operation may throw.
+     * @param a The 3D character array to operate on.
+     * @param op The consumer operation to apply to the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final char[][][] a, final Throwables.Consumer<? super char[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -2806,13 +3035,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two character arrays into a new array by applying a binary function to
+     * corresponding elements. The resulting array's length is the minimum of the two
+     * input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] a = {'a', 'b', 'c'};
+     * char[] b = {'x', 'y'};
+     * char[] result = N.zip(a, b, (c1, c2) -> c1 > c2 ? c1 : c2);
+     * // result is {'x', 'y'}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first character array.
+     * @param b The second character array.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -2828,15 +3068,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two character arrays into a new array by applying a binary function to
+     * corresponding elements. If the arrays have different lengths, the shorter one is
+     * padded with default values. The result length is the maximum of the input lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] a = {'a', 'b', 'c'};
+     * char[] b = {'x'};
+     * char[] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c1);
+     * // result is {'a', 'b', 'c'}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first character array.
+     * @param b The second character array.
+     * @param valueForNoneA The default value to use if array {@code a} is shorter.
+     * @param valueForNoneB The default value to use if array {@code b} is shorter.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
@@ -2847,16 +3098,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for zipping two character arrays with padding.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> Exception type.
+     * @param len Target length of the result array.
+     * @param a First array.
+     * @param b Second array.
+     * @param valueForNoneA Default for first array.
+     * @param valueForNoneB Default for second array.
+     * @param zipFunction Combining function.
+     * @return The zipped array.
+     * @throws E on zip function error.
      */
     private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
@@ -2889,14 +3141,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three character arrays into a new array by applying a function to
+     * corresponding elements. The resulting array's length is the minimum of the
+     * three input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] a = {'a', 'b', 'c'};
+     * char[] b = {'x', 'y', 'z'};
+     * char[] c = {'1', '2'};
+     * char[] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * // result is {'1', '2'}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first character array.
+     * @param b The second character array.
+     * @param c The third character array.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTriFunction<Character, E> zipFunction)
             throws E {
@@ -2914,17 +3178,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three character arrays into a new array by applying a function to corresponding
+     * elements. If arrays have different lengths, shorter ones are padded with default values.
+     * The result length is the maximum of the input lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] a = {'a'};
+     * char[] b = {'x', 'y'};
+     * char[] c = {'1', '2', '3'};
+     * char[] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c3);
+     * // result is {'1', '2', '3'}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first character array.
+     * @param b The second character array.
+     * @param c The third character array.
+     * @param valueForNoneA Default value for array {@code a}.
+     * @param valueForNoneB Default value for array {@code b}.
+     * @param valueForNoneC Default value for array {@code c}.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char valueForNoneA, final char valueForNoneB,
             final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -2936,18 +3212,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for zipping three character arrays with padding.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> Exception type.
+     * @param len Target length.
+     * @param a First array.
+     * @param b Second array.
+     * @param c Third array.
+     * @param valueForNoneA Default for a.
+     * @param valueForNoneB Default for b.
+     * @param valueForNoneC Default for c.
+     * @param zipFunction Combining function.
+     * @return The zipped array.
+     * @throws E on zip function error.
      */
     private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char[] c, final char valueForNoneA,
             final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -2971,13 +3248,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D character arrays into a new 2D array by zipping corresponding sub-arrays.
+     * The resulting 2D array's length is the minimum of the two input array lengths.
+     * Inner arrays are also zipped to their minimum length.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] a = {{'a', 'b'}, {'c'}};
+     * char[][] b = {{'X', 'Y', 'Z'}};
+     * char[][] result = N.zip(a, b, (c1, c2) -> c1);
+     * // result is {{'a', 'b'}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 2D character array.
+     * @param b The second 2D character array.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new 2D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -2993,15 +3281,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D character arrays with padding. If the arrays or their sub-arrays have
+     * different lengths, they are padded with default values. The result dimensions are
+     * the maximum of the input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] a = {{'a'}, {'b', 'c'}};
+     * char[][] b = {{'X', 'Y'}};
+     * char[][] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c2);
+     * // result is {{'X', 'Y'}, {'Y', ' '}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 2D character array.
+     * @param b The second 2D character array.
+     * @param valueForNoneA The default value for missing elements.
+     * @param valueForNoneB The default value for missing elements.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new 2D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
@@ -3009,17 +3308,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for zipping two 2D character arrays with padding.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> Exception type.
+     * @param len Target length.
+     * @param rowLen Target row length.
+     * @param a First array.
+     * @param b Second array.
+     * @param valueForNoneA Default for a.
+     * @param valueForNoneB Default for b.
+     * @param zipFunction Combining function.
+     * @return The zipped array.
+     * @throws E on zip function error.
      */
     private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char valueForNoneA,
             final char valueForNoneB, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
@@ -3052,14 +3352,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D character arrays into a new 2D array by zipping corresponding sub-arrays.
+     * The resulting array's length is the minimum of the three input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] a = {{'a'}, {'b'}};
+     * char[][] b = {{'x'}, {'y'}};
+     * char[][] c = {{'1'}};
+     * char[][] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * // result is {{'1'}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 2D character array.
+     * @param b The second 2D character array.
+     * @param c The third 2D character array.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new 2D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
             final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -3077,17 +3388,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D character arrays with padding. If the arrays or their sub-arrays have
+     * different lengths, they are padded with default values. The result dimensions are
+     * the maximum of the input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] a = {{'a'}};
+     * char[][] b = {{'x', 'y'}};
+     * char[][] c = {{'1'}, {'2'}};
+     * char[][] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
+     * // result is {{'x', 'y'}, {' ', ' '}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 2D character array.
+     * @param b The second 2D character array.
+     * @param c The third 2D character array.
+     * @param valueForNoneA Default value for missing elements.
+     * @param valueForNoneB Default value for missing elements.
+     * @param valueForNoneC Default value for missing elements.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new 2D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
             final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -3096,19 +3419,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for zipping three 2D character arrays with padding.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> Exception type.
+     * @param len Target length.
+     * @param rowLen Target row length.
+     * @param a First array.
+     * @param b Second array.
+     * @param c Third array.
+     * @param valueForNoneA Default for a.
+     * @param valueForNoneB Default for b.
+     * @param valueForNoneC Default for c.
+     * @param zipFunction Combining function.
+     * @return The zipped array.
+     * @throws E on zip function error.
      */
     private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char[][] c,
             final char valueForNoneA, final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -3133,13 +3457,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D character arrays into a new 3D array by zipping corresponding sub-arrays.
+     * The operation is recursive, and the dimensions of the result are the minimum of the
+     * corresponding input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] a = {{{'a'}}};
+     * char[][][] b = {{{'x'}, {'y'}}};
+     * char[][][] result = N.zip(a, b, (c1, c2) -> c1);
+     * // result is {{{'a'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 3D character array.
+     * @param b The second 3D character array.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new 3D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBiFunction<Character, E> zipFunction)
             throws E {
@@ -3156,15 +3491,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D character arrays with padding. If arrays or their sub-arrays have
+     * different lengths, they are padded with default values. The result dimensions are
+     * the maximum of the corresponding input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] a = {{{'a'}}};
+     * char[][][] b = {{{'x'}, {'y'}}};
+     * char[][][] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c2);
+     * // result is {{{'x'}, {'y'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 3D character array.
+     * @param b The second 3D character array.
+     * @param valueForNoneA The default value for missing elements.
+     * @param valueForNoneB The default value for missing elements.
+     * @param zipFunction The function to apply to each pair of elements.
+     * @return A new 3D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
@@ -3191,14 +3537,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D character arrays into a new 3D array by zipping corresponding sub-arrays.
+     * The operation is recursive, and the dimensions of the result are the minimum of the
+     * corresponding input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] a = {{{'a', 'b'}}};
+     * char[][][] b = {{{'x', 'y'}}};
+     * char[][][] c = {{{'1'}}};
+     * char[][][] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * // result is {{{'1'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 3D character array.
+     * @param b The second 3D character array.
+     * @param c The third 3D character array.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new 3D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
             final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -3216,17 +3574,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D character arrays with padding. If arrays or their sub-arrays have
+     * different lengths, they are padded with default values. The result dimensions are
+     * the maximum of the corresponding input dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] a = {{{'a'}}};
+     * char[][][] b = {{{'x'}, {'y'}}};
+     * char[][][] c = {};
+     * char[][][] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
+     * // result is {{{'x'}, {'y'}}}
+     * }</pre>
+     *
+     * @param <E> The type of exception the zip function might throw.
+     * @param a The first 3D character array.
+     * @param b The second 3D character array.
+     * @param c The third 3D character array.
+     * @param valueForNoneA The default value for missing elements.
+     * @param valueForNoneB The default value for missing elements.
+     * @param valueForNoneC The default value for missing elements.
+     * @param zipFunction The function to apply to each triplet of elements.
+     * @return A new 3D character array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
             final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
@@ -3247,6 +3617,20 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of characters in a 2D character array.
+     * It safely handles null sub-arrays.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a', 'b'}, {'c'}, null};
+     * long count = N.totalCountOfElements(array);
+     * // count is 3
+     * }</pre>
+     *
+     * @param a The 2D character array to count.
+     * @return The total number of character elements in the array.
+     */
     public static long totalCountOfElements(final char[][] a) {
         long count = 0;
 
@@ -3257,6 +3641,20 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of characters in a 3D character array.
+     * It safely handles null or empty sub-arrays at any level.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{{'d'}}}};
+     * long count = N.totalCountOfElements(array);
+     * // count is 4
+     * }</pre>
+     *
+     * @param a The 3D character array to count.
+     * @return The total number of character elements in the array.
+     */
     public static long totalCountOfElements(final char[][][] a) {
         long count = 0;
 
@@ -3278,10 +3676,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a 2D character array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a', 'b'}, {'c'}, null};
+     * int minLen = N.minSubArrayLen(array);
+     * // minLen is 0
+     * }</pre>
+     *
+     * @param a The 2D character array to inspect.
+     * @return The minimum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int minSubArrayLen(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3298,10 +3704,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a 2D character array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
+     * int maxLen = N.maxSubArrayLen(array);
+     * // maxLen is 4
+     * }</pre>
+     *
+     * @param a The 2D character array to inspect.
+     * @return The maximum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int maxSubArrayLen(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3318,9 +3732,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 1D character array to the console and returns its string representation.
+     * This method handles null and empty arrays gracefully.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * char[] arr = {'H', 'e', 'l', 'l', 'o'};
+     * String output = N.println(arr);
+     * // Prints "[H, e, l, l, o]" to console and returns it.
+     * }</pre>
+     *
+     * @param a The character array to print.
+     * @return The string representation that was printed.
      */
     public static String println(final char[] a) {
         if (a == null) {
@@ -3333,8 +3756,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 2D character array to the console and returns its string representation.
+     * Each sub-array is represented as a string, separated by commas.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][] arr = {{'a', 'b'}, {'c', 'd'}};
+     * String output = N.println(arr);
+     * // Prints "[[a, b], [c, d]]" to console and returns it.
+     * }</pre>
+     *
+     * @param a The 2D character array to print.
+     * @return The string representation that was printed.
      */
     public static String println(final char[][] a) {
         if (a == null) {
@@ -3385,8 +3818,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 3D character array to the console and returns its string representation.
+     * The array is formatted with newlines between the major elements for readability.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>{@code
+     * char[][][] arr = {{{'a'}}, {{'b', 'c'}}};
+     * String output = N.println(arr);
+     * // Prints a formatted string like "[[[a]], [[b, c]]]" and returns it.
+     * }</pre>
+     *
+     * @param a The 3D character array to print.
+     * @return The string representation that was printed.
      */
     public static String println(final char[][][] a) {
         if (a == null) {
@@ -3454,9 +3897,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a byte value to all elements in a byte array in-place.
+     * If the array is null or empty, no operation is performed.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {1, 2, 3};
+     * plus(arr, (byte)5);
+     * // arr is now: {6, 7, 8}
+     * }</pre>
+     *
+     * @param a the byte array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final byte[] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3469,9 +3921,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a byte value to all elements in a 2D byte array in-place.
+     * The operation is applied to every element in every sub-array.
      *
-     * @param a
-     * @param param
+     * @param a the 2D byte array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final byte[][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3484,9 +3938,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a byte value to all elements in a 3D byte array in-place.
+     * The operation is applied to every element at all levels.
      *
-     * @param a
-     * @param param
+     * @param a the 3D byte array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final byte[][][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3499,9 +3955,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a byte value from all elements in a byte array in-place.
+     * If the array is null or empty, no operation is performed.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {10, 20, 30};
+     * minus(arr, (byte)5);
+     * // arr is now: {5, 15, 25}
+     * }</pre>
+     *
+     * @param a the byte array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final byte[] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3514,9 +3979,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a byte value from all elements in a 2D byte array in-place.
+     * The operation is applied to every element in every sub-array.
      *
-     * @param a
-     * @param param
+     * @param a the 2D byte array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final byte[][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3529,9 +3996,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a byte value from all elements in a 3D byte array in-place.
+     * The operation is applied to every element at all levels.
      *
-     * @param a
-     * @param param
+     * @param a the 3D byte array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final byte[][][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3544,9 +4013,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a byte array by a byte value in-place.
+     * If the array is null or empty, no operation is performed.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {2, 3, 4};
+     * multipliedBy(arr, (byte)3);
+     * // arr is now: {6, 9, 12}
+     * }</pre>
+     *
+     * @param a the byte array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final byte[] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3559,9 +4037,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a 2D byte array by a byte value in-place.
+     * The operation is applied to every element in every sub-array.
      *
-     * @param a
-     * @param param
+     * @param a the 2D byte array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final byte[][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3574,9 +4054,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a 3D byte array by a byte value in-place.
+     * The operation is applied to every element at all levels.
      *
-     * @param a
-     * @param param
+     * @param a the 3D byte array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final byte[][][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3589,9 +4071,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a byte array by a byte value in-place.
+     * Integer division is used, truncating any remainder.
+     * If the array is null or empty, no operation is performed.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {10, 20, 30};
+     * dividedBy(arr, (byte)5);
+     * // arr is now: {2, 4, 6}
+     * }</pre>
+     *
+     * @param a the byte array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final byte[] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3604,9 +4097,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a 2D byte array by a byte value in-place.
+     * The operation is applied to every element in every sub-array.
      *
-     * @param a
-     * @param param
+     * @param a the 2D byte array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final byte[][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3619,9 +4115,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a 3D byte array by a byte value in-place.
+     * The operation is applied to every element at all levels.
      *
-     * @param a
-     * @param param
+     * @param a the 3D byte array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final byte[][][] a, final byte param) {
         if (N.isEmpty(a)) {
@@ -3634,11 +4133,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a byte array using the provided unary operator.
+     * Each element is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {1, 2, 3};
+     * updateAll(arr, b -> (byte)(b * b));
+     * // arr is now: {1, 4, 9}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the byte array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3651,11 +4159,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a 2D byte array using the provided unary operator.
+     * Each element in every sub-array is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the 2D byte array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3668,11 +4178,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a 3D byte array using the provided unary operator.
+     * Each element at all levels is replaced with the result of applying the operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operator
+     * @param a the 3D byte array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3685,12 +4197,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a byte array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {1, 2, 3, 2, 4};
+     * replaceIf(arr, b -> b == 2, (byte)10);
+     * // arr is now: {1, 10, 3, 10, 4}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the byte array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3705,12 +4226,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a 2D byte array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the 2D byte array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final byte[][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3723,12 +4246,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces all elements in a 3D byte array that match the predicate with a new value.
+     * Elements that don't match the predicate remain unchanged.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param a the 3D byte array to modify
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final byte[][][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3741,9 +4266,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D byte array into a 1D byte array.
+     * All elements from all sub-arrays are combined into a single array.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[][] arr = {{1, 2}, {3}, {4, 5}};
+     * byte[] flattened = flatten(arr);
+     * // Result: {1, 2, 3, 4, 5}
+     * }</pre>
+     *
+     * @param a the 2D byte array to flatten
+     * @return a 1D byte array containing all elements, or empty array if input is null/empty
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -3769,9 +4303,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D byte array into a 1D byte array.
+     * All elements from all sub-arrays are combined into a single array.
      *
-     * @param a
-     * @return
+     * @param a the 3D byte array to flatten
+     * @return a 1D byte array containing all elements, or empty array if input is null/empty
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
@@ -3803,17 +4339,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 2D byte array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[][] arr = {{3, 1}, {4, 2}};
+     * flatOp(arr, t -> Arrays.sort(t)); // Sorts all elements
+     * // arr becomes: {{1, 2}, {3, 4}}
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operation
+     * @param a the 2D byte array to operate on
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final byte[][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -3835,17 +4374,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 3D byte array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown by the operation
+     * @param a the 3D byte array to operate on
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final byte[][][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -3871,12 +4406,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.
+     * The last row may have fewer elements if the total elements don't divide evenly.
      *
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {1, 2, 3, 4, 5};
+     * byte[][] reshaped = reshape(arr, 2);
+     * // Result: {{1, 2}, {3, 4}, {5}}
+     * }</pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the one-dimensional byte array to reshape
+     * @param cols the number of columns for the reshaped array
+     * @return a two-dimensional byte array with the specified number of columns
+     * @throws IllegalArgumentException if the number of columns is less than or equal to zero
      */
     public static byte[][] reshape(final byte[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -3897,13 +4440,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
+     * The array is divided into blocks of size rows × cols.
      *
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] arr = {1, 2, 3, 4, 5, 6};
+     * byte[][][] reshaped = reshape(arr, 2, 2);
+     * // Result: {{{1, 2}, {3, 4}}, {{5, 6}}}
+     * }</pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the one-dimensional byte array to reshape
+     * @param rows the number of rows for the reshaped subarray
+     * @param cols the number of columns for the reshaped subarray
+     * @return a three-dimensional byte array with the specified number of rows and columns
+     * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero
      */
     public static byte[][][] reshape(final byte[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -3928,10 +4479,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two byte arrays element-wise.
+     * The result array length is the minimum of the two input array lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] a = {1, 2, 3};
+     * byte[] b = {4, 5, 6};
+     * byte[] result = add(a, b);
+     * // Result: {5, 7, 9}
+     * }</pre>
+     *
+     * @param a the first byte array
+     * @param b the second byte array
+     * @return a new byte array containing the element-wise sum
      */
     public static byte[] add(final byte[] a, final byte[] b) {
         final int lenA = N.len(a);
@@ -3947,12 +4508,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two byte arrays element-wise with default values for missing elements.
+     * When arrays have different lengths, the default values are used for the shorter array.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>{@code
+     * byte[] a = {1, 2, 3};
+     * byte[] b = {4, 5};
+     * byte[] result = add(a, b, (byte)0, (byte)10);
+     * // Result: {5, 7, 13} (third element: 3 + 10)
+     * }</pre>
+     *
+     * @param a the first byte array
+     * @param b the second byte array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @return a new byte array with length equal to the maximum of the input arrays
      */
     public static byte[] add(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -3962,13 +4533,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for add operation with specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param a the first byte array
+     * @param b the second byte array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @return a new byte array of the specified length
      */
     private static byte[] add(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4000,11 +4572,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three byte arrays element-wise.
+     * The result array length is the minimum of the three input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first byte array
+     * @param b the second byte array
+     * @param c the third byte array
+     * @return a new byte array containing the element-wise sum
      */
     public static byte[] add(final byte[] a, final byte[] b, final byte[] c) {
         final int lenA = N.len(a);
@@ -4021,14 +4595,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three byte arrays element-wise with default values for missing elements.
+     * When arrays have different lengths, the default values are used for the shorter arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first byte array
+     * @param b the second byte array
+     * @param c the third byte array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @param valueForNoneC the default value to use when array c is shorter
+     * @return a new byte array with length equal to the maximum of the input arrays
      */
     public static byte[] add(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC) {
         final int lenA = N.len(a);
@@ -4039,15 +4615,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for add operation with three arrays and specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param a the first byte array
+     * @param b the second byte array
+     * @param c the third byte array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @param valueForNoneC the default value for array c
+     * @return a new byte array of the specified length
      */
     private static byte[] add(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4071,10 +4648,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D byte arrays element-wise.
+     * The result array dimensions are the minimum of the two input array dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @return a new 2D byte array containing the element-wise sum
      */
     public static byte[][] add(final byte[][] a, final byte[][] b) {
         final int lenA = N.len(a);
@@ -4090,26 +4669,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D byte arrays element-wise with default values for missing elements.
+     * When arrays have different dimensions, the default values are used for the shorter arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @return a new 2D byte array with dimensions equal to the maximum of the input arrays
      */
     public static byte[][] add(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for 2D add operation with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired number of columns in each row
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @param valueForNoneA the default value for array a
+     * @param valueForNoneB the default value for array b
+     * @return a new 2D byte array of the specified dimensions
      */
     private static byte[][] add(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4141,11 +4723,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][] a = {{1, 2}, {3, 4}};
+     * byte[][] b = {{5, 6}, {7, 8}};
+     * byte[][] c = {{9, 10}, {11, 12}};
+     * byte[][] result = Arrays.add(a, b, c); // {{15, 18}, {21, 24}}
+     * </pre>
+     *
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @param c the third 2D byte array
+     * @return a new 2D byte array containing the element-wise sum of the input arrays
      */
     public static byte[][] add(final byte[][] a, final byte[][] b, final byte[][] c) {
         final int lenA = N.len(a);
@@ -4162,14 +4754,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][] a = {{1, 2}, {3, 4}};
+     * byte[][] b = {{5, 6}};
+     * byte[][] c = {{9}};
+     * byte valueForNoneA = 0, valueForNoneB = 10, valueForNoneC = 20;
+     * byte[][] result = Arrays.add(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC);
+     * // Result will use default values for missing elements
+     * </pre>
+     *
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @param c the third 2D byte array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array containing the element-wise sum with defaults applied
      */
     public static byte[][] add(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4178,16 +4783,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise addition with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the first 2D byte array
+     * @param b the second 2D byte array
+     * @param c the third 2D byte array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array with specified dimensions containing the sum
      */
     private static byte[][] add(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC) {
@@ -4211,10 +4817,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * byte[][][] b = {{{9, 10}, {11, 12}}, {{13, 14}, {15, 16}}};
+     * byte[][][] result = Arrays.add(a, b);
+     * // Result: {{{10, 12}, {14, 16}}, {{18, 20}, {22, 24}}}
+     * </pre>
+     *
+     * @param a the first 3D byte array
+     * @param b the second 3D byte array
+     * @return a new 3D byte array containing the element-wise sum of the input arrays
      */
     public static byte[][][] add(final byte[][][] a, final byte[][][] b) {
         final int lenA = N.len(a);
@@ -4230,12 +4846,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{1, 2}}};
+     * byte[][][] b = {{{3, 4}}, {{5, 6}}};
+     * byte valueForNoneA = 10, valueForNoneB = 20;
+     * byte[][][] result = Arrays.add(a, b, valueForNoneA, valueForNoneB);
+     * // Second element of result uses default values
+     * </pre>
+     *
+     * @param a the first 3D byte array
+     * @param b the second 3D byte array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 3D byte array containing the element-wise sum with defaults applied
      */
     public static byte[][][] add(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4261,11 +4889,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first 3D byte array
+     * @param b the second 3D byte array
+     * @param c the third 3D byte array
+     * @return a new 3D byte array containing the element-wise sum of the input arrays
      */
     public static byte[][][] add(final byte[][][] a, final byte[][][] b, final byte[][][] c) {
         final int lenA = N.len(a);
@@ -4282,14 +4912,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first 3D byte array
+     * @param b the second 3D byte array
+     * @param c the third 3D byte array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 3D byte array containing the element-wise sum with defaults applied
      */
     public static byte[][][] add(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4311,10 +4944,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20, 30};
+     * byte[] b = {1, 2, 3};
+     * byte[] result = Arrays.subtract(a, b); // {9, 18, 27}
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @return a new byte array containing the element-wise difference (a[i] - b[i])
      */
     public static byte[] subtract(final byte[] a, final byte[] b) {
         final int lenA = N.len(a);
@@ -4330,12 +4972,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20};
+     * byte[] b = {1, 2, 3};
+     * byte valueForNoneA = 30, valueForNoneB = 5;
+     * byte[] result = Arrays.subtract(a, b, valueForNoneA, valueForNoneB);
+     * // Result: {9, 18, 25} where 25 = 30 - 5
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array containing the element-wise difference with defaults applied
      */
     public static byte[] subtract(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4345,13 +4999,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise subtraction with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array with specified length containing the difference
      */
     private static byte[] subtract(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4383,11 +5038,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The operation performed is: a[i] - b[i] - c[i].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {100, 90, 80};
+     * byte[] b = {10, 20, 30};
+     * byte[] c = {5, 10, 15};
+     * byte[] result = Arrays.subtract(a, b, c); // {85, 60, 35}
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @return a new byte array containing the element-wise difference (a[i] - b[i] - c[i])
      */
     public static byte[] subtract(final byte[] a, final byte[] b, final byte[] c) {
         final int lenA = N.len(a);
@@ -4404,14 +5070,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array containing the element-wise difference with defaults applied
      */
     public static byte[] subtract(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4423,15 +5092,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise subtraction of three arrays with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array with specified length containing the difference
      */
     private static byte[] subtract(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4455,10 +5125,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the minuend 2D array
+     * @param b the subtrahend 2D array
+     * @return a new 2D byte array containing the element-wise difference
      */
     public static byte[][] subtract(final byte[][] a, final byte[][] b) {
         final int lenA = N.len(a);
@@ -4474,26 +5146,30 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the minuend 2D array
+     * @param b the subtrahend 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array containing the element-wise difference with defaults applied
      */
     public static byte[][] subtract(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for performing element-wise subtraction of 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the minuend 2D array
+     * @param b the subtrahend 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array with specified dimensions containing the difference
      */
     private static byte[][] subtract(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4525,11 +5201,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The operation performed is: a[i][j] - b[i][j] - c[i][j].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the minuend 2D array
+     * @param b the first subtrahend 2D array
+     * @param c the second subtrahend 2D array
+     * @return a new 2D byte array containing the element-wise difference
      */
     public static byte[][] subtract(final byte[][] a, final byte[][] b, final byte[][] c) {
         final int lenA = N.len(a);
@@ -4546,14 +5225,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend 2D array
+     * @param b the first subtrahend 2D array
+     * @param c the second subtrahend 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array containing the element-wise difference with defaults applied
      */
     public static byte[][] subtract(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4562,16 +5244,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise subtraction of three 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the minuend 2D array
+     * @param b the first subtrahend 2D array
+     * @param c the second subtrahend 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array with specified dimensions containing the difference
      */
     private static byte[][] subtract(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC) {
@@ -4596,10 +5279,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 3D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the minuend 3D array
+     * @param b the subtrahend 3D array
+     * @return a new 3D byte array containing the element-wise difference
      */
     public static byte[][][] subtract(final byte[][][] a, final byte[][][] b) {
         final int lenA = N.len(a);
@@ -4615,12 +5300,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 3D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the minuend 3D array
+     * @param b the subtrahend 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 3D byte array containing the element-wise difference with defaults applied
      */
     public static byte[][][] subtract(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4646,11 +5334,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the minuend 3D array
+     * @param b the first subtrahend 3D array
+     * @param c the second subtrahend 3D array
+     * @return a new 3D byte array containing the element-wise difference
      */
     public static byte[][][] subtract(final byte[][][] a, final byte[][][] b, final byte[][][] c) {
         final int lenA = N.len(a);
@@ -4667,14 +5357,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend 3D array
+     * @param b the first subtrahend 3D array
+     * @param c the second subtrahend 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 3D byte array containing the element-wise difference with defaults applied
      */
     public static byte[][][] subtract(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4696,10 +5389,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 1D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {2, 3, 4};
+     * byte[] b = {5, 6, 7};
+     * byte[] result = Arrays.multipliedBy(a, b); // {10, 18, 28}
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @return a new byte array containing the element-wise product (a[i] * b[i])
      */
     public static byte[] multipliedBy(final byte[] a, final byte[] b) {
         final int lenA = N.len(a);
@@ -4715,12 +5417,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 1D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {2, 3};
+     * byte[] b = {4, 5, 6};
+     * byte valueForNoneA = 1, valueForNoneB = 10;
+     * byte[] result = Arrays.multipliedBy(a, b, valueForNoneA, valueForNoneB);
+     * // Result: {8, 15, 6} where 6 = 1 * 6
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array containing the element-wise product with defaults applied
      */
     public static byte[] multipliedBy(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4730,13 +5444,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise multiplication with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array with specified length containing the product
      */
     private static byte[] multipliedBy(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -4768,11 +5483,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {2, 3, 4};
+     * byte[] b = {1, 2, 3};
+     * byte[] c = {5, 2, 1};
+     * byte[] result = Arrays.multipliedBy(a, b, c); // {10, 12, 12}
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param c the third multiplicand array
+     * @return a new byte array containing the element-wise product (a[i] * b[i] * c[i])
      */
     public static byte[] multipliedBy(final byte[] a, final byte[] b, final byte[] c) {
         final int lenA = N.len(a);
@@ -4789,14 +5514,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param c the third multiplicand array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array containing the element-wise product with defaults applied
      */
     public static byte[] multipliedBy(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4808,15 +5536,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise multiplication of three arrays with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param c the third multiplicand array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array with specified length containing the product
      */
     private static byte[] multipliedBy(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4840,10 +5569,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @return a new 2D byte array containing the element-wise product
      */
     public static byte[][] multipliedBy(final byte[][] a, final byte[][] b) {
         final int lenA = N.len(a);
@@ -4859,26 +5590,30 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array containing the element-wise product with defaults applied
      */
     public static byte[][] multipliedBy(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for performing element-wise multiplication of 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array with specified dimensions containing the product
      */
     private static byte[][] multipliedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA,
             final byte valueForNoneB) {
@@ -4911,11 +5646,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param c the third multiplicand 2D array
+     * @return a new 2D byte array containing the element-wise product
      */
     public static byte[][] multipliedBy(final byte[][] a, final byte[][] b, final byte[][] c) {
         final int lenA = N.len(a);
@@ -4932,14 +5669,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param c the third multiplicand 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array containing the element-wise product with defaults applied
      */
     public static byte[][] multipliedBy(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -4948,16 +5688,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise multiplication of three 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param c the third multiplicand 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array with specified dimensions containing the product
      */
     private static byte[][] multipliedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC) {
@@ -4982,10 +5723,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{2, 3}, {4, 5}}, {{6, 7}, {8, 9}}};
+     * byte[][][] b = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * byte[][][] result = Arrays.multipliedBy(a, b);
+     * // Result: {{{2, 6}, {12, 20}}, {{30, 42}, {56, 72}}}
+     * </pre>
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @return a new 3D byte array containing the element-wise product
      */
     public static byte[][][] multipliedBy(final byte[][][] a, final byte[][][] b) {
         final int lenA = N.len(a);
@@ -5001,12 +5752,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before multiplication.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{2, 3}}};
+     * byte[][][] b = {{{4, 5}}, {{6, 7}}};
+     * byte valueForNoneA = 1, valueForNoneB = 10;
+     * byte[][][] result = Arrays.multipliedBy(a, b, valueForNoneA, valueForNoneB);
+     * // Second element uses default values: {{1 * 6, 1 * 7}}
+     * </pre>
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 3D byte array containing the element-wise product with defaults applied
      */
     public static byte[][][] multipliedBy(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -5032,11 +5795,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{2, 3}}, {{4, 5}}};
+     * byte[][][] b = {{{1, 2}}, {{3, 4}}};
+     * byte[][][] c = {{{5, 6}}, {{7, 8}}};
+     * byte[][][] result = Arrays.multipliedBy(a, b, c);
+     * // Result: {{{10, 36}}, {{84, 160}}}
+     * </pre>
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param c the third multiplicand 3D array
+     * @return a new 3D byte array containing the element-wise product (a * b * c)
      */
     public static byte[][][] multipliedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c) {
         final int lenA = N.len(a);
@@ -5053,14 +5827,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before multiplication.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param c the third multiplicand 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 3D byte array containing the element-wise product with defaults applied
      */
     public static byte[][][] multipliedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -5082,10 +5859,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
+     * Note: Integer division is performed, truncating any decimal values.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20, 30};
+     * byte[] b = {2, 4, 5};
+     * byte[] result = Arrays.dividedBy(a, b); // {5, 5, 6}
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @return a new byte array containing the element-wise quotient (a[i] / b[i])
+     * @throws ArithmeticException if any element in b is zero
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b) {
         final int lenA = N.len(a);
@@ -5101,12 +5889,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {20, 30};
+     * byte[] b = {2, 3, 4};
+     * byte valueForNoneA = 40, valueForNoneB = 5;
+     * byte[] result = Arrays.dividedBy(a, b, valueForNoneA, valueForNoneB);
+     * // Result: {10, 10, 10} where last element is 40/4
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including default) is zero
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -5116,13 +5917,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new byte array with specified length containing the quotient
      */
     private static byte[] dividedBy(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -5154,11 +5956,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The operation performed is: a[i] / b[i] / c[i].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {120, 100, 80};
+     * byte[] b = {2, 4, 5};
+     * byte[] c = {3, 5, 2};
+     * byte[] result = Arrays.dividedBy(a, b, c); // {20, 5, 8}
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @return a new byte array containing the element-wise quotient (a[i] / b[i] / c[i])
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte[] c) {
         final int lenA = N.len(a);
@@ -5175,14 +5989,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including defaults) is zero
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -5194,15 +6012,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division of three arrays with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new byte array with specified length containing the quotient
      */
     private static byte[] dividedBy(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -5226,10 +6045,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @return a new 2D byte array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b is zero
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b) {
         final int lenA = N.len(a);
@@ -5245,26 +6067,31 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including defaults) is zero
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for performing element-wise division of 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 2D byte array with specified dimensions containing the quotient
      */
     private static byte[][] dividedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -5296,11 +6123,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The operation performed is: a[i][j] / b[i][j] / c[i][j].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @return a new 2D byte array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte[][] c) {
         final int lenA = N.len(a);
@@ -5317,14 +6148,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including defaults) is zero
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -5333,16 +6168,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division of three 2D arrays with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 2D byte array with specified dimensions containing the quotient
      */
     private static byte[][] dividedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC) {
@@ -5367,10 +6203,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @return a new 3D byte array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b is zero
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b) {
         final int lenA = N.len(a);
@@ -5386,12 +6225,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @return a new 3D byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including defaults) is zero
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB) {
         final int lenA = N.len(a);
@@ -5417,11 +6260,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The operation performed is: a[i][j][k] / b[i][j][k] / c[i][j][k].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @return a new 3D byte array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c) {
         final int lenA = N.len(a);
@@ -5438,14 +6285,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before division.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @return a new 3D byte array containing the element-wise quotient with defaults applied
+     * @throws ArithmeticException if any divisor (including defaults) is zero
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC) {
@@ -5467,11 +6318,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D byte arrays with zero-safe handling.
+     * When a divisor is zero, the provided default value is used instead.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20, 30};
+     * byte[] b = {2, 0, 5};
+     * byte defaultValueForZero = 1;
+     * byte[] result = Arrays.dividedBy(a, b, defaultValueForZero); // {5, 20, 6}
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new byte array containing the element-wise quotient with zero handling
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5487,13 +6348,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length between the two input arrays.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5503,14 +6367,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division with zero handling and specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the target length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new byte array with specified length containing the quotient
      */
     private static byte[] dividedBy(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
             final byte defaultValueForZero) {
@@ -5543,12 +6408,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D byte arrays with zero-safe handling.
+     * When a divisor is zero, the provided default value is used instead.
+     * The operation performed is: a[i] / (b[i] or default) / (c[i] or default).
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new byte array containing the element-wise quotient with zero handling
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte[] c, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5565,15 +6433,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length among the three input arrays.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[] dividedBy(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC,
             final byte defaultValueForZero) {
@@ -5585,16 +6456,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division of three arrays with zero handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the target length of the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new byte array with specified length containing the quotient
      */
     private static byte[] dividedBy(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC, final byte defaultValueForZero) {
@@ -5619,11 +6491,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D byte arrays with zero-safe handling.
+     * When a divisor is zero, the provided default value is used instead.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new 2D byte array containing the element-wise quotient with zero handling
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5639,28 +6513,32 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length between the two input arrays.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new 2D byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB, final byte defaultValueForZero) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, defaultValueForZero);
     }
 
     /**
+     * Internal helper method for performing element-wise division of 2D arrays with zero handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new 2D byte array with specified dimensions containing the quotient
      */
     private static byte[][] dividedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
             final byte defaultValueForZero) {
@@ -5693,12 +6571,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D byte arrays with zero-safe handling.
+     * When a divisor is zero, the provided default value is used instead.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new 2D byte array containing the element-wise quotient with zero handling
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte[][] c, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5715,15 +6595,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length among the three input arrays.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new 2D byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[][] dividedBy(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC, final byte defaultValueForZero) {
@@ -5732,17 +6615,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division of three 2D arrays with zero handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new 2D byte array with specified dimensions containing the quotient
      */
     private static byte[][] dividedBy(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC, final byte defaultValueForZero) {
@@ -5767,11 +6651,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D byte arrays with zero-safe handling.
+     * When a divisor is zero, the provided default value is used instead.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new 3D byte array containing the element-wise quotient with zero handling
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5787,13 +6673,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before division.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{20, 30}}, {{40, 50}}};
+     * byte[][][] b = {{{2, 0}}};
+     * byte valueForNoneA = 60, valueForNoneB = 3, defaultValueForZero = 1;
+     * byte[][][] result = Arrays.dividedBy(a, b, valueForNoneA, valueForNoneB, defaultValueForZero);
+     * // Result: {{{10, 30}}, {{20, 16}}} where second element uses default values
+     * </pre>
+     *
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param defaultValueForZero value to use when divisor is zero
+     * @return a new 3D byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
             final byte defaultValueForZero) {
@@ -5820,12 +6719,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D byte arrays with zero-safe handling.
+     * The result array length is the minimum length among the three input arrays.
+     * When a divisor is zero, the provided default value is used instead.
+     * The operation performed is: a[i][j][k] / (b[i][j][k] or default) / (c[i][j][k] or default).
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new 3D byte array containing the element-wise quotient with zero handling
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte defaultValueForZero) {
         final int lenA = N.len(a);
@@ -5842,15 +6745,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D byte arrays with default values and zero-safe handling.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before division.
+     * When a divisor is zero, the provided defaultValueForZero is used instead.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when any divisor is zero
+     * @return a new 3D byte array containing the element-wise quotient with defaults and zero handling
      */
     public static byte[][][] dividedBy(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC, final byte defaultValueForZero) {
@@ -5873,13 +6780,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 1D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
+     * This is a generic zip operation that allows custom operations on array elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20, 30};
+     * byte[] b = {3, 4, 5};
+     * Throwables.ByteBiFunction<Byte, RuntimeException> maxFunc = (x, y) -> (byte)Math.max(x, y);
+     * byte[] result = Arrays.zip(a, b, maxFunc); // {10, 20, 30}
+     * </pre>
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -5895,15 +6813,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 1D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20};
+     * byte[] b = {3, 4, 5};
+     * byte valueForNoneA = 0, valueForNoneB = 1;
+     * Throwables.ByteBiFunction<Byte, RuntimeException> addFunc = (x, y) -> (byte)(x + y);
+     * byte[] result = Arrays.zip(a, b, valueForNoneA, valueForNoneB, addFunc);
+     * // Result: {13, 24, 5} where last element is 0 + 5
+     * </pre>
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
             final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
@@ -5914,16 +6845,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for applying a binary function with specified length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param len the target length of the result array
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the binary function to apply
+     * @return a new byte array with specified length containing the function results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> byte[] zip(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
             final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
@@ -5956,14 +6888,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 1D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * This is a generic zip operation that allows custom operations on array elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * byte[] a = {10, 20, 30};
+     * byte[] b = {3, 4, 5};
+     * byte[] c = {1, 2, 3};
+     * Throwables.ByteTriFunction<Byte, RuntimeException> medianFunc =
+     *     (x, y, z) -> (byte)Arrays.sort(new byte[]{x, y, z})[1];
+     * byte[] result = Arrays.zip(a, b, c, medianFunc); // {3, 4, 5}
+     * </pre>
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTriFunction<Byte, E> zipFunction)
             throws E {
@@ -5981,17 +6926,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 1D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6003,18 +6951,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for applying a ternary function with specified length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param len the target length of the result array
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the ternary function to apply
+     * @return a new byte array with specified length containing the function results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> byte[] zip(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6038,13 +6987,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 2D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
+     * The function is applied to each corresponding sub-array pair.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * byte[][] a = {{1, 2}, {3, 4}};
+     * byte[][] b = {{5, 6}, {7, 8}};
+     * Throwables.ByteBiFunction<Byte, RuntimeException> multiplyFunc = (x, y) -> (byte)(x * y);
+     * byte[][] result = Arrays.zip(a, b, multiplyFunc); // {{5, 12}, {21, 32}}
+     * </pre>
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new 2D byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -6060,15 +7020,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 2D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new 2D byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
             final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
@@ -6076,17 +7039,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for applying a binary function to 2D arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the binary function to apply
+     * @return a new 2D byte array with specified dimensions containing the function results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> byte[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA,
             final byte valueForNoneB, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
@@ -6119,14 +7083,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 2D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The function is applied to each corresponding sub-array triple.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param c the third input 2D array
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new 2D byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c,
             final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6144,17 +7111,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 2D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param c the third input 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new 2D byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
             final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6163,19 +7133,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for applying a ternary function to 2D arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the first input 2D array
+     * @param b the second input 2D array
+     * @param c the third input 2D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the ternary function to apply
+     * @return a new 2D byte array with specified dimensions containing the function results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> byte[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c,
             final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6200,13 +7171,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 3D byte arrays.
+     * The result array length is the minimum length between the two input arrays.
+     * The function is applied to each corresponding 2D sub-array pair.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * byte[][][] b = {{{2, 2}, {2, 2}}, {{3, 3}, {3, 3}}};
+     * Throwables.ByteBiFunction<Byte, RuntimeException> powerFunc = (x, y) -> (byte)Math.pow(x, y);
+     * byte[][][] result = Arrays.zip(a, b, powerFunc);
+     * </pre>
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 3D array
+     * @param b the second input 3D array
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new 3D byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -6222,15 +7204,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function element-wise to two 3D byte arrays with default values.
+     * The result array length is the maximum length between the two input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 3D array
+     * @param b the second input 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the binary function to apply to corresponding elements
+     * @return a new 3D byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
             final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
@@ -6257,14 +7242,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 3D byte arrays.
+     * The result array length is the minimum length among the three input arrays.
+     * The function is applied to each corresponding 2D sub-array triple.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 3D array
+     * @param b the second input 3D array
+     * @param c the third input 3D array
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new 3D byte array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
             final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6282,17 +7270,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function element-wise to three 3D byte arrays with default values.
+     * The result array length is the maximum length among the three input arrays.
+     * Missing elements are replaced with the provided default values before applying the function.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>This method provides the most flexible way to combine three 3D arrays using a custom
+     * operation, handling arrays of different sizes gracefully by using default values for
+     * missing elements.
+     *
+     * @param <E> the type of exception the zip function may throw
+     * @param a the first input 3D array
+     * @param b the second input 3D array
+     * @param c the third input 3D array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the ternary function to apply to corresponding elements
+     * @return a new 3D byte array containing the results with defaults applied
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
             final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
@@ -6313,486 +7308,18 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[] result = Array.newInstance(targetElementType, N.min(lenA, lenB));
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zipFunction.apply(a[i], b[i]);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
-    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        return zip(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param len
-    //     * @param a
-    //     * @param b
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    private static <R, E extends Exception> R[] zip(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
-    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[] result = Array.newInstance(targetElementType, len);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-    //            result[i] = zipFunction.apply(a[i], b[i]);
-    //        }
-    //
-    //        if (lenA < lenB && lenA < len) {
-    //            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-    //                result[i] = zipFunction.apply(valueForNoneA, b[i]);
-    //            }
-    //        } else if (lenB < lenA && lenB < len) {
-    //            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-    //                result[i] = zipFunction.apply(a[i], valueForNoneB);
-    //            }
-    //        }
-    //
-    //        if (N.max(lenA, lenB) < len) {
-    //            for (int i = N.max(lenA, lenB); i < len; i++) {
-    //                result[i] = zipFunction.apply(valueForNoneA, valueForNoneB);
-    //            }
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC));
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zipFunction.apply(a[i], b[i], c[i]);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param valueForNoneC
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
-    //            final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        return zip(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param len
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param valueForNoneC
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    private static <R, E extends Exception> R[] zip(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA,
-    //            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[] result = Array.newInstance(targetElementType, len);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-    //            result[i] = zipFunction.apply(a[i], b[i], c[i]);
-    //        }
-    //
-    //        if (N.min(lenA, lenB, lenC) < len) {
-    //            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-    //                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
-    //            }
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[][] result = Array.newInstance(targetElementType, N.min(lenA, lenB), 0);
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zip(a[i], b[i], zipFunction, targetElementType);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
-    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param len
-    //     * @param rowLen
-    //     * @param a
-    //     * @param b
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    private static <R, E extends Exception> R[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA,
-    //            final byte valueForNoneB, final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[][] result = Array.newInstance(targetElementType, len, 0);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-    //            result[i] = zip(rowLen, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //        }
-    //
-    //        if (lenA < lenB && lenA < len) {
-    //            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-    //                result[i] = zip(rowLen, null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //            }
-    //        } else if (lenB < lenA && lenB < len) {
-    //            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-    //                result[i] = zip(rowLen, a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //            }
-    //        }
-    //
-    //        if (N.max(lenA, lenB) < len) {
-    //            for (int i = N.max(lenA, lenB); i < len; i++) {
-    //                result[i] = zip(rowLen, null, null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //            }
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte[][] c,
-    //            final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[][] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC), 0);
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zip(a[i], b[i], c[i], zipFunction, targetElementType);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param valueForNoneC
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
-    //            final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
-    //                valueForNoneC, zipFunction, targetElementType);
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param len
-    //     * @param rowLen
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param valueForNoneC
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    private static <R, E extends Exception> R[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c,
-    //            final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[][] result = Array.newInstance(targetElementType, len, 0);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-    //            result[i] = zip(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
-    //        }
-    //
-    //        if (N.min(lenA, lenB, lenC) < len) {
-    //            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-    //                result[i] = zip(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
-    //                        zipFunction, targetElementType);
-    //            }
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBiFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[][][] result = Array.newInstance(targetElementType, N.min(lenA, lenB), 0, 0);
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zip(a[i], b[i], zipFunction, targetElementType);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
-    //            final Throwables.ByteBiFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //
-    //        final R[][][] result = Array.newInstance(targetElementType, N.max(lenA, lenB), 0, 0);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-    //            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //        }
-    //
-    //        if (lenA < lenB) {
-    //            for (int i = lenA; i < lenB; i++) {
-    //                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //            }
-    //        } else if (lenB < lenA) {
-    //            for (int i = lenB; i < lenA; i++) {
-    //                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
-    //            }
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
-    //            final Throwables.ByteTriFunction<? extends R, E> zipFunction, final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[][][] result = Array.newInstance(targetElementType, N.min(lenA, lenB, lenC), 0, 0);
-    //
-    //        for (int i = 0, len = result.length; i < len; i++) {
-    //            result[i] = zip(a[i], b[i], c[i], zipFunction, targetElementType);
-    //        }
-    //
-    //        return result;
-    //    }
-    //
-    //    /**
-    //     *
-    //     * @param <R>
-    //     * @param <E>
-    //     * @param a
-    //     * @param b
-    //     * @param c
-    //     * @param valueForNoneA
-    //     * @param valueForNoneB
-    //     * @param valueForNoneC
-    //     * @param zipFunction
-    //     * @param targetElementType
-    //     * @return
-    //     * @throws E the e
-    //     */
-    //    public static <R, E extends Exception> R[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
-    //            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<? extends R, E> zipFunction,
-    //            final Class<? extends R> targetElementType) throws E {
-    //        final int lenA = N.len(a);
-    //        final int lenB = N.len(b);
-    //        final int lenC = N.len(c);
-    //
-    //        final R[][][] result = Array.newInstance(targetElementType, N.max(lenA, lenB, lenC), 0, 0);
-    //
-    //        for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
-    //            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
-    //        }
-    //
-    //        for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
-    //            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction,
-    //                    targetElementType);
-    //        }
-    //
-    //        return result;
-    //    }
-
+    /**
+     * Calculates the total count of elements in a two-dimensional byte array.
+     * Null sub-arrays are treated as having zero elements.
+     *
+     * <pre>
+     * byte[][] array = {{1, 2, 3}, null, {4, 5}};
+     * long count = totalCountOfElements(array); // returns 5
+     * </pre>
+     *
+     * @param a the two-dimensional byte array
+     * @return the total count of all elements across all sub-arrays
+     */
     public static long totalCountOfElements(final byte[][] a) {
         long count = 0;
 
@@ -6803,6 +7330,18 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total count of elements in a three-dimensional byte array.
+     * Empty or null sub-arrays at any level are skipped.
+     *
+     * <pre>
+     * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
+     * long count = totalCountOfElements(array); // returns 6
+     * </pre>
+     *
+     * @param a the three-dimensional byte array
+     * @return the total count of all elements across all sub-arrays
+     */
     public static long totalCountOfElements(final byte[][][] a) {
         long count = 0;
 
@@ -6824,10 +7363,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a two-dimensional byte array.
+     * Null sub-arrays are treated as having length 0.
+     * Returns 0 if the input array is null or empty.
      *
-     * @param a
-     * @return
+     * <pre>
+     * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+     * int minLen = minSubArrayLen(array); // returns 2
+     * </pre>
+     *
+     * @param a the two-dimensional byte array to analyze
+     * @return the minimum sub-array length, or 0 if the array is empty
      */
     public static int minSubArrayLen(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -6844,10 +7390,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a two-dimensional byte array.
+     * Null sub-arrays are treated as having length 0.
+     * Returns 0 if the input array is null or empty.
      *
-     * @param a
-     * @return
+     * <pre>
+     * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
+     * int maxLen = maxSubArrayLen(array); // returns 4
+     * </pre>
+     *
+     * @param a the two-dimensional byte array to analyze
+     * @return the maximum sub-array length, or 0 if the array is empty
      */
     public static int maxSubArrayLen(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -6864,9 +7417,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a one-dimensional byte array to the console and returns the printed string.
+     * Handles null arrays and empty arrays appropriately.
      *
-     * @param a
-     * @return
+     * <pre>
+     * byte[] array = {1, 2, 3};
+     * String output = println(array); // prints and returns "[1, 2, 3]"
+     * </pre>
+     *
+     * @param a the byte array to print
+     * @return the string representation that was printed
      */
     public static String println(final byte[] a) {
         if (a == null) {
@@ -6879,8 +7439,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a two-dimensional byte array to the console with proper formatting.
+     * Each sub-array is printed on the same line, separated by the ARRAY_PRINT_SEPARATOR.
      *
-     * @param a
+     * <pre>
+     * byte[][] array = {{1, 2}, {3, 4, 5}};
+     * String output = println(array); // prints formatted 2D array
+     * </pre>
+     *
+     * @param a the two-dimensional byte array to print
+     * @return the string representation that was printed
      */
     public static String println(final byte[][] a) {
         if (a == null) {
@@ -6931,8 +7499,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a three-dimensional byte array to the console with multi-line formatting.
+     * Sub-arrays at different levels are properly indented for readability.
      *
-     * @param a
+     * <pre>
+     * byte[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
+     * String output = println(array); // prints formatted 3D array
+     * </pre>
+     *
+     * @param a the three-dimensional byte array to print
+     * @return the string representation that was printed
      */
     public static String println(final byte[][][] a) {
         if (a == null) {
@@ -7000,9 +7576,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a constant value to all elements in a short array in-place.
+     * Does nothing if the array is null or empty.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[] array = {1, 2, 3};
+     * plus(array, (short)5); // array becomes {6, 7, 8}
+     * </pre>
+     *
+     * @param a the array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final short[] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7015,9 +7598,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a constant value to all elements in a two-dimensional short array in-place.
+     * Applies the operation to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4}};
+     * plus(array, (short)10); // array becomes {{11, 12}, {13, 14}}
+     * </pre>
+     *
+     * @param a the two-dimensional array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final short[][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7030,9 +7620,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a constant value to all elements in a three-dimensional short array in-place.
+     * Applies the operation recursively to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][][] array = {{{1, 2}}, {{3, 4}}};
+     * plus(array, (short)5); // all elements increased by 5
+     * </pre>
+     *
+     * @param a the three-dimensional array to modify
+     * @param param the value to add to each element
      */
     public static void plus(final short[][][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7045,9 +7642,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a constant value from all elements in a short array in-place.
+     * Does nothing if the array is null or empty.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[] array = {10, 20, 30};
+     * minus(array, (short)5); // array becomes {5, 15, 25}
+     * </pre>
+     *
+     * @param a the array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final short[] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7060,9 +7664,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a constant value from all elements in a two-dimensional short array in-place.
+     * Applies the operation to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][] array = {{10, 20}, {30, 40}};
+     * minus(array, (short)5); // array becomes {{5, 15}, {25, 35}}
+     * </pre>
+     *
+     * @param a the two-dimensional array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final short[][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7075,9 +7686,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a constant value from all elements in a three-dimensional short array in-place.
+     * Applies the operation recursively to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][][] array = {{{10, 20}}, {{30, 40}}};
+     * minus(array, (short)5); // all elements decreased by 5
+     * </pre>
+     *
+     * @param a the three-dimensional array to modify
+     * @param param the value to subtract from each element
      */
     public static void minus(final short[][][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7090,9 +7708,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a short array by a constant value in-place.
+     * Does nothing if the array is null or empty.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[] array = {2, 3, 4};
+     * multipliedBy(array, (short)5); // array becomes {10, 15, 20}
+     * </pre>
+     *
+     * @param a the array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final short[] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7105,9 +7730,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a two-dimensional short array by a constant value in-place.
+     * Applies the operation to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4}};
+     * multipliedBy(array, (short)3); // array becomes {{3, 6}, {9, 12}}
+     * </pre>
+     *
+     * @param a the two-dimensional array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final short[][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7120,9 +7752,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies all elements in a three-dimensional short array by a constant value in-place.
+     * Applies the operation recursively to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][][] array = {{{2, 4}}, {{6, 8}}};
+     * multipliedBy(array, (short)2); // all elements doubled
+     * </pre>
+     *
+     * @param a the three-dimensional array to modify
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final short[][][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7135,9 +7774,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a short array by a constant value in-place.
+     * Integer division is used, so results are truncated.
+     * Does nothing if the array is null or empty.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[] array = {10, 20, 30};
+     * dividedBy(array, (short)5); // array becomes {2, 4, 6}
+     * </pre>
+     *
+     * @param a the array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final short[] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7150,9 +7798,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a two-dimensional short array by a constant value in-place.
+     * Applies the operation to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][] array = {{20, 40}, {60, 80}};
+     * dividedBy(array, (short)10); // array becomes {{2, 4}, {6, 8}}
+     * </pre>
+     *
+     * @param a the two-dimensional array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final short[][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7165,9 +7821,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides all elements in a three-dimensional short array by a constant value in-place.
+     * Applies the operation recursively to all sub-arrays.
      *
-     * @param a
-     * @param param
+     * <pre>
+     * short[][][] array = {{{100, 200}}, {{300, 400}}};
+     * dividedBy(array, (short)10); // all elements divided by 10
+     * </pre>
+     *
+     * @param a the three-dimensional array to modify
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final short[][][] a, final short param) {
         if (N.isEmpty(a)) {
@@ -7180,11 +7844,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a short array using the provided unary operator.
+     * The operator is applied to each element and the result replaces the original value.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre>
+     * short[] array = {1, 2, 3};
+     * updateAll(array, x -> (short)(x * x)); // array becomes {1, 4, 9}
+     * </pre>
+     *
+     * @param <E> the type of exception the operator may throw
+     * @param a the array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7197,11 +7868,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a two-dimensional short array using the provided unary operator.
+     * The operator is applied to each element in all sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4}};
+     * updateAll(array, x -> (short)(x + 10)); // array becomes {{11, 12}, {13, 14}}
+     * </pre>
+     *
+     * @param <E> the type of exception the operator may throw
+     * @param a the two-dimensional array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7214,11 +7892,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements in a three-dimensional short array using the provided unary operator.
+     * The operator is applied recursively to all elements in all sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre>
+     * short[][][] array = {{{1, 2}}, {{3, 4}}};
+     * updateAll(array, x -> (short)(x * 2)); // all elements doubled
+     * </pre>
+     *
+     * @param <E> the type of exception the operator may throw
+     * @param a the three-dimensional array to update
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -7231,12 +7916,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in a short array that match the predicate with a new value.
+     * Only elements for which the predicate returns true are replaced.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre>
+     * short[] array = {1, 2, 3, 4, 5};
+     * replaceIf(array, x -> x > 3, (short)0); // array becomes {1, 2, 3, 0, 0}
+     * </pre>
+     *
+     * @param <E> the type of exception the predicate may throw
+     * @param a the array to modify
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7251,12 +7943,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in a two-dimensional short array that match the predicate with a new value.
+     * The predicate is applied to all elements in all sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4}};
+     * replaceIf(array, x -> x % 2 == 0, (short)0); // array becomes {{1, 0}, {3, 0}}
+     * </pre>
+     *
+     * @param <E> the type of exception the predicate may throw
+     * @param a the two-dimensional array to modify
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7269,12 +7968,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in a three-dimensional short array that match the predicate with a new value.
+     * The predicate is applied recursively to all elements in all sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre>
+     * short[][][] array = {{{1, 2}}, {{3, 4}}};
+     * replaceIf(array, x -> x < 3, (short)10); // replaces 1 and 2 with 10
+     * </pre>
+     *
+     * @param <E> the type of exception the predicate may throw
+     * @param a the three-dimensional array to modify
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isEmpty(a)) {
@@ -7287,12 +7993,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a one-dimensional short array into a two-dimensional array with the specified number of columns.
+     * The last row may have fewer elements if the array length is not evenly divisible by cols.
      *
+     * <pre>
+     * short[] array = {1, 2, 3, 4, 5};
+     * short[][] reshaped = reshape(array, 2); // returns {{1, 2}, {3, 4}, {5}}
+     * </pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the array to reshape
+     * @param cols the number of columns in each row
+     * @return a two-dimensional array with the specified column count
+     * @throws IllegalArgumentException if cols is less than 1
      */
     public static short[][] reshape(final short[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -7313,13 +8025,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
+     * The array is divided into blocks of size rows×cols, with partial blocks allowed.
      *
+     * <pre>
+     * short[] array = {1, 2, 3, 4, 5, 6, 7, 8};
+     * short[][][] reshaped = reshape(array, 2, 2); // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
+     * </pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the array to reshape
+     * @param rows the number of rows in each 2D block
+     * @param cols the number of columns in each row
+     * @return a three-dimensional array with the specified dimensions
+     * @throws IllegalArgumentException if rows or cols is less than 1
      */
     public static short[][][] reshape(final short[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -7344,9 +8062,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a two-dimensional short array into a one-dimensional array.
+     * All elements from all sub-arrays are combined into a single array in row-major order.
+     * Null or empty sub-arrays are skipped.
      *
-     * @param a
-     * @return
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4, 5}};
+     * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
+     * </pre>
+     *
+     * @param a the two-dimensional array to flatten
+     * @return a one-dimensional array containing all elements
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -7372,9 +8098,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a three-dimensional short array into a one-dimensional array.
+     * All elements from all sub-arrays at all levels are combined into a single array.
+     * Null or empty sub-arrays at any level are skipped.
      *
-     * @param a
-     * @return
+     * <pre>
+     * short[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
+     * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
+     * </pre>
+     *
+     * @param a the three-dimensional array to flatten
+     * @return a one-dimensional array containing all elements
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
@@ -7406,17 +8140,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Performs an operation on a flattened view of a two-dimensional array and writes the result back.
+     * This method flattens the array, applies the operation, then copies the values back to their original positions.
+     *
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * short[][] array = {{3, 1}, {4, 2}};
+     * flatOp(array, t -> N.sort(t)); // sorts all elements across sub-arrays
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception the operation may throw
+     * @param a the two-dimensional array to operate on
+     * @param op the operation to perform on the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final short[][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -7438,17 +8173,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Performs an operation on a flattened view of a three-dimensional array and writes the result back.
+     * This method flattens the array, applies the operation, then copies the values back to their original positions.
+     *
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * short[][][] array = {{{5, 2}}, {{3, 1}}};
+     * flatOp(array, t -> N.sort(t)); // sorts all elements across all sub-arrays
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception the operation may throw
+     * @param a the three-dimensional array to operate on
+     * @param op the operation to perform on the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final short[][][] a, final Throwables.Consumer<? super short[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -7474,10 +8210,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two short arrays.
+     * The result array has the length of the shorter input array.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre>
+     * short[] a = {1, 2, 3};
+     * short[] b = {4, 5, 6, 7};
+     * short[] result = add(a, b); // returns {5, 7, 9}
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @return a new array containing the element-wise sums
      */
     public static short[] add(final short[] a, final short[] b) {
         final int lenA = N.len(a);
@@ -7493,12 +8237,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two short arrays with default values for missing elements.
+     * The result array has the length of the longer input array.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre>
+     * short[] a = {1, 2};
+     * short[] b = {3, 4, 5};
+     * short[] result = add(a, b, (short)10, (short)20); // returns {4, 6, 25}
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA the default value to use when array a has no element at an index
+     * @param valueForNoneB the default value to use when array b has no element at an index
+     * @return a new array containing the element-wise sums
      */
     public static short[] add(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7508,13 +8260,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * Internal helper method for element-wise addition with specified length.
      */
     private static short[] add(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7546,11 +8292,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three short arrays.
+     * The result array has the length of the shortest input array.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre>
+     * short[] a = {1, 2, 3};
+     * short[] b = {4, 5, 6};
+     * short[] c = {7, 8, 9};
+     * short[] result = add(a, b, c); // returns {12, 15, 18}
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @return a new array containing the element-wise sums
      */
     public static short[] add(final short[] a, final short[] b, final short[] c) {
         final int lenA = N.len(a);
@@ -7567,14 +8322,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three short arrays with default values for missing elements.
+     * The result array has the length of the longest input array.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre>
+     * short[] a = {1, 2};
+     * short[] b = {3};
+     * short[] c = {5, 6, 7};
+     * short[] result = add(a, b, c, (short)0, (short)0, (short)0); // returns {9, 8, 7}
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new array containing the element-wise sums
      */
     public static short[] add(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -7586,15 +8350,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * Internal helper method for element-wise addition of three arrays with specified length.
      */
     private static short[] add(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -7618,10 +8374,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 2D short arrays.
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
+     * Only overlapping elements are added.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{1, 2}, {3, 4}, {5, 6}};
+     * short[][] b = {{10, 20}, {30, 40}};
+     * short[][] result = Arrays.add(a, b); // {{11, 22}, {33, 44}}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @return a new array containing the element-wise sum of overlapping elements,
+     *         or an empty array if either input is null/empty
      */
     public static short[][] add(final short[][] a, final short[][] b) {
         final int lenA = N.len(a);
@@ -7637,26 +8404,38 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
+     * Missing elements are treated as having the specified default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{1, 2}, {3}};
+     * short[][] b = {{10}, {30, 40}};
+     * short[][] result = Arrays.add(a, b, (short)0, (short)100);
+     * // {{11, 102}, {33, 140}} - missing elements use default values
+     * </pre>
+     *
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new array with dimensions of max(a.length, b.length) x max(subarray lengths)
      */
     public static short[][] add(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for element-wise addition with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row in the result array
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified dimensions
      */
     private static short[][] add(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7688,11 +8467,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D short arrays.
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{1, 2}, {3, 4}};
+     * short[][] b = {{10, 20}, {30, 40}};
+     * short[][] c = {{100, 200}, {300, 400}};
+     * short[][] result = Arrays.add(a, b, c); // {{111, 222}, {333, 444}}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @param c the third array, can be null or empty
+     * @return a new array containing the element-wise sum of overlapping elements
      */
     public static short[][] add(final short[][] a, final short[][] b, final short[][] c) {
         final int lenA = N.len(a);
@@ -7709,14 +8498,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method is useful when working with jagged arrays or arrays of different sizes,
+     * allowing you to specify what value should be used when an element is missing.</p>
+     *
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param c the third array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new array with dimensions of max(lengths) x max(subarray lengths)
      */
     public static short[][] add(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -7725,16 +8519,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array addition with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified dimensions
      */
     private static short[][] add(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC) {
@@ -7758,10 +8553,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D short arrays.
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][][] a = {{{1, 2}}, {{3, 4}}};
+     * short[][][] b = {{{10, 20}}, {{30, 40}}};
+     * short[][][] result = Arrays.add(a, b); // {{{11, 22}}, {{33, 44}}}
+     * </pre>
+     *
+     * @param a the first 3D array, can be null or empty
+     * @param b the second 3D array, can be null or empty
+     * @return a new 3D array containing the element-wise sum of overlapping elements
      */
     public static short[][][] add(final short[][][] a, final short[][][] b) {
         final int lenA = N.len(a);
@@ -7777,12 +8581,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the first 3D array, can be null
+     * @param b the second 3D array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 3D array with maximum dimensions, using default values for missing elements
      */
     public static short[][][] add(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7808,11 +8614,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D short arrays.
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first 3D array, can be null or empty
+     * @param b the second 3D array, can be null or empty
+     * @param c the third 3D array, can be null or empty
+     * @return a new 3D array containing the element-wise sum of overlapping elements
      */
     public static short[][][] add(final short[][][] a, final short[][][] b, final short[][][] c) {
         final int lenA = N.len(a);
@@ -7829,14 +8637,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first 3D array, can be null
+     * @param b the second 3D array, can be null
+     * @param c the third 3D array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 3D array with maximum dimensions, using default values for missing elements
      */
     public static short[][][] add(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -7858,10 +8668,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D short arrays (a - b).
+     * The result array has length equal to the minimum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {10, 20, 30};
+     * short[] b = {1, 2, 3, 4};
+     * short[] result = Arrays.subtract(a, b); // {9, 18, 27}
+     * </pre>
+     *
+     * @param a the minuend array, can be null or empty
+     * @param b the subtrahend array, can be null or empty
+     * @return a new array containing the element-wise difference of overlapping elements
      */
     public static short[] subtract(final short[] a, final short[] b) {
         final int lenA = N.len(a);
@@ -7877,12 +8696,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {10, 20};
+     * short[] b = {1, 2, 3};
+     * short[] result = Arrays.subtract(a, b, (short)0, (short)5); // {9, 18, -5}
+     * </pre>
+     *
+     * @param a the minuend array, can be null
+     * @param b the subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new array with length max(a.length, b.length)
      */
     public static short[] subtract(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7892,13 +8720,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for element-wise subtraction with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified length
      */
     private static short[] subtract(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -7930,11 +8759,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D short arrays (a - b - c).
+     * The result array has length equal to the minimum length of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {100, 200};
+     * short[] b = {10, 20};
+     * short[] c = {1, 2};
+     * short[] result = Arrays.subtract(a, b, c); // {89, 178}
+     * </pre>
+     *
+     * @param a the minuend array, can be null or empty
+     * @param b the first subtrahend array, can be null or empty
+     * @param c the second subtrahend array, can be null or empty
+     * @return a new array containing a[i] - b[i] - c[i] for overlapping elements
      */
     public static short[] subtract(final short[] a, final short[] b, final short[] c) {
         final int lenA = N.len(a);
@@ -7951,14 +8790,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend array, can be null
+     * @param b the first subtrahend array, can be null
+     * @param c the second subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new array with length max(a.length, b.length, c.length)
      */
     public static short[] subtract(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -7970,15 +8811,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array subtraction with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified length
      */
     private static short[] subtract(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8002,10 +8844,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D short arrays (a - b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{10, 20}, {30, 40}};
+     * short[][] b = {{1, 2}, {3, 4}};
+     * short[][] result = Arrays.subtract(a, b); // {{9, 18}, {27, 36}}
+     * </pre>
+     *
+     * @param a the minuend array, can be null or empty
+     * @param b the subtrahend array, can be null or empty
+     * @return a new 2D array containing the element-wise difference
      */
     public static short[][] subtract(final short[][] a, final short[][] b) {
         final int lenA = N.len(a);
@@ -8021,26 +8872,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the minuend array, can be null
+     * @param b the subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 2D array with maximum dimensions
      */
     public static short[][] subtract(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for 2D array subtraction with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified dimensions
      */
     private static short[][] subtract(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
             final short valueForNoneB) {
@@ -8073,11 +8927,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D short arrays (a - b - c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the minuend array, can be null or empty
+     * @param b the first subtrahend array, can be null or empty
+     * @param c the second subtrahend array, can be null or empty
+     * @return a new 2D array containing a[i][j] - b[i][j] - c[i][j]
      */
     public static short[][] subtract(final short[][] a, final short[][] b, final short[][] c) {
         final int lenA = N.len(a);
@@ -8094,14 +8950,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend array, can be null
+     * @param b the first subtrahend array, can be null
+     * @param c the second subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 2D array with maximum dimensions
      */
     public static short[][] subtract(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8110,16 +8968,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three 2D array subtraction with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified dimensions
      */
     private static short[][] subtract(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC) {
@@ -8144,10 +9003,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 3D short arrays (a - b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the minuend array, can be null or empty
+     * @param b the subtrahend array, can be null or empty
+     * @return a new 3D array containing the element-wise difference
      */
     public static short[][][] subtract(final short[][][] a, final short[][][] b) {
         final int lenA = N.len(a);
@@ -8163,12 +9024,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the minuend array, can be null
+     * @param b the subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 3D array with maximum dimensions
      */
     public static short[][][] subtract(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8194,11 +9057,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D short arrays (a - b - c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the minuend array, can be null or empty
+     * @param b the first subtrahend array, can be null or empty
+     * @param c the second subtrahend array, can be null or empty
+     * @return a new 3D array containing the element-wise differences
      */
     public static short[][][] subtract(final short[][][] a, final short[][][] b, final short[][][] c) {
         final int lenA = N.len(a);
@@ -8215,14 +9080,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the minuend array, can be null
+     * @param b the first subtrahend array, can be null
+     * @param c the second subtrahend array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 3D array with maximum dimensions
      */
     public static short[][][] subtract(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8244,10 +9111,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 1D short arrays (a * b).
+     * The result array has length equal to the minimum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {2, 3, 4};
+     * short[] b = {5, 6, 7, 8};
+     * short[] result = Arrays.multipliedBy(a, b); // {10, 18, 28}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @return a new array containing the element-wise product of overlapping elements
      */
     public static short[] multipliedBy(final short[] a, final short[] b) {
         final int lenA = N.len(a);
@@ -8263,12 +9139,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {2, 3};
+     * short[] b = {5, 6, 7};
+     * short[] result = Arrays.multipliedBy(a, b, (short)1, (short)10); // {10, 18, 70}
+     * </pre>
+     *
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new array with length max(a.length, b.length)
      */
     public static short[] multipliedBy(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8278,13 +9163,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for element-wise multiplication with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified length
      */
     private static short[] multipliedBy(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8316,11 +9202,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D short arrays (a * b * c).
+     * The result array has length equal to the minimum length of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {2, 3};
+     * short[] b = {4, 5};
+     * short[] c = {6, 7};
+     * short[] result = Arrays.multipliedBy(a, b, c); // {48, 105}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @param c the third array, can be null or empty
+     * @return a new array containing a[i] * b[i] * c[i] for overlapping elements
      */
     public static short[] multipliedBy(final short[] a, final short[] b, final short[] c) {
         final int lenA = N.len(a);
@@ -8337,14 +9233,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param c the third array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new array with length max(a.length, b.length, c.length)
      */
     public static short[] multipliedBy(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8356,15 +9254,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array multiplication with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified length
      */
     private static short[] multipliedBy(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8388,10 +9287,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D short arrays (a * b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{2, 3}, {4, 5}};
+     * short[][] b = {{10, 20}, {30, 40}};
+     * short[][] result = Arrays.multipliedBy(a, b); // {{20, 60}, {120, 200}}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @return a new 2D array containing the element-wise product
      */
     public static short[][] multipliedBy(final short[][] a, final short[][] b) {
         final int lenA = N.len(a);
@@ -8407,26 +9315,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 2D array with maximum dimensions
      */
     public static short[][] multipliedBy(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for 2D array multiplication with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified dimensions
      */
     private static short[][] multipliedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
             final short valueForNoneB) {
@@ -8459,11 +9370,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D short arrays (a * b * c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
+     * Only overlapping elements are multiplied.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{2, 3}, {4, 5}};
+     * short[][] b = {{1, 2}, {3, 4}};
+     * short[][] c = {{10, 10}, {10, 10}};
+     * short[][] result = Arrays.multipliedBy(a, b, c); // {{20, 60}, {120, 200}}
+     * </pre>
+     *
+     * @param a the first array, can be null or empty
+     * @param b the second array, can be null or empty
+     * @param c the third array, can be null or empty
+     * @return a new 2D array containing the element-wise product of overlapping elements
      */
     public static short[][] multipliedBy(final short[][] a, final short[][] b, final short[][] c) {
         final int lenA = N.len(a);
@@ -8480,14 +9402,29 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
+     * Missing elements are treated as having the specified default values.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method is particularly useful when working with jagged arrays or arrays of different sizes,
+     * allowing you to specify what value should be used when an element is missing.</p>
+     *
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{2, 3}, {4}};
+     * short[][] b = {{1}, {3, 4}};
+     * short[][] c = {{10, 10}};
+     * // Missing elements use default values (1 for all arrays in this example)
+     * short[][] result = Arrays.multipliedBy(a, b, c, (short)1, (short)1, (short)1);
+     * </pre>
+     *
+     * @param a the first array, can be null
+     * @param b the second array, can be null
+     * @param c the third array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 2D array with dimensions of max(lengths) x max(subarray lengths)
      */
     public static short[][] multipliedBy(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8496,16 +9433,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array multiplication with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row in the result array
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified dimensions
      */
     private static short[][] multipliedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC) {
@@ -8530,10 +9468,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D short arrays (a * b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][][] a = {{{2, 3}}, {{4, 5}}};
+     * short[][][] b = {{{10, 20}}, {{30, 40}}};
+     * short[][][] result = Arrays.multipliedBy(a, b); // {{{20, 60}}, {{120, 200}}}
+     * </pre>
+     *
+     * @param a the first 3D array, can be null or empty
+     * @param b the second 3D array, can be null or empty
+     * @return a new 3D array containing the element-wise product of overlapping elements
      */
     public static short[][][] multipliedBy(final short[][][] a, final short[][][] b) {
         final int lenA = N.len(a);
@@ -8549,12 +9496,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the first 3D array, can be null
+     * @param b the second 3D array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 3D array with maximum dimensions, using default values for missing elements
      */
     public static short[][][] multipliedBy(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8580,11 +9529,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D short arrays (a * b * c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first 3D array, can be null or empty
+     * @param b the second 3D array, can be null or empty
+     * @param c the third 3D array, can be null or empty
+     * @return a new 3D array containing the element-wise product of overlapping elements
      */
     public static short[][][] multipliedBy(final short[][][] a, final short[][][] b, final short[][][] c) {
         final int lenA = N.len(a);
@@ -8601,14 +9552,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first 3D array, can be null
+     * @param b the second 3D array, can be null
+     * @param c the third 3D array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 3D array with maximum dimensions, using default values for missing elements
      */
     public static short[][][] multipliedBy(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8630,10 +9583,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D short arrays (a / b).
+     * The result array has length equal to the minimum length of the input arrays.
+     * Note: Integer division is performed, so results are truncated.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {10, 20, 30};
+     * short[] b = {2, 4, 5};
+     * short[] result = Arrays.dividedBy(a, b); // {5, 5, 6}
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the divisor array, can be null or empty
+     * @return a new array containing the element-wise quotient of overlapping elements
+     * @throws ArithmeticException if any element in b is zero
      */
     public static short[] dividedBy(final short[] a, final short[] b) {
         final int lenA = N.len(a);
@@ -8649,12 +9613,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {10, 20};
+     * short[] b = {2, 4, 5};
+     * short[] result = Arrays.dividedBy(a, b, (short)30, (short)1); // {5, 5, 30}
+     * </pre>
+     *
+     * @param a the dividend array, can be null
+     * @param b the divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new array with length max(a.length, b.length)
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8664,13 +9638,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for element-wise division with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified length
      */
     private static short[] dividedBy(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8702,11 +9677,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D short arrays (a / b / c).
+     * The result array has length equal to the minimum length of all input arrays.
+     * Operations are performed left to right: (a[i] / b[i]) / c[i].
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {100, 200};
+     * short[] b = {10, 20};
+     * short[] c = {2, 4};
+     * short[] result = Arrays.dividedBy(a, b, c); // {5, 2}
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the first divisor array, can be null or empty
+     * @param c the second divisor array, can be null or empty
+     * @return a new array containing (a[i] / b[i]) / c[i] for overlapping elements
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short[] c) {
         final int lenA = N.len(a);
@@ -8723,14 +9710,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D short arrays with default values for missing elements.
+     * The result array has length equal to the maximum length of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the first divisor array, can be null
+     * @param c the second divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new array with length max(a.length, b.length, c.length)
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8742,15 +9732,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array division with specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified length
      */
     private static short[] dividedBy(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8774,10 +9765,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D short arrays (a / b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{10, 20}, {30, 40}};
+     * short[][] b = {{2, 4}, {5, 8}};
+     * short[][] result = Arrays.dividedBy(a, b); // {{5, 5}, {6, 5}}
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the divisor array, can be null or empty
+     * @return a new 2D array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b is zero
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b) {
         final int lenA = N.len(a);
@@ -8793,26 +9794,30 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 2D array with maximum dimensions
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for 2D array division with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @return the result array with specified dimensions
      */
     private static short[][] dividedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
             final short valueForNoneB) {
@@ -8845,11 +9850,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D short arrays (a / b / c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the dividend array, can be null or empty
+     * @param b the first divisor array, can be null or empty
+     * @param c the second divisor array, can be null or empty
+     * @return a new 2D array containing the element-wise quotients
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short[][] c) {
         final int lenA = N.len(a);
@@ -8866,14 +9874,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the first divisor array, can be null
+     * @param c the second divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 2D array with maximum dimensions
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -8882,16 +9893,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three 2D array division with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @return the result array with specified dimensions
      */
     private static short[][] dividedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC) {
@@ -8916,10 +9928,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D short arrays (a / b).
+     * The result array has dimensions equal to the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the dividend array, can be null or empty
+     * @param b the divisor array, can be null or empty
+     * @return a new 3D array containing the element-wise quotient
+     * @throws ArithmeticException if any element in b is zero
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b) {
         final int lenA = N.len(a);
@@ -8935,12 +9950,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @return a new 3D array with maximum dimensions
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB) {
         final int lenA = N.len(a);
@@ -8966,11 +9984,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D short arrays (a / b / c).
+     * The result array has dimensions equal to the minimum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the dividend array, can be null or empty
+     * @param b the first divisor array, can be null or empty
+     * @param c the second divisor array, can be null or empty
+     * @return a new 3D array containing the element-wise quotients
+     * @throws ArithmeticException if any element in b or c is zero
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short[][][] c) {
         final int lenA = N.len(a);
@@ -8987,14 +10008,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D short arrays with default values for missing elements.
+     * The result array has dimensions equal to the maximum dimensions of all input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the first divisor array, can be null
+     * @param c the second divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @return a new 3D array with maximum dimensions
+     * @throws ArithmeticException if any divisor is zero
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC) {
@@ -9016,11 +10040,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D short arrays with a default value for zero divisors.
+     * When a divisor is zero, the specified default value is used instead to avoid division by zero.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {10, 20, 30};
+     * short[] b = {2, 0, 5};
+     * short[] result = Arrays.dividedBy(a, b, (short)1); // {5, 20, 6}
+     * // Note: 20/0 becomes 20/1 = 20
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the divisor array, can be null or empty
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new array containing the element-wise quotient with zero-handling
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9036,13 +10070,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 1D short arrays with default values for missing elements
+     * and a default value for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>This method combines the functionality of handling missing elements and zero divisors,
+     * making it suitable for robust array division operations.</p>
+     *
+     * @param a the dividend array, can be null
+     * @param b the divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new array with length max(a.length, b.length) with zero-handling
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9052,14 +10091,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for element-wise division with zero-handling and specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return the result array with specified length
      */
     private static short[] dividedBy(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
             final short defaultValueForZero) {
@@ -9092,12 +10132,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D short arrays with a default value for zero divisors.
+     * Operations are performed left to right: (a[i] / b[i]) / c[i], with zero-handling at each step.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[] a = {100, 200, 300};
+     * short[] b = {10, 0, 20};
+     * short[] c = {2, 4, 0};
+     * short[] result = Arrays.dividedBy(a, b, c, (short)1);
+     * // {5, 50, 15} - zeros are replaced with 1
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the first divisor array, can be null or empty
+     * @param c the second divisor array, can be null or empty
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new array containing the element-wise quotient with zero-handling
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short[] c, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9114,15 +10165,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 1D short arrays with default values for missing elements
+     * and a default value for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the first divisor array, can be null
+     * @param c the second divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param valueForNoneC the default value for missing elements in array c
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new array with length max(a.length, b.length, c.length) with zero-handling
      */
     public static short[] dividedBy(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC, final short defaultValueForZero) {
@@ -9134,16 +10187,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for three-array division with zero-handling and specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param valueForNoneC default value for missing elements in c
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return the result array with specified length
      */
     private static short[] dividedBy(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC, final short defaultValueForZero) {
@@ -9168,11 +10222,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D short arrays with a default value for zero divisors.
+     * When a divisor is zero, the specified default value is used instead.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:</p>
+     * <pre>
+     * short[][] a = {{10, 20}, {30, 40}};
+     * short[][] b = {{2, 0}, {5, 8}};
+     * short[][] result = Arrays.dividedBy(a, b, (short)1); // {{5, 20}, {6, 5}}
+     * </pre>
+     *
+     * @param a the dividend array, can be null or empty
+     * @param b the divisor array, can be null or empty
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new 2D array containing the element-wise quotient with zero-handling
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9188,13 +10251,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D short arrays with default values for missing elements
+     * and a default value for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array, can be null
+     * @param b the divisor array, can be null
+     * @param valueForNoneA the default value for missing elements in array a
+     * @param valueForNoneB the default value for missing elements in array b
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new 2D array with maximum dimensions and zero-handling
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
             final short defaultValueForZero) {
@@ -9202,15 +10267,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for 2D array division with zero-handling and specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired length of the result array
+     * @param rowLen the desired length of each row
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA default value for missing elements in a
+     * @param valueForNoneB default value for missing elements in b
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return the result array with specified dimensions
      */
     private static short[][] dividedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
             final short valueForNoneB, final short defaultValueForZero) {
@@ -9243,12 +10309,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D short arrays with a default value for zero divisors.
+     * Operations are performed left to right with zero-handling at each step.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array, can be null or empty
+     * @param b the first divisor array, can be null or empty
+     * @param c the second divisor array, can be null or empty
+     * @param defaultValueForZero the value to use when a divisor is zero
+     * @return a new 2D array containing the element-wise quotient with zero-handling
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short[][] c, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9265,15 +10333,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 2D short arrays with configurable default values.
+     * This method divides corresponding elements from arrays a, b, and c, handling missing values
+     * and division by zero cases.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * short[][] a = {{10, 20}, {30, 40}};
+     * short[][] b = {{2, 4}, {5, 8}};
+     * short[][] c = {{1, 1}, {2, 2}};
+     * short[][] result = dividedBy(a, b, c, (short)0, (short)1, (short)1, (short)-1);
+     * // result will contain the element-wise division a[i][j] / (b[i][j] * c[i][j])
+     * </pre></p>
+     *
+     * @param a the dividend array (numerator)
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA the value to use when element in array a is missing
+     * @param valueForNoneB the value to use when element in array b is missing
+     * @param valueForNoneC the value to use when element in array c is missing
+     * @param defaultValueForZero the value to return when division by zero occurs
+     * @return a new 2D array containing the element-wise division results
      */
     public static short[][] dividedBy(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC, final short defaultValueForZero) {
@@ -9282,17 +10362,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for performing element-wise division with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row in the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when division by zero occurs
+     * @return a new 2D array with division results
      */
     private static short[][] dividedBy(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC, final short defaultValueForZero) {
@@ -9317,11 +10398,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D short arrays.
+     * Only processes elements that exist in both arrays (intersection).
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * short[][][] a = {{{10, 20}}, {{30, 40}}};
+     * short[][][] b = {{{2, 4}}, {{5, 8}}};
+     * short[][][] result = dividedBy(a, b, (short)-1);
+     * // Performs element-wise division with -1 as default for division by zero
+     * </pre></p>
+     *
+     * @param a the dividend array (numerator)
+     * @param b the divisor array (denominator)
+     * @param defaultValueForZero the value to return when division by zero occurs
+     * @return a new 3D array containing the division results, with size equal to the smaller input array
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9337,13 +10428,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D short arrays with default values for missing elements.
+     * This method can handle arrays of different sizes by using default values.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA the value to use when element in array a is missing
+     * @param valueForNoneB the value to use when element in array b is missing
+     * @param defaultValueForZero the value to return when division by zero occurs
+     * @return a new 3D array with size equal to the larger input array
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
             final short defaultValueForZero) {
@@ -9370,12 +10463,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D short arrays.
+     * Only processes elements that exist in all three arrays (intersection).
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param defaultValueForZero the value to return when division by zero occurs
+     * @return a new 3D array with size equal to the smallest input array
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short[][][] c, final short defaultValueForZero) {
         final int lenA = N.len(a);
@@ -9392,15 +10487,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of three 3D short arrays with default values for missing elements.
+     * This is the most flexible division method, handling arrays of different sizes.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param defaultValueForZero value to use when division by zero occurs
+     * @return a new 3D array with size equal to the largest input array
      */
     public static short[][][] dividedBy(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC, final short defaultValueForZero) {
@@ -9423,13 +10520,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 1D short arrays.
+     * The result array length equals the smaller of the two input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * short[] a = {1, 2, 3, 4};
+     * short[] b = {5, 6, 7};
+     * short[] result = zip(a, b, (x, y) -> (short)(x + y));
+     * // result will be {6, 8, 10}
+     * </pre></p>
+     *
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array containing the results of applying the function
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -9445,15 +10552,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 1D short arrays with default values.
+     * The result array length equals the larger of the two input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value to use when array a has no corresponding element
+     * @param valueForNoneB default value to use when array b has no corresponding element
+     * @param zipFunction the function to apply to elements
+     * @return a new array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
             final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
@@ -9464,16 +10573,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zipping arrays with specified length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown
+     * @param len the target length of the result array
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the function to apply
+     * @return a new array with zip results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> short[] zip(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
             final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
@@ -9506,14 +10616,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 1D short arrays.
+     * The result array length equals the smallest of the three input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * short[] a = {1, 2, 3};
+     * short[] b = {4, 5, 6};
+     * short[] c = {7, 8, 9};
+     * short[] result = zip(a, b, c, (x, y, z) -> (short)(x + y + z));
+     * // result will be {12, 15, 18}
+     * </pre></p>
+     *
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTriFunction<Short, E> zipFunction)
             throws E {
@@ -9531,17 +10652,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 1D short arrays with default values.
+     * The result array length equals the largest of the three input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the function to apply to elements
+     * @return a new array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
             final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9553,18 +10676,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zipping three arrays with specified length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown
+     * @param len the target length of the result array
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the function to apply
+     * @return a new array with zip results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> short[] zip(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9588,13 +10712,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 2D short arrays.
+     * Processes only the overlapping portion of the arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -9610,15 +10736,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 2D short arrays with default values.
+     * Can handle arrays of different sizes by using default values for missing elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the function to apply to elements
+     * @return a new 2D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
             final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
@@ -9626,17 +10754,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zipping 2D arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the function to apply
+     * @return a new 2D array with zip results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> short[][] zip(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
             final short valueForNoneB, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
@@ -9669,14 +10798,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 2D short arrays.
+     * Processes only the overlapping portion of all three arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
             final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9694,17 +10825,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 2D short arrays with default values.
+     * Can handle arrays of different sizes by using default values for missing elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the function to apply to elements
+     * @return a new 2D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9713,19 +10846,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for zipping three 2D arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that may be thrown
+     * @param len the target length of the result array
+     * @param rowLen the target length of each row
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the function to apply
+     * @return a new 2D array with zip results
+     * @throws E if the zip function throws an exception
      */
     private static <E extends Exception> short[][] zip(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c,
             final short valueForNoneA, final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9750,13 +10884,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 3D short arrays.
+     * Processes only the overlapping portion of the arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBiFunction<Short, E> zipFunction)
             throws E {
@@ -9773,15 +10909,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two 3D short arrays with default values.
+     * Can handle arrays of different sizes by using default values for missing elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param zipFunction the function to apply to elements
+     * @return a new 3D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
             final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
@@ -9808,14 +10946,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 3D short arrays.
+     * Processes only the overlapping portion of all three arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
             final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9833,17 +10973,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three 3D short arrays with default values.
+     * Can handle arrays of different sizes by using default values for missing elements.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first input array
+     * @param b the second input array
+     * @param c the third input array
+     * @param valueForNoneA default value for missing elements in array a
+     * @param valueForNoneB default value for missing elements in array b
+     * @param valueForNoneC default value for missing elements in array c
+     * @param zipFunction the function to apply to elements
+     * @return a new 3D array containing the function results
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
             final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
@@ -9864,6 +11006,20 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of elements in a 2D short array.
+     * Handles null arrays and null sub-arrays gracefully.
+     *
+     * <p>Example usage:
+     * <pre>
+     * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
+     * long count = totalCountOfElements(array);
+     * // count will be 9 (3 + 2 + 0 + 4)
+     * </pre></p>
+     *
+     * @param a the 2D array to count elements in
+     * @return the total number of elements across all sub-arrays
+     */
     public static long totalCountOfElements(final short[][] a) {
         long count = 0;
 
@@ -9874,6 +11030,13 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of elements in a 3D short array.
+     * Handles null arrays and null sub-arrays at all levels gracefully.
+     *
+     * @param a the 3D array to count elements in
+     * @return the total number of elements across all sub-arrays
+     */
     public static long totalCountOfElements(final short[][][] a) {
         long count = 0;
 
@@ -9895,10 +11058,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a 2D short array.
+     * Returns 0 if the array is null or contains only null sub-arrays.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+     * int minLen = minSubArrayLen(array);
+     * // minLen will be 2
+     * </pre></p>
+     *
+     * @param a the 2D array to examine
+     * @return the minimum length of any sub-array, or 0 if array is null
      */
     public static int minSubArrayLen(final short[][] a) {
         if (a == null) {
@@ -9915,10 +11086,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a 2D short array.
+     * Returns 0 if the array is null or empty.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+     * int maxLen = maxSubArrayLen(array);
+     * // maxLen will be 4
+     * </pre></p>
+     *
+     * @param a the 2D array to examine
+     * @return the maximum length of any sub-array, or 0 if array is null or empty
      */
     public static int maxSubArrayLen(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -9935,9 +11114,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 1D short array to the console in a formatted string representation.
+     * Handles null arrays gracefully.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * short[] array = {1, 2, 3, 4, 5};
+     * println(array);
+     * // Prints: [1, 2, 3, 4, 5]
+     * </pre></p>
+     *
+     * @param a the array to print
+     * @return the string representation that was printed
      */
     public static String println(final short[] a) {
         if (a == null) {
@@ -9950,8 +11138,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 2D short array to the console in a formatted string representation.
+     * Each sub-array is printed on a new line for clarity.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>
+     * short[][] array = {{1, 2}, {3, 4, 5}, {6}};
+     * println(array);
+     * // Prints formatted 2D array representation
+     * </pre></p>
+     *
+     * @param a the 2D array to print
+     * @return the string representation that was printed
      */
     public static String println(final short[][] a) {
         if (a == null) {
@@ -10002,9 +11200,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a 3D short array to the console in a formatted string representation.
+     * Uses indentation and line breaks to show the array structure clearly.
      *
-     * @param a
-     * @return
+     * @param a the 3D array to print
+     * @return the string representation that was printed
      */
     public static String println(final short[][][] a) {
         if (a == null) {
@@ -10072,9 +11272,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds the specified value to each element of the given array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original array by adding the parameter value to each element.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {1, 2, 3};
+     * Arrays.plus(arr, 5);
+     * // arr is now {6, 7, 8}
+     * </pre>
+     *
+     * @param a the array to be modified
+     * @param param the value to add to each element
      */
     public static void plus(final int[] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10087,9 +11297,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds the specified value to each element of the given 2D array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 2D array by adding the parameter value to each element
+     * in all sub-arrays. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{1, 2}, {3, 4}};
+     * Arrays.plus(arr, 10);
+     * // arr is now {{11, 12}, {13, 14}}
+     * </pre>
+     *
+     * @param a the 2D array to be modified
+     * @param param the value to add to each element
      */
     public static void plus(final int[][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10102,9 +11322,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds the specified value to each element of the given 3D array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 3D array by adding the parameter value to each element
+     * in all nested arrays. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{1, 2}}, {{3, 4}}};
+     * Arrays.plus(arr, 5);
+     * // arr is now {{{6, 7}}, {{8, 9}}}
+     * </pre>
+     *
+     * @param a the 3D array to be modified
+     * @param param the value to add to each element
      */
     public static void plus(final int[][][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10117,9 +11347,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the specified value from each element of the given array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original array by subtracting the parameter value from each element.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {10, 20, 30};
+     * Arrays.minus(arr, 5);
+     * // arr is now {5, 15, 25}
+     * </pre>
+     *
+     * @param a the array to be modified
+     * @param param the value to subtract from each element
      */
     public static void minus(final int[] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10132,9 +11372,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the specified value from each element of the given 2D array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 2D array by subtracting the parameter value from each element
+     * in all sub-arrays. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{10, 20}, {30, 40}};
+     * Arrays.minus(arr, 5);
+     * // arr is now {{5, 15}, {25, 35}}
+     * </pre>
+     *
+     * @param a the 2D array to be modified
+     * @param param the value to subtract from each element
      */
     public static void minus(final int[][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10147,9 +11397,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the specified value from each element of the given 3D array in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 3D array by subtracting the parameter value from each element
+     * in all nested arrays. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{10, 20}}, {{30, 40}}};
+     * Arrays.minus(arr, 5);
+     * // arr is now {{{5, 15}}, {{25, 35}}}
+     * </pre>
+     *
+     * @param a the 3D array to be modified
+     * @param param the value to subtract from each element
      */
     public static void minus(final int[][][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10162,9 +11422,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the given array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original array by multiplying each element by the parameter value.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {2, 3, 4};
+     * Arrays.multipliedBy(arr, 5);
+     * // arr is now {10, 15, 20}
+     * </pre>
+     *
+     * @param a the array to be modified
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final int[] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10177,9 +11447,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the given 2D array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 2D array by multiplying each element in all sub-arrays
+     * by the parameter value. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{1, 2}, {3, 4}};
+     * Arrays.multipliedBy(arr, 3);
+     * // arr is now {{3, 6}, {9, 12}}
+     * </pre>
+     *
+     * @param a the 2D array to be modified
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final int[][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10192,9 +11472,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the given 3D array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 3D array by multiplying each element in all nested arrays
+     * by the parameter value. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{2, 4}}, {{6, 8}}};
+     * Arrays.multipliedBy(arr, 2);
+     * // arr is now {{{4, 8}}, {{12, 16}}}
+     * </pre>
+     *
+     * @param a the 3D array to be modified
+     * @param param the value to multiply each element by
      */
     public static void multipliedBy(final int[][][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10207,9 +11497,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the given array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original array by dividing each element by the parameter value.
+     * Note that integer division is performed, so results are truncated to integers.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {10, 20, 30};
+     * Arrays.dividedBy(arr, 5);
+     * // arr is now {2, 4, 6}
+     * </pre>
+     *
+     * @param a the array to be modified
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final int[] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10222,9 +11524,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the given 2D array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 2D array by dividing each element in all sub-arrays
+     * by the parameter value. Integer division is performed, so results are truncated.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{20, 40}, {60, 80}};
+     * Arrays.dividedBy(arr, 10);
+     * // arr is now {{2, 4}, {6, 8}}
+     * </pre>
+     *
+     * @param a the 2D array to be modified
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final int[][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10237,9 +11551,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the given 3D array by the specified value in-place.
      *
-     * @param a
-     * @param param
+     * <p>This method modifies the original 3D array by dividing each element in all nested arrays
+     * by the parameter value. Integer division is performed, so results are truncated.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{100, 200}}, {{300, 400}}};
+     * Arrays.dividedBy(arr, 50);
+     * // arr is now {{{2, 4}}, {{6, 8}}}
+     * </pre>
+     *
+     * @param a the 3D array to be modified
+     * @param param the value to divide each element by
+     * @throws ArithmeticException if param is zero
      */
     public static void dividedBy(final int[][][] a, final int param) {
         if (N.isEmpty(a)) {
@@ -10252,11 +11578,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements of the given array by applying the specified unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>This method modifies the original array by applying the operator function to each element.
+     * The operator can throw a checked exception of type E. If the array is null or empty,
+     * the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {1, 2, 3};
+     * Arrays.updateAll(arr, x -> x * x);
+     * // arr is now {1, 4, 9}
+     * </pre>
+     *
+     * @param <E> the type of exception that the operator may throw
+     * @param a the array to be modified
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10269,11 +11606,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements of the given 2D array by applying the specified unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>This method modifies the original 2D array by applying the operator function to each element
+     * in all sub-arrays. The operator can throw a checked exception of type E.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{1, 2}, {3, 4}};
+     * Arrays.updateAll(arr, x -> x + 10);
+     * // arr is now {{11, 12}, {13, 14}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the operator may throw
+     * @param a the 2D array to be modified
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10286,11 +11634,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates all elements of the given 3D array by applying the specified unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>This method modifies the original 3D array by applying the operator function to each element
+     * in all nested arrays. The operator can throw a checked exception of type E.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{1, 2}}, {{3, 4}}};
+     * Arrays.updateAll(arr, x -> x * 2);
+     * // arr is now {{{2, 4}}, {{6, 8}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the operator may throw
+     * @param a the 3D array to be modified
+     * @param operator the unary operator to apply to each element
+     * @throws E if the operator throws an exception
      */
     public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -10303,12 +11662,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in the array that match the given predicate with the specified new value.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>This method modifies the original array by testing each element with the predicate
+     * and replacing matching elements with the new value. The predicate can throw a checked
+     * exception of type E. If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[] arr = {1, 2, 3, 4, 5};
+     * Arrays.replaceIf(arr, x -> x % 2 == 0, 0);
+     * // arr is now {1, 0, 3, 0, 5}
+     * </pre>
+     *
+     * @param <E> the type of exception that the predicate may throw
+     * @param a the array to be modified
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -10323,12 +11693,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in the 2D array that match the given predicate with the specified new value.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>This method modifies the original 2D array by testing each element in all sub-arrays
+     * with the predicate and replacing matching elements with the new value.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][] arr = {{1, 2}, {3, 4}};
+     * Arrays.replaceIf(arr, x -> x > 2, 10);
+     * // arr is now {{1, 2}, {10, 10}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the predicate may throw
+     * @param a the 2D array to be modified
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -10341,12 +11722,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces elements in the 3D array that match the given predicate with the specified new value.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>This method modifies the original 3D array by testing each element in all nested arrays
+     * with the predicate and replacing matching elements with the new value.
+     * If the array is null or empty, the method returns without performing any operation.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{1, 2}}, {{3, 4}}};
+     * Arrays.replaceIf(arr, x -> x < 3, 0);
+     * // arr is now {{{0, 0}}, {{3, 4}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the predicate may throw
+     * @param a the 3D array to be modified
+     * @param predicate the predicate to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isEmpty(a)) {
@@ -10359,12 +11751,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D array into a 2D array with the specified number of columns.
      *
+     * <p>This method creates a new 2D array by dividing the input array into rows of the specified
+     * column count. The last row may contain fewer elements if the array length is not evenly
+     * divisible by the column count. If the input array is null or empty, returns an empty 2D array.</p>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * <pre>
+     * int[] arr = {1, 2, 3, 4, 5, 6, 7};
+     * int[][] result = Arrays.reshape(arr, 3);
+     * // result is {{1, 2, 3}, {4, 5, 6}, {7}}
+     * </pre>
+     *
+     * @param a the 1D array to reshape
+     * @param cols the number of columns in each row
+     * @return a new 2D array containing the reshaped data
+     * @throws IllegalArgumentException if cols is less than 1
      */
     public static int[][] reshape(final int[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -10385,13 +11787,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D array into a 3D array with the specified dimensions.
      *
+     * <p>This method creates a new 3D array by dividing the input array first into matrices
+     * of the specified row and column counts. Each matrix may be incomplete if the array length
+     * is not evenly divisible by rows × cols. If the input array is null or empty, returns an empty 3D array.</p>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * <pre>
+     * int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
+     * int[][][] result = Arrays.reshape(arr, 2, 2);
+     * // result is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     * </pre>
+     *
+     * @param a the 1D array to reshape
+     * @param rows the number of rows in each 2D matrix
+     * @param cols the number of columns in each row
+     * @return a new 3D array containing the reshaped data
+     * @throws IllegalArgumentException if rows or cols is less than 1
      */
     public static int[][][] reshape(final int[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -10416,9 +11828,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D array into a 1D array.
      *
-     * @param a
-     * @return
+     * <p>This method creates a new 1D array containing all elements from the 2D array
+     * in row-major order. Empty sub-arrays are skipped. If the input array is null or empty,
+     * returns an empty array.</p>
+     *
+     * <pre>
+     * int[][] arr = {{1, 2, 3}, {4, 5}, {6, 7, 8}};
+     * int[] result = Arrays.flatten(arr);
+     * // result is {1, 2, 3, 4, 5, 6, 7, 8}
+     * </pre>
+     *
+     * @param a the 2D array to flatten
+     * @return a new 1D array containing all elements from the input array
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -10444,9 +11867,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D array into a 1D array.
      *
-     * @param a
-     * @return
+     * <p>This method creates a new 1D array containing all elements from the 3D array
+     * in depth-first order. Empty sub-arrays at any level are skipped. If the input array
+     * is null or empty, returns an empty array.</p>
+     *
+     * <pre>
+     * int[][][] arr = {{{1, 2}, {3}}, {{4, 5, 6}}};
+     * int[] result = Arrays.flatten(arr);
+     * // result is {1, 2, 3, 4, 5, 6}
+     * </pre>
+     *
+     * @param a the 3D array to flatten
+     * @return a new 1D array containing all elements from the input array
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -10478,17 +11912,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Flattens a 2D array, applies the given operation, and updates the original array with the results.
+     *
+     * <p>This method provides a convenient way to apply operations that work on 1D arrays to 2D arrays.
+     * The array is flattened, the operation is applied to the flattened array, and then the values
+     * are copied back to the original 2D array structure.</p>
+     *
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
+     * Arrays.flatOp(arr, t -> N.sort(t));
+     * // arr is now {{1, 1, 3}, {4, 5, 9}}
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception that the operation may throw
+     * @param a the 2D array to process
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final int[][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -10510,17 +11949,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Flattens a 3D array, applies the given operation, and updates the original array with the results.
+     *
+     * <p>This method provides a convenient way to apply operations that work on 1D arrays to 3D arrays.
+     * The array is flattened, the operation is applied to the flattened array, and then the values
+     * are copied back to the original 3D array structure.</p>
+     *
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * int[][][] arr = {{{5, 2}}, {{8, 1}}};
+     * Arrays.flatOp(arr, t -> N.sort(t));
+     * // arr is now {{{1, 2}}, {{5, 8}}}
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> the type of exception that the operation may throw
+     * @param a the 3D array to process
+     * @param op the operation to apply to the flattened array
+     * @throws E if the operation throws an exception
      */
     public static <E extends Exception> void flatOp(final int[][][] a, final Throwables.Consumer<? super int[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -10546,10 +11990,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>This method creates a new array containing the element-wise sum of the input arrays.
+     * The result array length is the minimum of the two input array lengths. If either array
+     * is null or empty, the result length will be zero.</p>
+     *
+     * <pre>
+     * int[] a = {1, 2, 3, 4};
+     * int[] b = {5, 6, 7};
+     * int[] result = Arrays.add(a, b);
+     * // result is {6, 8, 10}
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @return a new array containing the element-wise sum
      */
     public static int[] add(final int[] a, final int[] b) {
         final int lenA = N.len(a);
@@ -10565,12 +12021,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two arrays with default values for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>This method creates a new array containing the element-wise sum of the input arrays.
+     * When one array is shorter than the other, the specified default values are used for
+     * the missing elements. The result array length is the maximum of the two input array lengths.</p>
+     *
+     * <pre>
+     * int[] a = {1, 2, 3};
+     * int[] b = {4, 5};
+     * int[] result = Arrays.add(a, b, 0, 10);
+     * // result is {5, 7, 13} (3 + 10 for the last element)
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @return a new array containing the element-wise sum with defaults
      */
     public static int[] add(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -10580,13 +12048,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two arrays with specified result length and default values.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>This private helper method implements the core logic for array addition with default values.
+     * It handles all cases where arrays may have different lengths or the result length differs
+     * from both input arrays.</p>
+     *
+     * @param len the desired length of the result array
+     * @param a the first array
+     * @param b the second array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @return a new array containing the element-wise sum with defaults
      */
     private static int[] add(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -10618,11 +12091,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>This method creates a new array containing the element-wise sum of the three input arrays.
+     * The result array length is the minimum of the three input array lengths. If any array
+     * is null or empty, it may affect the result length.</p>
+     *
+     * <pre>
+     * int[] a = {1, 2, 3};
+     * int[] b = {4, 5, 6};
+     * int[] c = {7, 8};
+     * int[] result = Arrays.add(a, b, c);
+     * // result is {12, 15} (1+4+7, 2+5+8)
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @return a new array containing the element-wise sum
      */
     public static int[] add(final int[] a, final int[] b, final int[] c) {
         final int lenA = N.len(a);
@@ -10639,14 +12125,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three arrays with default values for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method creates a new array containing the element-wise sum of the three input arrays.
+     * When any array is shorter than the others, the specified default values are used for
+     * the missing elements. The result array length is the maximum of the three input array lengths.</p>
+     *
+     * <pre>
+     * int[] a = {1, 2, 3};
+     * int[] b = {4, 5};
+     * int[] c = {7};
+     * int[] result = Arrays.add(a, b, c, 0, 10, 20);
+     * // result is {12, 17, 23} (1+4+7, 2+5+20, 3+10+20)
+     * </pre>
+     *
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @param valueForNoneC the default value to use when array c has no element at a position
+     * @return a new array containing the element-wise sum with defaults
      */
     public static int[] add(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -10657,15 +12156,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three arrays with specified result length and default values.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This private helper method implements the core logic for three-array addition with default values.
+     * It efficiently handles all cases where arrays may have different lengths.</p>
+     *
+     * @param len the desired length of the result array
+     * @param a the first array
+     * @param b the second array
+     * @param c the third array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @param valueForNoneC the default value to use when array c has no element at a position
+     * @return a new array containing the element-wise sum with defaults
      */
     private static int[] add(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -10689,10 +12192,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 2D arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>This method creates a new 2D array containing the element-wise sum of the input arrays.
+     * Addition is performed on corresponding sub-arrays. The result array length is the minimum
+     * of the two input array lengths.</p>
+     *
+     * <pre>
+     * int[][] a = {{1, 2}, {3, 4}};
+     * int[][] b = {{5, 6}, {7, 8}};
+     * int[][] result = Arrays.add(a, b);
+     * // result is {{6, 8}, {10, 12}}
+     * </pre>
+     *
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @return a new 2D array containing the element-wise sum
      */
     public static int[][] add(final int[][] a, final int[][] b) {
         final int lenA = N.len(a);
@@ -10708,26 +12223,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 2D arrays with default values for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>This method creates a new 2D array containing the element-wise sum of the input arrays.
+     * When arrays have different dimensions, the specified default values are used for missing elements.
+     * The result dimensions match the maximum dimensions of the input arrays.</p>
+     *
+     * <pre>
+     * int[][] a = {{1, 2}, {3}};
+     * int[][] b = {{4, 5, 6}};
+     * int[][] result = Arrays.add(a, b, 0, 10);
+     * // result is {{5, 7, 16}, {13, 10, 10}}
+     * </pre>
+     *
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @return a new 2D array containing the element-wise sum with defaults
      */
     public static int[][] add(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Performs element-wise addition of two 2D arrays with specified dimensions and default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>This private helper method implements the core logic for 2D array addition with default values.
+     * It handles all cases where arrays may have different dimensions at both the outer and inner levels.</p>
+     *
+     * @param len the desired number of rows in the result array
+     * @param rowLen the desired number of columns in each row
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @return a new 2D array containing the element-wise sum with defaults
      */
     private static int[][] add(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -10759,11 +12290,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>This method creates a new 2D array containing the element-wise sum of the three input arrays.
+     * Addition is performed on corresponding sub-arrays. The result array length is the minimum
+     * of the three input array lengths.</p>
+     *
+     * <pre>
+     * int[][] a = {{1, 2}, {3, 4}};
+     * int[][] b = {{5, 6}, {7, 8}};
+     * int[][] c = {{9, 10}, {11, 12}};
+     * int[][] result = Arrays.add(a, b, c);
+     * // result is {{15, 18}, {21, 24}}
+     * </pre>
+     *
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @param c the third 2D array
+     * @return a new 2D array containing the element-wise sum
      */
     public static int[][] add(final int[][] a, final int[][] b, final int[][] c) {
         final int lenA = N.len(a);
@@ -10780,14 +12324,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D arrays with default values for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method creates a new 2D array containing the element-wise sum of the three input arrays.
+     * When arrays have different dimensions, the specified default values are used for missing elements.
+     * The result dimensions match the maximum dimensions of the input arrays.</p>
+     *
+     * <pre>
+     * int[][] a = {{1, 2}, {3}};
+     * int[][] b = {{4, 5}};
+     * int[][] c = {{7}};
+     * int[][] result = Arrays.add(a, b, c, 0, 10, 20);
+     * // result is {{12, 37}, {33, 30}}
+     * </pre>
+     *
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @param c the third 2D array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @param valueForNoneC the default value to use when array c has no element at a position
+     * @return a new 2D array containing the element-wise sum with defaults
      */
     public static int[][] add(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC) {
         return add(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
@@ -10795,16 +12352,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 2D arrays with specified dimensions and default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This private helper method implements the core logic for three 2D array addition with default values.
+     * It efficiently handles all cases where arrays may have different dimensions.</p>
+     *
+     * @param len the desired number of rows in the result array
+     * @param rowLen the desired number of columns in each row
+     * @param a the first 2D array
+     * @param b the second 2D array
+     * @param c the third 2D array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @param valueForNoneC the default value to use when array c has no element at a position
+     * @return a new 2D array containing the element-wise sum with defaults
      */
     private static int[][] add(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
             final int valueForNoneB, final int valueForNoneC) {
@@ -10828,10 +12389,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>This method creates a new 3D array containing the element-wise sum of the input arrays.
+     * Addition is performed on corresponding 2D sub-arrays. The result array length is the minimum
+     * of the two input array lengths.</p>
+     *
+     * <pre>
+     * int[][][] a = {{{1, 2}}, {{3, 4}}};
+     * int[][][] b = {{{5, 6}}, {{7, 8}}};
+     * int[][][] result = Arrays.add(a, b);
+     * // result is {{{6, 8}}, {{10, 12}}}
+     * </pre>
+     *
+     * @param a the first 3D array
+     * @param b the second 3D array
+     * @return a new 3D array containing the element-wise sum
      */
     public static int[][][] add(final int[][][] a, final int[][][] b) {
         final int lenA = N.len(a);
@@ -10847,12 +12420,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of two 3D arrays with default values for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>This method creates a new 3D array containing the element-wise sum of the input arrays.
+     * When arrays have different dimensions at any level, the specified default values are used
+     * for missing elements. The result dimensions match the maximum dimensions of the input arrays.</p>
+     *
+     * <pre>
+     * int[][][] a = {{{1, 2}}, {{3}}};
+     * int[][][] b = {{{4, 5, 6}}};
+     * int[][][] result = Arrays.add(a, b, 0, 10);
+     * // result is {{{5, 7, 16}}, {{13, 10, 10}}}
+     * </pre>
+     *
+     * @param a the first 3D array
+     * @param b the second 3D array
+     * @param valueForNoneA the default value to use when array a has no element at a position
+     * @param valueForNoneB the default value to use when array b has no element at a position
+     * @return a new 3D array containing the element-wise sum with defaults
      */
     public static int[][][] add(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -10878,11 +12463,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D integer arrays.
+     * The result array length is determined by the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * int[][][] b = {{{1, 1}, {1, 1}}, {{2, 2}, {2, 2}}};
+     * int[][][] c = {{{0, 1}, {2, 3}}, {{4, 5}, {6, 7}}};
+     * int[][][] result = Arrays.add(a, b, c);
+     * // result[0][0][0] = 1 + 1 + 0 = 2
+     * // result[0][0][1] = 2 + 1 + 1 = 4
+     * </pre>
+     *
+     * @param a the first 3D array
+     * @param b the second 3D array
+     * @param c the third 3D array
+     * @return a new 3D array containing the element-wise sum, with length equal to the minimum of the three input arrays
      */
     public static int[][][] add(final int[][][] a, final int[][][] b, final int[][][] c) {
         final int lenA = N.len(a);
@@ -10899,14 +12496,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise addition of three 3D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length among the three input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1, 2}}, {{3, 4}}};
+     * int[][][] b = {{{5, 6}}};  // shorter array
+     * int[][][] c = {{{7, 8}}, {{9, 10}}, {{11, 12}}};  // longer array
+     * int[][][] result = Arrays.add(a, b, c, 0, 1, 2);
+     * // For index 1: a[1] exists, b[1] missing (use 1), c[1] exists
+     * // For index 2: a[2] missing (use 0), b[2] missing (use 1), c[2] exists
+     * </pre>
+     *
+     * @param a the first 3D array
+     * @param b the second 3D array
+     * @param c the third 3D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new 3D array containing the element-wise sum, with length equal to the maximum of the three input arrays
      */
     public static int[][][] add(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -10928,10 +12538,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D integer arrays (a - b).
+     * The result array length is determined by the minimum length of the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20, 30, 40};
+     * int[] b = {1, 2, 3};
+     * int[] result = Arrays.subtract(a, b);
+     * // result = {9, 18, 27} (length is 3, the minimum)
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @return a new array containing the element-wise difference, with length equal to the minimum of the two input arrays
      */
     public static int[] subtract(final int[] a, final int[] b) {
         final int lenA = N.len(a);
@@ -10947,12 +12567,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 1D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length of the two input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20, 30};
+     * int[] b = {1, 2, 3, 4, 5};
+     * int[] result = Arrays.subtract(a, b, 0, 1);
+     * // For indices 3,4: a[3]=0, a[4]=0 (default), b[3]=4, b[4]=5
+     * // result = {9, 18, 27, -4, -5}
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the subtrahend array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new array containing the element-wise difference, with length equal to the maximum of the two input arrays
      */
     public static int[] subtract(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -10961,15 +12593,8 @@ public sealed class Arrays permits Arrays.f {
         return subtract(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB);
     }
 
-    /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
-     */
+    // Private helper methods for subtract operations
+
     private static int[] subtract(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11000,11 +12625,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D integer arrays (a - b - c).
+     * The result array length is determined by the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {100, 200, 300};
+     * int[] b = {10, 20, 30};
+     * int[] c = {1, 2, 3};
+     * int[] result = Arrays.subtract(a, b, c);
+     * // result = {89, 178, 267}
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @return a new array containing the element-wise difference, with length equal to the minimum of the three input arrays
      */
     public static int[] subtract(final int[] a, final int[] b, final int[] c) {
         final int lenA = N.len(a);
@@ -11021,14 +12657,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 1D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length among the three input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {100, 200};
+     * int[] b = {10, 20, 30};
+     * int[] c = {1};
+     * int[] result = Arrays.subtract(a, b, c, 0, 5, 2);
+     * // For index 2: a[2]=0 (default), b[2]=30, c[2]=2 (default)
+     * // result = {89, 178, -32}
+     * </pre>
+     *
+     * @param a the minuend array
+     * @param b the first subtrahend array
+     * @param c the second subtrahend array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new array containing the element-wise difference, with length equal to the maximum of the three input arrays
      */
     public static int[] subtract(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -11038,17 +12687,10 @@ public sealed class Arrays permits Arrays.f {
         return subtract(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC);
     }
 
-    /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
-     */
+    // Private helper methods for subtract operations
+
+    // Private helper methods for subtract operations
+
     private static int[] subtract(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -11071,10 +12713,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D integer arrays (a - b).
+     * The result array length is determined by the minimum length of the two input arrays.
+     * Each sub-array is processed independently using element-wise subtraction.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{10, 20}, {30, 40}, {50, 60}};
+     * int[][] b = {{1, 2}, {3, 4}};
+     * int[][] result = Arrays.subtract(a, b);
+     * // result = {{9, 18}, {27, 36}} (length is 2, the minimum)
+     * </pre>
+     *
+     * @param a the minuend 2D array
+     * @param b the subtrahend 2D array
+     * @return a new 2D array containing the element-wise difference, with length equal to the minimum of the two input arrays
      */
     public static int[][] subtract(final int[][] a, final int[][] b) {
         final int lenA = N.len(a);
@@ -11090,27 +12743,30 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 2D integer arrays with default values for missing elements.
+     * The result array dimensions are determined by the maximum dimensions of the two input arrays.
+     * When an array or sub-array is shorter, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{10, 20}, {30}};
+     * int[][] b = {{1, 2, 3}, {4, 5}, {6, 7}};
+     * int[][] result = Arrays.subtract(a, b, 0, 1);
+     * // Handles both different outer array lengths and different sub-array lengths
+     * </pre>
+     *
+     * @param a the minuend 2D array
+     * @param b the subtrahend 2D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new 2D array containing the element-wise difference, with dimensions equal to the maximum of the two input arrays
      */
     public static int[][] subtract(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
-    /**
-     *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
-     */
+    // Private helper methods for subtract operations
+
     private static int[][] subtract(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11141,11 +12797,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D integer arrays (a - b - c).
+     * The result array length is determined by the minimum length among the three input arrays.
+     * Each sub-array is processed independently using element-wise subtraction.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{100, 200}, {300, 400}};
+     * int[][] b = {{10, 20}, {30, 40}};
+     * int[][] c = {{1, 2}, {3, 4}};
+     * int[][] result = Arrays.subtract(a, b, c);
+     * // result = {{89, 178}, {267, 356}}
+     * </pre>
+     *
+     * @param a the minuend 2D array
+     * @param b the first subtrahend 2D array
+     * @param c the second subtrahend 2D array
+     * @return a new 2D array containing the element-wise difference, with length equal to the minimum of the three input arrays
      */
     public static int[][] subtract(final int[][] a, final int[][] b, final int[][] c) {
         final int lenA = N.len(a);
@@ -11162,14 +12830,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 2D integer arrays with default values for missing elements.
+     * The result array dimensions are determined by the maximum dimensions among the three input arrays.
+     * When an array or sub-array is shorter, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method handles arrays of different lengths at both the outer array level and sub-array level,
+     * ensuring all elements are processed using the provided default values where necessary.
+     *
+     * @param a the minuend 2D array
+     * @param b the first subtrahend 2D array
+     * @param c the second subtrahend 2D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new 2D array containing the element-wise difference, with dimensions equal to the maximum of the three input arrays
      */
     public static int[][] subtract(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11177,45 +12851,24 @@ public sealed class Arrays permits Arrays.f {
                 valueForNoneB, valueForNoneC);
     }
 
-    /**
-     *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
-     */
-    private static int[][] subtract(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
-            final int valueForNoneB, final int valueForNoneC) {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final int[][] result = new int[len][];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-            result[i] = subtract(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC);
-        }
-
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = subtract(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB,
-                        valueForNoneC);
-            }
-        }
-
-        return result;
-    }
+    // Private helper methods for subtract operations
 
     /**
+     * Performs element-wise subtraction of two 3D integer arrays (a - b).
+     * The result array length is determined by the minimum length of the two input arrays.
+     * Each 2D sub-array is processed independently using element-wise subtraction.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
+     * int[][][] b = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * int[][][] result = Arrays.subtract(a, b);
+     * // result[0][0] = {9, 18}, result[0][1] = {27, 36}, etc.
+     * </pre>
+     *
+     * @param a the minuend 3D array
+     * @param b the subtrahend 3D array
+     * @return a new 3D array containing the element-wise difference, with length equal to the minimum of the two input arrays
      */
     public static int[][][] subtract(final int[][][] a, final int[][][] b) {
         final int lenA = N.len(a);
@@ -11231,12 +12884,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of two 3D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length of the two input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{10, 20}}, {{30, 40}}};
+     * int[][][] b = {{{1, 2}}};  // shorter array
+     * int[][][] result = Arrays.subtract(a, b, 0, 5);
+     * // For index 1: a[1] exists, b[1] missing (uses default 5)
+     * </pre>
+     *
+     * @param a the minuend 3D array
+     * @param b the subtrahend 3D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new 3D array containing the element-wise difference, with length equal to the maximum of the two input arrays
      */
     public static int[][][] subtract(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11262,11 +12926,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D integer arrays (a - b - c).
+     * The result array length is determined by the minimum length among the three input arrays.
+     * Each 2D sub-array is processed independently using element-wise subtraction.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{100, 200}}, {{300, 400}}};
+     * int[][][] b = {{{10, 20}}, {{30, 40}}};
+     * int[][][] c = {{{1, 2}}, {{3, 4}}};
+     * int[][][] result = Arrays.subtract(a, b, c);
+     * // result[0][0] = {89, 178}, etc.
+     * </pre>
+     *
+     * @param a the minuend 3D array
+     * @param b the first subtrahend 3D array
+     * @param c the second subtrahend 3D array
+     * @return a new 3D array containing the element-wise difference, with length equal to the minimum of the three input arrays
      */
     public static int[][][] subtract(final int[][][] a, final int[][][] b, final int[][][] c) {
         final int lenA = N.len(a);
@@ -11283,14 +12959,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise subtraction of three 3D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length among the three input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method handles arrays of different lengths at all levels (3D, 2D, and 1D),
+     * ensuring all elements are processed using the provided default values where necessary.
+     *
+     * @param a the minuend 3D array
+     * @param b the first subtrahend 3D array
+     * @param c the second subtrahend 3D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new 3D array containing the element-wise difference, with length equal to the maximum of the three input arrays
      */
     public static int[][][] subtract(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11311,11 +12993,45 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    // Private helper methods for subtract operations
+
+    private static int[][] subtract(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
+            final int valueForNoneB, final int valueForNoneC) {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+
+        final int[][] result = new int[len][];
+
+        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+            result[i] = subtract(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC);
+        }
+
+        if (N.min(lenA, lenB, lenC) < len) {
+            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+                result[i] = subtract(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB,
+                        valueForNoneC);
+            }
+        }
+
+        return result;
+    }
+
     /**
+     * Performs element-wise multiplication of two 1D integer arrays (a * b).
+     * The result array length is determined by the minimum length of the two input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {2, 3, 4, 5};
+     * int[] b = {10, 20, 30};
+     * int[] result = Arrays.multipliedBy(a, b);
+     * // result = {20, 60, 120} (length is 3, the minimum)
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @return a new array containing the element-wise product, with length equal to the minimum of the two input arrays
      */
     public static int[] multipliedBy(final int[] a, final int[] b) {
         final int lenA = N.len(a);
@@ -11331,12 +13047,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 1D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length of the two input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {2, 3, 4};
+     * int[] b = {10, 20, 30, 40, 50};
+     * int[] result = Arrays.multipliedBy(a, b, 1, 2);
+     * // For indices 3,4: a[3]=1, a[4]=1 (default), b[3]=40, b[4]=50
+     * // result = {20, 60, 120, 40, 50}
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new array containing the element-wise product, with length equal to the maximum of the two input arrays
      */
     public static int[] multipliedBy(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11345,15 +13073,10 @@ public sealed class Arrays permits Arrays.f {
         return multipliedBy(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB);
     }
 
-    /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
-     */
+    // Private helper methods for subtract operations
+
+    // Private helper methods for multipliedBy operations
+
     private static int[] multipliedBy(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11384,11 +13107,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D integer arrays (a * b * c).
+     * The result array length is determined by the minimum length among the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {2, 3, 4};
+     * int[] b = {5, 6, 7};
+     * int[] c = {10, 10, 10};
+     * int[] result = Arrays.multipliedBy(a, b, c);
+     * // result = {100, 180, 280}
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param c the third multiplicand array
+     * @return a new array containing the element-wise product, with length equal to the minimum of the three input arrays
      */
     public static int[] multipliedBy(final int[] a, final int[] b, final int[] c) {
         final int lenA = N.len(a);
@@ -11405,14 +13139,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 1D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length among the three input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {2, 3};
+     * int[] b = {4, 5, 6};
+     * int[] c = {7};
+     * int[] result = Arrays.multipliedBy(a, b, c, 1, 1, 2);
+     * // For index 1: a[1]=3, b[1]=5, c[1]=2 (default)
+     * // For index 2: a[2]=1 (default), b[2]=6, c[2]=2 (default)
+     * // result = {56, 30, 12}
+     * </pre>
+     *
+     * @param a the first multiplicand array
+     * @param b the second multiplicand array
+     * @param c the third multiplicand array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new array containing the element-wise product, with length equal to the maximum of the three input arrays
      */
     public static int[] multipliedBy(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -11422,17 +13170,10 @@ public sealed class Arrays permits Arrays.f {
         return multipliedBy(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC);
     }
 
-    /**
-     *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
-     */
+    // Private helper methods for subtract operations
+
+    // Private helper methods for multipliedBy operations
+
     private static int[] multipliedBy(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -11455,10 +13196,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D integer arrays (a * b).
+     * The result array length is determined by the minimum length of the two input arrays.
+     * Each sub-array is processed independently using element-wise multiplication.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{2, 3}, {4, 5}, {6, 7}};
+     * int[][] b = {{10, 10}, {20, 20}};
+     * int[][] result = Arrays.multipliedBy(a, b);
+     * // result = {{20, 30}, {80, 100}} (length is 2, the minimum)
+     * </pre>
+     *
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @return a new 2D array containing the element-wise product, with length equal to the minimum of the two input arrays
      */
     public static int[][] multipliedBy(final int[][] a, final int[][] b) {
         final int lenA = N.len(a);
@@ -11474,27 +13226,32 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 2D integer arrays with default values for missing elements.
+     * The result array dimensions are determined by the maximum dimensions of the two input arrays.
+     * When an array or sub-array is shorter, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{2, 3}, {4}};
+     * int[][] b = {{10, 20, 30}, {40, 50}, {60, 70}};
+     * int[][] result = Arrays.multipliedBy(a, b, 1, 1);
+     * // Handles both different outer array lengths and different sub-array lengths
+     * </pre>
+     *
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new 2D array containing the element-wise product, with dimensions equal to the maximum of the two input arrays
      */
     public static int[][] multipliedBy(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
-    /**
-     *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
-     */
+    // Private helper methods for subtract operations
+
+    // Private helper methods for multipliedBy operations
+
     private static int[][] multipliedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11525,11 +13282,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D integer arrays (a * b * c).
+     * The result array length is determined by the minimum length among the three input arrays.
+     * Each sub-array is processed independently using element-wise multiplication.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{2, 3}, {4, 5}};
+     * int[][] b = {{5, 6}, {7, 8}};
+     * int[][] c = {{10, 10}, {10, 10}};
+     * int[][] result = Arrays.multipliedBy(a, b, c);
+     * // result = {{100, 180}, {280, 400}}
+     * </pre>
+     *
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param c the third multiplicand 2D array
+     * @return a new 2D array containing the element-wise product, with length equal to the minimum of the three input arrays
      */
     public static int[][] multipliedBy(final int[][] a, final int[][] b, final int[][] c) {
         final int lenA = N.len(a);
@@ -11546,14 +13315,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 2D integer arrays with default values for missing elements.
+     * The result array dimensions are determined by the maximum dimensions among the three input arrays.
+     * When an array or sub-array is shorter, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method handles arrays of different lengths at both the outer array level and sub-array level,
+     * ensuring all elements are processed using the provided default values where necessary.
+     *
+     * @param a the first multiplicand 2D array
+     * @param b the second multiplicand 2D array
+     * @param c the third multiplicand 2D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new 2D array containing the element-wise product, with dimensions equal to the maximum of the three input arrays
      */
     public static int[][] multipliedBy(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11562,44 +13337,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D integer arrays (a * b).
+     * The result array length is determined by the minimum length of the two input arrays.
+     * Each 2D sub-array is processed independently using element-wise multiplication.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
-     */
-    private static int[][] multipliedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
-            final int valueForNoneB, final int valueForNoneC) {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final int[][] result = new int[len][];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-            result[i] = multipliedBy(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC);
-        }
-
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = multipliedBy(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB,
-                        valueForNoneC);
-            }
-        }
-
-        return result;
-    }
-
-    /**
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{2, 3}, {4, 5}}, {{6, 7}, {8, 9}}};
+     * int[][][] b = {{{10, 10}, {10, 10}}, {{20, 20}, {20, 20}}};
+     * int[][][] result = Arrays.multipliedBy(a, b);
+     * // result[0][0] = {20, 30}, result[0][1] = {40, 50}, etc.
+     * </pre>
      *
-     * @param a
-     * @param b
-     * @return
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @return a new 3D array containing the element-wise product, with length equal to the minimum of the two input arrays
      */
     public static int[][][] multipliedBy(final int[][][] a, final int[][][] b) {
         final int lenA = N.len(a);
@@ -11615,12 +13367,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of two 3D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length of the two input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{2, 3}}, {{4, 5}}};
+     * int[][][] b = {{{10, 20}}};  // shorter array
+     * int[][][] result = Arrays.multipliedBy(a, b, 1, 2);
+     * // For index 1: a[1] exists, b[1] missing (uses default 2)
+     * </pre>
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @return a new 3D array containing the element-wise product, with length equal to the maximum of the two input arrays
      */
     public static int[][][] multipliedBy(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11646,11 +13409,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D integer arrays (a * b * c).
+     * The result array length is determined by the minimum length among the three input arrays.
+     * Each 2D sub-array is processed independently using element-wise multiplication.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{2, 3}}, {{4, 5}}};
+     * int[][][] b = {{{5, 6}}, {{7, 8}}};
+     * int[][][] c = {{{10, 10}}, {{10, 10}}};
+     * int[][][] result = Arrays.multipliedBy(a, b, c);
+     * // result[0][0] = {100, 180}, etc.
+     * </pre>
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param c the third multiplicand 3D array
+     * @return a new 3D array containing the element-wise product, with length equal to the minimum of the three input arrays
      */
     public static int[][][] multipliedBy(final int[][][] a, final int[][][] b, final int[][][] c) {
         final int lenA = N.len(a);
@@ -11667,14 +13442,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise multiplication of three 3D integer arrays with default values for missing elements.
+     * The result array length is determined by the maximum length among the three input arrays.
+     * When an array is shorter than the maximum length, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>This method handles arrays of different lengths at all levels (3D, 2D, and 1D),
+     * ensuring all elements are processed using the provided default values where necessary.
+     *
+     * @param a the first multiplicand 3D array
+     * @param b the second multiplicand 3D array
+     * @param c the third multiplicand 3D array
+     * @param valueForNoneA the default value to use for missing elements in array a
+     * @param valueForNoneB the default value to use for missing elements in array b
+     * @param valueForNoneC the default value to use for missing elements in array c
+     * @return a new 3D array containing the element-wise product, with length equal to the maximum of the three input arrays
      */
     public static int[][][] multipliedBy(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11695,11 +13476,47 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    // Private helper methods for subtract operations
+
+    // Private helper methods for multipliedBy operations
+
+    private static int[][] multipliedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
+            final int valueForNoneB, final int valueForNoneC) {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+
+        final int[][] result = new int[len][];
+
+        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+            result[i] = multipliedBy(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC);
+        }
+
+        if (N.min(lenA, lenB, lenC) < len) {
+            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+                result[i] = multipliedBy(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB,
+                        valueForNoneC);
+            }
+        }
+
+        return result;
+    }
+
     /**
+     * Performs element-wise division of two integer arrays.
+     * The result array length equals the minimum length of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20, 30};
+     * int[] b = {2, 4, 5};
+     * int[] result = Arrays.dividedBy(a, b); // Returns {5, 5, 6}
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @return a new array containing the element-wise division results
+     * @throws ArithmeticException if any element in array b is zero
      */
     public static int[] dividedBy(final int[] a, final int[] b) {
         final int lenA = N.len(a);
@@ -11715,12 +13532,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two integer arrays with default values for missing elements.
+     * The result array length equals the maximum length of the input arrays.
+     * When an array is shorter, the specified default value is used for missing elements.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20};
+     * int[] b = {2, 4, 5};
+     * int[] result = Arrays.dividedBy(a, b, 30, 1); // Returns {5, 5, 30}
+     * // For index 2: valueForNoneA (30) / b[2] (5) = 6
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @return a new array containing the element-wise division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11730,13 +13559,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for element-wise division with specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA the default value to use when array a is shorter
+     * @param valueForNoneB the default value to use when array b is shorter
+     * @return a new array containing the element-wise division results
      */
     private static int[] dividedBy(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11768,11 +13598,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three integer arrays (a/b/c).
+     * The result array length equals the minimum length of the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {100, 200, 300};
+     * int[] b = {2, 4, 5};
+     * int[] c = {5, 5, 6};
+     * int[] result = Arrays.dividedBy(a, b, c); // Returns {10, 10, 10}
+     * // Each element: a[i] / b[i] / c[i]
+     * </pre>
+     *
+     * @param a the first dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @return a new array containing the chained division results
+     * @throws ArithmeticException if any divisor element is zero
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int[] c) {
         final int lenA = N.len(a);
@@ -11789,14 +13631,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three integer arrays with default values.
+     * The result array length equals the maximum length of the three input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {100, 200};
+     * int[] b = {2, 4, 5};
+     * int[] c = {5};
+     * int[] result = Arrays.dividedBy(a, b, c, 300, 1, 10);
+     * // Returns {10, 10, 30}
+     * </pre>
+     *
+     * @param a the first dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param valueForNoneC the default value when array c is shorter
+     * @return a new array containing the chained division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC) {
         final int lenA = N.len(a);
@@ -11807,15 +13661,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for chained division with specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired length of the result array
+     * @param a the first dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param valueForNoneC the default value when array c is shorter
+     * @return a new array containing the chained division results
      */
     private static int[] dividedBy(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11839,10 +13694,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D integer arrays.
+     * Each corresponding row is divided element-wise.
+     * The result array has dimensions based on the minimum dimensions of inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{10, 20}, {30, 40}};
+     * int[][] b = {{2, 4}, {5, 8}};
+     * int[][] result = Arrays.dividedBy(a, b);
+     * // Returns {{5, 5}, {6, 5}}
+     * </pre>
+     *
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @return a new 2D array containing the element-wise division results
+     * @throws ArithmeticException if any divisor element is zero
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b) {
         final int lenA = N.len(a);
@@ -11858,26 +13725,38 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 2D integer arrays with default values.
+     * The result array dimensions are based on the maximum dimensions of inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{10, 20}};
+     * int[][] b = {{2, 4}, {5, 8}};
+     * int[][] result = Arrays.dividedBy(a, b, 30, 1);
+     * // Returns {{5, 5}, {6, 30}}
+     * </pre>
+     *
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @return a new 2D array containing the element-wise division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Internal helper method for 2D array division with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired length of each row
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @return a new 2D array containing the element-wise division results
      */
     private static int[][] dividedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -11909,11 +13788,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three 2D integer arrays.
+     * Each corresponding element is divided in sequence (a[i][j]/b[i][j]/c[i][j]).
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{100, 200}};
+     * int[][] b = {{2, 4}};
+     * int[][] c = {{5, 5}};
+     * int[][] result = Arrays.dividedBy(a, b, c);
+     * // Returns {{10, 10}}
+     * </pre>
+     *
+     * @param a the first dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @return a new 2D array containing the chained division results
+     * @throws ArithmeticException if any divisor element is zero
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int[][] c) {
         final int lenA = N.len(a);
@@ -11930,14 +13821,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three 2D integer arrays with default values.
+     * The result dimensions are based on the maximum dimensions of all inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @return a new 2D array containing the chained division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -11946,16 +13840,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for 2D array chained division with specified dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired length of each row
+     * @param a the first dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @return a new 2D array containing the chained division results
      */
     private static int[][] dividedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
             final int valueForNoneB, final int valueForNoneC) {
@@ -11980,10 +13875,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D integer arrays.
+     * Each corresponding element is divided across all three dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{10, 20}}, {{30, 40}}};
+     * int[][][] b = {{{2, 4}}, {{5, 8}}};
+     * int[][][] result = Arrays.dividedBy(a, b);
+     * // Returns {{{5, 5}}, {{6, 5}}}
+     * </pre>
+     *
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @return a new 3D array containing the element-wise division results
+     * @throws ArithmeticException if any divisor element is zero
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b) {
         final int lenA = N.len(a);
@@ -11999,12 +13905,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division of two 3D integer arrays with default values.
+     * The result dimensions are based on the maximum dimensions of inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @return a new 3D array containing the element-wise division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB) {
         final int lenA = N.len(a);
@@ -12030,11 +13939,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three 3D integer arrays.
+     * Each element is divided in sequence (a[i][j][k]/b[i][j][k]/c[i][j][k]).
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * @param a the first dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @return a new 3D array containing the chained division results
+     * @throws ArithmeticException if any divisor element is zero
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int[][][] c) {
         final int lenA = N.len(a);
@@ -12051,14 +13963,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division of three 3D integer arrays with default values.
+     * The result dimensions are based on the maximum dimensions of all inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param a the first dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @return a new 3D array containing the chained division results
+     * @throws ArithmeticException if division by zero occurs
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC) {
@@ -12080,11 +13995,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling for two integer arrays.
+     * When a divisor element is zero, it's replaced with the defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20, 30};
+     * int[] b = {2, 0, 5};
+     * int[] result = Arrays.dividedBy(a, b, 1);
+     * // Returns {5, 20, 6} (20/0 becomes 20/1)
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new array containing the division results with zero-handling
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12100,13 +14025,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling and default values for missing elements.
+     * Combines zero-handling with support for arrays of different lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20};
+     * int[] b = {2, 0, 5};
+     * int[] result = Arrays.dividedBy(a, b, 30, 1, 1);
+     * // Returns {5, 20, 30} (index 2: 30/5=6, index 1: 20/0 becomes 20/1)
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new array containing the division results
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12116,14 +14051,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for division with zero-handling and specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new array containing the division results
      */
     private static int[] dividedBy(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
             final int defaultValueForZero) {
@@ -12156,12 +14092,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling for three arrays.
+     * When any divisor element is zero, it's replaced with defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {100, 200, 300};
+     * int[] b = {2, 0, 5};
+     * int[] c = {5, 10, 0};
+     * int[] result = Arrays.dividedBy(a, b, c, 1);
+     * // Returns {10, 20, 60} (zeros replaced with 1)
+     * </pre>
+     *
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new array containing the chained division results with zero-handling
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int[] c, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12178,15 +14125,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling and default values.
+     * Combines zero-handling with support for arrays of different lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param valueForNoneC the default value when array c is shorter
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new array containing the chained division results
      */
     public static int[] dividedBy(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB, final int valueForNoneC,
             final int defaultValueForZero) {
@@ -12198,16 +14147,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for chained division with zero-handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired length of the result array
+     * @param a the dividend array
+     * @param b the first divisor array
+     * @param c the second divisor array
+     * @param valueForNoneA the default value when array a is shorter
+     * @param valueForNoneB the default value when array b is shorter
+     * @param valueForNoneC the default value when array c is shorter
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new array containing the chained division results
      */
     private static int[] dividedBy(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final int defaultValueForZero) {
@@ -12232,11 +14182,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling for two 2D arrays.
+     * When any divisor element is zero, it's replaced with defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{10, 20}, {30, 40}};
+     * int[][] b = {{2, 0}, {5, 8}};
+     * int[][] result = Arrays.dividedBy(a, b, 1);
+     * // Returns {{5, 20}, {6, 5}}
+     * </pre>
+     *
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new 2D array containing the division results with zero-handling
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12252,28 +14212,31 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling and default values for 2D arrays.
+     * Combines zero-handling with support for arrays of different dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new 2D array containing the division results
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB, final int defaultValueForZero) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, defaultValueForZero);
     }
 
     /**
+     * Internal helper method for 2D array division with zero-handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired length of each row
+     * @param a the dividend 2D array
+     * @param b the divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new 2D array containing the division results
      */
     private static int[][] dividedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
             final int defaultValueForZero) {
@@ -12306,12 +14269,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling for three 2D arrays.
+     * When any divisor element is zero, it's replaced with defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new 2D array containing the chained division results with zero-handling
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int[][] c, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12328,15 +14293,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling and default values for 2D arrays.
+     * Combines zero-handling with support for arrays of different dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new 2D array containing the chained division results
      */
     public static int[][] dividedBy(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final int defaultValueForZero) {
@@ -12345,17 +14312,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Internal helper method for 2D array chained division with zero-handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the desired number of rows in the result
+     * @param rowLen the desired length of each row
+     * @param a the dividend 2D array
+     * @param b the first divisor 2D array
+     * @param c the second divisor 2D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new 2D array containing the chained division results
      */
     private static int[][] dividedBy(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA,
             final int valueForNoneB, final int valueForNoneC, final int defaultValueForZero) {
@@ -12380,11 +14348,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling for two 3D arrays.
+     * When any divisor element is zero, it's replaced with defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new 3D array containing the division results with zero-handling
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12400,13 +14370,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs element-wise division with zero-handling and default values for 3D arrays.
+     * Combines zero-handling with support for arrays of different dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the divisor 3D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param defaultValueForZero the value to use when divisor element is zero
+     * @return a new 3D array containing the division results
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12432,12 +14404,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling for three 3D arrays.
+     * When any divisor element is zero, it's replaced with defaultValueForZero.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new 3D array containing the chained division results with zero-handling
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int[][][] c, final int defaultValueForZero) {
         final int lenA = N.len(a);
@@ -12454,15 +14428,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Performs chained element-wise division with zero-handling and default values for 3D arrays.
+     * Combines zero-handling with support for arrays of different dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param a the dividend 3D array
+     * @param b the first divisor 3D array
+     * @param c the second divisor 3D array
+     * @param valueForNoneA the default value when array a elements are missing
+     * @param valueForNoneB the default value when array b elements are missing
+     * @param valueForNoneC the default value when array c elements are missing
+     * @param defaultValueForZero the value to use when any divisor element is zero
+     * @return a new 3D array containing the chained division results
      */
     public static int[][][] dividedBy(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final int defaultValueForZero) {
@@ -12485,13 +14461,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two integer arrays, creating a new array from the results.
+     * The length of the resulting array is the minimum of the lengths of the input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {10, 20, 30};
+     * int[] b = {3, 4, 5};
+     * int[] result = zip(a, b, (x, y) -> x * y);
+     * // result will be {30, 80, 150}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first integer array.
+     * @param b The second integer array.
+     * @param zipFunction The binary function to apply to each pair of corresponding elements.
+     * @return A new integer array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -12507,15 +14493,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two integer arrays, with specified default values for missing elements.
+     * The length of the resulting array is the maximum of the lengths of the input arrays. If one array is shorter, it's virtually padded with its corresponding default value.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {1, 2};
+     * int[] b = {10, 20, 30};
+     * int[] result = zip(a, b, 0, 5, (x, y) -> x + y);
+     * // result will be {11, 22, 35} (1+10, 2+20, 0+30)
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first integer array.
+     * @param b The second integer array.
+     * @param valueForNoneA The default value to use when an element is missing from array 'a'.
+     * @param valueForNoneB The default value to use when an element is missing from array 'b'.
+     * @param zipFunction The binary function to apply to each pair of elements.
+     * @return A new integer array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
             final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
@@ -12568,14 +14564,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three integer arrays.
+     * The length of the result is the minimum of the lengths of the input arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {1, 2, 3};
+     * int[] b = {4, 5, 6};
+     * int[] c = {7, 8, 9};
+     * int[] result = zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result will be {12, 15, 18}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first integer array.
+     * @param b The second integer array.
+     * @param c The third integer array.
+     * @param zipFunction The ternary function to apply to each triplet of corresponding elements.
+     * @return A new integer array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
             throws E {
@@ -12593,17 +14600,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three integer arrays, with specified default values.
+     * The length of the result is the maximum of the lengths of the input arrays. Shorter arrays are virtually padded with their respective default values.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {1, 2};
+     * int[] b = {10};
+     * int[] c = {100, 200, 300};
+     * int[] result = zip(a, b, c, 0, 1, 2, (x, y, z) -> x + y + z);
+     * // result will be {111, 203, 303}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first integer array.
+     * @param b The second integer array.
+     * @param c The third integer array.
+     * @param valueForNoneA The default value for array 'a'.
+     * @param valueForNoneB The default value for array 'b'.
+     * @param valueForNoneC The default value for array 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new integer array with the results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
@@ -12650,13 +14668,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation recursively to two 2D integer arrays.
+     * The resulting 2D array's length is the minimum of the input arrays' lengths. Each sub-array is the result of zipping corresponding sub-arrays from the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1, 2}, {3, 4}};
+     * int[][] b = {{5, 6}, {7, 8}};
+     * int[][] result = zip(a, b, (x, y) -> x - y);
+     * // result will be {{-4, -4}, {-4, -4}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 2D integer array.
+     * @param b The second 2D integer array.
+     * @param zipFunction The binary function to apply to elements.
+     * @return A new 2D integer array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -12672,15 +14700,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation to two 2D integer arrays with default values for padding.
+     * The dimensions of the resulting array are the maximum of the dimensions of the input arrays. Missing elements and sub-arrays are handled using the provided default values.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1}};
+     * int[][] b = {{10, 20}, {30, 40}};
+     * int[][] result = zip(a, b, 0, 0, (x, y) -> x + y);
+     * // result will be {{11, 20}, {30, 40}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 2D integer array.
+     * @param b The second 2D integer array.
+     * @param valueForNoneA The default value to use for missing elements from array 'a'.
+     * @param valueForNoneB The default value to use for missing elements from array 'b'.
+     * @param zipFunction The binary function to apply to elements.
+     * @return A new 2D integer array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
             final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
@@ -12731,14 +14769,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation recursively to three 2D integer arrays.
+     * The resulting 2D array's length is the minimum of the input arrays' lengths. Each sub-array is the result of zipping corresponding sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1, 2}};
+     * int[][] b = {{3, 4}};
+     * int[][] c = {{5, 6}};
+     * int[][] result = zip(a, b, c, (x, y, z) -> x * y * z);
+     * // result will be {{15, 48}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 2D integer array.
+     * @param b The second 2D integer array.
+     * @param c The third 2D integer array.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 2D integer array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
             throws E {
@@ -12756,17 +14805,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation to three 2D integer arrays with default values for padding.
+     * The dimensions of the resulting array are the maximum of the input arrays' dimensions. Missing elements and sub-arrays are handled using default values.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1}};
+     * int[][] b = {{2, 3}};
+     * int[][] c = {{4, 5}, {6, 7}};
+     * int[][] result = zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result will be {{7, 8}, {6, 7}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 2D integer array.
+     * @param b The second 2D integer array.
+     * @param c The third 2D integer array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 2D integer array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
@@ -12812,13 +14872,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation recursively to two 3D integer arrays.
+     * The resulting 3D array's length is the minimum of the input arrays' lengths. Each 2D sub-array is the result of zipping corresponding 2D sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1}}};
+     * int[][][] b = {{{2}}};
+     * int[][][] result = zip(a, b, (x, y) -> x + y);
+     * // result will be {{{3}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 3D integer array.
+     * @param b The second 3D integer array.
+     * @param zipFunction The binary function to apply.
+     * @return A new 3D integer array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -12834,15 +14904,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation to two 3D integer arrays with default values for padding.
+     * The resulting 3D array's length is the maximum of the input arrays' lengths. Missing elements and sub-arrays are handled using the provided default values.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1}}};
+     * int[][][] b = {{{2, 3}}, {{4}}};
+     * int[][][] result = zip(a, b, 0, 0, (x, y) -> x + y);
+     * // result will be {{{3, 3}}, {{4}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 3D integer array.
+     * @param b The second 3D integer array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param zipFunction The binary function to apply.
+     * @return A new 3D integer array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
             final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
@@ -12869,14 +14949,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation recursively to three 3D integer arrays.
+     * The resulting 3D array's length is the minimum of the input arrays' lengths. Each 2D sub-array is the result of zipping corresponding 2D sub-arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1}}};
+     * int[][][] b = {{{2}}};
+     * int[][][] c = {{{3}}};
+     * int[][][] result = zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result will be {{{6}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 3D integer array.
+     * @param b The second 3D integer array.
+     * @param c The third 3D integer array.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 3D integer array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
             final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
@@ -12894,17 +14985,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation to three 3D integer arrays with default values for padding.
+     * The resulting 3D array's length is the maximum of the input arrays' lengths. Missing elements are handled using default values.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1}}};
+     * int[][][] b = {{{2}}};
+     * int[][][] c = {{{3}},{{4}}};
+     * int[][][] result = zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result will be {{{6}}, {{4}}}
+     * </pre>
+     *
+     * @param <E> the type of exception that the zip function may throw.
+     * @param a The first 3D integer array.
+     * @param b The second 3D integer array.
+     * @param c The third 3D integer array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 3D integer array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
             final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
@@ -12925,6 +15027,20 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of integer elements in a 2D array.
+     * It handles null or empty sub-arrays gracefully.
+     *
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
+     * long count = totalCountOfElements(a);
+     * // count will be 5
+     * </pre>
+     *
+     * @param a The 2D integer array.
+     * @return The total count of integer elements.
+     */
     public static long totalCountOfElements(final int[][] a) {
         long count = 0;
 
@@ -12935,6 +15051,20 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of integer elements in a 3D array.
+     * It safely handles null or empty sub-arrays at any depth.
+     *
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
+     * long count = totalCountOfElements(a);
+     * // count will be 6
+     * </pre>
+     *
+     * @param a The 3D integer array.
+     * @return The total count of integer elements.
+     */
     public static long totalCountOfElements(final int[][][] a) {
         long count = 0;
 
@@ -12956,10 +15086,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a 2D integer array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
+     * int minLen = minSubArrayLen(a);
+     * // minLen will be 0
+     * </pre>
+     *
+     * @param a The 2D integer array.
+     * @return The minimum length of a sub-array, or 0 if the input array is null or empty.
      */
     public static int minSubArrayLen(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -12976,10 +15114,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a 2D integer array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
+     * int maxLen = maxSubArrayLen(a);
+     * // maxLen will be 3
+     * </pre>
+     *
+     * @param a The 2D integer array.
+     * @return The maximum length of a sub-array, or 0 if the input array is null or empty.
      */
     public static int maxSubArrayLen(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -12996,9 +15142,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of an integer array to the console and returns the string.
+     * Handles null and empty arrays.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[] a = {1, 2, 3};
+     * String s = println(a);
+     * // Prints "[1, 2, 3]" to console and s is "[1, 2, 3]"
+     * </pre>
+     *
+     * @param a The integer array to print.
+     * @return The string representation of the array.
      */
     public static String println(final int[] a) {
         if (a == null) {
@@ -13011,8 +15166,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of a 2D integer array to the console and returns the string.
+     * Handles null and empty arrays/sub-arrays.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>
+     * int[][] a = {{1, 2}, {3, 4}};
+     * String s = println(a);
+     * // Prints "[[1, 2], [3, 4]]" to console and s is "[[1, 2], [3, 4]]"
+     * </pre>
+     *
+     * @param a The 2D integer array to print.
+     * @return The string representation of the 2D array.
      */
     public static String println(final int[][] a) {
         if (a == null) {
@@ -13063,9 +15228,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of a 3D integer array to the console and returns the string.
+     * Handles null and empty arrays/sub-arrays.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * int[][][] a = {{{1, 2}}, {{3, 4}}};
+     * String s = println(a);
+     * // Prints a formatted string representation to console and returns it.
+     * </pre>
+     *
+     * @param a The 3D integer array to print.
+     * @return The string representation of the 3D array.
      */
     public static String println(final int[][][] a) {
         if (a == null) {
@@ -16201,9 +18375,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified float array in-place.
+     * The modification is performed directly on the input array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[] array = {1.0f, 2.0f, 3.0f};
+     * Arrays35.plus(array, 10.0f); // array becomes {11.0f, 12.0f, 13.0f}
+     * </code></pre>
+     *
+     * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to add to each element.
      */
     public static void plus(final float[] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16216,9 +18397,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 2D float array in-place.
+     * This method iterates through each 1D sub-array and applies the addition.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * Arrays35.plus(matrix, 10.0f); // matrix becomes {{11.0f, 12.0f}, {13.0f, 14.0f}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to add to each element.
      */
     public static void plus(final float[][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16231,9 +18419,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 3D float array in-place.
+     * This method recursively applies the addition to each 2D sub-array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
+     * Arrays35.plus(cube, 10.0f); // cube becomes {{{11.0f}, {12.0f}}, {{13.0f}, {14.0f}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to add to each element.
      */
     public static void plus(final float[][][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16246,9 +18441,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified float array in-place.
+     * The modification is performed directly on the input array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[] array = {11.0f, 12.0f, 13.0f};
+     * Arrays35.minus(array, 10.0f); // array becomes {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to subtract from each element.
      */
     public static void minus(final float[] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16261,9 +18463,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 2D float array in-place.
+     * This method iterates through each 1D sub-array and applies the subtraction.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][] matrix = {{11.0f, 12.0f}, {13.0f, 14.0f}};
+     * Arrays35.minus(matrix, 10.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to subtract from each element.
      */
     public static void minus(final float[][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16276,9 +18485,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 3D float array in-place.
+     * This method recursively applies the subtraction to each 2D sub-array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][][] cube = {{{11.0f}, {12.0f}}, {{13.0f}, {14.0f}}};
+     * Arrays35.minus(cube, 10.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to subtract from each element.
      */
     public static void minus(final float[][][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16291,9 +18507,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified float array by a scalar value in-place.
+     * The modification is performed directly on the input array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[] array = {1.0f, 2.0f, 3.0f};
+     * Arrays35.multipliedBy(array, 2.0f); // array becomes {2.0f, 4.0f, 6.0f}
+     * </code></pre>
+     *
+     * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to multiply each element by.
      */
     public static void multipliedBy(final float[] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16306,9 +18529,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 2D float array by a scalar value in-place.
+     * This method iterates through each 1D sub-array and applies the multiplication.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * Arrays35.multipliedBy(matrix, 2.0f); // matrix becomes {{2.0f, 4.0f}, {6.0f, 8.0f}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to multiply each element by.
      */
     public static void multipliedBy(final float[][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16321,9 +18551,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 3D float array by a scalar value in-place.
+     * This method recursively applies the multiplication to each 2D sub-array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
+     * Arrays35.multipliedBy(cube, 2.0f); // cube becomes {{{2.0f}, {4.0f}}, {{6.0f}, {8.0f}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to multiply each element by.
      */
     public static void multipliedBy(final float[][][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16336,9 +18573,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified float array by a scalar value in-place.
+     * The modification is performed directly on the input array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[] array = {2.0f, 4.0f, 6.0f};
+     * Arrays35.dividedBy(array, 2.0f); // array becomes {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to divide each element by.
      */
     public static void dividedBy(final float[] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16351,9 +18595,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 2D float array by a scalar value in-place.
+     * This method iterates through each 1D sub-array and applies the division.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][] matrix = {{2.0f, 4.0f}, {6.0f, 8.0f}};
+     * Arrays35.dividedBy(matrix, 2.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to divide each element by.
      */
     public static void dividedBy(final float[][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16366,9 +18617,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 3D float array by a scalar value in-place.
+     * This method recursively applies the division to each 2D sub-array.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * float[][][] cube = {{{2.0f}, {4.0f}}, {{6.0f}, {8.0f}}};
+     * Arrays35.dividedBy(cube, 2.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
+     * @param param the float value to divide each element by.
      */
     public static void dividedBy(final float[][][] a, final float param) {
         if (N.isEmpty(a)) {
@@ -16381,11 +18639,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified float array in-place by applying a given unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * float[] array = {1.0f, -2.0f, 3.0f};
+     * Arrays35.updateAll(array, x -> Math.abs(x)); // array becomes {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the operator.
+     * @param a the array to be updated. If null or empty, the method returns immediately.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -16398,11 +18662,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 2D float array in-place by applying a given unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * float[][] matrix = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
+     * Arrays35.updateAll(matrix, x -> x * x); // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the operator.
+     * @param a the 2D array to be updated. If null or empty, the method returns immediately.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -16415,11 +18685,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 3D float array in-place by applying a given unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
+     * Arrays35.updateAll(cube, x -> -x); // cube becomes {{{1.0f}}, {{-2.0f}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the operator.
+     * @param a the 3D array to be updated. If null or empty, the method returns immediately.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -16432,12 +18708,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a float array with the specified new value if it satisfies the given predicate.
+     * The modification is done in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
+     * Arrays35.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param a the array to be modified.
+     * @param predicate the condition to test for each element.
+     * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final float[] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -16452,12 +18735,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a 2D float array with the specified new value if it satisfies the given predicate.
+     * The modification is done in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
+     * Arrays35.replaceIf(matrix, x -> x <= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param a the 2D array to be modified.
+     * @param predicate the condition to test for each element.
+     * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final float[][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -16470,12 +18760,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a 3D float array with the specified new value if it satisfies the given predicate.
+     * The modification is done in-place.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
+     * Arrays35.replaceIf(cube, x -> x > 0, 0.0f); // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the predicate.
+     * @param a the 3D array to be modified.
+     * @param predicate the condition to test for each element.
+     * @param newValue the value to be placed in the array if the predicate is true.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final float[][][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isEmpty(a)) {
@@ -16488,12 +18785,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D float array into a 2D float array with the specified number of columns.
+     * The last row of the resulting 2D array may have fewer elements if the length of the
+     * input array is not a multiple of {@code cols}.
      *
+     * <pre><code>
+     * float[] array = {1, 2, 3, 4, 5, 6, 7};
+     * float[][] matrix = Arrays35.reshape(array, 3); // returns {{1, 2, 3}, {4, 5, 6}, {7}}
+     * </code></pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the 1D array to reshape.
+     * @param cols the number of columns in the new 2D array.
+     * @return a new 2D array containing the elements of the input array.
+     * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static float[][] reshape(final float[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -16514,13 +18818,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D float array into a 3D float array with the specified number of rows and columns.
+     * The last sub-array may be smaller if the total number of elements is not a multiple
+     * of {@code rows * cols}.
      *
+     * <pre><code>
+     * float[] array = {1, 2, 3, 4, 5, 6, 7};
+     * float[][][] cube = Arrays35.reshape(array, 2, 2); // returns {{{1,2},{3,4}},{{5,6},{7}}}
+     * </code></pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the 1D array to reshape.
+     * @param rows the number of rows in each 2D sub-array.
+     * @param cols the number of columns in each 2D sub-array.
+     * @return a new 3D array containing the elements of the input array.
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static float[][][] reshape(final float[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -16545,9 +18856,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D float array into a new 1D float array.
+     * This method concatenates all sub-arrays into a single array.
+     * Null or empty sub-arrays are skipped.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
+     * float[] array = Arrays35.flatten(matrix); // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * </code></pre>
+     *
+     * @param a the 2D array to flatten.
+     * @return a new 1D array containing all elements from the 2D array.
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -16573,9 +18892,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D float array into a new 1D float array.
+     * This method concatenates all innermost sub-arrays into a single array.
+     * Null or empty sub-arrays at any level are skipped.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
+     * float[] array = Arrays35.flatten(cube); // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * </code></pre>
+     *
+     * @param a the 3D array to flatten.
+     * @return a new 1D array containing all elements from the 3D array.
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -16607,17 +18934,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 2D array, performs a specified operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 2D array in-place.
+     * This is useful for applying operations like sorting to the entire set of elements
+     * in a multi-dimensional array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <pre><code>
+     * float[][] matrix = {{4.0f, 1.0f}, {3.0f, 2.0f}};
+     * Arrays35.flatOp(matrix, N::sort); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the operation.
+     * @param a the 2D array to operate on.
+     * @param op the operation to perform on the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final float[][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -16639,17 +18969,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 3D array, performs a specified operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 3D array in-place.
+     * This is useful for applying operations like sorting to the entire set of elements
+     * in a multi-dimensional array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <pre><code>
+     * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
+     * Arrays35.flatOp(cube, N::sort); // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the operation.
+     * @param a the 3D array to operate on.
+     * @param op the operation to perform on the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final float[][][] a, final Throwables.Consumer<? super float[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -16675,10 +19008,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two float arrays element-wise.
+     * The resulting array's length will be the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[] a = {1.0f, 2.0f, 3.0f};
+     * float[] b = {4.0f, 5.0f};
+     * float[] result = Arrays35.add(a, b); // result is {5.0f, 7.0f}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @return a new array containing the element-wise sum.
      */
     public static float[] add(final float[] a, final float[] b) {
         final int lenA = N.len(a);
@@ -16694,12 +19035,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two float arrays element-wise, providing default values for elements in arrays
+     * that are shorter than the other. The resulting array's length will be the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[] a = {1.0f, 2.0f, 3.0f};
+     * float[] b = {4.0f, 5.0f};
+     * float[] result = Arrays35.add(a, b, 0.0f, 10.0f); // result is {5.0f, 7.0f, 13.0f}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA the default value to use if array {@code a} is shorter.
+     * @param valueForNoneB the default value to use if array {@code b} is shorter.
+     * @return a new array containing the element-wise sum.
      */
     public static float[] add(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -16709,13 +19059,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to add two float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the sum.
      */
     private static float[] add(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -16747,11 +19098,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three float arrays element-wise.
+     * The resulting array's length will be the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[] a = {1, 2, 3};
+     * float[] b = {4, 5, 6};
+     * float[] c = {7, 8};
+     * float[] result = Arrays35.add(a, b, c); // result is {12, 15}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @return a new array containing the element-wise sum.
      */
     public static float[] add(final float[] a, final float[] b, final float[] c) {
         final int lenA = N.len(a);
@@ -16768,14 +19128,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three float arrays element-wise, providing default values for shorter arrays.
+     * The resulting array's length will be the maximum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[] a = {1, 2};
+     * float[] b = {3, 4, 5};
+     * float[] c = {6};
+     * float[] result = Arrays35.add(a, b, c, 0f, 0f, 0f); // result is {10, 6, 5}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA the default value to use if array {@code a} has missing elements.
+     * @param valueForNoneB the default value to use if array {@code b} has missing elements.
+     * @param valueForNoneC the default value to use if array {@code c} has missing elements.
+     * @return a new array containing the element-wise sum.
      */
     public static float[] add(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -16787,15 +19156,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to add three float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the sum.
      */
     private static float[] add(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -16819,10 +19189,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D float arrays element-wise.
+     * The operation is applied sub-array by sub-array. The dimensions of the resulting
+     * array are determined by the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][] a = {{1, 2}, {3, 4}};
+     * float[][] b = {{5, 6}, {7, 8}};
+     * float[][] result = Arrays35.add(a, b); // result is {{6, 8}, {10, 12}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static float[][] add(final float[][] a, final float[][] b) {
         final int lenA = N.len(a);
@@ -16838,26 +19217,36 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D float arrays element-wise, providing default values for missing elements
+     * in ragged or shorter arrays. The resulting array's dimensions are the maximum of the
+     * input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][] a = {{1}, {2, 3}};
+     * float[][] b = {{4, 5}};
+     * float[][] result = Arrays35.add(a, b, 0f, 0f); // result is {{5, 5}, {2, 3}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA the default value for missing elements from array {@code a}.
+     * @param valueForNoneB the default value for missing elements from array {@code b}.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static float[][] add(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper to add two 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array with the sum.
      */
     private static float[][] add(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -16889,11 +19278,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D float arrays element-wise.
+     * The operation is applied sub-array by sub-array. The dimensions of the resulting
+     * array are determined by the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{4, 5}};
+     * float[][] result = Arrays35.add(a, b, c); // result is {{7}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static float[][] add(final float[][] a, final float[][] b, final float[][] c) {
         final int lenA = N.len(a);
@@ -16910,14 +19309,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D float arrays element-wise with default values for missing elements.
+     * The resulting array's dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{4, 5}, {6}};
+     * float[][] result = Arrays35.add(a, b, c, 0f, 0f, 0f); // result is {{7, 8}, {6}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static float[][] add(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -16926,16 +19334,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to add three 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array with the sum.
      */
     private static float[][] add(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC) {
@@ -16959,10 +19368,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D float arrays element-wise.
+     * The operation is applied recursively. The dimensions of the resulting array are
+     * determined by the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1, 2}}, {{3}}};
+     * float[][][] b = {{{4, 5}}, {{6}}};
+     * float[][][] result = Arrays35.add(a, b); // result is {{{5, 7}}, {{9}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static float[][][] add(final float[][][] a, final float[][][] b) {
         final int lenA = N.len(a);
@@ -16978,12 +19396,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D float arrays element-wise with default values for missing elements.
+     * The resulting array's dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}}, {{3, 4}}};
+     * float[][][] result = Arrays35.add(a, b, 0f, 0f); // result is {{{3}}, {{3, 4}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static float[][][] add(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17009,11 +19435,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D float arrays element-wise.
+     * The operation is applied recursively. The dimensions of the resulting array are
+     * determined by the minimum dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}}};
+     * float[][][] c = {{{3}}};
+     * float[][][] result = Arrays35.add(a, b, c); // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static float[][][] add(final float[][][] a, final float[][][] b, final float[][][] c) {
         final int lenA = N.len(a);
@@ -17030,14 +19466,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D float arrays element-wise with default values for missing elements.
+     * The resulting array's dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}},{{3}}};
+     * float[][][] c = {{{4}},{{5}},{{6}}};
+     * float[][][] result = Arrays35.add(a,b,c,0f,0f,0f); // result is {{{7}},{{8}},{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static float[][][] add(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17059,10 +19504,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second float array from the first, element-wise.
+     * The resulting array's length will be the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f, 9.0f, 8.0f};
+     * float[] b = {1.0f, 2.0f};
+     * float[] result = Arrays35.subtract(a, b); // result is {9.0f, 7.0f}
+     * </code></pre>
+     *
+     * @param a the array to subtract from.
+     * @param b the array to subtract.
+     * @return a new array containing the element-wise difference.
      */
     public static float[] subtract(final float[] a, final float[] b) {
         final int lenA = N.len(a);
@@ -17078,12 +19531,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two float arrays element-wise, providing default values for shorter arrays.
+     * The resulting array's length will be the maximum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f, 9.0f};
+     * float[] b = {1.0f, 2.0f, 3.0f};
+     * float[] result = Arrays35.subtract(a, b, 100.0f, 0.0f); // result is {9.0f, 7.0f, 100.0f}
+     * </code></pre>
+     *
+     * @param a the first array (minuend).
+     * @param b the second array (subtrahend).
+     * @param valueForNoneA the default value to use if array {@code a} is shorter.
+     * @param valueForNoneB the default value to use if array {@code b} is shorter.
+     * @return a new array containing the element-wise difference.
      */
     public static float[] subtract(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17093,13 +19554,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to subtract two float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the difference.
      */
     private static float[] subtract(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17131,11 +19593,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third float arrays from the first, element-wise.
+     * The resulting array's length will be the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[] a = {10, 20, 30};
+     * float[] b = {1, 2};
+     * float[] c = {3, 4};
+     * float[] result = Arrays35.subtract(a, b, c); // result is {6, 14}
+     * </code></pre>
+     *
+     * @param a the array to subtract from.
+     * @param b the second array to subtract.
+     * @param c the third array to subtract.
+     * @return a new array containing the element-wise difference.
      */
     public static float[] subtract(final float[] a, final float[] b, final float[] c) {
         final int lenA = N.len(a);
@@ -17152,14 +19623,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two arrays from a third element-wise, with default values for shorter arrays.
+     * The resulting array's length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[] a = {10, 20};
+     * float[] b = {1, 2, 3};
+     * float[] c = {4};
+     * float[] result = Arrays35.subtract(a, b, c, 0f, 0f, 0f); // result is {5, 18, -3}
+     * </code></pre>
+     *
+     * @param a the first array (minuend).
+     * @param b the second array (subtrahend).
+     * @param c the third array (subtrahend).
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new array with the result.
      */
     public static float[] subtract(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17171,15 +19651,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to subtract two arrays from a third with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the difference.
      */
     private static float[] subtract(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17203,10 +19684,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second 2D array from the first, element-wise.
+     * Dimensions of the result are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][] a = {{10, 9}, {8, 7}};
+     * float[][] b = {{1, 2}, {3, 4}};
+     * float[][] result = Arrays35.subtract(a, b); // result is {{9, 7}, {5, 3}}
+     * </code></pre>
+     *
+     * @param a the 2D array to subtract from.
+     * @param b the 2D array to subtract.
+     * @return a new 2D array with the element-wise difference.
      */
     public static float[][] subtract(final float[][] a, final float[][] b) {
         final int lenA = N.len(a);
@@ -17222,26 +19711,35 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D arrays element-wise, with default values for missing elements.
+     * Dimensions of the result are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][] a = {{10}, {9, 8}};
+     * float[][] b = {{1, 2}};
+     * float[][] result = Arrays35.subtract(a, b, 0f, 0f); // result is {{9, -2}, {9, 8}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 2D array with the element-wise difference.
      */
     public static float[][] subtract(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper to subtract two 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array with the difference.
      */
     private static float[][] subtract(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
             final float valueForNoneB) {
@@ -17274,11 +19772,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third 2D arrays from the first, element-wise.
+     * Dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][] a = {{10, 20}, {30, 40}};
+     * float[][] b = {{1, 2}};
+     * float[][] c = {{3, 4}};
+     * float[][] result = Arrays35.subtract(a, b, c); // result is {{6, 14}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @return a new 2D array with the element-wise difference.
      */
     public static float[][] subtract(final float[][] a, final float[][] b, final float[][] c) {
         final int lenA = N.len(a);
@@ -17295,14 +19802,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D arrays from a third element-wise, with default values for missing elements.
+     * Dimensions of the result are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][] a = {{10}};
+     * float[][] b = {{1, 2}};
+     * float[][] c = {{3, 4}, {5}};
+     * float[][] result = Arrays35.subtract(a, b, c, 0f, 0f, 0f); // result is {{6, -6}, {-5}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 2D array with the result.
      */
     public static float[][] subtract(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17311,16 +19827,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to subtract two 2D arrays from a third with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array with the difference.
      */
     private static float[][] subtract(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC) {
@@ -17345,10 +19862,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second 3D array from the first, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10, 9}}, {{8}}};
+     * float[][][] b = {{{1, 2}}, {{3}}};
+     * float[][][] result = Arrays35.subtract(a, b); // result is {{{9, 7}}, {{5}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to subtract from.
+     * @param b the 3D array to subtract.
+     * @return a new 3D array with the element-wise difference.
      */
     public static float[][][] subtract(final float[][][] a, final float[][][] b) {
         final int lenA = N.len(a);
@@ -17364,12 +19889,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10}}};
+     * float[][][] b = {{{1}}, {{2, 3}}};
+     * float[][][] result = Arrays35.subtract(a, b, 0f, 0f); // result is {{{9}}, {{-2, -3}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 3D array with the element-wise difference.
      */
     public static float[][][] subtract(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17395,11 +19928,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third 3D arrays from the first, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10}}};
+     * float[][][] b = {{{1}}};
+     * float[][][] c = {{{2}}};
+     * float[][][] result = Arrays35.subtract(a, b, c); // result is {{{7}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @return a new 3D array with the element-wise difference.
      */
     public static float[][][] subtract(final float[][][] a, final float[][][] b, final float[][][] c) {
         final int lenA = N.len(a);
@@ -17416,14 +19958,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D arrays from a third, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10}}};
+     * float[][][] b = {{{1}},{{2}}};
+     * float[][][] c = {{{3}},{{4}},{{5}}};
+     * float[][][] result = Arrays35.subtract(a,b,c,0f,0f,0f); // result is {{{6}},{{-6}},{{-5}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 3D array with the result.
      */
     public static float[][][] subtract(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17445,10 +19996,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two float arrays element-wise.
+     * The resulting array's length is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[] a = {1.0f, 2.0f, 3.0f};
+     * float[] b = {4.0f, 5.0f};
+     * float[] result = Arrays35.multipliedBy(a, b); // result is {4.0f, 10.0f}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @return a new array containing the element-wise product.
      */
     public static float[] multipliedBy(final float[] a, final float[] b) {
         final int lenA = N.len(a);
@@ -17464,12 +20023,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two float arrays element-wise, with default values for shorter arrays.
+     * The resulting array's length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[] a = {1.0f, 2.0f, 3.0f};
+     * float[] b = {4.0f, 5.0f};
+     * float[] result = Arrays35.multipliedBy(a, b, 1.0f, 10.0f); // result is {4.0f, 10.0f, 30.0f}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value if array {@code a} is shorter.
+     * @param valueForNoneB default value if array {@code b} is shorter.
+     * @return a new array containing the element-wise product.
      */
     public static float[] multipliedBy(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17479,13 +20046,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to multiply two float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the product.
      */
     private static float[] multipliedBy(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17517,11 +20085,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three float arrays element-wise.
+     * The resulting array's length is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[] a = {1, 2, 3};
+     * float[] b = {4, 5};
+     * float[] c = {6, 7, 8};
+     * float[] result = Arrays35.multipliedBy(a, b, c); // result is {24, 70}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @return a new array containing the element-wise product.
      */
     public static float[] multipliedBy(final float[] a, final float[] b, final float[] c) {
         final int lenA = N.len(a);
@@ -17538,14 +20115,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three float arrays element-wise, with default values for shorter arrays.
+     * The resulting array's length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[] a = {1, 2};
+     * float[] b = {3, 4, 5};
+     * float[] c = {6};
+     * float[] result = Arrays35.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {18, 8, 5}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for missing elements in array {@code a}.
+     * @param valueForNoneB default value for missing elements in array {@code b}.
+     * @param valueForNoneC default value for missing elements in array {@code c}.
+     * @return a new array with the result.
      */
     public static float[] multipliedBy(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17557,15 +20143,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to multiply three float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the product.
      */
     private static float[] multipliedBy(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17589,10 +20176,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D float arrays element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][] a = {{1, 2}, {3, 4}};
+     * float[][] b = {{5, 6}};
+     * float[][] result = Arrays35.multipliedBy(a, b); // result is {{5, 12}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @return a new 2D array with the element-wise product.
      */
     public static float[][] multipliedBy(final float[][] a, final float[][] b) {
         final int lenA = N.len(a);
@@ -17608,26 +20203,35 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][] a = {{2}, {3, 4}};
+     * float[][] b = {{5, 6}};
+     * float[][] result = Arrays35.multipliedBy(a, b, 1f, 1f); // result is {{10, 6}, {3, 4}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 2D array with the element-wise product.
      */
     public static float[][] multipliedBy(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper to multiply two 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array with the product.
      */
     private static float[][] multipliedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
             final float valueForNoneB) {
@@ -17660,11 +20264,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D float arrays element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][] a = {{1, 2}};
+     * float[][] b = {{3, 4}};
+     * float[][] c = {{5, 6}};
+     * float[][] result = Arrays35.multipliedBy(a, b, c); // result is {{15, 48}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @return a new 2D array with the element-wise product.
      */
     public static float[][] multipliedBy(final float[][] a, final float[][] b, final float[][] c) {
         final int lenA = N.len(a);
@@ -17681,14 +20294,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{4, 5}, {6}};
+     * float[][] result = Arrays35.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {{8, 15}, {6}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 2D array with the result.
      */
     public static float[][] multipliedBy(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17697,16 +20319,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to multiply three 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array with the product.
      */
     private static float[][] multipliedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC) {
@@ -17731,10 +20354,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D float arrays element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1, 2}}, {{3}}};
+     * float[][][] b = {{{4, 5}}, {{6}}};
+     * float[][][] result = Arrays35.multipliedBy(a, b); // result is {{{4, 10}}, {{18}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @return a new 3D array with the element-wise product.
      */
     public static float[][][] multipliedBy(final float[][][] a, final float[][][] b) {
         final int lenA = N.len(a);
@@ -17750,12 +20381,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}}, {{3, 4}}};
+     * float[][][] result = Arrays35.multipliedBy(a, b, 1f, 1f); // result is {{{2}}, {{3, 4}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 3D array with the element-wise product.
      */
     public static float[][][] multipliedBy(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17781,11 +20420,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D float arrays element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}}};
+     * float[][][] c = {{{3}}};
+     * float[][][] result = Arrays35.multipliedBy(a, b, c); // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @return a new 3D array with the element-wise product.
      */
     public static float[][][] multipliedBy(final float[][][] a, final float[][][] b, final float[][][] c) {
         final int lenA = N.len(a);
@@ -17802,14 +20450,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}},{{3}}};
+     * float[][][] c = {{{4}},{{5}},{{6}}};
+     * float[][][] result = Arrays35.multipliedBy(a,b,c,1f,1f,1f); // result is {{{8}},{{15}},{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 3D array with the result.
      */
     public static float[][][] multipliedBy(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17831,10 +20488,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first float array by the second, element-wise.
+     * The resulting array's length is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f, 12.0f, 14.0f};
+     * float[] b = {2.0f, 3.0f};
+     * float[] result = Arrays35.dividedBy(a, b); // result is {5.0f, 4.0f}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @return a new array containing the element-wise quotient.
      */
     public static float[] dividedBy(final float[] a, final float[] b) {
         final int lenA = N.len(a);
@@ -17850,12 +20515,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two float arrays element-wise, with default values for shorter arrays.
+     * The resulting array's length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f, 12.0f};
+     * float[] b = {2.0f, 3.0f, 4.0f};
+     * float[] result = Arrays35.dividedBy(a, b, 20.0f, 1.0f); // result is {5.0f, 4.0f, 20.0f}
+     * </code></pre>
+     *
+     * @param a the first array (dividend).
+     * @param b the second array (divisor).
+     * @param valueForNoneA default value if array {@code a} is shorter.
+     * @param valueForNoneB default value if array {@code b} is shorter.
+     * @return a new array containing the element-wise quotient.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17865,13 +20538,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide two float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the quotient.
      */
     private static float[] dividedBy(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -17903,11 +20577,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first float array by the second and then by the third, element-wise.
+     * The resulting array's length is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[] a = {120, 180};
+     * float[] b = {2, 3};
+     * float[] c = {10, 6};
+     * float[] result = Arrays35.dividedBy(a, b, c); // result is {6, 10}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the first divisor array.
+     * @param c the second divisor array.
+     * @return a new array containing the final quotient.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float[] c) {
         final int lenA = N.len(a);
@@ -17924,14 +20607,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides arrays element-wise, with default values for shorter arrays.
+     * The resulting array's length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[] a = {120};
+     * float[] b = {2, 3};
+     * float[] c = {10, 6, 5};
+     * float[] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f); // result is {6, 60, 36}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the first divisor array.
+     * @param c the second divisor array.
+     * @param valueForNoneA default value for missing elements in array {@code a}.
+     * @param valueForNoneB default value for missing elements in array {@code b}.
+     * @param valueForNoneC default value for missing elements in array {@code c}.
+     * @return a new array with the result.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17943,15 +20635,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide three float arrays with a specified result length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the quotient.
      */
     private static float[] dividedBy(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -17975,10 +20668,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][] a = {{10, 12}, {14, 16}};
+     * float[][] b = {{2, 3}};
+     * float[][] result = Arrays35.dividedBy(a, b); // result is {{5, 4}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @return a new 2D array with the element-wise quotient.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b) {
         final int lenA = N.len(a);
@@ -17994,26 +20695,35 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][] a = {{10}, {12, 14}};
+     * float[][] b = {{2, 4}};
+     * float[][] result = Arrays35.dividedBy(a, b, 1f, 1f); // result is {{5, 0.25}, {12, 14}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 2D array with the element-wise quotient.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper to divide two 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array with the quotient.
      */
     private static float[][] dividedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
             final float valueForNoneB) {
@@ -18046,11 +20756,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second and then by the third, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][] a = {{120, 180}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{10, 6}};
+     * float[][] result = Arrays35.dividedBy(a, b, c); // result is {{6, 10}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the first divisor 2D array.
+     * @param c the second divisor 2D array.
+     * @return a new 2D array with the final quotient.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float[][] c) {
         final int lenA = N.len(a);
@@ -18067,14 +20786,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 2D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][] a = {{120}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{10, 6}, {5}};
+     * float[][] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f); // result is {{6, 60}, {36}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 2D array with the result.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -18083,16 +20811,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide three 2D float arrays with specified result dimensions.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array with the quotient.
      */
     private static float[][] dividedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC) {
@@ -18117,10 +20846,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10, 12}}, {{14}}};
+     * float[][][] b = {{{2, 3}}, {{7}}};
+     * float[][][] result = Arrays35.dividedBy(a, b); // result is {{{5, 4}}, {{2}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @return a new 3D array with the element-wise quotient.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b) {
         final int lenA = N.len(a);
@@ -18136,12 +20873,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10}}};
+     * float[][][] b = {{{2}}, {{4, 5}}};
+     * float[][][] result = Arrays35.dividedBy(a, b, 1f, 1f); // result is {{{5}}, {{1, 0.2}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @return a new 3D array with the element-wise quotient.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB) {
         final int lenA = N.len(a);
@@ -18167,11 +20912,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second and then by the third, element-wise.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{120}}};
+     * float[][][] b = {{{2}}};
+     * float[][][] c = {{{10}}};
+     * float[][][] result = Arrays35.dividedBy(a, b, c); // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the first divisor 3D array.
+     * @param c the second divisor 3D array.
+     * @return a new 3D array with the final quotient.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float[][][] c) {
         final int lenA = N.len(a);
@@ -18188,14 +20942,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 3D arrays element-wise, with default values for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{120}}};
+     * float[][][] b = {{{2}},{{1}}};
+     * float[][][] c = {{{10}},{{6}},{{5}}};
+     * float[][][] result = Arrays35.dividedBy(a,b,c,180f,1f,1f); // result is {{{6}},{{180}},{{36}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @return a new 3D array with the result.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC) {
@@ -18217,11 +20980,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two float arrays element-wise, using a default value for division by zero.
+     * The length of the result is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f, 20.0f};
+     * float[] b = {2.0f, 0.0f};
+     * float[] result = Arrays35.dividedBy(a, b, 1.0f); // result is {5.0f, 20.0f}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is zero.
+     * @return a new array with the element-wise quotient.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18237,13 +21008,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two float arrays element-wise, with defaults for shorter arrays and for division by zero.
+     * The result length is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[] a = {10.0f};
+     * float[] b = {2.0f, 0.0f};
+     * float[] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {5.0f, 2.0f}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param valueForNoneA default value if array {@code a} is shorter.
+     * @param valueForNoneB default value if array {@code b} is shorter.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is zero.
+     * @return a new array with the element-wise quotient.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18253,14 +21032,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide two float arrays with a specified result length and zero-division handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param defaultValueForZero default value for divisor if zero.
+     * @return a new array with the quotient.
      */
     private static float[] dividedBy(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
             final float defaultValueForZero) {
@@ -18293,12 +21073,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides arrays element-wise with a default for division by zero.
+     * Result length is the minimum of input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[] a = {120, 180};
+     * float[] b = {2, 0};
+     * float[] c = {10, 6};
+     * float[] result = Arrays35.dividedBy(a, b, c, 1f); // result is {6, 30}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the first divisor array.
+     * @param c the second divisor array.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new array with the result.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float[] c, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18315,15 +21104,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides arrays element-wise with defaults for short arrays and zero division.
+     * Result length is the maximum of input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[] a = {120};
+     * float[] b = {2, 0};
+     * float[] c = {10, 6, 5};
+     * float[] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {6, 30, 36}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the first divisor array.
+     * @param c the second divisor array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new array with the result.
      */
     public static float[] dividedBy(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC, final float defaultValueForZero) {
@@ -18335,16 +21133,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide three float arrays with a specified result length and zero-division handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @param defaultValueForZero default value for divisor if zero.
+     * @return a new array with the quotient.
      */
     private static float[] dividedBy(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC, final float defaultValueForZero) {
@@ -18369,11 +21168,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D arrays element-wise, with a default for division by zero.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][] a = {{10, 20}};
+     * float[][] b = {{2, 0}};
+     * float[][] result = Arrays35.dividedBy(a, b, 1f); // result is {{5, 20}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 2D array with the quotient.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18389,13 +21196,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D arrays element-wise, with defaults for missing elements and zero division.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][] a = {{10}};
+     * float[][] b = {{2, 0}};
+     * float[][] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {{5, 2}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 2D array with the quotient.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
             final float defaultValueForZero) {
@@ -18403,15 +21218,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide two 2D float arrays with specified dimensions and zero-division handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param defaultValueForZero default value for divisor if zero.
+     * @return a new 2D array with the quotient.
      */
     private static float[][] dividedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
             final float valueForNoneB, final float defaultValueForZero) {
@@ -18444,12 +21260,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 2D arrays element-wise with a default for division by zero.
+     * Result dimensions are the minimum of input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][] a = {{120, 180}};
+     * float[][] b = {{2, 0}};
+     * float[][] c = {{10, 6}};
+     * float[][] result = Arrays35.dividedBy(a, b, c, 1f); // result is {{6, 30}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the first divisor 2D array.
+     * @param c the second divisor 2D array.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 2D array with the result.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float[][] c, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18466,15 +21291,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 2D arrays element-wise with defaults for missing elements and zero division.
+     * Result dimensions are the maximum of input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][] a = {{120}};
+     * float[][] b = {{2, 0}};
+     * float[][] c = {{10, 6}, {5}};
+     * float[][] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {{6, 30}, {36}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 2D array with the result.
      */
     public static float[][] dividedBy(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC, final float defaultValueForZero) {
@@ -18483,17 +21317,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to divide three 2D float arrays with specified dimensions and zero-division handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @param defaultValueForZero default value for divisor if zero.
+     * @return a new 2D array with the quotient.
      */
     private static float[][] dividedBy(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC, final float defaultValueForZero) {
@@ -18518,11 +21353,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D arrays element-wise, with a default for division by zero.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10, 20}}};
+     * float[][][] b = {{{2, 0}}};
+     * float[][][] result = Arrays35.dividedBy(a, b, 1f); // result is {{{5, 20}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 3D array with the quotient.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18538,13 +21381,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D arrays element-wise, with defaults for missing elements and zero division.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{10}}};
+     * float[][][] b = {{{2}}, {{0, 5}}};
+     * float[][][] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {{{5}}, {{2, 0.2}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 3D array with the quotient.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
             final float defaultValueForZero) {
@@ -18571,12 +21422,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 3D arrays element-wise with a default for division by zero.
+     * Result dimensions are the minimum of input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{120}}};
+     * float[][][] b = {{{2}}};
+     * float[][][] c = {{{0}}};
+     * float[][][] result = Arrays35.dividedBy(a, b, c, 10f); // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the first divisor 3D array.
+     * @param c the second divisor 3D array.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 3D array with the result.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float[][][] c, final float defaultValueForZero) {
         final int lenA = N.len(a);
@@ -18593,15 +21453,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides 3D arrays element-wise with defaults for missing elements and zero division.
+     * Result dimensions are the maximum of input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * float[][][] a = {{{120}}};
+     * float[][][] b = {{{2}},{{0}}};
+     * float[][][] c = {{{10}},{{6}},{{5}}};
+     * float[][][] result = Arrays35.dividedBy(a,b,c,180f,1f,1f,1f); // result is {{{6}},{{30}},{{36}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @param defaultValueForZero value to use when a divisor element is zero.
+     * @return a new 3D array with the result.
      */
     public static float[][][] dividedBy(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC, final float defaultValueForZero) {
@@ -18624,13 +21493,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two float arrays into one by applying a binary function to each pair of elements.
+     * The length of the result is the minimum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[] a = {1, 2, 3};
+     * float[] b = {4, 5, 6};
+     * float[] result = Arrays35.zip(a, b, (x, y) -> x + y); // result is {5, 7, 9}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -18646,15 +21523,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two float arrays with a binary function, providing default values for shorter arrays.
+     * The result length is the maximum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[] a = {1, 2, 3};
+     * float[] b = {4, 5};
+     * float[] result = Arrays35.zip(a, b, 0f, 10f, (x, y) -> x + y); // result is {5, 7, 13}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value if array {@code a} is shorter.
+     * @param valueForNoneB default value if array {@code b} is shorter.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
             final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
@@ -18665,16 +21550,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip two float arrays with a specified result length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception.
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param zipFunction the function to combine elements.
+     * @return a new array with zipped results.
+     * @throws E if the function throws.
      */
     private static <E extends Exception> float[] zip(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
             final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
@@ -18707,14 +21593,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three float arrays using a trinary function.
+     * The result length is the minimum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[] a = {1, 2};
+     * float[] b = {3, 4};
+     * float[] c = {5, 6};
+     * float[] result = Arrays35.zip(a, b, c, (x, y, z) -> x + y + z); // result is {9, 12}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTriFunction<Float, E> zipFunction)
             throws E {
@@ -18732,17 +21627,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three float arrays with a trinary function, providing defaults for shorter arrays.
+     * The result length is the maximum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[] a = {1, 2, 3};
+     * float[] b = {4, 5};
+     * float[] c = {6};
+     * float[] result = Arrays35.zip(a, b, c, 0f, 0f, 0f, (x,y,z) -> x+y+z); // result is {11, 7, 3}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for missing elements in array {@code a}.
+     * @param valueForNoneB default value for missing elements in array {@code b}.
+     * @param valueForNoneC default value for missing elements in array {@code c}.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
             final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -18754,18 +21658,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip three float arrays with a specified result length.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception.
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @param zipFunction the function to combine elements.
+     * @return a new array with zipped results.
+     * @throws E if the function throws.
      */
     private static <E extends Exception> float[] zip(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -18789,13 +21694,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D float arrays using a binary function.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][] a = {{1, 2}};
+     * float[][] b = {{3, 4}};
+     * float[][] result = Arrays35.zip(a, b, (x,y) -> x*y); // result is {{3, 8}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new 2D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -18811,15 +21724,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D float arrays with a binary function, providing defaults for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] result = Arrays35.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{3, 13}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new 2D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
             final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
@@ -18827,17 +21748,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip two 2D float arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception.
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param zipFunction the function to combine elements.
+     * @return a new 2D array with zipped results.
+     * @throws E if the function throws.
      */
     private static <E extends Exception> float[][] zip(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
             final float valueForNoneB, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
@@ -18870,14 +21792,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D float arrays using a trinary function.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{4, 5}};
+     * float[][] result = Arrays35.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{7}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new 2D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
             final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -18895,17 +21826,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D float arrays with a trinary function, providing defaults for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][] a = {{1}};
+     * float[][] b = {{2, 3}};
+     * float[][] c = {{4, 5}, {6}};
+     * float[][] result = Arrays35.zip(a,b,c,0f,0f,0f, (x,y,z)->x+y+z); // result is {{7, 8}, {6}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new 2D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -18914,19 +21854,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip three 2D float arrays with specified dimensions.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param <E> the type of exception.
+     * @param len the number of rows in the result.
+     * @param rowLen the number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @param zipFunction the function to combine elements.
+     * @return a new 2D array with zipped results.
+     * @throws E if the function throws.
      */
     private static <E extends Exception> float[][] zip(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c,
             final float valueForNoneA, final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -18951,13 +21892,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D float arrays using a binary function.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][][] a = {{{1, 2}}};
+     * float[][][] b = {{{3, 4}}};
+     * float[][][] result = Arrays35.zip(a, b, (x,y) -> x*y); // result is {{{3, 8}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new 3D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBiFunction<Float, E> zipFunction)
             throws E {
@@ -18974,15 +21923,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D float arrays with a binary function, providing defaults for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}}, {{3, 4}}};
+     * float[][][] result = Arrays35.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{{3}}, {{13, 14}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new 3D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
             final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
@@ -19009,14 +21966,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D float arrays using a trinary function.
+     * Result dimensions are the minimum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2, 3}}};
+     * float[][][] c = {{{4, 5}}};
+     * float[][][] result = Arrays35.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{{7}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new 3D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
             final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -19034,17 +22000,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D float arrays with a trinary function, providing defaults for missing elements.
+     * Result dimensions are the maximum of the input arrays' dimensions.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * float[][][] a = {{{1}}};
+     * float[][][] b = {{{2}},{{3}}};
+     * float[][][] c = {{{4}},{{5}},{{6}}};
+     * float[][][] result = Arrays35.zip(a,b,c,0f,0f,0f,(x,y,z)->x+y+z); // result is {{{7}},{{8}},{{6}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that can be thrown by the zip function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for missing elements from array {@code a}.
+     * @param valueForNoneB default value for missing elements from array {@code b}.
+     * @param valueForNoneC default value for missing elements from array {@code c}.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new 3D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
             final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
@@ -19065,6 +22040,18 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of elements in a 2D float array.
+     * This method sums the lengths of all sub-arrays.
+     *
+     * <pre><code>
+     * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
+     * long count = Arrays35.totalCountOfElements(matrix); // count is 3
+     * </code></pre>
+     *
+     * @param a the 2D array to count elements in.
+     * @return the total count of elements.
+     */
     public static long totalCountOfElements(final float[][] a) {
         long count = 0;
 
@@ -19075,6 +22062,18 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of elements in a 3D float array.
+     * This method recursively sums the lengths of all innermost sub-arrays.
+     *
+     * <pre><code>
+     * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
+     * long count = Arrays35.totalCountOfElements(cube); // count is 3
+     * </code></pre>
+     *
+     * @param a the 3D array to count elements in.
+     * @return the total count of elements.
+     */
     public static long totalCountOfElements(final float[][][] a) {
         long count = 0;
 
@@ -19096,10 +22095,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length of any sub-array within a 2D float array.
+     * Returns 0 for null or empty input array, or if a sub-array is null.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
+     * int minLen = Arrays35.minSubArrayLen(matrix); // minLen is 0
+     * </code></pre>
+     *
+     * @param a the 2D array to inspect.
+     * @return the minimum sub-array length found.
      */
     public static int minSubArrayLen(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -19116,10 +22121,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length of any sub-array within a 2D float array.
+     * Returns 0 for null or empty input array. A null sub-array has a length of 0.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
+     * int maxLen = Arrays35.maxSubArrayLen(matrix); // maxLen is 3
+     * </code></pre>
+     *
+     * @param a the 2D array to inspect.
+     * @return the maximum sub-array length found.
      */
     public static int maxSubArrayLen(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -19136,9 +22147,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a float array to a string, prints it to the console, and returns the string.
+     * Handles null arrays gracefully.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[] array = {1.1f, 2.2f, 3.3f};
+     * String s = Arrays35.println(array); // Prints "[1.1, 2.2, 3.3]" and returns it.
+     * </code></pre>
+     *
+     * @param a the array to print.
+     * @return the string representation of the array, followed by a newline.
      */
     public static String println(final float[] a) {
         if (a == null) {
@@ -19151,9 +22169,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D float array to a formatted string, prints it to the console, and returns the string.
+     * Handles null arrays and null sub-arrays gracefully.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] matrix = {{1.1f, 2.2f}, {3.3f}};
+     * String s = Arrays35.println(matrix); // Prints "[[1.1, 2.2],\n [3.3]]" (example) and returns it.
+     * </code></pre>
+     *
+     * @param a the 2D array to print.
+     * @return the formatted string representation of the array, followed by a newline.
      */
     public static String println(final float[][] a) {
         if (a == null) {
@@ -19204,9 +22229,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D float array to a formatted string, prints it to the console, and returns the string.
+     * Handles null arrays and null sub-arrays gracefully.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][][] cube = {{{1.1f}}, {{2.2f, 3.3f}}};
+     * String s = Arrays35.println(cube); // Prints a formatted 3D representation and returns it.
+     * </code></pre>
+     *
+     * @param a the 3D array to print.
+     * @return the formatted string representation of the array, followed by a newline.
      */
     public static String println(final float[][][] a) {
         if (a == null) {
@@ -19274,9 +22306,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified array in-place.
+     * If the array is null or empty, the method returns without any modification.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[] array = {1.0, 2.0, 3.0};
+     * Arrays37.plus(array, 5.0);
+     * // array is now {6.0, 7.0, 8.0}
+     * </code></pre>
+     *
+     * @param a the array to be modified.
+     * @param param the double value to add to each element.
      */
     public static void plus(final double[] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19289,9 +22329,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 2D array in-place.
+     * This method iterates through each sub-array and applies the addition.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
+     * Arrays37.plus(matrix, 10.0);
+     * // matrix is now {{11.0, 12.0}, {13.0, 14.0}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified.
+     * @param param the double value to add to each element.
      */
     public static void plus(final double[][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19304,9 +22353,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 3D array in-place.
+     * This method recursively calls the plus operation for each 2D sub-array.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
+     * Arrays37.plus(cube, 100.0);
+     * // cube is now {{{101.0}, {102.0}}, {{103.0}, {104.0}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified.
+     * @param param the double value to add to each element.
      */
     public static void plus(final double[][][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19319,9 +22377,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified array in-place.
+     * If the array is null or empty, the method returns without any modification.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[] array = {10.0, 20.0, 30.0};
+     * Arrays37.minus(array, 5.0);
+     * // array is now {5.0, 15.0, 25.0}
+     * </code></pre>
+     *
+     * @param a the array to be modified.
+     * @param param the double value to subtract from each element.
      */
     public static void minus(final double[] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19334,9 +22400,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 2D array in-place.
+     * This method iterates through each sub-array and applies the subtraction.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][] matrix = {{10.0, 20.0}, {30.0, 40.0}};
+     * Arrays37.minus(matrix, 10.0);
+     * // matrix is now {{0.0, 10.0}, {20.0, 30.0}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified.
+     * @param param the double value to subtract from each element.
      */
     public static void minus(final double[][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19349,9 +22424,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 3D array in-place.
+     * This method recursively calls the minus operation for each 2D sub-array.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][][] cube = {{{10.0}, {20.0}}, {{30.0}, {40.0}}};
+     * Arrays37.minus(cube, 10.0);
+     * // cube is now {{{0.0}, {10.0}}, {{20.0}, {30.0}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified.
+     * @param param the double value to subtract from each element.
      */
     public static void minus(final double[][][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19364,9 +22448,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified array by a scalar value in-place.
+     * If the array is null or empty, the method returns without any modification.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[] array = {1.0, 2.0, 3.0};
+     * Arrays37.multipliedBy(array, 3.0);
+     * // array is now {3.0, 6.0, 9.0}
+     * </code></pre>
+     *
+     * @param a the array to be modified.
+     * @param param the double value to multiply each element by.
      */
     public static void multipliedBy(final double[] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19379,9 +22471,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 2D array by a scalar value in-place.
+     * This method iterates through each sub-array and applies the multiplication.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
+     * Arrays37.multipliedBy(matrix, 2.5);
+     * // matrix is now {{2.5, 5.0}, {7.5, 10.0}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified.
+     * @param param the double value to multiply each element by.
      */
     public static void multipliedBy(final double[][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19394,9 +22495,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 3D array by a scalar value in-place.
+     * This method recursively calls the multiplication operation for each 2D sub-array.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
+     * Arrays37.multipliedBy(cube, 1.5);
+     * // cube is now {{{1.5}, {3.0}}, {{4.5}, {6.0}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified.
+     * @param param the double value to multiply each element by.
      */
     public static void multipliedBy(final double[][][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19409,9 +22519,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified array by a scalar value in-place.
+     * If the array is null or empty, the method returns without any modification.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[] array = {10.0, 20.0, 30.0};
+     * Arrays37.dividedBy(array, 2.0);
+     * // array is now {5.0, 10.0, 15.0}
+     * </code></pre>
+     *
+     * @param a the array to be modified.
+     * @param param the double value to divide each element by.
      */
     public static void dividedBy(final double[] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19424,9 +22542,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 2D array by a scalar value in-place.
+     * This method iterates through each sub-array and applies the division.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][] matrix = {{10.0, 20.0}, {30.0, 40.0}};
+     * Arrays37.dividedBy(matrix, 10.0);
+     * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param a the 2D array to be modified.
+     * @param param the double value to divide each element by.
      */
     public static void dividedBy(final double[][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19439,9 +22566,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 3D array by a scalar value in-place.
+     * This method recursively calls the division operation for each 2D sub-array.
+     * If the array or its sub-arrays are null or empty, they are skipped.
      *
-     * @param a
-     * @param param
+     * <pre><code>
+     * double[][][] cube = {{{10.0}, {20.0}}, {{30.0}, {40.0}}};
+     * Arrays37.dividedBy(cube, 2.0);
+     * // cube is now {{{5.0}, {10.0}}, {{15.0}, {20.0}}}
+     * </code></pre>
+     *
+     * @param a the 3D array to be modified.
+     * @param param the double value to divide each element by.
      */
     public static void dividedBy(final double[][][] a, final double param) {
         if (N.isEmpty(a)) {
@@ -19454,11 +22590,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * double[] array = {1.0, -2.0, 3.0};
+     * Arrays37.updateAll(array, x -> Math.abs(x));
+     * // array is now {1.0, 2.0, 3.0}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operator.
+     * @param a the array to be updated.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -19471,11 +22614,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 2D array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * double[][] matrix = {{1.0, 4.0}, {9.0, 16.0}};
+     * Arrays37.updateAll(matrix, x -> Math.sqrt(x));
+     * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operator.
+     * @param a the 2D array to be updated.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -19488,11 +22638,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 3D array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <pre><code>
+     * double[][][] cube = {{{1.1}, {2.8}}, {{3.3}, {4.6}}};
+     * Arrays37.updateAll(cube, x -> Math.round(x));
+     * // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operator.
+     * @param a the 3D array to be updated.
+     * @param operator the unary operator to apply to each element.
+     * @throws E if the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -19505,12 +22662,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of the array with the specified new value if it satisfies the given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * double[] array = {1.0, -2.0, 3.0, -4.0};
+     * Arrays37.replaceIf(array, x -> x < 0, 0.0);
+     * // array is now {1.0, 0.0, 3.0, 0.0}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the predicate.
+     * @param a the array to be modified.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param newValue the value to be placed into the array.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final double[] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -19525,12 +22689,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of the 2D array with the specified new value if it satisfies the given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * double[][] matrix = {{1.0, -2.0}, {Double.NaN, 4.0}};
+     * Arrays37.replaceIf(matrix, x -> Double.isNaN(x), 0.0);
+     * // matrix is now {{1.0, -2.0}, {0.0, 4.0}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the predicate.
+     * @param a the 2D array to be modified.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param newValue the value to be placed into the array.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final double[][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -19543,12 +22714,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of the 3D array with the specified new value if it satisfies the given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <pre><code>
+     * double[][][] cube = {{{1.0}, {Double.POSITIVE_INFINITY}}, {{3.0}, {-4.0}}};
+     * Arrays37.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
+     * // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the predicate.
+     * @param a the 3D array to be modified.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param newValue the value to be placed into the array.
+     * @throws E if the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final double[][][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isEmpty(a)) {
@@ -19561,12 +22739,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D array into a 2D array with the specified number of columns.
+     * The number of rows is determined by dividing the total number of elements by the number of columns.
+     * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
+     * <pre><code>
+     * double[] array = {1, 2, 3, 4, 5, 6, 7};
+     * double[][] matrix = Arrays37.reshape(array, 3);
+     * // matrix is now {{1, 2, 3}, {4, 5, 6}, {7}}
+     * </code></pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the 1D array to reshape.
+     * @param cols the number of columns in the new 2D array.
+     * @return a new 2D array.
+     * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static double[][] reshape(final double[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -19587,13 +22773,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D array into a 3D array with the specified number of rows and columns.
+     * The dimensions of the resulting array are determined based on the total element count.
+     * The last sub-arrays may be shorter if the total count is not a multiple of {@code rows * cols}.
      *
+     * <pre><code>
+     * double[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+     * double[][][] cube = Arrays37.reshape(array, 2, 3);
+     * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
+     * </code></pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a the 1D array to reshape.
+     * @param rows the number of rows in each 2D slice.
+     * @param cols the number of columns in each 2D slice.
+     * @return a new 3D array.
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static double[][][] reshape(final double[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -19618,9 +22812,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D array into a 1D array by concatenating its rows.
+     * Null or empty sub-arrays are skipped.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
+     * double[] array = Arrays37.flatten(matrix);
+     * // array is now {1.0, 2.0, 3.0, 4.0}
+     * </code></pre>
+     *
+     * @param a the 2D array to flatten.
+     * @return a new 1D array containing all elements from the input array.
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -19646,9 +22848,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D array into a 1D array by concatenating its elements in order.
+     * Null or empty sub-arrays are skipped.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][][] cube = {{{1.0}, {2.0, 3.0}}, {{4.0}}};
+     * double[] array = Arrays37.flatten(cube);
+     * // array is now {1.0, 2.0, 3.0, 4.0}
+     * </code></pre>
+     *
+     * @param a the 3D array to flatten.
+     * @return a new 1D array containing all elements from the input array.
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -19680,17 +22890,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 2D array, performs an operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 2D array.
+     * This allows for operations like sorting across the entire 2D array.
+     * The modification happens in-place on the original 2D array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <pre><code>
+     * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
+     * Arrays37.flatOp(matrix, arr -> N.sort(arr));
+     * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operation.
+     * @param a the 2D array to operate on.
+     * @param op the operation to perform on the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final double[][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -19712,17 +22926,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
-     * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
-     * </pre>
+     * Flattens a 3D array, performs an operation on the resulting 1D array,
+     * and then copies the modified elements back into the original 3D array.
+     * This allows for operations like sorting across the entire 3D array.
+     * The modification happens in-place on the original 3D array.
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * <pre><code>
+     * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
+     * Arrays37.flatOp(cube, arr -> N.sort(arr));
+     * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operation.
+     * @param a the 3D array to operate on.
+     * @param op the operation to perform on the flattened array.
+     * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final double[][][] a, final Throwables.Consumer<? super double[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -19748,10 +22966,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two arrays element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6, 7};
+     * double[] result = Arrays37.add(a, b);
+     * // result is {5, 7, 9}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @return a new array containing the element-wise sum.
      */
     public static double[] add(final double[] a, final double[] b) {
         final int lenA = N.len(a);
@@ -19767,12 +22994,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2};
+     * double[] b = {10, 20, 30};
+     * double[] result = Arrays37.add(a, b, 0.0, 0.0);
+     * // result is {11, 22, 30}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @return a new array containing the element-wise sum.
      */
     public static double[] add(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -19782,13 +23019,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise addition on two arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the results.
      */
     private static double[] add(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -19820,11 +23058,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three arrays element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6};
+     * double[] c = {7, 8, 9};
+     * double[] result = Arrays37.add(a, b, c);
+     * // result is {12, 15, 18}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @return a new array containing the element-wise sum.
      */
     public static double[] add(final double[] a, final double[] b, final double[] c) {
         final int lenA = N.len(a);
@@ -19841,14 +23089,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[] a = {1};
+     * double[] b = {10, 20};
+     * double[] c = {100, 200, 300};
+     * double[] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * // result is {111, 220, 300}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @param valueForNoneC the default value to use for elements missing from array {@code c}.
+     * @return a new array containing the element-wise sum.
      */
     public static double[] add(final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -19860,15 +23119,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise addition on three arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the results.
      */
     private static double[] add(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -19892,10 +23152,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D arrays element-wise. The operation is applied row by row.
+     * The resulting 2D array will have a number of rows equal to the minimum
+     * of the input arrays. Each resulting row's length is the minimum of the
+     * corresponding input rows.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][] a = {{1, 2}, {3, 4}};
+     * double[][] b = {{5, 6}, {7, 8}};
+     * double[][] result = Arrays37.add(a, b);
+     * // result is {{6, 8}, {10, 12}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static double[][] add(final double[][] a, final double[][] b) {
         final int lenA = N.len(a);
@@ -19911,26 +23182,37 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D arrays element-wise, providing default values for missing elements
+     * in ragged or unequally sized arrays. The resulting array dimensions will be the
+     * maximum of the input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][] a = {{1}, {2, 3}};
+     * double[][] b = {{10, 20}, {30}};
+     * double[][] result = Arrays37.add(a, b, 0, 0);
+     * // result is {{11, 20}, {32, 3}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static double[][] add(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper for adding two 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array.
      */
     private static double[][] add(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB) {
@@ -19963,11 +23245,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D arrays element-wise. The operation is applied row by row.
+     * The resulting 2D array will have a number of rows equal to the minimum
+     * of the input arrays. Each resulting row's length is the minimum of the
+     * corresponding input rows.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][] a = {{1, 1}, {1, 1}};
+     * double[][] b = {{2, 2}, {2, 2}};
+     * double[][] c = {{3, 3}, {3, 3}};
+     * double[][] result = Arrays37.add(a, b, c);
+     * // result is {{6, 6}, {6, 6}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static double[][] add(final double[][] a, final double[][] b, final double[][] c) {
         final int lenA = N.len(a);
@@ -19984,14 +23278,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D arrays element-wise, providing default values for missing elements.
+     * The resulting array dimensions will be the maximum of the input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][] a = {{1}};
+     * double[][] b = {{10, 20}};
+     * double[][] c = {{100, 200}, {300}};
+     * double[][] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * // result is {{111, 220}, {300}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @param valueForNoneC the default value for elements missing from array {@code c}.
+     * @return a new 2D array containing the element-wise sum.
      */
     public static double[][] add(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20000,16 +23304,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for adding three 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array.
      */
     private static double[][] add(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20033,10 +23338,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D arrays element-wise. The operation is applied recursively.
+     * The resulting 3D array's dimensions are truncated to the minimum of the
+     * corresponding dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{2}}};
+     * double[][][] result = Arrays37.add(a, b);
+     * // result is {{{3}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static double[][][] add(final double[][][] a, final double[][][] b) {
         final int lenA = N.len(a);
@@ -20052,12 +23367,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D arrays element-wise, providing default values for missing elements.
+     * The resulting array dimensions will be the maximum of the input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{1}, {2}}};
+     * double[][][] b = {{{10}}, {{30}}};
+     * double[][][] result = Arrays37.add(a, b, 0, 0);
+     * // result is {{{11}, {2}}, {{30}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static double[][][] add(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20083,11 +23407,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D arrays element-wise. The operation is applied recursively.
+     * The resulting 3D array's dimensions are truncated to the minimum of the
+     * corresponding dimensions of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{2}}};
+     * double[][][] c = {{{3}}};
+     * double[][][] result = Arrays37.add(a, b, c);
+     * // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static double[][][] add(final double[][][] a, final double[][][] b, final double[][][] c) {
         final int lenA = N.len(a);
@@ -20104,14 +23439,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D arrays element-wise, providing default values for missing elements.
+     * The resulting array dimensions will be the maximum of the input array dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{10}}, {{20}}};
+     * double[][][] c = {{{100}}, {{200}}, {{300}}};
+     * double[][][] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * // result is {{{111}}, {{220}}, {{300}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @param valueForNoneC the default value for elements missing from array {@code c}.
+     * @return a new 3D array containing the element-wise sum.
      */
     public static double[][][] add(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20133,10 +23478,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second array from the first, element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[] a = {10, 20, 30};
+     * double[] b = {1, 2, 3, 4};
+     * double[] result = Arrays37.subtract(a, b);
+     * // result is {9, 18, 27}
+     * </code></pre>
+     *
+     * @param a the array to subtract from (minuend).
+     * @param b the array to subtract (subtrahend).
+     * @return a new array containing the element-wise difference.
      */
     public static double[] subtract(final double[] a, final double[] b) {
         final int lenA = N.len(a);
@@ -20152,12 +23506,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200};
+     * double[] b = {10, 20, 30};
+     * double[] result = Arrays37.subtract(a, b, 0, 0);
+     * // result is {90, 180, -30}
+     * </code></pre>
+     *
+     * @param a the minuend array.
+     * @param b the subtrahend array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @return a new array containing the element-wise difference.
      */
     public static double[] subtract(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20167,13 +23531,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise subtraction on two arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the results.
      */
     private static double[] subtract(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20205,11 +23570,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third arrays from the first, element-wise. The resulting
+     * array will have a length equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200, 300};
+     * double[] b = {10, 20, 30};
+     * double[] c = {1, 2, 3};
+     * double[] result = Arrays37.subtract(a, b, c);
+     * // result is {89, 178, 267}
+     * </code></pre>
+     *
+     * @param a the array to subtract from (minuend).
+     * @param b the second array to subtract (subtrahend).
+     * @param c the third array to subtract (subtrahend).
+     * @return a new array containing the element-wise difference.
      */
     public static double[] subtract(final double[] a, final double[] b, final double[] c) {
         final int lenA = N.len(a);
@@ -20226,14 +23601,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two arrays from a third element-wise, providing default values for missing elements
+     * if the arrays have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[] a = {100};
+     * double[] b = {10, 20};
+     * double[] c = {1, 2, 3};
+     * double[] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * // result is {89, -22, -3}
+     * </code></pre>
+     *
+     * @param a the minuend array.
+     * @param b the second subtrahend array.
+     * @param c the third subtrahend array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @param valueForNoneC the default value to use for elements missing from array {@code c}.
+     * @return a new array containing the element-wise difference.
      */
     public static double[] subtract(final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20245,15 +23631,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise subtraction on three arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the results.
      */
     private static double[] subtract(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20277,10 +23664,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second 2D array from the first, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][] a = {{10, 20}, {30, 40}};
+     * double[][] b = {{1, 2}, {3, 4}};
+     * double[][] result = Arrays37.subtract(a, b);
+     * // result is {{9, 18}, {27, 36}}
+     * </code></pre>
+     *
+     * @param a the minuend 2D array.
+     * @param b the subtrahend 2D array.
+     * @return a new 2D array containing the element-wise difference.
      */
     public static double[][] subtract(final double[][] a, final double[][] b) {
         final int lenA = N.len(a);
@@ -20296,26 +23692,36 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}, {200, 300}};
+     * double[][] b = {{10, 20}, {30}};
+     * double[][] result = Arrays37.subtract(a, b, 0, 0);
+     * // result is {{90, -20}, {170, 300}}
+     * </code></pre>
+     *
+     * @param a the minuend 2D array.
+     * @param b the subtrahend 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 2D array with the results.
      */
     public static double[][] subtract(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper for subtracting two 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array.
      */
     private static double[][] subtract(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB) {
@@ -20348,11 +23754,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third 2D arrays from the first, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][] a = {{10, 10}, {10, 10}};
+     * double[][] b = {{1, 1}, {1, 1}};
+     * double[][] c = {{2, 2}, {2, 2}};
+     * double[][] result = Arrays37.subtract(a, b, c);
+     * // result is {{7, 7}, {7, 7}}
+     * </code></pre>
+     *
+     * @param a the minuend 2D array.
+     * @param b the second subtrahend 2D array.
+     * @param c the third subtrahend 2D array.
+     * @return a new 2D array containing the element-wise difference.
      */
     public static double[][] subtract(final double[][] a, final double[][] b, final double[][] c) {
         final int lenA = N.len(a);
@@ -20369,14 +23785,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D arrays from a third element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}};
+     * double[][] b = {{10}, {20}};
+     * double[][] c = {{1, 2}, {3, 4}};
+     * double[][] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * // result is {{89, -2}, {-23, -4}}
+     * </code></pre>
+     *
+     * @param a the minuend 2D array.
+     * @param b the second subtrahend 2D array.
+     * @param c the third subtrahend 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 2D array with the results.
      */
     public static double[][] subtract(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20385,16 +23811,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for subtracting three 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array.
      */
     private static double[][] subtract(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20419,10 +23846,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second 3D array from the first, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{10}}};
+     * double[][][] b = {{{3}}};
+     * double[][][] result = Arrays37.subtract(a, b);
+     * // result is {{{7}}}
+     * </code></pre>
+     *
+     * @param a the minuend 3D array.
+     * @param b the subtrahend 3D array.
+     * @return a new 3D array containing the element-wise difference.
      */
     public static double[][][] subtract(final double[][][] a, final double[][][] b) {
         final int lenA = N.len(a);
@@ -20438,12 +23874,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}, {{200}}};
+     * double[][][] b = {{{10, 20}}};
+     * double[][][] result = Arrays37.subtract(a, b, 0.0, 0.0);
+     * // result is {{{90.0, -20.0}}}, {{{200.0}}}
+     * </code></pre>
+     *
+     * @param a the minuend 3D array.
+     * @param b the subtrahend 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] subtract(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20469,11 +23914,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the second and third 3D arrays from the first, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{10}}};
+     * double[][][] b = {{{3}}};
+     * double[][][] c = {{{1}}};
+     * double[][][] result = Arrays37.subtract(a, b, c);
+     * // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the minuend 3D array.
+     * @param b the second subtrahend 3D array.
+     * @param c the third subtrahend 3D array.
+     * @return a new 3D array containing the element-wise difference.
      */
     public static double[][][] subtract(final double[][][] a, final double[][][] b, final double[][][] c) {
         final int lenA = N.len(a);
@@ -20490,14 +23945,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D arrays from a third element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{10}}, {{20}}};
+     * double[][][] c = {{{1}}, {{2}}, {{3}}};
+     * double[][][] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * // result is {{{89}}, {{-22}}, {{-3}}}
+     * </code></pre>
+     *
+     * @param a the minuend 3D array.
+     * @param b the second subtrahend 3D array.
+     * @param c the third subtrahend 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] subtract(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20519,10 +23984,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two arrays element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6, 7};
+     * double[] result = Arrays37.multipliedBy(a, b);
+     * // result is {4, 10, 18}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @return a new array containing the element-wise product.
      */
     public static double[] multipliedBy(final double[] a, final double[] b) {
         final int lenA = N.len(a);
@@ -20538,12 +24012,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2};
+     * double[] b = {10, 20, 30};
+     * double[] result = Arrays37.multipliedBy(a, b, 1, 1);
+     * // result is {10, 40, 30}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @return a new array containing the element-wise product.
      */
     public static double[] multipliedBy(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20553,13 +24037,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise multiplication on two arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the results.
      */
     private static double[] multipliedBy(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20591,11 +24076,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three arrays element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6};
+     * double[] c = {1, 2, 1};
+     * double[] result = Arrays37.multipliedBy(a, b, c);
+     * // result is {4, 20, 18}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @return a new array containing the element-wise product.
      */
     public static double[] multipliedBy(final double[] a, final double[] b, final double[] c) {
         final int lenA = N.len(a);
@@ -20612,14 +24107,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[] a = {1};
+     * double[] b = {10, 20};
+     * double[] c = {1, 2, 3};
+     * double[] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {10, 40, 3}
+     * </code></pre>
+     *
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @param valueForNoneC the default value to use for elements missing from array {@code c}.
+     * @return a new array containing the element-wise product.
      */
     public static double[] multipliedBy(final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20631,15 +24137,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise multiplication on three arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the results.
      */
     private static double[] multipliedBy(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20663,10 +24170,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D arrays element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][] a = {{1, 2}, {3, 4}};
+     * double[][] b = {{5, 6}, {7, 8}};
+     * double[][] result = Arrays37.multipliedBy(a, b);
+     * // result is {{5, 12}, {21, 32}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @return a new 2D array containing the element-wise product.
      */
     public static double[][] multipliedBy(final double[][] a, final double[][] b) {
         final int lenA = N.len(a);
@@ -20682,26 +24198,36 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][] a = {{2}, {3, 4}};
+     * double[][] b = {{10, 20}, {30}};
+     * double[][] result = Arrays37.multipliedBy(a, b, 1, 1);
+     * // result is {{20, 20}, {90, 4}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 2D array with the results.
      */
     public static double[][] multipliedBy(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper for multiplying two 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array.
      */
     private static double[][] multipliedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB) {
@@ -20734,11 +24260,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D arrays element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][] a = {{1, 1}, {1, 1}};
+     * double[][] b = {{2, 2}, {2, 2}};
+     * double[][] c = {{3, 4}, {5, 6}};
+     * double[][] result = Arrays37.multipliedBy(a, b, c);
+     * // result is {{6, 8}, {10, 12}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @return a new 2D array containing the element-wise product.
      */
     public static double[][] multipliedBy(final double[][] a, final double[][] b, final double[][] c) {
         final int lenA = N.len(a);
@@ -20755,14 +24291,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][] a = {{2}};
+     * double[][] b = {{3}, {4}};
+     * double[][] c = {{5, 6}, {7, 8}};
+     * double[][] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {{30, 6}, {28, 8}}
+     * </code></pre>
+     *
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 2D array with the results.
      */
     public static double[][] multipliedBy(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -20771,16 +24317,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for multiplying three 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array.
      */
     private static double[][] multipliedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c,
             final double valueForNoneA, final double valueForNoneB, final double valueForNoneC) {
@@ -20805,10 +24352,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D arrays element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{2}}};
+     * double[][][] b = {{{3}}};
+     * double[][][] result = Arrays37.multipliedBy(a, b);
+     * // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @return a new 3D array containing the element-wise product.
      */
     public static double[][][] multipliedBy(final double[][][] a, final double[][][] b) {
         final int lenA = N.len(a);
@@ -20824,12 +24380,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{2}}, {{3}}};
+     * double[][][] b = {{{10, 20}}};
+     * double[][][] result = Arrays37.multipliedBy(a, b, 1.0, 1.0);
+     * // result is {{{20.0, 20.0}}}, {{{3.0}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] multipliedBy(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20855,11 +24420,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D arrays element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{2}}};
+     * double[][][] b = {{{3}}};
+     * double[][][] c = {{{4}}};
+     * double[][][] result = Arrays37.multipliedBy(a, b, c);
+     * // result is {{{24}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @return a new 3D array containing the element-wise product.
      */
     public static double[][][] multipliedBy(final double[][][] a, final double[][][] b, final double[][][] c) {
         final int lenA = N.len(a);
@@ -20876,14 +24451,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{2}}};
+     * double[][][] b = {{{3}}, {{4}}};
+     * double[][][] c = {{{5}}, {{6}}, {{7}}};
+     * double[][][] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {{{30}}, {{24}}, {{7}}}
+     * </code></pre>
+     *
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] multipliedBy(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -20905,10 +24490,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second, element-wise. The resulting array will have a length
+     * equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[] a = {10, 20, 30};
+     * double[] b = {2, 5, 6, 7};
+     * double[] result = Arrays37.dividedBy(a, b);
+     * // result is {5, 4, 5}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b) {
         final int lenA = N.len(a);
@@ -20924,12 +24518,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two arrays element-wise, providing default values for missing elements if the arrays
+     * have different lengths. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200};
+     * double[] b = {10, 20, 30};
+     * double[] result = Arrays37.dividedBy(a, b, 1.0, 1.0);
+     * // result is {10.0, 10.0, 1.0/30.0}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param valueForNoneA the default value to use for elements missing from array {@code a}.
+     * @param valueForNoneB the default value to use for elements missing from array {@code b}.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20939,13 +24543,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise division on two arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new array with the results.
      */
     private static double[] dividedBy(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -20977,11 +24582,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second and then by the third, element-wise. The resulting
+     * array will have a length equal to the minimum of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200, 300};
+     * double[] b = {10, 20, 30};
+     * double[] c = {2, 5, 1};
+     * double[] result = Arrays37.dividedBy(a, b, c);
+     * // result is {5, 2, 10}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the second array (divisor).
+     * @param c the third array (divisor).
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double[] c) {
         final int lenA = N.len(a);
@@ -20998,14 +24613,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second and third arrays element-wise, providing default
+     * values for missing elements. The resulting array will have a length equal to the maximum
+     * of the lengths of the input arrays.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[] a = {100};
+     * double[] b = {10, 20};
+     * double[] c = {1, 2, 3};
+     * double[] result = Arrays37.dividedBy(a, b, c, 1.0, 1.0, 1.0);
+     * // result is {10.0, 1.0/20.0/2.0, 1.0/1.0/3.0}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the second divisor array.
+     * @param c the third divisor array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @param valueForNoneC the default value for elements missing from array {@code c}.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -21017,15 +24643,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper method to perform element-wise division on three arrays up to a specified length.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len the length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new array with the results.
      */
     private static double[] dividedBy(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -21049,10 +24676,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][] a = {{10, 20}, {30, 40}};
+     * double[][] b = {{2, 5}, {3, 8}};
+     * double[][] result = Arrays37.dividedBy(a, b);
+     * // result is {{5, 4}, {10, 5}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @return a new 2D array containing the element-wise quotient.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b) {
         final int lenA = N.len(a);
@@ -21068,26 +24704,36 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}, {200, 300}};
+     * double[][] b = {{10, 20}, {40}};
+     * double[][] result = Arrays37.dividedBy(a, b, 1, 1);
+     * // result is {{10.0, 1.0/20.0}, {5.0, 300.0/1.0}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
     }
 
     /**
+     * Private helper for dividing two 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @return a new 2D array.
      */
     private static double[][] dividedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB) {
@@ -21120,11 +24766,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second and then by the third, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][] a = {{100, 100}, {100, 100}};
+     * double[][] b = {{10, 5}, {2, 1}};
+     * double[][] c = {{2, 5}, {2, 10}};
+     * double[][] result = Arrays37.dividedBy(a, b, c);
+     * // result is {{5, 4}, {25, 10}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the second divisor 2D array.
+     * @param c the third divisor 2D array.
+     * @return a new 2D array containing the element-wise quotient.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double[][] c) {
         final int lenA = N.len(a);
@@ -21141,14 +24797,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second and third, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}};
+     * double[][] b = {{10}, {5}};
+     * double[][] c = {{2, 1}, {1, 1}};
+     * double[][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1);
+     * // result is {{5, 1}, {1/5, 1}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the second divisor 2D array.
+     * @param c the third divisor 2D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC) {
@@ -21157,16 +24823,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for dividing three 2D arrays with default values.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * @param len number of rows in the result.
+     * @param rowLen max number of columns in the result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default value for a.
+     * @param valueForNoneB default value for b.
+     * @param valueForNoneC default value for c.
+     * @return a new 2D array.
      */
     private static double[][] dividedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -21191,10 +24858,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{10}}};
+     * double[][][] b = {{{2}}};
+     * double[][][] result = Arrays37.dividedBy(a, b);
+     * // result is {{{5}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @return a new 3D array containing the element-wise quotient.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b) {
         final int lenA = N.len(a);
@@ -21210,12 +24886,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D arrays element-wise, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}, {{200}}};
+     * double[][][] b = {{{10, 2}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, 1.0, 1.0);
+     * // result is {{{10.0, 0.5}}}, {{{200.0}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB) {
         final int lenA = N.len(a);
@@ -21241,11 +24926,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second and then by the third, element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{10}}};
+     * double[][][] c = {{{2}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, c);
+     * // result is {{{5}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the second divisor 3D array.
+     * @param c the third divisor 3D array.
+     * @return a new 3D array containing the element-wise quotient.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double[][][] c) {
         final int lenA = N.len(a);
@@ -21262,14 +24957,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second and third, with default values for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{10}}, {{5}}};
+     * double[][][] c = {{{2}}, {{1}}, {{4}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1);
+     * // result is {{{5}}, {{0.2}}, {{0.25}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the second divisor 3D array.
+     * @param c the third divisor 3D array.
+     * @param valueForNoneA default value for elements missing from {@code a}.
+     * @param valueForNoneB default value for elements missing from {@code b}.
+     * @param valueForNoneC default value for elements missing from {@code c}.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC) {
@@ -21291,11 +24996,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second, element-wise, using a default value for the divisor
+     * when an element in the divisor array is zero. The length of the result is the minimum
+     * of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[] a = {10, 20, 30};
+     * double[] b = {2, 0, 3};
+     * double[] result = Arrays37.dividedBy(a, b, 1.0);
+     * // result is {5, 20, 10}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is 0.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21311,13 +25026,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two arrays element-wise, handling missing elements and division by zero.
+     * The length of the result is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200};
+     * double[] b = {10, 0, 30};
+     * double[] result = Arrays37.dividedBy(a, b, 1.0, 1.0, 1.0);
+     * // result is {10.0, 200.0, 1.0/30.0}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param valueForNoneA the default value for elements missing from array {@code a}.
+     * @param valueForNoneB the default value for elements missing from array {@code b}.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is 0.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
             final double defaultValueForZero) {
@@ -21328,14 +25052,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for dividing two arrays with default values and zero handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len length of the result array.
+     * @param a the dividend array.
+     * @param b the divisor array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new array with the results.
      */
     private static double[] dividedBy(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
             final double defaultValueForZero) {
@@ -21368,12 +25093,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second and third, element-wise, handling division by zero.
+     * The length of the result is the minimum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[] a = {100, 200, 300};
+     * double[] b = {10, 0, 30};
+     * double[] c = {2, 5, 0};
+     * double[] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * // result is {5.0, 40.0, 10.0}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the second array (divisor).
+     * @param c the third array (divisor).
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} or {@code c} is 0.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double[] c, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21390,15 +25125,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first array by the second and third, handling missing elements and division by zero.
+     * The length of the result is the maximum of the input array lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[] a = {100};
+     * double[] b = {10, 0};
+     * double[] c = {2, 5, 3};
+     * double[] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * // result is {5.0, 1.0/1.0/5.0, 1.0/1.0/3.0}
+     * </code></pre>
+     *
+     * @param a the dividend array.
+     * @param b the second divisor array.
+     * @param c the third divisor array.
+     * @param valueForNoneA default value for missing elements in a.
+     * @param valueForNoneB default value for missing elements in b.
+     * @param valueForNoneC default value for missing elements in c.
+     * @param defaultValueForZero default value for division by zero.
+     * @return a new array containing the element-wise quotient.
      */
     public static double[] dividedBy(final double[] a, final double[] b, final double[] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC, final double defaultValueForZero) {
@@ -21410,16 +25155,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for dividing three arrays with defaults and zero handling.
      *
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len length of result array.
+     * @param a dividend array.
+     * @param b first divisor.
+     * @param c second divisor.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param valueForNoneC default for c.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new array.
      */
     private static double[] dividedBy(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final double defaultValueForZero) {
@@ -21444,11 +25190,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides a 2D array by another, element-wise, handling division by zero.
+     * The dimensions are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][] a = {{10, 20}, {30, 40}};
+     * double[][] b = {{2, 0}, {3, 8}};
+     * double[][] result = Arrays37.dividedBy(a, b, 1.0);
+     * // result is {{5, 20}, {10, 5}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is 0.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21464,13 +25219,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D arrays element-wise, handling missing elements and division by zero.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}, {200, 300}};
+     * double[][] b = {{10, 0}, {40}};
+     * double[][] result = Arrays37.dividedBy(a, b, 1, 1, 1);
+     * // result is {{10, 1}, {5, 300}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the divisor 2D array.
+     * @param valueForNoneA default value for missing elements in a.
+     * @param valueForNoneB default value for missing elements in b.
+     * @param defaultValueForZero default value for division by zero.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
             final double defaultValueForZero) {
@@ -21478,15 +25242,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for dividing two 2D arrays with defaults and zero handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * @param len number of rows in result.
+     * @param rowLen max number of columns in result.
+     * @param a dividend array.
+     * @param b divisor array.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new 2D array.
      */
     private static double[][] dividedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB, final double defaultValueForZero) {
@@ -21519,12 +25284,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second and third, handling division by zero.
+     * The dimensions are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][] a = {{100, 100}};
+     * double[][] b = {{10, 0}};
+     * double[][] c = {{2, 5}};
+     * double[][] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * // result is {{5, 20}}
+     * </code></pre>
+     *
+     * @param a the dividend 2D array.
+     * @param b the second divisor 2D array.
+     * @param c the third divisor 2D array.
+     * @param defaultValueForZero default value for division by zero.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double[][] c, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21541,15 +25316,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 2D array by the second and third, handling missing elements and division by zero.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][] a = {{100}};
+     * double[][] b = {{10}, {0}};
+     * double[][] c = {{2, 1}, {1, 1}};
+     * double[][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * // result is {{5, 1}, {1, 1}}
+     * </code></pre>
+     *
+     * @param a dividend 2D array.
+     * @param b first divisor 2D array.
+     * @param c second divisor 2D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param valueForNoneC default for missing elements in c.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new 2D array with the results.
      */
     public static double[][] dividedBy(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA, final double valueForNoneB,
             final double valueForNoneC, final double defaultValueForZero) {
@@ -21558,17 +25343,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper for dividing three 2D arrays with defaults and zero handling.
      *
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * @param len number of rows in result.
+     * @param rowLen max number of columns in result.
+     * @param a dividend array.
+     * @param b first divisor.
+     * @param c second divisor.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param valueForNoneC default for c.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new 2D array.
      */
     private static double[][] dividedBy(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final double defaultValueForZero) {
@@ -21593,11 +25379,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides a 3D array by another, element-wise, handling division by zero.
+     * The dimensions are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{0}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, 1.0);
+     * // result is {{{100}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @param defaultValueForZero the value to use as the divisor when an element in {@code b} is 0.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21613,13 +25408,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D arrays element-wise, handling missing elements and division by zero.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}, {{200}}};
+     * double[][][] b = {{{10, 0}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, 1.0, 1.0, 1.0);
+     * // result is {{{10.0, 1.0}}}, {{{200.0}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the divisor 3D array.
+     * @param valueForNoneA default value for missing elements in a.
+     * @param valueForNoneB default value for missing elements in b.
+     * @param defaultValueForZero default value for division by zero.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
             final double defaultValueForZero) {
@@ -21646,12 +25450,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second and third, handling division by zero.
+     * The dimensions are truncated to the minimum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{10}}};
+     * double[][][] c = {{{0}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * // result is {{{10}}}
+     * </code></pre>
+     *
+     * @param a the dividend 3D array.
+     * @param b the second divisor 3D array.
+     * @param c the third divisor 3D array.
+     * @param defaultValueForZero default value for division by zero.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double[][][] c, final double defaultValueForZero) {
         final int lenA = N.len(a);
@@ -21668,15 +25482,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the first 3D array by the second and third, handling missing elements and division by zero.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <pre><code>
+     * double[][][] a = {{{100}}};
+     * double[][][] b = {{{10}}, {{0}}};
+     * double[][][] c = {{{2}}, {{5}}, {{3}}};
+     * double[][][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * // result is {{{5.0}}, {{1.0/1.0/5.0}}, {{1.0/1.0/3.0}}}
+     * </code></pre>
+     *
+     * @param a dividend 3D array.
+     * @param b first divisor 3D array.
+     * @param c second divisor 3D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param valueForNoneC default for missing elements in c.
+     * @param defaultValueForZero default for division by zero.
+     * @return a new 3D array with the results.
      */
     public static double[][][] dividedBy(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final double defaultValueForZero) {
@@ -21699,13 +25523,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two arrays into one by applying a binary function to corresponding elements.
+     * The length of the result is the minimum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6};
+     * double[] result = Arrays37.zip(a, b, (x, y) -> Math.pow(x, y));
+     * // result is {1.0, 32.0, 729.0}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -21721,15 +25554,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two arrays into one by applying a binary function, with defaults for missing elements.
+     * The length of the result is the maximum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[] a = {1, 2};
+     * double[] b = {10, 20, 30};
+     * double[] result = Arrays37.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
+     * // result is {11, 22, 30}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default value for missing elements in a.
+     * @param valueForNoneB default value for missing elements in b.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
             final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -21740,16 +25582,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip two arrays with defaults.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param len length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param zipFunction the combination function.
+     * @return a new array.
+     * @throws E if the zip function throws an exception.
      */
     private static <E extends Exception> double[] zip(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
             final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -21782,14 +25624,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three arrays into one by applying a ternary function to corresponding elements.
+     * The length of the result is the minimum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[] a = {1, 2, 3};
+     * double[] b = {4, 5, 6};
+     * double[] c = {7, 8, 9};
+     * double[] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result is {12, 15, 18}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c,
             final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -21807,17 +25659,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three arrays into one by applying a ternary function, with defaults for missing elements.
+     * The length of the result is the maximum of the input array lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[] a = {1};
+     * double[] b = {10, 20};
+     * double[] c = {100, 200, 300};
+     * double[] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result is {111, 220, 300}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default value for missing elements in a.
+     * @param valueForNoneB default value for missing elements in b.
+     * @param valueForNoneC default value for missing elements in c.
+     * @param zipFunction the function to apply to each triplet of elements.
+     * @return a new array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -21829,18 +25691,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip three arrays with defaults.
      *
-     * @param <E>
-     * @param len
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param len length of the result array.
+     * @param a the first array.
+     * @param b the second array.
+     * @param c the third array.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param valueForNoneC default for c.
+     * @param zipFunction the combination function.
+     * @return a new array.
+     * @throws E if the zip function throws an exception.
      */
     private static <E extends Exception> double[] zip(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -21864,13 +25726,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D arrays into one by applying a binary function element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][] a = {{1, 2}, {3, 4}};
+     * double[][] b = {{5, 6}, {7, 8}};
+     * double[][] result = Arrays37.zip(a, b, (x, y) -> x * y);
+     * // result is {{5, 12}, {21, 32}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param zipFunction the function to apply to each pair of elements.
+     * @return a new 2D array with the combined results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
             throws E {
@@ -21887,15 +25758,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 2D arrays using a binary function, with defaults for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][] a = {{1}, {2, 3}};
+     * double[][] b = {{10, 20}, {30}};
+     * double[][] result = Arrays37.zip(a, b, 0, 0, (x, y) -> x + y);
+     * // result is {{11, 20}, {32, 3}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param zipFunction the function to apply.
+     * @return a new 2D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
             final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -21903,17 +25783,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip two 2D arrays with defaults.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param len number of rows in result.
+     * @param rowLen max number of columns in result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param zipFunction the combination function.
+     * @return a new 2D array.
+     * @throws E if the zip function throws an exception.
      */
     private static <E extends Exception> double[][] zip(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
             final double valueForNoneB, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -21946,14 +25826,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D arrays into one by applying a ternary function element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][] a = {{1, 1}};
+     * double[][] b = {{2, 2}};
+     * double[][] c = {{3, 3}};
+     * double[][] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result is {{6, 6}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param zipFunction the function to apply.
+     * @return a new 2D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
             final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -21971,17 +25861,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 2D arrays using a ternary function, with defaults for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][] a = {{1}};
+     * double[][] b = {{10}, {20}};
+     * double[][] c = {{100, 200}, {300}};
+     * double[][] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
+     * // result is {{111, 200}, {320}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param valueForNoneC default for missing elements in c.
+     * @param zipFunction the function to apply.
+     * @return a new 2D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -21990,19 +25890,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Private helper to zip three 2D arrays with defaults.
      *
-     * @param <E>
-     * @param len
-     * @param rowLen
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * @param len number of rows in result.
+     * @param rowLen max number of columns in result.
+     * @param a the first 2D array.
+     * @param b the second 2D array.
+     * @param c the third 2D array.
+     * @param valueForNoneA default for a.
+     * @param valueForNoneB default for b.
+     * @param valueForNoneC default for c.
+     * @param zipFunction the combination function.
+     * @return a new 2D array.
+     * @throws E if the zip function throws an exception.
      */
     private static <E extends Exception> double[][] zip(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c,
             final double valueForNoneA, final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction)
@@ -22028,13 +25928,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D arrays into one by applying a binary function element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{2}}};
+     * double[][][] result = Arrays37.zip(a, b, (x, y) -> x + y);
+     * // result is {{{3}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param zipFunction the function to apply.
+     * @return a new 3D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
             throws E {
@@ -22051,15 +25960,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines two 3D arrays using a binary function, with defaults for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][][] a = {{{1}}, {{2}}};
+     * double[][][] b = {{{10, 20}}};
+     * double[][][] result = Arrays37.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
+     * // result is {{{11.0, 20.0}}}, {{{2.0}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param zipFunction the function to apply.
+     * @return a new 3D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
             final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -22086,14 +26004,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D arrays into one by applying a ternary function element-wise.
+     * The dimensions of the result are truncated to the minimum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{2}}};
+     * double[][][] c = {{{3}}};
+     * double[][][] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result is {{{6}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param zipFunction the function to apply.
+     * @return a new 3D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
             final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -22111,17 +26039,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Combines three 3D arrays using a ternary function, with defaults for missing elements.
+     * The dimensions of the result are the maximum of the inputs.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <pre><code>
+     * double[][][] a = {{{1}}};
+     * double[][][] b = {{{10}}, {{20}}};
+     * double[][][] c = {{{100}}, {{200}}, {{300}}};
+     * double[][][] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
+     * // result is {{{111}}, {{220}}, {{300}}}
+     * </code></pre>
+     *
+     * @param <E> the type of exception that may be thrown by the function.
+     * @param a the first 3D array.
+     * @param b the second 3D array.
+     * @param c the third 3D array.
+     * @param valueForNoneA default for missing elements in a.
+     * @param valueForNoneB default for missing elements in b.
+     * @param valueForNoneC default for missing elements in c.
+     * @param zipFunction the function to apply.
+     * @return a new 3D array with the results.
+     * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
             final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
@@ -22142,6 +26080,18 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of double elements in a jagged 2D array.
+     *
+     * <pre><code>
+     * double[][] matrix = {{1, 2}, {3, 4, 5}, null, {}};
+     * long count = Arrays37.totalCountOfElements(matrix);
+     * // count is 5
+     * </code></pre>
+     *
+     * @param a the 2D array.
+     * @return the total count of elements.
+     */
     public static long totalCountOfElements(final double[][] a) {
         long count = 0;
 
@@ -22152,6 +26102,18 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of double elements in a jagged 3D array.
+     *
+     * <pre><code>
+     * double[][][] cube = {{{1}, {2, 3}}, null, {{{4}}}};
+     * long count = Arrays37.totalCountOfElements(cube);
+     * // count is 4
+     * </code></pre>
+     *
+     * @param a the 3D array.
+     * @return the total count of elements.
+     */
     public static long totalCountOfElements(final double[][][] a) {
         long count = 0;
 
@@ -22173,10 +26135,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length of any sub-array in a 2D array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
+     * int minLen = Arrays37.minSubArrayLen(matrix);
+     * // minLen is 0
+     * </code></pre>
+     *
+     * @param a the 2D array.
+     * @return the minimum sub-array length, or 0 if the input array is null or empty.
      */
     public static int minSubArrayLen(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -22193,10 +26162,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length of any sub-array in a 2D array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
+     * int maxLen = Arrays37.maxSubArrayLen(matrix);
+     * // maxLen is 3
+     * </code></pre>
+     *
+     * @param a the 2D array.
+     * @return the maximum sub-array length, or 0 if the input array is null or empty.
      */
     public static int maxSubArrayLen(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -22213,9 +26189,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints the contents of a 1D double array to the console, followed by a new line.
+     * Handles null and empty arrays gracefully.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[] array = {1.1, 2.2, 3.3};
+     * Arrays37.println(array); // Prints "[1.1, 2.2, 3.3]"
+     * </code></pre>
+     *
+     * @param a the array to print.
+     * @return The string that was printed to the console.
      */
     public static String println(final double[] a) {
         if (a == null) {
@@ -22228,8 +26211,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints the contents of a 2D double array to the console, followed by a new line.
+     * Provides a formatted string representation for readability.
      *
-     * @param a
+     * <pre><code>
+     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
+     * Arrays37.println(matrix); // Prints "[[1.0, 2.0],\n [3.0, 4.0]]" (format may vary)
+     * </code></pre>
+     *
+     * @param a the 2D array to print.
+     * @return The string that was printed to the console.
      */
     public static String println(final double[][] a) {
         if (a == null) {
@@ -22280,8 +26271,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints the contents of a 3D double array to the console, followed by a new line.
+     * Provides a formatted string representation for readability.
      *
-     * @param a
+     * <pre><code>
+     * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
+     * Arrays37.println(cube); // Prints a formatted representation of the 3D array.
+     * </code></pre>
+     *
+     * @param a the 3D array to print.
+     * @return The string that was printed to the console.
      */
     public static String println(final double[][][] a) {
         if (a == null) {
@@ -22349,9 +26348,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of bytes to an array of booleans. A byte value greater than 0
+     * is converted to {@code true}, otherwise {@code false}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] bytes = {1, 0, -1, 5};
+     * boolean[] bools = Arrays37.toBoolean(bytes);
+     * // bools is {true, false, false, true}
+     * </code></pre>
+     *
+     * @param a the array of bytes to convert.
+     * @return a new boolean array, or null if the input is null.
      */
     public static boolean[] toBoolean(final byte[] a) {
         if (a == null) {
@@ -22369,9 +26376,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of bytes to a 2D array of booleans.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of bytes to convert.
+     * @return a new 2D boolean array, or null if the input is null.
+     * @see #toBoolean(byte[])
      */
     public static boolean[][] toBoolean(final byte[][] a) {
         if (a == null) {
@@ -22389,9 +26398,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of bytes to a 3D array of booleans.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of bytes to convert.
+     * @return a new 3D boolean array, or null if the input is null.
+     * @see #toBoolean(byte[][])
      */
     public static boolean[][][] toBoolean(final byte[][][] a) {
         if (a == null) {
@@ -22409,9 +26420,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of integers to an array of booleans. An integer value greater than 0
+     * is converted to {@code true}, otherwise {@code false}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[] ints = {1, 0, -1, 5};
+     * boolean[] bools = Arrays37.toBoolean(ints);
+     * // bools is {true, false, false, true}
+     * </code></pre>
+     *
+     * @param a the array of integers to convert.
+     * @return a new boolean array, or null if the input is null.
      */
     public static boolean[] toBoolean(final int[] a) {
         if (a == null) {
@@ -22429,9 +26448,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of integers to a 2D array of booleans.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of integers to convert.
+     * @return a new 2D boolean array, or null if the input is null.
+     * @see #toBoolean(int[])
      */
     public static boolean[][] toBoolean(final int[][] a) {
         if (a == null) {
@@ -22449,9 +26470,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of integers to a 3D array of booleans.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of integers to convert.
+     * @return a new 3D boolean array, or null if the input is null.
+     * @see #toBoolean(int[][])
      */
     public static boolean[][][] toBoolean(final int[][][] a) {
         if (a == null) {
@@ -22469,9 +26492,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of integers to an array of chars by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[] ints = {65, 66, 67};
+     * char[] chars = Arrays37.toChar(ints);
+     * // chars is {'A', 'B', 'C'}
+     * </code></pre>
+     *
+     * @param a the array of integers to convert.
+     * @return a new char array, or null if the input is null.
      */
     public static char[] toChar(final int[] a) {
         if (a == null) {
@@ -22489,9 +26519,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of integers to a 2D array of chars.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of integers to convert.
+     * @return a new 2D char array, or null if the input is null.
+     * @see #toChar(int[])
      */
     public static char[][] toChar(final int[][] a) {
         if (a == null) {
@@ -22509,9 +26541,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of integers to a 3D array of chars.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of integers to convert.
+     * @return a new 3D char array, or null if the input is null.
+     * @see #toChar(int[][])
      */
     public static char[][][] toChar(final int[][][] a) {
         if (a == null) {
@@ -22529,9 +26563,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of booleans to an array of bytes.
+     * {@code true} becomes 1, and {@code false} becomes 0.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * boolean[] bools = {true, false, true};
+     * byte[] bytes = Arrays37.toByte(bools);
+     * // bytes is {1, 0, 1}
+     * </code></pre>
+     *
+     * @param a the array of booleans to convert.
+     * @return a new byte array, or null if the input is null.
      */
     public static byte[] toByte(final boolean[] a) {
         if (a == null) {
@@ -22549,9 +26591,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of booleans to a 2D array of bytes.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of booleans to convert.
+     * @return a new 2D byte array, or null if the input is null.
+     * @see #toByte(boolean[])
      */
     public static byte[][] toByte(final boolean[][] a) {
         if (a == null) {
@@ -22569,9 +26613,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of booleans to a 3D array of bytes.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of booleans to convert.
+     * @return a new 3D byte array, or null if the input is null.
+     * @see #toByte(boolean[][])
      */
     public static byte[][][] toByte(final boolean[][][] a) {
         if (a == null) {
@@ -22589,9 +26635,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of bytes to an array of shorts by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] bytes = {10, 20, 30};
+     * short[] shorts = Arrays37.toShort(bytes);
+     * // shorts is {10, 20, 30}
+     * </code></pre>
+     *
+     * @param a the array of bytes to convert.
+     * @return a new short array, or null if the input is null.
      */
     public static short[] toShort(final byte[] a) {
         if (a == null) {
@@ -22609,9 +26662,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of bytes to a 2D array of shorts.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of bytes to convert.
+     * @return a new 2D short array, or null if the input is null.
+     * @see #toShort(byte[])
      */
     public static short[][] toShort(final byte[][] a) {
         if (a == null) {
@@ -22629,9 +26684,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of bytes to a 3D array of shorts.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of bytes to convert.
+     * @return a new 3D short array, or null if the input is null.
+     * @see #toShort(byte[][])
      */
     public static short[][][] toShort(final byte[][][] a) {
         if (a == null) {
@@ -22649,9 +26706,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of booleans to an array of integers.
+     * {@code true} becomes 1, and {@code false} becomes 0.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * boolean[] bools = {true, false, true};
+     * int[] ints = Arrays37.toInt(bools);
+     * // ints is {1, 0, 1}
+     * </code></pre>
+     *
+     * @param a the array of booleans to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final boolean[] a) {
         if (a == null) {
@@ -22669,9 +26734,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of booleans to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of booleans to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(boolean[])
      */
     public static int[][] toInt(final boolean[][] a) {
         if (a == null) {
@@ -22689,9 +26756,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of booleans to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of booleans to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(boolean[][])
      */
     public static int[][][] toInt(final boolean[][][] a) {
         if (a == null) {
@@ -22709,9 +26778,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of chars to an array of integers by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * char[] chars = {'A', 'B', 'C'};
+     * int[] ints = Arrays37.toInt(chars);
+     * // ints is {65, 66, 67}
+     * </code></pre>
+     *
+     * @param a the array of chars to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final char[] a) {
         if (a == null) {
@@ -22729,9 +26805,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of chars to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of chars to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(char[])
      */
     public static int[][] toInt(final char[][] a) {
         if (a == null) {
@@ -22749,9 +26827,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of chars to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of chars to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(char[][])
      */
     public static int[][][] toInt(final char[][][] a) {
         if (a == null) {
@@ -22769,9 +26849,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of bytes to an array of integers by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] bytes = {10, 20, 30};
+     * int[] ints = Arrays37.toInt(bytes);
+     * // ints is {10, 20, 30}
+     * </code></pre>
+     *
+     * @param a the array of bytes to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final byte[] a) {
         if (a == null) {
@@ -22789,9 +26876,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of bytes to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of bytes to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(byte[])
      */
     public static int[][] toInt(final byte[][] a) {
         if (a == null) {
@@ -22809,9 +26898,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of bytes to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of bytes to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(byte[][])
      */
     public static int[][][] toInt(final byte[][][] a) {
         if (a == null) {
@@ -22829,9 +26920,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of shorts to an array of integers by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[] shorts = {100, 200, 300};
+     * int[] ints = Arrays37.toInt(shorts);
+     * // ints is {100, 200, 300}
+     * </code></pre>
+     *
+     * @param a the array of shorts to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final short[] a) {
         if (a == null) {
@@ -22849,9 +26947,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of shorts to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of shorts to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(short[])
      */
     public static int[][] toInt(final short[][] a) {
         if (a == null) {
@@ -22869,9 +26969,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of shorts to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of shorts to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(short[][])
      */
     public static int[][][] toInt(final short[][][] a) {
         if (a == null) {
@@ -22889,9 +26991,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of floats to an array of integers by casting (truncating).
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[] floats = {1.1f, 2.9f, -3.5f};
+     * int[] ints = Arrays37.toInt(floats);
+     * // ints is {1, 2, -3}
+     * </code></pre>
+     *
+     * @param a the array of floats to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final float[] a) {
         if (a == null) {
@@ -22909,9 +27018,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of floats to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of floats to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(float[])
      */
     public static int[][] toInt(final float[][] a) {
         if (a == null) {
@@ -22929,9 +27040,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of floats to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of floats to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(float[][])
      */
     public static int[][][] toInt(final float[][][] a) {
         if (a == null) {
@@ -22949,9 +27062,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of doubles to an array of integers by casting (truncating).
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[] doubles = {1.1, 2.9, -3.5};
+     * int[] ints = Arrays37.toInt(doubles);
+     * // ints is {1, 2, -3}
+     * </code></pre>
+     *
+     * @param a the array of doubles to convert.
+     * @return a new integer array, or null if the input is null.
      */
     public static int[] toInt(final double[] a) {
         if (a == null) {
@@ -22969,9 +27089,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of doubles to a 2D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of doubles to convert.
+     * @return a new 2D integer array, or null if the input is null.
+     * @see #toInt(double[])
      */
     public static int[][] toInt(final double[][] a) {
         if (a == null) {
@@ -22989,9 +27111,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of doubles to a 3D array of integers.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of doubles to convert.
+     * @return a new 3D integer array, or null if the input is null.
+     * @see #toInt(double[][])
      */
     public static int[][][] toInt(final double[][][] a) {
         if (a == null) {
@@ -23009,9 +27133,16 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts an array of bytes to an array of longs by casting.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] bytes = {10, 20, 30};
+     * long[] longs = Arrays37.toLong(bytes);
+     * // longs is {10L, 20L, 30L}
+     * </code></pre>
+     *
+     * @param a the array of bytes to convert.
+     * @return a new long array, or null if the input is null.
      */
     public static long[] toLong(final byte[] a) {
         if (a == null) {
@@ -23029,9 +27160,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 2D array of bytes to a 2D array of longs.
      *
-     * @param a
-     * @return
+     * @param a the 2D array of bytes to convert.
+     * @return a new 2D long array, or null if the input is null.
+     * @see #toLong(byte[])
      */
     public static long[][] toLong(final byte[][] a) {
         if (a == null) {
@@ -23049,9 +27182,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a 3D array of bytes to a 3D array of longs.
      *
-     * @param a
-     * @return
+     * @param a the 3D array of bytes to convert.
+     * @return a new 3D long array, or null if the input is null.
+     * @see #toLong(byte[][])
      */
     public static long[][][] toLong(final byte[][][] a) {
         if (a == null) {
@@ -23069,9 +27204,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code short} array to a one-dimensional {@code long} array.
+     * Each {@code short} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[] source = {1, 2, 3};
+     * long[] result = Arrays.toLong(source);
+     * // result is {1L, 2L, 3L}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[] toLong(final short[] a) {
         if (a == null) {
@@ -23089,9 +27232,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code short} array to a two-dimensional {@code long} array.
+     * Each {@code short} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][] source = {{1, 2}, {3, 4}};
+     * long[][] result = Arrays.toLong(source);
+     * // result is {{1L, 2L}, {3L, 4L}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][] toLong(final short[][] a) {
         if (a == null) {
@@ -23109,9 +27260,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code short} array to a three-dimensional {@code long} array.
+     * Each {@code short} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][][] source = {{{1, 2}}, {{3, 4}}};
+     * long[][][] result = Arrays.toLong(source);
+     * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][][] toLong(final short[][][] a) {
         if (a == null) {
@@ -23129,9 +27288,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code int} array to a one-dimensional {@code long} array.
+     * Each {@code int} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[] source = {1, 2, 3};
+     * long[] result = Arrays.toLong(source);
+     * // result is {1L, 2L, 3L}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[] toLong(final int[] a) {
         if (a == null) {
@@ -23149,9 +27316,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code int} array to a two-dimensional {@code long} array.
+     * Each {@code int} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][] source = {{1, 2}, {3, 4}};
+     * long[][] result = Arrays.toLong(source);
+     * // result is {{1L, 2L}, {3L, 4L}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][] toLong(final int[][] a) {
         if (a == null) {
@@ -23169,9 +27344,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code int} array to a three-dimensional {@code long} array.
+     * Each {@code int} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][][] source = {{{1, 2}}, {{3, 4}}};
+     * long[][][] result = Arrays.toLong(source);
+     * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][][] toLong(final int[][][] a) {
         if (a == null) {
@@ -23189,9 +27372,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code float} array to a one-dimensional {@code long} array.
+     * Each {@code float} element is cast to a {@code long}, involving a narrowing primitive conversion.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[] source = {1.1f, 2.9f, 3.5f};
+     * long[] result = Arrays.toLong(source);
+     * // result is {1L, 2L, 3L}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[] toLong(final float[] a) {
         if (a == null) {
@@ -23209,9 +27400,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code float} array to a two-dimensional {@code long} array.
+     * Each {@code float} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] source = {{1.1f, 2.9f}, {3.5f, 4.0f}};
+     * long[][] result = Arrays.toLong(source);
+     * // result is {{1L, 2L}, {3L, 4L}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][] toLong(final float[][] a) {
         if (a == null) {
@@ -23229,9 +27428,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code float} array to a three-dimensional {@code long} array.
+     * Each {@code float} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][][] source = {{{1.1f, 2.9f}}, {{3.5f, 4.0f}}};
+     * long[][][] result = Arrays.toLong(source);
+     * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][][] toLong(final float[][][] a) {
         if (a == null) {
@@ -23249,9 +27456,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code double} array to a one-dimensional {@code long} array.
+     * Each {@code double} element is cast to a {@code long}, involving a narrowing primitive conversion.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[] source = {1.1, 2.9, 3.5};
+     * long[] result = Arrays.toLong(source);
+     * // result is {1L, 2L, 3L}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code double} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[] toLong(final double[] a) {
         if (a == null) {
@@ -23269,9 +27484,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code double} array to a two-dimensional {@code long} array.
+     * Each {@code double} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][] source = {{1.1, 2.9}, {3.5, 4.0}};
+     * long[][] result = Arrays.toLong(source);
+     * // result is {{1L, 2L}, {3L, 4L}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][] toLong(final double[][] a) {
         if (a == null) {
@@ -23289,9 +27512,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code double} array to a three-dimensional {@code long} array.
+     * Each {@code double} element is cast to a {@code long}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * double[][][] source = {{{1.1, 2.9}}, {{3.5, 4.0}}};
+     * long[][][] result = Arrays.toLong(source);
+     * // result is {{{1L, 2L}}, {{3L, 4L}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code double} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
     public static long[][][] toLong(final double[][][] a) {
         if (a == null) {
@@ -23309,9 +27540,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code byte} array to a one-dimensional {@code float} array.
+     * Each {@code byte} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] source = {1, 2, 3};
+     * float[] result = Arrays.toFloat(source);
+     * // result is {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[] toFloat(final byte[] a) {
         if (a == null) {
@@ -23329,9 +27568,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code byte} array to a two-dimensional {@code float} array.
+     * Each {@code byte} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[][] source = {{1, 2}, {3, 4}};
+     * float[][] result = Arrays.toFloat(source);
+     * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][] toFloat(final byte[][] a) {
         if (a == null) {
@@ -23349,9 +27596,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code byte} array to a three-dimensional {@code float} array.
+     * Each {@code byte} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[][][] source = {{{1, 2}}, {{3, 4}}};
+     * float[][][] result = Arrays.toFloat(source);
+     * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][][] toFloat(final byte[][][] a) {
         if (a == null) {
@@ -23369,9 +27624,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code short} array to a one-dimensional {@code float} array.
+     * Each {@code short} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[] source = {1, 2, 3};
+     * float[] result = Arrays.toFloat(source);
+     * // result is {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[] toFloat(final short[] a) {
         if (a == null) {
@@ -23389,9 +27652,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code short} array to a two-dimensional {@code float} array.
+     * Each {@code short} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][] source = {{1, 2}, {3, 4}};
+     * float[][] result = Arrays.toFloat(source);
+     * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][] toFloat(final short[][] a) {
         if (a == null) {
@@ -23409,9 +27680,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code short} array to a three-dimensional {@code float} array.
+     * Each {@code short} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][][] source = {{{1, 2}}, {{3, 4}}};
+     * float[][][] result = Arrays.toFloat(source);
+     * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][][] toFloat(final short[][][] a) {
         if (a == null) {
@@ -23429,9 +27708,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code int} array to a one-dimensional {@code float} array.
+     * Each {@code int} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[] source = {1, 2, 3};
+     * float[] result = Arrays.toFloat(source);
+     * // result is {1.0f, 2.0f, 3.0f}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[] toFloat(final int[] a) {
         if (a == null) {
@@ -23449,9 +27736,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code int} array to a two-dimensional {@code float} array.
+     * Each {@code int} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][] source = {{1, 2}, {3, 4}};
+     * float[][] result = Arrays.toFloat(source);
+     * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][] toFloat(final int[][] a) {
         if (a == null) {
@@ -23469,9 +27764,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code int} array to a three-dimensional {@code float} array.
+     * Each {@code int} element is cast to a {@code float}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][][] source = {{{1, 2}}, {{3, 4}}};
+     * float[][][] result = Arrays.toFloat(source);
+     * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][][] toFloat(final int[][][] a) {
         if (a == null) {
@@ -23489,9 +27792,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code long} array to a one-dimensional {@code float} array.
+     * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[] source = {1L, 2L, 9007199254740992L};
+     * float[] result = Arrays.toFloat(source);
+     * // result may be {1.0f, 2.0f, 9.0071992E15f}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[] toFloat(final long[] a) {
         if (a == null) {
@@ -23509,9 +27820,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code long} array to a two-dimensional {@code float} array.
+     * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[][] source = {{1L, 2L}, {3L, 4L}};
+     * float[][] result = Arrays.toFloat(source);
+     * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][] toFloat(final long[][] a) {
         if (a == null) {
@@ -23529,9 +27848,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code long} array to a three-dimensional {@code float} array.
+     * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
+     * float[][][] result = Arrays.toFloat(source);
+     * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
     public static float[][][] toFloat(final long[][][] a) {
         if (a == null) {
@@ -23549,9 +27876,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code byte} array to a one-dimensional {@code double} array.
+     * Each {@code byte} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[] source = {1, 2, 3};
+     * double[] result = Arrays.toDouble(source);
+     * // result is {1.0, 2.0, 3.0}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[] toDouble(final byte[] a) {
         if (a == null) {
@@ -23569,9 +27904,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code byte} array to a two-dimensional {@code double} array.
+     * Each {@code byte} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[][] source = {{1, 2}, {3, 4}};
+     * double[][] result = Arrays.toDouble(source);
+     * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][] toDouble(final byte[][] a) {
         if (a == null) {
@@ -23589,9 +27932,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code byte} array to a three-dimensional {@code double} array.
+     * Each {@code byte} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * byte[][][] source = {{{1, 2}}, {{3, 4}}};
+     * double[][][] result = Arrays.toDouble(source);
+     * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][][] toDouble(final byte[][][] a) {
         if (a == null) {
@@ -23609,9 +27960,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code short} array to a one-dimensional {@code double} array.
+     * Each {@code short} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[] source = {1, 2, 3};
+     * double[] result = Arrays.toDouble(source);
+     * // result is {1.0, 2.0, 3.0}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[] toDouble(final short[] a) {
         if (a == null) {
@@ -23629,9 +27988,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code short} array to a two-dimensional {@code double} array.
+     * Each {@code short} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][] source = {{1, 2}, {3, 4}};
+     * double[][] result = Arrays.toDouble(source);
+     * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][] toDouble(final short[][] a) {
         if (a == null) {
@@ -23649,9 +28016,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code short} array to a three-dimensional {@code double} array.
+     * Each {@code short} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * short[][][] source = {{{1, 2}}, {{3, 4}}};
+     * double[][][] result = Arrays.toDouble(source);
+     * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][][] toDouble(final short[][][] a) {
         if (a == null) {
@@ -23669,9 +28044,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code int} array to a one-dimensional {@code double} array.
+     * Each {@code int} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[] source = {1, 2, 3};
+     * double[] result = Arrays.toDouble(source);
+     * // result is {1.0, 2.0, 3.0}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[] toDouble(final int[] a) {
         if (a == null) {
@@ -23689,9 +28072,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code int} array to a two-dimensional {@code double} array.
+     * Each {@code int} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][] source = {{1, 2}, {3, 4}};
+     * double[][] result = Arrays.toDouble(source);
+     * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][] toDouble(final int[][] a) {
         if (a == null) {
@@ -23709,9 +28100,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code int} array to a three-dimensional {@code double} array.
+     * Each {@code int} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * int[][][] source = {{{1, 2}}, {{3, 4}}};
+     * double[][][] result = Arrays.toDouble(source);
+     * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][][] toDouble(final int[][][] a) {
         if (a == null) {
@@ -23729,9 +28128,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code long} array to a one-dimensional {@code double} array.
+     * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[] source = {1L, 2L, 9007199254740992L};
+     * double[] result = Arrays.toDouble(source);
+     * // result is {1.0, 2.0, 9.007199254740992E15}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[] toDouble(final long[] a) {
         if (a == null) {
@@ -23749,9 +28156,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code long} array to a two-dimensional {@code double} array.
+     * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[][] source = {{1L, 2L}, {3L, 4L}};
+     * double[][] result = Arrays.toDouble(source);
+     * // result is {{1.0, 2.0}, {3.0, 4.0}}
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][] toDouble(final long[][] a) {
         if (a == null) {
@@ -23769,9 +28184,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code long} array to a three-dimensional {@code double} array.
+     * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
+     * double[][][] result = Arrays.toDouble(source);
+     * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][][] toDouble(final long[][][] a) {
         if (a == null) {
@@ -23789,9 +28212,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a one-dimensional {@code float} array to a one-dimensional {@code double} array.
+     * Each {@code float} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[] source = {1.1f, 2.2f, 3.3f};
+     * double[] result = Arrays.toDouble(source);
+     * // result is approximately {1.100000023841858, 2.200000047683716, 3.299999952316284}
+     * </code></pre>
+     *
+     * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[] toDouble(final float[] a) {
         if (a == null) {
@@ -23809,9 +28240,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a two-dimensional {@code float} array to a two-dimensional {@code double} array.
+     * Each {@code float} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][] source = {{1.1f, 2.2f}, {3.3f, 4.4f}};
+     * double[][] result = Arrays.toDouble(source);
+     * // result is a 2D double array with converted values.
+     * </code></pre>
+     *
+     * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][] toDouble(final float[][] a) {
         if (a == null) {
@@ -23829,9 +28268,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Converts a three-dimensional {@code float} array to a three-dimensional {@code double} array.
+     * Each {@code float} element is cast to a {@code double}.
      *
-     * @param a
-     * @return
+     * <pre><code>
+     * float[][][] source = {{{1.1f, 2.2f}}, {{3.3f, 4.4f}}};
+     * double[][][] result = Arrays.toDouble(source);
+     * // result is a 3D double array with converted values.
+     * </code></pre>
+     *
+     * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
+     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
     public static double[][][] toDouble(final float[][][] a) {
         if (a == null) {
@@ -23856,33 +28303,48 @@ public sealed class Arrays permits Arrays.f {
         N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
     }
 
+    /**
+     * A placeholder utility class that extends {@code com.landawn.abacus.util.Arrays}.
+     * This class is intended to be a part of a larger utility suite but does not define
+     * any methods of its own. It is marked with {@code SuppressFBWarnings} for its naming convention.
+     */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
-    public static final class f extends Arrays { // NOSONAR
+    public static final class f extends com.landawn.abacus.util.Arrays { // NOSONAR
         private f() {
             // utility class
         }
     }
 
     /**
-     * The Class ff.
+     * A utility class providing methods for functional-style operations on two-dimensional arrays.
+     * Operations include updating, replacing, reshaping, flattening, mapping, and zipping.
+     * This class is marked with {@code SuppressFBWarnings} for its naming convention.
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
 
         /**
-         * Instantiates a new ff.
+         * Private constructor to prevent instantiation.
          */
         private ff() {
             // Singleton
         }
 
         /**
+         * Updates all elements in the specified two-dimensional array in-place using the given operator.
+         * The operator is applied to each element of the nested arrays.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param operator
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"a", "b"}, {"c", "d"}};
+         * ff.updateAll(a, str -> str.toUpperCase());
+         * // a is now {{"A", "B"}, {"C", "D"}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the operator.
+         * @param a the two-dimensional array to update. The operation is in-place.
+         * @param operator the unary operator to apply to each element.
+         * @throws E if the operator throws an exception.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
@@ -23901,13 +28363,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Replaces all elements in the specified two-dimensional array that satisfy the given predicate
+         * with the provided new value. The replacement happens in-place.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param predicate
-         * @param newValue
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1, null, 3}, {null, 5}};
+         * ff.replaceIf(a, val -> val == null, -1);
+         * // a is now {{1, -1, 3}, {-1, 5}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the predicate.
+         * @param a the two-dimensional array to modify.
+         * @param predicate the condition to test for each element.
+         * @param newValue the value to be placed in the array if the predicate is true.
+         * @throws E if the predicate throws an exception.
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isEmpty(a)) {
@@ -23928,13 +28398,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
+         * Reshapes a one-dimensional array into a two-dimensional array with a specified number of columns.
+         * The number of rows is determined automatically. The last row may be shorter if the total number
+         * of elements is not a multiple of {@code cols}.
          *
-         * @param <T> the type of the elements in the array
-         * @param a the one-dimensional array to be reshaped
-         * @param cols the number of columns for the resulting two-dimensional array
-         * @return a two-dimensional array with the specified number of columns
-         * @throws IllegalArgumentException if the number of columns is invalid
+         * <pre><code>
+         * Integer[] a = {1, 2, 3, 4, 5, 6, 7};
+         * Integer[][] result = ff.reshape(a, 3);
+         * // result is {{1, 2, 3}, {4, 5, 6}, {7}}
+         * </code></pre>
+         *
+         * @param <T> the component type of the array.
+         * @param a the one-dimensional array to reshape.
+         * @param cols the number of columns in the resulting two-dimensional array. Must be positive.
+         * @return a new two-dimensional array.
+         * @throws IllegalArgumentException if {@code cols} is not positive.
          */
         public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
             checkMForReshape(cols);
@@ -23945,7 +28423,7 @@ public sealed class Arrays permits Arrays.f {
 
             final int len = a.length;
             final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-            final T[][] c = N.newArray(a.getClass(), n);
+            final T[][] c = N.newArray((Class<T[]>) a.getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++, from += cols) {
                 c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
@@ -23955,16 +28433,23 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Flattens a two-dimensional array into a one-dimensional array.
+         * Flattens a two-dimensional array (which may be jagged) into a one-dimensional array.
+         * Elements are concatenated in the order they appear.
          *
-         * @param <T> the type of the elements in the array
-         * @param a the two-dimensional array to be flattened
-         * @return a one-dimensional array containing all the elements of the input array
+         * <pre><code>
+         * Integer[][] a = {{1, 2}, {3}, {4, 5, 6}};
+         * Integer[] result = ff.flatten(a);
+         * // result is {1, 2, 3, 4, 5, 6}
+         * </code></pre>
+         *
+         * @param <T> the component type of the array.
+         * @param a the two-dimensional array to flatten.
+         * @return a new one-dimensional array containing all elements from the input array.
          */
         public static <T> T[] flatten(final T[][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-            final T[] c = N.newArray(a.getClass().getComponentType().getComponentType(), count);
+            final T[] c = N.newArray((Class<T>) a.getClass().getComponentType().getComponentType(), count);
             int from = 0;
 
             for (final T[] element : a) {
@@ -23981,18 +28466,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * flatten -> execute {@code op} -> set values back.
-         * <pre>
-         * <code>
-         * f.flattOp(a, t -> N.sort(t));
-         * </code>
-         * </pre>
+         * Flattens a two-dimensional array, applies an operation to the resulting one-dimensional array,
+         * and then copies the modified elements back into the original two-dimensional array.
+         * This is useful for performing array-wide operations like sorting.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param op
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{3, 1}, {4, 2}};
+         * ff.flatOp(a, arr -> java.util.Arrays.sort(arr));
+         * // a is now {{1, 2}, {3, 4}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the operation.
+         * @param a the two-dimensional array to operate on. The operation is in-place.
+         * @param op the consumer to accept the flattened array.
+         * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void flatOp(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
@@ -24014,13 +28502,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Maps a two-dimensional array to a new two-dimensional array by applying a function to each element.
+         * The structure of the array (number of rows and columns in each row) is preserved.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1, 2}, {3, 4}};
+         * String[][] result = ff.map(a, String::valueOf);
+         * // result is {{"1", "2"}, {"3", "4"}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the unary operator to apply to each element.
+         * @return a new two-dimensional array with the mapped elements.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
@@ -24031,16 +28527,23 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Maps a two-dimensional array of type {@code T} to a new two-dimensional array of type {@code R}
+         * by applying a function to each element.
          *
+         * <pre><code>
+         * String[][] a = {{"1", "2"}, {"3", "4"}};
+         * Integer[][] result = ff.map(a, Integer::parseInt, Integer.class);
+         * // result is {{1, 2}, {3, 4}}
+         * </code></pre>
          *
-         * @param <T>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param func
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <T> the type of elements in the source array.
+         * @param <R> the type of elements in the resulting array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @param targetElementType the class object for the element type of the resulting array.
+         * @return a new two-dimensional array with the mapped elements.
+         * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
@@ -24052,21 +28555,28 @@ public sealed class Arrays permits Arrays.f {
             final R[][] c = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.map(a[i], func, targetElementType);
+                c[i] = com.landawn.abacus.util.Arrays.map(a[i], func, targetElementType);
             }
 
             return c;
         }
 
         /**
-         * Map to boolean.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code boolean} array
+         * by applying a predicate to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{0, 1}, {-1, 2}};
+         * boolean[][] result = ff.mapToBoolean(a, x -> x > 0);
+         * // result is {{false, true}, {false, true}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the predicate to apply to each element.
+         * @return a new two-dimensional {@code boolean} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24077,21 +28587,28 @@ public sealed class Arrays permits Arrays.f {
             final boolean[][] c = new boolean[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToBoolean(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToBoolean(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to char.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code char} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"a"}, {"b", "c"}};
+         * char[][] result = ff.mapToChar(a, s -> s.charAt(0));
+         * // result is {{'a'}, {'b', 'c'}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code char} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24102,21 +28619,28 @@ public sealed class Arrays permits Arrays.f {
             final char[][] c = new char[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToChar(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToChar(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to byte.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code byte} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{10}, {20, 30}};
+         * byte[][] result = ff.mapToByte(a, x -> x.byteValue());
+         * // result is {{10}, {20, 30}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code byte} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24127,21 +28651,28 @@ public sealed class Arrays permits Arrays.f {
             final byte[][] c = new byte[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToByte(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToByte(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to short.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code short} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{10}, {20, 30}};
+         * short[][] result = ff.mapToShort(a, x -> x.shortValue());
+         * // result is {{10}, {20, 30}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code short} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24152,21 +28683,28 @@ public sealed class Arrays permits Arrays.f {
             final short[][] c = new short[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToShort(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToShort(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to int.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code int} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"1"}, {"2", "3"}};
+         * int[][] result = ff.mapToInt(a, Integer::parseInt);
+         * // result is {{1}, {2, 3}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code int} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24177,21 +28715,28 @@ public sealed class Arrays permits Arrays.f {
             final int[][] c = new int[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToInt(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToInt(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to long.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code long} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"1"}, {"2", "3"}};
+         * long[][] result = ff.mapToLong(a, Long::parseLong);
+         * // result is {{1L}, {2L, 3L}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code long} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24202,21 +28747,28 @@ public sealed class Arrays permits Arrays.f {
             final long[][] c = new long[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToLong(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToLong(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to float.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code float} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"1.1"}, {"2.2", "3.3"}};
+         * float[][] result = ff.mapToFloat(a, Float::parseFloat);
+         * // result is {{1.1f}, {2.2f, 3.3f}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code float} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24227,21 +28779,28 @@ public sealed class Arrays permits Arrays.f {
             final float[][] c = new float[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToFloat(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToFloat(a[i], func);
             }
 
             return c;
         }
 
         /**
-         * Map to double.
+         * Maps a two-dimensional array of a generic type {@code T} to a two-dimensional {@code double} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][] a = {{"1.1"}, {"2.2", "3.3"}};
+         * double[][] result = ff.mapToDouble(a, Double::parseDouble);
+         * // result is {{1.1}, {2.2, 3.3}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source two-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new two-dimensional {@code double} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24252,27 +28811,28 @@ public sealed class Arrays permits Arrays.f {
             final double[][] c = new double[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = Arrays.mapToDouble(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.mapToDouble(a[i], func);
             }
 
             return c;
         }
 
         /**
+         * A private helper method to zip elements of two 1D arrays into a result array.
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param len
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> type of first array element
+         * @param <B> type of second array element
+         * @param <R> type of result array element
+         * @param <E> type of exception
+         * @param len length of the result array
+         * @param a first array
+         * @param b second array
+         * @param valueForNoneA default value for first array
+         * @param valueForNoneB default value for second array
+         * @param zipFunction function to combine elements
+         * @param targetElementType class of the result element type
+         * @return a new array of zipped elements
+         * @throws E if the zip function fails
          */
         private static <A, B, R, E extends Exception> R[] zip(final int len, final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -24305,23 +28865,24 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * A private helper method to zip elements of three 1D arrays into a result array.
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param len
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
-         * @throws E the e
+         * @param <A> type of first array element
+         * @param <B> type of second array element
+         * @param <C> type of third array element
+         * @param <R> type of result array element
+         * @param <E> type of exception
+         * @param a first array
+         * @param b second array
+         * @param c third array
+         * @param valueForNoneA default value for first array
+         * @param valueForNoneB default value for second array
+         * @param valueForNoneC default value for third array
+         * @param zipFunction function to combine elements
+         * @param len length of the result array
+         * @param targetElementType class of the result element type
+         * @return a new array of zipped elements
+         * @throws E if the zip function fails
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final int len,
@@ -24346,15 +28907,25 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 2D arrays together using a binary function. The resulting array will have a length
+         * equal to the minimum of the lengths of the input arrays. Each sub-array's length will be
+         * the minimum of the corresponding sub-arrays in the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1, 2, 3}, {4, 5}};
+         * String[][] b = {{"a", "b"}, {"c", "d", "e"}};
+         * String[][] result = ff.zip(a, b, (i, s) -> i + s, String.class);
+         * // result is {{"1a", "2b"}, {"4c", "5d"}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <E> The exception type thrown by the zip function.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param zipFunction The function to combine elements from the input arrays.
+         * @return A new 2D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
@@ -24362,18 +28933,27 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 2D arrays together into a new 2D array of a specified type. The resulting array will have a length
+         * equal to the minimum of the lengths of the input arrays. Each sub-array's length will be
+         * the minimum of the corresponding sub-arrays in the input arrays.
          *
+         * <pre><code>
+         * Integer[][] a = {{1, 2, 3}, {4, 5}};
+         * String[][] b = {{"a", "b"}, {"c", "d", "e"}};
+         * String[][] result = ff.zip(a, b, (i, s) -> i + s, String.class);
+         * // result is {{"1a", "2b"}, {"4c", "5d"}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type thrown by the zip function.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param zipFunction The function to combine elements from the input arrays.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 2D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -24399,17 +28979,26 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 2D arrays together using a binary function, providing default values for missing elements.
+         * The resulting array's dimensions will match the maximum dimensions of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1}, {2, 3}};
+         * Integer[][] b = {{10, 20}, {30}};
+         * Integer[][] result = ff.zip(a, b, -1, -1, (x, y) -> x + y);
+         * // result is {{11, 19}, {32, 2}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the first array and the result.
+         * @param <B> The element type of the second array.
+         * @param <E> The exception type thrown by the zip function.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param valueForNoneA The default value for the first array if an element is missing.
+         * @param valueForNoneB The default value for the second array if an element is missing.
+         * @param zipFunction The function to combine elements.
+         * @return A new 2D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
@@ -24417,20 +29006,28 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 2D arrays together into a new 2D array of a specified type, providing default values for missing elements.
+         * The resulting array's dimensions will match the maximum dimensions of the input arrays.
          *
+         * <pre><code>
+         * Integer[][] a = {{1}, {2, 3}};
+         * String[][] b = {{"a", "b"}, {"c"}};
+         * String[][] result = ff.zip(a, b, 0, "z", (i, s) -> i + s, String.class);
+         * // result is {{"1a", "0b"}, {"2c", "3z"}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type thrown by the zip function.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param valueForNoneA The default value for the first array.
+         * @param valueForNoneB The default value for the second array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 2D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -24439,21 +29036,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Private helper method for zipping two 2D arrays with default values and specified dimensions.
          *
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param len
-         * @param rowLen
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param zipFunction The zipping function.
+         * @param len The desired length of the outer array.
+         * @param rowLen The desired length of the inner arrays.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new zipped 2D array.
+         * @throws E if the zip function throws an exception.
          */
         private static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final int len, final int rowLen,
@@ -24487,17 +29085,27 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 2D arrays together using a tri-function. The resulting array dimensions are truncated
+         * to the smallest corresponding dimension of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1}};
+         * Integer[][] b = {{2, 3}};
+         * Integer[][] c = {{4, 5}};
+         * Integer[][] result = ff.zip(a, b, c, (x, y, z) -> x + y + z);
+         * // result is {{7}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the first array and the result.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param c The third 2D array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 2D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -24505,20 +29113,29 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 2D arrays together into a new 2D array of a specified type. The resulting array dimensions
+         * are truncated to the smallest corresponding dimension of the input arrays.
          *
+         * <pre><code>
+         * Integer[][] a = {{1}};
+         * Double[][] b = {{2.0, 3.0}};
+         * Long[][] c = {{4L, 5L}};
+         * String[][] result = ff.zip(a, b, c, (x, y, z) -> "" + x + y + z, String.class);
+         * // result is {{"12.04"}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param c The third 2D array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 2D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -24546,20 +29163,30 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 2D arrays together, providing default values for missing elements. The resulting array's
+         * dimensions will match the maximum dimensions of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][] a = {{1}, {2}};
+         * Integer[][] b = {{10, 20}};
+         * Integer[][] c = {{100}, {200, 300}};
+         * Integer[][] result = ff.zip(a, b, c, -1, -1, -1, (x, y, z) -> x + y + z);
+         * // result is {{110, 18}, {201, 298}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the arrays and the result.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param c The third 2D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param valueForNoneC Default value for the third array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 2D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -24567,23 +29194,32 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 2D arrays into a new 2D array of a specified type, with default values for missing elements.
+         * The resulting array's dimensions will match the maximum dimensions of the input arrays.
          *
+         * <pre><code>
+         * Integer[][] a = {{1}};
+         * String[][] b = {{"a", "b"}};
+         * Double[][] c = {{1.1, 2.2}, {3.3}};
+         * String[][] result = ff.zip(a, b, c, 0, "z", 0.0, (i, s, d) -> i + s + d, String.class);
+         * // result is {{"1a1.1", "0b2.2"}, {"0z3.3"}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param c The third 2D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param valueForNoneC Default value for the third array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 2D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
@@ -24593,24 +29229,25 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Private helper method for zipping three 2D arrays with default values and specified dimensions.
          *
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param len
-         * @param rowLen
-         * @param targetElementType
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 2D array.
+         * @param b The second 2D array.
+         * @param c The third 2D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param valueForNoneC Default value for the third array.
+         * @param zipFunction The zipping function.
+         * @param len The desired length of the outer array.
+         * @param rowLen The desired length of the inner arrays.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new zipped 2D array.
+         * @throws E if the zip function throws an exception.
          */
         private static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final int len,
@@ -24636,12 +29273,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Calculates the total count of elements in a two-dimensional array.
+         * Calculates the total number of elements in a two-dimensional array, including elements in jagged arrays.
+         * Null sub-arrays are counted as having zero length.
          *
-         * @param a the two-dimensional array whose elements are to be counted
-         * @return the total count of elements in the array, or 0 if the array is null
+         * <pre><code>
+         * Object[][] a = {{1, 2}, {3}, null, {4, 5, 6}};
+         * long count = ff.totalCountOfElements(a);
+         * // count is 6
+         * </code></pre>
+         *
+         * @param a the two-dimensional array to inspect. Can be {@code null}.
+         * @return the total count of all elements in all sub-arrays. Returns 0 if the input array is null or empty.
          */
         public static long totalCountOfElements(final Object[][] a) {
+            if (N.isEmpty(a)) {
+                return 0;
+            }
             long count = 0;
 
             for (final Object[] element : a) {
@@ -24652,10 +29299,17 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Finds the minimum length of subarrays in a two-dimensional array.
+         * Finds the minimum length among all sub-arrays in a two-dimensional array.
+         * If a sub-array is {@code null}, its length is considered 0.
          *
-         * @param a the two-dimensional array to be checked
-         * @return the minimum length of subarrays, or 0 if the array is null
+         * <pre><code>
+         * Object[][] a = {{1, 2}, {3}, null, {4, 5, 6}};
+         * int minLen = ff.minSubArrayLen(a);
+         * // minLen is 0 because of the null sub-array
+         * </code></pre>
+         *
+         * @param a the two-dimensional array to check.
+         * @return the minimum sub-array length, or 0 if the array is null or empty.
          */
         public static int minSubArrayLen(final Object[][] a) {
             if (N.isEmpty(a)) {
@@ -24672,10 +29326,17 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Finds the maximum length of subarrays in a two-dimensional array.
+         * Finds the maximum length among all sub-arrays in a two-dimensional array.
+         * If a sub-array is {@code null}, its length is considered 0.
          *
-         * @param a the two-dimensional array to be checked
-         * @return the maximum length of subarrays, or 0 if the array is null
+         * <pre><code>
+         * Object[][] a = {{1, 2}, {3}, null, {4, 5, 6}};
+         * int maxLen = ff.maxSubArrayLen(a);
+         * // maxLen is 3
+         * </code></pre>
+         *
+         * @param a the two-dimensional array to check.
+         * @return the maximum sub-array length, or 0 if the array is null or empty.
          */
         public static int maxSubArrayLen(final Object[][] a) {
             if (N.isEmpty(a)) {
@@ -24692,8 +29353,17 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Generates a string representation of a two-dimensional array and prints it to the console.
+         * The format is similar to `[[e1, e2], [e3, e4]]`.
          *
-         * @param a
+         * <pre><code>
+         * String[][] a = {{"a", "b"}, {"c", "d"}};
+         * ff.println(a);
+         * // Prints "[[a, b], [c, d]]" to the console and returns the string.
+         * </code></pre>
+         *
+         * @param a the two-dimensional array to print.
+         * @return the string representation of the array.
          */
         static String println(final Object[][] a) {
             if (a == null) {
@@ -24704,6 +29374,7 @@ public sealed class Arrays permits Arrays.f {
                 final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
                 String str = null;
+                final String ARRAY_PRINT_SEPARATOR = System.lineSeparator();
 
                 try {
                     sb.append('[');
@@ -24745,25 +29416,35 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * The Class fff.
+     * A utility class providing methods for functional-style operations on three-dimensional arrays.
+     * Operations include updating, replacing, reshaping, flattening, mapping, and zipping.
+     * This class is marked with {@code SuppressFBWarnings} for its naming convention.
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
 
         /**
-         * Instantiates a new fff.
+         * Private constructor to prevent instantiation.
          */
         private fff() {
             // Singleton
         }
 
         /**
+         * Updates all elements in the specified three-dimensional array in-place using the given operator.
+         * The operator is applied to each element of the nested arrays.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param operator
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{ "a" }}, {{ "b" }}};
+         * fff.updateAll(a, str -> str.toUpperCase());
+         * // a is now {{{ "A" }}, {{ "B" }}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the operator.
+         * @param a the three-dimensional array to update. The operation is in-place.
+         * @param operator the unary operator to apply to each element.
+         * @throws E if the operator throws an exception.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
@@ -24776,13 +29457,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Replaces all elements in the specified three-dimensional array that satisfy the given predicate
+         * with the provided new value. The replacement happens in-place.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param predicate
-         * @param newValue
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}, {null}}, {{3}}};
+         * fff.replaceIf(a, val -> val == null, -1);
+         * // a is now {{{1}, {-1}}, {{3}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the predicate.
+         * @param a the three-dimensional array to modify.
+         * @param predicate the condition to test for each element.
+         * @param newValue the value to be placed in the array if the predicate is true.
+         * @throws E if the predicate throws an exception.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isEmpty(a)) {
@@ -24795,18 +29484,25 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.
+         * Reshapes a one-dimensional array into a three-dimensional array with the specified
+         * number of rows and columns for the inner matrices.
          *
-         * @param <T> the type of the elements in the array
-         * @param a the one-dimensional array to be reshaped
-         * @param rows the number of rows for the resulting three-dimensional array
-         * @param cols the number of columns for the resulting three-dimensional array
-         * @return a three-dimensional array with the specified number of rows and columns
-         * @throws IllegalArgumentException if the number of rows or columns is invalid
+         * <pre><code>
+         * Integer[] a = {1, 2, 3, 4, 5, 6, 7};
+         * Integer[][][] result = fff.reshape(a, 2, 2);
+         * // result is {{{1, 2}, {3, 4}}, {{5, 6}, {7}}}
+         * </code></pre>
+         *
+         * @param <T> the type of the elements in the array.
+         * @param a the one-dimensional array to be reshaped.
+         * @param rows the number of rows for the inner 2D arrays.
+         * @param cols the number of columns for the inner 2D arrays.
+         * @return a three-dimensional array.
+         * @throws IllegalArgumentException if rows or cols are not positive.
          */
         public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
             N.checkArgNotNull(a, "a");
-            N.checkArgument(rows > 0 && cols > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", rows, cols);
+            N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive numbers: rows = %s, cols = %s", rows, cols);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][0][0];
@@ -24814,10 +29510,10 @@ public sealed class Arrays permits Arrays.f {
 
             final int len = a.length;
             final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-            final T[][][] c = N.newArray(N.newArray(a.getClass(), 0).getClass(), n);
+            final T[][][] c = N.newArray(N.newArray((Class<T[]>) a.getClass(), 0).getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++) {
-                c[i] = N.newArray(a.getClass(), N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING)));
+                c[i] = N.newArray((Class<T[]>) a.getClass(), N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING)));
 
                 for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
                     c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
@@ -24829,15 +29525,22 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Flattens a three-dimensional array into a one-dimensional array.
+         * Elements are concatenated in the order they appear.
          *
-         * @param <T> the type of the elements in the array
-         * @param a the three-dimensional array to be flattened
-         * @return a one-dimensional array containing all the elements of the input array
+         * <pre><code>
+         * Integer[][][] a = {{{1, 2}}, {{3}}, {{4, 5, 6}}};
+         * Integer[] result = fff.flatten(a);
+         * // result is {1, 2, 3, 4, 5, 6}
+         * </code></pre>
+         *
+         * @param <T> the component type of the array.
+         * @param a the three-dimensional array to flatten.
+         * @return a new one-dimensional array containing all elements from the input array.
          */
         public static <T> T[] flatten(final T[][][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-            final T[] c = N.newArray(a.getClass().getComponentType().getComponentType().getComponentType(), count);
+            final T[] c = N.newArray((Class<T>) a.getClass().getComponentType().getComponentType().getComponentType(), count);
             int from = 0;
 
             for (final T[][] element : a) {
@@ -24860,18 +29563,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * flatten -> execute {@code op} -> set values back.
-         * <pre>
-         * <code>
-         * f.flattOp(a, t -> N.sort(t));
-         * </code>
-         * </pre>
+         * Flattens a three-dimensional array, applies an operation to the resulting one-dimensional array,
+         * and then copies the modified elements back into the original three-dimensional array.
+         * This is useful for performing array-wide operations like sorting.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param op
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{3}, {1}}, {{4}, {2}}};
+         * fff.flatOp(a, arr -> java.util.Arrays.sort(arr));
+         * // a is now {{{1}, {2}}, {{3}, {4}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the array.
+         * @param <E> the type of exception that may be thrown by the operation.
+         * @param a the three-dimensional array to operate on. The operation is in-place.
+         * @param op the consumer to accept the flattened array.
+         * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void flatOp(final T[][][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
@@ -24897,13 +29603,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Maps a three-dimensional array to a new three-dimensional array by applying a function to each element.
+         * The structure of the array is preserved.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}}, {{2}}};
+         * String[][][] result = fff.map(a, String::valueOf);
+         * // result is {{{ "1" }}, {{ "2" }}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the unary operator to apply to each element.
+         * @return a new three-dimensional array with the mapped elements.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
@@ -24914,16 +29628,23 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Maps a three-dimensional array of type {@code T} to a new three-dimensional array of type {@code R}
+         * by applying a function to each element.
          *
+         * <pre><code>
+         * String[][][] a = {{{ "1" }}, {{ "2" }}};
+         * Integer[][][] result = fff.map(a, Integer::parseInt, Integer.class);
+         * // result is {{{1}}, {{2}}}
+         * </code></pre>
          *
-         * @param <T>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param func
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <T> the type of elements in the source array.
+         * @param <R> the type of elements in the resulting array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @param targetElementType the class object for the element type of the resulting array.
+         * @return a new three-dimensional array with the mapped elements.
+         * @throws E if the function throws an exception.
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
@@ -24942,14 +29663,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to boolean.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code boolean} array
+         * by applying a predicate to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{0, 1}}, {{-1, 2}}};
+         * boolean[][][] result = fff.mapToBoolean(a, x -> x > 0);
+         * // result is {{{false, true}}, {{false, true}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the predicate to apply to each element.
+         * @return a new three-dimensional {@code boolean} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24967,14 +29695,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to char.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code char} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{"a"}}, {{"b"}, {"c"}}};
+         * char[][][] result = fff.mapToChar(a, s -> s.charAt(0));
+         * // result is {{{'a'}}, {{'b'}, {'c'}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code char} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -24992,14 +29727,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to byte.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code byte} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{10}}, {{20}, {30}}};
+         * byte[][][] result = fff.mapToByte(a, x -> x.byteValue());
+         * // result is {{{10}}, {{20}, {30}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code byte} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25017,14 +29759,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to short.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code short} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{10}}, {{20}, {30}}};
+         * short[][][] result = fff.mapToShort(a, x -> x.shortValue());
+         * // result is {{{10}}, {{20}, {30}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code short} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25042,14 +29791,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to int.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code int} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{"1"}}, {{"2"}, {"3"}}};
+         * int[][][] result = fff.mapToInt(a, Integer::parseInt);
+         * // result is {{{1}}, {{2}, {3}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code int} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25067,14 +29823,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to long.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code long} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{"1"}}, {{"2"}, {"3"}}};
+         * long[][][] result = fff.mapToLong(a, Long::parseLong);
+         * // result is {{{1L}}, {{2L}, {3L}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code long} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25092,14 +29855,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to float.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code float} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{"1.1"}}, {{"2.2"}, {"3.3"}}};
+         * float[][][] result = fff.mapToFloat(a, Float::parseFloat);
+         * // result is {{{1.1f}}, {{2.2f}, {3.3f}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code float} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25117,14 +29887,21 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Map to double.
+         * Maps a three-dimensional array of a generic type {@code T} to a three-dimensional {@code double} array
+         * by applying a function to each element.
          *
-         * @param <T>
-         * @param <E>
-         * @param a
-         * @param func
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * String[][][] a = {{{"1.1"}}, {{"2.2"}, {"3.3"}}};
+         * double[][][] result = fff.mapToDouble(a, Double::parseDouble);
+         * // result is {{{1.1}}, {{2.2}, {3.3}}}
+         * </code></pre>
+         *
+         * @param <T> the type of elements in the source array.
+         * @param <E> the type of exception that may be thrown by the function.
+         * @param a the source three-dimensional array.
+         * @param func the function to apply to each element.
+         * @return a new three-dimensional {@code double} array.
+         * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -25142,15 +29919,24 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 3D arrays together using a binary function. The resulting array dimensions are truncated
+         * to the smallest corresponding dimension of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}, {2}}};
+         * Integer[][][] b = {{{10}}};
+         * Integer[][][] result = fff.zip(a, b, (x, y) -> x + y);
+         * // result is {{{11}}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the arrays and the result.
+         * @param <B> The element type of the second array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 3D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
@@ -25158,18 +29944,26 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 3D arrays together into a new 3D array of a specified type. The resulting array dimensions
+         * are truncated to the smallest corresponding dimension of the input arrays.
          *
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * String[][][] b = {{{"a"}}};
+         * String[][][] result = fff.zip(a, b, (i, s) -> i + s, String.class);
+         * // result is {{{ "1a" }}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 3D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -25186,17 +29980,26 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 3D arrays together, providing default values for missing elements. The resulting array's
+         * dimensions will match the maximum dimensions of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}}, {{2}}};
+         * Integer[][][] b = {{{10, 20}}};
+         * Integer[][][] result = fff.zip(a, b, -1, -1, (x, y) -> x + y);
+         * // result is {{{11, 19}}, {{1, -2}}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the arrays and the result.
+         * @param <B> The element type of the second array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 3D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
@@ -25204,20 +30007,28 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips two 3D arrays into a new 3D array of a specified type, with default values for missing elements.
+         * The resulting array's dimensions will match the maximum dimensions of the input arrays.
          *
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * String[][][] b = {{{"a", "b"}}, {{"c"}}};
+         * String[][][] result = fff.zip(a, b, 0, "z", (i, s) -> i + s, String.class);
+         * // result is {{{ "1a", "0b"}}, {{ "0z"}}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 3D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -25244,17 +30055,27 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 3D arrays together using a tri-function. The resulting array dimensions are truncated
+         * to the smallest corresponding dimension of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * Integer[][][] b = {{{2}, {3}}};
+         * Integer[][][] c = {{{4}}};
+         * Integer[][][] result = fff.zip(a, b, c, (x, y, z) -> x + y + z);
+         * // result is {{{7}}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the arrays and the result.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param c The third 3D array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 3D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -25262,20 +30083,29 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 3D arrays together into a new 3D array of a specified type. The resulting array dimensions
+         * are truncated to the smallest corresponding dimension of the input arrays.
          *
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * String[][][] b = {{{"a"}}};
+         * Double[][][] c = {{{2.2}}};
+         * String[][][] result = fff.zip(a, b, c, (i, s, d) -> i + s + d, String.class);
+         * // result is {{{ "1a2.2" }}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param c The third 3D array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 3D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -25293,20 +30123,30 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 3D arrays together, providing default values for missing elements. The resulting array's
+         * dimensions will match the maximum dimensions of the input arrays.
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @return
-         * @throws E the e
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * Integer[][][] b = {{{10, 20}}};
+         * Integer[][][] c = {{{}, {100}}};
+         * Integer[][][] result = fff.zip(a, b, c, -1, -1, -1, (x, y, z) -> x + y + z);
+         * // result is {{{10, 18}}, {{-3, 98}}}
+         * </code></pre>
+         *
+         * @param <A> The element type of the arrays and the result.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param c The third 3D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param valueForNoneC Default value for the third array.
+         * @param zipFunction The function to combine elements.
+         * @return A new 3D array of type A.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
                 final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -25315,23 +30155,32 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
+         * Zips three 3D arrays into a new 3D array of a specified type, with default values for missing elements.
+         * The resulting array's dimensions will match the maximum dimensions of the input arrays.
          *
+         * <pre><code>
+         * Integer[][][] a = {{{1}}};
+         * String[][][] b = {{{"a", "b"}}};
+         * Double[][][] c = {{{1.1}}, {{2.2}}};
+         * String[][][] result = fff.zip(a, b, c, 0, "z", 0.0, (i, s, d) -> "" + i + s + d, String.class);
+         * // result is {{{ "1a1.1", "0b0.0"}}, {{ "0z2.2"}}}
+         * </code></pre>
          *
-         * @param <A>
-         * @param <B>
-         * @param <C>
-         * @param <R>
-         * @param <E>
-         * @param a
-         * @param b
-         * @param c
-         * @param valueForNoneA
-         * @param valueForNoneB
-         * @param valueForNoneC
-         * @param zipFunction
-         * @param targetElementType
-         * @return
-         * @throws E the e
+         * @param <A> The element type of the first array.
+         * @param <B> The element type of the second array.
+         * @param <C> The element type of the third array.
+         * @param <R> The element type of the resulting array.
+         * @param <E> The exception type.
+         * @param a The first 3D array.
+         * @param b The second 3D array.
+         * @param c The third 3D array.
+         * @param valueForNoneA Default value for the first array.
+         * @param valueForNoneB Default value for the second array.
+         * @param valueForNoneC Default value for the third array.
+         * @param zipFunction The function to combine elements.
+         * @param targetElementType The class of the resulting array's element type.
+         * @return A new 3D array of type R.
+         * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
                 final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
@@ -25355,12 +30204,22 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Calculates the total count of elements in a three-dimensional array.
+         * Calculates the total number of elements in a three-dimensional array.
+         * This method correctly handles jagged and null inner arrays.
          *
-         * @param a the three-dimensional array whose elements are to be counted
-         * @return the total count of elements in the array, or 0 if the array is null
+         * <pre><code>
+         * Object[][][] a = {{{1}, {2, 3}}, null, {{{4, 5}, {6}}}};
+         * long count = fff.totalCountOfElements(a);
+         * // count is 6
+         * </code></pre>
+         *
+         * @param a the three-dimensional array to inspect.
+         * @return the total count of all elements. Returns 0 if the array is null or empty.
          */
         public static long totalCountOfElements(final Object[][][] a) {
+            if (N.isEmpty(a)) {
+                return 0;
+            }
             long count = 0;
 
             for (final Object[][] element : a) {
@@ -25380,50 +30239,18 @@ public sealed class Arrays permits Arrays.f {
             return count;
         }
 
-        //    /**
-        //     * Finds the minimum length of sub-subarrays in a three-dimensional array.
-        //     *
-        //     * @param a the three-dimensional array to be checked
-        //     * @return the minimum length of sub-subarrays, or 0 if the array is null
-        //     */
-        //    public static int minSubArrayLen(final Object[][][] a) {
-        //        if (N.isEmpty(a)) {
-        //            return 0;
-        //        }
-        //
-        //        int minLen = Integer.MAX_VALUE;
-        //
-        //        for (final Object[][] ae : a) {
-        //            minLen = N.min(minLen, ff.minSubArrayLen(ae));
-        //        }
-        //
-        //        return minLen;
-        //    }
-        //
-        //    /**
-        //     * Finds the maximum length of sub-subarrays in a three-dimensional array.
-        //     *
-        //     * @param a the three-dimensional array to be checked
-        //     * @return the maximum length of sub-subarrays, or 0 if the array is null
-        //     */
-        //    public static int maxSubArrayLen(final Object[][][] a) {
-        //        if (N.isEmpty(a)) {
-        //            return 0;
-        //        }
-        //
-        //        int maxLen = 0;
-        //
-        //        for (final Object[][] ae : a) {
-        //            maxLen = N.max(maxLen, ff.maxSubArrayLen(ae));
-        //        }
-        //
-        //        return maxLen;
-        //    }
-
         /**
+         * Generates a string representation of a three-dimensional array and prints it to the console.
+         * The format is structured with newlines for readability between 2D slices.
          *
-         * @param a
-         * @return
+         * <pre><code>
+         * String[][][] a = {{{ "a" }}, {{ "b", "c" }}};
+         * fff.println(a);
+         * // Prints a formatted string representation to the console and returns it.
+         * </code></pre>
+         *
+         * @param a the three-dimensional array to print.
+         * @return the string representation of the array.
          */
         static String println(final Object[][][] a) {
             if (a == null) {
@@ -25434,6 +30261,7 @@ public sealed class Arrays permits Arrays.f {
                 final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
                 String str = null;
+                final String ARRAY_PRINT_SEPARATOR = System.lineSeparator();
 
                 try {
                     sb.append('[');

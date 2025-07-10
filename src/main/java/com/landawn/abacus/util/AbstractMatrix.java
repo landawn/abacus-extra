@@ -178,7 +178,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Creates a deep copy of this matrix.
+     * Creates a copy of this matrix.
      * The returned matrix is independent of the original; modifications to one
      * do not affect the other.
      * 

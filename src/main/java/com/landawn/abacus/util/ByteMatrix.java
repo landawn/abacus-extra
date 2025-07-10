@@ -26,9 +26,10 @@ import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * A matrix implementation for primitive byte values, providing efficient storage and operations
- * for 2D byte arrays. This class extends AbstractMatrix and provides specialized operations
- * for byte matrices including mathematical operations, transformations, and stream-based access.
+ * A matrix implementation for byte primitive values, providing efficient storage and operations
+ * for two-dimensional byte arrays. This class extends AbstractMatrix and provides specialized
+ * methods for byte matrix manipulation including mathematical operations, transformations,
+ * and element access.
  * 
  * <p>The matrix is stored as a 2D byte array and supports various operations such as:
  * <ul>
@@ -1013,7 +1014,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a deep copy of this matrix with all values duplicated.
+     * Creates a copy of this matrix with all values duplicated.
      * 
      * <p>Example:
      * <pre>{@code
@@ -1295,7 +1296,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a new ByteMatrix with rows reversed
-     * @see #reverseH()
+     * @see #flipV()
+     * @see IntMatrix#flipH()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public ByteMatrix flipH() {
         final ByteMatrix res = this.copy();
@@ -1304,7 +1307,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix that is vertically flipped (rows in reverse order).
+     * Creates a new matrix that is vertically flipped (each column reversed).
      * The original matrix is not modified.
      * 
      * <p>Example:
@@ -1316,7 +1319,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a new ByteMatrix with columns reversed
-     * @see #reverseV()
+     * @see #flipH()
+     * @see IntMatrix#flipV()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public ByteMatrix flipV() {
         final ByteMatrix res = this.copy();
@@ -2608,7 +2613,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Prints the matrix to standard output in a formatted manner.
-     * Each row is printed on a separate line with elements separated by commas.
+     * Each row is printed on a separate line with elements separated by commas
+     * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * matrix.println();
+     * // Output:
+     * // [1, 2, 3]
+     * // [4, 5, 6]
+     * }</pre>
      */
     @Override
     public void println() {
@@ -2648,6 +2663,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns a string representation of the matrix.
      * The format is a 2D array representation with rows and columns clearly displayed.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * System.out.println(matrix.toString()); // Prints: [[1, 2], [3, 4]]
+     * }</pre>
      *
      * @return a string representation of this matrix
      */

@@ -25,40 +25,78 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
-
 /**
- *
+ * A matrix implementation for int primitive values, providing efficient storage and operations
+ * for two-dimensional int arrays. This class extends AbstractMatrix and provides specialized
+ * methods for int matrix manipulation including mathematical operations, transformations,
+ * and element access.
+ * 
+ * <p>The matrix is stored internally as a 2D int array (int[][]) and provides
+ * methods for element access, manipulation, and various matrix operations such as
+ * transpose, rotation, multiplication, and more.</p>
+ * 
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+ * IntMatrix transposed = matrix.transpose();
+ * int element = matrix.get(0, 1); // Returns 2
+ * }</pre>
+ * 
+ * @see FloatMatrix
+ * @see DoubleMatrix
+ * @see Matrix
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {
 
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
     /**
-     * @param a
+     * Constructs an IntMatrix from a 2D int array.
+     * If the input array is null, an empty matrix (0x0) is created.
+     * 
+     * @param a the 2D int array to wrap in a matrix. Can be null.
      */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);
     }
 
     /**
-     * @return
+     * Returns an empty IntMatrix with dimensions 0x0.
+     * This method returns a singleton empty matrix instance for memory efficiency.
+     * 
+     * @return an empty IntMatrix instance
      */
     public static IntMatrix empty() {
         return EMPTY_INT_MATRIX;
     }
 
     /**
-     * @param a
-     * @return
+     * Creates an IntMatrix from a 2D int array.
+     * This is a factory method that provides a more readable way to create matrices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * }</pre>
+     * 
+     * @param a the 2D int array to create the matrix from
+     * @return a new IntMatrix containing the provided data, or empty matrix if input is null/empty
      */
     public static IntMatrix of(final int[]... a) {
         return N.isEmpty(a) ? EMPTY_INT_MATRIX : new IntMatrix(a);
     }
 
     /**
-     * @param a
-     * @return
+     * Creates an IntMatrix from a 2D char array by converting char values to int.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.create(new char[][]{{'A', 'B'}, {'C', 'D'}});
+     * // Creates a matrix with ASCII values {{65, 66}, {67, 68}}
+     * }</pre>
+     * 
+     * @param a the 2D char array to convert to an int matrix
+     * @return a new IntMatrix with converted values, or empty matrix if input is null/empty
      */
     public static IntMatrix create(final char[]... a) {
         if (N.isEmpty(a)) {
@@ -80,8 +118,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param a
-     * @return
+     * Creates an IntMatrix from a 2D byte array by converting byte values to int.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.create(new byte[][]{{1, 2}, {3, 4}});
+     * // Creates a matrix with values {{1, 2}, {3, 4}}
+     * }</pre>
+     * 
+     * @param a the 2D byte array to convert to an int matrix
+     * @return a new IntMatrix with converted values, or empty matrix if input is null/empty
      */
     public static IntMatrix create(final byte[]... a) {
         if (N.isEmpty(a)) {
@@ -103,8 +149,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param a
-     * @return
+     * Creates an IntMatrix from a 2D short array by converting short values to int.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.create(new short[][]{{1, 2}, {3, 4}});
+     * // Creates a matrix with values {{1, 2}, {3, 4}}
+     * }</pre>
+     * 
+     * @param a the 2D short array to convert to an int matrix
+     * @return a new IntMatrix with converted values, or empty matrix if input is null/empty
      */
     public static IntMatrix create(final short[]... a) {
         if (N.isEmpty(a)) {
@@ -126,8 +180,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param len
-     * @return
+     * Creates a 1xN IntMatrix with random int values.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix randomRow = IntMatrix.random(5); // Creates 1x5 matrix with random values
+     * }</pre>
+     * 
+     * @param len the number of columns (length) of the resulting 1-row matrix
+     * @return a new 1xN IntMatrix with random values 
      */
     @SuppressWarnings("deprecation")
     public static IntMatrix random(final int len) {
@@ -135,77 +196,141 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param val
-     * @param len
-     * @return
+     * Creates a 1xN IntMatrix where all elements have the same value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.repeat(42, 5); // Creates [[42, 42, 42, 42, 42]]
+     * }</pre>
+     * 
+     * @param val the value to repeat
+     * @param len the number of columns (length) of the resulting 1-row matrix
+     * @return a new 1xN IntMatrix with all elements set to val
      */
     public static IntMatrix repeat(final int val, final int len) {
         return new IntMatrix(new int[][] { Array.repeat(val, len) });
     }
 
     /**
-     * @param startInclusive
-     * @param endExclusive
-     * @return
+     * Creates a 1xN IntMatrix with values from startInclusive to endExclusive.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix range = IntMatrix.range(0, 5); // Creates [[0, 1, 2, 3, 4]]
+     * }</pre>
+     * 
+     * @param startInclusive the starting value (inclusive)
+     * @param endExclusive the ending value (exclusive)
+     * @return a new 1xN IntMatrix with sequential values
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
-     * @param startInclusive
-     * @param endExclusive
-     * @param by
-     * @return
+     * Creates a 1xN IntMatrix with values from startInclusive to endExclusive with specified step.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix range = IntMatrix.range(0, 10, 2); // Creates [[0, 2, 4, 6, 8]]
+     * }</pre>
+     * 
+     * @param startInclusive the starting value (inclusive)
+     * @param endExclusive the ending value (exclusive)
+     * @param by the step size
+     * @return a new 1xN IntMatrix with sequential values
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive, final int by) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
-     * @param startInclusive
-     * @param endInclusive
-     * @return
+     * Creates a 1xN IntMatrix with values from startInclusive to endInclusive.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix range = IntMatrix.rangeClosed(0, 4); // Creates [[0, 1, 2, 3, 4]]
+     * }</pre>
+     * 
+     * @param startInclusive the starting value (inclusive)
+     * @param endInclusive the ending value (inclusive)
+     * @return a new 1xN IntMatrix with sequential values
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
-     * @param startInclusive
-     * @param endInclusive
-     * @param by
-     * @return
+     * Creates a 1xN IntMatrix with values from startInclusive to endInclusive with specified step.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix range = IntMatrix.rangeClosed(0, 10, 2); // Creates [[0, 2, 4, 6, 8, 10]]
+     * }</pre>
+     * 
+     * @param startInclusive the starting value (inclusive)
+     * @param endInclusive the ending value (inclusive)
+     * @param by the step size
+     * @return a new 1xN IntMatrix with sequential values
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int by) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
-     * Diagonal LU 2 RD.
-     *
-     * @param leftUp2RightDownDiagonal
-     * @return
+     * Creates a diagonal matrix with the specified values on the main diagonal (left-up to right-down).
+     * All other elements are set to 0.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix diagonal = IntMatrix.diagonalLU2RD(new int[]{1, 2, 3});
+     * // Creates: [[1, 0, 0],
+     * //           [0, 2, 0],
+     * //           [0, 0, 3]]
+     * }</pre>
+     * 
+     * @param leftUp2RightDownDiagonal the values for the main diagonal
+     * @return a new square IntMatrix with the specified diagonal values
      */
     public static IntMatrix diagonalLU2RD(final int[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Diagonal RU 2 LD.
-     *
-     * @param rightUp2LeftDownDiagonal
-     * @return
+     * Creates a diagonal matrix with the specified values on the anti-diagonal (right-up to left-down).
+     * All other elements are set to 0.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix diagonal = IntMatrix.diagonalRU2LD(new int[]{1, 2, 3});
+     * // Creates: [[0, 0, 1],
+     * //           [0, 2, 0],
+     * //           [3, 0, 0]]
+     * }</pre>
+     * 
+     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal
+     * @return a new square IntMatrix with the specified anti-diagonal values
      */
     public static IntMatrix diagonalRU2LD(final int[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * @param leftUp2RightDownDiagonal
-     * @param rightUp2LeftDownDiagonal
-     * @return
-     * @throws IllegalArgumentException
+     * Creates a diagonal matrix with values on both the main diagonal and anti-diagonal.
+     * The matrix size is determined by the length of the diagonal arrays.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.diagonal(new int[]{1, 2, 3}, new int[]{4, 5, 6});
+     * // Creates: [[1, 0, 4],
+     * //           [0, 2, 0],
+     * //           [6, 0, 3]]
+     * }</pre>
+     * 
+     * @param leftUp2RightDownDiagonal the values for the main diagonal (can be null)
+     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal (can be null)
+     * @return a new square IntMatrix with the specified diagonal values
+     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
      */
     public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -242,13 +367,27 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param x
-     * @return
+     * Converts a boxed Integer Matrix to a primitive IntMatrix.
+     * Null values in the input matrix are converted to 0.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> boxed = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * IntMatrix primitive = IntMatrix.unbox(boxed);
+     * }</pre>
+     * 
+     * @param x the boxed Integer matrix to convert
+     * @return a new IntMatrix with primitive int values
      */
     public static IntMatrix unbox(final Matrix<Integer> x) {
         return IntMatrix.of(Array.unbox(x.a));
     }
 
+    /**
+     * Returns the component type of the matrix elements, which is int.class.
+     * 
+     * @return int.class
+     */
     @SuppressWarnings("rawtypes")
     @Override
     public Class componentType() {
@@ -256,81 +395,151 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Gets the element at the specified row and column.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * int value = matrix.get(0, 1); // Returns 2
+     * }</pre>
+     * 
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return the element at position [i][j]
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public int get(final int i, final int j) {
         return a[i][j];
     }
 
     /**
-     * @param point
-     * @return
+     * Gets the element at the specified point.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Point p = Point.of(0, 1);
+     * int value = matrix.get(p); // Gets element at row 0, column 1
+     * }</pre>
+     * 
+     * @param point the point specifying row and column indices
+     * @return the element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public int get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
     }
 
     /**
-     * @param i
-     * @param j
-     * @param val
+     * Sets the element at the specified row and column.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.set(0, 1, 5); // Sets element at row 0, column 1 to 5
+     * }</pre>
+     * 
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @param val the value to set
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final int val) {
         a[i][j] = val;
     }
 
     /**
-     * @param point
-     * @param val
+     * Sets the element at the specified point.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Point p = Point.of(0, 1);
+     * matrix.set(p, 5); // Sets element at row 0, column 1 to 5
+     * }</pre>
+     * 
+     * @param point the point specifying row and column indices
+     * @param val the value to set
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public void set(final Point point, final int val) {
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Returns the element above the specified position, if it exists.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * OptionalInt above = matrix.upOf(1, 0); // Gets element at row 0, column 0
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return an OptionalInt containing the element above, or empty if at top row
      */
     public OptionalInt upOf(final int i, final int j) {
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Returns the element below the specified position, if it exists.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * OptionalInt below = matrix.downOf(0, 0); // Gets element at row 1, column 0
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return an OptionalInt containing the element below, or empty if at bottom row
      */
     public OptionalInt downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Returns the element to the left of the specified position, if it exists.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * OptionalInt left = matrix.leftOf(0, 1); // Gets element at row 0, column 0
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return an OptionalInt containing the element to the left, or empty if at leftmost column
      */
     public OptionalInt leftOf(final int i, final int j) {
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
     }
 
     /**
-     * @param i
-     * @param j
-     * @return
+     * Returns the element to the right of the specified position, if it exists.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * OptionalInt right = matrix.rightOf(0, 0); // Gets element at row 0, column 1
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return an OptionalInt containing the element to the right, or empty if at rightmost column
      */
     public OptionalInt rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
     }
 
     /**
-     * Returns the four adjacencies with order: up, right, down, left. {@code null} is set if the adjacency doesn't exist.
-     *
-     * @param i
-     * @param j
-     * @return
+     * Returns a stream of the four adjacent points (up, right, down, left) of the specified position.
+     * Points that would be outside the matrix bounds are returned as null.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Stream<Point> adjacents = matrix.adjacent4Points(1, 1);
+     * // Returns points for positions: up(0,1), right(1,2), down(2,1), left(1,0)
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points in order: up, right, down, left (null for out-of-bounds)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -342,11 +551,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. {@code null} is set if the adjacency doesn't exist.
-     *
-     * @param i
-     * @param j
-     * @return
+     * Returns a stream of the eight adjacent points of the specified position.
+     * Points are returned in order: left-up, up, right-up, right, right-down, down, left-down, left.
+     * Points that would be outside the matrix bounds are returned as null.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Stream<Point> adjacents = matrix.adjacent8Points(1, 1);
+     * // Returns all 8 surrounding points (diagonals included)
+     * }</pre>
+     * 
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of 8 adjacent points (null for out-of-bounds positions)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -363,9 +580,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param rowIndex
-     * @return
-     * @throws IllegalArgumentException
+     * Returns a copy of the specified row as an int array.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * int[] firstRow = matrix.row(0); // Gets a copy of the first row
+     * }</pre>
+     * 
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a copy of the specified row
+     * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public int[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -374,9 +598,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param columnIndex
-     * @return
-     * @throws IllegalArgumentException
+     * Returns a copy of the specified column as an int array.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * int[] firstColumn = matrix.column(0); // Gets a copy of the first column
+     * }</pre>
+     * 
+     * @param columnIndex the index of the column to retrieve (0-based)
+     * @return a new array containing the values from the specified column
+     * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public int[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -391,11 +622,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the row.
-     *
-     * @param rowIndex
-     * @param row
-     * @throws IllegalArgumentException
+     * Sets an entire row with the values from the provided array.
+     * The array length must match the number of columns in the matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.setRow(0, new int[]{1, 2, 3}); // Sets the first row
+     * }</pre>
+     * 
+     * @param rowIndex the index of the row to set (0-based)
+     * @param row the array of values to set in the row
+     * @throws IllegalArgumentException if row length doesn't match matrix columns or index is out of bounds
      */
     public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -404,11 +641,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the column.
-     *
-     * @param columnIndex
-     * @param column
-     * @throws IllegalArgumentException
+     * Sets an entire column with the values from the provided array.
+     * The array length must match the number of rows in the matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.setColumn(0, new int[]{1, 2, 3}); // Sets the first column
+     * }</pre>
+     * 
+     * @param columnIndex the index of the column to set (0-based)
+     * @param column the array of values to set in the column
+     * @throws IllegalArgumentException if column length doesn't match matrix rows or index is out of bounds
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -419,10 +662,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param rowIndex
-     * @param func
-     * @throws E the e
+     * Updates all elements in a row by applying the specified function.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateRow(0, x -> x * 2); // Doubles all values in the first row
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param rowIndex the index of the row to update
+     * @param func the function to apply to each element in the row
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.IntUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -431,10 +681,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param columnIndex
-     * @param func
-     * @throws E the e
+     * Updates all elements in a column by applying the specified function.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateColumn(0, x -> x + 1); // Adds 1 to all values in the first column
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param columnIndex the index of the column to update
+     * @param func the function to apply to each element in the column
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.IntUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -443,9 +700,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Gets the lu2rd.
-     *
-     * @return
+     * Gets the values on the main diagonal (left-up to right-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * int[] diagonal = matrix.getLU2RD(); // Returns [1, 4]
+     * }</pre>
+     * 
+     * @return an array containing the diagonal values
+     * @throws IllegalArgumentException if the matrix is not square
      */
     public int[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -460,10 +725,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the lu2rd.
-     *
-     * @param diagonal the new lu2rd
-     * @throws IllegalArgumentException
+     * Sets the values on the main diagonal (left-up to right-down).
+     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.setLU2RD(new int[]{1, 2, 3}); // Sets main diagonal values
+     * }</pre>
+     * 
+     * @param diagonal the values to set on the main diagonal
+     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
      */
     public void setLU2RD(final int[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -475,11 +746,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update LU 2 RD.
-     *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateLU2RD(x -> x * x); // Squares all diagonal values
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to apply to each diagonal element
+     * @throws E if the function throws an exception
+     * @throws IllegalArgumentException if the matrix is not square
      */
     public <E extends Exception> void updateLU2RD(final Throwables.IntUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -490,9 +768,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Gets the ru2ld.
-     *
-     * @return
+     * Gets the values on the anti-diagonal (right-up to left-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * int[] antiDiagonal = matrix.getRU2LD(); // Returns [2, 3]
+     * }</pre>
+     * 
+     * @return an array containing the anti-diagonal values
+     * @throws IllegalArgumentException if the matrix is not square
      */
     public int[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -507,10 +793,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the ru2ld.
-     *
-     * @param diagonal the new ru2ld
-     * @throws IllegalArgumentException
+     * Sets the values on the anti-diagonal (right-up to left-down).
+     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.setRU2LD(new int[]{1, 2, 3}); // Sets anti-diagonal values
+     * }</pre>
+     * 
+     * @param diagonal the values to set on the anti-diagonal
+     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
      */
     public void setRU2LD(final int[] diagonal) throws IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -522,11 +814,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update RU 2 LD.
-     *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified function.
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateRU2LD(x -> -x); // Negates all anti-diagonal values
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to apply to each anti-diagonal element
+     * @throws E if the function throws an exception
+     * @throws IllegalArgumentException if the matrix is not square
      */
     public <E extends Exception> void updateRU2LD(final Throwables.IntUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -537,9 +836,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * Updates all elements in the matrix by applying the specified function.
+     * The operation may be performed in parallel for large matrices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateAll(x -> x * 2); // Doubles all values in the matrix
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to apply to each element
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntUnaryOperator<E> func) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsInt(a[i][j]);
@@ -547,11 +854,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update all elements based on points.
-     *
-     * @param <E>
-     * @param func
-     * @throws E the e
+     * Updates all elements in the matrix based on their position.
+     * The function receives the row and column indices and returns the new value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.updateAll((i, j) -> i + j); // Sets each element to sum of its indices
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function that takes row and column indices and returns the new value
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Integer, E> func) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
@@ -559,10 +872,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * Replaces all elements that match the predicate with the specified new value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.replaceIf(x -> x < 0, 0); // Replaces all negative values with 0
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the predicate may throw
+     * @param predicate the condition to test each element
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
@@ -570,12 +890,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     *
-     * @param <E>
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * Replaces elements based on their position using a predicate that tests row and column indices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.replaceIf((i, j) -> i == j, 1); // Sets diagonal elements to 1
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the predicate may throw
+     * @param predicate the condition that tests row and column indices
+     * @param newValue the value to replace matching elements with
+     * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final int newValue) throws E {
         final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
@@ -583,10 +908,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param func
-     * @return
-     * @throws E the e
+     * Creates a new IntMatrix by applying a function to each element.
+     * The operation may be performed in parallel for large matrices.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix squared = matrix.map(x -> x * x); // Creates new matrix with squared values
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to apply to each element
+     * @return a new IntMatrix with transformed values
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> IntMatrix map(final Throwables.IntUnaryOperator<E> func) throws E {
         final int[][] result = new int[rows][cols];
@@ -598,10 +931,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param func
-     * @return
-     * @throws E the e
+     * Creates a new LongMatrix by applying a function that converts int values to long.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * LongMatrix longMatrix = matrix.mapToLong(x -> (long) x * 1000000);
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to convert int values to long
+     * @return a new LongMatrix with converted values
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.IntToLongFunction<E> func) throws E {
         final long[][] result = new long[rows][cols];
@@ -613,10 +953,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param func
-     * @return
-     * @throws E the e
+     * Creates a new DoubleMatrix by applying a function that converts int values to double.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * DoubleMatrix doubleMatrix = matrix.mapToDouble(x -> x * 0.1);
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to convert int values to double
+     * @return a new DoubleMatrix with converted values
+     * @throws E if the function throws an exception
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.IntToDoubleFunction<E> func) throws E {
         final double[][] result = new double[rows][cols];
@@ -628,14 +975,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Map to obj.
-     *
-     * @param <T>
-     * @param <E>
-     * @param func
-     * @param targetElementType
-     * @return
-     * @throws E the e
+     * Creates a new Matrix by applying a function that converts int values to objects of type T.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> stringMatrix = matrix.mapToObj(x -> String.valueOf(x), String.class);
+     * }</pre>
+     * 
+     * @param <T> the type of elements in the resulting matrix
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to convert int values to type T
+     * @param targetElementType the Class object for type T
+     * @return a new Matrix containing the converted values
+     * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.IntFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
@@ -647,7 +999,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param val
+     * Fills the entire matrix with the specified value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.fill(0); // Sets all elements to 0
+     * }</pre>
+     * 
+     * @param val the value to fill the matrix with
      */
     public void fill(final int val) {
         for (int i = 0; i < rows; i++) {
@@ -656,17 +1015,30 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param b
+     * Fills the matrix with values from another 2D array, starting from the top-left corner.
+     * If the source array is larger than the matrix, only the fitting portion is copied.
+     * If the source array is smaller, only the available values are copied.
+     * 
+     * @param b the 2D array to copy values from
      */
     public void fill(final int[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * @param fromRowIndex
-     * @param fromColumnIndex
-     * @param b
-     * @throws IndexOutOfBoundsException
+     * Fills a portion of the matrix with values from another 2D array.
+     * The filling starts at the specified position and copies as much as will fit.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * int[][] patch = {{1, 2}, {3, 4}};
+     * matrix.fill(1, 1, patch); // Fills starting at row 1, column 1
+     * }</pre>
+     * 
+     * @param fromRowIndex the starting row index for filling
+     * @param fromColumnIndex the starting column index for filling
+     * @param b the 2D array to copy values from
+     * @throws IndexOutOfBoundsException if the starting indices are out of bounds
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromRowIndex, rows, rows);
@@ -678,7 +1050,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Creates a deep copy of the entire matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix copy = matrix.copy();
+     * copy.set(0, 0, 99); // Original matrix is unchanged
+     * }</pre>
+     * 
+     * @return a new IntMatrix that is a deep copy of this matrix
      */
     @Override
     public IntMatrix copy() {
@@ -692,10 +1072,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return
-     * @throws IndexOutOfBoundsException
+     * Creates a deep copy of a range of rows from the matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix subset = matrix.copy(1, 3); // Copies rows 1 and 2 (exclusive end)
+     * }</pre>
+     * 
+     * @param fromRowIndex the starting row index (inclusive)
+     * @param toRowIndex the ending row index (exclusive)
+     * @return a new IntMatrix containing the specified rows
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -711,12 +1098,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return
-     * @throws IndexOutOfBoundsException
+     * Creates a deep copy of a submatrix defined by row and column ranges.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix submatrix = matrix.copy(0, 2, 1, 3); // Copies rows 0-1, columns 1-2
+     * }</pre>
+     * 
+     * @param fromRowIndex the starting row index (inclusive)
+     * @param toRowIndex the ending row index (exclusive)
+     * @param fromColumnIndex the starting column index (inclusive)
+     * @param toColumnIndex the ending column index (exclusive)
+     * @return a new IntMatrix containing the specified submatrix
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -733,20 +1127,36 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param newRows
-     * @param newCols
-     * @return
+     * Creates a matrix with extended dimensions, filling new cells with 0.
+     * If the new dimensions are smaller than current, the matrix is truncated.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix extended = matrix.extend(5, 5); // Extends to 5x5, new cells are 0
+     * }</pre>
+     * 
+     * @param newRows the desired number of rows
+     * @param newCols the desired number of columns
+     * @return a new IntMatrix with the specified dimensions
      */
     public IntMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
     /**
-     * @param newRows
-     * @param newCols
-     * @param defaultValueForNewCell
-     * @return
-     * @throws IllegalArgumentException
+     * Creates a matrix with extended dimensions, filling new cells with the specified value.
+     * If the new dimensions are smaller than current, the matrix is truncated.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix extended = matrix.extend(5, 5, -1); // Extends to 5x5, new cells are -1
+     * }</pre>
+     * 
+     * @param newRows the desired number of rows
+     * @param newCols the desired number of columns
+     * @param defaultValueForNewCell the value to fill new cells with
+     * @return a new IntMatrix with the specified dimensions
+     * @throws IllegalArgumentException if newRows or newCols is negative
      */
     public IntMatrix extend(final int newRows, final int newCols, final int defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -775,24 +1185,38 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param toUp
-     * @param toDown
-     * @param toLeft
-     * @param toRight
-     * @return
+     * Creates a matrix extended in all four directions by the specified amounts, filling new cells with 0.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix extended = matrix.extend(1, 1, 2, 2); // Adds 1 row up/down, 2 columns left/right
+     * }</pre>
+     * 
+     * @param toUp number of rows to add above
+     * @param toDown number of rows to add below
+     * @param toLeft number of columns to add to the left
+     * @param toRight number of columns to add to the right
+     * @return a new IntMatrix with extended dimensions
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
     /**
-     * @param toUp
-     * @param toDown
-     * @param toLeft
-     * @param toRight
-     * @param defaultValueForNewCell
-     * @return
-     * @throws IllegalArgumentException
+     * Creates a matrix extended in all four directions, filling new cells with the specified value.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix extended = matrix.extend(1, 1, 2, 2, -1); // Extends with -1 in new cells
+     * }</pre>
+     * 
+     * @param toUp number of rows to add above
+     * @param toDown number of rows to add below
+     * @param toLeft number of columns to add to the left
+     * @param toRight number of columns to add to the right
+     * @param defaultValueForNewCell the value to fill new cells with
+     * @return a new IntMatrix with extended dimensions
+     * @throws IllegalArgumentException if any extension parameter is negative
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final int defaultValueForNewCell)
             throws IllegalArgumentException {
@@ -834,7 +1258,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Reverse H.
+     * Reverses the order of elements in each row (horizontal flip in-place).
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
+     * }</pre>
      */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
@@ -843,7 +1272,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Reverse V.
+     * Reverses the order of elements in each column (vertical flip in-place).
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
+     * }</pre>
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
@@ -857,8 +1291,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * Creates a new matrix that is horizontally flipped (each row reversed).
+     * The original matrix is not modified.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix flipped = matrix.flipH(); // [[1,2,3]] becomes [[3,2,1]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix with rows reversed
+     * @see #flipV()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public IntMatrix flipH() {
         final IntMatrix res = this.copy();
@@ -867,8 +1310,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
+     * Creates a new matrix that is vertically flipped (each column reversed).
+     * The original matrix is not modified.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix flipped = matrix.flipV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix with columns reversed
+     * @see #flipH()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">MATLAB flip function</a>
      */
     public IntMatrix flipV() {
         final IntMatrix res = this.copy();
@@ -877,7 +1329,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Creates a new matrix rotated 90 degrees clockwise.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix rotated = matrix.rotate90();
+     * // [[1,2],    becomes    [[3,1],
+     * //  [3,4]]                [4,2]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix rotated 90 degrees clockwise
      */
     @Override
     public IntMatrix rotate90() {
@@ -901,7 +1362,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Creates a new matrix rotated 180 degrees.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix rotated = matrix.rotate180();
+     * // [[1,2],    becomes    [[4,3],
+     * //  [3,4]]                [2,1]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix rotated 180 degrees
      */
     @Override
     public IntMatrix rotate180() {
@@ -916,7 +1386,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix rotated = matrix.rotate270();
+     * // [[1,2],    becomes    [[2,4],
+     * //  [3,4]]                [1,3]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix rotated 270 degrees clockwise
      */
     @Override
     public IntMatrix rotate270() {
@@ -940,7 +1419,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Creates a new matrix that is the transpose of this matrix.
+     * Rows become columns and columns become rows.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix transposed = matrix.transpose();
+     * // [[1,2,3],    becomes    [[1,4],
+     * //  [4,5,6]]                [2,5],
+     * //                          [3,6]]
+     * }</pre>
+     * 
+     * @return a new IntMatrix that is the transpose of this matrix
      */
     @Override
     public IntMatrix transpose() {
@@ -964,9 +1454,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param newRows
-     * @param newCols
-     * @return
+     * Reshapes the matrix to new dimensions.
+     * Elements are read in row-major order and placed into the new shape.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2,3},{4,5,6}});
+     * IntMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1,2],[3,4],[5,6]]
+     * }</pre>
+     * 
+     * @param newRows the number of rows in the reshaped matrix
+     * @param newCols the number of columns in the reshaped matrix
+     * @return a new IntMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
@@ -997,13 +1496,22 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Repeat elements {@code rowRepeats} times in row direction and {@code colRepeats} times in column direction.
-     *
-     * @param rowRepeats
-     * @param colRepeats
-     * @return a new matrix
-     * @throws IllegalArgumentException
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">https://www.mathworks.com/help/matlab/ref/repelem.html</a>
+     * Repeats elements in both row and column directions.
+     * Each element is repeated to form a block of size rowRepeats x colRepeats.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2}});
+     * IntMatrix repeated = matrix.repelem(2, 3);
+     * // Result: [[1,1,1,2,2,2],
+     * //          [1,1,1,2,2,2]]
+     * }</pre>
+     * 
+     * @param rowRepeats number of times to repeat each element in row direction
+     * @param colRepeats number of times to repeat each element in column direction
+     * @return a new IntMatrix with repeated elements
+     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem function</a>
      */
     @Override
     public IntMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
@@ -1028,13 +1536,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Repeat this matrix {@code rowRepeats} times in a row direction and {@code colRepeats} times in column direction.
-     *
-     * @param rowRepeats
-     * @param colRepeats
-     * @return a new matrix
-     * @throws IllegalArgumentException
-     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">https://www.mathworks.com/help/matlab/ref/repmat.html</a>
+     * Repeats the entire matrix in a tiled pattern.
+     * The matrix is repeated as a whole rowRepeats times vertically and colRepeats times horizontally.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2},{3,4}});
+     * IntMatrix repeated = matrix.repmat(2, 3);
+     * // Result: [[1,2,1,2,1,2],
+     * //          [3,4,3,4,3,4],
+     * //          [1,2,1,2,1,2],
+     * //          [3,4,3,4,3,4]]
+     * }</pre>
+     * 
+     * @param rowRepeats number of times to repeat the matrix vertically
+     * @param colRepeats number of times to repeat the matrix horizontally
+     * @return a new IntMatrix with the tiled pattern
+     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat function</a>
      */
     @Override
     public IntMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
@@ -1058,7 +1577,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Flattens the matrix into a single IntList in row-major order.
+     * Elements are read row by row from left to right.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2},{3,4}});
+     * IntList flat = matrix.flatten(); // Returns [1, 2, 3, 4]
+     * }</pre>
+     * 
+     * @return an IntList containing all elements in row-major order
      */
     @Override
     public IntList flatten() {
@@ -1072,9 +1600,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param op
-     * @throws E the e
+     * Applies an operation to the underlying 2D array structure.
+     * This method provides direct access to the internal array rows for efficient bulk operations.
+     * 
+     * @param <E> the type of exception that the operation may throw
+     * @param op the operation to apply to each row array
+     * @throws E if the operation throws an exception
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super int[], E> op) throws E {
@@ -1082,24 +1613,23 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * <pre>
-     * <code>
-     * IntMatrix a = IntMatrix.of({{1, 2, 3}, {4, 5, 6});
-     * IntMatrix b = IntMatrix.of({{7, 8, 9}, {10, 11, 12});
-     *
+     * Stacks this matrix vertically with another matrix.
+     * The matrices must have the same number of columns.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix a = IntMatrix.of(new int[][]{{1,2,3},{4,5,6}});
+     * IntMatrix b = IntMatrix.of(new int[][]{{7,8,9},{10,11,12}});
      * IntMatrix c = a.vstack(b);
-     *
-     * [[1, 2, 3],
-     *  [4, 5, 6],
-     *  [7, 8, 9],
-     *  [10, 11, 12]]
-     *
-     * </code>
-     * </pre>
-     *
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * // Result: [[1, 2, 3],
+     * //          [4, 5, 6],
+     * //          [7, 8, 9],
+     * //          [10, 11, 12]]
+     * }</pre>
+     * 
+     * @param b the matrix to stack below this matrix
+     * @return a new IntMatrix with b stacked vertically below this matrix
+     * @throws IllegalArgumentException if the matrices don't have the same number of columns
      */
     public IntMatrix vstack(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
@@ -1119,22 +1649,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * <pre>
-     * <code>
-     * IntMatrix a = IntMatrix.of({{1, 2, 3}, {4, 5, 6});
-     * IntMatrix b = IntMatrix.of({{7, 8, 9}, {10, 11, 12});
-     *
+     * Stacks this matrix horizontally with another matrix.
+     * The matrices must have the same number of rows.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix a = IntMatrix.of(new int[][]{{1,2,3},{4,5,6}});
+     * IntMatrix b = IntMatrix.of(new int[][]{{7,8,9},{10,11,12}});
      * IntMatrix c = a.hstack(b);
-     *
-     * [[1, 2, 3, 7, 8, 9],
-     *  [4, 5, 6, 10, 11, 23]]
-     *
-     * </code>
-     * </pre>
-     *
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * // Result: [[1, 2, 3, 7, 8, 9],
+     * //          [4, 5, 6, 10, 11, 12]]
+     * }</pre>
+     * 
+     * @param b the matrix to stack to the right of this matrix
+     * @return a new IntMatrix with b stacked horizontally to the right
+     * @throws IllegalArgumentException if the matrices don't have the same number of rows
      */
     public IntMatrix hstack(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
@@ -1150,9 +1679,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * Performs element-wise addition with another matrix.
+     * The matrices must have the same dimensions.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix a = IntMatrix.of(new int[][]{{1,2},{3,4}});
+     * IntMatrix b = IntMatrix.of(new int[][]{{5,6},{7,8}});
+     * IntMatrix sum = a.add(b); // Result: [[6,8],[10,12]]
+     * }</pre>
+     * 
+     * @param b the matrix to add to this matrix
+     * @return a new IntMatrix containing the element-wise sum
+     * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix add(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
@@ -1167,9 +1706,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * Performs element-wise subtraction with another matrix.
+     * The matrices must have the same dimensions.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix a = IntMatrix.of(new int[][]{{5,6},{7,8}});
+     * IntMatrix b = IntMatrix.of(new int[][]{{1,2},{3,4}});
+     * IntMatrix diff = a.subtract(b); // Result: [[4,4],[4,4]]
+     * }</pre>
+     * 
+     * @param b the matrix to subtract from this matrix
+     * @return a new IntMatrix containing the element-wise difference
+     * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix subtract(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
@@ -1184,9 +1733,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param b
-     * @return
-     * @throws IllegalArgumentException
+     * Performs matrix multiplication with another matrix.
+     * The number of columns in this matrix must equal the number of rows in the other matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix a = IntMatrix.of(new int[][]{{1,2},{3,4}});
+     * IntMatrix b = IntMatrix.of(new int[][]{{5,6},{7,8}});
+     * IntMatrix product = a.multiply(b); // Result: [[19,22],[43,50]]
+     * }</pre>
+     * 
+     * @param b the matrix to multiply with
+     * @return a new IntMatrix containing the matrix product
+     * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
     public IntMatrix multiply(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
@@ -1201,7 +1760,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Converts this primitive int matrix to a boxed Integer matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix primitive = IntMatrix.of(new int[][]{{1, 2}});
+     * Matrix<Integer> boxed = primitive.boxed();
+     * }</pre>
+     * 
+     * @return a new Matrix containing boxed Integer values
      */
     public Matrix<Integer> boxed() {
         final Integer[][] c = new Integer[rows][cols];
@@ -1227,39 +1794,68 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * To long matrix.
-     *
-     * @return
+     * Converts this int matrix to a long matrix.
+     * Each int value is converted to long.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
+     * LongMatrix longMatrix = intMatrix.toLongMatrix();
+     * }</pre>
+     * 
+     * @return a new LongMatrix with converted values
      */
     public LongMatrix toLongMatrix() {
         return LongMatrix.create(a);
     }
 
     /**
-     * To float matrix.
-     *
-     * @return
+     * Converts this int matrix to a float matrix.
+     * Each int value is converted to float.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
+     * FloatMatrix floatMatrix = intMatrix.toFloatMatrix();
+     * }</pre>
+     * 
+     * @return a new FloatMatrix with converted values
      */
     public FloatMatrix toFloatMatrix() {
         return FloatMatrix.create(a);
     }
 
     /**
-     * To double matrix.
-     *
-     * @return
+     * Converts this int matrix to a double matrix.
+     * Each int value is converted to double.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
+     * DoubleMatrix doubleMatrix = intMatrix.toDoubleMatrix();
+     * }</pre>
+     * 
+     * @return a new DoubleMatrix with converted values
      */
     public DoubleMatrix toDoubleMatrix() {
         return DoubleMatrix.create(a);
     }
 
     /**
-     * @param <E>
-     * @param matrixB
-     * @param zipFunction
-     * @return
-     * @throws IllegalArgumentException
-     * @throws E                        the e
+     * Performs element-wise operation on two matrices using the provided binary operator.
+     * The matrices must have the same dimensions.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix result = matrix1.zipWith(matrix2, (a, b) -> a * b); // Element-wise multiplication
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param matrixB the second matrix
+     * @param zipFunction the binary operator to apply element-wise
+     * @return a new IntMatrix with the results of the element-wise operation
+     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws E if the zip function throws an exception
      */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final Throwables.IntBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1276,12 +1872,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param matrixB
-     * @param matrixC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * Performs element-wise operation on three matrices using the provided ternary operator.
+     * All matrices must have the same dimensions.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix result = matrix1.zipWith(matrix2, matrix3, (a, b, c) -> a + b + c);
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the function may throw
+     * @param matrixB the second matrix
+     * @param matrixC the third matrix
+     * @param zipFunction the ternary operator to apply element-wise
+     * @return a new IntMatrix with the results of the element-wise operation
+     * @throws E if the zip function throws an exception
      */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final IntMatrix matrixC, final Throwables.IntTernaryOperator<E> zipFunction)
             throws E {
@@ -1299,9 +1903,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream LU 2 RD.
-     *
-     * @return a stream composed by elements on the diagonal line from left up to right down.
+     * Returns a stream of elements on the main diagonal (left-up to right-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * IntStream diagonal = matrix.streamLU2RD(); // Stream of [1, 5, 9]
+     * }</pre>
+     * 
+     * @return an IntStream of diagonal elements
+     * @throws IllegalArgumentException if the matrix is not square
      */
     @Override
     public IntStream streamLU2RD() {
@@ -1344,9 +1956,17 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream RU 2 LD.
-     *
-     * @return a stream composed by elements on the diagonal line from right up to left down.
+     * Returns a stream of elements on the anti-diagonal (right-up to left-down).
+     * The matrix must be square.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * IntStream antiDiagonal = matrix.streamRU2LD(); // Stream of [3, 5, 7]
+     * }</pre>
+     * 
+     * @return an IntStream of anti-diagonal elements
+     * @throws IllegalArgumentException if the matrix is not square
      */
     @Override
     public IntStream streamRU2LD() {
@@ -1387,9 +2007,25 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             }
         });
     }
-
+    
     /**
-     * @return a stream based on the order of row.
+     * Returns a stream of all elements in row-major order (horizontal).
+     * Elements are streamed row by row from left to right, starting from the
+     * top-left corner and proceeding to the bottom-right corner.
+     * 
+     * <p>This method is useful for processing all matrix elements sequentially
+     * without concern for their row/column positions. The stream supports all
+     * standard IntStream operations including sum, average, filter, map, etc.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntStream stream = matrix.streamH(); // Stream of [1, 2, 3, 4]
+     * int sum = matrix.streamH().sum(); // Returns 10
+     * int[] array = matrix.streamH().toArray(); // Returns [1, 2, 3, 4]
+     * }</pre>
+     * 
+     * @return an IntStream of all elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
     public IntStream streamH() {
@@ -1397,8 +2033,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param rowIndex
-     * @return
+     * Returns a stream of elements from a single row.
+     * The elements are streamed from left to right within the specified row.
+     * 
+     * <p>This method is particularly useful when you need to process or analyze
+     * a specific row of the matrix independently. The returned stream can be
+     * used with all standard IntStream operations.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntStream rowStream = matrix.streamH(0); // Stream of [1, 2, 3]
+     * int rowSum = matrix.streamH(1).sum(); // Returns 15 (sum of second row)
+     * int[] firstRow = matrix.streamH(0).toArray(); // Returns [1, 2, 3]
+     * }</pre>
+     * 
+     * @param rowIndex the index of the row to stream (0-based)
+     * @return an IntStream of elements from the specified row
+     * @throws IndexOutOfBoundsException if rowIndex < 0 or rowIndex >= rows
      */
     @Override
     public IntStream streamH(final int rowIndex) {
@@ -1406,10 +2058,25 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return a stream based on the order of row.
-     * @throws IndexOutOfBoundsException
+     * Returns a stream of elements from a range of rows in row-major order.
+     * Elements are streamed row by row from the starting row (inclusive) to
+     * the ending row (exclusive), with each row streamed from left to right.
+     * 
+     * <p>This method allows for efficient processing of a subset of matrix rows.
+     * The stream maintains the row-major order, meaning all elements from one row
+     * are streamed before moving to the next row.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
+     * IntStream stream = matrix.streamH(1, 3); // Stream rows 1 and 2: [3, 4, 5, 6]
+     * int[] subset = matrix.streamH(0, 2).toArray(); // Returns [1, 2, 3, 4]
+     * }</pre>
+     * 
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
+     * @param toRowIndex the ending row index (exclusive)
+     * @return an IntStream of elements from the specified row range, or an empty stream if the matrix is empty
+     * @throws IndexOutOfBoundsException if fromRowIndex < 0, toRowIndex > rows, or fromRowIndex > toRowIndex
      */
     @Override
     public IntStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1482,7 +2149,22 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return a stream based on the order of column.
+     * Returns a stream of all elements in column-major order (vertical).
+     * Elements are streamed column by column from top to bottom, starting from
+     * the leftmost column and proceeding to the rightmost column.
+     * 
+     * <p>This method is marked as @Beta, indicating it may be subject to change
+     * in future versions. It provides an alternative way to iterate through matrix
+     * elements compared to the row-major order of streamH().</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntStream stream = matrix.streamV(); // Stream of [1, 3, 2, 4]
+     * int[] colMajor = matrix.streamV().toArray(); // Returns [1, 3, 2, 4]
+     * }</pre>
+     * 
+     * @return an IntStream of all elements in column-major order, or an empty stream if the matrix is empty
      */
     @Override
     @Beta
@@ -1491,8 +2173,23 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param columnIndex
-     * @return
+     * Returns a stream of elements from a single column.
+     * The elements are streamed from top to bottom within the specified column.
+     * 
+     * <p>This method is useful for column-wise operations such as calculating
+     * column sums, finding column maximums, or filtering column values.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntStream colStream = matrix.streamV(1); // Stream of [2, 5]
+     * int colSum = matrix.streamV(0).sum(); // Returns 5 (sum of first column)
+     * int[] secondCol = matrix.streamV(1).toArray(); // Returns [2, 5]
+     * }</pre>
+     * 
+     * @param columnIndex the index of the column to stream (0-based)
+     * @return an IntStream of elements from the specified column
+     * @throws IndexOutOfBoundsException if columnIndex < 0 or columnIndex >= cols
      */
     @Override
     public IntStream streamV(final int columnIndex) {
@@ -1500,10 +2197,26 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return a stream based on the order of column.
-     * @throws IndexOutOfBoundsException
+     * Returns a stream of elements from a range of columns in column-major order.
+     * Elements are streamed column by column from the starting column (inclusive)
+     * to the ending column (exclusive), with each column streamed from top to bottom.
+     * 
+     * <p>This method is marked as @Beta and allows for efficient processing of a
+     * subset of matrix columns in column-major order.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntStream stream = matrix.streamV(1, 3); // Stream columns 1 and 2: [2, 5, 3, 6]
+     * int[] subset = matrix.streamV(0, 2).toArray(); // Returns [1, 4, 2, 5]
+     * }</pre>
+     * 
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
+     * @param toColumnIndex the ending column index (exclusive)
+     * @return an IntStream of elements from the specified column range in column-major order,
+     *         or an empty stream if the matrix is empty
+     * @throws IndexOutOfBoundsException if fromColumnIndex < 0, toColumnIndex > cols,
+     *         or fromColumnIndex > toColumnIndex
      */
     @Override
     @Beta
@@ -1577,7 +2290,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return a row stream based on the order of row.
+     * Returns a stream of IntStream objects, where each IntStream represents a complete row.
+     * This creates a stream of streams, allowing for row-by-row processing of the matrix.
+     * 
+     * <p>This method is useful for operations that need to process entire rows as units,
+     * such as row-wise transformations, filtering rows based on conditions, or mapping
+     * rows to other values.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Stream<IntStream> rows = matrix.streamR();
+     * int[] rowSums = matrix.streamR()
+     *     .mapToInt(row -> row.sum())
+     *     .toArray(); // Returns [3, 7, 11]
+     * }</pre>
+     * 
+     * @return a Stream of IntStream objects, one for each row in the matrix,
+     *         or an empty stream if the matrix is empty
      */
     @Override
     public Stream<IntStream> streamR() {
@@ -1585,10 +2315,27 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @return a row stream based on the order of row.
-     * @throws IndexOutOfBoundsException
+     * Returns a stream of IntStream objects for a range of rows.
+     * Each IntStream in the result represents a complete row within the specified range.
+     * 
+     * <p>This method allows for processing a subset of rows while maintaining the
+     * ability to work with complete rows as individual streams.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Stream<IntStream> middleRows = matrix.streamR(1, 3); // Rows 1 and 2
+     * List<Integer> maxValues = matrix.streamR(0, 2)
+     *     .map(row -> row.max().orElse(0))
+     *     .collect(Collectors.toList()); // [2, 4]
+     * }</pre>
+     * 
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
+     * @param toRowIndex the ending row index (exclusive)
+     * @return a Stream of IntStream objects for the specified row range,
+     *         or an empty stream if the matrix is empty
+     * @throws IndexOutOfBoundsException if fromRowIndex < 0, toRowIndex > rows,
+     *         or fromRowIndex > toRowIndex
      */
     @Override
     public Stream<IntStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1631,7 +2378,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return a column stream based on the order of column.
+     * Returns a stream of IntStream objects, where each IntStream represents a complete column.
+     * This creates a stream of streams, allowing for column-by-column processing of the matrix.
+     * 
+     * <p>This method is marked as @Beta and is useful for operations that need to process
+     * entire columns as units, such as column-wise statistics, transformations, or filtering
+     * columns based on conditions.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * Stream<IntStream> columns = matrix.streamC();
+     * int[] colSums = matrix.streamC()
+     *     .mapToInt(col -> col.sum())
+     *     .toArray(); // Returns [5, 7, 9]
+     * }</pre>
+     * 
+     * @return a Stream of IntStream objects, one for each column in the matrix,
+     *         or an empty stream if the matrix is empty
      */
     @Override
     @Beta
@@ -1640,10 +2404,27 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @return a column stream based on the order of column.
-     * @throws IndexOutOfBoundsException
+     * Returns a stream of IntStream objects for a range of columns.
+     * Each IntStream in the result represents a complete column within the specified range.
+     * 
+     * <p>This method is marked as @Beta and allows for processing a subset of columns
+     * while maintaining the ability to work with complete columns as individual streams.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * Stream<IntStream> lastTwoCols = matrix.streamC(1, 3); // Columns 1 and 2
+     * List<Double> avgValues = matrix.streamC(0, 2)
+     *     .map(col -> col.average().orElse(0.0))
+     *     .collect(Collectors.toList()); // [2.5, 3.5]
+     * }</pre>
+     * 
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
+     * @param toColumnIndex the ending column index (exclusive)
+     * @return a Stream of IntStream objects for the specified column range,
+     *         or an empty stream if the matrix is empty
+     * @throws IndexOutOfBoundsException if fromColumnIndex < 0, toColumnIndex > cols,
+     *         or fromColumnIndex > toColumnIndex
      */
     @Override
     @Beta
@@ -1717,8 +2498,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param a
-     * @return
+     * Returns the length of the given array.
+     * This is a utility method used internally by the abstract parent class.
+     * 
+     * @param a the array to measure, may be null
+     * @return the length of the array, or 0 if the array is null
      */
     @Override
     protected int length(@SuppressWarnings("hiding") final int[] a) {
@@ -1726,23 +2510,64 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param <E>
-     * @param action
-     * @throws E the e
+     * Applies the given action to each element in the matrix.
+     * Elements are processed in row-major order (row by row, left to right).
+     * 
+     * <p>The operation may be parallelized internally if the matrix is large enough
+     * to benefit from parallel processing, based on internal heuristics.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * List<Integer> values = new ArrayList<>();
+     * matrix.forEach(value -> values.add(value));
+     * // values now contains [1, 2, 3, 4]
+     * 
+     * // Calculate sum using forEach
+     * int[] sum = {0};
+     * matrix.forEach(value -> sum[0] += value);
+     * // sum[0] is now 10
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the action may throw
+     * @param action the action to be performed for each element
+     * @throws E if the action throws an exception
+     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
     /**
-     * @param <E>
-     * @param fromRowIndex
-     * @param toRowIndex
-     * @param fromColumnIndex
-     * @param toColumnIndex
-     * @param action
-     * @throws IndexOutOfBoundsException
-     * @throws E                         the e
+     * Applies the given action to each element in the specified sub-matrix region.
+     * Elements are processed in row-major order within the specified bounds.
+     * 
+     * <p>This method allows for processing a rectangular subset of the matrix.
+     * The operation may be parallelized internally if the sub-matrix is large enough
+     * to benefit from parallel processing.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * 
+     * // Process only the center element
+     * matrix.forEach(1, 2, 1, 2, value -> System.out.println(value)); // Prints: 5
+     * 
+     * // Process a 2x2 sub-matrix
+     * List<Integer> subMatrix = new ArrayList<>();
+     * matrix.forEach(0, 2, 1, 3, value -> subMatrix.add(value));
+     * // subMatrix contains [2, 3, 5, 6]
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the action may throw
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
+     * @param toRowIndex the ending row index (exclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
+     * @param toColumnIndex the ending column index (exclusive)
+     * @param action the action to be performed for each element in the sub-matrix
+     * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @throws E if the action throws an exception
+     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
@@ -1764,7 +2589,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Println.
+     * Prints the matrix to standard output in a formatted manner.
+     * Each row is printed on a separate line with elements separated by commas
+     * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * matrix.println();
+     * // Output:
+     * // [1, 2, 3]
+     * // [4, 5, 6]
+     * }</pre>
      */
     @Override
     public void println() {
@@ -1772,7 +2608,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Returns a hash code value for the matrix.
+     * The hash code is computed based on the deep contents of the internal 2D array,
+     * taking into account all element values and the matrix structure.
+     * 
+     * <p>Two matrices with the same dimensions and identical elements in the same
+     * positions will have the same hash code.</p>
+     * 
+     * @return a hash code value for this matrix
      */
     @Override
     public int hashCode() {
@@ -1780,8 +2623,23 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @param obj
-     * @return {@code true}, if successful
+     * Indicates whether some other object is "equal to" this matrix.
+     * Two IntMatrix objects are considered equal if they have the same dimensions
+     * and contain the same int values in the same positions.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix m2 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix m3 = IntMatrix.of(new int[][]{{1, 2}, {4, 3}});
+     * 
+     * m1.equals(m2); // true - same dimensions and values
+     * m1.equals(m3); // false - different values
+     * }</pre>
+     * 
+     * @param obj the reference object with which to compare
+     * @return {@code true} if this matrix is equal to the obj argument;
+     *         {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -1797,7 +2655,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * @return
+     * Returns a string representation of the matrix.
+     * The string representation consists of the matrix elements in a 2D array format,
+     * with rows separated by commas and the entire structure enclosed in brackets.
+     * 
+     * <p>This method provides a human-readable representation of the matrix contents,
+     * suitable for debugging and logging purposes.</p>
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * System.out.println(matrix.toString()); // Prints: [[1, 2], [3, 4]]
+     * }</pre>
+     * 
+     * @return a string representation of the matrix
      */
     @Override
     public String toString() {
