@@ -1268,7 +1268,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         return new DoubleMatrix(c);
     }
 
-
     /**
      * Reshapes the matrix to the specified dimensions.
      * Elements are read in row-major order and written to the new shape in row-major order.

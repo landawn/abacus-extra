@@ -2007,7 +2007,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
             }
         });
     }
-    
+
     /**
      * Returns a stream of all elements in row-major order (horizontal).
      * Elements are streamed row by row from left to right, starting from the

@@ -19,9 +19,20 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case. It's not going to handle {@code null} scenarios like what handled in abacus-common. It's developer's responsibility to handle {@code null} scenarios. // TODO
- *
- *
+ * A utility class that provides numerous methods for array manipulation and operations.
+ * 
+ * <p>The class contains various utility methods for array operations including:</p>
+ * <ul>
+ *   <li>Mathematical operations (add, subtract, multiply, divide)</li>
+ *   <li>Array transformation (reshape, flatten)</li>
+ *   <li>Type conversion between array types</li>
+ *   <li>Element-wise operations and manipulations</li>
+ * </ul>
+ * 
+ * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case.
+ * It's not going to handle {@code null} scenarios like what handled in abacus-common.
+ * It's developer's responsibility to handle {@code null} scenarios.
+ * 
  */
 @Beta
 public sealed class Arrays permits Arrays.f {

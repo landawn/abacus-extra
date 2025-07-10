@@ -1233,7 +1233,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
         return new BooleanMatrix(c);
     }
-    
+
     /**
      * Flattens the matrix into a one-dimensional BooleanList.
      * Elements are collected in row-major order, meaning the matrix is traversed
