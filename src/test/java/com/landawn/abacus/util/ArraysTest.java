@@ -15,7 +15,13 @@ package com.landawn.abacus.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
+import com.landawn.abacus.util.stream.Stream;
 
 class ArraysTest {
 
@@ -75,6 +81,21 @@ class ArraysTest {
             N.println(Strings.repeat('-', 80));
             Arrays.println(f);
         }
+    }
+
+    @Test
+    public void test_001() throws IOException {
+
+        File file = new File("src/main/java/com/landawn/abacus/util/Arrays.java");
+        List<String> lines = IOUtil.readAllLines(file);
+
+        Stream.of(lines).filter(line -> line.trim().startsWith("*") && line.contains("N.")).forEach(System.out::println);
+
+        List<String> newLines = Stream.of(lines)
+                .map(line -> line.trim().startsWith("*") && line.contains("N.") ? line.replace("N.", "Arrays.") : line)
+                .toList();
+
+        IOUtil.writeLines(newLines, file);
     }
 
 }

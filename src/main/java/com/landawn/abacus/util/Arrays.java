@@ -2645,7 +2645,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[] array = {'a', 'b', 'c'};
-     * N.updateAll(array, c -> (char) (c + 1));
+     * Arrays.updateAll(array, c -> (char) (c + 1));
      * // array becomes {'b', 'c', 'd'}
      * }</pre>
      *
@@ -2672,7 +2672,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}};
-     * N.updateAll(array, c -> Character.toUpperCase(c));
+     * Arrays.updateAll(array, c -> Character.toUpperCase(c));
      * // array becomes {{'A', 'B'}, {'C'}}
      * }</pre>
      *
@@ -2699,7 +2699,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] array = {{{'a'}}, {{'b', 'c'}}};
-     * N.updateAll(array, c -> '*');
+     * Arrays.updateAll(array, c -> '*');
      * // array becomes {{{'*'}}, {{'*', '*'}}}
      * }</pre>
      *
@@ -2725,7 +2725,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'a'};
-     * N.replaceIf(array, c -> c == 'a', 'x');
+     * Arrays.replaceIf(array, c -> c == 'a', 'x');
      * // array becomes {'x', 'b', 'c', 'x'}
      * }</pre>
      *
@@ -2754,7 +2754,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c', 'A'}};
-     * N.replaceIf(array, c -> Character.isUpperCase(c), 'U');
+     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'U');
      * // array becomes {{'a', 'b'}, {'c', 'U'}}
      * }</pre>
      *
@@ -2781,7 +2781,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] array = {{{'a'}}, {{'B', 'c'}}};
-     * N.replaceIf(array, c -> Character.isUpperCase(c), 'X');
+     * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'X');
      * // array becomes {{{'a'}}, {{'X', 'c'}}}
      * }</pre>
      *
@@ -2809,7 +2809,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'd', 'e'};
-     * char[][] reshaped = N.reshape(array, 2);
+     * char[][] reshaped = Arrays.reshape(array, 2);
      * // reshaped is {{'a', 'b'}, {'c', 'd'}, {'e'}}
      * }</pre>
      *
@@ -2844,7 +2844,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
-     * char[][][] reshaped = N.reshape(array, 2, 2);
+     * char[][][] reshaped = Arrays.reshape(array, 2, 2);
      * // reshaped is {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g'}}}
      * }</pre>
      *
@@ -2883,7 +2883,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, null, {'c'}};
-     * char[] flattened = N.flatten(array);
+     * char[] flattened = Arrays.flatten(array);
      * // flattened is {'a', 'b', 'c'}
      * }</pre>
      *
@@ -2920,7 +2920,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] array = {{{'a'}, {'b'}}, {{'c', 'd'}}};
-     * char[] flattened = N.flatten(array);
+     * char[] flattened = Arrays.flatten(array);
      * // flattened is {'a', 'b', 'c', 'd'}
      * }</pre>
      *
@@ -2965,7 +2965,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'c', 'a'}, {'b'}};
-     * N.flatOp(array, t -> N.sort(t));
+     * Arrays.flatOp(array, t -> Arrays.sort(t));
      * // array becomes {{'a', 'b'}, {'c'}}
      * }</pre>
      *
@@ -3002,7 +3002,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
-     * N.flatOp(array, t -> N.sort(t));
+     * Arrays.flatOp(array, t -> Arrays.sort(t));
      * // array becomes {{{'a', 'b'}}, {{'c'}, {'d'}}}
      * }</pre>
      *
@@ -3043,7 +3043,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[] a = {'a', 'b', 'c'};
      * char[] b = {'x', 'y'};
-     * char[] result = N.zip(a, b, (c1, c2) -> c1 > c2 ? c1 : c2);
+     * char[] result = Arrays.zip(a, b, (c1, c2) -> c1 > c2 ? c1 : c2);
      * // result is {'x', 'y'}
      * }</pre>
      *
@@ -3076,7 +3076,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[] a = {'a', 'b', 'c'};
      * char[] b = {'x'};
-     * char[] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c1);
+     * char[] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c1);
      * // result is {'a', 'b', 'c'}
      * }</pre>
      *
@@ -3150,7 +3150,7 @@ public sealed class Arrays permits Arrays.f {
      * char[] a = {'a', 'b', 'c'};
      * char[] b = {'x', 'y', 'z'};
      * char[] c = {'1', '2'};
-     * char[] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * char[] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
      * // result is {'1', '2'}
      * }</pre>
      *
@@ -3187,7 +3187,7 @@ public sealed class Arrays permits Arrays.f {
      * char[] a = {'a'};
      * char[] b = {'x', 'y'};
      * char[] c = {'1', '2', '3'};
-     * char[] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c3);
+     * char[] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c3);
      * // result is {'1', '2', '3'}
      * }</pre>
      *
@@ -3256,7 +3256,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[][] a = {{'a', 'b'}, {'c'}};
      * char[][] b = {{'X', 'Y', 'Z'}};
-     * char[][] result = N.zip(a, b, (c1, c2) -> c1);
+     * char[][] result = Arrays.zip(a, b, (c1, c2) -> c1);
      * // result is {{'a', 'b'}}
      * }</pre>
      *
@@ -3289,7 +3289,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[][] a = {{'a'}, {'b', 'c'}};
      * char[][] b = {{'X', 'Y'}};
-     * char[][] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c2);
+     * char[][] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c2);
      * // result is {{'X', 'Y'}, {'Y', ' '}}
      * }</pre>
      *
@@ -3360,7 +3360,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][] a = {{'a'}, {'b'}};
      * char[][] b = {{'x'}, {'y'}};
      * char[][] c = {{'1'}};
-     * char[][] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * char[][] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
      * // result is {{'1'}}
      * }</pre>
      *
@@ -3397,7 +3397,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][] a = {{'a'}};
      * char[][] b = {{'x', 'y'}};
      * char[][] c = {{'1'}, {'2'}};
-     * char[][] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
+     * char[][] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
      * // result is {{'x', 'y'}, {' ', ' '}}
      * }</pre>
      *
@@ -3465,7 +3465,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[][][] a = {{{'a'}}};
      * char[][][] b = {{{'x'}, {'y'}}};
-     * char[][][] result = N.zip(a, b, (c1, c2) -> c1);
+     * char[][][] result = Arrays.zip(a, b, (c1, c2) -> c1);
      * // result is {{{'a'}}}
      * }</pre>
      *
@@ -3499,7 +3499,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[][][] a = {{{'a'}}};
      * char[][][] b = {{{'x'}, {'y'}}};
-     * char[][][] result = N.zip(a, b, ' ', ' ', (c1, c2) -> c2);
+     * char[][][] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c2);
      * // result is {{{'x'}, {'y'}}}
      * }</pre>
      *
@@ -3546,7 +3546,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][][] a = {{{'a', 'b'}}};
      * char[][][] b = {{{'x', 'y'}}};
      * char[][][] c = {{{'1'}}};
-     * char[][][] result = N.zip(a, b, c, (c1, c2, c3) -> c3);
+     * char[][][] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
      * // result is {{{'1'}}}
      * }</pre>
      *
@@ -3583,7 +3583,7 @@ public sealed class Arrays permits Arrays.f {
      * char[][][] a = {{{'a'}}};
      * char[][][] b = {{{'x'}, {'y'}}};
      * char[][][] c = {};
-     * char[][][] result = N.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
+     * char[][][] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
      * // result is {{{'x'}, {'y'}}}
      * }</pre>
      *
@@ -3624,7 +3624,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * long count = N.totalCountOfElements(array);
+     * long count = Arrays.totalCountOfElements(array);
      * // count is 3
      * }</pre>
      *
@@ -3648,7 +3648,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{{'d'}}}};
-     * long count = N.totalCountOfElements(array);
+     * long count = Arrays.totalCountOfElements(array);
      * // count is 4
      * }</pre>
      *
@@ -3682,7 +3682,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
-     * int minLen = N.minSubArrayLen(array);
+     * int minLen = Arrays.minSubArrayLen(array);
      * // minLen is 0
      * }</pre>
      *
@@ -3710,7 +3710,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
-     * int maxLen = N.maxSubArrayLen(array);
+     * int maxLen = Arrays.maxSubArrayLen(array);
      * // maxLen is 4
      * }</pre>
      *
@@ -3738,7 +3738,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[] arr = {'H', 'e', 'l', 'l', 'o'};
-     * String output = N.println(arr);
+     * String output = Arrays.println(arr);
      * // Prints "[H, e, l, l, o]" to console and returns it.
      * }</pre>
      *
@@ -3762,7 +3762,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][] arr = {{'a', 'b'}, {'c', 'd'}};
-     * String output = N.println(arr);
+     * String output = Arrays.println(arr);
      * // Prints "[[a, b], [c, d]]" to console and returns it.
      * }</pre>
      *
@@ -3824,7 +3824,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>{@code
      * char[][][] arr = {{{'a'}}, {{'b', 'c'}}};
-     * String output = N.println(arr);
+     * String output = Arrays.println(arr);
      * // Prints a formatted string like "[[[a]], [[b, c]]]" and returns it.
      * }</pre>
      *
@@ -8145,7 +8145,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * short[][] array = {{3, 1}, {4, 2}};
-     * flatOp(array, t -> N.sort(t)); // sorts all elements across sub-arrays
+     * flatOp(array, t -> Arrays.sort(t)); // sorts all elements across sub-arrays
      * </pre>
      *
      * @param <E> the type of exception the operation may throw
@@ -8178,7 +8178,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * flatOp(array, t -> N.sort(t)); // sorts all elements across all sub-arrays
+     * flatOp(array, t -> Arrays.sort(t)); // sorts all elements across all sub-arrays
      * </pre>
      *
      * @param <E> the type of exception the operation may throw
@@ -11920,7 +11920,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
-     * Arrays.flatOp(arr, t -> N.sort(t));
+     * Arrays.flatOp(arr, t -> Arrays.sort(t));
      * // arr is now {{1, 1, 3}, {4, 5, 9}}
      * </pre>
      *
@@ -11957,7 +11957,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
-     * Arrays.flatOp(arr, t -> N.sort(t));
+     * Arrays.flatOp(arr, t -> Arrays.sort(t));
      * // arr is now {{{1, 2}}, {{5, 8}}}
      * </pre>
      *
@@ -15897,7 +15897,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>
      * long[][] array = {{3L, 1L}, {4L, 2L}};
-     * flatOp(array, t -> N.sort(t));
+     * flatOp(array, t -> Arrays.sort(t));
      * // array is now {{1L, 2L}, {3L, 4L}}
      * </pre>
      *
@@ -15932,7 +15932,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>Example usage:
      * <pre>
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
-     * flatOp(array, t -> N.sort(t));
+     * flatOp(array, t -> Arrays.sort(t));
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * </pre>
      *
@@ -23884,7 +23884,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays.flatOp(matrix, arr -> N.sort(arr));
+     * Arrays.flatOp(matrix, arr -> Arrays.sort(arr));
      * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
      * </code></pre>
      *
@@ -23920,7 +23920,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays.flatOp(cube, arr -> N.sort(arr));
+     * Arrays.flatOp(cube, arr -> Arrays.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      * </code></pre>
      *
