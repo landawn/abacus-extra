@@ -15309,9 +15309,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1L, 2L, 3L};
+     * plus(array, 10L);
+     * // array is now {11L, 12L, 13L}
+     * </pre>
+     *
+     * @param a The array to be modified. The modification happens in-place.
+     * @param param The long value to add to each element of the array.
      */
     public static void plus(final long[] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15324,9 +15332,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 2D long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1L, 2L}, {3L, 4L}};
+     * plus(array, 10L);
+     * // array is now {{11L, 12L}, {13L, 14L}}
+     * </pre>
+     *
+     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param param The long value to add to each element of the array.
      */
     public static void plus(final long[][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15339,9 +15355,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds a scalar value to each element of the specified 3D long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
+     * plus(array, 10L);
+     * // array is now {{{11L}, {12L}}, {{13L}, {14L}}}
+     * </pre>
+     *
+     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param param The long value to add to each element of the array.
      */
     public static void plus(final long[][][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15354,9 +15378,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {11L, 12L, 13L};
+     * minus(array, 10L);
+     * // array is now {1L, 2L, 3L}
+     * </pre>
+     *
+     * @param a The array to be modified. The modification happens in-place.
+     * @param param The long value to subtract from each element of the array.
      */
     public static void minus(final long[] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15369,9 +15401,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 2D long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{11L, 12L}, {13L, 14L}};
+     * minus(array, 10L);
+     * // array is now {{1L, 2L}, {3L, 4L}}
+     * </pre>
+     *
+     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param param The long value to subtract from each element of the array.
      */
     public static void minus(final long[][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15384,9 +15424,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts a scalar value from each element of the specified 3D long array in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{11L}, {12L}}, {{13L}, {14L}}};
+     * minus(array, 10L);
+     * // array is now {{{1L}, {2L}}, {{3L}, {4L}}}
+     * </pre>
+     *
+     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param param The long value to subtract from each element of the array.
      */
     public static void minus(final long[][][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15399,9 +15447,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1L, 2L, 3L};
+     * multipliedBy(array, 10L);
+     * // array is now {10L, 20L, 30L}
+     * </pre>
+     *
+     * @param a The array to be modified. The modification happens in-place.
+     * @param param The long value to multiply each element by.
      */
     public static void multipliedBy(final long[] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15414,9 +15470,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 2D long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1L, 2L}, {3L, 4L}};
+     * multipliedBy(array, 10L);
+     * // array is now {{10L, 20L}, {30L, 40L}}
+     * </pre>
+     *
+     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param param The long value to multiply each element by.
      */
     public static void multipliedBy(final long[][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15429,9 +15493,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies each element of the specified 3D long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
+     * multipliedBy(array, 10L);
+     * // array is now {{{10L}, {20L}}, {{30L}, {40L}}}
+     * </pre>
+     *
+     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param param The long value to multiply each element by.
      */
     public static void multipliedBy(final long[][][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15444,9 +15516,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {10L, 20L, 30L};
+     * dividedBy(array, 10L);
+     * // array is now {1L, 2L, 3L}
+     * </pre>
+     *
+     * @param a The array to be modified. The modification happens in-place.
+     * @param param The long value to divide each element by.
      */
     public static void dividedBy(final long[] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15459,9 +15539,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 2D long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{10L, 20L}, {30L, 40L}};
+     * dividedBy(array, 10L);
+     * // array is now {{1L, 2L}, {3L, 4L}}
+     * </pre>
+     *
+     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param param The long value to divide each element by.
      */
     public static void dividedBy(final long[][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15474,9 +15562,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides each element of the specified 3D long array by a scalar value in-place.
      *
-     * @param a
-     * @param param
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{10L}, {20L}}, {{30L}, {40L}}};
+     * dividedBy(array, 10L);
+     * // array is now {{{1L}, {2L}}, {{3L}, {4L}}}
+     * </pre>
+     *
+     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param param The long value to divide each element by.
      */
     public static void dividedBy(final long[][][] a, final long param) {
         if (N.isEmpty(a)) {
@@ -15489,11 +15585,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified long array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1L, 2L, 3L};
+     * updateAll(array, x -> x * x);
+     * // array is now {1L, 4L, 9L}
+     * </pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The array to be modified. The modification happens in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E If the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -15506,11 +15610,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 2D long array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1L, 2L}, {3L, 4L}};
+     * updateAll(array, x -> -x);
+     * // array is now {{-1L, -2L}, {-3L, -4L}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E If the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -15523,11 +15635,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Updates each element of the specified 3D long array in-place by applying a unary operator.
      *
-     * @param <E>
-     * @param a
-     * @param operator
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
+     * updateAll(array, x -> x + 1);
+     * // array is now {{{2L}, {3L}}, {{4L}, {5L}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the operator may throw.
+     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param operator The unary operator to apply to each element.
+     * @throws E If the operator throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -15540,12 +15660,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a long array with a new value if it satisfies a given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1L, 2L, 3L, 4L, 5L};
+     * replaceIf(array, x -> x % 2 == 0, 0L);
+     * // array is now {1L, 0L, 3L, 0L, 5L}
+     * </pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The array to be modified.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to replace with if the predicate is true.
+     * @throws E If the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final long[] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -15560,12 +15688,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a 2D long array with a new value if it satisfies a given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1L, -2L}, {3L, -4L}};
+     * replaceIf(array, x -> x < 0, 0L);
+     * // array is now {{1L, 0L}, {3L, 0L}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The 2D array to be modified.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to replace with if the predicate is true.
+     * @throws E If the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final long[][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -15578,12 +15714,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Replaces each element of a 3D long array with a new value if it satisfies a given predicate.
      *
-     * @param <E>
-     * @param a
-     * @param predicate
-     * @param newValue
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
+     * replaceIf(array, x -> x < 0, 99L);
+     * // array is now {{{1L, 2L}}, {{99L, 4L}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the predicate may throw.
+     * @param a The 3D array to be modified.
+     * @param predicate The condition to test for each element.
+     * @param newValue The value to replace with if the predicate is true.
+     * @throws E If the predicate throws an exception.
      */
     public static <E extends Exception> void replaceIf(final long[][][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isEmpty(a)) {
@@ -15596,12 +15740,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D long array into a 2D long array with a specified number of columns.
+     * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1, 2, 3, 4, 5, 6, 7};
+     * long[][] reshaped = reshape(array, 3);
+     * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
+     * </pre>
      *
-     * @param a
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a The 1D array to reshape.
+     * @param cols The number of columns in the resulting 2D array.
+     * @return A new 2D long array.
+     * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static long[][] reshape(final long[] a, final int cols) throws IllegalArgumentException {
         checkMForReshape(cols);
@@ -15622,13 +15774,21 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Reshapes a 1D long array into a 3D long array with a specified number of rows and columns.
+     * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
      *
+     * <p>Example usage:
+     * <pre>
+     * long[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+     * long[][][] reshaped = reshape(array, 2, 2);
+     * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
+     * </pre>
      *
-     * @param a
-     * @param rows
-     * @param cols
-     * @return
-     * @throws IllegalArgumentException
+     * @param a The 1D array to reshape.
+     * @param rows The number of rows in each 2D sub-array.
+     * @param cols The number of columns in each 2D sub-array.
+     * @return A new 3D long array.
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static long[][][] reshape(final long[] a, final int rows, final int cols) throws IllegalArgumentException {
         checkMAndLForReshape(rows, cols);
@@ -15653,9 +15813,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 2D long array into a 1D long array by concatenating its rows.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1L, 2L}, {3L, 4L, 5L}};
+     * long[] flattened = flatten(array);
+     * // flattened is {1L, 2L, 3L, 4L, 5L}
+     * </pre>
+     *
+     * @param a The 2D array to flatten.
+     * @return A new 1D long array containing all elements from the input.
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -15681,9 +15849,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Flattens a 3D long array into a 1D long array by concatenating its elements in order.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
+     * long[] flattened = flatten(array);
+     * // flattened is {1L, 2L, 3L, 4L, 5L}
+     * </pre>
+     *
+     * @param a The 3D array to flatten.
+     * @return A new 1D long array containing all elements from the input.
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -15715,17 +15891,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Flattens a 2D array, performs an in-place operation on the resulting 1D array, and then
+     * copies the modified elements back into the original 2D array.
+     *
+     * <p>Example usage:
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * long[][] array = {{3L, 1L}, {4L, 2L}};
+     * flatOp(array, t -> N.sort(t));
+     * // array is now {{1L, 2L}, {3L, 4L}}
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> The type of exception that the operation may throw.
+     * @param a The 2D array to operate on.
+     * @param op The consumer to accept the flattened 1D array for modification.
+     * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -15747,17 +15926,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * flatten -> execute {@code op} -> set values back.
+     * Flattens a 3D array, performs an in-place operation on the resulting 1D array, and then
+     * copies the modified elements back into the original 3D array.
+     *
+     * <p>Example usage:
      * <pre>
-     * <code>
-     * f.flatOp(a, t -> N.sort(t));
-     * </code>
+     * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
+     * flatOp(array, t -> N.sort(t));
+     * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
      * </pre>
      *
-     * @param <E>
-     * @param a
-     * @param op
-     * @throws E the e
+     * @param <E> The type of exception that the operation may throw.
+     * @param a The 3D array to operate on.
+     * @param op The consumer to accept the flattened 1D array for modification.
+     * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
         if (N.isEmpty(a)) {
@@ -15783,10 +15965,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two long arrays element-wise. The resulting array's length is the minimum
+     * of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5};
+     * long[] result = add(a, b);
+     * // result is {5, 7}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @return A new array containing the element-wise sum.
      */
     public static long[] add(final long[] a, final long[] b) {
         final int lenA = N.len(a);
@@ -15802,12 +15994,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5};
+     * long[] result = add(a, b, 0, 10);
+     * // result is {5, 7, 13} (from 1+4, 2+5, 3+10)
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param valueForNoneA The default value to use if 'a' is shorter.
+     * @param valueForNoneB The default value to use if 'b' is shorter.
+     * @return A new array containing the element-wise sum.
      */
     public static long[] add(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -15855,11 +16057,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three long arrays element-wise. The resulting array's length is the minimum
+     * of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5, 6};
+     * long[] c = {7, 8};
+     * long[] result = add(a, b, c);
+     * // result is {12, 15}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @return A new array containing the element-wise sum.
      */
     public static long[] add(final long[] a, final long[] b, final long[] c) {
         final int lenA = N.len(a);
@@ -15876,14 +16089,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1};
+     * long[] b = {2, 3};
+     * long[] c = {4, 5, 6};
+     * long[] result = add(a, b, c, 0, 0, 0);
+     * // result is {7, 8, 6}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @param valueForNoneA The default value if 'a' is shorter.
+     * @param valueForNoneB The default value if 'b' is shorter.
+     * @param valueForNoneC The default value if 'c' is shorter.
+     * @return A new array containing the element-wise sum.
      */
     public static long[] add(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB, final long valueForNoneC) {
         final int lenA = N.len(a);
@@ -15926,10 +16150,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D long arrays element-wise. The operation is recursive.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}, {3, 4}};
+     * long[][] b = {{5, 6}, {7, 8}};
+     * long[][] result = add(a, b);
+     * // result is {{6, 8}, {10, 12}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @return A new 2D array containing the element-wise sum.
      */
     public static long[][] add(final long[][] a, final long[][] b) {
         final int lenA = N.len(a);
@@ -15945,12 +16179,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1}};
+     * long[][] b = {{2, 3}, {4, 5}};
+     * long[][] result = add(a, b, 0, 0);
+     * // result is {{3, 3}, {4, 5}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 2D array with the padded element-wise sum.
      */
     public static long[][] add(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB) {
         return add(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
@@ -15996,11 +16240,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D long arrays element-wise. The operation is recursive.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}};
+     * long[][] b = {{3, 4}};
+     * long[][] c = {{5, 6}};
+     * long[][] result = add(a, b, c);
+     * // result is {{9, 12}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @return A new 2D array containing the element-wise sum.
      */
     public static long[][] add(final long[][] a, final long[][] b, final long[][] c) {
         final int lenA = N.len(a);
@@ -16017,14 +16272,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1}};
+     * long[][] b = {{2, 3}};
+     * long[][] c = {{4, 5}, {6, 7}};
+     * long[][] result = add(a, b, c, 0, 0, 0);
+     * // result is {{7, 8}, {6, 7}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 2D array with the padded element-wise sum.
      */
     public static long[][] add(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16066,10 +16332,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}, {2}}};
+     * long[][][] b = {{{3}, {4}}};
+     * long[][][] result = add(a, b);
+     * // result is {{{4}, {6}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @return A new 3D array containing the element-wise sum.
      */
     public static long[][][] add(final long[][][] a, final long[][][] b) {
         final int lenA = N.len(a);
@@ -16085,12 +16361,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds two 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}, {{3}}};
+     * long[][][] result = add(a, b, 0, 0);
+     * // result is {{{3}}, {{3}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 3D array with the padded element-wise sum.
      */
     public static long[][][] add(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -16116,11 +16402,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}};
+     * long[][][] c = {{{3}}};
+     * long[][][] result = add(a, b, c);
+     * // result is {{{6}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @return A new 3D array containing the element-wise sum.
      */
     public static long[][][] add(final long[][][] a, final long[][][] b, final long[][][] c) {
         final int lenA = N.len(a);
@@ -16137,14 +16434,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Adds three 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}, {{3}}};
+     * long[][][] c = {{{4}}, {{5}}, {{6}}};
+     * long[][][] result = add(a, b, c, 0, 0, 0);
+     * // result is {{{7}}, {{8}}, {{6}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 3D array with the padded element-wise sum.
      */
     public static long[][][] add(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16166,10 +16474,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the elements of the second array from the first, element-wise.
+     * The resulting array's length is the minimum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20, 30};
+     * long[] b = {1, 2};
+     * long[] result = subtract(a, b);
+     * // result is {9, 18}
+     * </pre>
+     *
+     * @param a The minuend array.
+     * @param b The subtrahend array.
+     * @return A new array containing the element-wise difference.
      */
     public static long[] subtract(final long[] a, final long[] b) {
         final int lenA = N.len(a);
@@ -16185,12 +16503,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20};
+     * long[] b = {1, 2, 3};
+     * long[] result = subtract(a, b, 100, 0);
+     * // result is {9, 18, -3} (from 10-1, 20-2, 100-3)
+     * </pre>
+     *
+     * @param a The minuend array.
+     * @param b The subtrahend array.
+     * @param valueForNoneA The default value to use if 'a' is shorter.
+     * @param valueForNoneB The default value to use if 'b' is shorter.
+     * @return A new array containing the element-wise difference.
      */
     public static long[] subtract(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -16238,11 +16566,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts the elements of the second and third arrays from the first, element-wise.
+     * The resulting array's length is the minimum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20, 30};
+     * long[] b = {1, 2, 3};
+     * long[] c = {4, 5};
+     * long[] result = subtract(a, b, c);
+     * // result is {5, 13}
+     * </pre>
+     *
+     * @param a The minuend array.
+     * @param b The first subtrahend array.
+     * @param c The second subtrahend array.
+     * @return A new array containing the element-wise difference.
      */
     public static long[] subtract(final long[] a, final long[] b, final long[] c) {
         final int lenA = N.len(a);
@@ -16259,14 +16598,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts three long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10};
+     * long[] b = {1, 2};
+     * long[] c = {3, 4, 5};
+     * long[] result = subtract(a, b, c, 100, 0, 0);
+     * // result is {6, 94, 95}
+     * </pre>
+     *
+     * @param a The minuend array.
+     * @param b The first subtrahend array.
+     * @param c The second subtrahend array.
+     * @param valueForNoneA The default value if 'a' is shorter.
+     * @param valueForNoneB The default value if 'b' is shorter.
+     * @param valueForNoneC The default value if 'c' is shorter.
+     * @return A new array containing the element-wise difference.
      */
     public static long[] subtract(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16310,10 +16660,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10, 20}, {30, 40}};
+     * long[][] b = {{1, 2}, {3, 4}};
+     * long[][] result = subtract(a, b);
+     * // result is {{9, 18}, {27, 36}}
+     * </pre>
+     *
+     * @param a The minuend 2D array.
+     * @param b The subtrahend 2D array.
+     * @return A new 2D array containing the element-wise difference.
      */
     public static long[][] subtract(final long[][] a, final long[][] b) {
         final int lenA = N.len(a);
@@ -16329,12 +16689,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10}};
+     * long[][] b = {{1, 2}, {3, 4}};
+     * long[][] result = subtract(a, b, 100, 0);
+     * // result is {{9, -2}, {-3, -4}}
+     * </pre>
+     *
+     * @param a The minuend 2D array.
+     * @param b The subtrahend 2D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 2D array with the padded element-wise difference.
      */
     public static long[][] subtract(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB) {
         return subtract(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
@@ -16380,11 +16750,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts three 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10, 20}};
+     * long[][] b = {{1, 2}};
+     * long[][] c = {{3, 4}};
+     * long[][] result = subtract(a, b, c);
+     * // result is {{6, 14}}
+     * </pre>
+     *
+     * @param a The minuend 2D array.
+     * @param b The first subtrahend 2D array.
+     * @param c The second subtrahend 2D array.
+     * @return A new 2D array containing the element-wise difference.
      */
     public static long[][] subtract(final long[][] a, final long[][] b, final long[][] c) {
         final int lenA = N.len(a);
@@ -16401,14 +16782,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts three 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10}};
+     * long[][] b = {{1, 2}};
+     * long[][] c = {{3, 4}, {5, 6}};
+     * long[][] result = subtract(a, b, c, 100, 0, 0);
+     * // result is {{6, 94}, {95, 94}}
+     * </pre>
+     *
+     * @param a The minuend 2D array.
+     * @param b The first subtrahend 2D array.
+     * @param c The second subtrahend 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 2D array with the padded element-wise difference.
      */
     public static long[][] subtract(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16451,10 +16843,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}, {20}}};
+     * long[][][] b = {{{1}, {2}}};
+     * long[][][] result = subtract(a, b);
+     * // result is {{{9}, {18}}}
+     * </pre>
+     *
+     * @param a The minuend 3D array.
+     * @param b The subtrahend 3D array.
+     * @return A new 3D array containing the element-wise difference.
      */
     public static long[][][] subtract(final long[][][] a, final long[][][] b) {
         final int lenA = N.len(a);
@@ -16470,12 +16872,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts two 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}}};
+     * long[][][] b = {{{1}}, {{2}}};
+     * long[][][] result = subtract(a, b, 100, 0);
+     * // result is {{{9}}, {{100}}}
+     * </pre>
+     *
+     * @param a The minuend 3D array.
+     * @param b The subtrahend 3D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 3D array with the padded element-wise difference.
      */
     public static long[][][] subtract(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -16501,11 +16913,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts three 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}}};
+     * long[][][] b = {{{1}}};
+     * long[][][] c = {{{2}}};
+     * long[][][] result = subtract(a, b, c);
+     * // result is {{{7}}}
+     * </pre>
+     *
+     * @param a The minuend 3D array.
+     * @param b The first subtrahend 3D array.
+     * @param c The second subtrahend 3D array.
+     * @return A new 3D array containing the element-wise difference.
      */
     public static long[][][] subtract(final long[][][] a, final long[][][] b, final long[][][] c) {
         final int lenA = N.len(a);
@@ -16522,14 +16945,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Subtracts three 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}}};
+     * long[][][] b = {{{1}}, {{2}}};
+     * long[][][] c = {{{3}}, {{4}}, {{5}}};
+     * long[][][] result = subtract(a, b, c, 100, 0, 0);
+     * // result is {{{6}}, {96}, {95}}
+     * </pre>
+     *
+     * @param a The minuend 3D array.
+     * @param b The first subtrahend 3D array.
+     * @param c The second subtrahend 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 3D array with the padded element-wise difference.
      */
     public static long[][][] subtract(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16551,10 +16985,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two long arrays element-wise. The resulting array's length is the minimum
+     * of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5};
+     * long[] result = multipliedBy(a, b);
+     * // result is {4, 10}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @return A new array containing the element-wise product.
      */
     public static long[] multipliedBy(final long[] a, final long[] b) {
         final int lenA = N.len(a);
@@ -16570,12 +17014,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5};
+     * long[] result = multipliedBy(a, b, 1, 10);
+     * // result is {4, 10, 30} (from 1*4, 2*5, 3*10)
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param valueForNoneA The default value to use if 'a' is shorter.
+     * @param valueForNoneB The default value to use if 'b' is shorter.
+     * @return A new array containing the element-wise product.
      */
     public static long[] multipliedBy(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -16623,11 +17077,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three long arrays element-wise. The resulting array's length is the minimum
+     * of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5, 6};
+     * long[] c = {7, 8};
+     * long[] result = multipliedBy(a, b, c);
+     * // result is {28, 80}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @return A new array containing the element-wise product.
      */
     public static long[] multipliedBy(final long[] a, final long[] b, final long[] c) {
         final int lenA = N.len(a);
@@ -16644,14 +17109,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1};
+     * long[] b = {2, 3};
+     * long[] c = {4, 5, 6};
+     * long[] result = multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {8, 15, 6}
+     * </pre>
+     *
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @param valueForNoneA The default value if 'a' is shorter.
+     * @param valueForNoneB The default value if 'b' is shorter.
+     * @param valueForNoneC The default value if 'c' is shorter.
+     * @return A new array containing the element-wise product.
      */
     public static long[] multipliedBy(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16695,10 +17171,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}, {3, 4}};
+     * long[][] b = {{5, 6}, {7, 8}};
+     * long[][] result = multipliedBy(a, b);
+     * // result is {{5, 12}, {21, 32}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @return A new 2D array containing the element-wise product.
      */
     public static long[][] multipliedBy(final long[][] a, final long[][] b) {
         final int lenA = N.len(a);
@@ -16714,12 +17200,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{2}};
+     * long[][] b = {{3, 4}, {5, 6}};
+     * long[][] result = multipliedBy(a, b, 1, 1);
+     * // result is {{6, 4}, {5, 6}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 2D array with the padded element-wise product.
      */
     public static long[][] multipliedBy(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB) {
         return multipliedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
@@ -16766,11 +17262,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}};
+     * long[][] b = {{3, 4}};
+     * long[][] c = {{5, 6}};
+     * long[][] result = multipliedBy(a, b, c);
+     * // result is {{15, 48}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @return A new 2D array containing the element-wise product.
      */
     public static long[][] multipliedBy(final long[][] a, final long[][] b, final long[][] c) {
         final int lenA = N.len(a);
@@ -16787,14 +17294,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1}};
+     * long[][] b = {{2, 3}};
+     * long[][] c = {{4, 5}, {6, 7}};
+     * long[][] result = multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {{8, 15}, {6, 7}}
+     * </pre>
+     *
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 2D array with the padded element-wise product.
      */
     public static long[][] multipliedBy(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16837,10 +17355,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}, {2}}};
+     * long[][][] b = {{{3}, {4}}};
+     * long[][][] result = multipliedBy(a, b);
+     * // result is {{{3}, {8}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @return A new 3D array containing the element-wise product.
      */
     public static long[][][] multipliedBy(final long[][][] a, final long[][][] b) {
         final int lenA = N.len(a);
@@ -16856,12 +17384,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies two 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{2}}};
+     * long[][][] b = {{{3}}, {{4}}};
+     * long[][][] result = multipliedBy(a, b, 1, 1);
+     * // result is {{{6}}, {{4}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 3D array with the padded element-wise product.
      */
     public static long[][][] multipliedBy(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -16887,11 +17425,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}};
+     * long[][][] c = {{{3}}};
+     * long[][][] result = multipliedBy(a, b, c);
+     * // result is {{{6}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @return A new 3D array containing the element-wise product.
      */
     public static long[][][] multipliedBy(final long[][][] a, final long[][][] b, final long[][][] c) {
         final int lenA = N.len(a);
@@ -16908,14 +17457,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Multiplies three 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}, {{3}}};
+     * long[][][] c = {{{4}}, {{5}}, {{6}}};
+     * long[][][] result = multipliedBy(a, b, c, 1, 1, 1);
+     * // result is {{{8}}, {{15}}, {{6}}}
+     * </pre>
+     *
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 3D array with the padded element-wise product.
      */
     public static long[][][] multipliedBy(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -16937,10 +17497,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the elements of the first array by the second, element-wise.
+     * The resulting array's length is the minimum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20, 30};
+     * long[] b = {2, 5};
+     * long[] result = dividedBy(a, b);
+     * // result is {5, 4}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The divisor array.
+     * @return A new array containing the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b) {
         final int lenA = N.len(a);
@@ -16956,12 +17526,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20};
+     * long[] b = {2, 5, 10};
+     * long[] result = dividedBy(a, b, 100, 1);
+     * // result is {5, 4, 100} (from 10/2, 20/5, 100/10)
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The divisor array.
+     * @param valueForNoneA The default value to use if 'a' is shorter.
+     * @param valueForNoneB The default value to use if 'b' is shorter.
+     * @return A new array containing the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -17009,11 +17589,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides the elements of the first array by the second and third, element-wise.
+     * The resulting array's length is the minimum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {100, 200, 300};
+     * long[] b = {2, 5, 10};
+     * long[] c = {5, 4};
+     * long[] result = dividedBy(a, b, c);
+     * // result is {10, 10}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The first divisor array.
+     * @param c The second divisor array.
+     * @return A new array containing the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long[] c) {
         final int lenA = N.len(a);
@@ -17030,14 +17621,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three long arrays element-wise, using default values for shorter arrays.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {100};
+     * long[] b = {2, 20};
+     * long[] c = {5, 10, 2};
+     * long[] result = dividedBy(a, b, c, 200, 1, 1);
+     * // result is {10, 10, 200}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The first divisor array.
+     * @param c The second divisor array.
+     * @param valueForNoneA The default value if 'a' is shorter.
+     * @param valueForNoneB The default value if 'b' is shorter.
+     * @param valueForNoneC The default value if 'c' is shorter.
+     * @return A new array containing the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -17081,10 +17683,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10, 20}, {30, 40}};
+     * long[][] b = {{2, 5}, {10, 8}};
+     * long[][] result = dividedBy(a, b);
+     * // result is {{5, 4}, {3, 5}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The divisor 2D array.
+     * @return A new 2D array containing the element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b) {
         final int lenA = N.len(a);
@@ -17100,12 +17712,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100}};
+     * long[][] b = {{10, 5}, {2, 4}};
+     * long[][] result = dividedBy(a, b, 200, 1);
+     * // result is {{10, 20}, {100, 50}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The divisor 2D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 2D array with the padded element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB);
@@ -17151,11 +17773,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 2D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100, 200}};
+     * long[][] b = {{10, 5}};
+     * long[][] c = {{2, 4}};
+     * long[][] result = dividedBy(a, b, c);
+     * // result is {{5, 10}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The first divisor 2D array.
+     * @param c The second divisor 2D array.
+     * @return A new 2D array containing the element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long[][] c) {
         final int lenA = N.len(a);
@@ -17172,14 +17805,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 2D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100}};
+     * long[][] b = {{10, 5}};
+     * long[][] c = {{2, 4}, {1, 1}};
+     * long[][] result = dividedBy(a, b, c, 200, 1, 1);
+     * // result is {{5, 50}, {200, 200}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The first divisor 2D array.
+     * @param c The second divisor 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 2D array with the padded element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -17222,10 +17866,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}, {20}}};
+     * long[][][] b = {{{2}, {5}}};
+     * long[][][] result = dividedBy(a, b);
+     * // result is {{{5}, {4}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The divisor 3D array.
+     * @return A new 3D array containing the element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b) {
         final int lenA = N.len(a);
@@ -17241,12 +17895,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}, {{2}}};
+     * long[][][] result = dividedBy(a, b, 200, 1);
+     * // result is {{{10}}, {{200}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The divisor 3D array.
+     * @param valueForNoneA The default value for missing elements from 'a'.
+     * @param valueForNoneB The default value for missing elements from 'b'.
+     * @return A new 3D array with the padded element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB) {
         final int lenA = N.len(a);
@@ -17272,11 +17936,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 3D long arrays element-wise recursively.
+     * The dimensions of the result are the minimum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}};
+     * long[][][] c = {{{2}}};
+     * long[][][] result = dividedBy(a, b, c);
+     * // result is {{{5}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The first divisor 3D array.
+     * @param c The second divisor 3D array.
+     * @return A new 3D array containing the element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long[][][] c) {
         final int lenA = N.len(a);
@@ -17293,14 +17968,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 3D long arrays element-wise, using default values for padding.
+     * The dimensions of the result are the maximum of the corresponding input dimensions.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}, {{2}}};
+     * long[][][] c = {{{2}}, {{5}}, {{1}}};
+     * long[][][] result = dividedBy(a, b, c, 200, 1, 1);
+     * // result is {{{5}}, {{100}}, {{200}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The first divisor 3D array.
+     * @param c The second divisor 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @return A new 3D array with the padded element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC) {
@@ -17315,18 +18001,27 @@ public sealed class Arrays permits Arrays.f {
         }
 
         for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
-            result[i] = dividedBy(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC);
+            result[i] = dividedBy(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, 1);
         }
 
         return result;
     }
 
     /**
+     * Divides two long arrays element-wise, substituting a default value for any zero in the divisor.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20, 30};
+     * long[] b = {2, 0, 5};
+     * long[] result = dividedBy(a, b, 1L);
+     * // result is {5, 20, 6}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The divisor array.
+     * @param defaultValueForZero The value to use as divisor when an element in {@code b} is zero.
+     * @return A new array containing the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17342,13 +18037,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two long arrays element-wise with padding and a default for zero divisors.
+     * The resulting array's length is the maximum of the input arrays' lengths.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20};
+     * long[] b = {2, 0, 5};
+     * long[] result = dividedBy(a, b, 100, 1, 1L);
+     * // result is {5, 20, 20}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The divisor array.
+     * @param valueForNoneA Default value if 'a' is shorter.
+     * @param valueForNoneB Default value if 'b' is shorter.
+     * @param defaultValueForZero Value to use when an element in the divisor is zero.
+     * @return A new array with the padded element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17398,12 +18103,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three long arrays element-wise, with a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {100, 200};
+     * long[] b = {10, 0};
+     * long[] c = {2, 5};
+     * long[] result = dividedBy(a, b, c, 1L);
+     * // result is {5, 40}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The first divisor array.
+     * @param c The second divisor array.
+     * @param defaultValueForZero Value to use when an element in a divisor is zero.
+     * @return A new array with the element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long[] c, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17420,15 +18135,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three long arrays element-wise with padding and a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {100};
+     * long[] b = {10, 0};
+     * long[] c = {2, 5, 2};
+     * long[] result = dividedBy(a, b, c, 200, 1, 1, 1L);
+     * // result is {5, 40, 100}
+     * </pre>
+     *
+     * @param a The dividend array.
+     * @param b The first divisor array.
+     * @param c The second divisor array.
+     * @param valueForNoneA Default for 'a'.
+     * @param valueForNoneB Default for 'b'.
+     * @param valueForNoneC Default for 'c'.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new array with the padded element-wise quotient.
      */
     public static long[] dividedBy(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB, final long valueForNoneC,
             final long defaultValueForZero) {
@@ -17474,11 +18199,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D long arrays element-wise, with a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{10, 20}};
+     * long[][] b = {{2, 0}};
+     * long[][] result = dividedBy(a, b, 1L);
+     * // result is {{5, 20}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The divisor 2D array.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 2D array with the element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17494,13 +18228,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 2D long arrays element-wise with padding and a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100}};
+     * long[][] b = {{10, 0}, {2, 4}};
+     * long[][] result = dividedBy(a, b, 200, 1, 1L);
+     * // result is {{10, 200}, {100, 50}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The divisor 2D array.
+     * @param valueForNoneA Default for 'a'.
+     * @param valueForNoneB Default for 'b'.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 2D array with the padded quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB, final long defaultValueForZero) {
         return dividedBy(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, defaultValueForZero);
@@ -17548,12 +18291,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 2D long arrays element-wise, with a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100, 200}};
+     * long[][] b = {{10, 0}};
+     * long[][] c = {{2, 5}};
+     * long[][] result = dividedBy(a, b, c, 1L);
+     * // result is {{5, 40}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The first divisor 2D array.
+     * @param c The second divisor 2D array.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 2D array with the element-wise quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long[][] c, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17570,15 +18323,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 2D long arrays element-wise with padding and a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{100}};
+     * long[][] b = {{10, 0}};
+     * long[][] c = {{2, 5}, {1, 1}};
+     * long[][] result = dividedBy(a, b, c, 200, 1, 1, 1L);
+     * // result is {{5, 40}, {200, 200}}
+     * </pre>
+     *
+     * @param a The dividend 2D array.
+     * @param b The first divisor 2D array.
+     * @param c The second divisor 2D array.
+     * @param valueForNoneA Default for 'a'.
+     * @param valueForNoneB Default for 'b'.
+     * @param valueForNoneC Default for 'c'.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 2D array with the padded quotient.
      */
     public static long[][] dividedBy(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC, final long defaultValueForZero) {
@@ -17622,11 +18385,20 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D long arrays element-wise, with a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{10}, {20}}};
+     * long[][][] b = {{{2}, {0}}};
+     * long[][][] result = dividedBy(a, b, 1L);
+     * // result is {{{5}, {20}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The divisor 3D array.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 3D array with the element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17642,13 +18414,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides two 3D long arrays element-wise with padding and a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}, {{0}}};
+     * long[][][] result = dividedBy(a, b, 200, 1, 1L);
+     * // result is {{{10}}, {{200}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The divisor 3D array.
+     * @param valueForNoneA Default for 'a'.
+     * @param valueForNoneB Default for 'b'.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 3D array with the padded quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
             final long defaultValueForZero) {
@@ -17675,12 +18456,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 3D long arrays element-wise, with a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}};
+     * long[][][] c = {{{0}}};
+     * long[][][] result = dividedBy(a, b, c, 1L);
+     * // result is {{{10}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The first divisor 3D array.
+     * @param c The second divisor 3D array.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 3D array with the element-wise quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long[][][] c, final long defaultValueForZero) {
         final int lenA = N.len(a);
@@ -17697,15 +18488,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Divides three 3D long arrays element-wise with padding and a default for zero divisors.
      *
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param defaultValueForZero
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{100}}};
+     * long[][][] b = {{{10}}, {{0}}};
+     * long[][][] c = {{{2}}, {{5}}, {{1}}};
+     * long[][][] result = dividedBy(a, b, c, 200, 1, 1, 1L);
+     * // result is {{{5}}, {{40}}, {{200}}}
+     * </pre>
+     *
+     * @param a The dividend 3D array.
+     * @param b The first divisor 3D array.
+     * @param c The second divisor 3D array.
+     * @param valueForNoneA Default for 'a'.
+     * @param valueForNoneB Default for 'b'.
+     * @param valueForNoneC Default for 'c'.
+     * @param defaultValueForZero Value for zero divisors.
+     * @return A new 3D array with the padded quotient.
      */
     public static long[][][] dividedBy(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC, final long defaultValueForZero) {
@@ -17728,13 +18529,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to corresponding elements of two long arrays to produce a new array.
+     * The length of the result is the minimum of the input arrays' lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {10, 20, 30};
+     * long[] b = {3, 4, 5};
+     * long[] result = zip(a, b, (x, y) -> x % y);
+     * // result is {1, 0, 0}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first array.
+     * @param b The second array.
+     * @param zipFunction The binary function to apply to each pair of elements.
+     * @return A new array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -17750,15 +18561,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary function to elements of two long arrays with padding.
+     * The length of the result is the maximum of the input arrays' lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2};
+     * long[] b = {10, 20, 30};
+     * long[] result = zip(a, b, 0L, 5L, (x, y) -> x + y);
+     * // result is {11, 22, 35}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first array.
+     * @param b The second array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param zipFunction The binary function to apply.
+     * @return A new array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB,
             final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
@@ -17811,14 +18632,25 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to corresponding elements of three long arrays.
+     * The length of the result is the minimum of the input arrays' lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1, 2, 3};
+     * long[] b = {4, 5, 6};
+     * long[] c = {7, 8, 9};
+     * long[] result = zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result is {12, 15, 18}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @param zipFunction The ternary function to apply.
+     * @return A new array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTriFunction<Long, E> zipFunction)
             throws E {
@@ -17836,17 +18668,28 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary function to elements of three long arrays with padding.
+     * The length of the result is the maximum of the input arrays' lengths.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1};
+     * long[] b = {2, 3};
+     * long[] c = {4, 5, 6};
+     * long[] result = zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result is {7, 8, 6}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first array.
+     * @param b The second array.
+     * @param c The third array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new array containing the results of the zip operation.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
@@ -17893,13 +18736,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation recursively to two 2D long arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}, {3, 4}};
+     * long[][] b = {{5, 6}, {7, 8}};
+     * long[][] result = zip(a, b, (x, y) -> x * y);
+     * // result is {{5, 12}, {21, 32}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param zipFunction The binary function to apply.
+     * @return A new 2D array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -17915,15 +18767,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation to two 2D long arrays with padding.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1}};
+     * long[][] b = {{10, 20}, {30, 40}};
+     * long[][] result = zip(a, b, 0L, 0L, (x, y) -> x + y);
+     * // result is {{11, 20}, {30, 40}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param zipFunction The binary function to apply.
+     * @return A new 2D array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB,
             final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
@@ -17974,14 +18835,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation recursively to three 2D long arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1, 2}};
+     * long[][] b = {{3, 4}};
+     * long[][] c = {{5, 6}};
+     * long[][] result = zip(a, b, c, (x, y, z) -> x * y * z);
+     * // result is {{15, 48}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 2D array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c,
             final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
@@ -17999,17 +18870,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation to three 2D long arrays with padding.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1}};
+     * long[][] b = {{2, 3}};
+     * long[][] c = {{4, 5}, {6, 7}};
+     * long[][] result = zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result is {{7, 8}, {6, 7}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 2D array.
+     * @param b The second 2D array.
+     * @param c The third 2D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 2D array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
             final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
@@ -18055,13 +18936,22 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation recursively to two 3D long arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1, 2}}};
+     * long[][][] b = {{{3, 4}}};
+     * long[][][] result = zip(a, b, (x, y) -> x + y);
+     * // result is {{{4, 6}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param zipFunction The binary function to apply.
+     * @return A new 3D array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
@@ -18077,15 +18967,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a binary zip operation to two 3D long arrays with padding.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}, {{3}}};
+     * long[][][] result = zip(a, b, 0L, 0L, (x, y) -> x + y);
+     * // result is {{{3}}, {{3}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param zipFunction The binary function to apply.
+     * @return A new 3D array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
             final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
@@ -18112,14 +19011,24 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation recursively to three 3D long arrays.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}};
+     * long[][][] c = {{{3}}};
+     * long[][][] result = zip(a, b, c, (x, y, z) -> x + y + z);
+     * // result is {{{6}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 3D array with the zipped results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
             final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
@@ -18137,17 +19046,27 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Applies a ternary zip operation to three 3D long arrays with padding.
      *
-     * @param <E>
-     * @param a
-     * @param b
-     * @param c
-     * @param valueForNoneA
-     * @param valueForNoneB
-     * @param valueForNoneC
-     * @param zipFunction
-     * @return
-     * @throws E the e
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1}}};
+     * long[][][] b = {{{2}}, {{3}}};
+     * long[][][] c = {{{4}}, {{5}}, {{6}}};
+     * long[][][] result = zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * // result is {{{7}}, {{8}}, {{6}}}
+     * </pre>
+     *
+     * @param <E> The type of exception that the zip function may throw.
+     * @param a The first 3D array.
+     * @param b The second 3D array.
+     * @param c The third 3D array.
+     * @param valueForNoneA Default value for 'a'.
+     * @param valueForNoneB Default value for 'b'.
+     * @param valueForNoneC Default value for 'c'.
+     * @param zipFunction The ternary function to apply.
+     * @return A new 3D array with the zipped and padded results.
+     * @throws E If the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA,
             final long valueForNoneB, final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
@@ -18168,6 +19087,19 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
+    /**
+     * Calculates the total number of long elements in a 2D array, handling null sub-arrays.
+     *
+     * <p>Example usage:
+     * <pre>
+     * long[][] array = {{1, 2}, {3, 4, 5}, null};
+     * long count = totalCountOfElements(array);
+     * // count is 5
+     * </pre>
+     *
+     * @param a The 2D array to inspect.
+     * @return The total count of long elements.
+     */
     public static long totalCountOfElements(final long[][] a) {
         long count = 0;
 
@@ -18178,6 +19110,19 @@ public sealed class Arrays permits Arrays.f {
         return count;
     }
 
+    /**
+     * Calculates the total number of long elements in a 3D array, handling null sub-arrays.
+     *
+     * <p>Example usage:
+     * <pre>
+     * long[][][] array = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
+     * long count = totalCountOfElements(array);
+     * // count is 6
+     * </pre>
+     *
+     * @param a The 3D array to inspect.
+     * @return The total count of long elements.
+     */
     public static long totalCountOfElements(final long[][][] a) {
         long count = 0;
 
@@ -18199,10 +19144,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Min sub array len.
+     * Finds the minimum length among all sub-arrays in a 2D long array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
+     * int minLen = minSubArrayLen(a);
+     * // minLen will be 0
+     * </pre>
+     *
+     * @param a The 2D long array.
+     * @return The minimum length of a sub-array, or 0 if the input array is null or empty.
      */
     public static int minSubArrayLen(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -18219,10 +19172,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Max sub array len.
+     * Finds the maximum length among all sub-arrays in a 2D long array.
+     * A null sub-array is considered to have a length of 0.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
+     * int maxLen = maxSubArrayLen(a);
+     * // maxLen will be 3
+     * </pre>
+     *
+     * @param a The 2D long array.
+     * @return The maximum length of a sub-array, or 0 if the input array is null or empty.
      */
     public static int maxSubArrayLen(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -18239,9 +19200,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of a long array to the console and returns the string.
      *
-     * @param a
-     * @return
+     * <p>Example usage:
+     * <pre>
+     * long[] a = {1L, 2L, 3L};
+     * String s = println(a);
+     * // Prints "[1, 2, 3]" to console and returns it.
+     * </pre>
+     *
+     * @param a The long array to print.
+     * @return The string representation of the array.
      */
     public static String println(final long[] a) {
         if (a == null) {
@@ -18254,8 +19223,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of a 2D long array to the console and returns the string.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>
+     * long[][] a = {{1L, 2L}, {3L, 4L}};
+     * String s = println(a);
+     * // Prints "[[1, 2], [3, 4]]" to console and returns it.
+     * </pre>
+     *
+     * @param a The 2D long array to print.
+     * @return The string representation of the 2D array.
      */
     public static String println(final long[][] a) {
         if (a == null) {
@@ -18306,8 +19284,17 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
+     * Prints a string representation of a 3D long array to the console and returns the string.
      *
-     * @param a
+     * <p>Example usage:
+     * <pre>
+     * long[][][] a = {{{1L, 2L}}, {{3L, 4L}}};
+     * String s = println(a);
+     * // Prints a formatted string to console and returns it.
+     * </pre>
+     *
+     * @param a The 3D long array to print.
+     * @return The string representation of the 3D array.
      */
     public static String println(final long[][][] a) {
         if (a == null) {
@@ -18380,7 +19367,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.0f, 2.0f, 3.0f};
-     * Arrays35.plus(array, 10.0f); // array becomes {11.0f, 12.0f, 13.0f}
+     * Arrays.plus(array, 10.0f); // array becomes {11.0f, 12.0f, 13.0f}
      * </code></pre>
      *
      * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18402,7 +19389,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * Arrays35.plus(matrix, 10.0f); // matrix becomes {{11.0f, 12.0f}, {13.0f, 14.0f}}
+     * Arrays.plus(matrix, 10.0f); // matrix becomes {{11.0f, 12.0f}, {13.0f, 14.0f}}
      * </code></pre>
      *
      * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18424,7 +19411,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
-     * Arrays35.plus(cube, 10.0f); // cube becomes {{{11.0f}, {12.0f}}, {{13.0f}, {14.0f}}}
+     * Arrays.plus(cube, 10.0f); // cube becomes {{{11.0f}, {12.0f}}, {{13.0f}, {14.0f}}}
      * </code></pre>
      *
      * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18446,7 +19433,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {11.0f, 12.0f, 13.0f};
-     * Arrays35.minus(array, 10.0f); // array becomes {1.0f, 2.0f, 3.0f}
+     * Arrays.minus(array, 10.0f); // array becomes {1.0f, 2.0f, 3.0f}
      * </code></pre>
      *
      * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18468,7 +19455,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{11.0f, 12.0f}, {13.0f, 14.0f}};
-     * Arrays35.minus(matrix, 10.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.minus(matrix, 10.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * </code></pre>
      *
      * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18490,7 +19477,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{11.0f}, {12.0f}}, {{13.0f}, {14.0f}}};
-     * Arrays35.minus(cube, 10.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
+     * Arrays.minus(cube, 10.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
      * </code></pre>
      *
      * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18512,7 +19499,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.0f, 2.0f, 3.0f};
-     * Arrays35.multipliedBy(array, 2.0f); // array becomes {2.0f, 4.0f, 6.0f}
+     * Arrays.multipliedBy(array, 2.0f); // array becomes {2.0f, 4.0f, 6.0f}
      * </code></pre>
      *
      * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18534,7 +19521,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * Arrays35.multipliedBy(matrix, 2.0f); // matrix becomes {{2.0f, 4.0f}, {6.0f, 8.0f}}
+     * Arrays.multipliedBy(matrix, 2.0f); // matrix becomes {{2.0f, 4.0f}, {6.0f, 8.0f}}
      * </code></pre>
      *
      * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18556,7 +19543,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
-     * Arrays35.multipliedBy(cube, 2.0f); // cube becomes {{{2.0f}, {4.0f}}, {{6.0f}, {8.0f}}}
+     * Arrays.multipliedBy(cube, 2.0f); // cube becomes {{{2.0f}, {4.0f}}, {{6.0f}, {8.0f}}}
      * </code></pre>
      *
      * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18578,7 +19565,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {2.0f, 4.0f, 6.0f};
-     * Arrays35.dividedBy(array, 2.0f); // array becomes {1.0f, 2.0f, 3.0f}
+     * Arrays.dividedBy(array, 2.0f); // array becomes {1.0f, 2.0f, 3.0f}
      * </code></pre>
      *
      * @param a the array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18600,7 +19587,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{2.0f, 4.0f}, {6.0f, 8.0f}};
-     * Arrays35.dividedBy(matrix, 2.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.dividedBy(matrix, 2.0f); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * </code></pre>
      *
      * @param a the 2D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18622,7 +19609,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{2.0f}, {4.0f}}, {{6.0f}, {8.0f}}};
-     * Arrays35.dividedBy(cube, 2.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
+     * Arrays.dividedBy(cube, 2.0f); // cube becomes {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}}
      * </code></pre>
      *
      * @param a the 3D array to be modified. It can be {@code null} or empty, in which case the method does nothing.
@@ -18643,7 +19630,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.0f, -2.0f, 3.0f};
-     * Arrays35.updateAll(array, x -> Math.abs(x)); // array becomes {1.0f, 2.0f, 3.0f}
+     * Arrays.updateAll(array, x -> Math.abs(x)); // array becomes {1.0f, 2.0f, 3.0f}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -18666,7 +19653,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
-     * Arrays35.updateAll(matrix, x -> x * x); // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
+     * Arrays.updateAll(matrix, x -> x * x); // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -18689,7 +19676,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
-     * Arrays35.updateAll(cube, x -> -x); // cube becomes {{{1.0f}}, {{-2.0f}}}
+     * Arrays.updateAll(cube, x -> -x); // cube becomes {{{1.0f}}, {{-2.0f}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -18713,7 +19700,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays35.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
+     * Arrays.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -18740,7 +19727,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays35.replaceIf(matrix, x -> x <= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -18765,7 +19752,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
-     * Arrays35.replaceIf(cube, x -> x > 0, 0.0f); // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
+     * Arrays.replaceIf(cube, x -> x > 0, 0.0f); // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -18791,7 +19778,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][] matrix = Arrays35.reshape(array, 3); // returns {{1, 2, 3}, {4, 5, 6}, {7}}
+     * float[][] matrix = Arrays.reshape(array, 3); // returns {{1, 2, 3}, {4, 5, 6}, {7}}
      * </code></pre>
      *
      * @param a the 1D array to reshape.
@@ -18824,7 +19811,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][][] cube = Arrays35.reshape(array, 2, 2); // returns {{{1,2},{3,4}},{{5,6},{7}}}
+     * float[][][] cube = Arrays.reshape(array, 2, 2); // returns {{{1,2},{3,4}},{{5,6},{7}}}
      * </code></pre>
      *
      * @param a the 1D array to reshape.
@@ -18862,7 +19849,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * float[] array = Arrays35.flatten(matrix); // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(matrix); // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * </code></pre>
      *
      * @param a the 2D array to flatten.
@@ -18898,7 +19885,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
-     * float[] array = Arrays35.flatten(cube); // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(cube); // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * </code></pre>
      *
      * @param a the 3D array to flatten.
@@ -18941,7 +19928,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays35.flatOp(matrix, N::sort); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.flatOp(matrix, N::sort); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -18976,7 +19963,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays35.flatOp(cube, N::sort); // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * Arrays.flatOp(cube, N::sort); // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -19014,7 +20001,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1.0f, 2.0f, 3.0f};
      * float[] b = {4.0f, 5.0f};
-     * float[] result = Arrays35.add(a, b); // result is {5.0f, 7.0f}
+     * float[] result = Arrays.add(a, b); // result is {5.0f, 7.0f}
      * </code></pre>
      *
      * @param a the first array.
@@ -19042,7 +20029,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1.0f, 2.0f, 3.0f};
      * float[] b = {4.0f, 5.0f};
-     * float[] result = Arrays35.add(a, b, 0.0f, 10.0f); // result is {5.0f, 7.0f, 13.0f}
+     * float[] result = Arrays.add(a, b, 0.0f, 10.0f); // result is {5.0f, 7.0f, 13.0f}
      * </code></pre>
      *
      * @param a the first array.
@@ -19105,7 +20092,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2, 3};
      * float[] b = {4, 5, 6};
      * float[] c = {7, 8};
-     * float[] result = Arrays35.add(a, b, c); // result is {12, 15}
+     * float[] result = Arrays.add(a, b, c); // result is {12, 15}
      * </code></pre>
      *
      * @param a the first array.
@@ -19135,7 +20122,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2};
      * float[] b = {3, 4, 5};
      * float[] c = {6};
-     * float[] result = Arrays35.add(a, b, c, 0f, 0f, 0f); // result is {10, 6, 5}
+     * float[] result = Arrays.add(a, b, c, 0f, 0f, 0f); // result is {10, 6, 5}
      * </code></pre>
      *
      * @param a the first array.
@@ -19196,7 +20183,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{1, 2}, {3, 4}};
      * float[][] b = {{5, 6}, {7, 8}};
-     * float[][] result = Arrays35.add(a, b); // result is {{6, 8}, {10, 12}}
+     * float[][] result = Arrays.add(a, b); // result is {{6, 8}, {10, 12}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19224,7 +20211,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{1}, {2, 3}};
      * float[][] b = {{4, 5}};
-     * float[][] result = Arrays35.add(a, b, 0f, 0f); // result is {{5, 5}, {2, 3}}
+     * float[][] result = Arrays.add(a, b, 0f, 0f); // result is {{5, 5}, {2, 3}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19286,7 +20273,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{4, 5}};
-     * float[][] result = Arrays35.add(a, b, c); // result is {{7}}
+     * float[][] result = Arrays.add(a, b, c); // result is {{7}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19316,7 +20303,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{4, 5}, {6}};
-     * float[][] result = Arrays35.add(a, b, c, 0f, 0f, 0f); // result is {{7, 8}, {6}}
+     * float[][] result = Arrays.add(a, b, c, 0f, 0f, 0f); // result is {{7, 8}, {6}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19375,7 +20362,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1, 2}}, {{3}}};
      * float[][][] b = {{{4, 5}}, {{6}}};
-     * float[][][] result = Arrays35.add(a, b); // result is {{{5, 7}}, {{9}}}
+     * float[][][] result = Arrays.add(a, b); // result is {{{5, 7}}, {{9}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19402,7 +20389,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}}, {{3, 4}}};
-     * float[][][] result = Arrays35.add(a, b, 0f, 0f); // result is {{{3}}, {{3, 4}}}
+     * float[][][] result = Arrays.add(a, b, 0f, 0f); // result is {{{3}}, {{3, 4}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19443,7 +20430,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}}};
      * float[][][] c = {{{3}}};
-     * float[][][] result = Arrays35.add(a, b, c); // result is {{{6}}}
+     * float[][][] result = Arrays.add(a, b, c); // result is {{{6}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19473,7 +20460,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}},{{3}}};
      * float[][][] c = {{{4}},{{5}},{{6}}};
-     * float[][][] result = Arrays35.add(a,b,c,0f,0f,0f); // result is {{{7}},{{8}},{{6}}}
+     * float[][][] result = Arrays.add(a,b,c,0f,0f,0f); // result is {{{7}},{{8}},{{6}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19510,7 +20497,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f, 9.0f, 8.0f};
      * float[] b = {1.0f, 2.0f};
-     * float[] result = Arrays35.subtract(a, b); // result is {9.0f, 7.0f}
+     * float[] result = Arrays.subtract(a, b); // result is {9.0f, 7.0f}
      * </code></pre>
      *
      * @param a the array to subtract from.
@@ -19537,7 +20524,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f, 9.0f};
      * float[] b = {1.0f, 2.0f, 3.0f};
-     * float[] result = Arrays35.subtract(a, b, 100.0f, 0.0f); // result is {9.0f, 7.0f, 100.0f}
+     * float[] result = Arrays.subtract(a, b, 100.0f, 0.0f); // result is {9.0f, 7.0f, 100.0f}
      * </code></pre>
      *
      * @param a the first array (minuend).
@@ -19600,7 +20587,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {10, 20, 30};
      * float[] b = {1, 2};
      * float[] c = {3, 4};
-     * float[] result = Arrays35.subtract(a, b, c); // result is {6, 14}
+     * float[] result = Arrays.subtract(a, b, c); // result is {6, 14}
      * </code></pre>
      *
      * @param a the array to subtract from.
@@ -19630,7 +20617,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {10, 20};
      * float[] b = {1, 2, 3};
      * float[] c = {4};
-     * float[] result = Arrays35.subtract(a, b, c, 0f, 0f, 0f); // result is {5, 18, -3}
+     * float[] result = Arrays.subtract(a, b, c, 0f, 0f, 0f); // result is {5, 18, -3}
      * </code></pre>
      *
      * @param a the first array (minuend).
@@ -19690,7 +20677,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10, 9}, {8, 7}};
      * float[][] b = {{1, 2}, {3, 4}};
-     * float[][] result = Arrays35.subtract(a, b); // result is {{9, 7}, {5, 3}}
+     * float[][] result = Arrays.subtract(a, b); // result is {{9, 7}, {5, 3}}
      * </code></pre>
      *
      * @param a the 2D array to subtract from.
@@ -19717,7 +20704,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10}, {9, 8}};
      * float[][] b = {{1, 2}};
-     * float[][] result = Arrays35.subtract(a, b, 0f, 0f); // result is {{9, -2}, {9, 8}}
+     * float[][] result = Arrays.subtract(a, b, 0f, 0f); // result is {{9, -2}, {9, 8}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19779,7 +20766,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{10, 20}, {30, 40}};
      * float[][] b = {{1, 2}};
      * float[][] c = {{3, 4}};
-     * float[][] result = Arrays35.subtract(a, b, c); // result is {{6, 14}}
+     * float[][] result = Arrays.subtract(a, b, c); // result is {{6, 14}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19809,7 +20796,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{10}};
      * float[][] b = {{1, 2}};
      * float[][] c = {{3, 4}, {5}};
-     * float[][] result = Arrays35.subtract(a, b, c, 0f, 0f, 0f); // result is {{6, -6}, {-5}}
+     * float[][] result = Arrays.subtract(a, b, c, 0f, 0f, 0f); // result is {{6, -6}, {-5}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -19868,7 +20855,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10, 9}}, {{8}}};
      * float[][][] b = {{{1, 2}}, {{3}}};
-     * float[][][] result = Arrays35.subtract(a, b); // result is {{{9, 7}}, {{5}}}
+     * float[][][] result = Arrays.subtract(a, b); // result is {{{9, 7}}, {{5}}}
      * </code></pre>
      *
      * @param a the 3D array to subtract from.
@@ -19895,7 +20882,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10}}};
      * float[][][] b = {{{1}}, {{2, 3}}};
-     * float[][][] result = Arrays35.subtract(a, b, 0f, 0f); // result is {{{9}}, {{-2, -3}}}
+     * float[][][] result = Arrays.subtract(a, b, 0f, 0f); // result is {{{9}}, {{-2, -3}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19935,7 +20922,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{10}}};
      * float[][][] b = {{{1}}};
      * float[][][] c = {{{2}}};
-     * float[][][] result = Arrays35.subtract(a, b, c); // result is {{{7}}}
+     * float[][][] result = Arrays.subtract(a, b, c); // result is {{{7}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -19965,7 +20952,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{10}}};
      * float[][][] b = {{{1}},{{2}}};
      * float[][][] c = {{{3}},{{4}},{{5}}};
-     * float[][][] result = Arrays35.subtract(a,b,c,0f,0f,0f); // result is {{{6}},{{-6}},{{-5}}}
+     * float[][][] result = Arrays.subtract(a,b,c,0f,0f,0f); // result is {{{6}},{{-6}},{{-5}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20002,7 +20989,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1.0f, 2.0f, 3.0f};
      * float[] b = {4.0f, 5.0f};
-     * float[] result = Arrays35.multipliedBy(a, b); // result is {4.0f, 10.0f}
+     * float[] result = Arrays.multipliedBy(a, b); // result is {4.0f, 10.0f}
      * </code></pre>
      *
      * @param a the first array.
@@ -20029,7 +21016,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1.0f, 2.0f, 3.0f};
      * float[] b = {4.0f, 5.0f};
-     * float[] result = Arrays35.multipliedBy(a, b, 1.0f, 10.0f); // result is {4.0f, 10.0f, 30.0f}
+     * float[] result = Arrays.multipliedBy(a, b, 1.0f, 10.0f); // result is {4.0f, 10.0f, 30.0f}
      * </code></pre>
      *
      * @param a the first array.
@@ -20092,7 +21079,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2, 3};
      * float[] b = {4, 5};
      * float[] c = {6, 7, 8};
-     * float[] result = Arrays35.multipliedBy(a, b, c); // result is {24, 70}
+     * float[] result = Arrays.multipliedBy(a, b, c); // result is {24, 70}
      * </code></pre>
      *
      * @param a the first array.
@@ -20122,7 +21109,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2};
      * float[] b = {3, 4, 5};
      * float[] c = {6};
-     * float[] result = Arrays35.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {18, 8, 5}
+     * float[] result = Arrays.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {18, 8, 5}
      * </code></pre>
      *
      * @param a the first array.
@@ -20182,7 +21169,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{1, 2}, {3, 4}};
      * float[][] b = {{5, 6}};
-     * float[][] result = Arrays35.multipliedBy(a, b); // result is {{5, 12}}
+     * float[][] result = Arrays.multipliedBy(a, b); // result is {{5, 12}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20209,7 +21196,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{2}, {3, 4}};
      * float[][] b = {{5, 6}};
-     * float[][] result = Arrays35.multipliedBy(a, b, 1f, 1f); // result is {{10, 6}, {3, 4}}
+     * float[][] result = Arrays.multipliedBy(a, b, 1f, 1f); // result is {{10, 6}, {3, 4}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20271,7 +21258,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1, 2}};
      * float[][] b = {{3, 4}};
      * float[][] c = {{5, 6}};
-     * float[][] result = Arrays35.multipliedBy(a, b, c); // result is {{15, 48}}
+     * float[][] result = Arrays.multipliedBy(a, b, c); // result is {{15, 48}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20301,7 +21288,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{4, 5}, {6}};
-     * float[][] result = Arrays35.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {{8, 15}, {6}}
+     * float[][] result = Arrays.multipliedBy(a, b, c, 1f, 1f, 1f); // result is {{8, 15}, {6}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20360,7 +21347,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1, 2}}, {{3}}};
      * float[][][] b = {{{4, 5}}, {{6}}};
-     * float[][][] result = Arrays35.multipliedBy(a, b); // result is {{{4, 10}}, {{18}}}
+     * float[][][] result = Arrays.multipliedBy(a, b); // result is {{{4, 10}}, {{18}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20387,7 +21374,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}}, {{3, 4}}};
-     * float[][][] result = Arrays35.multipliedBy(a, b, 1f, 1f); // result is {{{2}}, {{3, 4}}}
+     * float[][][] result = Arrays.multipliedBy(a, b, 1f, 1f); // result is {{{2}}, {{3, 4}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20427,7 +21414,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}}};
      * float[][][] c = {{{3}}};
-     * float[][][] result = Arrays35.multipliedBy(a, b, c); // result is {{{6}}}
+     * float[][][] result = Arrays.multipliedBy(a, b, c); // result is {{{6}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20457,7 +21444,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}},{{3}}};
      * float[][][] c = {{{4}},{{5}},{{6}}};
-     * float[][][] result = Arrays35.multipliedBy(a,b,c,1f,1f,1f); // result is {{{8}},{{15}},{{6}}}
+     * float[][][] result = Arrays.multipliedBy(a,b,c,1f,1f,1f); // result is {{{8}},{{15}},{{6}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20494,7 +21481,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f, 12.0f, 14.0f};
      * float[] b = {2.0f, 3.0f};
-     * float[] result = Arrays35.dividedBy(a, b); // result is {5.0f, 4.0f}
+     * float[] result = Arrays.dividedBy(a, b); // result is {5.0f, 4.0f}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -20521,7 +21508,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f, 12.0f};
      * float[] b = {2.0f, 3.0f, 4.0f};
-     * float[] result = Arrays35.dividedBy(a, b, 20.0f, 1.0f); // result is {5.0f, 4.0f, 20.0f}
+     * float[] result = Arrays.dividedBy(a, b, 20.0f, 1.0f); // result is {5.0f, 4.0f, 20.0f}
      * </code></pre>
      *
      * @param a the first array (dividend).
@@ -20584,7 +21571,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {120, 180};
      * float[] b = {2, 3};
      * float[] c = {10, 6};
-     * float[] result = Arrays35.dividedBy(a, b, c); // result is {6, 10}
+     * float[] result = Arrays.dividedBy(a, b, c); // result is {6, 10}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -20614,7 +21601,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {120};
      * float[] b = {2, 3};
      * float[] c = {10, 6, 5};
-     * float[] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f); // result is {6, 60, 36}
+     * float[] result = Arrays.dividedBy(a, b, c, 180f, 1f, 1f); // result is {6, 60, 36}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -20674,7 +21661,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10, 12}, {14, 16}};
      * float[][] b = {{2, 3}};
-     * float[][] result = Arrays35.dividedBy(a, b); // result is {{5, 4}}
+     * float[][] result = Arrays.dividedBy(a, b); // result is {{5, 4}}
      * </code></pre>
      *
      * @param a the dividend 2D array.
@@ -20701,7 +21688,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10}, {12, 14}};
      * float[][] b = {{2, 4}};
-     * float[][] result = Arrays35.dividedBy(a, b, 1f, 1f); // result is {{5, 0.25}, {12, 14}}
+     * float[][] result = Arrays.dividedBy(a, b, 1f, 1f); // result is {{5, 0.25}, {12, 14}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20763,7 +21750,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{120, 180}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{10, 6}};
-     * float[][] result = Arrays35.dividedBy(a, b, c); // result is {{6, 10}}
+     * float[][] result = Arrays.dividedBy(a, b, c); // result is {{6, 10}}
      * </code></pre>
      *
      * @param a the dividend 2D array.
@@ -20793,7 +21780,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{120}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{10, 6}, {5}};
-     * float[][] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f); // result is {{6, 60}, {36}}
+     * float[][] result = Arrays.dividedBy(a, b, c, 180f, 1f, 1f); // result is {{6, 60}, {36}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -20852,7 +21839,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10, 12}}, {{14}}};
      * float[][][] b = {{{2, 3}}, {{7}}};
-     * float[][][] result = Arrays35.dividedBy(a, b); // result is {{{5, 4}}, {{2}}}
+     * float[][][] result = Arrays.dividedBy(a, b); // result is {{{5, 4}}, {{2}}}
      * </code></pre>
      *
      * @param a the dividend 3D array.
@@ -20879,7 +21866,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10}}};
      * float[][][] b = {{{2}}, {{4, 5}}};
-     * float[][][] result = Arrays35.dividedBy(a, b, 1f, 1f); // result is {{{5}}, {{1, 0.2}}}
+     * float[][][] result = Arrays.dividedBy(a, b, 1f, 1f); // result is {{{5}}, {{1, 0.2}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20919,7 +21906,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{120}}};
      * float[][][] b = {{{2}}};
      * float[][][] c = {{{10}}};
-     * float[][][] result = Arrays35.dividedBy(a, b, c); // result is {{{6}}}
+     * float[][][] result = Arrays.dividedBy(a, b, c); // result is {{{6}}}
      * </code></pre>
      *
      * @param a the dividend 3D array.
@@ -20949,7 +21936,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{120}}};
      * float[][][] b = {{{2}},{{1}}};
      * float[][][] c = {{{10}},{{6}},{{5}}};
-     * float[][][] result = Arrays35.dividedBy(a,b,c,180f,1f,1f); // result is {{{6}},{{180}},{{36}}}
+     * float[][][] result = Arrays.dividedBy(a,b,c,180f,1f,1f); // result is {{{6}},{{180}},{{36}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -20986,7 +21973,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f, 20.0f};
      * float[] b = {2.0f, 0.0f};
-     * float[] result = Arrays35.dividedBy(a, b, 1.0f); // result is {5.0f, 20.0f}
+     * float[] result = Arrays.dividedBy(a, b, 1.0f); // result is {5.0f, 20.0f}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -21014,7 +22001,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {10.0f};
      * float[] b = {2.0f, 0.0f};
-     * float[] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {5.0f, 2.0f}
+     * float[] result = Arrays.dividedBy(a, b, 20f, 1f, 10f); // result is {5.0f, 2.0f}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -21080,7 +22067,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {120, 180};
      * float[] b = {2, 0};
      * float[] c = {10, 6};
-     * float[] result = Arrays35.dividedBy(a, b, c, 1f); // result is {6, 30}
+     * float[] result = Arrays.dividedBy(a, b, c, 1f); // result is {6, 30}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -21111,7 +22098,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {120};
      * float[] b = {2, 0};
      * float[] c = {10, 6, 5};
-     * float[] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {6, 30, 36}
+     * float[] result = Arrays.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {6, 30, 36}
      * </code></pre>
      *
      * @param a the dividend array.
@@ -21174,7 +22161,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10, 20}};
      * float[][] b = {{2, 0}};
-     * float[][] result = Arrays35.dividedBy(a, b, 1f); // result is {{5, 20}}
+     * float[][] result = Arrays.dividedBy(a, b, 1f); // result is {{5, 20}}
      * </code></pre>
      *
      * @param a the dividend 2D array.
@@ -21202,7 +22189,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{10}};
      * float[][] b = {{2, 0}};
-     * float[][] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {{5, 2}}
+     * float[][] result = Arrays.dividedBy(a, b, 20f, 1f, 10f); // result is {{5, 2}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -21267,7 +22254,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{120, 180}};
      * float[][] b = {{2, 0}};
      * float[][] c = {{10, 6}};
-     * float[][] result = Arrays35.dividedBy(a, b, c, 1f); // result is {{6, 30}}
+     * float[][] result = Arrays.dividedBy(a, b, c, 1f); // result is {{6, 30}}
      * </code></pre>
      *
      * @param a the dividend 2D array.
@@ -21298,7 +22285,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{120}};
      * float[][] b = {{2, 0}};
      * float[][] c = {{10, 6}, {5}};
-     * float[][] result = Arrays35.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {{6, 30}, {36}}
+     * float[][] result = Arrays.dividedBy(a, b, c, 180f, 1f, 1f, 1f); // result is {{6, 30}, {36}}
      * </code></pre>
      *
      * @param a the first 2D array.
@@ -21359,7 +22346,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10, 20}}};
      * float[][][] b = {{{2, 0}}};
-     * float[][][] result = Arrays35.dividedBy(a, b, 1f); // result is {{{5, 20}}}
+     * float[][][] result = Arrays.dividedBy(a, b, 1f); // result is {{{5, 20}}}
      * </code></pre>
      *
      * @param a the dividend 3D array.
@@ -21387,7 +22374,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{10}}};
      * float[][][] b = {{{2}}, {{0, 5}}};
-     * float[][][] result = Arrays35.dividedBy(a, b, 20f, 1f, 10f); // result is {{{5}}, {{2, 0.2}}}
+     * float[][][] result = Arrays.dividedBy(a, b, 20f, 1f, 10f); // result is {{{5}}, {{2, 0.2}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -21429,7 +22416,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{120}}};
      * float[][][] b = {{{2}}};
      * float[][][] c = {{{0}}};
-     * float[][][] result = Arrays35.dividedBy(a, b, c, 10f); // result is {{{6}}}
+     * float[][][] result = Arrays.dividedBy(a, b, c, 10f); // result is {{{6}}}
      * </code></pre>
      *
      * @param a the dividend 3D array.
@@ -21460,7 +22447,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{120}}};
      * float[][][] b = {{{2}},{{0}}};
      * float[][][] c = {{{10}},{{6}},{{5}}};
-     * float[][][] result = Arrays35.dividedBy(a,b,c,180f,1f,1f,1f); // result is {{{6}},{{30}},{{36}}}
+     * float[][][] result = Arrays.dividedBy(a,b,c,180f,1f,1f,1f); // result is {{{6}},{{30}},{{36}}}
      * </code></pre>
      *
      * @param a the first 3D array.
@@ -21499,7 +22486,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1, 2, 3};
      * float[] b = {4, 5, 6};
-     * float[] result = Arrays35.zip(a, b, (x, y) -> x + y); // result is {5, 7, 9}
+     * float[] result = Arrays.zip(a, b, (x, y) -> x + y); // result is {5, 7, 9}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21529,7 +22516,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[] a = {1, 2, 3};
      * float[] b = {4, 5};
-     * float[] result = Arrays35.zip(a, b, 0f, 10f, (x, y) -> x + y); // result is {5, 7, 13}
+     * float[] result = Arrays.zip(a, b, 0f, 10f, (x, y) -> x + y); // result is {5, 7, 13}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21600,7 +22587,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2};
      * float[] b = {3, 4};
      * float[] c = {5, 6};
-     * float[] result = Arrays35.zip(a, b, c, (x, y, z) -> x + y + z); // result is {9, 12}
+     * float[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z); // result is {9, 12}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21634,7 +22621,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] a = {1, 2, 3};
      * float[] b = {4, 5};
      * float[] c = {6};
-     * float[] result = Arrays35.zip(a, b, c, 0f, 0f, 0f, (x,y,z) -> x+y+z); // result is {11, 7, 3}
+     * float[] result = Arrays.zip(a, b, c, 0f, 0f, 0f, (x,y,z) -> x+y+z); // result is {11, 7, 3}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21700,7 +22687,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{1, 2}};
      * float[][] b = {{3, 4}};
-     * float[][] result = Arrays35.zip(a, b, (x,y) -> x*y); // result is {{3, 8}}
+     * float[][] result = Arrays.zip(a, b, (x,y) -> x*y); // result is {{3, 8}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21730,7 +22717,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
-     * float[][] result = Arrays35.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{3, 13}}
+     * float[][] result = Arrays.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{3, 13}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21799,7 +22786,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{4, 5}};
-     * float[][] result = Arrays35.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{7}}
+     * float[][] result = Arrays.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{7}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21833,7 +22820,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][] a = {{1}};
      * float[][] b = {{2, 3}};
      * float[][] c = {{4, 5}, {6}};
-     * float[][] result = Arrays35.zip(a,b,c,0f,0f,0f, (x,y,z)->x+y+z); // result is {{7, 8}, {6}}
+     * float[][] result = Arrays.zip(a,b,c,0f,0f,0f, (x,y,z)->x+y+z); // result is {{7, 8}, {6}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21898,7 +22885,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1, 2}}};
      * float[][][] b = {{{3, 4}}};
-     * float[][][] result = Arrays35.zip(a, b, (x,y) -> x*y); // result is {{{3, 8}}}
+     * float[][][] result = Arrays.zip(a, b, (x,y) -> x*y); // result is {{{3, 8}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21929,7 +22916,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}}, {{3, 4}}};
-     * float[][][] result = Arrays35.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{{3}}, {{13, 14}}}
+     * float[][][] result = Arrays.zip(a, b, 0f, 10f, (x,y) -> x+y); // result is {{{3}}, {{13, 14}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -21973,7 +22960,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2, 3}}};
      * float[][][] c = {{{4, 5}}};
-     * float[][][] result = Arrays35.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{{7}}}
+     * float[][][] result = Arrays.zip(a, b, c, (x,y,z) -> x+y+z); // result is {{{7}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -22007,7 +22994,7 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] a = {{{1}}};
      * float[][][] b = {{{2}},{{3}}};
      * float[][][] c = {{{4}},{{5}},{{6}}};
-     * float[][][] result = Arrays35.zip(a,b,c,0f,0f,0f,(x,y,z)->x+y+z); // result is {{{7}},{{8}},{{6}}}
+     * float[][][] result = Arrays.zip(a,b,c,0f,0f,0f,(x,y,z)->x+y+z); // result is {{{7}},{{8}},{{6}}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the zip function.
@@ -22046,7 +23033,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays35.totalCountOfElements(matrix); // count is 3
+     * long count = Arrays.totalCountOfElements(matrix); // count is 3
      * </code></pre>
      *
      * @param a the 2D array to count elements in.
@@ -22068,7 +23055,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
-     * long count = Arrays35.totalCountOfElements(cube); // count is 3
+     * long count = Arrays.totalCountOfElements(cube); // count is 3
      * </code></pre>
      *
      * @param a the 3D array to count elements in.
@@ -22100,7 +23087,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays35.minSubArrayLen(matrix); // minLen is 0
+     * int minLen = Arrays.minSubArrayLen(matrix); // minLen is 0
      * </code></pre>
      *
      * @param a the 2D array to inspect.
@@ -22126,7 +23113,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays35.maxSubArrayLen(matrix); // maxLen is 3
+     * int maxLen = Arrays.maxSubArrayLen(matrix); // maxLen is 3
      * </code></pre>
      *
      * @param a the 2D array to inspect.
@@ -22152,7 +23139,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.1f, 2.2f, 3.3f};
-     * String s = Arrays35.println(array); // Prints "[1.1, 2.2, 3.3]" and returns it.
+     * String s = Arrays.println(array); // Prints "[1.1, 2.2, 3.3]" and returns it.
      * </code></pre>
      *
      * @param a the array to print.
@@ -22174,7 +23161,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.1f, 2.2f}, {3.3f}};
-     * String s = Arrays35.println(matrix); // Prints "[[1.1, 2.2],\n [3.3]]" (example) and returns it.
+     * String s = Arrays.println(matrix); // Prints "[[1.1, 2.2],\n [3.3]]" (example) and returns it.
      * </code></pre>
      *
      * @param a the 2D array to print.
@@ -22234,7 +23221,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][][] cube = {{{1.1f}}, {{2.2f, 3.3f}}};
-     * String s = Arrays35.println(cube); // Prints a formatted 3D representation and returns it.
+     * String s = Arrays.println(cube); // Prints a formatted 3D representation and returns it.
      * </code></pre>
      *
      * @param a the 3D array to print.
@@ -22311,7 +23298,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.0, 2.0, 3.0};
-     * Arrays37.plus(array, 5.0);
+     * Arrays.plus(array, 5.0);
      * // array is now {6.0, 7.0, 8.0}
      * </code></pre>
      *
@@ -22335,7 +23322,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * Arrays37.plus(matrix, 10.0);
+     * Arrays.plus(matrix, 10.0);
      * // matrix is now {{11.0, 12.0}, {13.0, 14.0}}
      * </code></pre>
      *
@@ -22359,7 +23346,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
-     * Arrays37.plus(cube, 100.0);
+     * Arrays.plus(cube, 100.0);
      * // cube is now {{{101.0}, {102.0}}, {{103.0}, {104.0}}}
      * </code></pre>
      *
@@ -22382,7 +23369,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {10.0, 20.0, 30.0};
-     * Arrays37.minus(array, 5.0);
+     * Arrays.minus(array, 5.0);
      * // array is now {5.0, 15.0, 25.0}
      * </code></pre>
      *
@@ -22406,7 +23393,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{10.0, 20.0}, {30.0, 40.0}};
-     * Arrays37.minus(matrix, 10.0);
+     * Arrays.minus(matrix, 10.0);
      * // matrix is now {{0.0, 10.0}, {20.0, 30.0}}
      * </code></pre>
      *
@@ -22430,7 +23417,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{10.0}, {20.0}}, {{30.0}, {40.0}}};
-     * Arrays37.minus(cube, 10.0);
+     * Arrays.minus(cube, 10.0);
      * // cube is now {{{0.0}, {10.0}}, {{20.0}, {30.0}}}
      * </code></pre>
      *
@@ -22453,7 +23440,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.0, 2.0, 3.0};
-     * Arrays37.multipliedBy(array, 3.0);
+     * Arrays.multipliedBy(array, 3.0);
      * // array is now {3.0, 6.0, 9.0}
      * </code></pre>
      *
@@ -22477,7 +23464,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * Arrays37.multipliedBy(matrix, 2.5);
+     * Arrays.multipliedBy(matrix, 2.5);
      * // matrix is now {{2.5, 5.0}, {7.5, 10.0}}
      * </code></pre>
      *
@@ -22501,7 +23488,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
-     * Arrays37.multipliedBy(cube, 1.5);
+     * Arrays.multipliedBy(cube, 1.5);
      * // cube is now {{{1.5}, {3.0}}, {{4.5}, {6.0}}}
      * </code></pre>
      *
@@ -22524,7 +23511,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {10.0, 20.0, 30.0};
-     * Arrays37.dividedBy(array, 2.0);
+     * Arrays.dividedBy(array, 2.0);
      * // array is now {5.0, 10.0, 15.0}
      * </code></pre>
      *
@@ -22548,7 +23535,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{10.0, 20.0}, {30.0, 40.0}};
-     * Arrays37.dividedBy(matrix, 10.0);
+     * Arrays.dividedBy(matrix, 10.0);
      * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
      * </code></pre>
      *
@@ -22572,7 +23559,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{10.0}, {20.0}}, {{30.0}, {40.0}}};
-     * Arrays37.dividedBy(cube, 2.0);
+     * Arrays.dividedBy(cube, 2.0);
      * // cube is now {{{5.0}, {10.0}}, {{15.0}, {20.0}}}
      * </code></pre>
      *
@@ -22594,7 +23581,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.0, -2.0, 3.0};
-     * Arrays37.updateAll(array, x -> Math.abs(x));
+     * Arrays.updateAll(array, x -> Math.abs(x));
      * // array is now {1.0, 2.0, 3.0}
      * </code></pre>
      *
@@ -22618,7 +23605,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, 4.0}, {9.0, 16.0}};
-     * Arrays37.updateAll(matrix, x -> Math.sqrt(x));
+     * Arrays.updateAll(matrix, x -> Math.sqrt(x));
      * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
      * </code></pre>
      *
@@ -22642,7 +23629,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.1}, {2.8}}, {{3.3}, {4.6}}};
-     * Arrays37.updateAll(cube, x -> Math.round(x));
+     * Arrays.updateAll(cube, x -> Math.round(x));
      * // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
      * </code></pre>
      *
@@ -22666,7 +23653,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.0, -2.0, 3.0, -4.0};
-     * Arrays37.replaceIf(array, x -> x < 0, 0.0);
+     * Arrays.replaceIf(array, x -> x < 0, 0.0);
      * // array is now {1.0, 0.0, 3.0, 0.0}
      * </code></pre>
      *
@@ -22693,7 +23680,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, -2.0}, {Double.NaN, 4.0}};
-     * Arrays37.replaceIf(matrix, x -> Double.isNaN(x), 0.0);
+     * Arrays.replaceIf(matrix, x -> Double.isNaN(x), 0.0);
      * // matrix is now {{1.0, -2.0}, {0.0, 4.0}}
      * </code></pre>
      *
@@ -22718,7 +23705,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.0}, {Double.POSITIVE_INFINITY}}, {{3.0}, {-4.0}}};
-     * Arrays37.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
+     * Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
      * // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
      * </code></pre>
      *
@@ -22745,7 +23732,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1, 2, 3, 4, 5, 6, 7};
-     * double[][] matrix = Arrays37.reshape(array, 3);
+     * double[][] matrix = Arrays.reshape(array, 3);
      * // matrix is now {{1, 2, 3}, {4, 5, 6}, {7}}
      * </code></pre>
      *
@@ -22779,7 +23766,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-     * double[][][] cube = Arrays37.reshape(array, 2, 3);
+     * double[][][] cube = Arrays.reshape(array, 2, 3);
      * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
      * </code></pre>
      *
@@ -22817,7 +23804,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * double[] array = Arrays37.flatten(matrix);
+     * double[] array = Arrays.flatten(matrix);
      * // array is now {1.0, 2.0, 3.0, 4.0}
      * </code></pre>
      *
@@ -22853,7 +23840,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.0}, {2.0, 3.0}}, {{4.0}}};
-     * double[] array = Arrays37.flatten(cube);
+     * double[] array = Arrays.flatten(cube);
      * // array is now {1.0, 2.0, 3.0, 4.0}
      * </code></pre>
      *
@@ -22897,7 +23884,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
-     * Arrays37.flatOp(matrix, arr -> N.sort(arr));
+     * Arrays.flatOp(matrix, arr -> N.sort(arr));
      * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
      * </code></pre>
      *
@@ -22933,7 +23920,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
-     * Arrays37.flatOp(cube, arr -> N.sort(arr));
+     * Arrays.flatOp(cube, arr -> N.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
      * </code></pre>
      *
@@ -22972,7 +23959,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6, 7};
-     * double[] result = Arrays37.add(a, b);
+     * double[] result = Arrays.add(a, b);
      * // result is {5, 7, 9}
      * </code></pre>
      *
@@ -23001,7 +23988,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2};
      * double[] b = {10, 20, 30};
-     * double[] result = Arrays37.add(a, b, 0.0, 0.0);
+     * double[] result = Arrays.add(a, b, 0.0, 0.0);
      * // result is {11, 22, 30}
      * </code></pre>
      *
@@ -23065,7 +24052,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6};
      * double[] c = {7, 8, 9};
-     * double[] result = Arrays37.add(a, b, c);
+     * double[] result = Arrays.add(a, b, c);
      * // result is {12, 15, 18}
      * </code></pre>
      *
@@ -23097,7 +24084,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1};
      * double[] b = {10, 20};
      * double[] c = {100, 200, 300};
-     * double[] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * double[] result = Arrays.add(a, b, c, 0, 0, 0);
      * // result is {111, 220, 300}
      * </code></pre>
      *
@@ -23160,7 +24147,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{1, 2}, {3, 4}};
      * double[][] b = {{5, 6}, {7, 8}};
-     * double[][] result = Arrays37.add(a, b);
+     * double[][] result = Arrays.add(a, b);
      * // result is {{6, 8}, {10, 12}}
      * </code></pre>
      *
@@ -23189,7 +24176,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{1}, {2, 3}};
      * double[][] b = {{10, 20}, {30}};
-     * double[][] result = Arrays37.add(a, b, 0, 0);
+     * double[][] result = Arrays.add(a, b, 0, 0);
      * // result is {{11, 20}, {32, 3}}
      * </code></pre>
      *
@@ -23254,7 +24241,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{1, 1}, {1, 1}};
      * double[][] b = {{2, 2}, {2, 2}};
      * double[][] c = {{3, 3}, {3, 3}};
-     * double[][] result = Arrays37.add(a, b, c);
+     * double[][] result = Arrays.add(a, b, c);
      * // result is {{6, 6}, {6, 6}}
      * </code></pre>
      *
@@ -23285,7 +24272,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{1}};
      * double[][] b = {{10, 20}};
      * double[][] c = {{100, 200}, {300}};
-     * double[][] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * double[][] result = Arrays.add(a, b, c, 0, 0, 0);
      * // result is {{111, 220}, {300}}
      * </code></pre>
      *
@@ -23345,7 +24332,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{2}}};
-     * double[][][] result = Arrays37.add(a, b);
+     * double[][][] result = Arrays.add(a, b);
      * // result is {{{3}}}
      * </code></pre>
      *
@@ -23373,7 +24360,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{1}, {2}}};
      * double[][][] b = {{{10}}, {{30}}};
-     * double[][][] result = Arrays37.add(a, b, 0, 0);
+     * double[][][] result = Arrays.add(a, b, 0, 0);
      * // result is {{{11}, {2}}, {{30}}}
      * </code></pre>
      *
@@ -23415,7 +24402,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{2}}};
      * double[][][] c = {{{3}}};
-     * double[][][] result = Arrays37.add(a, b, c);
+     * double[][][] result = Arrays.add(a, b, c);
      * // result is {{{6}}}
      * </code></pre>
      *
@@ -23446,7 +24433,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{10}}, {{20}}};
      * double[][][] c = {{{100}}, {{200}}, {{300}}};
-     * double[][][] result = Arrays37.add(a, b, c, 0, 0, 0);
+     * double[][][] result = Arrays.add(a, b, c, 0, 0, 0);
      * // result is {{{111}}, {{220}}, {{300}}}
      * </code></pre>
      *
@@ -23484,7 +24471,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {10, 20, 30};
      * double[] b = {1, 2, 3, 4};
-     * double[] result = Arrays37.subtract(a, b);
+     * double[] result = Arrays.subtract(a, b);
      * // result is {9, 18, 27}
      * </code></pre>
      *
@@ -23513,7 +24500,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {100, 200};
      * double[] b = {10, 20, 30};
-     * double[] result = Arrays37.subtract(a, b, 0, 0);
+     * double[] result = Arrays.subtract(a, b, 0, 0);
      * // result is {90, 180, -30}
      * </code></pre>
      *
@@ -23577,7 +24564,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100, 200, 300};
      * double[] b = {10, 20, 30};
      * double[] c = {1, 2, 3};
-     * double[] result = Arrays37.subtract(a, b, c);
+     * double[] result = Arrays.subtract(a, b, c);
      * // result is {89, 178, 267}
      * </code></pre>
      *
@@ -23609,7 +24596,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100};
      * double[] b = {10, 20};
      * double[] c = {1, 2, 3};
-     * double[] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * double[] result = Arrays.subtract(a, b, c, 0, 0, 0);
      * // result is {89, -22, -3}
      * </code></pre>
      *
@@ -23670,7 +24657,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{10, 20}, {30, 40}};
      * double[][] b = {{1, 2}, {3, 4}};
-     * double[][] result = Arrays37.subtract(a, b);
+     * double[][] result = Arrays.subtract(a, b);
      * // result is {{9, 18}, {27, 36}}
      * </code></pre>
      *
@@ -23698,7 +24685,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{100}, {200, 300}};
      * double[][] b = {{10, 20}, {30}};
-     * double[][] result = Arrays37.subtract(a, b, 0, 0);
+     * double[][] result = Arrays.subtract(a, b, 0, 0);
      * // result is {{90, -20}, {170, 300}}
      * </code></pre>
      *
@@ -23761,7 +24748,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{10, 10}, {10, 10}};
      * double[][] b = {{1, 1}, {1, 1}};
      * double[][] c = {{2, 2}, {2, 2}};
-     * double[][] result = Arrays37.subtract(a, b, c);
+     * double[][] result = Arrays.subtract(a, b, c);
      * // result is {{7, 7}, {7, 7}}
      * </code></pre>
      *
@@ -23792,7 +24779,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{100}};
      * double[][] b = {{10}, {20}};
      * double[][] c = {{1, 2}, {3, 4}};
-     * double[][] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * double[][] result = Arrays.subtract(a, b, c, 0, 0, 0);
      * // result is {{89, -2}, {-23, -4}}
      * </code></pre>
      *
@@ -23852,7 +24839,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{10}}};
      * double[][][] b = {{{3}}};
-     * double[][][] result = Arrays37.subtract(a, b);
+     * double[][][] result = Arrays.subtract(a, b);
      * // result is {{{7}}}
      * </code></pre>
      *
@@ -23880,7 +24867,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{100}}, {{200}}};
      * double[][][] b = {{{10, 20}}};
-     * double[][][] result = Arrays37.subtract(a, b, 0.0, 0.0);
+     * double[][][] result = Arrays.subtract(a, b, 0.0, 0.0);
      * // result is {{{90.0, -20.0}}}, {{{200.0}}}
      * </code></pre>
      *
@@ -23921,7 +24908,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{10}}};
      * double[][][] b = {{{3}}};
      * double[][][] c = {{{1}}};
-     * double[][][] result = Arrays37.subtract(a, b, c);
+     * double[][][] result = Arrays.subtract(a, b, c);
      * // result is {{{6}}}
      * </code></pre>
      *
@@ -23952,7 +24939,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{10}}, {{20}}};
      * double[][][] c = {{{1}}, {{2}}, {{3}}};
-     * double[][][] result = Arrays37.subtract(a, b, c, 0, 0, 0);
+     * double[][][] result = Arrays.subtract(a, b, c, 0, 0, 0);
      * // result is {{{89}}, {{-22}}, {{-3}}}
      * </code></pre>
      *
@@ -23990,7 +24977,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6, 7};
-     * double[] result = Arrays37.multipliedBy(a, b);
+     * double[] result = Arrays.multipliedBy(a, b);
      * // result is {4, 10, 18}
      * </code></pre>
      *
@@ -24019,7 +25006,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2};
      * double[] b = {10, 20, 30};
-     * double[] result = Arrays37.multipliedBy(a, b, 1, 1);
+     * double[] result = Arrays.multipliedBy(a, b, 1, 1);
      * // result is {10, 40, 30}
      * </code></pre>
      *
@@ -24083,7 +25070,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6};
      * double[] c = {1, 2, 1};
-     * double[] result = Arrays37.multipliedBy(a, b, c);
+     * double[] result = Arrays.multipliedBy(a, b, c);
      * // result is {4, 20, 18}
      * </code></pre>
      *
@@ -24115,7 +25102,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1};
      * double[] b = {10, 20};
      * double[] c = {1, 2, 3};
-     * double[] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * double[] result = Arrays.multipliedBy(a, b, c, 1, 1, 1);
      * // result is {10, 40, 3}
      * </code></pre>
      *
@@ -24176,7 +25163,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{1, 2}, {3, 4}};
      * double[][] b = {{5, 6}, {7, 8}};
-     * double[][] result = Arrays37.multipliedBy(a, b);
+     * double[][] result = Arrays.multipliedBy(a, b);
      * // result is {{5, 12}, {21, 32}}
      * </code></pre>
      *
@@ -24204,7 +25191,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{2}, {3, 4}};
      * double[][] b = {{10, 20}, {30}};
-     * double[][] result = Arrays37.multipliedBy(a, b, 1, 1);
+     * double[][] result = Arrays.multipliedBy(a, b, 1, 1);
      * // result is {{20, 20}, {90, 4}}
      * </code></pre>
      *
@@ -24267,7 +25254,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{1, 1}, {1, 1}};
      * double[][] b = {{2, 2}, {2, 2}};
      * double[][] c = {{3, 4}, {5, 6}};
-     * double[][] result = Arrays37.multipliedBy(a, b, c);
+     * double[][] result = Arrays.multipliedBy(a, b, c);
      * // result is {{6, 8}, {10, 12}}
      * </code></pre>
      *
@@ -24298,7 +25285,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{2}};
      * double[][] b = {{3}, {4}};
      * double[][] c = {{5, 6}, {7, 8}};
-     * double[][] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * double[][] result = Arrays.multipliedBy(a, b, c, 1, 1, 1);
      * // result is {{30, 6}, {28, 8}}
      * </code></pre>
      *
@@ -24358,7 +25345,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{2}}};
      * double[][][] b = {{{3}}};
-     * double[][][] result = Arrays37.multipliedBy(a, b);
+     * double[][][] result = Arrays.multipliedBy(a, b);
      * // result is {{{6}}}
      * </code></pre>
      *
@@ -24386,7 +25373,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{2}}, {{3}}};
      * double[][][] b = {{{10, 20}}};
-     * double[][][] result = Arrays37.multipliedBy(a, b, 1.0, 1.0);
+     * double[][][] result = Arrays.multipliedBy(a, b, 1.0, 1.0);
      * // result is {{{20.0, 20.0}}}, {{{3.0}}}
      * </code></pre>
      *
@@ -24427,7 +25414,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{2}}};
      * double[][][] b = {{{3}}};
      * double[][][] c = {{{4}}};
-     * double[][][] result = Arrays37.multipliedBy(a, b, c);
+     * double[][][] result = Arrays.multipliedBy(a, b, c);
      * // result is {{{24}}}
      * </code></pre>
      *
@@ -24458,7 +25445,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{2}}};
      * double[][][] b = {{{3}}, {{4}}};
      * double[][][] c = {{{5}}, {{6}}, {{7}}};
-     * double[][][] result = Arrays37.multipliedBy(a, b, c, 1, 1, 1);
+     * double[][][] result = Arrays.multipliedBy(a, b, c, 1, 1, 1);
      * // result is {{{30}}, {{24}}, {{7}}}
      * </code></pre>
      *
@@ -24496,7 +25483,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {10, 20, 30};
      * double[] b = {2, 5, 6, 7};
-     * double[] result = Arrays37.dividedBy(a, b);
+     * double[] result = Arrays.dividedBy(a, b);
      * // result is {5, 4, 5}
      * </code></pre>
      *
@@ -24525,7 +25512,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {100, 200};
      * double[] b = {10, 20, 30};
-     * double[] result = Arrays37.dividedBy(a, b, 1.0, 1.0);
+     * double[] result = Arrays.dividedBy(a, b, 1.0, 1.0);
      * // result is {10.0, 10.0, 1.0/30.0}
      * </code></pre>
      *
@@ -24589,7 +25576,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100, 200, 300};
      * double[] b = {10, 20, 30};
      * double[] c = {2, 5, 1};
-     * double[] result = Arrays37.dividedBy(a, b, c);
+     * double[] result = Arrays.dividedBy(a, b, c);
      * // result is {5, 2, 10}
      * </code></pre>
      *
@@ -24621,7 +25608,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100};
      * double[] b = {10, 20};
      * double[] c = {1, 2, 3};
-     * double[] result = Arrays37.dividedBy(a, b, c, 1.0, 1.0, 1.0);
+     * double[] result = Arrays.dividedBy(a, b, c, 1.0, 1.0, 1.0);
      * // result is {10.0, 1.0/20.0/2.0, 1.0/1.0/3.0}
      * </code></pre>
      *
@@ -24682,7 +25669,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{10, 20}, {30, 40}};
      * double[][] b = {{2, 5}, {3, 8}};
-     * double[][] result = Arrays37.dividedBy(a, b);
+     * double[][] result = Arrays.dividedBy(a, b);
      * // result is {{5, 4}, {10, 5}}
      * </code></pre>
      *
@@ -24710,7 +25697,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{100}, {200, 300}};
      * double[][] b = {{10, 20}, {40}};
-     * double[][] result = Arrays37.dividedBy(a, b, 1, 1);
+     * double[][] result = Arrays.dividedBy(a, b, 1, 1);
      * // result is {{10.0, 1.0/20.0}, {5.0, 300.0/1.0}}
      * </code></pre>
      *
@@ -24773,7 +25760,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{100, 100}, {100, 100}};
      * double[][] b = {{10, 5}, {2, 1}};
      * double[][] c = {{2, 5}, {2, 10}};
-     * double[][] result = Arrays37.dividedBy(a, b, c);
+     * double[][] result = Arrays.dividedBy(a, b, c);
      * // result is {{5, 4}, {25, 10}}
      * </code></pre>
      *
@@ -24804,7 +25791,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{100}};
      * double[][] b = {{10}, {5}};
      * double[][] c = {{2, 1}, {1, 1}};
-     * double[][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1);
+     * double[][] result = Arrays.dividedBy(a, b, c, 1, 1, 1);
      * // result is {{5, 1}, {1/5, 1}}
      * </code></pre>
      *
@@ -24864,7 +25851,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{10}}};
      * double[][][] b = {{{2}}};
-     * double[][][] result = Arrays37.dividedBy(a, b);
+     * double[][][] result = Arrays.dividedBy(a, b);
      * // result is {{{5}}}
      * </code></pre>
      *
@@ -24892,7 +25879,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{100}}, {{200}}};
      * double[][][] b = {{{10, 2}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, 1.0, 1.0);
+     * double[][][] result = Arrays.dividedBy(a, b, 1.0, 1.0);
      * // result is {{{10.0, 0.5}}}, {{{200.0}}}
      * </code></pre>
      *
@@ -24933,7 +25920,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{10}}};
      * double[][][] c = {{{2}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, c);
+     * double[][][] result = Arrays.dividedBy(a, b, c);
      * // result is {{{5}}}
      * </code></pre>
      *
@@ -24964,7 +25951,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{10}}, {{5}}};
      * double[][][] c = {{{2}}, {{1}}, {{4}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1);
+     * double[][][] result = Arrays.dividedBy(a, b, c, 1, 1, 1);
      * // result is {{{5}}, {{0.2}}, {{0.25}}}
      * </code></pre>
      *
@@ -25003,7 +25990,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {10, 20, 30};
      * double[] b = {2, 0, 3};
-     * double[] result = Arrays37.dividedBy(a, b, 1.0);
+     * double[] result = Arrays.dividedBy(a, b, 1.0);
      * // result is {5, 20, 10}
      * </code></pre>
      *
@@ -25032,7 +26019,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {100, 200};
      * double[] b = {10, 0, 30};
-     * double[] result = Arrays37.dividedBy(a, b, 1.0, 1.0, 1.0);
+     * double[] result = Arrays.dividedBy(a, b, 1.0, 1.0, 1.0);
      * // result is {10.0, 200.0, 1.0/30.0}
      * </code></pre>
      *
@@ -25100,7 +26087,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100, 200, 300};
      * double[] b = {10, 0, 30};
      * double[] c = {2, 5, 0};
-     * double[] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * double[] result = Arrays.dividedBy(a, b, c, 1.0);
      * // result is {5.0, 40.0, 10.0}
      * </code></pre>
      *
@@ -25132,7 +26119,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {100};
      * double[] b = {10, 0};
      * double[] c = {2, 5, 3};
-     * double[] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * double[] result = Arrays.dividedBy(a, b, c, 1, 1, 1, 1);
      * // result is {5.0, 1.0/1.0/5.0, 1.0/1.0/3.0}
      * </code></pre>
      *
@@ -25196,7 +26183,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{10, 20}, {30, 40}};
      * double[][] b = {{2, 0}, {3, 8}};
-     * double[][] result = Arrays37.dividedBy(a, b, 1.0);
+     * double[][] result = Arrays.dividedBy(a, b, 1.0);
      * // result is {{5, 20}, {10, 5}}
      * </code></pre>
      *
@@ -25225,7 +26212,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{100}, {200, 300}};
      * double[][] b = {{10, 0}, {40}};
-     * double[][] result = Arrays37.dividedBy(a, b, 1, 1, 1);
+     * double[][] result = Arrays.dividedBy(a, b, 1, 1, 1);
      * // result is {{10, 1}, {5, 300}}
      * </code></pre>
      *
@@ -25291,7 +26278,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{100, 100}};
      * double[][] b = {{10, 0}};
      * double[][] c = {{2, 5}};
-     * double[][] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * double[][] result = Arrays.dividedBy(a, b, c, 1.0);
      * // result is {{5, 20}}
      * </code></pre>
      *
@@ -25323,7 +26310,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{100}};
      * double[][] b = {{10}, {0}};
      * double[][] c = {{2, 1}, {1, 1}};
-     * double[][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * double[][] result = Arrays.dividedBy(a, b, c, 1, 1, 1, 1);
      * // result is {{5, 1}, {1, 1}}
      * </code></pre>
      *
@@ -25385,7 +26372,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{0}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, 1.0);
+     * double[][][] result = Arrays.dividedBy(a, b, 1.0);
      * // result is {{{100}}}
      * </code></pre>
      *
@@ -25414,7 +26401,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{100}}, {{200}}};
      * double[][][] b = {{{10, 0}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, 1.0, 1.0, 1.0);
+     * double[][][] result = Arrays.dividedBy(a, b, 1.0, 1.0, 1.0);
      * // result is {{{10.0, 1.0}}}, {{{200.0}}}
      * </code></pre>
      *
@@ -25457,7 +26444,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{10}}};
      * double[][][] c = {{{0}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, c, 1.0);
+     * double[][][] result = Arrays.dividedBy(a, b, c, 1.0);
      * // result is {{{10}}}
      * </code></pre>
      *
@@ -25489,7 +26476,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{100}}};
      * double[][][] b = {{{10}}, {{0}}};
      * double[][][] c = {{{2}}, {{5}}, {{3}}};
-     * double[][][] result = Arrays37.dividedBy(a, b, c, 1, 1, 1, 1);
+     * double[][][] result = Arrays.dividedBy(a, b, c, 1, 1, 1, 1);
      * // result is {{{5.0}}, {{1.0/1.0/5.0}}, {{1.0/1.0/3.0}}}
      * </code></pre>
      *
@@ -25529,7 +26516,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6};
-     * double[] result = Arrays37.zip(a, b, (x, y) -> Math.pow(x, y));
+     * double[] result = Arrays.zip(a, b, (x, y) -> Math.pow(x, y));
      * // result is {1.0, 32.0, 729.0}
      * </code></pre>
      *
@@ -25560,7 +26547,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[] a = {1, 2};
      * double[] b = {10, 20, 30};
-     * double[] result = Arrays37.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
+     * double[] result = Arrays.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
      * // result is {11, 22, 30}
      * </code></pre>
      *
@@ -25631,7 +26618,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1, 2, 3};
      * double[] b = {4, 5, 6};
      * double[] c = {7, 8, 9};
-     * double[] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * double[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result is {12, 15, 18}
      * </code></pre>
      *
@@ -25666,7 +26653,7 @@ public sealed class Arrays permits Arrays.f {
      * double[] a = {1};
      * double[] b = {10, 20};
      * double[] c = {100, 200, 300};
-     * double[] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+     * double[] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
      * // result is {111, 220, 300}
      * </code></pre>
      *
@@ -25732,7 +26719,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{1, 2}, {3, 4}};
      * double[][] b = {{5, 6}, {7, 8}};
-     * double[][] result = Arrays37.zip(a, b, (x, y) -> x * y);
+     * double[][] result = Arrays.zip(a, b, (x, y) -> x * y);
      * // result is {{5, 12}, {21, 32}}
      * </code></pre>
      *
@@ -25764,7 +26751,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][] a = {{1}, {2, 3}};
      * double[][] b = {{10, 20}, {30}};
-     * double[][] result = Arrays37.zip(a, b, 0, 0, (x, y) -> x + y);
+     * double[][] result = Arrays.zip(a, b, 0, 0, (x, y) -> x + y);
      * // result is {{11, 20}, {32, 3}}
      * </code></pre>
      *
@@ -25833,7 +26820,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{1, 1}};
      * double[][] b = {{2, 2}};
      * double[][] c = {{3, 3}};
-     * double[][] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * double[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result is {{6, 6}}
      * </code></pre>
      *
@@ -25868,7 +26855,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][] a = {{1}};
      * double[][] b = {{10}, {20}};
      * double[][] c = {{100, 200}, {300}};
-     * double[][] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
+     * double[][] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
      * // result is {{111, 200}, {320}}
      * </code></pre>
      *
@@ -25934,7 +26921,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{2}}};
-     * double[][][] result = Arrays37.zip(a, b, (x, y) -> x + y);
+     * double[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
      * // result is {{{3}}}
      * </code></pre>
      *
@@ -25966,7 +26953,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre><code>
      * double[][][] a = {{{1}}, {{2}}};
      * double[][][] b = {{{10, 20}}};
-     * double[][][] result = Arrays37.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
+     * double[][][] result = Arrays.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
      * // result is {{{11.0, 20.0}}}, {{{2.0}}}
      * </code></pre>
      *
@@ -26011,7 +26998,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{2}}};
      * double[][][] c = {{{3}}};
-     * double[][][] result = Arrays37.zip(a, b, c, (x, y, z) -> x + y + z);
+     * double[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
      * // result is {{{6}}}
      * </code></pre>
      *
@@ -26046,7 +27033,7 @@ public sealed class Arrays permits Arrays.f {
      * double[][][] a = {{{1}}};
      * double[][][] b = {{{10}}, {{20}}};
      * double[][][] c = {{{100}}, {{200}}, {{300}}};
-     * double[][][] result = Arrays37.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
+     * double[][][] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x+y+z);
      * // result is {{{111}}, {{220}}, {{300}}}
      * </code></pre>
      *
@@ -26085,7 +27072,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1, 2}, {3, 4, 5}, null, {}};
-     * long count = Arrays37.totalCountOfElements(matrix);
+     * long count = Arrays.totalCountOfElements(matrix);
      * // count is 5
      * </code></pre>
      *
@@ -26107,7 +27094,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1}, {2, 3}}, null, {{{4}}}};
-     * long count = Arrays37.totalCountOfElements(cube);
+     * long count = Arrays.totalCountOfElements(cube);
      * // count is 4
      * </code></pre>
      *
@@ -26140,7 +27127,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int minLen = Arrays37.minSubArrayLen(matrix);
+     * int minLen = Arrays.minSubArrayLen(matrix);
      * // minLen is 0
      * </code></pre>
      *
@@ -26167,7 +27154,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
-     * int maxLen = Arrays37.maxSubArrayLen(matrix);
+     * int maxLen = Arrays.maxSubArrayLen(matrix);
      * // maxLen is 3
      * </code></pre>
      *
@@ -26194,7 +27181,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.1, 2.2, 3.3};
-     * Arrays37.println(array); // Prints "[1.1, 2.2, 3.3]"
+     * Arrays.println(array); // Prints "[1.1, 2.2, 3.3]"
      * </code></pre>
      *
      * @param a the array to print.
@@ -26216,7 +27203,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * Arrays37.println(matrix); // Prints "[[1.0, 2.0],\n [3.0, 4.0]]" (format may vary)
+     * Arrays.println(matrix); // Prints "[[1.0, 2.0],\n [3.0, 4.0]]" (format may vary)
      * </code></pre>
      *
      * @param a the 2D array to print.
@@ -26276,7 +27263,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
-     * Arrays37.println(cube); // Prints a formatted representation of the 3D array.
+     * Arrays.println(cube); // Prints a formatted representation of the 3D array.
      * </code></pre>
      *
      * @param a the 3D array to print.
@@ -26353,7 +27340,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * byte[] bytes = {1, 0, -1, 5};
-     * boolean[] bools = Arrays37.toBoolean(bytes);
+     * boolean[] bools = Arrays.toBoolean(bytes);
      * // bools is {true, false, false, true}
      * </code></pre>
      *
@@ -26425,7 +27412,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * int[] ints = {1, 0, -1, 5};
-     * boolean[] bools = Arrays37.toBoolean(ints);
+     * boolean[] bools = Arrays.toBoolean(ints);
      * // bools is {true, false, false, true}
      * </code></pre>
      *
@@ -26496,7 +27483,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * int[] ints = {65, 66, 67};
-     * char[] chars = Arrays37.toChar(ints);
+     * char[] chars = Arrays.toChar(ints);
      * // chars is {'A', 'B', 'C'}
      * </code></pre>
      *
@@ -26568,7 +27555,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * boolean[] bools = {true, false, true};
-     * byte[] bytes = Arrays37.toByte(bools);
+     * byte[] bytes = Arrays.toByte(bools);
      * // bytes is {1, 0, 1}
      * </code></pre>
      *
@@ -26639,7 +27626,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * byte[] bytes = {10, 20, 30};
-     * short[] shorts = Arrays37.toShort(bytes);
+     * short[] shorts = Arrays.toShort(bytes);
      * // shorts is {10, 20, 30}
      * </code></pre>
      *
@@ -26711,7 +27698,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * boolean[] bools = {true, false, true};
-     * int[] ints = Arrays37.toInt(bools);
+     * int[] ints = Arrays.toInt(bools);
      * // ints is {1, 0, 1}
      * </code></pre>
      *
@@ -26782,7 +27769,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * char[] chars = {'A', 'B', 'C'};
-     * int[] ints = Arrays37.toInt(chars);
+     * int[] ints = Arrays.toInt(chars);
      * // ints is {65, 66, 67}
      * </code></pre>
      *
@@ -26853,7 +27840,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * byte[] bytes = {10, 20, 30};
-     * int[] ints = Arrays37.toInt(bytes);
+     * int[] ints = Arrays.toInt(bytes);
      * // ints is {10, 20, 30}
      * </code></pre>
      *
@@ -26924,7 +27911,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * short[] shorts = {100, 200, 300};
-     * int[] ints = Arrays37.toInt(shorts);
+     * int[] ints = Arrays.toInt(shorts);
      * // ints is {100, 200, 300}
      * </code></pre>
      *
@@ -26995,7 +27982,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] floats = {1.1f, 2.9f, -3.5f};
-     * int[] ints = Arrays37.toInt(floats);
+     * int[] ints = Arrays.toInt(floats);
      * // ints is {1, 2, -3}
      * </code></pre>
      *
@@ -27066,7 +28053,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] doubles = {1.1, 2.9, -3.5};
-     * int[] ints = Arrays37.toInt(doubles);
+     * int[] ints = Arrays.toInt(doubles);
      * // ints is {1, 2, -3}
      * </code></pre>
      *
@@ -27137,7 +28124,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * byte[] bytes = {10, 20, 30};
-     * long[] longs = Arrays37.toLong(bytes);
+     * long[] longs = Arrays.toLong(bytes);
      * // longs is {10L, 20L, 30L}
      * </code></pre>
      *
