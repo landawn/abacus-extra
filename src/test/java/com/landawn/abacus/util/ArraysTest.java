@@ -114,6 +114,1014 @@ class ArraysTest {
     }
 
     @Nested
+    public class BooleanArrayTest {
+
+        @Test
+        public void testZip1D_TwoArrays_SameLength() throws Exception {
+            boolean[] a = { true, false, true, false };
+            boolean[] b = { false, true, false, true };
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] { false, false, false, false }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArrays_DifferentLength_FirstShorter() throws Exception {
+            boolean[] a = { true, false };
+            boolean[] b = { false, true, false, true };
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArrays_DifferentLength_SecondShorter() throws Exception {
+            boolean[] a = { true, false, true, false };
+            boolean[] b = { false, true };
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArrays_EmptyArrays() throws Exception {
+            boolean[] a = {};
+            boolean[] b = {};
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArrays_NullArrays() throws Exception {
+            boolean[] a = null;
+            boolean[] b = null;
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArrays_OneNull() throws Exception {
+            boolean[] a = { true, false };
+            boolean[] b = null;
+
+            boolean[] result = Arrays.zip(a, b, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_SameLength() throws Exception {
+            boolean[] a = { true, false, true };
+            boolean[] b = { false, true, false };
+
+            boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] { false, false, false }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_FirstShorter() throws Exception {
+            boolean[] a = { true, false };
+            boolean[] b = { false, true, false, true };
+
+            boolean[] result = Arrays.zip(a, b, true, false, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true, true, true }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_SecondShorter() throws Exception {
+            boolean[] a = { true, false, true, false };
+            boolean[] b = { false, true };
+
+            boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x ^ y);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true, false, true }, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_EmptyArrays() throws Exception {
+            boolean[] a = {};
+            boolean[] b = {};
+
+            boolean[] result = Arrays.zip(a, b, true, false, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_NullArrays() throws Exception {
+            boolean[] a = null;
+            boolean[] b = null;
+
+            boolean[] result = Arrays.zip(a, b, true, false, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_TwoArraysWithDefaults_OneNullOneNonEmpty() throws Exception {
+            boolean[] a = null;
+            boolean[] b = { true, false, true };
+
+            boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[] { true, false, true }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArrays_SameLength() throws Exception {
+            boolean[] a = { true, false, true };
+            boolean[] b = { false, true, false };
+            boolean[] c = { true, true, false };
+
+            boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true, true }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArrays_DifferentLengths() throws Exception {
+            boolean[] a = { true, false, true, false };
+            boolean[] b = { false, true };
+            boolean[] c = { true, true, false };
+
+            boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[] { false, false }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArrays_EmptyArrays() throws Exception {
+            boolean[] a = {};
+            boolean[] b = { true };
+            boolean[] c = { false, true };
+
+            boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArrays_NullArrays() throws Exception {
+            boolean[] a = null;
+            boolean[] b = null;
+            boolean[] c = null;
+
+            boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArraysWithDefaults_SameLength() throws Exception {
+            boolean[] a = { true, false, true };
+            boolean[] b = { false, true, false };
+            boolean[] c = { true, true, false };
+
+            boolean[] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[] { false, false, false }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArraysWithDefaults_DifferentLengths() throws Exception {
+            boolean[] a = { true, false, true, false };
+            boolean[] b = { false, true };
+            boolean[] c = { true, true, false };
+
+            boolean[] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[] { true, true, true, true }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArraysWithDefaults_OneEmpty() throws Exception {
+            boolean[] a = {};
+            boolean[] b = { true, false };
+            boolean[] c = { false, true, false };
+
+            boolean[] result = Arrays.zip(a, b, c, true, false, true, (x, y, z) -> x ^ y ^ z);
+
+            Assertions.assertArrayEquals(new boolean[] { false, false, true }, result);
+        }
+
+        @Test
+        public void testZip1D_ThreeArraysWithDefaults_AllNull() throws Exception {
+            boolean[] a = null;
+            boolean[] b = null;
+            boolean[] c = null;
+
+            boolean[] result = Arrays.zip(a, b, c, true, false, true, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[] {}, result);
+        }
+
+        // Test cases for 2D boolean array zip methods
+
+        @Test
+        public void testZip2D_TwoArrays_SameStructure() throws Exception {
+            boolean[][] a = { { true, false }, { false, true } };
+            boolean[][] b = { { false, true }, { true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArrays_DifferentOuterLength() throws Exception {
+            boolean[][] a = { { true, false }, { false, true }, { true, true } };
+            boolean[][] b = { { false, true }, { true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { false, false }, { false, false } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArrays_DifferentInnerLengths() throws Exception {
+            boolean[][] a = { { true, false, true }, { false, true } };
+            boolean[][] b = { { false, true }, { true, false, true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArrays_EmptyArrays() throws Exception {
+            boolean[][] a = {};
+            boolean[][] b = {};
+
+            boolean[][] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][] {}, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArrays_NullArrays() throws Exception {
+            boolean[][] a = null;
+            boolean[][] b = null;
+
+            boolean[][] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][] {}, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArraysWithDefaults_SameStructure() throws Exception {
+            boolean[][] a = { { true, false }, { false, true } };
+            boolean[][] b = { { false, true }, { true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, true, false, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { false, false }, { false, false } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArraysWithDefaults_DifferentOuterLength() throws Exception {
+            boolean[][] a = { { true, false } };
+            boolean[][] b = { { false, true }, { true, false }, { true, true } };
+
+            boolean[][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true }, { true, false }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArraysWithDefaults_DifferentInnerLengths() throws Exception {
+            boolean[][] a = { { true, false }, { false, true, false } };
+            boolean[][] b = { { false, true, false }, { true, false }, { true } };
+
+            boolean[][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true, false }, { true, true, true }, { true } }, result);
+        }
+
+        @Test
+        public void testZip2D_TwoArraysWithDefaults_NullSubArrays() throws Exception {
+            boolean[][] a = { { true, false }, null };
+            boolean[][] b = { null, { false, true } };
+
+            boolean[][] result = Arrays.zip(a, b, true, false, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, false }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_ThreeArrays_SameStructure() throws Exception {
+            boolean[][] a = { { true, false }, { false, true } };
+            boolean[][] b = { { false, true }, { true, false } };
+            boolean[][] c = { { true, true }, { false, false } };
+
+            boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_ThreeArrays_DifferentOuterLengths() throws Exception {
+            boolean[][] a = { { true, false }, { false, true }, { true, true } };
+            boolean[][] b = { { false, true } };
+            boolean[][] c = { { true, true }, { false, false } };
+
+            boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[][] { { false, false } }, result);
+        }
+
+        @Test
+        public void testZip2D_ThreeArrays_EmptyAndNull() throws Exception {
+            boolean[][] a = {};
+            boolean[][] b = null;
+            boolean[][] c = { { true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][] {}, result);
+        }
+
+        @Test
+        public void testZip2D_ThreeArraysWithDefaults_SameStructure() throws Exception {
+            boolean[][] a = { { true, false }, { false, true } };
+            boolean[][] b = { { false, true }, { true, false } };
+            boolean[][] c = { { true, true }, { false, false } };
+
+            boolean[][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x ^ y ^ z);
+
+            Assertions.assertArrayEquals(new boolean[][] { { false, false }, { true, true } }, result);
+        }
+
+        @Test
+        public void testZip2D_ThreeArraysWithDefaults_DifferentStructures() throws Exception {
+            boolean[][] a = { { true } };
+            boolean[][] b = { { false, true }, { true } };
+            boolean[][] c = { { true, true, false } };
+
+            boolean[][] result = Arrays.zip(a, b, c, false, false, true, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][] { { true, true, false }, { true } }, result);
+        }
+
+        // Test cases for 3D boolean array zip methods
+
+        @Test
+        public void testZip3D_TwoArrays_SameStructure() throws Exception {
+            boolean[][][] a = { { { true, false }, { false, true } }, { { true, true }, { false, false } } };
+            boolean[][][] b = { { { false, true }, { true, false } }, { { false, false }, { true, true } } };
+
+            boolean[][][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { true, true }, { true, true } }, { { true, true }, { true, true } } }, result);
+        }
+
+        @Test
+        public void testZip3D_TwoArrays_DifferentOuterLength() throws Exception {
+            boolean[][][] a = { { { true, false } }, { { false, true } }, { { true, true } } };
+            boolean[][][] b = { { { false, true } }, { { true, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { false, false } }, { { false, false } } }, result);
+        }
+
+        @Test
+        public void testZip3D_TwoArrays_EmptyAndNull() throws Exception {
+            boolean[][][] a = {};
+            boolean[][][] b = null;
+
+            boolean[][][] result = Arrays.zip(a, b, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][][] {}, result);
+        }
+
+        @Test
+        public void testZip3D_TwoArraysWithDefaults_SameStructure() throws Exception {
+            boolean[][][] a = { { { true, false }, { false, true } }, { { true, true }, { false, false } } };
+            boolean[][][] b = { { { false, true }, { true, false } }, { { false, false }, { true, true } } };
+
+            boolean[][][] result = Arrays.zip(a, b, true, false, (x, y) -> x && y);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { false, false }, { false, false } }, { { false, false }, { false, false } } }, result);
+        }
+
+        @Test
+        public void testZip3D_TwoArraysWithDefaults_DifferentStructures() throws Exception {
+            boolean[][][] a = { { { true, false } }, { { false } } };
+            boolean[][][] b = { { { false, true }, { true, false } }, { { true, true } }, { { false, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { true, true }, { true, false } }, { { true, true } }, { { false, false } } }, result);
+        }
+
+        @Test
+        public void testZip3D_ThreeArrays_SameStructure() throws Exception {
+            boolean[][][] a = { { { true, false } }, { { false, true } } };
+            boolean[][][] b = { { { false, true } }, { { true, false } } };
+            boolean[][][] c = { { { true, true } }, { { false, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { true, true } }, { { true, true } } }, result);
+        }
+
+        @Test
+        public void testZip3D_ThreeArrays_DifferentOuterLengths() throws Exception {
+            boolean[][][] a = { { { true, false } }, { { false, true } }, { { true, true } } };
+            boolean[][][] b = { { { false, true } } };
+            boolean[][][] c = { { { true, true } }, { { false, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x && y && z);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { false, false } } }, result);
+        }
+
+        @Test
+        public void testZip3D_ThreeArrays_NullArrays() throws Exception {
+            boolean[][][] a = null;
+            boolean[][][] b = null;
+            boolean[][][] c = null;
+
+            boolean[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][][] {}, result);
+        }
+
+        @Test
+        public void testZip3D_ThreeArraysWithDefaults_SameStructure() throws Exception {
+            boolean[][][] a = { { { true, false } }, { { false, true } } };
+            boolean[][][] b = { { { false, true } }, { { true, false } } };
+            boolean[][][] c = { { { true, true } }, { { false, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x ^ y ^ z);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { false, false } }, { { true, true } } }, result);
+        }
+
+        @Test
+        public void testZip3D_ThreeArraysWithDefaults_ComplexStructure() throws Exception {
+            boolean[][][] a = { { { true } } };
+            boolean[][][] b = { { { false, true }, { true } }, { { false } } };
+            boolean[][][] c = { { { true, true, false } } };
+
+            boolean[][][] result = Arrays.zip(a, b, c, true, false, true, (x, y, z) -> x || y || z);
+
+            Assertions.assertArrayEquals(new boolean[][][] { { { true, true, true }, { true } }, { { true } } }, result);
+        }
+
+        // Exception handling tests
+
+        @Test
+        public void testZip1D_TwoArrays_ExceptionPropagation() {
+            boolean[] a = { true, false };
+            boolean[] b = { false, true };
+
+            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+                throw new RuntimeException("Test exception");
+            };
+
+            Assertions.assertThrows(RuntimeException.class, () -> Arrays.zip(a, b, errorFunction));
+        }
+
+        @Test
+        public void testZip1D_ThreeArrays_ExceptionPropagation() {
+            boolean[] a = { true };
+            boolean[] b = { false };
+            boolean[] c = { true };
+
+            Throwables.BooleanTriFunction<Boolean, RuntimeException> errorFunction = (x, y, z) -> {
+                throw new RuntimeException("Test exception");
+            };
+
+            Assertions.assertThrows(RuntimeException.class, () -> Arrays.zip(a, b, c, errorFunction));
+        }
+
+        @Test
+        public void testZip2D_TwoArrays_ExceptionPropagation() {
+            boolean[][] a = { { true } };
+            boolean[][] b = { { false } };
+
+            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+                throw new RuntimeException("Test exception");
+            };
+
+            Assertions.assertThrows(RuntimeException.class, () -> Arrays.zip(a, b, errorFunction));
+        }
+
+        @Test
+        public void testZip3D_TwoArrays_ExceptionPropagation() {
+            boolean[][][] a = { { { true } } };
+            boolean[][][] b = { { { false } } };
+
+            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+                throw new RuntimeException("Test exception");
+            };
+
+            Assertions.assertThrows(RuntimeException.class, () -> Arrays.zip(a, b, errorFunction));
+        }
+    }
+
+    @Nested
+    public class CharArrayTest {
+
+        // Tests for zip(char[], char[], CharBiFunction)
+
+        @Test
+        public void testZipTwoCharArrays() throws Exception {
+            // Test normal case with equal length arrays
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
+            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '\\' }, result);
+        }
+
+        @Test
+        public void testZipTwoCharArraysDifferentLengths() throws Exception {
+            // Test with first array longer
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
+            // result: {'X', 'Z', '\'}
+            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '\\' }, result);
+        }
+
+        @Test
+        public void testZipTwoCharArraysWithNulls() throws Exception {
+            // Test with first array null
+            char[] a = null;
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] result = Arrays.zip(a, b, (x, y) -> (char) (x + y));
+            Assertions.assertArrayEquals(new char[] {}, result);
+
+            // Test with second array null
+            char[] a2 = { 'A', 'B', 'C' };
+            char[] b2 = null;
+            char[] result2 = Arrays.zip(a2, b2, (x, y) -> (char) (x + y));
+            Assertions.assertArrayEquals(new char[] {}, result2);
+
+            // Test with both arrays null
+            char[] result3 = Arrays.zip((char[]) null, null, (x, y) -> (char) (x + y));
+            Assertions.assertArrayEquals(new char[] {}, result3);
+        }
+
+        @Test
+        public void testZipTwoCharArraysEmptyArrays() throws Exception {
+            // Test with empty arrays
+            char[] a = {};
+            char[] b = {};
+            char[] result = Arrays.zip(a, b, (x, y) -> (char) (x + y));
+            Assertions.assertArrayEquals(new char[] {}, result);
+
+            // Test with one empty array
+            char[] a2 = { 'A', 'B' };
+            char[] b2 = {};
+            char[] result2 = Arrays.zip(a2, b2, (x, y) -> (char) (x + y));
+            Assertions.assertArrayEquals(new char[] {}, result2);
+        }
+
+        @Test
+        public void testZipTwoCharArraysException() {
+            char[] a = { 'A', 'B', 'C' };
+            char[] b = { 'X', 'Y', 'Z' };
+
+            Assertions.assertThrows(Exception.class, () -> {
+                Arrays.zip(a, b, (Throwables.CharBiFunction<Character, Exception>) (x, y) -> {
+                    throw new Exception("Test exception");
+                });
+            });
+        }
+
+        // Tests for zip(char[], char[], char, char, CharBiFunction)
+
+        @Test
+        public void testZipTwoCharArraysWithDefaults() throws Exception {
+            // Test with first array longer
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y' };
+            char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
+            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '#', '$' }, result);
+        }
+
+        @Test
+        public void testZipTwoCharArraysWithDefaultsEqualLength() throws Exception {
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y' };
+            char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
+            // result: {'X', 'Z', '#', '$'} (using '!' for missing b elements)
+            Assertions.assertArrayEquals(new char[] { 'X', 'Z', '#', '$' }, result);
+        }
+
+        @Test
+        public void testZipTwoCharArraysWithDefaultsNulls() throws Exception {
+            // Test with first array null
+            char[] a = null;
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> y);
+            Assertions.assertArrayEquals(new char[] { 'X', 'Y', 'Z' }, result);
+
+            // Test with second array null
+            char[] a2 = { 'A', 'B', 'C' };
+            char[] b2 = null;
+            char[] result2 = Arrays.zip(a2, b2, '?', '!', (x, y) -> x);
+            Assertions.assertArrayEquals(new char[] { 'A', 'B', 'C' }, result2);
+
+            // Test with both arrays null
+            char[] result3 = Arrays.zip((char[]) null, null, '?', '!', (x, y) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result3);
+        }
+
+        @Test
+        public void testZipTwoCharArraysWithDefaultsEmptyArrays() throws Exception {
+            // Test with one empty array
+            char[] a = { 'A', 'B' };
+            char[] b = {};
+            char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> x);
+            Assertions.assertArrayEquals(new char[] { 'A', 'B' }, result);
+
+            // Test with both empty arrays
+            char[] a2 = {};
+            char[] b2 = {};
+            char[] result2 = Arrays.zip(a2, b2, '?', '!', (x, y) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result2);
+        }
+
+        // Tests for zip(char[], char[], char[], CharTriFunction)
+
+        @Test
+        public void testZipThreeCharArrays() throws Exception {
+            // Test normal case with equal length arrays
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] c = { '1', '3' };
+            char[] result = Arrays.zip(a, b, c, (x, y, z) -> (char) (x + y + z - 'A' - '0'));
+            Assertions.assertArrayEquals(new char[] { 'Y', ']' }, result);
+        }
+
+        @Test
+        public void testZipThreeCharArraysDifferentLengths() throws Exception {
+            // Test with arrays of different lengths
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] c = { '1', '2' };
+            char[] result = Arrays.zip(a, b, c, (x, y, z) -> (char) (x + y + z - 'A' - '0'));
+            Assertions.assertArrayEquals(new char[] { 'Y', '\\' }, result);
+        }
+
+        @Test
+        public void testZipThreeCharArraysWithNulls() throws Exception {
+            // Test with one null array
+            char[] a = { 'A', 'B', 'C' };
+            char[] b = null;
+            char[] c = { '1', '2', '3' };
+            char[] result = Arrays.zip(a, b, c, (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result);
+
+            // Test with all null arrays
+            char[] result2 = Arrays.zip((char[]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result2);
+        }
+
+        @Test
+        public void testZipThreeCharArraysEmptyArrays() throws Exception {
+            // Test with one empty array
+            char[] a = { 'A', 'B' };
+            char[] b = { 'X', 'Y' };
+            char[] c = {};
+            char[] result = Arrays.zip(a, b, c, (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result);
+
+            // Test with all empty arrays
+            char[] a2 = {};
+            char[] b2 = {};
+            char[] c2 = {};
+            char[] result2 = Arrays.zip(a2, b2, c2, (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result2);
+        }
+
+        // Tests for zip(char[], char[], char[], char, char, char, CharTriFunction)
+
+        @Test
+        public void testZipThreeCharArraysWithDefaults() throws Exception {
+            // Test with arrays of different lengths
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y' };
+            char[] c = { '1', '2', '3' };
+            char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> (char) (x + y + z - 'A' - '0'));
+            // result: {'Y', '\\', '&', '$'} (using defaults for missing elements)
+            Assertions.assertArrayEquals(new char[] { 'Y', '\\', '&', '$' }, result);
+        }
+
+        @Test
+        public void testZipThreeCharArraysWithDefaultsEqualLength() throws Exception {
+            char[] a = { 'A', 'B', 'C', 'D' };
+            char[] b = { 'X', 'Y' };
+            char[] c = { '1', '2', '3' };
+            char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> (char) (x + y + z - 'A' - '0'));
+            Assertions.assertArrayEquals(new char[] { 'Y', '\\', '&', '$' }, result);
+        }
+
+        @Test
+        public void testZipThreeCharArraysWithDefaultsNulls() throws Exception {
+            // Test with one null array
+            char[] a = null;
+            char[] b = { 'X', 'Y', 'Z' };
+            char[] c = { '1', '2', '3' };
+            char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> y);
+            Assertions.assertArrayEquals(new char[] { 'X', 'Y', 'Z' }, result);
+
+            // Test with all null arrays
+            char[] result2 = Arrays.zip((char[]) null, null, null, '?', '!', '0', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] {}, result2);
+        }
+
+        @Test
+        public void testZipThreeCharArraysWithDefaultsEmptyArrays() throws Exception {
+            // Test with mixed empty and non-empty arrays
+            char[] a = { 'A', 'B' };
+            char[] b = {};
+            char[] c = { '1', '2', '3' };
+            char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> x);
+            Assertions.assertArrayEquals(new char[] { 'A', 'B', '?' }, result);
+        }
+
+        // Tests for zip(char[][], char[][], CharBiFunction)
+
+        @Test
+        public void testZipTwoChar2DArrays() throws Exception {
+            // Test normal case
+            char[][] a = { { 'A', 'B' }, { 'C', 'D', 'E' } };
+            char[][] b = { { 'X', 'Y', 'Z' }, { '1', '2' } };
+            char[][] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
+            Assertions.assertArrayEquals(new char[][] { { 'X', 'Z' }, { '3', '5' } }, result);
+        }
+
+        @Test
+        public void testZipTwoChar2DArraysDifferentOuterLengths() throws Exception {
+            // Test with first array longer
+            char[][] a = { { 'A', 'B' }, { 'C', 'D' }, { 'E', 'F' } };
+            char[][] b = { { 'X', 'Y' }, { '1', '2' } };
+            char[][] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
+            Assertions.assertEquals(2, result.length);
+            Assertions.assertArrayEquals(new char[] { 'X', 'Z' }, result[0]);
+            Assertions.assertArrayEquals(new char[] { '3', '5' }, result[1]);
+        }
+
+        @Test
+        public void testZipTwoChar2DArraysWithNulls() throws Exception {
+            // Test with null outer array
+            char[][] a = null;
+            char[][] b = { { 'X', 'Y' }, { '1', '2' } };
+            char[][] result = Arrays.zip(a, b, (x, y) -> y);
+            Assertions.assertEquals(0, result.length);
+
+            // Test with null inner arrays
+            char[][] a2 = { { 'A', 'B' }, null };
+            char[][] b2 = { null, { '1', '2' } };
+            char[][] result2 = Arrays.zip(a2, b2, (x, y) -> 'Z');
+            Assertions.assertEquals(2, result2.length);
+            Assertions.assertArrayEquals(new char[] {}, result2[0]);
+            Assertions.assertArrayEquals(new char[] {}, result2[1]);
+        }
+
+        @Test
+        public void testZipTwoChar2DArraysEmptyArrays() throws Exception {
+            // Test with empty outer arrays
+            char[][] a = {};
+            char[][] b = {};
+            char[][] result = Arrays.zip(a, b, (x, y) -> x);
+            Assertions.assertEquals(0, result.length);
+
+            // Test with empty inner arrays
+            char[][] a2 = { {}, { 'A', 'B' } };
+            char[][] b2 = { { 'X', 'Y' }, {} };
+            char[][] result2 = Arrays.zip(a2, b2, (x, y) -> x);
+            Assertions.assertEquals(2, result2.length);
+            Assertions.assertArrayEquals(new char[] {}, result2[0]);
+            Assertions.assertArrayEquals(new char[] {}, result2[1]);
+        }
+
+        // Tests for zip(char[][], char[][], char, char, CharBiFunction)
+
+        @Test
+        public void testZipTwoChar2DArraysWithDefaults() throws Exception {
+            // Test with different outer lengths
+            char[][] a = { { 'A', 'B' }, { 'C', 'D', 'E' } };
+            char[][] b = { { 'X', 'Y', 'Z' }, { '1', '2' }, { '3' } };
+            char[][] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
+            // result: {{'X', 'Z', 'X'}, {'3', '5', '%'}, {'1'}}
+            Assertions.assertEquals(3, result.length);
+            Assertions.assertArrayEquals(new char[][] { { 'X', 'Z', 'X' }, { '3', '5', '%' }, { '1' } }, result);
+        }
+
+        @Test
+        public void testZipTwoChar2DArraysWithDefaultsNulls() throws Exception {
+            // Test with null outer array
+            char[][] a = null;
+            char[][] b = { { 'X', 'Y' }, { '1', '2' } };
+            char[][] result = Arrays.zip(a, b, '?', '!', (x, y) -> y);
+            Assertions.assertEquals(2, result.length);
+            Assertions.assertArrayEquals(new char[] { 'X', 'Y' }, result[0]);
+            Assertions.assertArrayEquals(new char[] { '1', '2' }, result[1]);
+
+            // Test with null inner arrays
+            char[][] a2 = { { 'A', 'B' }, null };
+            char[][] b2 = { null, { '1', '2' } };
+            char[][] result2 = Arrays.zip(a2, b2, '?', '!', (x, y) -> x);
+            Assertions.assertEquals(2, result2.length);
+            Assertions.assertArrayEquals(new char[] { 'A', 'B' }, result2[0]);
+            Assertions.assertArrayEquals(new char[] { '?', '?' }, result2[1]);
+        }
+
+        // Tests for zip(char[][], char[][], char[][], CharTriFunction)
+
+        @Test
+        public void testZipThreeChar2DArrays() throws Exception {
+            // Test normal case
+            char[][] a = { { 'A', 'B' }, { 'C', 'D', 'E' } };
+            char[][] b = { { 'X', 'Y', 'Z' }, { '1', '2' } };
+            char[][] c = { { 'a', 'b' }, { 'c', 'd', 'e' } };
+            char[][] result = Arrays.zip(a, b, c, (x, y, z) -> (char) ((x + y + z) / 3));
+            Assertions.assertEquals(2, result.length);
+            Assertions.assertArrayEquals(new char[][] { { 'S', 'T' }, { 'G', 'H' } }, result);
+        }
+
+        @Test
+        public void testZipThreeChar2DArraysDifferentOuterLengths() throws Exception {
+            // Test with arrays of different outer lengths
+            char[][] a = { { 'A', 'B' }, { 'C', 'D' }, { 'E', 'F' } };
+            char[][] b = { { 'X', 'Y' } };
+            char[][] c = { { 'a', 'b' }, { 'c', 'd' } };
+            char[][] result = Arrays.zip(a, b, c, (x, y, z) -> x);
+            Assertions.assertEquals(1, result.length);
+            Assertions.assertArrayEquals(new char[] { 'A', 'B' }, result[0]);
+        }
+
+        @Test
+        public void testZipThreeChar2DArraysWithNulls() throws Exception {
+            // Test with null arrays
+            char[][] result = Arrays.zip((char[][]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertEquals(0, result.length);
+
+            // Test with one null array
+            char[][] a = { { 'A', 'B' } };
+            char[][] b = null;
+            char[][] c = { { 'a', 'b' } };
+            char[][] result2 = Arrays.zip(a, b, c, (x, y, z) -> x);
+            Assertions.assertEquals(0, result2.length);
+        }
+
+        // Tests for zip(char[][], char[][], char[][], char, char, char, CharTriFunction)
+
+        @Test
+        public void testZipThreeChar2DArraysWithDefaults() throws Exception {
+            // Test with different outer lengths
+            char[][] a = { { 'A', 'B' }, { 'C', 'D', 'E' } };
+            char[][] b = { { 'X', 'Y', 'Z' }, { '1', '2' }, { '3' } };
+            char[][] c = { { 'a', 'b' } };
+            char[][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char) ((x + y + z) / 3));
+            Assertions.assertEquals(3, result.length);
+            Assertions.assertArrayEquals(new char[][] { { 'S', 'T', ']' }, { 'P', 'Q', 'L' }, { 'P' } }, result);
+        }
+
+        @Test
+        public void testZipThreeChar2DArraysWithDefaultsNulls() throws Exception {
+            // Test with all null arrays
+            char[][] result = Arrays.zip((char[][]) null, null, null, '?', '!', '~', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertEquals(0, result.length);
+
+            // Test with mixed null and non-null arrays
+            char[][] a = { { 'A', 'B' } };
+            char[][] b = null;
+            char[][] c = { { 'a', 'b' }, { 'c' } };
+            char[][] result2 = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> y);
+            Assertions.assertEquals(2, result2.length);
+            Assertions.assertArrayEquals(new char[] { '!', '!' }, result2[0]);
+            Assertions.assertArrayEquals(new char[] { '!' }, result2[1]);
+        }
+
+        // Tests for zip(char[][][], char[][][], CharBiFunction)
+
+        @Test
+        public void testZipTwoChar3DArrays() throws Exception {
+            // Test normal case
+            char[][][] a = { { { 'A', 'B' }, { 'C', 'D' } }, { { 'E', 'F' }, { 'G', 'H' } } };
+            char[][][] b = { { { '1', '2' }, { '3', '4' } }, { { '5', '6' }, { '7', '8' } } };
+            char[][][] result = Arrays.zip(a, b, (x, y) -> (char) (x + y - 'A'));
+            // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'=', '?'}}}
+            Assertions.assertEquals(2, result.length);
+            Assertions.assertArrayEquals(new char[][][] { { { '1', '3' }, { '5', '7' } }, { { '9', ';' }, { '=', '?' } } }, result);
+        }
+
+        @Test
+        public void testZipTwoChar3DArraysDifferentOuterLengths() throws Exception {
+            // Test with first array longer
+            char[][][] a = { { { 'A', 'B' } }, { { 'C', 'D' } }, { { 'E', 'F' } } };
+            char[][][] b = { { { '1', '2' } }, { { '3', '4' } } };
+            char[][][] result = Arrays.zip(a, b, (x, y) -> y);
+            Assertions.assertEquals(2, result.length);
+        }
+
+        @Test
+        public void testZipTwoChar3DArraysWithNulls() throws Exception {
+            // Test with null arrays
+            char[][][] result = Arrays.zip((char[][][]) null, null, (Throwables.CharBiFunction<Character, Exception>) (x, y) -> x);
+            Assertions.assertEquals(0, result.length);
+
+            // Test with null sub-arrays
+            char[][][] a = { { { 'A', 'B' } }, null };
+            char[][][] b = { null, { { '1', '2' } } };
+            char[][][] result2 = Arrays.zip(a, b, (x, y) -> 'Z');
+            Assertions.assertEquals(2, result2.length);
+            Assertions.assertEquals(0, result2[0].length);
+            Assertions.assertEquals(0, result2[1].length);
+        }
+
+        // Tests for zip(char[][][], char[][][], char, char, CharBiFunction)
+
+        @Test
+        public void testZipTwoChar3DArraysWithDefaults() throws Exception {
+            // Test with different outer lengths
+            char[][][] a = { { { 'A', 'B' }, { 'C', 'D' } }, { { 'E', 'F' } } };
+            char[][][] b = { { { '1', '2' }, { '3', '4' } }, { { '5', '6' }, { '7', '8' } }, { { '9' } } };
+            char[][][] result = Arrays.zip(a, b, 'A', '0', (x, y) -> (char) (x + y - 'A'));
+            // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'7', '8'}}, {{'9'}}}
+            Assertions.assertEquals(3, result.length);
+            Assertions.assertArrayEquals(new char[][][] { { { '1', '3' }, { '5', '7' } }, { { '9', ';' }, { '7', '8' } }, { { '9' } } }, result);
+        }
+
+        @Test
+        public void testZipTwoChar3DArraysWithDefaultsNulls() throws Exception {
+            // Test with null outer array
+            char[][][] a = null;
+            char[][][] b = { { { '1', '2' } } };
+            char[][][] result = Arrays.zip(a, b, '?', '!', (x, y) -> y);
+            Assertions.assertEquals(1, result.length);
+            Assertions.assertEquals(1, result[0].length);
+            Assertions.assertArrayEquals(new char[] { '1', '2' }, result[0][0]);
+        }
+
+        // Tests for zip(char[][][], char[][][], char[][][], CharTriFunction)
+
+        @Test
+        public void testZipThreeChar3DArrays() throws Exception {
+            // Test normal case
+            char[][][] a = { { { 'A', 'B' } } };
+            char[][][] b = { { { '1', '2' }, { '3', '4' } } };
+            char[][][] c = { { { 'a', 'b' } } };
+            char[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (char) ((x + y + z) / 3));
+            Assertions.assertEquals(1, result.length);
+            Assertions.assertEquals(1, result[0].length);
+            Assertions.assertArrayEquals(new char[] { 'F', 'G' }, result[0][0]);
+        }
+
+        @Test
+        public void testZipThreeChar3DArraysDifferentOuterLengths() throws Exception {
+            // Test with different outer lengths
+            char[][][] a = { { { 'A' } }, { { 'B' } }, { { 'C' } } };
+            char[][][] b = { { { '1' } } };
+            char[][][] c = { { { 'a' } }, { { 'b' } } };
+            char[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x);
+            Assertions.assertEquals(1, result.length);
+        }
+
+        @Test
+        public void testZipThreeChar3DArraysWithNulls() throws Exception {
+            // Test with all null arrays
+            char[][][] result = Arrays.zip((char[][][]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        // Tests for zip(char[][][], char[][][], char[][][], char, char, char, CharTriFunction)
+
+        @Test
+        public void testZipThreeChar3DArraysWithDefaults() throws Exception {
+            char[][][] a = { { { 'A', 'B' } } };
+            char[][][] b = { { { '1', '2' }, { '3', '4' } } };
+            char[][][] c = { { { 'a', 'b' } } };
+            char[][][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char) ((x + y + z) / 3));
+            Assertions.assertEquals(1, result.length);
+            Assertions.assertEquals(2, result[0].length);
+            Assertions.assertArrayEquals(new char[][][] { { { 'F', 'G' }, { 'P', 'P' } } }, result);
+        }
+
+        @Test
+        public void testZipThreeChar3DArraysWithDefaultsAllNulls() throws Exception {
+            // Test with all null arrays
+            char[][][] result = Arrays.zip((char[][][]) null, null, null, '?', '!', '~', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            Assertions.assertEquals(0, result.length);
+        }
+    }
+
+    @Nested
     public class LongArrayTest {
 
         // Test zip(long[], long[], LongBiFunction)
@@ -543,6 +1551,1327 @@ class ArraysTest {
             // Test max
             long[] result4 = Arrays.zip(a, b, (x, y) -> Math.max(x, y));
             Assertions.assertArrayEquals(new long[] { 10, 20, 30 }, result4);
+        }
+    }
+
+    @Nested
+    public class FTest {
+        // Tests for map(T[], Function, Class)
+        @Test
+        public void testMap_NullArray() throws Exception {
+            String[] input = null;
+            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMap_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMap_StringToInteger() throws Exception {
+            String[] input = { "1", "2", "3" };
+            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
+        }
+
+        @Test
+        public void testMap_IntegerToString() throws Exception {
+            Integer[] input = { 1, 2, 3 };
+            String[] result = Arrays.map(input, String::valueOf, String.class);
+            Assertions.assertArrayEquals(new String[] { "1", "2", "3" }, result);
+        }
+
+        @Test
+        public void testMap_WithException() {
+            String[] input = { "1", "abc", "3" };
+            Assertions.assertThrows(NumberFormatException.class, () -> {
+                Arrays.map(input, Integer::valueOf, Integer.class);
+            });
+        }
+
+        // Tests for mapToBoolean
+        @Test
+        public void testMapToBoolean_NullArray() throws Exception {
+            String[] input = null;
+            boolean[] result = Arrays.mapToBoolean(input, s -> true);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToBoolean_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            boolean[] result = Arrays.mapToBoolean(input, s -> true);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToBoolean_StringLength() throws Exception {
+            String[] input = { "hello", "hi", "world", "a" };
+            boolean[] result = Arrays.mapToBoolean(input, s -> s.length() > 3);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true, false }, result);
+        }
+
+        // Tests for mapToChar
+        @Test
+        public void testMapToChar_NullArray() throws Exception {
+            String[] input = null;
+            char[] result = Arrays.mapToChar(input, s -> 'a');
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToChar_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            char[] result = Arrays.mapToChar(input, s -> 'a');
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToChar_FirstCharacter() throws Exception {
+            String[] input = { "apple", "banana", "cherry" };
+            char[] result = Arrays.mapToChar(input, s -> s.charAt(0));
+            Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, result);
+        }
+
+        // Tests for mapToByte
+        @Test
+        public void testMapToByte_NullArray() throws Exception {
+            String[] input = null;
+            byte[] result = Arrays.mapToByte(input, s -> (byte) 0);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToByte_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            byte[] result = Arrays.mapToByte(input, s -> (byte) 0);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToByte_StringToByte() throws Exception {
+            String[] input = { "1", "2", "3" };
+            byte[] result = Arrays.mapToByte(input, s -> Byte.parseByte(s));
+            Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, result);
+        }
+
+        // Tests for mapToShort
+        @Test
+        public void testMapToShort_NullArray() throws Exception {
+            String[] input = null;
+            short[] result = Arrays.mapToShort(input, s -> (short) 0);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToShort_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            short[] result = Arrays.mapToShort(input, s -> (short) 0);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToShort_StringToShort() throws Exception {
+            String[] input = { "10", "20", "30" };
+            short[] result = Arrays.mapToShort(input, s -> Short.parseShort(s));
+            Assertions.assertArrayEquals(new short[] { 10, 20, 30 }, result);
+        }
+
+        // Tests for mapToInt
+        @Test
+        public void testMapToInt_NullArray() throws Exception {
+            String[] input = null;
+            int[] result = Arrays.mapToInt(input, s -> 0);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToInt_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            int[] result = Arrays.mapToInt(input, s -> 0);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToInt_StringToInt() throws Exception {
+            String[] input = { "10", "20", "30" };
+            int[] result = Arrays.mapToInt(input, Integer::parseInt);
+            Assertions.assertArrayEquals(new int[] { 10, 20, 30 }, result);
+        }
+
+        // Tests for mapToLong
+        @Test
+        public void testMapToLong_NullArray() throws Exception {
+            String[] input = null;
+            long[] result = Arrays.mapToLong(input, s -> 0L);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToLong_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            long[] result = Arrays.mapToLong(input, s -> 0L);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToLong_StringToLong() throws Exception {
+            String[] input = { "100", "200", "300" };
+            long[] result = Arrays.mapToLong(input, Long::parseLong);
+            Assertions.assertArrayEquals(new long[] { 100L, 200L, 300L }, result);
+        }
+
+        // Tests for mapToFloat
+        @Test
+        public void testMapToFloat_NullArray() throws Exception {
+            String[] input = null;
+            float[] result = Arrays.mapToFloat(input, s -> 0.0f);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToFloat_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            float[] result = Arrays.mapToFloat(input, s -> 0.0f);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToFloat_StringToFloat() throws Exception {
+            String[] input = { "1.5", "2.5", "3.5" };
+            float[] result = Arrays.mapToFloat(input, Float::parseFloat);
+            Assertions.assertArrayEquals(new float[] { 1.5f, 2.5f, 3.5f }, result);
+        }
+
+        // Tests for mapToDouble
+        @Test
+        public void testMapToDouble_NullArray() throws Exception {
+            String[] input = null;
+            double[] result = Arrays.mapToDouble(input, s -> 0.0);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToDouble_EmptyArray() throws Exception {
+            String[] input = new String[0];
+            double[] result = Arrays.mapToDouble(input, s -> 0.0);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToDouble_StringToDouble() throws Exception {
+            String[] input = { "1.1", "2.2", "3.3" };
+            double[] result = Arrays.mapToDouble(input, Double::parseDouble);
+            Assertions.assertArrayEquals(new double[] { 1.1, 2.2, 3.3 }, result);
+        }
+
+        // Tests for mapToObj with boolean[]
+        @Test
+        public void testMapToObj_BooleanArray_Null() throws Exception {
+            boolean[] input = null;
+            String[] result = Arrays.mapToObj(input, b -> b ? "YES" : "NO", String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_BooleanArray_Empty() throws Exception {
+            boolean[] input = new boolean[0];
+            String[] result = Arrays.mapToObj(input, b -> b ? "YES" : "NO", String.class);
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(0, result.length);
+        }
+
+        @Test
+        public void testMapToObj_BooleanArray() throws Exception {
+            boolean[] input = { true, false, true };
+            String[] result = Arrays.mapToObj(input, b -> b ? "YES" : "NO", String.class);
+            Assertions.assertArrayEquals(new String[] { "YES", "NO", "YES" }, result);
+        }
+
+        // Tests for mapToObj with boolean[][]
+        @Test
+        public void testMapToObj_Boolean2DArray_Null() throws Exception {
+            boolean[][] input = null;
+            String[][] result = Arrays.mapToObj(input, b -> b ? "T" : "F", String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_Boolean2DArray() throws Exception {
+            boolean[][] input = { { true, false }, { false, true } };
+            String[][] result = Arrays.mapToObj(input, b -> b ? "T" : "F", String.class);
+            Assertions.assertArrayEquals(new String[][] { { "T", "F" }, { "F", "T" } }, result);
+        }
+
+        // Tests for mapToObj with boolean[][][]
+        @Test
+        public void testMapToObj_Boolean3DArray_Null() throws Exception {
+            boolean[][][] input = null;
+            String[][][] result = Arrays.mapToObj(input, b -> b ? "1" : "0", String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_Boolean3DArray() throws Exception {
+            boolean[][][] input = { { { true, false } }, { { false, true } } };
+            String[][][] result = Arrays.mapToObj(input, b -> b ? "1" : "0", String.class);
+            Assertions.assertArrayEquals(new String[][][] { { { "1", "0" } }, { { "0", "1" } } }, result);
+        }
+
+        // Tests for mapToObj with char[]
+        @Test
+        public void testMapToObj_CharArray_Null() throws Exception {
+            char[] input = null;
+            String[] result = Arrays.mapToObj(input, c -> String.valueOf(c), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_CharArray() throws Exception {
+            char[] input = { 'a', 'b', 'c' };
+            String[] result = Arrays.mapToObj(input, c -> String.valueOf(c).toUpperCase(), String.class);
+            Assertions.assertArrayEquals(new String[] { "A", "B", "C" }, result);
+        }
+
+        // Tests for mapToObj with char[][]
+        @Test
+        public void testMapToObj_Char2DArray() throws Exception {
+            char[][] input = { { 'a', 'b' }, { 'c', 'd' } };
+            Integer[][] result = Arrays.mapToObj(input, c -> (int) c, Integer.class);
+            Assertions.assertEquals(97, result[0][0]);
+            Assertions.assertEquals(98, result[0][1]);
+            Assertions.assertEquals(99, result[1][0]);
+            Assertions.assertEquals(100, result[1][1]);
+        }
+
+        // Tests for mapToObj with char[][][]
+        @Test
+        public void testMapToObj_Char3DArray() throws Exception {
+            char[][][] input = { { { 'x', 'y' } }, { { 'z', 'w' } } };
+            String[][][] result = Arrays.mapToObj(input, c -> String.valueOf(c), String.class);
+            Assertions.assertArrayEquals(new String[][][] { { { "x", "y" } }, { { "z", "w" } } }, result);
+        }
+
+        // Tests for mapToObj with byte[]
+        @Test
+        public void testMapToObj_ByteArray_Null() throws Exception {
+            byte[] input = null;
+            String[] result = Arrays.mapToObj(input, b -> String.valueOf(b), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_ByteArray() throws Exception {
+            byte[] input = { 1, 2, 3 };
+            Integer[] result = Arrays.mapToObj(input, b -> (int) b, Integer.class);
+            Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
+        }
+
+        // Tests for mapToObj with byte[][]
+        @Test
+        public void testMapToObj_Byte2DArray() throws Exception {
+            byte[][] input = { { 1, 2 }, { 3, 4 } };
+            String[][] result = Arrays.mapToObj(input, b -> "B" + b, String.class);
+            Assertions.assertArrayEquals(new String[][] { { "B1", "B2" }, { "B3", "B4" } }, result);
+        }
+
+        // Tests for mapToObj with byte[][][]
+        @Test
+        public void testMapToObj_Byte3DArray() throws Exception {
+            byte[][][] input = { { { 1, 2 } }, { { 3, 4 } } };
+            Integer[][][] result = Arrays.mapToObj(input, b -> b * 10, Integer.class);
+            Assertions.assertArrayEquals(new Integer[][][] { { { 10, 20 } }, { { 30, 40 } } }, result);
+        }
+
+        // Tests for mapToObj with short[]
+        @Test
+        public void testMapToObj_ShortArray_Null() throws Exception {
+            short[] input = null;
+            String[] result = Arrays.mapToObj(input, s -> String.valueOf(s), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_ShortArray() throws Exception {
+            short[] input = { 10, 20, 30 };
+            String[] result = Arrays.mapToObj(input, s -> "S" + s, String.class);
+            Assertions.assertArrayEquals(new String[] { "S10", "S20", "S30" }, result);
+        }
+
+        // Tests for mapToObj with short[][]
+        @Test
+        public void testMapToObj_Short2DArray() throws Exception {
+            short[][] input = { { 100, 200 }, { 300, 400 } };
+            Integer[][] result = Arrays.mapToObj(input, s -> s / 100, Integer.class);
+            Assertions.assertArrayEquals(new Integer[][] { { 1, 2 }, { 3, 4 } }, result);
+        }
+
+        // Tests for mapToObj with short[][][]
+        @Test
+        public void testMapToObj_Short3DArray() throws Exception {
+            short[][][] input = { { { 1, 2 } }, { { 3, 4 } } };
+            Long[][][] result = Arrays.mapToObj(input, s -> (long) s * 1000, Long.class);
+            Assertions.assertArrayEquals(new Long[][][] { { { 1000L, 2000L } }, { { 3000L, 4000L } } }, result);
+        }
+
+        // Tests for mapToObj with int[]
+        @Test
+        public void testMapToObj_IntArray_Null() throws Exception {
+            int[] input = null;
+            String[] result = Arrays.mapToObj(input, i -> String.valueOf(i), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_IntArray() throws Exception {
+            int[] input = { 1, 2, 3 };
+            String[] result = Arrays.mapToObj(input, i -> "Number: " + i, String.class);
+            Assertions.assertArrayEquals(new String[] { "Number: 1", "Number: 2", "Number: 3" }, result);
+        }
+
+        // Tests for mapToObj with int[][]
+        @Test
+        public void testMapToObj_Int2DArray() throws Exception {
+            int[][] input = { { 1, 2 }, { 3, 4 } };
+            Double[][] result = Arrays.mapToObj(input, i -> i * 0.5, Double.class);
+            Assertions.assertArrayEquals(new Double[][] { { 0.5, 1.0 }, { 1.5, 2.0 } }, result);
+        }
+
+        // Tests for mapToObj with int[][][]
+        @Test
+        public void testMapToObj_Int3DArray() throws Exception {
+            int[][][] input = { { { 10, 20 } }, { { 30, 40 } } };
+            String[][][] result = Arrays.mapToObj(input, i -> Integer.toHexString(i), String.class);
+            Assertions.assertArrayEquals(new String[][][] { { { "a", "14" } }, { { "1e", "28" } } }, result);
+        }
+
+        // Tests for mapToObj with long[]
+        @Test
+        public void testMapToObj_LongArray_Null() throws Exception {
+            long[] input = null;
+            String[] result = Arrays.mapToObj(input, l -> String.valueOf(l), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_LongArray() throws Exception {
+            long[] input = { 1000L, 2000L, 3000L };
+            String[] result = Arrays.mapToObj(input, l -> l / 1000 + "k", String.class);
+            Assertions.assertArrayEquals(new String[] { "1k", "2k", "3k" }, result);
+        }
+
+        // Tests for mapToObj with long[][]
+        @Test
+        public void testMapToObj_Long2DArray() throws Exception {
+            long[][] input = { { 100L, 200L }, { 300L, 400L } };
+            Integer[][] result = Arrays.mapToObj(input, l -> (int) (l / 100), Integer.class);
+            Assertions.assertArrayEquals(new Integer[][] { { 1, 2 }, { 3, 4 } }, result);
+        }
+
+        // Tests for mapToObj with long[][][]
+        @Test
+        public void testMapToObj_Long3DArray() throws Exception {
+            long[][][] input = { { { 1L, 2L } }, { { 3L, 4L } } };
+            String[][][] result = Arrays.mapToObj(input, l -> "L" + l, String.class);
+            Assertions.assertArrayEquals(new String[][][] { { { "L1", "L2" } }, { { "L3", "L4" } } }, result);
+        }
+
+        // Tests for mapToObj with float[]
+        @Test
+        public void testMapToObj_FloatArray_Null() throws Exception {
+            float[] input = null;
+            String[] result = Arrays.mapToObj(input, f -> String.valueOf(f), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_FloatArray() throws Exception {
+            float[] input = { 1.5f, 2.5f, 3.5f };
+            Integer[] result = Arrays.mapToObj(input, f -> (int) f, Integer.class);
+            Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
+        }
+
+        // Tests for mapToObj with float[][]
+        @Test
+        public void testMapToObj_Float2DArray() throws Exception {
+            float[][] input = { { 1.1f, 2.2f }, { 3.3f, 4.4f } };
+            String[][] result = Arrays.mapToObj(input, f -> String.format("%.1f", f), String.class);
+            Assertions.assertArrayEquals(new String[][] { { "1.1", "2.2" }, { "3.3", "4.4" } }, result);
+        }
+
+        // Tests for mapToObj with float[][][]
+        @Test
+        public void testMapToObj_Float3DArray() throws Exception {
+            float[][][] input = { { { 1.0f, 2.0f } }, { { 3.0f, 4.0f } } };
+            Long[][][] result = Arrays.mapToObj(input, f -> (long) f, Long.class);
+            Assertions.assertArrayEquals(new Long[][][] { { { 1L, 2L } }, { { 3L, 4L } } }, result);
+        }
+
+        // Tests for mapToObj with double[]
+        @Test
+        public void testMapToObj_DoubleArray_Null() throws Exception {
+            double[] input = null;
+            String[] result = Arrays.mapToObj(input, d -> String.valueOf(d), String.class);
+            Assertions.assertNull(result);
+        }
+
+        @Test
+        public void testMapToObj_DoubleArray() throws Exception {
+            double[] input = { 1.5, 2.5, 3.5 };
+            String[] result = Arrays.mapToObj(input, d -> String.format("%.1f", d), String.class);
+            Assertions.assertArrayEquals(new String[] { "1.5", "2.5", "3.5" }, result);
+        }
+
+        // Tests for mapToObj with double[][]
+        @Test
+        public void testMapToObj_Double2DArray() throws Exception {
+            double[][] input = { { 1.5, 2.5 }, { 3.5, 4.5 } };
+            Integer[][] result = Arrays.mapToObj(input, d -> (int) Math.round(d), Integer.class);
+            Assertions.assertArrayEquals(new Integer[][] { { 2, 3 }, { 4, 5 } }, result);
+        }
+
+        // Tests for mapToObj with double[][][]
+        @Test
+        public void testMapToObj_Double3DArray() throws Exception {
+            double[][][] input = { { { 1.1, 2.2 } }, { { 3.3, 4.4 } } };
+            Integer[][][] result = Arrays.mapToObj(input, d -> (int) d, Integer.class);
+            Assertions.assertArrayEquals(new Integer[][][] { { { 1, 2 } }, { { 3, 4 } } }, result);
+        }
+
+        // Edge cases and complex scenarios
+        @Test
+        public void testMap_WithNullElements() throws Exception {
+            String[] input = { "1", null, "3" };
+            String[] result = Arrays.map(input, s -> s == null ? "NULL" : s, String.class);
+            Assertions.assertArrayEquals(new String[] { "1", "NULL", "3" }, result);
+        }
+
+        @Test
+        public void testMapToObj_LargeArray() throws Exception {
+            int size = 10000;
+            int[] input = new int[size];
+            for (int i = 0; i < size; i++) {
+                input[i] = i;
+            }
+            String[] result = Arrays.mapToObj(input, i -> String.valueOf(i), String.class);
+            Assertions.assertEquals(size, result.length);
+            Assertions.assertEquals("0", result[0]);
+            Assertions.assertEquals("9999", result[9999]);
+        }
+
+        @Test
+        public void testMap_ChainedTransformations() throws Exception {
+            // Test chaining multiple transformations
+            String[] input = { "1", "2", "3" };
+            Integer[] intermediate = Arrays.map(input, Integer::valueOf, Integer.class);
+            String[] result = Arrays.map(intermediate, i -> "Value: " + (i * 2), String.class);
+            Assertions.assertArrayEquals(new String[] { "Value: 2", "Value: 4", "Value: 6" }, result);
+        }
+
+        // Tests for mapToLong methods
+        @Test
+        public void testMapToLong_IntArray() {
+            // Test with normal array
+            int[] input = { 1, 2, 3, 4, 5 };
+            long[] result = Arrays.mapToLong(input, i -> i * 1000L);
+            Assertions.assertArrayEquals(new long[] { 1000L, 2000L, 3000L, 4000L, 5000L }, result);
+
+            // Test with empty array
+            int[] emptyInput = {};
+            long[] emptyResult = Arrays.mapToLong(emptyInput, i -> i * 1000L);
+            Assertions.assertArrayEquals(new long[] {}, emptyResult);
+
+            // Test with null array
+            int[] nullInput = null;
+            long[] nullResult = Arrays.mapToLong(nullInput, i -> i * 1000L);
+            Assertions.assertNull(nullResult);
+
+            // Test with single element
+            int[] singleInput = { 42 };
+            long[] singleResult = Arrays.mapToLong(singleInput, i -> i * 100L);
+            Assertions.assertArrayEquals(new long[] { 4200L }, singleResult);
+
+            // Test with negative values
+            int[] negativeInput = { -1, -2, -3 };
+            long[] negativeResult = Arrays.mapToLong(negativeInput, i -> i * 1000L);
+            Assertions.assertArrayEquals(new long[] { -1000L, -2000L, -3000L }, negativeResult);
+        }
+
+        @Test
+        public void testMapToLong_IntArray_WithException() {
+            int[] input = { 1, 2, 3 };
+            Throwables.IntToLongFunction<Exception> mapper = i -> {
+                if (i == 2)
+                    throw new Exception("Test exception");
+                return i * 1000L;
+            };
+
+            Assertions.assertThrows(Exception.class, () -> Arrays.mapToLong(input, mapper));
+        }
+
+        @Test
+        public void testMapToLong_Int2DArray() {
+            // Test with normal 2D array
+            int[][] input = { { 1, 2 }, { 3, 4 }, { 5 } };
+            long[][] result = Arrays.mapToLong(input, (int i) -> i * 100L);
+            Assertions.assertArrayEquals(new long[] { 100L, 200L }, result[0]);
+            Assertions.assertArrayEquals(new long[] { 300L, 400L }, result[1]);
+            Assertions.assertArrayEquals(new long[] { 500L }, result[2]);
+
+            // Test with empty 2D array
+            int[][] emptyInput = {};
+            long[][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 100L);
+            Assertions.assertEquals(0, emptyResult.length);
+
+            // Test with null 2D array
+            int[][] nullInput = null;
+            long[][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 100L);
+            Assertions.assertNull(nullResult);
+
+            // Test with jagged array containing empty arrays
+            int[][] jaggedInput = { { 1, 2 }, {}, { 3 } };
+            long[][] jaggedResult = Arrays.mapToLong(jaggedInput, (int i) -> i * 10L);
+            Assertions.assertArrayEquals(new long[] { 10L, 20L }, jaggedResult[0]);
+            Assertions.assertArrayEquals(new long[] {}, jaggedResult[1]);
+            Assertions.assertArrayEquals(new long[] { 30L }, jaggedResult[2]);
+        }
+
+        @Test
+        public void testMapToLong_Int3DArray() {
+            // Test with normal 3D array
+            int[][][] input = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
+            long[][][] result = Arrays.mapToLong(input, (int i) -> i * 10L);
+            Assertions.assertArrayEquals(new long[] { 10L, 20L }, result[0][0]);
+            Assertions.assertArrayEquals(new long[] { 30L }, result[0][1]);
+            Assertions.assertArrayEquals(new long[] { 40L, 50L, 60L }, result[1][0]);
+
+            // Test with null 3D array
+            int[][][] nullInput = null;
+            long[][][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 10L);
+            Assertions.assertNull(nullResult);
+
+            // Test with empty 3D array
+            int[][][] emptyInput = {};
+            long[][][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 10L);
+            Assertions.assertEquals(0, emptyResult.length);
+        }
+
+        // Tests for mapToDouble methods with int arrays
+        @Test
+        public void testMapToDouble_IntArray() {
+            // Test with normal array
+            int[] input = { 1, 2, 3, 4 };
+            double[] result = Arrays.mapToDouble(input, i -> i / 2.0);
+            Assertions.assertArrayEquals(new double[] { 0.5, 1.0, 1.5, 2.0 }, result);
+
+            // Test with empty array
+            int[] emptyInput = {};
+            double[] emptyResult = Arrays.mapToDouble(emptyInput, i -> i / 2.0);
+            Assertions.assertArrayEquals(new double[] {}, emptyResult);
+
+            // Test with null array
+            int[] nullInput = null;
+            double[] nullResult = Arrays.mapToDouble(nullInput, i -> i / 2.0);
+            Assertions.assertNull(nullResult);
+
+            // Test with mathematical operations
+            int[] mathInput = { 10, 20, 30 };
+            double[] mathResult = Arrays.mapToDouble(mathInput, i -> Math.sqrt(i));
+            Assertions.assertEquals(Math.sqrt(10), mathResult[0], 0.0001);
+            Assertions.assertEquals(Math.sqrt(20), mathResult[1], 0.0001);
+            Assertions.assertEquals(Math.sqrt(30), mathResult[2], 0.0001);
+        }
+
+        @Test
+        public void testMapToDouble_Int2DArray() {
+            // Test with normal 2D array
+            int[][] input = { { 1, 2 }, { 3, 4 } };
+            double[][] result = Arrays.mapToDouble(input, (int i) -> i * 0.5);
+            Assertions.assertArrayEquals(new double[] { 0.5, 1.0 }, result[0]);
+            Assertions.assertArrayEquals(new double[] { 1.5, 2.0 }, result[1]);
+
+            // Test with null 2D array
+            int[][] nullInput = null;
+            double[][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.5);
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToDouble_Int3DArray() {
+            // Test with normal 3D array
+            int[][][] input = { { { 1, 2 } }, { { 3, 4 }, { 5, 6 } } };
+            double[][][] result = Arrays.mapToDouble(input, (int i) -> i * 0.1);
+            Assertions.assertArrayEquals(new double[] { 0.1, 0.2 }, result[0][0], 0.000001);
+            Assertions.assertArrayEquals(new double[] { 0.3, 0.4 }, result[1][0], 0.000001);
+            Assertions.assertArrayEquals(new double[] { 0.5, 0.6 }, result[1][1], 0.000001);
+
+            // Test with null 3D array
+            int[][][] nullInput = null;
+            double[][][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.1);
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for mapToInt methods with long arrays
+        @Test
+        public void testMapToInt_LongArray() {
+            // Test with normal array
+            long[] input = { 1000L, 2000L, 3000L };
+            int[] result = Arrays.mapToInt(input, l -> (int) (l / 1000));
+            Assertions.assertArrayEquals(new int[] { 1, 2, 3 }, result);
+
+            // Test with empty array
+            long[] emptyInput = {};
+            int[] emptyResult = Arrays.mapToInt(emptyInput, l -> (int) (l / 1000));
+            Assertions.assertArrayEquals(new int[] {}, emptyResult);
+
+            // Test with null array
+            long[] nullInput = null;
+            int[] nullResult = Arrays.mapToInt(nullInput, l -> (int) (l / 1000));
+            Assertions.assertNull(nullResult);
+
+            // Test with overflow scenario
+            long[] overflowInput = { Long.MAX_VALUE, 0L, Long.MIN_VALUE };
+            int[] overflowResult = Arrays.mapToInt(overflowInput, l -> (int) (l));
+            Assertions.assertEquals(-1, overflowResult[0]); // overflow
+            Assertions.assertEquals(0, overflowResult[1]);
+            Assertions.assertEquals(0, overflowResult[2]); // overflow
+        }
+
+        @Test
+        public void testMapToInt_Long2DArray() {
+            // Test with normal 2D array
+            long[][] input = { { 100L, 200L }, { 300L } };
+            int[][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 100));
+            Assertions.assertArrayEquals(new int[] { 1, 2 }, result[0]);
+            Assertions.assertArrayEquals(new int[] { 3 }, result[1]);
+
+            // Test with null 2D array
+            long[][] nullInput = null;
+            int[][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 100));
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToInt_Long3DArray() {
+            // Test with normal 3D array
+            long[][][] input = { { { 1000L, 2000L } } };
+            int[][][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 1000));
+            Assertions.assertArrayEquals(new int[] { 1, 2 }, result[0][0]);
+
+            // Test with null 3D array
+            long[][][] nullInput = null;
+            int[][][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 1000));
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for mapToDouble methods with long arrays
+        @Test
+        public void testMapToDouble_LongArray() {
+            // Test with normal array
+            long[] input = { 1L, 2L, 3L };
+            double[] result = Arrays.mapToDouble(input, l -> l * 0.5);
+            Assertions.assertArrayEquals(new double[] { 0.5, 1.0, 1.5 }, result);
+
+            // Test with empty array
+            long[] emptyInput = {};
+            double[] emptyResult = Arrays.mapToDouble(emptyInput, l -> l * 0.5);
+            Assertions.assertArrayEquals(new double[] {}, emptyResult);
+
+            // Test with null array
+            long[] nullInput = null;
+            double[] nullResult = Arrays.mapToDouble(nullInput, l -> l * 0.5);
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToDouble_Long2DArray() {
+            // Test with normal 2D array
+            long[][] input = { { 10L, 20L }, { 30L } };
+            double[][] result = Arrays.mapToDouble(input, (long l) -> l * 0.1);
+            Assertions.assertArrayEquals(new double[] { 1.0, 2.0 }, result[0]);
+            Assertions.assertArrayEquals(new double[] { 3.0 }, result[1]);
+
+            // Test with null 2D array
+            long[][] nullInput = null;
+            double[][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.1);
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToDouble_Long3DArray() {
+            // Test with normal 3D array
+            long[][][] input = { { { 100L, 200L } }, { { 300L } } };
+            double[][][] result = Arrays.mapToDouble(input, (long l) -> l * 0.01d);
+            Assertions.assertArrayEquals(new double[] { 1.0, 2.0 }, result[0][0]);
+            Assertions.assertArrayEquals(new double[] { 3.0 }, result[1][0]);
+
+            // Test with null 3D array
+            long[][][] nullInput = null;
+            double[][][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.01d);
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for mapToInt methods with double arrays
+        @Test
+        public void testMapToInt_DoubleArray() {
+            // Test with normal array - rounding
+            double[] input = { 1.7, 2.3, 3.9 };
+            int[] result = Arrays.mapToInt(input, d -> (int) Math.round(d));
+            Assertions.assertArrayEquals(new int[] { 2, 2, 4 }, result);
+
+            // Test with truncation
+            double[] truncInput = { 1.9, 2.1, 3.7 };
+            int[] truncResult = Arrays.mapToInt(truncInput, d -> (int) d);
+            Assertions.assertArrayEquals(new int[] { 1, 2, 3 }, truncResult);
+
+            // Test with empty array
+            double[] emptyInput = {};
+            int[] emptyResult = Arrays.mapToInt(emptyInput, d -> (int) d);
+            Assertions.assertArrayEquals(new int[] {}, emptyResult);
+
+            // Test with null array
+            double[] nullInput = null;
+            int[] nullResult = Arrays.mapToInt(nullInput, d -> (int) d);
+            Assertions.assertNull(nullResult);
+
+            // Test with negative values
+            double[] negativeInput = { 1.7, 2.3, 3.9 };
+            int[] negativeResult = Arrays.mapToInt(negativeInput, d -> (int) Math.round(d));
+            Assertions.assertArrayEquals(new int[] { 2, 2, 4 }, negativeResult);
+        }
+
+        @Test
+        public void testMapToInt_Double2DArray() {
+            // Test with normal 2D array
+            double[][] input = { { 1.5, 2.5 }, { 3.5 } };
+            int[][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
+            Assertions.assertArrayEquals(new int[] { 2, 3 }, result[0]);
+            Assertions.assertArrayEquals(new int[] { 4 }, result[1]);
+
+            // Test with null 2D array
+            double[][] nullInput = null;
+            int[][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToInt_Double3DArray() {
+            // Test with normal 3D array
+            double[][][] input = { { { 1.1, 2.9 } }, { { 3.5 } } };
+            int[][][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
+            Assertions.assertArrayEquals(new int[] { 1, 3 }, result[0][0]);
+            Assertions.assertArrayEquals(new int[] { 4 }, result[1][0]);
+
+            // Test with null 3D array
+            double[][][] nullInput = null;
+            int[][][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for mapToLong methods with double arrays
+        @Test
+        public void testMapToLong_DoubleArray() {
+            // Test with normal array
+            double[] input = { 1.5, 2.7, 3.2 };
+            long[] result = Arrays.mapToLong(input, d -> Math.round(d));
+            Assertions.assertArrayEquals(new long[] { 2L, 3L, 3L }, result);
+
+            // Test with empty array
+            double[] emptyInput = {};
+            long[] emptyResult = Arrays.mapToLong(emptyInput, d -> Math.round(d));
+            Assertions.assertArrayEquals(new long[] {}, emptyResult);
+
+            // Test with null array
+            double[] nullInput = null;
+            long[] nullResult = Arrays.mapToLong(nullInput, d -> Math.round(d));
+            Assertions.assertNull(nullResult);
+
+            // Test with large values
+            double[] largeInput = { 1e10, 2e10, 3e10 };
+            long[] largeResult = Arrays.mapToLong(largeInput, d -> (long) d);
+            Assertions.assertArrayEquals(new long[] { 10000000000L, 20000000000L, 30000000000L }, largeResult);
+        }
+
+        @Test
+        public void testMapToLong_Double2DArray() {
+            // Test with normal 2D array
+            double[][] input = { { 1.1, 2.2 }, { 3.3 } };
+            long[][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
+            Assertions.assertArrayEquals(new long[] { 1L, 2L }, result[0]);
+            Assertions.assertArrayEquals(new long[] { 3L }, result[1]);
+
+            // Test with null 2D array
+            double[][] nullInput = null;
+            long[][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToLong_Double3DArray() {
+            // Test with normal 3D array
+            double[][][] input = { { { 10.5, 20.5 } }, { { 30.5 } } };
+            long[][][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
+            Assertions.assertArrayEquals(new long[] { 11L, 21L }, result[0][0]);
+            Assertions.assertArrayEquals(new long[] { 31L }, result[1][0]);
+
+            // Test with null 3D array
+            double[][][] nullInput = null;
+            long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for println methods
+        @Test
+        public void testPrintln_ObjectArray() {
+            // Test with normal array
+            Object[] arr = { "Hello", "World", 123 };
+            String result = Arrays.println(arr);
+            Assertions.assertTrue(result.contains("Hello"));
+            Assertions.assertTrue(result.contains("World"));
+            Assertions.assertTrue(result.contains("123"));
+
+            // Test with empty array
+            Object[] emptyArr = {};
+            String emptyResult = Arrays.println(emptyArr);
+            Assertions.assertEquals("[]", emptyResult.trim());
+
+            // Test with null array
+            Object[] nullArr = null;
+            String nullResult = Arrays.println(nullArr);
+            Assertions.assertEquals("null", nullResult.trim());
+
+            // Test with array containing nulls
+            Object[] nullsArr = { "test", null, 42 };
+            String nullsResult = Arrays.println(nullsArr);
+            Assertions.assertTrue(nullsResult.contains("test"));
+            Assertions.assertTrue(nullsResult.contains("null"));
+            Assertions.assertTrue(nullsResult.contains("42"));
+        }
+
+        @Test
+        public void testPrintln_Object2DArray() {
+            // Test with normal 2D array
+            Object[][] arr = { { "A", "B" }, { "C", "D" } };
+            String result = Arrays.println(arr);
+            Assertions.assertNotNull(result);
+
+            // Test with null 2D array
+            Object[][] nullArr = null;
+            String nullResult = Arrays.println(nullArr);
+            Assertions.assertNotNull(nullResult);
+        }
+
+        @Test
+        public void testPrintln_Object3DArray() {
+            // Test with normal 3D array
+            Object[][][] arr = { { { "A", "B" } }, { { "C", "D" } } };
+            String result = Arrays.println(arr);
+            Assertions.assertNotNull(result);
+
+            // Test with null 3D array
+            Object[][][] nullArr = null;
+            String nullResult = Arrays.println(nullArr);
+            Assertions.assertNotNull(nullResult);
+        }
+
+        // Tests for updateAll methods
+        @Test
+        public void testUpdateAll_BooleanArray() {
+            // Test with normal array - negate all
+            boolean[] arr = { true, false, true, false };
+            Arrays.updateAll(arr, b -> !b);
+            Assertions.assertArrayEquals(new boolean[] { false, true, false, true }, arr);
+
+            // Test with empty array
+            boolean[] emptyArr = {};
+            Arrays.updateAll(emptyArr, b -> !b);
+            Assertions.assertArrayEquals(new boolean[] {}, emptyArr);
+
+            // Test with all true
+            boolean[] allTrue = { true, true, true };
+            Arrays.updateAll(allTrue, b -> false);
+            Assertions.assertArrayEquals(new boolean[] { false, false, false }, allTrue);
+
+            // Test with all false
+            boolean[] allFalse = { false, false, false };
+            Arrays.updateAll(allFalse, b -> true);
+            Assertions.assertArrayEquals(new boolean[] { true, true, true }, allFalse);
+        }
+
+        @Test
+        public void testUpdateAll_Boolean2DArray() {
+            // Test with normal 2D array
+            boolean[][] arr = { { true, false }, { false, true } };
+            Arrays.updateAll(arr, b -> !b);
+            Assertions.assertArrayEquals(new boolean[] { false, true }, arr[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1]);
+
+            // Test with empty 2D array
+            boolean[][] emptyArr = {};
+            Arrays.updateAll(emptyArr, b -> !b);
+            Assertions.assertEquals(0, emptyArr.length);
+
+            // Test with jagged array
+            boolean[][] jaggedArr = { { true }, { false, true, false } };
+            Arrays.updateAll(jaggedArr, b -> !b);
+            Assertions.assertArrayEquals(new boolean[] { false }, jaggedArr[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true }, jaggedArr[1]);
+        }
+
+        @Test
+        public void testUpdateAll_Boolean3DArray() {
+            // Test with normal 3D array
+            boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
+            Arrays.updateAll(arr, b -> !b);
+            Assertions.assertArrayEquals(new boolean[] { false, true }, arr[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1][0]);
+            Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1][1]);
+
+            // Test with empty 3D array
+            boolean[][][] emptyArr = {};
+            Arrays.updateAll(emptyArr, b -> !b);
+            Assertions.assertEquals(0, emptyArr.length);
+        }
+
+        // Tests for replaceIf methods
+        @Test
+        public void testReplaceIf_BooleanArray() {
+            // Test replacing all true values with false
+            boolean[] arr = { true, false, true, false, true };
+            Arrays.replaceIf(arr, b -> b == true, false);
+            Assertions.assertArrayEquals(new boolean[] { false, false, false, false, false }, arr);
+
+            // Test replacing all false values with true
+            boolean[] arr2 = { true, false, true, false };
+            Arrays.replaceIf(arr2, b -> b == false, true);
+            Assertions.assertArrayEquals(new boolean[] { true, true, true, true }, arr2);
+
+            // Test with empty array
+            boolean[] emptyArr = {};
+            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Assertions.assertArrayEquals(new boolean[] {}, emptyArr);
+
+            // Test with no matches
+            boolean[] noMatch = { false, false, false };
+            Arrays.replaceIf(noMatch, b -> b == true, false);
+            Assertions.assertArrayEquals(new boolean[] { false, false, false }, noMatch);
+        }
+
+        @Test
+        public void testReplaceIf_Boolean2DArray() {
+            // Test with normal 2D array
+            boolean[][] arr = { { true, false }, { true, true } };
+            Arrays.replaceIf(arr, b -> b == true, false);
+            Assertions.assertArrayEquals(new boolean[] { false, false }, arr[0]);
+            Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1]);
+
+            // Test with empty 2D array
+            boolean[][] emptyArr = {};
+            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Assertions.assertEquals(0, emptyArr.length);
+        }
+
+        @Test
+        public void testReplaceIf_Boolean3DArray() {
+            // Test with normal 3D array
+            boolean[][][] arr = { { { true, false } }, { { false, true } } };
+            Arrays.replaceIf(arr, b -> b == false, true);
+            Assertions.assertArrayEquals(new boolean[] { true, true }, arr[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { true, true }, arr[1][0]);
+
+            // Test with empty 3D array
+            boolean[][][] emptyArr = {};
+            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Assertions.assertEquals(0, emptyArr.length);
+        }
+
+        // Tests for reshape methods
+        @Test
+        public void testReshape_BooleanArray_ToCols() {
+            // Test normal reshape
+            boolean[] arr = { true, false, true, false, true };
+            boolean[][] reshaped = Arrays.reshape(arr, 2);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, reshaped[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, reshaped[1]);
+            Assertions.assertArrayEquals(new boolean[] { true }, reshaped[2]);
+
+            // Test perfect division
+            boolean[] perfectArr = { true, false, true, false };
+            boolean[][] perfectReshaped = Arrays.reshape(perfectArr, 2);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, perfectReshaped[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, perfectReshaped[1]);
+
+            // Test with empty array
+            boolean[] emptyArr = {};
+            boolean[][] emptyReshaped = Arrays.reshape(emptyArr, 2);
+            Assertions.assertEquals(0, emptyReshaped.length);
+
+            // Test with single column
+            boolean[] singleColArr = { true, false, true };
+            boolean[][] singleColReshaped = Arrays.reshape(singleColArr, 1);
+            Assertions.assertEquals(3, singleColReshaped.length);
+            Assertions.assertArrayEquals(new boolean[] { true }, singleColReshaped[0]);
+            Assertions.assertArrayEquals(new boolean[] { false }, singleColReshaped[1]);
+            Assertions.assertArrayEquals(new boolean[] { true }, singleColReshaped[2]);
+
+            // Test with more columns than elements
+            boolean[] smallArr = { true, false };
+            boolean[][] smallReshaped = Arrays.reshape(smallArr, 5);
+            Assertions.assertEquals(1, smallReshaped.length);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, smallReshaped[0]);
+        }
+
+        @Test
+        public void testReshape_BooleanArray_ToCols_InvalidInput() {
+            boolean[] arr = { true, false };
+
+            // Test with zero columns
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, 0);
+            });
+
+            // Test with negative columns
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, -1);
+            });
+        }
+
+        @Test
+        public void testReshape_BooleanArray_ToRowsCols() {
+            // Test normal reshape
+            boolean[] arr = { true, false, true, false, true, false };
+            boolean[][][] reshaped = Arrays.reshape(arr, 2, 2);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, reshaped[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, reshaped[0][1]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, reshaped[1][0]);
+
+            // Test with uneven division
+            boolean[] unevenArr = { true, false, true, false, true };
+            boolean[][][] unevenReshaped = Arrays.reshape(unevenArr, 2, 2);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, unevenReshaped[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, unevenReshaped[0][1]);
+            Assertions.assertArrayEquals(new boolean[] { true }, unevenReshaped[1][0]);
+
+            // Test with empty array
+            boolean[] emptyArr = {};
+            boolean[][][] emptyReshaped = Arrays.reshape(emptyArr, 2, 2);
+            Assertions.assertEquals(0, emptyReshaped.length);
+
+            // Test with single element blocks
+            boolean[] singleArr = { true, false, true, false };
+            boolean[][][] singleReshaped = Arrays.reshape(singleArr, 1, 1);
+            Assertions.assertEquals(4, singleReshaped.length);
+            Assertions.assertArrayEquals(new boolean[] { true }, singleReshaped[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { false }, singleReshaped[1][0]);
+            Assertions.assertArrayEquals(new boolean[] { true }, singleReshaped[2][0]);
+            Assertions.assertArrayEquals(new boolean[] { false }, singleReshaped[3][0]);
+        }
+
+        @Test
+        public void testReshape_BooleanArray_ToRowsCols_InvalidInput() {
+            boolean[] arr = { true, false };
+
+            // Test with zero rows
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, 0, 2);
+            });
+
+            // Test with zero columns
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, 2, 0);
+            });
+
+            // Test with negative rows
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, -1, 2);
+            });
+
+            // Test with negative columns
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.reshape(arr, 2, -1);
+            });
+        }
+
+        // Tests for flatten methods
+        @Test
+        public void testFlatten_Boolean2DArray() {
+            // Test normal flatten
+            boolean[][] arr = { { true, false }, { true }, { false, true } };
+            boolean[] flattened = Arrays.flatten(arr);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
+
+            // Test with empty 2D array
+            boolean[][] emptyArr = {};
+            boolean[] emptyFlattened = Arrays.flatten(emptyArr);
+            Assertions.assertArrayEquals(new boolean[] {}, emptyFlattened);
+
+            // Test with null 2D array
+            boolean[][] nullArr = null;
+            boolean[] nullFlattened = Arrays.flatten(nullArr);
+            Assertions.assertArrayEquals(new boolean[] {}, nullFlattened);
+
+            // Test with empty sub-arrays
+            boolean[][] mixedArr = { { true, false }, {}, { true } };
+            boolean[] mixedFlattened = Arrays.flatten(mixedArr);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true }, mixedFlattened);
+
+            // Test with all empty sub-arrays
+            boolean[][] allEmptyArr = { {}, {}, {} };
+            boolean[] allEmptyFlattened = Arrays.flatten(allEmptyArr);
+            Assertions.assertArrayEquals(new boolean[] {}, allEmptyFlattened);
+        }
+
+        @Test
+        public void testFlatten_Boolean3DArray() {
+            // Test normal flatten
+            boolean[][][] arr = { { { true, false }, { true } }, { { false, true } } };
+            boolean[] flattened = Arrays.flatten(arr);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
+
+            // Test with empty 3D array
+            boolean[][][] emptyArr = {};
+            boolean[] emptyFlattened = Arrays.flatten(emptyArr);
+            Assertions.assertArrayEquals(new boolean[] {}, emptyFlattened);
+
+            // Test with null 3D array
+            boolean[][][] nullArr = null;
+            boolean[] nullFlattened = Arrays.flatten(nullArr);
+            Assertions.assertArrayEquals(new boolean[] {}, nullFlattened);
+
+            // Test with mixed empty arrays
+            boolean[][][] mixedArr = { { { true } }, { {} }, { { false, true } } };
+            boolean[] mixedFlattened = Arrays.flatten(mixedArr);
+            Assertions.assertArrayEquals(new boolean[] { true, false, true }, mixedFlattened);
+
+            // Test with deeply nested empty arrays
+            boolean[][][] deepEmptyArr = { { {}, {} }, { {} } };
+            boolean[] deepEmptyFlattened = Arrays.flatten(deepEmptyArr);
+            Assertions.assertArrayEquals(new boolean[] {}, deepEmptyFlattened);
+        }
+
+        // Tests for flatOp methods
+        @Test
+        public void testFlatOp_Boolean2DArray() {
+            // Test sorting operation
+            boolean[][] arr = { { true, false, true }, { false, true } };
+            Arrays.flatOp(arr, flatArr -> {
+                // Sort to have all false values first
+                N.sort(flatArr);
+            });
+            // After sorting, false values come first
+            Assertions.assertArrayEquals(new boolean[] { false, false, true }, arr[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, true }, arr[1]);
+
+            // Test with operation that sets all to true
+            boolean[][] arr2 = { { true, false }, { false, true } };
+            Arrays.flatOp(arr2, flatArr -> {
+                for (int i = 0; i < flatArr.length; i++) {
+                    flatArr[i] = true;
+                }
+            });
+            Assertions.assertArrayEquals(new boolean[] { true, true }, arr2[0]);
+            Assertions.assertArrayEquals(new boolean[] { true, true }, arr2[1]);
+
+            // Test with empty array
+            boolean[][] emptyArr = {};
+            Arrays.flatOp(emptyArr, flatArr -> {
+                // Should not be called
+                Assertions.fail("Operation should not be called on empty array");
+            });
+
+            // Test with array containing empty sub-arrays
+            boolean[][] mixedArr = { { true, false }, {}, { true } };
+            Arrays.flatOp(mixedArr, flatArr -> {
+                for (int i = 0; i < flatArr.length; i++) {
+                    flatArr[i] = !flatArr[i];
+                }
+            });
+            Assertions.assertArrayEquals(new boolean[] { false, true }, mixedArr[0]);
+            Assertions.assertArrayEquals(new boolean[] {}, mixedArr[1]);
+            Assertions.assertArrayEquals(new boolean[] { false }, mixedArr[2]);
+        }
+
+        @Test
+        public void testFlatOp_Boolean3DArray() {
+            // Test with normal 3D array
+            boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
+            Arrays.flatOp(arr, flatArr -> {
+                // Reverse all values
+                for (int i = 0; i < flatArr.length; i++) {
+                    flatArr[i] = !flatArr[i];
+                }
+            });
+            Assertions.assertArrayEquals(new boolean[] { false, true }, arr[0][0]);
+            Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1][0]);
+            Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1][1]);
+
+            // Test with empty 3D array
+            boolean[][][] emptyArr = {};
+            Arrays.flatOp(emptyArr, flatArr -> {
+                // Should not be called
+                Assertions.fail("Operation should not be called on empty array");
+            });
+
+            // Test counting operation
+            boolean[][][] countArr = { { { true, false, true } }, { { false, false } } };
+            int[] trueCount = { 0 };
+            Arrays.flatOp(countArr, flatArr -> {
+                for (boolean b : flatArr) {
+                    if (b)
+                        trueCount[0]++;
+                }
+            });
+            Assertions.assertEquals(2, trueCount[0]);
+        }
+
+        @Test
+        public void testFlatOp_WithException() {
+            boolean[][] arr = { { true, false }, { true } };
+
+            Assertions.assertThrows(Exception.class, () -> {
+                Arrays.flatOp(arr, flatArr -> {
+                    throw new Exception("Test exception");
+                });
+            });
+        }
+
+        // Private helper method tests (testing indirectly through public methods)
+        @Test
+        public void testHelperMethods_EdgeCases() {
+            // Test reshape with maximum integer values
+            boolean[] largeArr = new boolean[10];
+            boolean[][] largeReshaped = Arrays.reshape(largeArr, Integer.MAX_VALUE);
+            Assertions.assertEquals(1, largeReshaped.length);
+            Assertions.assertEquals(10, largeReshaped[0].length);
+
+            // Test with single element
+            boolean[] singleArr = { true };
+            boolean[][] singleReshaped = Arrays.reshape(singleArr, 1);
+            Assertions.assertEquals(1, singleReshaped.length);
+            Assertions.assertArrayEquals(new boolean[] { true }, singleReshaped[0]);
+
+            // Test flatten with large nested arrays
+            boolean[][] largeNested = new boolean[100][100];
+            for (int i = 0; i < 100; i++) {
+                for (int j = 0; j < 100; j++) {
+                    largeNested[i][j] = (i + j) % 2 == 0;
+                }
+            }
+            boolean[] largeFlattened = Arrays.flatten(largeNested);
+            Assertions.assertEquals(10000, largeFlattened.length);
         }
     }
 
@@ -1825,8 +4154,8 @@ class ArraysTest {
         @Test
         public void testZipThreeArraysWithDefaults() throws Exception {
             // Test with different sizes and defaults
-            Integer[][][] a = {{{1}}};
-            Integer[][][] b = {{{10, 20}}};
+            Integer[][][] a = { { { 1 } } };
+            Integer[][][] b = { { { 10, 20 } } };
             Integer[][][] c = { { {}, { 100 } } };
             Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
             Arrays.println(result);
@@ -1836,11 +4165,10 @@ class ArraysTest {
             Assertions.assertEquals(100, result[0][1][0]);
 
             // Test with all arrays of different sizes
-            Integer[][][] a2 = {{{1, 2}}, {{3}}};
-            Integer[][][] b2 = {{{10}}};
-            Integer[][][] c2 = {{{100, 200, 300}}};
-            Integer[][][] sum = fff.zip(a2, b2, c2, -1, -10, -100, 
-                (x, y, z) -> x + y + z);
+            Integer[][][] a2 = { { { 1, 2 } }, { { 3 } } };
+            Integer[][][] b2 = { { { 10 } } };
+            Integer[][][] c2 = { { { 100, 200, 300 } } };
+            Integer[][][] sum = fff.zip(a2, b2, c2, -1, -10, -100, (x, y, z) -> x + y + z);
             Assertions.assertEquals(2, sum.length);
             Assertions.assertEquals(111, sum[0][0][0]);
             Assertions.assertEquals(192, sum[0][0][1]);
@@ -1864,8 +4192,7 @@ class ArraysTest {
             Integer[][][] ints = { { { 1 } } };
             String[][][] strs = { { { "A", "B" } }, { { "C" } } };
             Boolean[][][] bools = { { { true } }, { { false, true } }, { { false } } };
-            String[][][] combined = fff.zip(ints, strs, bools, -1, "?", false, (i, s, f) -> String.format("[%d,%s,%s]", i, s, f ? "T" : "F"),
-                    String.class);
+            String[][][] combined = fff.zip(ints, strs, bools, -1, "?", false, (i, s, f) -> String.format("[%d,%s,%s]", i, s, f ? "T" : "F"), String.class);
             Assertions.assertEquals(3, combined.length);
             Assertions.assertEquals("[1,A,T]", combined[0][0][0]);
             Assertions.assertEquals("[-1,B,F]", combined[0][0][1]);

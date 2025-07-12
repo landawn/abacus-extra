@@ -1859,32 +1859,37 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two boolean arrays element-wise using the provided zip function.
-     * The result array length is the minimum of the two input array lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from two boolean arrays using the provided zip function.
+     * The operation stops when the shorter array is exhausted, resulting in an output
+     * array with length equal to the minimum of the two input array lengths.
+     * 
+     * <p>This method is useful when you want to perform element-wise operations on two
+     * arrays without worrying about length mismatches. Null arrays are treated as empty.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[] a = {true, false, true};
-     * boolean[] b = {false, false, true};
-     * boolean[] result = zip(a, b, (x, y) -> x && y);
-     * // Result: {false, false, true}
+     * boolean[] a = {true, false, true, false};
+     * boolean[] b = {false, true, false};
+     * boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
+     * // result: {false, false, false}
      * }</pre>
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new boolean array containing the combined elements
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from both arrays
+     * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
 
-        final boolean[] result = new boolean[N.min(lenA, lenB)];
+        final boolean[] result = new boolean[minLen];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i]);
         }
 
@@ -1892,72 +1897,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different lengths, the default values are used for the shorter array.
-     *
-     * <p>Example usage:
+     * Combines elements from two boolean arrays using the provided zip function, with default values
+     * for missing elements when arrays have different lengths. The result array length equals
+     * the maximum of the two input array lengths.
+     * 
+     * <p>This method is ideal when you need to process arrays of different lengths and want
+     * to provide sensible defaults for missing values rather than truncating to the shorter length.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[] a = {true, false, true};
+     * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
-     * boolean[] result = zip(a, b, false, true, (x, y) -> x || y);
-     * // Result: {true, true, true} (third element: true || true)
+     * boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+     * // result: {true, true, true, false} (using true for missing b elements)
      * }</pre>
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new boolean array with length equal to the maximum of the input arrays
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' is shorter
+     * @param valueForNoneB the default value to use when array 'b' is shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array with length equal to the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean valueForNoneA, final boolean valueForNoneB,
             final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
 
-        return zip(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
+        final boolean[] result = new boolean[maxLen];
 
-    /**
-     * Internal helper method for zip operation with specified result length.
-     * Combines two boolean arrays using the provided function and default values.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param len the desired length of the result array
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param valueForNoneA the default value for array a
-     * @param valueForNoneB the default value for array b
-     * @param zipFunction the combining function
-     * @return a new boolean array of the specified length
-     * @throws E if the zip function throws an exception
-     */
-    private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final boolean[] result = new boolean[len];
-
-        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i]);
         }
 
-        if (lenA < lenB && lenA < len) {
-            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
                 result[i] = zipFunction.apply(valueForNoneA, b[i]);
             }
-        } else if (lenB < lenA && lenB < len) {
-            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
                 result[i] = zipFunction.apply(a[i], valueForNoneB);
-            }
-        }
-
-        if (N.max(lenA, lenB) < len) {
-            for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, valueForNoneB);
             }
         }
 
@@ -1965,24 +1948,26 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three boolean arrays element-wise using the provided zip function.
-     * The result array length is the minimum of the three input array lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from three boolean arrays using the provided zip function.
+     * The operation stops when the shortest array is exhausted, making this suitable
+     * for combining multiple arrays when you only care about positions where all arrays
+     * have values.
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[] a = {true, false, true};
+     * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true, false};
-     * boolean[] c = {true, true, false};
-     * boolean[] result = zip(a, b, c, (x, y, z) -> x && y && z);
-     * // Result: {false, false, false}
+     * boolean[] c = {true, true};
+     * boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+     * // result: {true, true}
      * }</pre>
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param c the third boolean array
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new boolean array containing the combined elements
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param c the third array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
@@ -1990,10 +1975,11 @@ public sealed class Arrays permits Arrays.f {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
 
-        final boolean[] result = new boolean[N.min(lenA, lenB, lenC)];
+        final boolean[] result = new boolean[minLen];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i], c[i]);
         }
 
@@ -2001,27 +1987,31 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different lengths, the default values are used for the shorter arrays.
-     *
-     * <p>Example usage:
+     * Combines elements from three boolean arrays using the provided zip function, with default values
+     * for missing elements when arrays have different lengths. This provides maximum flexibility
+     * when working with three arrays of potentially different sizes.
+     * 
+     * <p>The result array has a length equal to the longest input array, with default values
+     * substituted for any missing elements from shorter arrays.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[] a = {true, false};
-     * boolean[] b = {false};
+     * boolean[] a = {true, false, true, false};
+     * boolean[] b = {false, true};
      * boolean[] c = {true, true, false};
-     * boolean[] result = zip(a, b, c, false, true, false, (x, y, z) -> x || y || z);
-     * // Result: {true, true, false}
+     * boolean[] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+     * // result: {false, false, false, false} (using defaults for missing elements)
      * }</pre>
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param c the third boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param valueForNoneC the default value to use when array c is shorter
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new boolean array with length equal to the maximum of the input arrays
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param c the third array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' is shorter
+     * @param valueForNoneB the default value to use when array 'b' is shorter
+     * @param valueForNoneC the default value to use when array 'c' is shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
@@ -2029,39 +2019,17 @@ public sealed class Arrays permits Arrays.f {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
 
-        return zip(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-    }
+        final boolean[] result = new boolean[maxLen];
 
-    /**
-     * Internal helper method for zip operation with three arrays and specified result length.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param len the desired length of the result array
-     * @param a the first boolean array
-     * @param b the second boolean array
-     * @param c the third boolean array
-     * @param valueForNoneA the default value for array a
-     * @param valueForNoneB the default value for array b
-     * @param valueForNoneC the default value for array c
-     * @param zipFunction the combining function
-     * @return a new boolean array of the specified length
-     * @throws E if the zip function throws an exception
-     */
-    private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final boolean[] result = new boolean[len];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i], c[i]);
         }
 
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
                 result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
@@ -2070,32 +2038,38 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two 2D boolean arrays element-wise using the provided zip function.
-     * The result array dimensions are the minimum of the two input array dimensions.
-     *
-     * <p>Example usage:
+     * Combines elements from two 2D boolean arrays using the provided zip function.
+     * Applies the zip operation to corresponding sub-arrays (rows), stopping when the
+     * shorter outer array is exhausted. Each pair of corresponding sub-arrays is zipped
+     * using the standard 1D array zip logic.
+     * 
+     * <p>This method is useful for matrix-like operations where you want to combine
+     * corresponding rows from two 2D arrays.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[][] a = {{true, false}, {false, true}};
-     * boolean[][] b = {{false, true}, {true, false}};
-     * boolean[][] result = zip(a, b, (x, y) -> x && y);
-     * // Result: {{false, false}, {false, false}}
+     * boolean[][] a = {{true, false}, {false, true, false}};
+     * boolean[][] b = {{false, true, false}, {true, false}};
+     * boolean[][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+     * // result: {{true, true}, {true, true}}
      * }</pre>
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new 2D boolean array containing the combined elements
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays
+     * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
 
-        final boolean[][] result = new boolean[N.min(lenA, lenB)][];
+        final boolean[][] result = new boolean[minLen][];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], zipFunction);
         }
 
@@ -2103,209 +2077,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two 2D boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different dimensions, the default values are used for the shorter arrays.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new 2D boolean array with dimensions equal to the maximum of the input arrays
+     * Combines elements from two 2D boolean arrays using the provided zip function, with default values
+     * for missing elements at both the outer and inner array levels. This provides complete control
+     * over how mismatched array dimensions are handled.
+     * 
+     * <p>The outer array length of the result equals the maximum of the input outer array lengths.
+     * For each position, if one array lacks a sub-array, a null is treated as an empty array and
+     * default values are used for all positions.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][] a = {{true, false}, {false, true, false}};
+     * boolean[][] b = {{false, true, false}, {true, false}, {true}};
+     * boolean[][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+     * // result: {{true, true, false}, {true, true, true}, {true}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array with outer length equal to the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
             final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
-        return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
-
-    /**
-     * Internal helper method for 2D zip operation with specified dimensions.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param len the desired number of rows in the result
-     * @param rowLen the desired number of columns in each row
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param valueForNoneA the default value for array a
-     * @param valueForNoneB the default value for array b
-     * @param zipFunction the combining function
-     * @return a new 2D boolean array of the specified dimensions
-     * @throws E if the zip function throws an exception
-     */
-    private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
 
-        final boolean[][] result = new boolean[len][];
+        final boolean[][] result = new boolean[maxLen][];
 
-        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-            result[i] = zip(rowLen, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
-        }
-
-        if (lenA < lenB && lenA < len) {
-            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-                result[i] = zip(rowLen, null, b[i], valueForNoneA, valueForNoneB, zipFunction);
-            }
-        } else if (lenB < lenA && lenB < len) {
-            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-                result[i] = zip(rowLen, a[i], null, valueForNoneA, valueForNoneB, zipFunction);
-            }
-        }
-
-        if (N.max(lenA, lenB) < len) {
-            for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = zip(rowLen, null, null, valueForNoneA, valueForNoneB, zipFunction);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines three 2D boolean arrays element-wise using the provided zip function.
-     * The result array dimensions are the minimum of the three input array dimensions.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param c the third 2D boolean array
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new 2D boolean array containing the combined elements
-     * @throws E if the zip function throws an exception
-     */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
-            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final boolean[][] result = new boolean[N.min(lenA, lenB, lenC)][];
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines three 2D boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different dimensions, the default values are used for the shorter arrays.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param c the third 2D boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param valueForNoneC the default value to use when array c is shorter
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new 2D boolean array with dimensions equal to the maximum of the input arrays
-     * @throws E if the zip function throws an exception
-     */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
-        return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
-                valueForNoneC, zipFunction);
-    }
-
-    /**
-     * Internal helper method for 2D zip operation with three arrays and specified dimensions.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param len the desired number of rows in the result
-     * @param rowLen the desired number of columns in each row
-     * @param a the first 2D boolean array
-     * @param b the second 2D boolean array
-     * @param c the third 2D boolean array
-     * @param valueForNoneA the default value for array a
-     * @param valueForNoneB the default value for array b
-     * @param valueForNoneC the default value for array c
-     * @param zipFunction the combining function
-     * @return a new 2D boolean array of the specified dimensions
-     * @throws E if the zip function throws an exception
-     */
-    private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean[][] c,
-            final boolean valueForNoneA, final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction)
-            throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final boolean[][] result = new boolean[len][];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-            result[i] = zip(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-        }
-
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = zip(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
-                        zipFunction);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines two 3D boolean arrays element-wise using the provided zip function.
-     * The result array dimensions are the minimum of the two input array dimensions.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 3D boolean array
-     * @param b the second 3D boolean array
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new 3D boolean array containing the combined elements
-     * @throws E if the zip function throws an exception
-     */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b,
-            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final boolean[][][] result = new boolean[N.min(lenA, lenB)][][];
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines two 3D boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different dimensions, the default values are used for the shorter arrays.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 3D boolean array
-     * @param b the second 3D boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param zipFunction the function to combine elements from both arrays
-     * @return a new 3D boolean array with dimensions equal to the maximum of the input arrays
-     * @throws E if the zip function throws an exception
-     */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final boolean[][][] result = new boolean[N.max(lenA, lenB)][][];
-
-        for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
         }
 
-        if (lenA < lenB) {
-            for (int i = lenA; i < lenB; i++) {
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
                 result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
             }
-        } else if (lenB < lenA) {
-            for (int i = lenB; i < lenA; i++) {
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
                 result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
             }
         }
@@ -2314,26 +2129,40 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three 3D boolean arrays element-wise using the provided zip function.
-     * The result array dimensions are the minimum of the three input array dimensions.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 3D boolean array
-     * @param b the second 3D boolean array
-     * @param c the third 3D boolean array
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new 3D boolean array containing the combined elements
+     * Combines elements from three 2D boolean arrays using the provided zip function.
+     * Applies the zip operation to corresponding sub-arrays (rows) from all three input arrays,
+     * stopping when the shortest outer array is exhausted.
+     * 
+     * <p>This method extends the 2D zip concept to three arrays, useful for combining
+     * data from three different sources row by row.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][] a = {{true, false}, {false, true, false}};
+     * boolean[][] b = {{false, true, false}, {true, false}};
+     * boolean[][] c = {{true, true}, {false, false, true}};
+     * boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+     * // result: {{true, true}, {true, true}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param c the third 2D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new 2D array containing the results with outer length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
             final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
 
-        final boolean[][][] result = new boolean[N.min(lenA, lenB, lenC)][][];
+        final boolean[][] result = new boolean[minLen][];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], c[i], zipFunction);
         }
 
@@ -2341,18 +2170,213 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three 3D boolean arrays element-wise using the provided zip function, with default values for missing elements.
-     * When arrays have different dimensions, the default values are used for the shorter arrays.
-     *
-     * @param <E> the type of exception that may be thrown by the zip function
-     * @param a the first 3D boolean array
-     * @param b the second 3D boolean array
-     * @param c the third 3D boolean array
-     * @param valueForNoneA the default value to use when array a is shorter
-     * @param valueForNoneB the default value to use when array b is shorter
-     * @param valueForNoneC the default value to use when array c is shorter
-     * @param zipFunction the function to combine elements from all three arrays
-     * @return a new 3D boolean array with dimensions equal to the maximum of the input arrays
+     * Combines elements from three 2D boolean arrays using the provided zip function, with default values
+     * for missing elements at both the outer and inner array levels. This is the most flexible 2D zip
+     * operation, handling any combination of array dimension mismatches.
+     * 
+     * <p>The result has an outer array length equal to the longest input outer array. Missing sub-arrays
+     * are treated as null/empty, and the provided default values are used for any missing elements.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][] a = {{true, false}, {false, true, false}};
+     * boolean[][] b = {{false, true, false}, {true, false}, {true}};
+     * boolean[][] c = {{true, true}};
+     * boolean[][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+     * // result: {{false, false, false}, {false, false, false}, {false}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param c the third 2D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array with outer length equal to the longest input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final boolean[][] result = new boolean[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from two 3D boolean arrays using the provided zip function.
+     * Applies the zip operation to corresponding 2D sub-arrays, which in turn zip their
+     * corresponding 1D sub-arrays. The operation stops when the shorter outer array is exhausted.
+     * 
+     * <p>This method is useful for combining 3D data structures like cubes or time-series of matrices,
+     * where you want to perform element-wise operations on corresponding positions.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
+     * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}};
+     * boolean[][][] result = Arrays.zip(a, b, (x, y) -> x ^ y);
+     * // result: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays
+     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b,
+            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final boolean[][][] result = new boolean[minLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from two 3D boolean arrays using the provided zip function, with default values
+     * for missing elements at all array levels. This handles dimension mismatches at every level of
+     * the 3D structure.
+     * 
+     * <p>The result has an outer array length equal to the longest input outer array. Missing 2D
+     * sub-arrays are handled by treating them as null and using default values throughout.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}}};
+     * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}, {{false}}};
+     * boolean[][][] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+     * // result: {{{true, true}, {true, true}}, {{true, true}, {true, true}}, {{false}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array with outer length equal to the longer input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
+            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final boolean[][][] result = new boolean[maxLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from three 3D boolean arrays using the provided zip function.
+     * Applies the zip operation recursively through all three dimensions, combining corresponding
+     * elements from all three arrays at the deepest level.
+     * 
+     * <p>This method is suitable for combining three 3D data structures where you need to perform
+     * operations on corresponding elements across all three sources.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][][] a = {{{true, false}}};
+     * boolean[][][] b = {{{false, true}, {true, false}}};
+     * boolean[][][] c = {{{true, true}}};
+     * boolean[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x || y || z);
+     * // result: {{{true, true}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param c the third 3D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new 3D array containing the results with outer length equal to the shortest input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
+            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final boolean[][][] result = new boolean[minLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from three 3D boolean arrays using the provided zip function, with default values
+     * for missing elements at all array levels. This is the most comprehensive 3D zip operation,
+     * handling any combination of dimension mismatches across all three arrays.
+     * 
+     * <p>The result has an outer array length equal to the longest input outer array. Default values
+     * are used whenever any array lacks elements at any level of the structure.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][][] a = {{{true, false}}};
+     * boolean[][][] b = {{{false, true}, {true, false}}};
+     * boolean[][][] c = {{{true, true}}};
+     * boolean[][][] result = Arrays.zip(a, b, c, false, true, false, (x, y, z) -> x && y && z);
+     * // result: {{{false, false}, {false, false}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param c the third 3D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
@@ -2360,14 +2384,16 @@ public sealed class Arrays permits Arrays.f {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
 
-        final boolean[][][] result = new boolean[N.max(lenA, lenB, lenC)][][];
+        final boolean[][][] result = new boolean[maxLen][][];
 
-        for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
         }
 
-        for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
+        for (int i = minLen; i < maxLen; i++) {
             result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
         }
 
@@ -3046,32 +3072,36 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two character arrays into a new array by applying a binary function to
-     * corresponding elements. The resulting array's length is the minimum of the two
-     * input array lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from two char arrays using the provided zip function.
+     * The operation stops when the shorter array is exhausted.
+     * 
+     * <p>This method iterates through both arrays simultaneously and applies the zip function
+     * to corresponding elements. The resulting array length equals the length of the shorter
+     * input array. Null arrays are treated as empty arrays.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[] a = {'a', 'b', 'c'};
-     * char[] b = {'x', 'y'};
-     * char[] result = Arrays.zip(a, b, (c1, c2) -> c1 > c2 ? c1 : c2);
-     * // result is {'x', 'y'}
+     * char[] a = {'A', 'B', 'C', 'D'};
+     * char[] b = {'X', 'Y', 'Z'};
+     * char[] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A'));
+     * // result: {'X', 'Z', '\'}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first character array.
-     * @param b The second character array.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from both arrays
+     * @return a new array containing the results of applying the zip function to corresponding elements
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
 
-        final char[] result = new char[N.min(lenA, lenB)];
+        final char[] result = new char[minLen];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i]);
         }
 
@@ -3079,72 +3109,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two character arrays into a new array by applying a binary function to
-     * corresponding elements. If the arrays have different lengths, the shorter one is
-     * padded with default values. The result length is the maximum of the input lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from two char arrays using the provided zip function, with default values
+     * for missing elements when arrays have different lengths.
+     * 
+     * <p>This method creates a result array with length equal to the longer input array.
+     * When one array is shorter, the specified default value is used in place of missing elements.
+     * This allows for complete processing of both arrays even when they have different lengths.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[] a = {'a', 'b', 'c'};
-     * char[] b = {'x'};
-     * char[] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c1);
-     * // result is {'a', 'b', 'c'}
+     * char[] a = { 'A', 'B', 'C', 'D' };
+     * char[] b = { 'X', 'Y' };
+     * char[] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char) (x + y - 'A'));
+     * // result: {'X', 'Z', '#', '$'} (using '!' for missing b elements)
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first character array.
-     * @param b The second character array.
-     * @param valueForNoneA The default value to use if array {@code a} is shorter.
-     * @param valueForNoneB The default value to use if array {@code b} is shorter.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' is shorter
+     * @param valueForNoneB the default value to use when array 'b' is shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array with length equal to the longer input array
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
 
-        return zip(N.max(lenA, lenB), a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
+        final char[] result = new char[maxLen];
 
-    /**
-     * Private helper for zipping two character arrays with padding.
-     *
-     * @param <E> Exception type.
-     * @param len Target length of the result array.
-     * @param a First array.
-     * @param b Second array.
-     * @param valueForNoneA Default for first array.
-     * @param valueForNoneB Default for second array.
-     * @param zipFunction Combining function.
-     * @return The zipped array.
-     * @throws E on zip function error.
-     */
-    private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
-            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final char[] result = new char[len];
-
-        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i]);
         }
 
-        if (lenA < lenB && lenA < len) {
-            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
                 result[i] = zipFunction.apply(valueForNoneA, b[i]);
             }
-        } else if (lenB < lenA && lenB < len) {
-            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
                 result[i] = zipFunction.apply(a[i], valueForNoneB);
-            }
-        }
-
-        if (N.max(lenA, lenB) < len) {
-            for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, valueForNoneB);
             }
         }
 
@@ -3152,36 +3160,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three character arrays into a new array by applying a function to
-     * corresponding elements. The resulting array's length is the minimum of the
-     * three input array lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from three char arrays using the provided zip function.
+     * The operation stops when the shortest array is exhausted.
+     * 
+     * <p>This method processes three arrays simultaneously, applying the tri-function to
+     * corresponding elements from all three arrays. The result array length is determined
+     * by the shortest input array, ensuring all elements in the result have valid inputs
+     * from all three source arrays.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[] a = {'a', 'b', 'c'};
-     * char[] b = {'x', 'y', 'z'};
-     * char[] c = {'1', '2'};
-     * char[] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
-     * // result is {'1', '2'}
+     * char[] a = {'A', 'B', 'C', 'D'};
+     * char[] b = {'X', 'Y', 'Z'};
+     * char[] c = {'1', '3'};
+     * char[] result = Arrays.zip(a, b, c, (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // result: {'Y', ']'}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first character array.
-     * @param b The second character array.
-     * @param c The third character array.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param c the third array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new array containing the results with length equal to the shortest input array
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTriFunction<Character, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
 
-        final char[] result = new char[N.min(lenA, lenB, lenC)];
+        final char[] result = new char[minLen];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
+            N.println((int) zipFunction.apply(a[i], b[i], c[i]));
             result[i] = zipFunction.apply(a[i], b[i], c[i]);
         }
 
@@ -3189,68 +3203,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three character arrays into a new array by applying a function to corresponding
-     * elements. If arrays have different lengths, shorter ones are padded with default values.
-     * The result length is the maximum of the input lengths.
-     *
-     * <p>Example usage:
+     * Combines elements from three char arrays using the provided zip function, with default values
+     * for missing elements when arrays have different lengths.
+     * 
+     * <p>This method creates a result array with length equal to the longest input array.
+     * When any array is shorter than the longest, the corresponding default value is used
+     * for missing elements. This enables complete processing of all arrays regardless of
+     * their individual lengths.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[] a = {'a'};
-     * char[] b = {'x', 'y'};
+     * char[] a = {'A', 'B', 'C', 'D'};
+     * char[] b = {'X', 'Y'};
      * char[] c = {'1', '2', '3'};
-     * char[] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c3);
-     * // result is {'1', '2', '3'}
+     * char[] result = Arrays.zip(a, b, c, '?', '!', '0', (x, y, z) -> (char)(x + y + z - 'A' - '0'));
+     * // result: {'Y', '\\', '&', '$'} (using defaults for missing elements)
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first character array.
-     * @param b The second character array.
-     * @param c The third character array.
-     * @param valueForNoneA Default value for array {@code a}.
-     * @param valueForNoneB Default value for array {@code b}.
-     * @param valueForNoneC Default value for array {@code c}.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first array (can be null, treated as empty)
+     * @param b the second array (can be null, treated as empty)
+     * @param c the third array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' is shorter
+     * @param valueForNoneB the default value to use when array 'b' is shorter
+     * @param valueForNoneC the default value to use when array 'c' is shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new array with length equal to the longest input array
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char valueForNoneA, final char valueForNoneB,
             final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
 
-        return zip(N.max(lenA, lenB, lenC), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-    }
+        final char[] result = new char[maxLen];
 
-    /**
-     * Private helper for zipping three character arrays with padding.
-     *
-     * @param <E> Exception type.
-     * @param len Target length.
-     * @param a First array.
-     * @param b Second array.
-     * @param c Third array.
-     * @param valueForNoneA Default for a.
-     * @param valueForNoneB Default for b.
-     * @param valueForNoneC Default for c.
-     * @param zipFunction Combining function.
-     * @return The zipped array.
-     * @throws E on zip function error.
-     */
-    private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char[] c, final char valueForNoneA,
-            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final char[] result = new char[len];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zipFunction.apply(a[i], b[i], c[i]);
         }
 
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
                 result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
@@ -3259,32 +3255,37 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two 2D character arrays into a new 2D array by zipping corresponding sub-arrays.
-     * The resulting 2D array's length is the minimum of the two input array lengths.
-     * Inner arrays are also zipped to their minimum length.
-     *
-     * <p>Example usage:
+     * Combines elements from two 2D char arrays using the provided zip function.
+     * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
+     * 
+     * <p>This method processes 2D arrays by applying the zip operation to each pair of
+     * corresponding inner arrays. The outer array length of the result equals the length
+     * of the shorter outer array. Each inner array is processed independently using the
+     * single-array zip operation.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][] a = {{'a', 'b'}, {'c'}};
-     * char[][] b = {{'X', 'Y', 'Z'}};
-     * char[][] result = Arrays.zip(a, b, (c1, c2) -> c1);
-     * // result is {{'a', 'b'}}
+     * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
+     * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
+     * char[][] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A'));
+     * // result: {{'X', 'Z'}, {'3', '5'}}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 2D character array.
-     * @param b The second 2D character array.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new 2D character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays
+     * @return a new 2D array containing the results of zipping corresponding sub-arrays
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
 
-        final char[][] result = new char[N.min(lenA, lenB)][];
+        final char[][] result = new char[minLen][];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], zipFunction);
         }
 
@@ -3292,254 +3293,50 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines two 2D character arrays with padding. If the arrays or their sub-arrays have
-     * different lengths, they are padded with default values. The result dimensions are
-     * the maximum of the input dimensions.
-     *
-     * <p>Example usage:
+     * Combines elements from two 2D char arrays using the provided zip function, with default values
+     * for missing elements at both the outer and inner array levels.
+     * 
+     * <p>This method handles 2D arrays of different sizes by using default values for missing
+     * elements. The outer array length of the result equals the length of the longer outer array.
+     * When processing inner arrays, default values are used for any missing elements within
+     * those arrays as well.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][] a = {{'a'}, {'b', 'c'}};
-     * char[][] b = {{'X', 'Y'}};
-     * char[][] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c2);
-     * // result is {{'X', 'Y'}, {'Y', ' '}}
+     * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
+     * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
+     * char[][] result = Arrays.zip(a, b, '?', '!', (x, y) -> (char)(x + y - 'A'));
+     * // result: {{'X', 'Z', 'X'}, {'3', '5', '%'}, {'1'}}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 2D character array.
-     * @param b The second 2D character array.
-     * @param valueForNoneA The default value for missing elements.
-     * @param valueForNoneB The default value for missing elements.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new 2D character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array with outer length equal to the longer input array
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
             final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
-        return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
-    }
-
-    /**
-     * Private helper for zipping two 2D character arrays with padding.
-     *
-     * @param <E> Exception type.
-     * @param len Target length.
-     * @param rowLen Target row length.
-     * @param a First array.
-     * @param b Second array.
-     * @param valueForNoneA Default for a.
-     * @param valueForNoneB Default for b.
-     * @param zipFunction Combining function.
-     * @return The zipped array.
-     * @throws E on zip function error.
-     */
-    private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char valueForNoneA,
-            final char valueForNoneB, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
 
-        final char[][] result = new char[len][];
+        final char[][] result = new char[maxLen][];
 
-        for (int i = 0, min = N.min(lenA, lenB, len); i < min; i++) {
-            result[i] = zip(rowLen, a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
-        }
-
-        if (lenA < lenB && lenA < len) {
-            for (int i = lenA, min = N.min(lenB, len); i < min; i++) {
-                result[i] = zip(rowLen, null, b[i], valueForNoneA, valueForNoneB, zipFunction);
-            }
-        } else if (lenB < lenA && lenB < len) {
-            for (int i = lenB, min = N.min(lenA, len); i < min; i++) {
-                result[i] = zip(rowLen, a[i], null, valueForNoneA, valueForNoneB, zipFunction);
-            }
-        }
-
-        if (N.max(lenA, lenB) < len) {
-            for (int i = N.max(lenA, lenB); i < len; i++) {
-                result[i] = zip(rowLen, null, null, valueForNoneA, valueForNoneB, zipFunction);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines three 2D character arrays into a new 2D array by zipping corresponding sub-arrays.
-     * The resulting array's length is the minimum of the three input array lengths.
-     *
-     * <p>Example usage:
-     * <pre>{@code
-     * char[][] a = {{'a'}, {'b'}};
-     * char[][] b = {{'x'}, {'y'}};
-     * char[][] c = {{'1'}};
-     * char[][] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
-     * // result is {{'1'}}
-     * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 2D character array.
-     * @param b The second 2D character array.
-     * @param c The third 2D character array.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new 2D character array with the combined results.
-     * @throws E if the zip function throws an exception.
-     */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
-            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final char[][] result = new char[N.min(lenA, lenB, lenC)][];
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zip(a[i], b[i], c[i], zipFunction);
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines three 2D character arrays with padding. If the arrays or their sub-arrays have
-     * different lengths, they are padded with default values. The result dimensions are
-     * the maximum of the input dimensions.
-     *
-     * <p>Example usage:
-     * <pre>{@code
-     * char[][] a = {{'a'}};
-     * char[][] b = {{'x', 'y'}};
-     * char[][] c = {{'1'}, {'2'}};
-     * char[][] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
-     * // result is {{'x', 'y'}, {' ', ' '}}
-     * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 2D character array.
-     * @param b The second 2D character array.
-     * @param c The third 2D character array.
-     * @param valueForNoneA Default value for missing elements.
-     * @param valueForNoneB Default value for missing elements.
-     * @param valueForNoneC Default value for missing elements.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new 2D character array with the combined results.
-     * @throws E if the zip function throws an exception.
-     */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
-            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
-        return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
-                valueForNoneC, zipFunction);
-    }
-
-    /**
-     * Private helper for zipping three 2D character arrays with padding.
-     *
-     * @param <E> Exception type.
-     * @param len Target length.
-     * @param rowLen Target row length.
-     * @param a First array.
-     * @param b Second array.
-     * @param c Third array.
-     * @param valueForNoneA Default for a.
-     * @param valueForNoneB Default for b.
-     * @param valueForNoneC Default for c.
-     * @param zipFunction Combining function.
-     * @return The zipped array.
-     * @throws E on zip function error.
-     */
-    private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char[][] c,
-            final char valueForNoneA, final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-        final int lenC = N.len(c);
-
-        final char[][] result = new char[len][];
-
-        for (int i = 0, min = N.min(lenA, lenB, lenC, len); i < min; i++) {
-            result[i] = zip(rowLen, a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
-        }
-
-        if (N.min(lenA, lenB, lenC) < len) {
-            for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                result[i] = zip(rowLen, i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
-                        zipFunction);
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines two 3D character arrays into a new 3D array by zipping corresponding sub-arrays.
-     * The operation is recursive, and the dimensions of the result are the minimum of the
-     * corresponding input dimensions.
-     *
-     * <p>Example usage:
-     * <pre>{@code
-     * char[][][] a = {{{'a'}}};
-     * char[][][] b = {{{'x'}, {'y'}}};
-     * char[][][] result = Arrays.zip(a, b, (c1, c2) -> c1);
-     * // result is {{{'a'}}}
-     * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 3D character array.
-     * @param b The second 3D character array.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new 3D character array with the combined results.
-     * @throws E if the zip function throws an exception.
-     */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBiFunction<Character, E> zipFunction)
-            throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final char[][][] result = new char[N.min(lenA, lenB)][][];
-
-        for (int i = 0, len = result.length; i < len; i++) {
-            result[i] = zip(a[i], b[i], zipFunction);
-        }
-
-        return result;
-    }
-
-    /**
-     * Combines two 3D character arrays with padding. If arrays or their sub-arrays have
-     * different lengths, they are padded with default values. The result dimensions are
-     * the maximum of the corresponding input dimensions.
-     *
-     * <p>Example usage:
-     * <pre>{@code
-     * char[][][] a = {{{'a'}}};
-     * char[][][] b = {{{'x'}, {'y'}}};
-     * char[][][] result = Arrays.zip(a, b, ' ', ' ', (c1, c2) -> c2);
-     * // result is {{{'x'}, {'y'}}}
-     * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 3D character array.
-     * @param b The second 3D character array.
-     * @param valueForNoneA The default value for missing elements.
-     * @param valueForNoneB The default value for missing elements.
-     * @param zipFunction The function to apply to each pair of elements.
-     * @return A new 3D character array with the combined results.
-     * @throws E if the zip function throws an exception.
-     */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
-            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
-        final int lenA = N.len(a);
-        final int lenB = N.len(b);
-
-        final char[][][] result = new char[N.max(lenA, lenB)][][];
-
-        for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
         }
 
-        if (lenA < lenB) {
-            for (int i = lenA; i < lenB; i++) {
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
                 result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
             }
-        } else if (lenB < lenA) {
-            for (int i = lenB; i < lenA; i++) {
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
                 result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
             }
         }
@@ -3548,36 +3345,40 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three 3D character arrays into a new 3D array by zipping corresponding sub-arrays.
-     * The operation is recursive, and the dimensions of the result are the minimum of the
-     * corresponding input dimensions.
-     *
-     * <p>Example usage:
+     * Combines elements from three 2D char arrays using the provided zip function.
+     * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
+     * 
+     * <p>This method processes three 2D arrays simultaneously by applying the tri-function
+     * to corresponding elements within each triplet of inner arrays. The outer array length
+     * of the result is determined by the shortest outer array among the three inputs.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][][] a = {{{'a', 'b'}}};
-     * char[][][] b = {{{'x', 'y'}}};
-     * char[][][] c = {{{'1'}}};
-     * char[][][] result = Arrays.zip(a, b, c, (c1, c2, c3) -> c3);
-     * // result is {{{'1'}}}
+     * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
+     * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
+     * char[][] c = {{'a', 'b'}, {'c', 'd', 'e'}};
+     * char[][] result = Arrays.zip(a, b, c, (x, y, z) -> (char)((x + y + z) / 3));
+     * // result: {{'S', 'T'}, {'G', 'H'}}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 3D character array.
-     * @param b The second 3D character array.
-     * @param c The third 3D character array.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new 3D character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param c the third 2D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new 2D array containing the results with outer length equal to the shortest input array
+     * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
             final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
 
-        final char[][][] result = new char[N.min(lenA, lenB, lenC)][][];
+        final char[][] result = new char[minLen][];
 
-        for (int i = 0, len = result.length; i < len; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], c[i], zipFunction);
         }
 
@@ -3585,43 +3386,236 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines three 3D character arrays with padding. If arrays or their sub-arrays have
-     * different lengths, they are padded with default values. The result dimensions are
-     * the maximum of the corresponding input dimensions.
-     *
-     * <p>Example usage:
+     * Combines elements from three 2D char arrays using the provided zip function, with default values
+     * for missing elements at both the outer and inner array levels.
+     * 
+     * <p>This method provides complete processing of three 2D arrays regardless of size differences.
+     * The result has an outer array length equal to the longest outer array among the inputs.
+     * Default values are used whenever an array or sub-array is shorter than the others,
+     * ensuring all positions in the result array are filled.</p>
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][][] a = {{{'a'}}};
-     * char[][][] b = {{{'x'}, {'y'}}};
-     * char[][][] c = {};
-     * char[][][] result = Arrays.zip(a, b, c, ' ', ' ', ' ', (c1, c2, c3) -> c2);
-     * // result is {{{'x'}, {'y'}}}
+     * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
+     * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
+     * char[][] c = {{'a', 'b'}};
+     * char[][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
+     * // result: {{'S', 'T', ']'}, {'P', 'Q', 'L'}, {'P'}}
      * }</pre>
-     *
-     * @param <E> The type of exception the zip function might throw.
-     * @param a The first 3D character array.
-     * @param b The second 3D character array.
-     * @param c The third 3D character array.
-     * @param valueForNoneA The default value for missing elements.
-     * @param valueForNoneB The default value for missing elements.
-     * @param valueForNoneC The default value for missing elements.
-     * @param zipFunction The function to apply to each triplet of elements.
-     * @return A new 3D character array with the combined results.
-     * @throws E if the zip function throws an exception.
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 2D array (can be null, treated as empty)
+     * @param b the second 2D array (can be null, treated as empty)
+     * @param c the third 2D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 2D array with outer length equal to the longest input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
+            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
+
+        final char[][] result = new char[maxLen][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+        }
+
+        if (minLen < maxLen) {
+            for (int i = minLen; i < maxLen; i++) {
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                        zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from two 3D char arrays using the provided zip function.
+     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * 
+     * <p>This method processes 3D arrays by recursively applying the zip operation to each
+     * level of the array hierarchy. The outermost array length of the result equals the
+     * length of the shorter outermost array. Each 2D sub-array is processed using the 2D
+     * array zip operation.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}, {'G', 'H'}}};
+     * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}};
+     * char[][][] result = Arrays.zip(a, b, (x, y) -> (char)(x + y - 'A' + '0'));
+     * // result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'=', '?'}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays
+     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBiFunction<Character, E> zipFunction)
+            throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+
+        final char[][][] result = new char[minLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from two 3D char arrays using the provided zip function, with default values
+     * for missing elements at all array levels.
+     * 
+     * <p>This method handles 3D arrays of different sizes by using default values for missing
+     * elements at any level of the array hierarchy. The outermost array length of the result
+     * equals the length of the longer outermost array. Default values are propagated through
+     * all levels of array processing.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}}};
+     * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}, {{'9'}}};
+     * char[][][] result = Arrays.zip(a, b, 'A', '0', (x, y) -> (char) (x + y - 'A'));
+     * // result: result: {{{'1', '3'}, {'5', '7'}}, {{'9', ';'}, {'7', '8'}}, {{'9'}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array with outer length equal to the longer input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
+            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int minLen = N.min(lenA, lenB);
+        final int maxLen = N.max(lenA, lenB);
+
+        final char[][][] result = new char[maxLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+        }
+
+        if (lenA < maxLen) {
+            for (int i = lenA; i < maxLen; i++) {
+                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+            }
+        } else if (lenB < maxLen) {
+            for (int i = lenB; i < maxLen; i++) {
+                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from three 3D char arrays using the provided zip function.
+     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * 
+     * <p>This method processes three 3D arrays simultaneously by applying the tri-function
+     * through all levels of the array hierarchy. The outermost array length of the result
+     * is determined by the shortest outermost array among the three inputs. Each triplet
+     * of 2D sub-arrays is processed using the 2D array tri-zip operation.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * char[][][] a = {{{'A', 'B'}}};
+     * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
+     * char[][][] c = {{{'a', 'b'}}};
+     * char[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (char)((x + y + z) / 3));
+     * // result: {{{'F', 'G'}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param c the third 3D array (can be null, treated as empty)
+     * @param zipFunction the function to apply to corresponding elements from all three arrays
+     * @return a new 3D array containing the results with outer length equal to the shortest input array
+     * @throws E if the zip function throws an exception
+     */
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
+            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+        final int lenA = N.len(a);
+        final int lenB = N.len(b);
+        final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+
+        final char[][][] result = new char[minLen][][];
+
+        for (int i = 0; i < minLen; i++) {
+            result[i] = zip(a[i], b[i], c[i], zipFunction);
+        }
+
+        return result;
+    }
+
+    /**
+     * Combines elements from three 3D char arrays using the provided zip function, with default values
+     * for missing elements at all array levels.
+     * 
+     * <p>This method provides the most comprehensive zip operation for 3D arrays, handling
+     * size differences at every level of the array hierarchy. The result has an outermost
+     * array length equal to the longest outermost array among the three inputs. Default
+     * values are used whenever any array or sub-array is shorter than the others, ensuring
+     * complete processing of all input data.</p>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * char[][][] a = {{{'A', 'B'}}};
+     * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
+     * char[][][] c = {{{'a', 'b'}}};
+     * char[][][] result = Arrays.zip(a, b, c, '?', '!', '~', (x, y, z) -> (char)((x + y + z) / 3));
+     * // result: {{{'F', 'G'}, {'P', 'P'}}}
+     * }</pre>
+     * 
+     * @param <E> the type of exception that the zip function may throw
+     * @param a the first 3D array (can be null, treated as empty)
+     * @param b the second 3D array (can be null, treated as empty)
+     * @param c the third 3D array (can be null, treated as empty)
+     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
+     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
+     * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
+     * @param zipFunction the function to apply to corresponding elements
+     * @return a new 3D array with outer length equal to the longest input array
+     * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
             final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
+        final int minLen = N.min(lenA, lenB, lenC);
+        final int maxLen = N.max(lenA, lenB, lenC);
 
-        final char[][][] result = new char[N.max(lenA, lenB, lenC)][][];
+        final char[][][] result = new char[maxLen][][];
 
-        for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
+        for (int i = 0; i < minLen; i++) {
             result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
         }
 
-        for (int i = N.min(lenA, lenB, lenC), len = result.length; i < len; i++) {
+        for (int i = minLen; i < maxLen; i++) {
             result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
         }
 
