@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 import com.landawn.abacus.util.stream.Stream;
@@ -585,7 +586,7 @@ class ArraysTest {
             boolean[] a = { true, false };
             boolean[] b = { false, true };
 
-            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+            Throwables.BooleanBinaryOperator<RuntimeException> errorFunction = (x, y) -> {
                 throw new RuntimeException("Test exception");
             };
 
@@ -598,7 +599,7 @@ class ArraysTest {
             boolean[] b = { false };
             boolean[] c = { true };
 
-            Throwables.BooleanTriFunction<Boolean, RuntimeException> errorFunction = (x, y, z) -> {
+            Throwables.BooleanTernaryOperator<RuntimeException> errorFunction = (x, y, z) -> {
                 throw new RuntimeException("Test exception");
             };
 
@@ -610,7 +611,7 @@ class ArraysTest {
             boolean[][] a = { { true } };
             boolean[][] b = { { false } };
 
-            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+            Throwables.BooleanBinaryOperator<RuntimeException> errorFunction = (x, y) -> {
                 throw new RuntimeException("Test exception");
             };
 
@@ -622,7 +623,7 @@ class ArraysTest {
             boolean[][][] a = { { { true } } };
             boolean[][][] b = { { { false } } };
 
-            Throwables.BooleanBiFunction<Boolean, RuntimeException> errorFunction = (x, y) -> {
+            Throwables.BooleanBinaryOperator<RuntimeException> errorFunction = (x, y) -> {
                 throw new RuntimeException("Test exception");
             };
 
@@ -694,7 +695,7 @@ class ArraysTest {
             char[] b = { 'X', 'Y', 'Z' };
 
             Assertions.assertThrows(Exception.class, () -> {
-                Arrays.zip(a, b, (Throwables.CharBiFunction<Character, Exception>) (x, y) -> {
+                Arrays.zip(a, b, (Throwables.CharBinaryOperator<Exception>) (x, y) -> {
                     throw new Exception("Test exception");
                 });
             });
@@ -786,7 +787,7 @@ class ArraysTest {
             Assertions.assertArrayEquals(new char[] {}, result);
 
             // Test with all null arrays
-            char[] result2 = Arrays.zip((char[]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[] result2 = Arrays.zip((char[]) null, null, null, (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertArrayEquals(new char[] {}, result2);
         }
 
@@ -839,7 +840,7 @@ class ArraysTest {
             Assertions.assertArrayEquals(new char[] { 'X', 'Y', 'Z' }, result);
 
             // Test with all null arrays
-            char[] result2 = Arrays.zip((char[]) null, null, null, '?', '!', '0', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[] result2 = Arrays.zip((char[]) null, null, null, '?', '!', '0', (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertArrayEquals(new char[] {}, result2);
         }
 
@@ -968,7 +969,7 @@ class ArraysTest {
         @Test
         public void testZipThreeChar2DArraysWithNulls() throws Exception {
             // Test with null arrays
-            char[][] result = Arrays.zip((char[][]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[][] result = Arrays.zip((char[][]) null, null, null, (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertEquals(0, result.length);
 
             // Test with one null array
@@ -995,7 +996,7 @@ class ArraysTest {
         @Test
         public void testZipThreeChar2DArraysWithDefaultsNulls() throws Exception {
             // Test with all null arrays
-            char[][] result = Arrays.zip((char[][]) null, null, null, '?', '!', '~', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[][] result = Arrays.zip((char[][]) null, null, null, '?', '!', '~', (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertEquals(0, result.length);
 
             // Test with mixed null and non-null arrays
@@ -1033,7 +1034,7 @@ class ArraysTest {
         @Test
         public void testZipTwoChar3DArraysWithNulls() throws Exception {
             // Test with null arrays
-            char[][][] result = Arrays.zip((char[][][]) null, null, (Throwables.CharBiFunction<Character, Exception>) (x, y) -> x);
+            char[][][] result = Arrays.zip((char[][][]) null, null, (Throwables.CharBinaryOperator<Exception>) (x, y) -> x);
             Assertions.assertEquals(0, result.length);
 
             // Test with null sub-arrays
@@ -1096,7 +1097,7 @@ class ArraysTest {
         @Test
         public void testZipThreeChar3DArraysWithNulls() throws Exception {
             // Test with all null arrays
-            char[][][] result = Arrays.zip((char[][][]) null, null, null, (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[][][] result = Arrays.zip((char[][][]) null, null, null, (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertEquals(0, result.length);
         }
 
@@ -1116,7 +1117,7 @@ class ArraysTest {
         @Test
         public void testZipThreeChar3DArraysWithDefaultsAllNulls() throws Exception {
             // Test with all null arrays
-            char[][][] result = Arrays.zip((char[][][]) null, null, null, '?', '!', '~', (Throwables.CharTriFunction<Character, Exception>) (x, y, z) -> x);
+            char[][][] result = Arrays.zip((char[][][]) null, null, null, '?', '!', '~', (Throwables.CharTernaryOperator<Exception>) (x, y, z) -> x);
             Assertions.assertEquals(0, result.length);
         }
     }
@@ -1560,14 +1561,14 @@ class ArraysTest {
         @Test
         public void testMap_NullArray() throws Exception {
             String[] input = null;
-            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMap_EmptyArray() throws Exception {
             String[] input = new String[0];
-            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1575,14 +1576,14 @@ class ArraysTest {
         @Test
         public void testMap_StringToInteger() throws Exception {
             String[] input = { "1", "2", "3" };
-            Integer[] result = Arrays.map(input, Integer::valueOf, Integer.class);
+            Integer[] result = f.map(input, Integer::valueOf, Integer.class);
             Assertions.assertArrayEquals(new Integer[] { 1, 2, 3 }, result);
         }
 
         @Test
         public void testMap_IntegerToString() throws Exception {
             Integer[] input = { 1, 2, 3 };
-            String[] result = Arrays.map(input, String::valueOf, String.class);
+            String[] result = f.map(input, String::valueOf, String.class);
             Assertions.assertArrayEquals(new String[] { "1", "2", "3" }, result);
         }
 
@@ -1590,7 +1591,7 @@ class ArraysTest {
         public void testMap_WithException() {
             String[] input = { "1", "abc", "3" };
             Assertions.assertThrows(NumberFormatException.class, () -> {
-                Arrays.map(input, Integer::valueOf, Integer.class);
+                f.map(input, Integer::valueOf, Integer.class);
             });
         }
 
@@ -1598,14 +1599,14 @@ class ArraysTest {
         @Test
         public void testMapToBoolean_NullArray() throws Exception {
             String[] input = null;
-            boolean[] result = Arrays.mapToBoolean(input, s -> true);
+            boolean[] result = f.mapToBoolean(input, s -> true);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToBoolean_EmptyArray() throws Exception {
             String[] input = new String[0];
-            boolean[] result = Arrays.mapToBoolean(input, s -> true);
+            boolean[] result = f.mapToBoolean(input, s -> true);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1613,7 +1614,7 @@ class ArraysTest {
         @Test
         public void testMapToBoolean_StringLength() throws Exception {
             String[] input = { "hello", "hi", "world", "a" };
-            boolean[] result = Arrays.mapToBoolean(input, s -> s.length() > 3);
+            boolean[] result = f.mapToBoolean(input, s -> s.length() > 3);
             Assertions.assertArrayEquals(new boolean[] { true, false, true, false }, result);
         }
 
@@ -1621,14 +1622,14 @@ class ArraysTest {
         @Test
         public void testMapToChar_NullArray() throws Exception {
             String[] input = null;
-            char[] result = Arrays.mapToChar(input, s -> 'a');
+            char[] result = f.mapToChar(input, s -> 'a');
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToChar_EmptyArray() throws Exception {
             String[] input = new String[0];
-            char[] result = Arrays.mapToChar(input, s -> 'a');
+            char[] result = f.mapToChar(input, s -> 'a');
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1636,7 +1637,7 @@ class ArraysTest {
         @Test
         public void testMapToChar_FirstCharacter() throws Exception {
             String[] input = { "apple", "banana", "cherry" };
-            char[] result = Arrays.mapToChar(input, s -> s.charAt(0));
+            char[] result = f.mapToChar(input, s -> s.charAt(0));
             Assertions.assertArrayEquals(new char[] { 'a', 'b', 'c' }, result);
         }
 
@@ -1644,14 +1645,14 @@ class ArraysTest {
         @Test
         public void testMapToByte_NullArray() throws Exception {
             String[] input = null;
-            byte[] result = Arrays.mapToByte(input, s -> (byte) 0);
+            byte[] result = f.mapToByte(input, s -> (byte) 0);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToByte_EmptyArray() throws Exception {
             String[] input = new String[0];
-            byte[] result = Arrays.mapToByte(input, s -> (byte) 0);
+            byte[] result = f.mapToByte(input, s -> (byte) 0);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1659,7 +1660,7 @@ class ArraysTest {
         @Test
         public void testMapToByte_StringToByte() throws Exception {
             String[] input = { "1", "2", "3" };
-            byte[] result = Arrays.mapToByte(input, s -> Byte.parseByte(s));
+            byte[] result = f.mapToByte(input, s -> Byte.parseByte(s));
             Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, result);
         }
 
@@ -1667,14 +1668,14 @@ class ArraysTest {
         @Test
         public void testMapToShort_NullArray() throws Exception {
             String[] input = null;
-            short[] result = Arrays.mapToShort(input, s -> (short) 0);
+            short[] result = f.mapToShort(input, s -> (short) 0);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToShort_EmptyArray() throws Exception {
             String[] input = new String[0];
-            short[] result = Arrays.mapToShort(input, s -> (short) 0);
+            short[] result = f.mapToShort(input, s -> (short) 0);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1682,7 +1683,7 @@ class ArraysTest {
         @Test
         public void testMapToShort_StringToShort() throws Exception {
             String[] input = { "10", "20", "30" };
-            short[] result = Arrays.mapToShort(input, s -> Short.parseShort(s));
+            short[] result = f.mapToShort(input, s -> Short.parseShort(s));
             Assertions.assertArrayEquals(new short[] { 10, 20, 30 }, result);
         }
 
@@ -1690,14 +1691,14 @@ class ArraysTest {
         @Test
         public void testMapToInt_NullArray() throws Exception {
             String[] input = null;
-            int[] result = Arrays.mapToInt(input, s -> 0);
+            int[] result = f.mapToInt(input, s -> 0);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToInt_EmptyArray() throws Exception {
             String[] input = new String[0];
-            int[] result = Arrays.mapToInt(input, s -> 0);
+            int[] result = f.mapToInt(input, s -> 0);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1705,7 +1706,7 @@ class ArraysTest {
         @Test
         public void testMapToInt_StringToInt() throws Exception {
             String[] input = { "10", "20", "30" };
-            int[] result = Arrays.mapToInt(input, Integer::parseInt);
+            int[] result = f.mapToInt(input, Integer::parseInt);
             Assertions.assertArrayEquals(new int[] { 10, 20, 30 }, result);
         }
 
@@ -1713,14 +1714,14 @@ class ArraysTest {
         @Test
         public void testMapToLong_NullArray() throws Exception {
             String[] input = null;
-            long[] result = Arrays.mapToLong(input, s -> 0L);
+            long[] result = f.mapToLong(input, s -> 0L);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToLong_EmptyArray() throws Exception {
             String[] input = new String[0];
-            long[] result = Arrays.mapToLong(input, s -> 0L);
+            long[] result = f.mapToLong(input, s -> 0L);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1728,7 +1729,7 @@ class ArraysTest {
         @Test
         public void testMapToLong_StringToLong() throws Exception {
             String[] input = { "100", "200", "300" };
-            long[] result = Arrays.mapToLong(input, Long::parseLong);
+            long[] result = f.mapToLong(input, Long::parseLong);
             Assertions.assertArrayEquals(new long[] { 100L, 200L, 300L }, result);
         }
 
@@ -1736,14 +1737,14 @@ class ArraysTest {
         @Test
         public void testMapToFloat_NullArray() throws Exception {
             String[] input = null;
-            float[] result = Arrays.mapToFloat(input, s -> 0.0f);
+            float[] result = f.mapToFloat(input, s -> 0.0f);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToFloat_EmptyArray() throws Exception {
             String[] input = new String[0];
-            float[] result = Arrays.mapToFloat(input, s -> 0.0f);
+            float[] result = f.mapToFloat(input, s -> 0.0f);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1751,7 +1752,7 @@ class ArraysTest {
         @Test
         public void testMapToFloat_StringToFloat() throws Exception {
             String[] input = { "1.5", "2.5", "3.5" };
-            float[] result = Arrays.mapToFloat(input, Float::parseFloat);
+            float[] result = f.mapToFloat(input, Float::parseFloat);
             Assertions.assertArrayEquals(new float[] { 1.5f, 2.5f, 3.5f }, result);
         }
 
@@ -1759,14 +1760,14 @@ class ArraysTest {
         @Test
         public void testMapToDouble_NullArray() throws Exception {
             String[] input = null;
-            double[] result = Arrays.mapToDouble(input, s -> 0.0);
+            double[] result = f.mapToDouble(input, s -> 0.0);
             Assertions.assertNull(result);
         }
 
         @Test
         public void testMapToDouble_EmptyArray() throws Exception {
             String[] input = new String[0];
-            double[] result = Arrays.mapToDouble(input, s -> 0.0);
+            double[] result = f.mapToDouble(input, s -> 0.0);
             Assertions.assertNotNull(result);
             Assertions.assertEquals(0, result.length);
         }
@@ -1774,7 +1775,7 @@ class ArraysTest {
         @Test
         public void testMapToDouble_StringToDouble() throws Exception {
             String[] input = { "1.1", "2.2", "3.3" };
-            double[] result = Arrays.mapToDouble(input, Double::parseDouble);
+            double[] result = f.mapToDouble(input, Double::parseDouble);
             Assertions.assertArrayEquals(new double[] { 1.1, 2.2, 3.3 }, result);
         }
 
@@ -2055,7 +2056,7 @@ class ArraysTest {
         @Test
         public void testMap_WithNullElements() throws Exception {
             String[] input = { "1", null, "3" };
-            String[] result = Arrays.map(input, s -> s == null ? "NULL" : s, String.class);
+            String[] result = f.map(input, s -> s == null ? "NULL" : s, String.class);
             Assertions.assertArrayEquals(new String[] { "1", "NULL", "3" }, result);
         }
 
@@ -2076,8 +2077,8 @@ class ArraysTest {
         public void testMap_ChainedTransformations() throws Exception {
             // Test chaining multiple transformations
             String[] input = { "1", "2", "3" };
-            Integer[] intermediate = Arrays.map(input, Integer::valueOf, Integer.class);
-            String[] result = Arrays.map(intermediate, i -> "Value: " + (i * 2), String.class);
+            Integer[] intermediate = f.map(input, Integer::valueOf, Integer.class);
+            String[] result = f.map(intermediate, i -> "Value: " + (i * 2), String.class);
             Assertions.assertArrayEquals(new String[] { "Value: 2", "Value: 4", "Value: 6" }, result);
         }
 

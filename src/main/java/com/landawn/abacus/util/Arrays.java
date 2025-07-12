@@ -48,259 +48,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each element of the input array to a new type using the provided mapping function.
-     * 
-     * @param <T> the type of elements in the input array
-     * @param <R> the type of elements in the result array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the mapping function to apply to each element
-     * @param targetElementType the class of the target element type
-     * @return a new array containing the mapped elements, or null if input is null
-     * @throws E if the mapping function throws an exception
-     * 
-     * @example
-     * <pre>
-     * String[] strings = {"1", "2", "3"};
-     * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
-     * // Result: [1, 2, 3]
-     * </pre>
+     * Prints a 1D object array to the console and returns the printed string.
+     * Handles null arrays and empty arrays appropriately.
+     *
+     * <p>Example usage:
+     * <pre>{@code
+     * Object[] arr = {"Hello", "World", 123};
+     * String output = println(arr);
+     * // Prints and returns: [Hello, World, 123]
+     * }</pre>
+     *
+     * @param a the object array to print
+     * @return the string representation that was printed
      */
-    public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func, final Class<R> targetElementType)
-            throws E {
+    public static String println(final Object[] a) {
         if (a == null) {
-            return null; // NOSONAR
+            return N.println("null");
+        } else if (a.length == 0) {
+            return N.println("[]");
+        } else {
+            return N.println(N.toString(a));
         }
-
-        final int len = N.len(a);
-        final R[] c = N.newArray(targetElementType, len);
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.apply(a[i]);
-        }
-
-        return c;
     }
 
     /**
-     * Maps each element of the input array to a boolean value using the provided function.
+     * Prints a 2D object array to the console with proper formatting and returns the printed string.
+     * Uses the internal formatter for 2D arrays.
      *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a boolean
-     * @return a boolean array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     *
-     * @example
-     * <pre>
-     * String[] words = {"hello", "hi", "world"};
-     * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
-     * // Result: [true, false, true]
-     * </pre>
+     * @param a the 2D object array to print
+     * @return the string representation that was printed
      */
-    public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final boolean[] c = new boolean[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsBoolean(a[i]);
-        }
-
-        return c;
+    public static String println(final Object[][] a) {
+        return ff.println(a);
     }
 
     /**
-     * Maps each element of the input array to a char value using the provided function.
+     * Prints a 3D object array to the console with proper formatting and returns the printed string.
+     * Uses the internal formatter for 3D arrays.
      *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a char
-     * @return a char array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     *
-     * @example
-     * <pre>
-     * String[] words = {"apple", "banana", "cherry"};
-     * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
-     * // Result: ['a', 'b', 'c']
-     * </pre>
+     * @param a the 3D object array to print
+     * @return the string representation that was printed
      */
-    public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final char[] c = new char[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsChar(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to a byte value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a byte
-     * @return a byte array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     */
-    public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final byte[] c = new byte[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsByte(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to a short value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a short
-     * @return a short array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     */
-    public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final short[] c = new short[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsShort(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to an int value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to an int
-     * @return an int array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     *
-     * @example
-     * <pre>
-     * String[] numbers = {"10", "20", "30"};
-     * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
-     * // Result: [10, 20, 30]
-     * </pre>
-     */
-    public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final int[] c = new int[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsInt(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to a long value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a long
-     * @return a long array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     */
-    public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final long[] c = new long[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsLong(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to a float value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a float
-     * @return a float array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     */
-    public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final float[] c = new float[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsFloat(a[i]);
-        }
-
-        return c;
-    }
-
-    /**
-     * Maps each element of the input array to a double value using the provided function.
-     *
-     * @param <T> the type of elements in the input array
-     * @param <E> the type of exception that the mapping function may throw
-     * @param a the input array to map
-     * @param func the function that maps each element to a double
-     * @return a double array containing the mapped values, or null if input is null
-     * @throws E if the mapping function throws an exception
-     */
-    public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
-        if (a == null) {
-            return null; // NOSONAR
-        }
-
-        final int len = N.len(a);
-        final double[] c = new double[len];
-
-        for (int i = 0; i < len; i++) {
-            c[i] = func.applyAsDouble(a[i]);
-        }
-
-        return c;
+    public static String println(final Object[][][] a) {
+        return fff.println(a);
     }
 
     /**
@@ -1468,52 +1258,6 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 1D object array to the console and returns the printed string.
-     * Handles null arrays and empty arrays appropriately.
-     *
-     * <p>Example usage:
-     * <pre>{@code
-     * Object[] arr = {"Hello", "World", 123};
-     * String output = println(arr);
-     * // Prints and returns: [Hello, World, 123]
-     * }</pre>
-     *
-     * @param a the object array to print
-     * @return the string representation that was printed
-     */
-    public static String println(final Object[] a) {
-        if (a == null) {
-            return N.println("null");
-        } else if (a.length == 0) {
-            return N.println("[]");
-        } else {
-            return N.println(N.toString(a));
-        }
-    }
-
-    /**
-     * Prints a 2D object array to the console with proper formatting and returns the printed string.
-     * Uses the internal formatter for 2D arrays.
-     *
-     * @param a the 2D object array to print
-     * @return the string representation that was printed
-     */
-    public static String println(final Object[][] a) {
-        return ff.println(a);
-    }
-
-    /**
-     * Prints a 3D object array to the console with proper formatting and returns the printed string.
-     * Uses the internal formatter for 3D arrays.
-     *
-     * @param a the 3D object array to print
-     * @return the string representation that was printed
-     */
-    public static String println(final Object[][][] a) {
-        return fff.println(a);
-    }
-
-    /**
      * Updates all elements in a boolean array using the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      *
@@ -1881,8 +1625,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
-            throws E {
+    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -1890,7 +1633,7 @@ public sealed class Arrays permits Arrays.f {
         final boolean[] result = new boolean[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
         }
 
         return result;
@@ -1922,7 +1665,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean valueForNoneA, final boolean valueForNoneB,
-            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -1931,16 +1674,16 @@ public sealed class Arrays permits Arrays.f {
         final boolean[] result = new boolean[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsBoolean(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsBoolean(a[i], valueForNoneB);
             }
         }
 
@@ -1971,7 +1714,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
-            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -1980,7 +1723,7 @@ public sealed class Arrays permits Arrays.f {
         final boolean[] result = new boolean[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
         }
 
         return result;
@@ -2015,7 +1758,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2025,12 +1768,12 @@ public sealed class Arrays permits Arrays.f {
         final boolean[] result = new boolean[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsBoolean(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsBoolean(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -2061,7 +1804,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -2103,7 +1846,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
-            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -2154,7 +1897,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
-            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2198,7 +1941,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2244,8 +1987,8 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b,
-            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -2285,7 +2028,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -2336,7 +2079,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
-            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2380,7 +2123,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3094,7 +2837,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3102,7 +2845,7 @@ public sealed class Arrays permits Arrays.f {
         final char[] result = new char[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsChar(a[i], b[i]);
         }
 
         return result;
@@ -3134,7 +2877,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
-            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3143,16 +2886,16 @@ public sealed class Arrays permits Arrays.f {
         final char[] result = new char[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsChar(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsChar(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsChar(a[i], valueForNoneB);
             }
         }
 
@@ -3185,7 +2928,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTriFunction<Character, E> zipFunction)
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3195,8 +2938,8 @@ public sealed class Arrays permits Arrays.f {
         final char[] result = new char[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            N.println((int) zipFunction.apply(a[i], b[i], c[i]));
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            N.println((int) zipFunction.applyAsChar(a[i], b[i], c[i]));
+            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
         }
 
         return result;
@@ -3232,7 +2975,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char valueForNoneA, final char valueForNoneB,
-            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3242,12 +2985,12 @@ public sealed class Arrays permits Arrays.f {
         final char[] result = new char[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsChar(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -3278,7 +3021,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3319,7 +3062,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
-            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3370,7 +3113,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
-            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3415,7 +3158,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
-            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3462,7 +3205,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBiFunction<Character, E> zipFunction)
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3504,7 +3247,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
-            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -3556,7 +3299,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
-            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3602,7 +3345,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
-            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4266,7 +4009,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4274,7 +4017,7 @@ public sealed class Arrays permits Arrays.f {
         final byte[] result = new byte[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsByte(a[i], b[i]);
         }
 
         return result;
@@ -4302,7 +4045,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4311,16 +4054,16 @@ public sealed class Arrays permits Arrays.f {
         final byte[] result = new byte[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsByte(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsByte(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsByte(a[i], valueForNoneB);
             }
         }
 
@@ -4348,7 +4091,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTriFunction<Byte, E> zipFunction)
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -4358,7 +4101,7 @@ public sealed class Arrays permits Arrays.f {
         final byte[] result = new byte[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
         }
 
         return result;
@@ -4389,7 +4132,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
-            final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4399,12 +4142,12 @@ public sealed class Arrays permits Arrays.f {
         final byte[] result = new byte[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsByte(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsByte(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -4430,7 +4173,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4466,7 +4209,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4512,8 +4255,8 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results with outer length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c,
-            final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final Throwables.ByteTernaryOperator<E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4553,7 +4296,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
-            final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4595,7 +4338,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4631,7 +4374,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -4678,7 +4421,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
-            final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4718,7 +4461,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
-            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5390,7 +5133,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5398,7 +5141,7 @@ public sealed class Arrays permits Arrays.f {
         final short[] result = new short[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsShort(a[i], b[i]);
         }
 
         return result;
@@ -5426,7 +5169,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
-            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5435,16 +5178,16 @@ public sealed class Arrays permits Arrays.f {
         final short[] result = new short[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsShort(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsShort(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsShort(a[i], valueForNoneB);
             }
         }
 
@@ -5472,7 +5215,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTriFunction<Short, E> zipFunction)
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5482,7 +5225,7 @@ public sealed class Arrays permits Arrays.f {
         final short[] result = new short[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
         }
 
         return result;
@@ -5513,7 +5256,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
-            final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5523,12 +5266,12 @@ public sealed class Arrays permits Arrays.f {
         final short[] result = new short[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsShort(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsShort(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -5554,7 +5297,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5590,7 +5333,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
-            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5637,7 +5380,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
-            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5677,7 +5420,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5719,7 +5462,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBiFunction<Short, E> zipFunction)
+    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5756,7 +5499,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
-            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -5803,7 +5546,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
-            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5843,7 +5586,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6559,7 +6302,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6567,7 +6310,7 @@ public sealed class Arrays permits Arrays.f {
         final int[] result = new int[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsInt(a[i], b[i]);
         }
 
         return result;
@@ -6595,7 +6338,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
-            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6604,16 +6347,16 @@ public sealed class Arrays permits Arrays.f {
         final int[] result = new int[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsInt(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsInt(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsInt(a[i], valueForNoneB);
             }
         }
 
@@ -6641,8 +6384,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
-            throws E {
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6651,7 +6393,7 @@ public sealed class Arrays permits Arrays.f {
         final int[] result = new int[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
         }
 
         return result;
@@ -6682,7 +6424,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6692,12 +6434,12 @@ public sealed class Arrays permits Arrays.f {
         final int[] result = new int[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsInt(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsInt(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -6723,7 +6465,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6759,7 +6501,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
-            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6805,7 +6547,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results with outer length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6846,7 +6588,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6888,7 +6630,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6924,7 +6666,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
-            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -6971,7 +6713,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
-            final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7011,7 +6753,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7711,7 +7453,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7719,7 +7461,7 @@ public sealed class Arrays permits Arrays.f {
         final long[] result = new long[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsLong(a[i], b[i]);
         }
 
         return result;
@@ -7747,7 +7489,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB,
-            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7756,16 +7498,16 @@ public sealed class Arrays permits Arrays.f {
         final long[] result = new long[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsLong(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsLong(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsLong(a[i], valueForNoneB);
             }
         }
 
@@ -7793,7 +7535,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTriFunction<Long, E> zipFunction)
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7803,7 +7545,7 @@ public sealed class Arrays permits Arrays.f {
         final long[] result = new long[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
         }
 
         return result;
@@ -7834,7 +7576,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
-            final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7844,12 +7586,12 @@ public sealed class Arrays permits Arrays.f {
         final long[] result = new long[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsLong(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsLong(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -7875,7 +7617,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7911,7 +7653,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB,
-            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -7957,8 +7699,8 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results with outer length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c,
-            final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final Throwables.LongTernaryOperator<E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7998,7 +7740,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
-            final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8040,7 +7782,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8076,7 +7818,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
-            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8123,7 +7865,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
-            final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8163,7 +7905,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA,
-            final long valueForNoneB, final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneB, final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8845,7 +8587,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8853,7 +8595,7 @@ public sealed class Arrays permits Arrays.f {
         final float[] result = new float[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
         }
 
         return result;
@@ -8881,7 +8623,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
-            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -8890,16 +8632,16 @@ public sealed class Arrays permits Arrays.f {
         final float[] result = new float[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsFloat(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsFloat(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsFloat(a[i], valueForNoneB);
             }
         }
 
@@ -8927,7 +8669,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results with length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTriFunction<Float, E> zipFunction)
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTernaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8937,7 +8679,7 @@ public sealed class Arrays permits Arrays.f {
         final float[] result = new float[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
         }
 
         return result;
@@ -8968,7 +8710,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
-            final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8978,12 +8720,12 @@ public sealed class Arrays permits Arrays.f {
         final float[] result = new float[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsFloat(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsFloat(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -9009,7 +8751,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -9045,7 +8787,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
-            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -9092,7 +8834,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
-            final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9132,7 +8874,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9174,7 +8916,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBiFunction<Float, E> zipFunction)
+    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9211,7 +8953,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
-            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -9258,7 +9000,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
-            final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9298,7 +9040,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9978,7 +9720,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new array containing the results of applying the zip function to corresponding elements
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
+    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -9986,7 +9728,7 @@ public sealed class Arrays permits Arrays.f {
         final double[] result = new double[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
         }
 
         return result;
@@ -10014,7 +9756,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
-            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10023,16 +9765,16 @@ public sealed class Arrays permits Arrays.f {
         final double[] result = new double[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i]);
+            result[i] = zipFunction.applyAsDouble(a[i], b[i]);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsDouble(valueForNoneA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.apply(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsDouble(a[i], valueForNoneB);
             }
         }
 
@@ -10061,7 +9803,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c,
-            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10070,7 +9812,7 @@ public sealed class Arrays permits Arrays.f {
         final double[] result = new double[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
         }
 
         return result;
@@ -10101,7 +9843,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10111,12 +9853,12 @@ public sealed class Arrays permits Arrays.f {
         final double[] result = new double[maxLen];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zipFunction.apply(a[i], b[i], c[i]);
+            result[i] = zipFunction.applyAsDouble(a[i], b[i], c[i]);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsDouble(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -10142,8 +9884,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results of zipping corresponding sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
-            throws E {
+    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10179,7 +9920,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
-            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10226,7 +9967,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
-            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10266,7 +10007,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10308,7 +10049,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
+    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10345,7 +10086,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
-            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -10392,7 +10133,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
-            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10432,7 +10173,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -12685,6 +12426,262 @@ public sealed class Arrays permits Arrays.f {
         private f() {
             // utility class
         }
+
+        /**
+         * Maps each element of the input array to a new type using the provided mapping function.
+         * 
+         * @param <T> the type of elements in the input array
+         * @param <R> the type of elements in the result array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the mapping function to apply to each element
+         * @param targetElementType the class of the target element type
+         * @return a new array containing the mapped elements, or null if input is null
+         * @throws E if the mapping function throws an exception
+         * 
+         * @example
+         * <pre>
+         * String[] strings = {"1", "2", "3"};
+         * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
+         * // Result: [1, 2, 3]
+         * </pre>
+         */
+        public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
+                final Class<R> targetElementType) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final R[] c = N.newArray(targetElementType, len);
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.apply(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a boolean value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a boolean
+         * @return a boolean array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         *
+         * @example
+         * <pre>
+         * String[] words = {"hello", "hi", "world"};
+         * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
+         * // Result: [true, false, true]
+         * </pre>
+         */
+        public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final boolean[] c = new boolean[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsBoolean(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a char value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a char
+         * @return a char array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         *
+         * @example
+         * <pre>
+         * String[] words = {"apple", "banana", "cherry"};
+         * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
+         * // Result: ['a', 'b', 'c']
+         * </pre>
+         */
+        public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final char[] c = new char[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsChar(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a byte value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a byte
+         * @return a byte array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         */
+        public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final byte[] c = new byte[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsByte(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a short value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a short
+         * @return a short array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         */
+        public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final short[] c = new short[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsShort(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to an int value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to an int
+         * @return an int array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         *
+         * @example
+         * <pre>
+         * String[] numbers = {"10", "20", "30"};
+         * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
+         * // Result: [10, 20, 30]
+         * </pre>
+         */
+        public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final int[] c = new int[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsInt(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a long value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a long
+         * @return a long array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         */
+        public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final long[] c = new long[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsLong(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a float value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a float
+         * @return a float array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         */
+        public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final float[] c = new float[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsFloat(a[i]);
+            }
+
+            return c;
+        }
+
+        /**
+         * Maps each element of the input array to a double value using the provided function.
+         *
+         * @param <T> the type of elements in the input array
+         * @param <E> the type of exception that the mapping function may throw
+         * @param a the input array to map
+         * @param func the function that maps each element to a double
+         * @return a double array containing the mapped values, or null if input is null
+         * @throws E if the mapping function throws an exception
+         */
+        public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
+            if (a == null) {
+                return null; // NOSONAR
+            }
+
+            final int len = N.len(a);
+            final double[] c = new double[len];
+
+            for (int i = 0; i < len; i++) {
+                c[i] = func.applyAsDouble(a[i]);
+            }
+
+            return c;
+        }
     }
 
     /**
@@ -12971,7 +12968,7 @@ public sealed class Arrays permits Arrays.f {
             final R[][] c = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.map(a[i], func, targetElementType);
+                c[i] = com.landawn.abacus.util.Arrays.f.map(a[i], func, targetElementType);
             }
 
             return c;
@@ -13004,7 +13001,7 @@ public sealed class Arrays permits Arrays.f {
             final boolean[][] c = new boolean[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToBoolean(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToBoolean(a[i], func);
             }
 
             return c;
@@ -13037,7 +13034,7 @@ public sealed class Arrays permits Arrays.f {
             final char[][] c = new char[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToChar(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToChar(a[i], func);
             }
 
             return c;
@@ -13070,7 +13067,7 @@ public sealed class Arrays permits Arrays.f {
             final byte[][] c = new byte[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToByte(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToByte(a[i], func);
             }
 
             return c;
@@ -13103,7 +13100,7 @@ public sealed class Arrays permits Arrays.f {
             final short[][] c = new short[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToShort(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToShort(a[i], func);
             }
 
             return c;
@@ -13136,7 +13133,7 @@ public sealed class Arrays permits Arrays.f {
             final int[][] c = new int[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToInt(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToInt(a[i], func);
             }
 
             return c;
@@ -13169,7 +13166,7 @@ public sealed class Arrays permits Arrays.f {
             final long[][] c = new long[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToLong(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToLong(a[i], func);
             }
 
             return c;
@@ -13202,7 +13199,7 @@ public sealed class Arrays permits Arrays.f {
             final float[][] c = new float[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToFloat(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToFloat(a[i], func);
             }
 
             return c;
@@ -13235,7 +13232,7 @@ public sealed class Arrays permits Arrays.f {
             final double[][] c = new double[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.mapToDouble(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToDouble(a[i], func);
             }
 
             return c;
