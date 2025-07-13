@@ -164,6 +164,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * BooleanMatrix matrix = BooleanMatrix.diagonal(
      *     new boolean[]{true, true, true},    // main diagonal
      *     new boolean[]{false, true, false}   // anti-diagonal
+     * // Creates:
+     * // [[true, false, false],
+     * //  [false, true, false],
+     * //  [false, false, true]]
      * );
      * </pre>
      *
@@ -185,21 +189,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
         final boolean[][] c = new boolean[len][len];
 
-        if (N.isEmpty(leftUp2RightDownDiagonal)) {
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
+        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+            for (int i = 0, j = len - 1; i < len; i++, j--) {
+                c[i][j] = rightUp2LeftDownDiagonal[i];
             }
-        } else {
+        }
+
+        if (N.notEmpty(leftUp2RightDownDiagonal)) {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
-            }
-
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
             }
         }
 
@@ -489,7 +487,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * The matrix must be square (rows == columns).
      *
      * @return a boolean array containing the main diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public boolean[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -508,9 +506,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * The matrix must be square (rows == columns).
      *
      * @param diagonal the new values for the main diagonal
-     * @throws IllegalArgumentException if the matrix is not square or if diagonal length < matrix dimension
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setLU2RD(final boolean[] diagonal) throws IllegalArgumentException {
+    public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -526,7 +525,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the function may throw
      * @param func the unary operator to apply to each diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -541,7 +540,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * The matrix must be square (rows == columns).
      *
      * @return a boolean array containing the anti-diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public boolean[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -560,9 +559,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * The matrix must be square (rows == columns).
      *
      * @param diagonal the new values for the anti-diagonal
-     * @throws IllegalArgumentException if the matrix is not square or if diagonal length < matrix dimension
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setRU2LD(final boolean[] diagonal) throws IllegalArgumentException {
+    public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -578,7 +578,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the function may throw
      * @param func the unary operator to apply to each anti-diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -1267,28 +1267,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Applies the given consumer operation to the underlying 2D array structure.
-     * This method provides direct access to the internal array representation
-     * for advanced operations that need to work with the raw data structure.
-     * 
-     * <p>The consumer receives the internal boolean[][] array. Any modifications
-     * made to this array will directly affect the matrix. Use with caution as
-     * this bypasses the normal matrix API safeguards.</p>
-     * 
-     * <p>Example:</p>
-     * <pre>{@code
-     * matrix.flatOp(array -> {
-     *     // Invert all values in the first row
-     *     for (int j = 0; j < array[0].length; j++) {
-     *         array[0][j] = !array[0][j];
-     *     }
-     * });
-     * }</pre>
+     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the consumer operation to apply to the internal array
      * @throws E if the operation throws an exception
-     * @throws NullPointerException if op is null
+     * @see Arrays#flatOp(boolean[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super boolean[], E> op) throws E {
@@ -1540,7 +1525,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @return a Stream<Boolean> containing the diagonal elements from top-left to bottom-right
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public Stream<Boolean> streamLU2RD() {
@@ -1604,7 +1589,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @return a Stream<Boolean> containing the anti-diagonal elements from top-right to bottom-left
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public Stream<Boolean> streamRU2LD() {

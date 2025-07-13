@@ -1123,6 +1123,10 @@ class ArraysTest {
     }
 
     @Nested
+    public class ByteArrayTest {
+    }
+
+    @Nested
     public class LongArrayTest {
 
         // Test zip(long[], long[], LongBiFunction)

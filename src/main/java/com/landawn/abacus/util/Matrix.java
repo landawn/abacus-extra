@@ -304,21 +304,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[i] = N.newArray(componentClass, len);
         }
 
-        if (N.isEmpty(leftUp2RightDownDiagonal)) {
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
+        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+            for (int i = 0, j = len - 1; i < len; i++, j--) {
+                c[i][j] = rightUp2LeftDownDiagonal[i];
             }
-        } else {
+        }
+
+        if (N.notEmpty(leftUp2RightDownDiagonal)) {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
-            }
-
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
             }
         }
 
@@ -755,10 +749,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param diagonal the new diagonal values
-     * @throws IllegalArgumentException if the diagonal array is too short
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setLU2RD(final T[] diagonal) throws IllegalArgumentException {
+    public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -831,10 +825,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param diagonal the new anti-diagonal values
-     * @throws IllegalArgumentException if the diagonal array is too short
      * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setRU2LD(final T[] diagonal) throws IllegalArgumentException {
+    public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -1931,20 +1925,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Applies the specified operation to the underlying two-dimensional array.
-     * This provides direct access to the internal array structure for advanced operations.
-     *
-     * <p>Example:</p>
-     * <pre>{@code
-     * matrix.flatOp(array -> {
-     *     // Direct array manipulation
-     *     Arrays.sort(array[0]); // Sort first row
-     * });
-     * }</pre>
+     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to the internal array
      * @throws E if the operation throws an exception
+     * @see ff#flatOp(Object[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super T[], E> op) throws E {
@@ -2161,7 +2148,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a stream of diagonal elements from top-left to bottom-right
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public Stream<T> streamLU2RD() {
@@ -2215,7 +2202,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a stream of diagonal elements from top-right to bottom-left
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public Stream<T> streamRU2LD() {

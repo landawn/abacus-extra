@@ -274,21 +274,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
         final double[][] c = new double[len][len];
 
-        if (N.isEmpty(leftUp2RightDownDiagonal)) {
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
+        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+            for (int i = 0, j = len - 1; i < len; i++, j--) {
+                c[i][j] = rightUp2LeftDownDiagonal[i];
             }
-        } else {
+        }
+
+        if (N.notEmpty(leftUp2RightDownDiagonal)) {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
-            }
-
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
             }
         }
 
@@ -580,7 +574,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The matrix must be square.
      *
      * @return an array containing the diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public double[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -599,9 +593,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The matrix must be square and the diagonal array must have at least as many elements as rows.
      *
      * @param diagonal the new diagonal values
-     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setLU2RD(final double[] diagonal) throws IllegalArgumentException {
+    public void setLU2RD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -617,7 +612,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param <E> the exception type that the function may throw
      * @param func the function to apply to each diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -632,7 +627,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The matrix must be square.
      *
      * @return an array containing the anti-diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public double[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -651,9 +646,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * The matrix must be square and the diagonal array must have at least as many elements as rows.
      *
      * @param diagonal the new anti-diagonal values
-     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setRU2LD(final double[] diagonal) throws IllegalArgumentException {
+    public void setRU2LD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -669,7 +665,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param <E> the exception type that the function may throw
      * @param func the function to apply to each anti-diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -1420,17 +1416,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies the specified operation to each row of the matrix.
-     * This method provides direct access to the underlying array rows.
-     * 
-     * <p>Example:
-     * <pre>{@code
-     * matrix.flatOp(row -> System.out.println(Arrays.toString(row)));
-     * }</pre>
+     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * @param <E> the type of exception that may be thrown
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
+     * @see Arrays#flatOp(double[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super double[], E> op) throws E {
@@ -1715,7 +1707,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-left to bottom-right
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public DoubleStream streamLU2RD() {
@@ -1768,7 +1760,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-right to bottom-left
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public DoubleStream streamRU2LD() {

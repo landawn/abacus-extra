@@ -763,7 +763,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of column streams of points
      */
     public Stream<Stream<Point>> pointsC() {
-        return pointsR(0, cols);
+        return pointsC(0, cols);
     }
 
     /**

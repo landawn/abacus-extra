@@ -345,21 +345,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int len = leftUp2RightDownDiagonal != null ? N.len(leftUp2RightDownDiagonal) : N.len(rightUp2LeftDownDiagonal);
         final int[][] c = new int[len][len];
 
-        if (N.isEmpty(leftUp2RightDownDiagonal)) {
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
+        if (N.notEmpty(rightUp2LeftDownDiagonal)) {
+            for (int i = 0, j = len - 1; i < len; i++, j--) {
+                c[i][j] = rightUp2LeftDownDiagonal[i];
             }
-        } else {
+        }
+
+        if (N.notEmpty(leftUp2RightDownDiagonal)) {
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
-            }
-
-            if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-                for (int i = 0, j = len - 1; i < len; i++, j--) {
-                    c[i][j] = rightUp2LeftDownDiagonal[i];
-                }
             }
         }
 
@@ -710,7 +704,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an array containing the diagonal values
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public int[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -734,9 +728,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @param diagonal the values to set on the main diagonal
-     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setLU2RD(final int[] diagonal) throws IllegalArgumentException {
+    public void setLU2RD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -757,7 +752,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the function may throw
      * @param func the function to apply to each diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateLU2RD(final Throwables.IntUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -778,7 +773,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an array containing the anti-diagonal values
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public int[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -802,9 +797,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @param diagonal the values to set on the anti-diagonal
-     * @throws IllegalArgumentException if the matrix is not square or diagonal array is too short
+     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalArgumentException if diagonal array is too short
      */
-    public void setRU2LD(final int[] diagonal) throws IllegalArgumentException {
+    public void setRU2LD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -825,7 +821,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the function may throw
      * @param func the function to apply to each anti-diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     public <E extends Exception> void updateRU2LD(final Throwables.IntUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -1600,12 +1596,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Applies an operation to the underlying 2D array structure.
-     * This method provides direct access to the internal array rows for efficient bulk operations.
+     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
+     * This is useful for operations that need to be applied to all elements regardless of structure.
      * 
      * @param <E> the type of exception that the operation may throw
      * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
+     * @see Arrays#flatOp(int[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super int[], E> op) throws E {
@@ -1913,7 +1910,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an IntStream of diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public IntStream streamLU2RD() {
@@ -1966,7 +1963,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an IntStream of anti-diagonal elements
-     * @throws IllegalArgumentException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square
      */
     @Override
     public IntStream streamRU2LD() {
