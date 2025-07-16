@@ -1180,11 +1180,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Reverses each row of the matrix horizontally (in-place).
+     * Reverses the order of elements in each row (horizontal flip in-place).
      * 
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.reverseH(); // [[1,2,3],[4,5,6]] becomes [[3,2,1],[6,5,4]]
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
      * }</pre>
      */
     public void reverseH() {
@@ -1194,11 +1194,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Reverses each column of the matrix vertically (in-place).
+     * Reverses the order of elements in each column (vertical flip in-place).
      * 
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.reverseV(); // [[1,2],[3,4],[5,6]] becomes [[5,6],[3,4],[1,2]]
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
      * }</pre>
      */
     public void reverseV() {

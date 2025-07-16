@@ -1242,13 +1242,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This modifies the matrix directly.
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseH();
-     * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
      * }</pre>
      */
     public void reverseH() {
@@ -1259,13 +1256,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reverses the order of elements in each column (vertical flip in-place).
-     * This modifies the matrix directly.
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseV();
-     * // Matrix is now: [[4, 5, 6], [1, 2, 3]]
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
      * }</pre>
      */
     public void reverseV() {

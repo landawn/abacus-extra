@@ -1545,14 +1545,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reverses the order of elements in each row (horizontal reverse).
-     * This operation modifies the matrix in-place.
-     *
+     * Reverses the order of elements in each row (horizontal flip in-place).
+     * 
      * <p>Example:</p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseH();
-     * // Result: {{3, 2, 1}, {6, 5, 4}}
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
      * }</pre>
      */
     public void reverseH() {
@@ -1562,14 +1559,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reverses the order of elements in each column (vertical reverse).
-     * This operation modifies the matrix in-place.
-     *
+     * Reverses the order of elements in each column (vertical flip in-place).
+     * 
      * <p>Example:</p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
-     * matrix.reverseV();
-     * // Result: {{5, 6}, {3, 4}, {1, 2}}
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
      * }</pre>
      */
     public void reverseV() {

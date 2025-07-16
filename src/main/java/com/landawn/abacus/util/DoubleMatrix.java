@@ -1081,11 +1081,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * // Before: [[1.0, 2.0], [3.0, 4.0]]
-     * matrix.reverseH();
-     * // After: [[2.0, 1.0], [4.0, 3.0]]
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
      * }</pre>
      */
     public void reverseH() {
@@ -1097,11 +1095,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Reverses the order of elements in each column (vertical flip in-place).
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * // Before: [[1.0, 2.0], [3.0, 4.0]]
-     * matrix.reverseV();
-     * // After: [[3.0, 4.0], [1.0, 2.0]]
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
      * }</pre>
      */
     public void reverseV() {

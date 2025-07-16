@@ -1198,12 +1198,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This modifies the current matrix directly.
      * 
      * <p>Example:</p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseH(); // matrix becomes [[3, 2, 1], [6, 5, 4]]
+     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
      * }</pre>
      */
     public void reverseH() {
@@ -1214,12 +1212,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Reverses the order of elements in each column (vertical flip in-place).
-     * This modifies the current matrix directly.
      * 
      * <p>Example:</p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.reverseV(); // matrix becomes [[4, 5, 6], [1, 2, 3]]
+     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
      * }</pre>
      */
     public void reverseV() {

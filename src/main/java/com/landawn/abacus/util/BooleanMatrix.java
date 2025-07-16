@@ -945,7 +945,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * This modifies the current matrix.
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.reverseH(); // [[true,true,false]] becomes [[false,true,true]]
+     * }</pre>
      */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
@@ -954,8 +958,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Reverses the order of rows (vertical flip in-place).
-     * This modifies the current matrix.
+     * Reverses the order of elements in each column (vertical flip in-place).
+     * 
+     * <p>Example:</p>
+     * <pre>{@code
+     * matrix.reverseV(); // [[true],[true],[false]] becomes [[false],[true],[true]]
+     * }</pre>
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {

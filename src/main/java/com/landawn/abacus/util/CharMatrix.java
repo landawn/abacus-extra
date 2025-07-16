@@ -1014,11 +1014,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * // Before: [['a', 'b'], ['c', 'd']]
-     * matrix.reverseH();
-     * // After: [['b', 'a'], ['d', 'c']]
+     * matrix.reverseH(); // [['a','b','c']] becomes [['c','b','a']]
      * }</pre>
      */
     public void reverseH() {
@@ -1030,11 +1028,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Reverses the order of elements in each column (vertical flip in-place).
      * 
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
-     * // Before: [['a', 'b'], ['c', 'd']]
-     * matrix.reverseV();
-     * // After: [['c', 'd'], ['a', 'b']]
+     * matrix.reverseV(); // [['a'],['b'],['c']] becomes [['c'],['b'],['a']]
      * }</pre>
      */
     public void reverseV() {
