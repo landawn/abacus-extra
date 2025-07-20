@@ -1315,7 +1315,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param b the matrix to stack below this matrix
      * @return a new BooleanMatrix with dimensions ((this.rows + b.rows) x cols)
      * @throws IllegalArgumentException if the matrices have different column counts
-     * @throws NullPointerException if b is null
      */
     public BooleanMatrix vstack(final BooleanMatrix b) throws IllegalArgumentException {
         N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
@@ -1359,7 +1358,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param b the matrix to stack to the right of this matrix
      * @return a new BooleanMatrix with dimensions (rows x (this.cols + b.cols))
      * @throws IllegalArgumentException if the matrices have different row counts
-     * @throws NullPointerException if b is null
      */
     public BooleanMatrix hstack(final BooleanMatrix b) throws IllegalArgumentException {
         N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
@@ -1449,7 +1447,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new BooleanMatrix containing the results of the element-wise operation
      * @throws IllegalArgumentException if the matrices have different dimensions
      * @throws E if the zip function throws an exception
-     * @throws NullPointerException if matrixB or zipFunction is null
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -1494,7 +1491,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new BooleanMatrix containing the results of the element-wise operation
      * @throws IllegalArgumentException if the matrices have different dimensions
      * @throws E if the zip function throws an exception
-     * @throws NullPointerException if any matrix or zipFunction is null
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
@@ -2230,7 +2226,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element
      * @throws E if the action throws an exception
-     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final Throwables.BooleanConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
@@ -2273,7 +2268,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param action the action to be performed for each element in the sub-matrix
      * @throws IndexOutOfBoundsException if any index is out of bounds
      * @throws E if the action throws an exception
-     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.BooleanConsumer<E> action) throws IndexOutOfBoundsException, E {

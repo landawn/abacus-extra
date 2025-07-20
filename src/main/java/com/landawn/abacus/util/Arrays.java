@@ -12734,7 +12734,6 @@ public sealed class Arrays permits Arrays.f {
          * @param a the two-dimensional array to update. If null or empty, no operation is performed
          * @param operator the unary operator to apply to each element. Must not be null
          * @throws E if the operator throws an exception during processing
-         * @throws NullPointerException if the operator is null
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
@@ -12771,7 +12770,6 @@ public sealed class Arrays permits Arrays.f {
          * @param predicate the condition to test each element against. Must not be null
          * @param newValue the value to replace matching elements with
          * @throws E if the predicate throws an exception during testing
-         * @throws NullPointerException if the predicate is null
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isEmpty(a)) {
@@ -12810,7 +12808,6 @@ public sealed class Arrays permits Arrays.f {
          * @param cols the number of columns in each row. Must be positive
          * @return a new two-dimensional array with the specified column structure
          * @throws IllegalArgumentException if cols is not positive (cols ≤ 0)
-         * @throws NullPointerException if the input array is null
          */
         public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
             checkMForReshape(cols);
@@ -12846,7 +12843,6 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the component type of the array elements
          * @param a the two-dimensional array to flatten. Must not be null
          * @return a new one-dimensional array containing all elements from the input array
-         * @throws NullPointerException if the input array is null
          */
         public static <T> T[] flatten(final T[][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
@@ -12885,7 +12881,6 @@ public sealed class Arrays permits Arrays.f {
          * @param a the two-dimensional array to operate on. The operation modifies this array in-place
          * @param op the consumer that operates on the flattened array. Must not be null
          * @throws E if the operation throws an exception
-         * @throws NullPointerException if the operator is null
          */
         public static <T, E extends Exception> void flatOp(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
@@ -12925,7 +12920,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the unary operator to apply to each element. Must not be null
          * @return a new two-dimensional array with mapped elements, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
@@ -12956,7 +12950,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the target element type. Must not be null
          * @return a new two-dimensional array with transformed elements, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function or targetElementType is null
          */
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
@@ -12990,7 +12983,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the predicate function to test each element. Must not be null
          * @return a new two-dimensional boolean array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13023,7 +13015,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to extract a char from each element. Must not be null
          * @return a new two-dimensional char array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13056,7 +13047,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to a byte. Must not be null
          * @return a new two-dimensional byte array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13089,7 +13079,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to a short. Must not be null
          * @return a new two-dimensional short array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13122,7 +13111,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to an int. Must not be null
          * @return a new two-dimensional int array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13155,7 +13143,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to a long. Must not be null
          * @return a new two-dimensional long array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13188,7 +13175,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to a float. Must not be null
          * @return a new two-dimensional float array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13221,7 +13207,6 @@ public sealed class Arrays permits Arrays.f {
          * @param func the function to convert each element to a double. Must not be null
          * @return a new two-dimensional double array, or null if input is null
          * @throws E if the function throws an exception during mapping
-         * @throws NullPointerException if the function is null
          */
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13260,7 +13245,6 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine paired elements. Must not be null
          * @return a new 2D array containing the combined elements
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if any parameter is null
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
@@ -13288,7 +13272,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type. Must not be null
          * @return a new 2D array of the specified type containing combined elements
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if any parameter is null
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -13337,7 +13320,6 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine elements. Must not be null
          * @return a new 2D array with combined elements using defaults where needed
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if zipFunction is null
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
@@ -13370,7 +13352,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type. Must not be null
          * @return a new 2D array of the specified type with combined elements
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if zipFunction or targetElementType is null
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -13419,7 +13400,6 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements. Must not be null
          * @return a new 2D array containing the combined elements
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if any parameter is null
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -13450,7 +13430,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type. Must not be null
          * @return a new 2D array of the specified type
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if any parameter is null
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
                 final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
@@ -13502,7 +13481,6 @@ public sealed class Arrays permits Arrays.f {
          * @param zipFunction the function to combine three elements. Must not be null
          * @return a new 2D array with combined elements using defaults where needed
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if zipFunction is null
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
@@ -13537,7 +13515,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result element type. Must not be null
          * @return a new 2D array of the specified type with combined elements
          * @throws E if the zip function throws an exception
-         * @throws NullPointerException if zipFunction or targetElementType is null
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
@@ -13846,7 +13823,6 @@ public sealed class Arrays permits Arrays.f {
          * @param a the three-dimensional array to update. Must not be null but can be empty
          * @param operator the unary operator to apply to each element. Must not be null
          * @throws E if the operator throws an exception during execution
-         * @throws NullPointerException if the operator is null
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isEmpty(a)) {
@@ -13878,7 +13854,6 @@ public sealed class Arrays permits Arrays.f {
          * @param predicate the condition to test for each element. Elements that match will be replaced
          * @param newValue the value to replace matching elements with. Can be null
          * @throws E if the predicate throws an exception during evaluation
-         * @throws NullPointerException if the predicate is null
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isEmpty(a)) {
@@ -13911,7 +13886,6 @@ public sealed class Arrays permits Arrays.f {
          * @param cols the number of columns for each 2D slice. Must be positive
          * @return a new three-dimensional array containing all elements from the input
          * @throws IllegalArgumentException if rows or cols are not positive numbers
-         * @throws NullPointerException if the input array is null
          */
         public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
             N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive numbers: rows = %s, cols = %s", rows, cols);
@@ -13954,7 +13928,6 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the component type of the array elements
          * @param a the three-dimensional array to flatten. Must not be null
          * @return a new one-dimensional array containing all elements in order
-         * @throws NullPointerException if the input array is null
          */
         public static <T> T[] flatten(final T[][][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
@@ -14001,7 +13974,6 @@ public sealed class Arrays permits Arrays.f {
          * @param a the three-dimensional array to operate on. Modified in-place
          * @param op the consumer operation to apply to the flattened array
          * @throws E if the operation throws an exception
-         * @throws NullPointerException if the array or operation is null
          */
         public static <T, E extends Exception> void flatOp(final T[][][] a, final Throwables.Consumer<? super T[], E> op) throws E {
             if (N.isEmpty(a)) {
@@ -14078,7 +14050,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the result array's element type
          * @return a new array with transformed elements, or null if input is null
          * @throws E if the function throws an exception
-         * @throws NullPointerException if targetElementType is null
          */
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {

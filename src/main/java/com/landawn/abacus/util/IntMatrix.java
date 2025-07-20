@@ -2529,7 +2529,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element
      * @throws E if the action throws an exception
-     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
@@ -2564,7 +2563,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param action the action to be performed for each element in the sub-matrix
      * @throws IndexOutOfBoundsException if any index is out of bounds
      * @throws E if the action throws an exception
-     * @throws NullPointerException if action is null
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntConsumer<E> action) throws IndexOutOfBoundsException, E {
