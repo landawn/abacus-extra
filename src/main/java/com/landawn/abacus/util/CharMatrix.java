@@ -1347,7 +1347,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param <E> the exception type that the operation may throw
      * @param op the operation to perform on the internal array
      * @throws E if the operation throws an exception
-     * @see Arrays#flatOp(char[], Throwables.Consumer)
+     * @see Arrays#flatOp(char[][], Throwables.Consumer)
      */
     @Override
     public <E extends Exception> void flatOp(final Throwables.Consumer<? super char[], E> op) throws E {
