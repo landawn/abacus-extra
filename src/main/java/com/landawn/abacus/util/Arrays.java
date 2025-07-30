@@ -12818,7 +12818,8 @@ public sealed class Arrays permits Arrays.f {
 
             final int len = a.length;
             final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-            final T[][] c = N.newArray((Class<T[]>) a.getClass(), n);
+            final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
+            final T[][] c = N.newArray(arrayClass, n);
 
             for (int i = 0, from = 0; i < n; i++, from += cols) {
                 c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
@@ -12847,7 +12848,9 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-            final T[] c = N.newArray((Class<T>) a.getClass().getComponentType().getComponentType(), count);
+
+            final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType();
+            final T[] c = N.newArray(componentType, count);
             int from = 0;
 
             for (final T[] element : a) {
@@ -13932,7 +13935,8 @@ public sealed class Arrays permits Arrays.f {
         public static <T> T[] flatten(final T[][][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-            final T[] c = N.newArray((Class<T>) a.getClass().getComponentType().getComponentType().getComponentType(), count);
+            final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
+            final T[] c = N.newArray(componentType, count);
             int from = 0;
 
             for (final T[][] element : a) {
