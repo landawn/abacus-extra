@@ -19,7 +19,7 @@ import com.landawn.abacus.util.TypeReference;
 @Tag("base-test")
 public abstract class TestBase {
 
-    public static final char[] NULL_CHAR_ARRAY = "null".toCharArray();;
+    public static final char[] NULL_CHAR_ARRAY = "null".toCharArray();
 
     public static void assertHaveSameElements(boolean[] expected, boolean[] actual) {
         assertTrue(N.haveSameElements(expected, actual), "Expected: " + N.toString(expected) + ", Actual: " + N.toString(actual));
@@ -117,6 +117,7 @@ public abstract class TestBase {
         return typeRef.type();
     }
 
+    @SuppressWarnings("rawtypes")
     protected static <T extends Type> T createType(String typeName) {
         return (T) Type.of(typeName);
     }
