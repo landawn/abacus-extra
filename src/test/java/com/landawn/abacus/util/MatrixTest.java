@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 
-public class MatrixTest {
+public class MatrixTest extends TestBase {
 
     @Test
     public void testConstructor() {

@@ -23,12 +23,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Arrays.f;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Arrays.fff;
 import com.landawn.abacus.util.stream.Stream;
 
-class ArraysTest {
+public class ArraysTest extends TestBase {
 
     @Test
     public void test_minSubArrayLen() {
@@ -2436,6 +2437,462 @@ class ArraysTest {
             double[][][] nullInput = null;
             long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
             Assertions.assertNull(nullResult);
+        }
+
+        // Tests for f.mapToChar methods
+        @Test
+        public void testMapToChar_ObjectArray() {
+            // Test with String array
+            String[] input = { "Hello", "World", "Test" };
+            char[] result = f.mapToChar(input, s -> s.charAt(0));
+            Assertions.assertArrayEquals(new char[] { 'H', 'W', 'T' }, result);
+
+            // Test with empty array
+            String[] emptyInput = {};
+            char[] emptyResult = f.mapToChar(emptyInput, s -> s.charAt(0));
+            Assertions.assertArrayEquals(new char[] {}, emptyResult);
+
+            // Test with null array
+            String[] nullInput = null;
+            char[] nullResult = f.mapToChar(nullInput, s -> s.charAt(0));
+            Assertions.assertNull(nullResult);
+
+            // Test with Integer array to char
+            Integer[] intInput = { 65, 66, 67 }; // ASCII values for A, B, C
+            char[] charResult = f.mapToChar(intInput, i -> (char) i.intValue());
+            Assertions.assertArrayEquals(new char[] { 'A', 'B', 'C' }, charResult);
+        }
+
+        @Test
+        public void testMapToChar_Object2DArray() {
+            // Test with String 2D array
+            String[][] input = { { "Apple", "Banana" }, { "Cherry" } };
+            char[][] result = ff.mapToChar(input, s -> s.charAt(0));
+            Assertions.assertArrayEquals(new char[] { 'A', 'B' }, result[0]);
+            Assertions.assertArrayEquals(new char[] { 'C' }, result[1]);
+
+            // Test with null 2D array
+            String[][] nullInput = null;
+            char[][] nullResult = ff.mapToChar(nullInput, s -> s.charAt(0));
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToChar_Object3DArray() {
+            // Test with String 3D array
+            String[][][] input = { { { "Dog", "Elephant" } }, { { "Fox" } } };
+            char[][][] result = fff.mapToChar(input, s -> s.charAt(0));
+            Assertions.assertArrayEquals(new char[] { 'D', 'E' }, result[0][0]);
+            Assertions.assertArrayEquals(new char[] { 'F' }, result[1][0]);
+
+            // Test with null 3D array
+            String[][][] nullInput = null;
+            char[][][] nullResult = fff.mapToChar(nullInput, s -> s.charAt(0));
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for f.mapToByte methods
+        @Test
+        public void testMapToByte_ObjectArray() {
+            // Test with Integer array
+            Integer[] input = { 10, 20, 30, 127, -128 };
+            byte[] result = f.mapToByte(input, i -> i.byteValue());
+            Assertions.assertArrayEquals(new byte[] { 10, 20, 30, 127, -128 }, result);
+
+            // Test with empty array
+            Integer[] emptyInput = {};
+            byte[] emptyResult = f.mapToByte(emptyInput, i -> i.byteValue());
+            Assertions.assertArrayEquals(new byte[] {}, emptyResult);
+
+            // Test with null array
+            Integer[] nullInput = null;
+            byte[] nullResult = f.mapToByte(nullInput, i -> i.byteValue());
+            Assertions.assertNull(nullResult);
+
+            // Test with String array containing numbers
+            String[] strInput = { "1", "2", "3" };
+            byte[] byteResult = f.mapToByte(strInput, s -> Byte.parseByte(s));
+            Assertions.assertArrayEquals(new byte[] { 1, 2, 3 }, byteResult);
+        }
+
+        @Test
+        public void testMapToByte_Object2DArray() {
+            // Test with Integer 2D array
+            Integer[][] input = { { 10, 20 }, { 30 } };
+            byte[][] result = ff.mapToByte(input, i -> i.byteValue());
+            Assertions.assertArrayEquals(new byte[] { 10, 20 }, result[0]);
+            Assertions.assertArrayEquals(new byte[] { 30 }, result[1]);
+
+            // Test with null 2D array
+            Integer[][] nullInput = null;
+            byte[][] nullResult = ff.mapToByte(nullInput, i -> i.byteValue());
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToByte_Object3DArray() {
+            // Test with Integer 3D array
+            Integer[][][] input = { { { 1, 2 } }, { { 3 } } };
+            byte[][][] result = fff.mapToByte(input, i -> i.byteValue());
+            Assertions.assertArrayEquals(new byte[] { 1, 2 }, result[0][0]);
+            Assertions.assertArrayEquals(new byte[] { 3 }, result[1][0]);
+
+            // Test with null 3D array
+            Integer[][][] nullInput = null;
+            byte[][][] nullResult = fff.mapToByte(nullInput, i -> i.byteValue());
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for f.mapToShort methods
+        @Test
+        public void testMapToShort_ObjectArray() {
+            // Test with Integer array
+            Integer[] input = { 100, 200, 300, 32767, -32768 };
+            short[] result = f.mapToShort(input, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] { 100, 200, 300, 32767, -32768 }, result);
+
+            // Test with empty array
+            Integer[] emptyInput = {};
+            short[] emptyResult = f.mapToShort(emptyInput, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] {}, emptyResult);
+
+            // Test with null array
+            Integer[] nullInput = null;
+            short[] nullResult = f.mapToShort(nullInput, i -> i.shortValue());
+            Assertions.assertNull(nullResult);
+
+            // Test with String array containing numbers
+            String[] strInput = { "1000", "2000", "3000" };
+            short[] shortResult = f.mapToShort(strInput, s -> Short.parseShort(s));
+            Assertions.assertArrayEquals(new short[] { 1000, 2000, 3000 }, shortResult);
+        }
+
+        @Test
+        public void testMapToShort_Object2DArray() {
+            // Test with Integer 2D array
+            Integer[][] input = { { 1000, 2000 }, { 3000 } };
+            short[][] result = ff.mapToShort(input, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] { 1000, 2000 }, result[0]);
+            Assertions.assertArrayEquals(new short[] { 3000 }, result[1]);
+
+            // Test with null 2D array
+            Integer[][] nullInput = null;
+            short[][] nullResult = ff.mapToShort(nullInput, i -> i.shortValue());
+            Assertions.assertNull(nullResult);
+        }
+
+        @Test
+        public void testMapToShort_Object3DArray() {
+            // Test with Integer 3D array
+            Integer[][][] input = { { { 100, 200 } }, { { 300 } } };
+            short[][][] result = fff.mapToShort(input, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] { 100, 200 }, result[0][0]);
+            Assertions.assertArrayEquals(new short[] { 300 }, result[1][0]);
+
+            // Test with null 3D array
+            Integer[][][] nullInput = null;
+            short[][][] nullResult = fff.mapToShort(nullInput, i -> i.shortValue());
+            Assertions.assertNull(nullResult);
+        }
+
+        // Tests for zip methods with mathematical operations
+        @Test
+        public void testZip_IntArrays_MathematicalOperations() {
+            int[] a = { 10, 20, 30 };
+            int[] b = { 1, 2, 3 };
+
+            // Addition
+            int[] addResult = Arrays.zip(a, b, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] { 11, 22, 33 }, addResult);
+
+            // Subtraction
+            int[] subResult = Arrays.zip(a, b, (x, y) -> x - y);
+            Assertions.assertArrayEquals(new int[] { 9, 18, 27 }, subResult);
+
+            // Multiplication
+            int[] mulResult = Arrays.zip(a, b, (x, y) -> x * y);
+            Assertions.assertArrayEquals(new int[] { 10, 40, 90 }, mulResult);
+
+            // Division
+            int[] divResult = Arrays.zip(a, b, (x, y) -> x / y);
+            Assertions.assertArrayEquals(new int[] { 10, 10, 10 }, divResult);
+
+            // Maximum
+            int[] maxResult = Arrays.zip(a, b, (x, y) -> Math.max(x, y));
+            Assertions.assertArrayEquals(new int[] { 10, 20, 30 }, maxResult);
+
+            // Minimum
+            int[] minResult = Arrays.zip(a, b, (x, y) -> Math.min(x, y));
+            Assertions.assertArrayEquals(new int[] { 1, 2, 3 }, minResult);
+        }
+
+        @Test
+        public void testZip_IntArrays_WithDefaults_MathematicalOperations() {
+            int[] a = { 5, 10 };
+            int[] b = { 1, 2, 3, 4 };
+
+            // Addition with defaults
+            int[] addResult = Arrays.zip(a, b, 0, 0, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] { 6, 12, 3, 4 }, addResult);
+
+            // Multiplication with defaults - one array shorter
+            int[] mulResult = Arrays.zip(a, b, 1, 1, (x, y) -> x * y);
+            Assertions.assertArrayEquals(new int[] { 5, 20, 3, 4 }, mulResult);
+
+            // Test with different defaults
+            int[] customResult = Arrays.zip(a, b, 100, 200, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] { 6, 12, 103, 104 }, customResult);
+        }
+
+        @Test
+        public void testZip_IntArrays_ThreeArrays() {
+            int[] a = { 1, 2, 3 };
+            int[] b = { 10, 20, 30 };
+            int[] c = { 100, 200, 300 };
+
+            // Three-way addition
+            int[] addResult = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+            Assertions.assertArrayEquals(new int[] { 111, 222, 333 }, addResult);
+
+            // Three-way multiplication
+            int[] mulResult = Arrays.zip(a, b, c, (x, y, z) -> x * y * z);
+            Assertions.assertArrayEquals(new int[] { 1000, 8000, 27000 }, mulResult);
+
+            // Complex mathematical operation
+            int[] complexResult = Arrays.zip(a, b, c, (x, y, z) -> (x + y) * z);
+            Assertions.assertArrayEquals(new int[] { 1100, 4400, 9900 }, complexResult);
+        }
+
+        @Test
+        public void testZip_IntArrays_ThreeArrays_WithDefaults() {
+            int[] a = { 1, 2 };
+            int[] b = { 10, 20, 30 };
+            int[] c = { 100 };
+
+            // Three arrays with different lengths and defaults
+            int[] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+            Assertions.assertArrayEquals(new int[] { 111, 22, 30 }, result);
+
+            // Test with non-zero defaults
+            int[] result2 = Arrays.zip(a, b, c, 5, 15, 500, (x, y, z) -> x + y + z);
+            Assertions.assertArrayEquals(new int[] { 111, 522, 535 }, result2);
+        }
+
+        @Test
+        public void testZip_Int2DArrays_MathematicalOperations() {
+            int[][] a = { { 1, 2 }, { 3, 4 } };
+            int[][] b = { { 10, 20 }, { 30, 40 } };
+
+            // 2D addition
+            int[][] addResult = Arrays.zip(a, b, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] { 11, 22 }, addResult[0]);
+            Assertions.assertArrayEquals(new int[] { 33, 44 }, addResult[1]);
+
+            // 2D multiplication
+            int[][] mulResult = Arrays.zip(a, b, (x, y) -> x * y);
+            Assertions.assertArrayEquals(new int[] { 10, 40 }, mulResult[0]);
+            Assertions.assertArrayEquals(new int[] { 90, 160 }, mulResult[1]);
+        }
+
+        @Test
+        public void testZip_Int3DArrays_MathematicalOperations() {
+            int[][][] a = { { { 1, 2 } }, { { 3, 4 } } };
+            int[][][] b = { { { 10, 20 } }, { { 30, 40 } } };
+
+            // 3D addition
+            int[][][] addResult = Arrays.zip(a, b, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] { 11, 22 }, addResult[0][0]);
+            Assertions.assertArrayEquals(new int[] { 33, 44 }, addResult[1][0]);
+
+            // 3D subtraction
+            int[][][] subResult = Arrays.zip(a, b, (x, y) -> y - x);
+            Assertions.assertArrayEquals(new int[] { 9, 18 }, subResult[0][0]);
+            Assertions.assertArrayEquals(new int[] { 27, 36 }, subResult[1][0]);
+        }
+
+        @Test
+        public void testZip_ErrorHandling_DivisionByZero() {
+            int[] a = { 10, 20, 30 };
+            int[] b = { 2, 0, 5 };
+
+            // Test division by zero handling
+            Assertions.assertThrows(ArithmeticException.class, () -> {
+                Arrays.zip(a, b, (x, y) -> x / y);
+            });
+        }
+
+        @Test
+        public void testZip_EdgeCases_EmptyArrays() {
+            int[] empty1 = {};
+            int[] empty2 = {};
+
+            int[] result = Arrays.zip(empty1, empty2, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] {}, result);
+        }
+
+        @Test
+        public void testZip_EdgeCases_NullArrays() {
+            int[] a = null;
+            int[] b = { 1, 2, 3 };
+
+            int[] result = Arrays.zip(a, b, (x, y) -> x + y);
+            Assertions.assertArrayEquals(new int[] {}, result);
+        }
+
+        @Test
+        public void testZip_BoundaryValues_IntegerLimits() {
+            int[] maxValues = { Integer.MAX_VALUE, Integer.MAX_VALUE - 1 };
+            int[] ones = { 1, 1 };
+
+            // Test overflow behavior
+            int[] overflowResult = Arrays.zip(maxValues, ones, (x, y) -> x + y);
+            Assertions.assertEquals(Integer.MIN_VALUE, overflowResult[0]); // Overflow wraps around
+            Assertions.assertEquals(Integer.MAX_VALUE, overflowResult[1]);
+        }
+
+        // Additional error handling and edge case tests
+        @Test
+        public void testMapToLong_ErrorHandling_ExceptionInMapper() {
+            int[] input = { 1, 2, 3 };
+            Throwables.IntToLongFunction<RuntimeException> faultyMapper = i -> {
+                if (i == 2) {
+                    throw new RuntimeException("Test exception");
+                }
+                return i * 1000L;
+            };
+
+            Assertions.assertThrows(RuntimeException.class, () -> {
+                Arrays.mapToLong(input, faultyMapper);
+            });
+        }
+
+        @Test
+        public void testMapToDouble_ErrorHandling_ExceptionInMapper() {
+            long[] input = { 1L, 2L, 3L };
+            Throwables.LongToDoubleFunction<IllegalArgumentException> faultyMapper = l -> {
+                if (l == 2L) {
+                    throw new IllegalArgumentException("Invalid value");
+                }
+                return l * 0.5;
+            };
+
+            Assertions.assertThrows(IllegalArgumentException.class, () -> {
+                Arrays.mapToDouble(input, faultyMapper);
+            });
+        }
+
+        @Test
+        public void testMapToObj_ErrorHandling_ExceptionInMapper() {
+            int[] input = { 1, 2, 3 };
+            Throwables.IntFunction<String, Exception> faultyMapper = i -> {
+                if (i == 2) {
+                    throw new Exception("Conversion failed");
+                }
+                return String.valueOf(i);
+            };
+
+            Assertions.assertThrows(Exception.class, () -> {
+                Arrays.mapToObj(input, faultyMapper, String.class);
+            });
+        }
+
+        @Test
+        public void testTypeConversion_BoundaryValues() {
+            // Test byte boundary values
+            Integer[] byteInput = { 127, -128, 0 };
+            byte[] byteResult = f.mapToByte(byteInput, i -> i.byteValue());
+            Assertions.assertArrayEquals(new byte[] { 127, -128, 0 }, byteResult);
+
+            // Test short boundary values
+            Integer[] shortInput = { 32767, -32768, 0 };
+            short[] shortResult = f.mapToShort(shortInput, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] { 32767, -32768, 0 }, shortResult);
+
+            // Test char boundary values
+            Integer[] charInput = { 0, 65535 }; // Character range
+            char[] charResult = f.mapToChar(charInput, i -> (char) i.intValue());
+            Assertions.assertArrayEquals(new char[] { 0, 65535 }, charResult);
+        }
+
+        @Test
+        public void testTypeConversion_Overflow() {
+            // Test int to byte overflow
+            Integer[] overflowInput = { 128, 256, -129 };
+            byte[] overflowResult = f.mapToByte(overflowInput, i -> i.byteValue());
+            // Java wraps around on overflow
+            Assertions.assertArrayEquals(new byte[] { -128, 0, 127 }, overflowResult);
+
+            // Test int to short overflow
+            Integer[] shortOverflowInput = { 32768, -32769 };
+            short[] shortOverflowResult = f.mapToShort(shortOverflowInput, i -> i.shortValue());
+            Assertions.assertArrayEquals(new short[] { -32768, 32767 }, shortOverflowResult);
+        }
+
+        @Test
+        public void testArrayOperations_LargeArrays() {
+            // Test with moderately large arrays to check performance and correctness
+            int size = 1000;
+            int[] largeArray = new int[size];
+            for (int i = 0; i < size; i++) {
+                largeArray[i] = i;
+            }
+
+            // Test mapToLong with large array
+            long[] longResult = Arrays.mapToLong(largeArray, i -> (long) i * i);
+            Assertions.assertEquals(size, longResult.length);
+            Assertions.assertEquals(0L, longResult[0]);
+            Assertions.assertEquals(998001L, longResult[999]); // 999^2
+
+            // Test mapToDouble with large array
+            double[] doubleResult = Arrays.mapToDouble(largeArray, i -> Math.sqrt(i));
+            Assertions.assertEquals(size, doubleResult.length);
+            Assertions.assertEquals(0.0, doubleResult[0], 0.001);
+            Assertions.assertEquals(Math.sqrt(999), doubleResult[999], 0.001);
+        }
+
+        @Test
+        public void testMultidimensionalArrays_JaggedArrays() {
+            // Test with jagged arrays - arrays with different sub-array lengths
+            int[][] jaggedArray = { { 1, 2, 3 }, { 4 }, { 5, 6 } };
+            long[][] jaggedLongResult = Arrays.mapToLong(jaggedArray, i -> (long) i * 10);
+
+            Assertions.assertEquals(3, jaggedLongResult.length);
+            Assertions.assertArrayEquals(new long[] { 10, 20, 30 }, jaggedLongResult[0]);
+            Assertions.assertArrayEquals(new long[] { 40 }, jaggedLongResult[1]);
+            Assertions.assertArrayEquals(new long[] { 50, 60 }, jaggedLongResult[2]);
+        }
+
+        @Test
+        public void testZip_ComplexMathematicalOperations() {
+            int[] a = { 2, 4, 6, 8 };
+            int[] b = { 1, 3, 5, 7 };
+
+            // Test modulo operation
+            int[] modResult = Arrays.zip(a, b, (x, y) -> x % y);
+            Assertions.assertArrayEquals(new int[] { 0, 1, 1, 1 }, modResult);
+
+            // Test bitwise operations
+            int[] bitwiseAndResult = Arrays.zip(a, b, (x, y) -> x & y);
+            Assertions.assertArrayEquals(new int[] { 0, 0, 4, 0 }, bitwiseAndResult);
+
+            int[] bitwiseOrResult = Arrays.zip(a, b, (x, y) -> x | y);
+            Assertions.assertArrayEquals(new int[] { 3, 7, 7, 15 }, bitwiseOrResult);
+
+            int[] bitwiseXorResult = Arrays.zip(a, b, (x, y) -> x ^ y);
+            Assertions.assertArrayEquals(new int[] { 3, 7, 3, 15 }, bitwiseXorResult);
+        }
+
+        @Test
+        public void testChainedOperations() {
+            // Test chaining multiple array operations
+            int[] original = { 1, 2, 3, 4, 5 };
+
+            // Chain: int -> long -> double -> String
+            long[] longChain = Arrays.mapToLong(original, i -> (long) i * i);
+            double[] doubleChain = Arrays.mapToDouble(longChain, l -> l / 2.0);
+            String[] stringChain = Arrays.mapToObj(doubleChain, d -> String.format("%.1f", d), String.class);
+
+            Assertions.assertArrayEquals(new String[] { "0.5", "2.0", "4.5", "8.0", "12.5" }, stringChain);
         }
 
         // Tests for println methods

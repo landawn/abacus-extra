@@ -35,8 +35,6 @@ import com.landawn.abacus.util.stream.IntStream;
  * int value = immutable.get(2); // returns 3
  * }</pre>
  * 
- * @author HaiYang Li
- * @since 1.0
  */
 @Beta
 public final class ImmutableIntArray implements Immutable {

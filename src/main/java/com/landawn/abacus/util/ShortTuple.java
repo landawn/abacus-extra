@@ -41,7 +41,6 @@ import com.landawn.abacus.util.stream.ShortStream;
  * }</pre>
  * 
  * @param <TP> the specific ShortTuple subtype for method chaining
- * 
  * @see ShortTuple1
  * @see ShortTuple2
  * @see ShortTuple3

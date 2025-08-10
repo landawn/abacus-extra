@@ -30,8 +30,6 @@ import com.landawn.abacus.util.stream.ByteStream;
  * <p>All tuple implementations are immutable and thread-safe.</p>
  * 
  * @param <TP> the specific ByteTuple subtype
- * @author HaiYang Li
- * @since 1.0
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {

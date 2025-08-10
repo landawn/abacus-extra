@@ -36,7 +36,6 @@ import com.landawn.abacus.util.stream.LongStream;
  * }</pre>
  *
  * @param <TP> the specific LongTuple type
- * 
  * @see LongTuple1
  * @see LongTuple2
  * @see LongTuple3

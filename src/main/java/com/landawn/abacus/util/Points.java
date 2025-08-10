@@ -21,7 +21,28 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- *
+ * Utility class containing point classes for 2D and 3D coordinate systems.
+ * This class provides immutable point implementations with value storage for various coordinate
+ * types and use cases in geometric computations, matrix operations, and spatial data structures.
+ * 
+ * <p>The Points class contains nested static classes organized by coordinate system:</p>
+ * <ul>
+ *   <li>{@code xy} - 2D coordinate points with optional values</li>
+ *   <li>{@code xyz} - 3D coordinate points with optional values</li>
+ * </ul>
+ * 
+ * <p>Each coordinate system provides point classes for different primitive types (byte, int, long, double, float)
+ * to optimize memory usage and performance for specific use cases.</p>
+ * 
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * // Create a 2D integer point with value
+ * Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(10, 20, 100);
+ * int x = point.x; // 10
+ * int y = point.y; // 20
+ * int value = point.v; // 100
+ * }</pre>
+ * 
  */
 @com.landawn.abacus.annotation.Immutable
 public final class Points {

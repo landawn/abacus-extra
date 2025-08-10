@@ -27,8 +27,6 @@ import com.landawn.abacus.util.u.Nullable;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
-
 /**
  * A generic matrix implementation that stores elements in a two-dimensional array.
  * This class provides comprehensive matrix operations including element access,

@@ -3112,8 +3112,8 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D array containing the results with outer length equal to the shortest input array
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
-            final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final Throwables.CharTernaryOperator<E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3205,8 +3205,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays
      * @throws E if the zip function throws an exception
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction)
-            throws E {
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -12847,7 +12846,6 @@ public sealed class Arrays permits Arrays.f {
          */
         public static <T> T[] flatten(final T[][] a) {
             final int count = Numbers.toIntExact(totalCountOfElements(a));
-
 
             final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType();
             final T[] c = N.newArray(componentType, count);

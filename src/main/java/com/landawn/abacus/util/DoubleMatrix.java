@@ -52,7 +52,6 @@ import com.landawn.abacus.util.stream.Stream;
  * @see IntMatrix
  * @see LongMatrix
  * @see FloatMatrix
- * @author HaiYang Li
  */
 public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 

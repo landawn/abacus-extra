@@ -50,7 +50,6 @@ import com.landawn.abacus.util.stream.Stream;
  * @see AbstractMatrix
  * @see IntMatrix
  * @see DoubleMatrix
- * @author HaiYang Li
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 

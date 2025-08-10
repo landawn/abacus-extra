@@ -32,8 +32,6 @@ import com.landawn.abacus.util.stream.FloatStream;
  * </ul>
  * 
  * @param <TP> The specific FloatTuple subtype for fluent method chaining
- * @author HaiYang Li
- * @since 3.0
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {

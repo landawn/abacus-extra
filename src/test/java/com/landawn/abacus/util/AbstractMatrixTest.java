@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AbstractMatrixTest {
+import com.landawn.abacus.TestBase;
+
+public class AbstractMatrixTest extends TestBase {
 
     // Since AbstractMatrix is abstract, we'll test it through IntMatrix which is a concrete implementation
     private IntMatrix createTestMatrix() {

@@ -6,11 +6,12 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.stream.LongStream;
 
-public class LongMatrixTest {
+public class LongMatrixTest extends TestBase {
 
     @Test
     public void testConstructor() {

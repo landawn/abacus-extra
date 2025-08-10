@@ -28,8 +28,6 @@ import com.landawn.abacus.util.stream.Stream;
  * <p>All tuple implementations are immutable and thread-safe.</p>
  * 
  * @param <TP> the specific BooleanTuple subtype
- * @author HaiYang Li
- * @since 1.0
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends PrimitiveTuple<TP> {
@@ -248,8 +246,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * 
      * <p>Example usage:</p>
      * <pre>{@code
-     * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * BooleanTuple3 reversed = tuple.reverse(); // contains true, false, true
+     * BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
+     * BooleanTuple3 reversed = tuple.reverse(); // contains false, false, true
      * }</pre>
      *
      * @return a new tuple with elements in reversed order

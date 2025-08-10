@@ -6,11 +6,12 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalByte;
 import com.landawn.abacus.util.stream.ByteStream;
 
-public class ByteMatrixTest {
+public class ByteMatrixTest extends TestBase {
 
     @Test
     public void testConstructor() {

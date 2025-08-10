@@ -26,12 +26,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.stream.ByteStream;
 import com.landawn.abacus.util.stream.Collectors;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.LongStream;
 
-class MatrixesTest {
+class MatrixesTest extends TestBase {
 
     private ByteMatrix byteMatrix1;
     private ByteMatrix byteMatrix2;

@@ -16,10 +16,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.u.OptionalInt;
 import com.landawn.abacus.util.stream.IntStream;
 
-public class IntMatrixTest {
+public class IntMatrixTest extends TestBase {
 
     private IntMatrix matrix;
     private IntMatrix emptyMatrix;
@@ -1259,7 +1260,6 @@ public class IntMatrixTest {
         assertTrue(str.contains("4"));
     }
 
-
     @Test
     public void testIteratorNoSuchElement() {
         // Test streamH iterator
@@ -1285,5 +1285,176 @@ public class IntMatrixTest {
         assertEquals(2, extended.rows);
         assertEquals(2, extended.cols);
         assertEquals(5, extended.get(0, 0));
+    }
+
+    @Test
+    public void testStatisticalOperations() {
+        // Test sum operation on streams
+        int totalSum = matrix.streamH().sum();
+        assertEquals(45, totalSum); // 1+2+3+4+5+6+7+8+9 = 45
+
+        // Test sum of specific row
+        int row1Sum = matrix.streamH(1).sum();
+        assertEquals(15, row1Sum); // 4+5+6 = 15
+
+        // Test sum of specific column 
+        int col0Sum = matrix.streamV(0).sum();
+        assertEquals(12, col0Sum); // 1+4+7 = 12
+
+        // Test min/max on streams
+        int min = matrix.streamH().min().orElse(0);
+        assertEquals(1, min);
+
+        int max = matrix.streamH().max().orElse(0);
+        assertEquals(9, max);
+
+        // Test average
+        double avg = matrix.streamH().average().orElse(0.0);
+        assertEquals(5.0, avg, 0.0001);
+
+        // Test statistical operations on diagonal
+        int diagonalSum = matrix.streamLU2RD().sum();
+        assertEquals(15, diagonalSum); // 1+5+9 = 15
+
+        int antiDiagonalSum = matrix.streamRU2LD().sum();
+        assertEquals(15, antiDiagonalSum); // 3+5+7 = 15
+    }
+
+    @Test
+    public void testRowColumnStatistics() {
+        // Test statistics on individual rows
+        List<Integer> rowSums = matrix.streamR().map(row -> row.sum()).toList();
+        assertEquals(3, rowSums.size());
+        assertEquals(6, rowSums.get(0).intValue()); // 1+2+3
+        assertEquals(15, rowSums.get(1).intValue()); // 4+5+6
+        assertEquals(24, rowSums.get(2).intValue()); // 7+8+9
+
+        // Test statistics on individual columns
+        List<Integer> colSums = matrix.streamC().map(col -> col.sum()).toList();
+        assertEquals(3, colSums.size());
+        assertEquals(12, colSums.get(0).intValue()); // 1+4+7
+        assertEquals(15, colSums.get(1).intValue()); // 2+5+8
+        assertEquals(18, colSums.get(2).intValue()); // 3+6+9
+
+        // Test min/max per row
+        List<Integer> rowMins = matrix.streamR().map(row -> row.min().orElse(0)).toList();
+        assertEquals(1, rowMins.get(0).intValue());
+        assertEquals(4, rowMins.get(1).intValue());
+        assertEquals(7, rowMins.get(2).intValue());
+
+        List<Integer> rowMaxs = matrix.streamR().map(row -> row.max().orElse(0)).toList();
+        assertEquals(3, rowMaxs.get(0).intValue());
+        assertEquals(6, rowMaxs.get(1).intValue());
+        assertEquals(9, rowMaxs.get(2).intValue());
+    }
+
+    @Test
+    public void testElementWiseMultiplyWithZipWith() {
+        // Test element-wise multiplication using zipWith (since there's no multiply scalar method)
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 2, 3 }, { 4, 5 } });
+
+        // Element-wise multiplication
+        IntMatrix elementWiseProduct = m1.zipWith(m2, (a, b) -> a * b);
+        assertEquals(2, elementWiseProduct.get(0, 0)); // 1*2
+        assertEquals(6, elementWiseProduct.get(0, 1)); // 2*3
+        assertEquals(12, elementWiseProduct.get(1, 0)); // 3*4
+        assertEquals(20, elementWiseProduct.get(1, 1)); // 4*5
+
+        // Element-wise division
+        IntMatrix elementWiseDivision = m2.zipWith(m1, (a, b) -> a / b);
+        assertEquals(2, elementWiseDivision.get(0, 0)); // 2/1
+        assertEquals(1, elementWiseDivision.get(0, 1)); // 3/2 (integer division)
+        assertEquals(1, elementWiseDivision.get(1, 0)); // 4/3 (integer division)
+        assertEquals(1, elementWiseDivision.get(1, 1)); // 5/4 (integer division)
+    }
+
+    @Test
+    public void testScalarOperationsWithMap() {
+        // Test scalar addition using map
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        IntMatrix addScalar = m.map(x -> x + 10);
+        assertEquals(11, addScalar.get(0, 0));
+        assertEquals(12, addScalar.get(0, 1));
+        assertEquals(13, addScalar.get(1, 0));
+        assertEquals(14, addScalar.get(1, 1));
+
+        // Test scalar subtraction
+        IntMatrix subtractScalar = m.map(x -> x - 1);
+        assertEquals(0, subtractScalar.get(0, 0));
+        assertEquals(1, subtractScalar.get(0, 1));
+        assertEquals(2, subtractScalar.get(1, 0));
+        assertEquals(3, subtractScalar.get(1, 1));
+
+        // Test scalar multiplication
+        IntMatrix multiplyScalar = m.map(x -> x * 3);
+        assertEquals(3, multiplyScalar.get(0, 0));
+        assertEquals(6, multiplyScalar.get(0, 1));
+        assertEquals(9, multiplyScalar.get(1, 0));
+        assertEquals(12, multiplyScalar.get(1, 1));
+
+        // Test scalar division
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 10, 20 }, { 30, 40 } });
+        IntMatrix divideScalar = m2.map(x -> x / 10);
+        assertEquals(1, divideScalar.get(0, 0));
+        assertEquals(2, divideScalar.get(0, 1));
+        assertEquals(3, divideScalar.get(1, 0));
+        assertEquals(4, divideScalar.get(1, 1));
+    }
+
+    @Test
+    public void testArithmeticEdgeCases() {
+        // Test with zero matrix
+        IntMatrix zeros = IntMatrix.of(new int[][] { { 0, 0 }, { 0, 0 } });
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        IntMatrix addZero = m.add(zeros);
+        assertEquals(m, addZero);
+
+        IntMatrix subtractZero = m.subtract(zeros);
+        assertEquals(m, subtractZero);
+
+        // Test multiplication with zero matrix
+        IntMatrix multiplyZero = m.multiply(zeros);
+        assertEquals(zeros, multiplyZero);
+
+        // Test addition commutativity
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
+        assertEquals(m1.add(m2), m2.add(m1));
+
+        // Test subtraction anti-commutativity
+        IntMatrix diff1 = m1.subtract(m2);
+        IntMatrix diff2 = m2.subtract(m1);
+        assertEquals(diff1.get(0, 0), -diff2.get(0, 0));
+        assertEquals(diff1.get(1, 1), -diff2.get(1, 1));
+    }
+
+    @Test
+    public void testLargeMatrixArithmetic() {
+        // Test with larger matrices to ensure performance
+        int[][] arr1 = new int[10][10];
+        int[][] arr2 = new int[10][10];
+
+        // Fill with test data
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                arr1[i][j] = i * 10 + j + 1;
+                arr2[i][j] = (i * 10 + j + 1) * 2;
+            }
+        }
+
+        IntMatrix large1 = IntMatrix.of(arr1);
+        IntMatrix large2 = IntMatrix.of(arr2);
+
+        // Test addition
+        IntMatrix largeSum = large1.add(large2);
+        assertEquals(3, largeSum.get(0, 0)); // 1 + 2 = 3
+        assertEquals(300, largeSum.get(9, 9)); // 100 + 200 = 300
+
+        // Test that sum of all elements is correct
+        long totalSum = largeSum.streamH().asLongStream().sum();
+        assertEquals(15150, totalSum); // (1+2+...+100) + 2*(1+2+...+100) = 3*(1+2+...+100) = 3*5050 = 15150
     }
 }

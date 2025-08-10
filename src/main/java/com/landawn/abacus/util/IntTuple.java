@@ -32,8 +32,6 @@ import com.landawn.abacus.util.stream.IntStream;
  * </ul>
  * 
  * @param <TP> The specific IntTuple subtype for fluent method chaining
- * @author HaiYang Li
- * @since 3.0
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
