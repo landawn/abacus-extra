@@ -53,7 +53,7 @@ public final class ImmutableIntArray implements Immutable {
      * Package-private constructor that wraps the provided array.
      * If the array is null, an empty array is used instead.
      * 
-     * @param a the array to wrap (may be null)
+     * @param a the array to wrap
      */
     ImmutableIntArray(final int[] a) {
         elements = a == null ? N.EMPTY_INT_ARRAY : a;

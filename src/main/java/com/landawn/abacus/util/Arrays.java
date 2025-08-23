@@ -19,20 +19,43 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * A utility class that provides numerous methods for array manipulation and operations.
+ * A comprehensive utility class providing extensive methods for array manipulation and operations.
+ * This class offers a wide range of functionality for working with both single and multi-dimensional
+ * arrays of all primitive types and objects.
  * 
  * <p>The class contains various utility methods for array operations including:</p>
  * <ul>
- *   <li>Mathematical operations (add, subtract, multiply, divide)</li>
- *   <li>Array transformation (reshape, flatten)</li>
- *   <li>Type conversion between array types</li>
- *   <li>Element-wise operations and manipulations</li>
+ *   <li>Mathematical operations (add, subtract, multiply, divide) for element-wise calculations</li>
+ *   <li>Array transformation (reshape, flatten) for changing array dimensions</li>
+ *   <li>Type conversion between different array types (e.g., int[] to double[])</li>
+ *   <li>Element-wise operations with customizable functions</li>
+ *   <li>Array printing utilities for debugging and visualization</li>
+ *   <li>Statistical operations (sum, average, min, max)</li>
+ *   <li>Array manipulation (reverse, rotate, shuffle)</li>
  * </ul>
+ * 
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * // Element-wise addition
+ * int[] a = {1, 2, 3};
+ * int[] b = {4, 5, 6};
+ * int[] sum = Arrays.add(a, b); // {5, 7, 9}
+ * 
+ * // Array reshaping
+ * int[] flat = {1, 2, 3, 4, 5, 6};
+ * int[][] matrix = Arrays.reshape(flat, 2, 3); // {{1, 2, 3}, {4, 5, 6}}
+ * 
+ * // Type conversion
+ * int[] ints = {1, 2, 3};
+ * double[] doubles = Arrays.toDoubleArray(ints); // {1.0, 2.0, 3.0}
+ * }</pre>
  * 
  * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case.
  * It's not going to handle {@code null} scenarios like what handled in abacus-common.
  * It's developer's responsibility to handle {@code null} scenarios.
  * 
+ * @see Matrix
+ * @see Matrixes
  */
 @Beta
 public sealed class Arrays permits Arrays.f {

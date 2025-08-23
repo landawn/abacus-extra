@@ -16,8 +16,6 @@
 
 package com.landawn.abacus.util;
 
-// TODO: Auto-generated Javadoc
-
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
@@ -94,19 +92,29 @@ public final class Points {
             }
 
             /**
+             * Creates a new ByteBytePoint with the specified x, y coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * <p>Example usage:</p>
+             * <pre>{@code
+             * ByteBytePoint point = ByteBytePoint.of((byte)10, (byte)20, (byte)100);
+             * byte x = point.x; // 10
+             * byte y = point.y; // 20
+             * byte value = point.v; // 100
+             * }</pre>
+             *
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new ByteBytePoint instance
              */
             public static ByteBytePoint of(final byte x, final byte y, final byte v) {
                 return new ByteBytePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -114,9 +122,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -132,8 +142,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -170,19 +181,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static ByteIntPoint of(final byte x, final byte y, final int v) {
                 return new ByteIntPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -190,9 +203,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -208,8 +223,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -236,19 +252,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static ByteLongPoint of(final byte x, final byte y, final long v) {
                 return new ByteLongPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -256,9 +274,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -274,8 +294,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -312,19 +333,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static ByteDoublePoint of(final byte x, final byte y, final double v) {
                 return new ByteDoublePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -332,9 +355,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -350,8 +375,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -402,8 +428,9 @@ public final class Points {
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -411,9 +438,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -429,8 +458,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -467,19 +497,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static IntBytePoint of(final int x, final int y, final byte v) {
                 return new IntBytePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -487,9 +519,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -505,8 +539,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -543,19 +578,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static IntIntPoint of(final int x, final int y, final int v) {
                 return new IntIntPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -563,9 +600,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -581,8 +620,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -619,19 +659,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static IntLongPoint of(final int x, final int y, final long v) {
                 return new IntLongPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -639,9 +681,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -657,8 +701,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -695,19 +740,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static IntDoublePoint of(final int x, final int y, final double v) {
                 return new IntDoublePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -715,9 +762,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -733,8 +782,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -785,8 +835,9 @@ public final class Points {
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -794,9 +845,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -812,8 +865,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -850,19 +904,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static LongBytePoint of(final long x, final long y, final byte v) {
                 return new LongBytePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -870,9 +926,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -888,8 +946,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -926,19 +985,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static LongIntPoint of(final long x, final long y, final int v) {
                 return new LongIntPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -946,9 +1007,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -964,8 +1027,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1002,19 +1066,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static LongLongPoint of(final long x, final long y, final long v) {
                 return new LongLongPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1022,9 +1088,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1040,8 +1108,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1078,19 +1147,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static LongDoublePoint of(final long x, final long y, final double v) {
                 return new LongDoublePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1098,9 +1169,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1116,8 +1189,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1168,8 +1242,9 @@ public final class Points {
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1177,9 +1252,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1195,8 +1272,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1233,19 +1311,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static DoubleBytePoint of(final double x, final double y, final byte v) {
                 return new DoubleBytePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1253,9 +1333,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1271,8 +1353,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1309,19 +1392,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static DoubleIntPoint of(final double x, final double y, final int v) {
                 return new DoubleIntPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1329,9 +1414,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1347,8 +1434,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1385,19 +1473,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static DoubleLongPoint of(final double x, final double y, final long v) {
                 return new DoubleLongPoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1405,9 +1495,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1423,8 +1515,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1461,19 +1554,21 @@ public final class Points {
             }
 
             /**
+             * Creates a new point with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
+             * @return a new point instance
              */
             public static DoubleDoublePoint of(final double x, final double y, final double v) {
                 return new DoubleDoublePoint(x, y, v);
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1481,9 +1576,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1499,8 +1596,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
@@ -1551,8 +1649,9 @@ public final class Points {
             }
 
             /**
+             * Returns a hash code for this point based on its coordinates and value.
              *
-             * @return
+             * @return a hash code value for this point
              */
             @Override
             public int hashCode() {
@@ -1560,9 +1659,11 @@ public final class Points {
             }
 
             /**
+             * Indicates whether some other object is \"equal to\" this one.
+             * Two points are equal if they have the same coordinates and value.
              *
-             * @param obj
-             * @return {@code true}, if successful
+             * @param obj the reference object with which to compare
+             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
              */
             @Override
             public boolean equals(final Object obj) {
@@ -1578,8 +1679,9 @@ public final class Points {
             }
 
             /**
+             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
              *
-             * @return
+             * @return a string representation of this point
              */
             @Override
             public String toString() {
