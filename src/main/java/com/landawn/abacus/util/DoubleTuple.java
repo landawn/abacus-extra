@@ -274,14 +274,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the median value of all elements in this tuple.
-     * For even-sized tuples, returns the average of the two middle values.
+     * Returns the median double value in this tuple.
+     * For tuples with an even number of elements, returns the lower middle value.
      * 
      * <p>Example usage:</p>
      * <pre>{@code
+     * DoubleTuple3 tuple = DoubleTuple.of(30.0, 10.0, 20.0);
+     * double median = tuple.median(); // 20.0
+     * 
      * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double median = tuple.median(); // 2.5
-     * }</pre>
+     * double median = tuple.median(); // 2.0
+     * }</pre> 
      *
      * @return the median double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
@@ -722,9 +725,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the median value of the two elements.
+         * Returns the median double value in this tuple.
+         * For a tuple of two elements, returns the lower value.
          *
-         * @return the average of _1 and _2
+         * @return the median (lower) double value
          */
         @Override
         public double median() {

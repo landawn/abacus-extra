@@ -280,14 +280,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median value of all elements in this tuple.
-     * <p>
-     * For tuples with an even number of elements, returns the lower of the two middle values.
-     * </p>
-     *
-     * <p>Example:</p>
+     * For even-sized tuples, returns the lower of the two middle values.
+     * 
+     * <p>Example usage:</p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(1L, 5L, 3L);
-     * long median = tuple.median();  // 3
+     * LongTuple3 tuple = LongTuple.of(3, 1, 2);
+     * long median = tuple.median(); // 2
+     * 
+     * LongTuple4 tuple = LongTuple.of(1, 2, 3, 4);
+     * long median = tuple.median(); // 2
      * }</pre>
      *
      * @return the median value
@@ -757,9 +758,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the median value of the two elements.
+         * Returns the median long value in this tuple.
+         * For a tuple of two elements, returns the lower value.
          *
-         * @return the median value (lower of the two for even count)
+         * @return the median (lower) long value
          */
         @Override
         public long median() {

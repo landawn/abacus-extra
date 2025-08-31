@@ -768,10 +768,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value of the two elements.
-         * For two elements, returns the lower value.
+         * Returns the median short value in this tuple.
+         * For a tuple of two elements, returns the lower value.
          *
-         * @return the median of _1 and _2
+         * @return the median (lower) short value
          */
         @Override
         public short median() {
@@ -1003,7 +1003,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns the median value of the three elements.
          *
-         * @return the middle value when _1, _2, and _3 are sorted
+         * @return the middle byte short when sorted
          */
         @Override
         public short median() {
