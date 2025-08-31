@@ -1452,6 +1452,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * 
      * @deprecated For tuples with 8 or more elements, consider using a custom class with named fields
      */
+    @Deprecated
     public static final class LongTuple8 extends LongTuple<LongTuple8> {
 
         /** The first element of this tuple. */
@@ -1533,6 +1534,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * 
      * @deprecated For tuples with 9 or more elements, consider using a custom class with named fields
      */
+    @Deprecated
     public static final class LongTuple9 extends LongTuple<LongTuple9> {
 
         /** The first element of this tuple. */

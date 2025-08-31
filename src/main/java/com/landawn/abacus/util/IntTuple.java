@@ -1397,6 +1397,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class IntTuple8 extends IntTuple<IntTuple8> {
 
         /** The first int value in this tuple. */
@@ -1479,6 +1480,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class IntTuple9 extends IntTuple<IntTuple9> {
 
         /** The first int value in this tuple. */

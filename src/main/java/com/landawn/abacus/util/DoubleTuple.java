@@ -1402,6 +1402,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class DoubleTuple8 extends DoubleTuple<DoubleTuple8> {
 
         /** The first double value in this tuple. */
@@ -1484,6 +1485,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class DoubleTuple9 extends DoubleTuple<DoubleTuple9> {
 
         /** The first double value in this tuple. */

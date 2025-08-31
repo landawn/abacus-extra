@@ -1494,6 +1494,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
      */
+    @Deprecated
     public static final class ShortTuple8 extends ShortTuple<ShortTuple8> {
 
         /** The first short value in this tuple. */
@@ -1586,6 +1587,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * 
      * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
      */
+    @Deprecated
     public static final class ShortTuple9 extends ShortTuple<ShortTuple9> {
 
         /** The first short value in this tuple. */

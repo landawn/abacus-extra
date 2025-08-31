@@ -1402,6 +1402,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class FloatTuple8 extends FloatTuple<FloatTuple8> {
 
         /** The first float value in this tuple. */
@@ -1484,6 +1485,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * 
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
+    @Deprecated
     public static final class FloatTuple9 extends FloatTuple<FloatTuple9> {
 
         /** The first float value in this tuple. */
