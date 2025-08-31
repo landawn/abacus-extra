@@ -705,8 +705,8 @@ class MatrixesTest extends TestBase {
             N.println(mx);
             N.println(mx.boxed());
 
-            mx.boxed().toDataSetH(N.asList("a", "b", "c", "d")).println();
-            mx.boxed().toDataSetV(N.asList("a", "b")).println();
+            mx.boxed().toDatasetH(N.asList("a", "b", "c", "d")).println();
+            mx.boxed().toDatasetV(N.asList("a", "b")).println();
         }
     }
 

@@ -1136,46 +1136,46 @@ public class MatrixTest extends TestBase {
     }
 
     @Test
-    public void testToDataSetH() {
+    public void testToDatasetH() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         List<String> columnNames = Arrays.asList("A", "B", "C");
 
-        DataSet dataSet = matrix.toDataSetH(columnNames);
+        Dataset dataset = matrix.toDatasetH(columnNames);
 
-        Assertions.assertEquals(2, dataSet.size());
-        Assertions.assertEquals(3, dataSet.columnCount());
-        Assertions.assertEquals(Arrays.asList(1, 4), dataSet.getColumn("A"));
+        Assertions.assertEquals(2, dataset.size());
+        Assertions.assertEquals(3, dataset.columnCount());
+        Assertions.assertEquals(Arrays.asList(1, 4), dataset.getColumn("A"));
     }
 
     @Test
-    public void testToDataSetHWrongColumnCount() {
+    public void testToDatasetHWrongColumnCount() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 } });
         List<String> columnNames = Arrays.asList("A", "B");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.toDataSetH(columnNames);
+            matrix.toDatasetH(columnNames);
         });
     }
 
     @Test
-    public void testToDataSetV() {
+    public void testToDatasetV() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         List<String> columnNames = Arrays.asList("Row1", "Row2");
 
-        DataSet dataSet = matrix.toDataSetV(columnNames);
+        Dataset dataset = matrix.toDatasetV(columnNames);
 
-        Assertions.assertEquals(3, dataSet.size());
-        Assertions.assertEquals(2, dataSet.columnCount());
-        Assertions.assertEquals(Arrays.asList(1, 2, 3), dataSet.getColumn("Row1"));
+        Assertions.assertEquals(3, dataset.size());
+        Assertions.assertEquals(2, dataset.columnCount());
+        Assertions.assertEquals(Arrays.asList(1, 2, 3), dataset.getColumn("Row1"));
     }
 
     @Test
-    public void testToDataSetVWrongColumnCount() {
+    public void testToDatasetVWrongColumnCount() {
         Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2 } });
         List<String> columnNames = Arrays.asList("Row1", "Row2");
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            matrix.toDataSetV(columnNames);
+            matrix.toDatasetV(columnNames);
         });
     }
 

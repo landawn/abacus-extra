@@ -2738,8 +2738,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Converts this matrix to a DataSet with horizontally organized data.
-     * Each row in the matrix becomes a record in the DataSet, and each column
+     * Converts this matrix to a Dataset with horizontally organized data.
+     * Each row in the matrix becomes a record in the Dataset, and each column
      * is assigned the corresponding name from the provided collection.
      *
      * <p>The column names are used in the order they appear in the collection,
@@ -2750,24 +2750,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("A", "B", "C");
      * 
-     * DataSet dataSet = matrix.toDataSetH(columnNames);
-     * // DataSet with:
+     * Dataset dataset = matrix.toDatasetH(columnNames);
+     * // Dataset with:
      * // A  B  C
      * // -------
      * // 1  2  3
      * // 4  5  6
      * 
      * // Access data by column name
-     * List<Integer> columnA = dataSet.getColumn("A"); // [1, 4]
+     * List<Integer> columnA = dataset.getColumn("A"); // [1, 4]
      * }</pre>
      *
-     * @param columnNames the names to assign to each column in the resulting DataSet
-     * @return a DataSet containing the matrix data with the specified column names
+     * @param columnNames the names to assign to each column in the resulting Dataset
+     * @return a Dataset containing the matrix data with the specified column names
      * @throws IllegalArgumentException if the size of columnNames doesn't match the column count
-     * @see DataSet
+     * @see Dataset
      */
     @Beta
-    public DataSet toDataSetH(final Collection<String> columnNames) throws IllegalArgumentException {
+    public Dataset toDatasetH(final Collection<String> columnNames) throws IllegalArgumentException {
         N.checkArgument(columnNames.size() == cols, "The size({}) of specified columnNames and column count({}) of this Matrix are not equals",
                 columnNames.size(), cols);
 
@@ -2784,12 +2784,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             newColumnList.add(column);
         }
 
-        return new RowDataSet(newColumnNameList, newColumnList);
+        return new RowDataset(newColumnNameList, newColumnList);
     }
 
     /**
-     * Converts this matrix to a DataSet with vertically organized data.
-     * Each column in the matrix becomes a record in the DataSet, and each row
+     * Converts this matrix to a Dataset with vertically organized data.
+     * Each column in the matrix becomes a record in the Dataset, and each row
      * is assigned the corresponding name from the provided collection.
      *
      * <p>The column names are used in the order they appear in the collection,
@@ -2800,8 +2800,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("Row1", "Row2");
      *
-     * DataSet dataSet = matrix.toDataSetV(columnNames);
-     * // DataSet with:
+     * Dataset dataset = matrix.toDatasetV(columnNames);
+     * // Dataset with:
      * // Row1  Row2
      * // ----------
      * // 1     4
@@ -2809,14 +2809,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // 3     6
      * }</pre>
      *
-     * @param columnNames the collection of column names to use for the DataSet
-     * @return a DataSet containing the matrix data organized vertically
+     * @param columnNames the collection of column names to use for the Dataset
+     * @return a Dataset containing the matrix data organized vertically
      * @throws IllegalArgumentException if the number of column names doesn't match the number of rows in the matrix
-     * @see DataSet
-     * @see RowDataSet
+     * @see Dataset
+     * @see RowDataset
      */
     @Beta
-    public DataSet toDataSetV(final Collection<String> columnNames) throws IllegalArgumentException {
+    public Dataset toDatasetV(final Collection<String> columnNames) throws IllegalArgumentException {
         N.checkArgument(columnNames.size() == rows, "The size({}) of specified columnNames and row count({}) of this Matrix are not equals", columnNames.size(),
                 rows);
 
@@ -2827,7 +2827,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             newColumnList.add(new ArrayList<>(Array.asList(a[i])));
         }
 
-        return new RowDataSet(newColumnNameList, newColumnList);
+        return new RowDataset(newColumnNameList, newColumnList);
     }
 
     /**
