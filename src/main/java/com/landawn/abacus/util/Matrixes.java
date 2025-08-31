@@ -846,6 +846,7 @@ public final class Matrixes {
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final ByteMatrix c,
             final Throwables.ByteTriFunction<Integer, E> zipFunction) throws IllegalArgumentException, E {
         checkShapeForZip(a, b);
+        checkShapeForZip(a, c);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1100,6 +1101,7 @@ public final class Matrixes {
     public static <E extends Exception> LongMatrix zipToLong(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Long, E> zipFunction) throws IllegalArgumentException, E {
         checkShapeForZip(a, b);
+        checkShapeForZip(a, c);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1214,6 +1216,7 @@ public final class Matrixes {
     public static <E extends Exception> DoubleMatrix zipToDouble(final IntMatrix a, final IntMatrix b, final IntMatrix c,
             final Throwables.IntTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
         checkShapeForZip(a, b);
+        checkShapeForZip(a, c);
 
         final int rows = a.rows;
         final int cols = a.cols;
@@ -1465,6 +1468,7 @@ public final class Matrixes {
     public static <E extends Exception> DoubleMatrix zipToDouble(final LongMatrix a, final LongMatrix b, final LongMatrix c,
             final Throwables.LongTriFunction<Double, E> zipFunction) throws IllegalArgumentException, E {
         checkShapeForZip(a, b);
+        checkShapeForZip(a, c);
 
         final int rows = a.rows;
         final int cols = a.cols;
