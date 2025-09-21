@@ -4844,7 +4844,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces elements in a short array that match the predicate with a new value.
-     * Only elements for which the predicate returns true are replaced.
+     * Only elements for which the predicate returns {@code true} are replaced.
      *
      * <pre>
      * short[] array = {1, 2, 3, 4, 5};

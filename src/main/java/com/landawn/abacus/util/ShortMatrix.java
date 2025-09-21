@@ -837,7 +837,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Replaces elements based on their position by testing with the given predicate.
-     * The predicate receives the row and column indices and returns true if the element
+     * The predicate receives the row and column indices and returns {@code true} if the element
      * at that position should be replaced with the new value.
      * The operation may be performed in parallel for large matrices.
      * 
@@ -848,7 +848,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      * 
      * @param <E> the type of exception that the predicate may throw
-     * @param predicate the condition that takes row index, column index and returns true if element should be replaced
+     * @param predicate the condition that takes row index, column index and returns {@code true} if element should be replaced
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
      */

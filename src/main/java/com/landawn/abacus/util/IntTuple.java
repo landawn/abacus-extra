@@ -345,7 +345,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * }</pre>
      *
      * @param valueToFind the int value to search for
-     * @return true if the value is found in this tuple, false otherwise
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(int valueToFind);
 
@@ -431,7 +431,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * in the same order.
      *
      * @param obj the object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @return {@code true} if the objects are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -617,7 +617,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if _1 equals valueToFind, false otherwise
+         * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -638,7 +638,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if obj is an IntTuple1 with equal value
+         * @return {@code true} if obj is an IntTuple1 with equal value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -766,7 +766,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if either element equals valueToFind
+         * @return {@code true} if either element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -855,7 +855,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if obj is an IntTuple2 with equal elements
+         * @return {@code true} if obj is an IntTuple2 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -985,7 +985,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1075,7 +1075,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if obj is an IntTuple3 with equal elements
+         * @return {@code true} if obj is an IntTuple3 with equal elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1158,7 +1158,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1228,7 +1228,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1301,7 +1301,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1377,7 +1377,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1460,7 +1460,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1546,7 +1546,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final int valueToFind) {

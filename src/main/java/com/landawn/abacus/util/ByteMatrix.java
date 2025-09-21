@@ -875,7 +875,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Replaces elements based on their position using the given predicate.
-     * Elements at positions where the predicate returns true are replaced with the new value.
+     * Elements at positions where the predicate returns {@code true} are replaced with the new value.
      * 
      * <p>Example:
      * <pre>{@code
@@ -885,7 +885,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param predicate the condition that takes row and column indices and returns true for positions to replace
+     * @param predicate the condition that takes row and column indices and returns {@code true} for positions to replace
      * @param newValue the value to use as replacement
      * @throws E if the predicate throws an exception
      */

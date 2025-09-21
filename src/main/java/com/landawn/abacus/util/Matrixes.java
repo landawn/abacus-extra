@@ -120,7 +120,7 @@ public final class Matrixes {
      * Uses the matrix's total element count to make the decision.
      *
      * @param x the matrix to check
-     * @return true if parallel processing should be used, false otherwise
+     * @return {@code true} if parallel processing should be used, {@code false} otherwise
      * @see #isParallelable(AbstractMatrix, long)
      */
     public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
@@ -138,7 +138,7 @@ public final class Matrixes {
      *
      * @param x the matrix (used for future extensibility, currently not used in decision)
      * @param count the number of elements to process
-     * @return true if parallel processing should be used, false otherwise
+     * @return {@code true} if parallel processing should be used, {@code false} otherwise
      */
     public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
@@ -158,7 +158,7 @@ public final class Matrixes {
      * @param <X> the type of matrix
      * @param a the first matrix
      * @param b the second matrix
-     * @return true if both matrices have the same number of rows and columns
+     * @return {@code true} if both matrices have the same number of rows and columns
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b) {
         return a.rows == b.rows && a.cols == b.cols;
@@ -171,7 +171,7 @@ public final class Matrixes {
      * @param a the first matrix
      * @param b the second matrix
      * @param c the third matrix
-     * @return true if all three matrices have the same number of rows and columns
+     * @return {@code true} if all three matrices have the same number of rows and columns
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b, final X c) {
         return a.rows == b.rows && a.rows == c.rows && a.cols == b.cols && a.cols == c.cols;
@@ -183,7 +183,7 @@ public final class Matrixes {
      *
      * @param <X> the type of matrix
      * @param xs the collection of matrices to check
-     * @return true if all matrices have the same number of rows and columns, or if the collection is empty or has one element
+     * @return {@code true} if all matrices have the same number of rows and columns, or if the collection is empty or has one element
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final Collection<? extends X> xs) {
         if (N.isEmpty(xs) || xs.size() == 1) {

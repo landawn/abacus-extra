@@ -2386,7 +2386,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * with the same dimensions and all corresponding elements are equal.
      *
      * @param obj the object to compare with
-     * @return true if the specified object is equal to this matrix, false otherwise
+     * @return {@code true} if the specified object is equal to this matrix, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {

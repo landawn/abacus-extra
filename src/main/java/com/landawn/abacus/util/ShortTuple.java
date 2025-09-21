@@ -364,7 +364,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param valueToFind the short value to search for
-     * @return true if the value is found in this tuple, false otherwise
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(short valueToFind);
 
@@ -451,7 +451,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * the same elements in the same order.
      *
      * @param obj the object to compare with
-     * @return true if the specified object is equal to this tuple
+     * @return {@code true} if the specified object is equal to this tuple
      */
     @Override
     public boolean equals(final Object obj) {
@@ -650,7 +650,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if the value equals _1, false otherwise
+         * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -671,7 +671,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a ShortTuple1 with the same value
+         * @return {@code true} if the object is a ShortTuple1 with the same value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -812,7 +812,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if either element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals _1 or _2
+         * @return {@code true} if valueToFind equals _1 or _2
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -901,7 +901,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a ShortTuple2 with the same values
+         * @return {@code true} if the object is a ShortTuple2 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1044,7 +1044,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals _1, _2, or _3
+         * @return {@code true} if valueToFind equals _1, _2, or _3
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1134,7 +1134,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a ShortTuple3 with the same values
+         * @return {@code true} if the object is a ShortTuple3 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1223,7 +1223,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the four elements
+         * @return {@code true} if valueToFind equals any of the four elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1299,7 +1299,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the five elements
+         * @return {@code true} if valueToFind equals any of the five elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1378,7 +1378,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the six elements
+         * @return {@code true} if valueToFind equals any of the six elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1460,7 +1460,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the seven elements
+         * @return {@code true} if valueToFind equals any of the seven elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1553,7 +1553,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the eight elements
+         * @return {@code true} if valueToFind equals any of the eight elements
          */
         @Override
         public boolean contains(final short valueToFind) {
@@ -1650,7 +1650,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if valueToFind equals any of the nine elements
+         * @return {@code true} if valueToFind equals any of the nine elements
          */
         @Override
         public boolean contains(final short valueToFind) {

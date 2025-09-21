@@ -345,7 +345,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param valueToFind the byte value to search for
-     * @return true if the value is found, false otherwise
+     * @return {@code true} if the value is found, {@code false} otherwise
      */
     public abstract boolean contains(byte valueToFind);
 
@@ -429,7 +429,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * Two tuples are equal if they are of the same class and contain the same elements in the same order.
      *
      * @param obj the object to be compared for equality with this tuple
-     * @return true if the specified object is equal to this tuple
+     * @return {@code true} if the specified object is equal to this tuple
      */
     @Override
     public boolean equals(final Object obj) {
@@ -617,7 +617,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if the tuple's element equals valueToFind, false otherwise
+         * @return {@code true} if the tuple's element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -638,7 +638,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return true if the specified object is a ByteTuple1 with the same element
+         * @return {@code true} if the specified object is a ByteTuple1 with the same element
          */
         @Override
         public boolean equals(final Object obj) {
@@ -766,7 +766,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if either element equals valueToFind, false otherwise
+         * @return {@code true} if either element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -855,7 +855,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return true if the specified object is a ByteTuple2 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple2 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -985,7 +985,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1075,7 +1075,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to be compared for equality with this tuple
-         * @return true if the specified object is a ByteTuple3 with the same elements
+         * @return {@code true} if the specified object is a ByteTuple3 with the same elements
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1158,7 +1158,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1228,7 +1228,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1301,7 +1301,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1377,7 +1377,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1457,7 +1457,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1540,7 +1540,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return true if any element equals valueToFind, false otherwise
+         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {

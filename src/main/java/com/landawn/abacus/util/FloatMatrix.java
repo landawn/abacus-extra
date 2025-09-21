@@ -2307,7 +2307,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Two matrices are equal if they have the same dimensions and equal elements at corresponding positions.
      * 
      * @param obj the object to compare with
-     * @return true if the matrices are equal, false otherwise
+     * @return {@code true} if the matrices are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {

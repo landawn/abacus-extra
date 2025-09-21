@@ -243,7 +243,7 @@ public final class ImmutableIntArray implements Immutable {
      * {@link java.util.Arrays#equals(int[], int[])}.
      * 
      * @param obj the object to compare with
-     * @return true if the specified object is an ImmutableIntArray with the same elements in the same order
+     * @return {@code true} if the specified object is an ImmutableIntArray with the same elements in the same order
      */
     @Override
     public boolean equals(final Object obj) {

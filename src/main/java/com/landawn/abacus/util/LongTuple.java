@@ -353,7 +353,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param valueToFind the value to search for
-     * @return true if the value is found, false otherwise
+     * @return {@code true} if the value is found, {@code false} otherwise
      */
     public abstract boolean contains(long valueToFind);
 
@@ -444,7 +444,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * </p>
      *
      * @param obj the object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @return {@code true} if the objects are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -643,7 +643,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if the value equals the single element, false otherwise
+         * @return {@code true} if the value equals the single element, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -664,7 +664,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a LongTuple1 with the same element value
+         * @return {@code true} if the object is a LongTuple1 with the same element value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -802,7 +802,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if either element equals the value, false otherwise
+         * @return {@code true} if either element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -890,7 +890,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a LongTuple2 with the same element values
+         * @return {@code true} if the object is a LongTuple2 with the same element values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1030,7 +1030,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1121,7 +1121,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Compares this tuple to another object for equality.
          *
          * @param obj the object to compare with
-         * @return true if the object is a LongTuple3 with the same element values
+         * @return {@code true} if the object is a LongTuple3 with the same element values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1209,7 +1209,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1284,7 +1284,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1356,7 +1356,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1431,7 +1431,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1513,7 +1513,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1598,7 +1598,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return true if any element equals the value, false otherwise
+         * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {

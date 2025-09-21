@@ -644,7 +644,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Replaces elements based on their position using the given predicate.
-     * Elements at positions where the predicate returns true are replaced with the new value.
+     * Elements at positions where the predicate returns {@code true} are replaced with the new value.
      * 
      * <p>Example:
      * <pre>
@@ -652,7 +652,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * </pre>
      *
      * @param <E> the type of exception that the predicate may throw
-     * @param predicate the predicate that takes (rowIndex, columnIndex) and returns true for positions to replace
+     * @param predicate the predicate that takes (rowIndex, columnIndex) and returns {@code true} for positions to replace
      * @param newValue the value to replace at matching positions
      * @throws E if the predicate throws an exception
      */
