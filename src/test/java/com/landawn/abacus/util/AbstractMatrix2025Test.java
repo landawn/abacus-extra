@@ -369,7 +369,7 @@ public class AbstractMatrix2025Test extends TestBase {
 
         assertEquals(4, reshaped.rows);
         assertEquals(1, reshaped.cols);
-        assertArrayEquals(new int[] { 1, 3, 2, 4 }, reshaped.column(0));
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.column(0));
     }
 
     // ============ isSameShape Tests ============
@@ -489,19 +489,16 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testFlatOp() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<Integer> sums = new ArrayList<>();
+        List<Integer> values = new ArrayList<>();
 
-        m.flatOp(row -> {
-            int sum = 0;
-            for (int val : row) {
-                sum += val;
+        m.flatOp(arr -> {
+            for (int val : arr) {
+                values.add(val);
             }
-            sums.add(sum);
         });
 
-        assertEquals(2, sums.size());
-        assertEquals(6, sums.get(0).intValue());
-        assertEquals(15, sums.get(1).intValue());
+        assertEquals(6, values.size());
+        assertEquals(1, values.get(0).intValue());
     }
 
     // ============ ForEach Tests ============

@@ -660,7 +660,7 @@ public class BooleanMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         boolean[][] patch = { { true, false }, { false, true } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============

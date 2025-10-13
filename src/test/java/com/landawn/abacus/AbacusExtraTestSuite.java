@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @SelectPackages("") // Scan all packages, or specify specific ones
-@IncludeTags("base-test")
+@IncludeTags({ "base-test", "2025" })
 @ExcludeTags("slow-test") // But exclude any that also have "slow-test" tag
 public class AbacusExtraTestSuite {
 }

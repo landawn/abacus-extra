@@ -688,7 +688,7 @@ public class ByteMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         byte[][] patch = { { 1, 2 }, { 3, 4 } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============

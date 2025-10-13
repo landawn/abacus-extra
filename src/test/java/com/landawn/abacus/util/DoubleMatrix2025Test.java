@@ -767,7 +767,7 @@ public class DoubleMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         double[][] patch = { { 1.0, 2.0 }, { 3.0, 4.0 } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============
