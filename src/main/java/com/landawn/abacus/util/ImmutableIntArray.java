@@ -193,7 +193,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param fromIndex the starting index (inclusive) of the range to copy
      * @param toIndex the ending index (exclusive) of the range to copy
      * @return a new ImmutableIntArray containing the specified range of elements
-     * @throws IndexOutOfBoundsException if fromIndex < 0, toIndex > length, or fromIndex > toIndex
+     * @throws IndexOutOfBoundsException if fromIndex &lt; 0, toIndex &gt; length, or fromIndex &gt; toIndex
      */
     public ImmutableIntArray copy(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);
@@ -216,7 +216,7 @@ public final class ImmutableIntArray implements Immutable {
      * @param fromIndex the starting index (inclusive) of the range to copy
      * @param toIndex the ending index (exclusive) of the range to copy
      * @return a new int array containing the specified range of elements
-     * @throws IndexOutOfBoundsException if fromIndex < 0, toIndex > length, or fromIndex > toIndex
+     * @throws IndexOutOfBoundsException if fromIndex &lt; 0, toIndex &gt; length, or fromIndex &gt; toIndex
      */
     public int[] copyToArray(final int fromIndex, final int toIndex) throws IndexOutOfBoundsException {
         N.checkFromToIndex(fromIndex, toIndex, length);

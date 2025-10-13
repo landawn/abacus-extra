@@ -130,8 +130,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a 1-row ByteMatrix filled with the specified value repeated for the given length.
-     * @return a new 1xlen ByteMatrix filled with the specified value
-     * 
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.repeat((byte)7, 4);
@@ -140,6 +139,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param val the byte value to repeat
      * @param len the number of times to repeat the value
+     * @return a new 1xlen ByteMatrix filled with the specified value
      */
     public static ByteMatrix repeat(final byte val, final int len) {
         return new ByteMatrix(new byte[][] { Array.repeat(val, len) });
@@ -529,24 +529,29 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
         final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
-        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(j + 1, j + 1) : null;
+        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(i + 1, j + 1) : null;
         final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
 
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
     /**
-     * Returns a copy of the specified row as a byte array.
-     * The returned array is a direct reference to the internal array, so modifications will affect the matrix.
-     * 
+     * Returns the internal byte array representing the specified row.
+     *
+     * <p><b>WARNING:</b> The returned array is the actual internal array used by this matrix,
+     * not a copy. Modifications to the returned array will directly affect the matrix contents.
+     * If you need an independent copy, use {@code row(i).clone()} instead.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * byte[] row = matrix.row(0); // Returns [1, 2, 3]
+     * row[0] = 9; // This modifies the matrix!
+     * // matrix is now: [[9, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the byte array representing the specified row
+     * @return the internal byte array representing the specified row
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public byte[] row(final int rowIndex) throws IllegalArgumentException {
@@ -556,13 +561,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the specified column as a byte array.
-     * The returned array is a new array containing copies of the column values.
-     * 
+     * Returns a copy of the specified column as a new byte array.
+     * The returned array is a new array containing copies of the column values,
+     * so modifications to the returned array will not affect the matrix.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * byte[] col = matrix.column(1); // Returns [2, 5]
+     * col[0] = 9; // This does NOT modify the matrix
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
@@ -582,9 +589,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces the specified row with the provided byte array.
-     * The array must have the same length as the number of columns in the matrix.
-     * 
+     * Replaces the specified row with the provided byte array by copying the values.
+     * The provided array must have exactly the same length as the number of columns in the matrix.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -593,8 +600,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param rowIndex the index of the row to replace (0-based)
-     * @param row the new values for the row
-     * @throws IllegalArgumentException if rowIndex is out of bounds or row length doesn't match column count
+     * @param row the new values for the row (must have length equal to {@code cols})
+     * @throws IllegalArgumentException if row length doesn't match the number of columns
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
     public void setRow(final int rowIndex, final byte[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -603,9 +611,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces the specified column with the provided byte array.
-     * The array must have the same length as the number of rows in the matrix.
-     * 
+     * Replaces the specified column with the provided byte array by copying the values.
+     * The provided array must have exactly the same length as the number of rows in the matrix.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -614,8 +622,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param columnIndex the index of the column to replace (0-based)
-     * @param column the new values for the column
-     * @throws IllegalArgumentException if columnIndex is out of bounds or column length doesn't match row count
+     * @param column the new values for the column (must have length equal to {@code rows})
+     * @throws IllegalArgumentException if column length doesn't match the number of rows or columnIndex is out of bounds
      */
     public void setColumn(final int columnIndex, final byte[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -627,7 +635,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Updates all values in the specified row by applying the given function to each element.
-     * 
+     * Each element in the row is replaced with the result of applying the function to that element.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -639,6 +648,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param rowIndex the index of the row to update (0-based)
      * @param func the function to apply to each element in the row
      * @throws E if the function throws an exception
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -648,7 +658,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Updates all values in the specified column by applying the given function to each element.
-     * 
+     * Each element in the column is replaced with the result of applying the function to that element.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -660,6 +671,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param columnIndex the index of the column to update (0-based)
      * @param func the function to apply to each element in the column
      * @throws E if the function throws an exception
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -668,17 +680,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns an array containing the values on the main diagonal (left-up to right-down).
-     * The matrix must be square for this operation.
-     * 
+     * Returns a new array containing the values on the main diagonal from left-up to right-down.
+     * The matrix must be square (same number of rows and columns) for this operation.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * byte[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return a byte array containing the diagonal values
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new byte array containing the main diagonal values
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public byte[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -741,17 +753,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns an array containing the values on the anti-diagonal (right-up to left-down).
-     * The matrix must be square for this operation.
-     * 
+     * Returns a new array containing the values on the anti-diagonal from right-up to left-down.
+     * The matrix must be square (same number of rows and columns) for this operation.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * byte[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return a byte array containing the anti-diagonal values
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new byte array containing the anti-diagonal values
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public byte[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -1001,8 +1013,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws IndexOutOfBoundsException if the starting indices are out of bounds
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final byte[][] b) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromRowIndex, rows, rows);
-        N.checkFromToIndex(fromColumnIndex, cols, cols);
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
             N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));
@@ -1241,12 +1253,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Reverses the order of elements in each row (horizontal flip in-place).
-     * 
-     * <p>Example:</p>
+     * Reverses the order of elements in each row horizontally in-place.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flipH()}.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
+     * matrix.reverseH();
+     * // matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
+     *
+     * @see #flipH()
      */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
@@ -1255,12 +1272,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Reverses the order of elements in each column (vertical flip in-place).
-     * 
-     * <p>Example:</p>
+     * Reverses the order of elements in each column vertically in-place.
+     * This modifies the matrix directly. For a non-destructive version, use {@link #flipV()}.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}, {5, 6}});
+     * matrix.reverseV();
+     * // matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
+     *
+     * @see #flipV()
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
@@ -1607,11 +1629,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
-     * This is useful for operations that need to be applied to all elements regardless of structure.
+     * Applies an operation to the internal 2D array structure using a flattened operation approach.
+     * This method is designed for specialized operations that need to work with the underlying array structure.
+     * The operation receives the internal 2D byte array and can perform batch operations on it.
+     *
+     * <p><b>Note:</b> The operation receives the actual internal array, not a copy.
      *
      * @param <E> the type of exception that may be thrown
-     * @param op the operation to apply to the 2D array
+     * @param op the operation to apply to the internal 2D array
      * @throws E if the operation throws an exception
      * @see Arrays#flatOp(byte[][], Throwables.Consumer)
      */
@@ -1811,7 +1836,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Converts this ByteMatrix to an IntMatrix by widening each byte value to int.
-     * 
+     * Each byte value is promoted to a 32-bit integer with sign extension.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -1819,7 +1845,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // intMatrix contains the same values as 32-bit integers
      * }</pre>
      *
-     * @return a new IntMatrix with the same values as ints
+     * @return a new IntMatrix with the same dimensions and values converted to int
+     * @see IntMatrix#create(byte[][])
      */
     public IntMatrix toIntMatrix() {
         return IntMatrix.create(a);
@@ -1827,7 +1854,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Converts this ByteMatrix to a LongMatrix by widening each byte value to long.
-     * 
+     * Each byte value is promoted to a 64-bit long integer with sign extension.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -1835,7 +1863,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // longMatrix contains the same values as 64-bit longs
      * }</pre>
      *
-     * @return a new LongMatrix with the same values as longs
+     * @return a new LongMatrix with the same dimensions and values converted to long
      */
     public LongMatrix toLongMatrix() {
         final long[][] c = new long[rows][cols];
@@ -1861,8 +1889,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Converts this ByteMatrix to a FloatMatrix by converting each byte value to float
-     * 
+     * Converts this ByteMatrix to a FloatMatrix by converting each byte value to float.
+     * Each byte value is converted to a 32-bit floating-point number.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -1870,7 +1899,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // floatMatrix contains the same values as floating-point numbers
      * }</pre>
      *
-     * @return a new FloatMatrix with the same values as floats
+     * @return a new FloatMatrix with the same dimensions and values converted to float
      */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
@@ -1897,7 +1926,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Converts this ByteMatrix to a DoubleMatrix by converting each byte value to double.
-     * 
+     * Each byte value is converted to a 64-bit double-precision floating-point number.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -1905,7 +1935,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // doubleMatrix contains the same values as double-precision floating-point numbers
      * }</pre>
      *
-     * @return a new DoubleMatrix with the same values as doubles
+     * @return a new DoubleMatrix with the same dimensions and values converted to double
      */
     public DoubleMatrix toDoubleMatrix() {
         final double[][] c = new double[rows][cols];
@@ -2001,9 +2031,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of elements on the diagonal from left-up to right-down.
-     * The matrix must be square for this operation.
-     * 
+     * Returns a stream of elements on the main diagonal from left-up to right-down.
+     * The matrix must be square (rows == cols) for this operation.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
@@ -2011,8 +2041,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // diagonal contains: [1, 5, 9]
      * }</pre>
      *
-     * @return a ByteStream of diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @return a ByteStream of main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     @Override
     public ByteStream streamLU2RD() {
@@ -2041,8 +2071,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2055,9 +2087,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of elements on the diagonal from right-up to left-down.
-     * The matrix must be square for this operation.
-     * 
+     * Returns a stream of elements on the anti-diagonal from right-up to left-down.
+     * The matrix must be square (rows == cols) for this operation.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
@@ -2066,7 +2098,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a ByteStream of anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     @Override
     public ByteStream streamRU2LD() {
@@ -2091,12 +2123,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][rows - ++cursor];
+                return a[cursor][cols - ++cursor];
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2128,7 +2162,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a stream of elements from a specific row.
-     * 
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -2136,8 +2170,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // row contains: [4, 5, 6]
      * }</pre>
      *
-     * @param rowIndex the index of the row to stream
+     * @param rowIndex the index of the row to stream (0-based)
      * @return a ByteStream of elements from the specified row
+     * @throws IndexOutOfBoundsException if rowIndex is out of bounds
      */
     @Override
     public ByteStream streamH(final int rowIndex) {
@@ -2193,8 +2228,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 if (n >= (long) (toRowIndex - i) * cols - j) {
                     i = toRowIndex;
@@ -2250,7 +2287,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a stream of elements from a specific column.
-     * 
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -2258,8 +2295,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // column contains: [2, 5]
      * }</pre>
      *
-     * @param columnIndex the index of the column to stream
+     * @param columnIndex the index of the column to stream (0-based)
      * @return a ByteStream of elements from the specified column
+     * @throws IndexOutOfBoundsException if columnIndex is out of bounds
      */
     @Override
     public ByteStream streamV(final int columnIndex) {
@@ -2315,15 +2353,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 if (n >= (long) (toColumnIndex - j) * ByteMatrix.this.rows - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (int) ((n + i) % ByteMatrix.this.rows);
-                    j += (int) ((n + i) / ByteMatrix.this.rows);
+                    final int offset = (int) (n + i);
+                    i = offset % ByteMatrix.this.rows;
+                    j += offset / ByteMatrix.this.rows;
                 }
             }
 
@@ -2412,8 +2453,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2505,8 +2548,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
 
                     @Override
-                    public void advance(final long n) throws IllegalArgumentException {
-                        N.checkArgNotNegative(n, "n");
+                    public void advance(final long n) {
+                        if (n <= 0) {
+                            return;
+                        }
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
                     }
@@ -2519,8 +2564,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2533,10 +2580,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the length of the specified array, or 0 if the array is null.
-     * This is an internal helper method.
+     * Returns the length of the specified byte array, or 0 if the array is null.
+     * This is an internal helper method used by the abstract parent class.
      *
-     * @param a the array to measure
+     * @param a the byte array to measure
      * @return the length of the array, or 0 if null
      */
     @Override
@@ -2605,11 +2652,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Prints the matrix to standard output in a formatted manner.
      * Each row is printed on a separate line with elements separated by commas
-     * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
+     * and enclosed in square brackets.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.println();
      * // Output:
      * // [1, 2, 3]

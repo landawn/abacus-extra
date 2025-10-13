@@ -1003,7 +1003,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns the median value of the three elements.
          *
-         * @return the middle byte short when sorted
+         * @return the middle short value when sorted
          */
         @Override
         public short median() {

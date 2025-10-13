@@ -19,19 +19,18 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Utility class containing point classes for 2D and 3D coordinate systems.
+ * Utility class containing point classes for 2D coordinate systems.
  * This class provides immutable point implementations with value storage for various coordinate
  * types and use cases in geometric computations, matrix operations, and spatial data structures.
- * 
- * <p>The Points class contains nested static classes organized by coordinate system:</p>
- * <ul>
- *   <li>{@code xy} - 2D coordinate points with optional values</li>
- *   <li>{@code xyz} - 3D coordinate points with optional values</li>
- * </ul>
- * 
- * <p>Each coordinate system provides point classes for different primitive types (byte, int, long, double, float)
- * to optimize memory usage and performance for specific use cases.</p>
- * 
+ *
+ * <p>The Points class contains the {@code xy} nested static class that provides 2D coordinate
+ * point implementations with associated values.</p>
+ *
+ * <p>The {@code xy} class provides point implementations for different primitive types
+ * (byte, int, long, double) to optimize memory usage and performance for specific use cases.
+ * Each point stores x and y coordinates along with an associated value (v) which can be of
+ * various types including primitives and generic objects.</p>
+ *
  * <p>Example usage:</p>
  * <pre>{@code
  * // Create a 2D integer point with value
@@ -40,7 +39,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int y = point.y; // 20
  * int value = point.v; // 100
  * }</pre>
- * 
+ *
  */
 @com.landawn.abacus.annotation.Immutable
 public final class Points {
@@ -142,7 +141,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -223,7 +222,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -239,12 +238,22 @@ public final class Points {
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteLongPoint implements Immutable {
 
+            /** The x. */
             public final byte x;
 
+            /** The y. */
             public final byte y;
 
+            /** The v. */
             public final long v; // value
 
+            /**
+             * Instantiates a new byte long point.
+             *
+             * @param x
+             * @param y
+             * @param v
+             */
             ByteLongPoint(final byte x, final byte y, final long v) {
                 this.x = x;
                 this.y = y;
@@ -294,7 +303,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -375,7 +384,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -388,7 +397,7 @@ public final class Points {
         /**
          * The Class ByteObjPoint.
          *
-         * @param <T>
+         * @param <T> the type of the value object
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteObjPoint<T> implements Immutable {
@@ -416,12 +425,23 @@ public final class Points {
             }
 
             /**
+             * Creates a new ByteObjPoint with the specified coordinates and value.
+             * This factory method is used to create point instances with byte coordinates
+             * and a generic object value, useful for attaching arbitrary data to grid positions.
              *
-             * @param <T>
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * <p>Example usage:</p>
+             * <pre>{@code
+             * ByteObjPoint<String> point = ByteObjPoint.of((byte)5, (byte)10, "marker");
+             * byte x = point.x; // 5
+             * byte y = point.y; // 10
+             * String value = point.v; // "marker"
+             * }</pre>
+             *
+             * @param <T> the type of the value associated with this point
+             * @param x the x-coordinate as a byte
+             * @param y the y-coordinate as a byte
+             * @param v the value to associate with this point
+             * @return a new ByteObjPoint instance with the specified coordinates and value
              */
             public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T v) {
                 return new ByteObjPoint<>(x, y, v);
@@ -458,7 +478,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -539,7 +559,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -620,7 +640,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -701,7 +721,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -782,7 +802,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -795,7 +815,7 @@ public final class Points {
         /**
          * The Class IntObjPoint.
          *
-         * @param <T>
+         * @param <T> the type of the value object
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntObjPoint<T> implements Immutable {
@@ -823,12 +843,23 @@ public final class Points {
             }
 
             /**
+             * Creates a new IntObjPoint with the specified coordinates and value.
+             * This factory method is used to create point instances with integer coordinates
+             * and a generic object value, useful for attaching arbitrary data to grid positions.
              *
-             * @param <T>
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * <p>Example usage:</p>
+             * <pre>{@code
+             * IntObjPoint<String> point = IntObjPoint.of(10, 20, "marker");
+             * int x = point.x; // 10
+             * int y = point.y; // 20
+             * String value = point.v; // "marker"
+             * }</pre>
+             *
+             * @param <T> the type of the value associated with this point
+             * @param x the x-coordinate as an int
+             * @param y the y-coordinate as an int
+             * @param v the value to associate with this point
+             * @return a new IntObjPoint instance with the specified coordinates and value
              */
             public static <T> IntObjPoint<T> of(final int x, final int y, final T v) {
                 return new IntObjPoint<>(x, y, v);
@@ -865,7 +896,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -946,7 +977,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1027,7 +1058,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1108,7 +1139,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1189,7 +1220,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1202,7 +1233,7 @@ public final class Points {
         /**
          * The Class LongObjPoint.
          *
-         * @param <T>
+         * @param <T> the type of the value object
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongObjPoint<T> implements Immutable {
@@ -1230,12 +1261,23 @@ public final class Points {
             }
 
             /**
+             * Creates a new LongObjPoint with the specified coordinates and value.
+             * This factory method is used to create point instances with long coordinates
+             * and a generic object value, useful for attaching arbitrary data to large grid positions.
              *
-             * @param <T>
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * <p>Example usage:</p>
+             * <pre>{@code
+             * LongObjPoint<String> point = LongObjPoint.of(1000L, 2000L, "marker");
+             * long x = point.x; // 1000
+             * long y = point.y; // 2000
+             * String value = point.v; // "marker"
+             * }</pre>
+             *
+             * @param <T> the type of the value associated with this point
+             * @param x the x-coordinate as a long
+             * @param y the y-coordinate as a long
+             * @param v the value to associate with this point
+             * @return a new LongObjPoint instance with the specified coordinates and value
              */
             public static <T> LongObjPoint<T> of(final long x, final long y, final T v) {
                 return new LongObjPoint<>(x, y, v);
@@ -1272,7 +1314,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1353,7 +1395,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1434,7 +1476,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1515,7 +1557,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1596,7 +1638,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */
@@ -1609,7 +1651,7 @@ public final class Points {
         /**
          * The Class DoubleObjPoint.
          *
-         * @param <T>
+         * @param <T> the type of the value object
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleObjPoint<T> implements Immutable {
@@ -1637,12 +1679,23 @@ public final class Points {
             }
 
             /**
+             * Creates a new DoubleObjPoint with the specified coordinates and value.
+             * This factory method is used to create point instances with double-precision coordinates
+             * and a generic object value, useful for attaching arbitrary data to floating-point positions.
              *
-             * @param <T>
-             * @param x
-             * @param y
-             * @param v
-             * @return
+             * <p>Example usage:</p>
+             * <pre>{@code
+             * DoubleObjPoint<String> point = DoubleObjPoint.of(10.5, 20.3, "marker");
+             * double x = point.x; // 10.5
+             * double y = point.y; // 20.3
+             * String value = point.v; // "marker"
+             * }</pre>
+             *
+             * @param <T> the type of the value associated with this point
+             * @param x the x-coordinate as a double
+             * @param y the y-coordinate as a double
+             * @param v the value to associate with this point
+             * @return a new DoubleObjPoint instance with the specified coordinates and value
              */
             public static <T> DoubleObjPoint<T> of(final double x, final double y, final T v) {
                 return new DoubleObjPoint<>(x, y, v);
@@ -1679,7 +1732,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this point in the format \"[x, y, v]\" or \"[x, y, z, v]\".
+             * Returns a string representation of this point in the format \"[x, y, v]\".
              *
              * @return a string representation of this point
              */

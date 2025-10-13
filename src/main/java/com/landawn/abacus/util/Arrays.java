@@ -49,11 +49,11 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int[] ints = {1, 2, 3};
  * double[] doubles = Arrays.toDoubleArray(ints); // {1.0, 2.0, 3.0}
  * }</pre>
- * 
- * @implSpec classes/interfaces implemented in abacus-extra are not for daily use case.
+ *
+ * <p><b>Implementation Note:</b> Classes/interfaces implemented in abacus-extra are not for daily use case.
  * It's not going to handle {@code null} scenarios like what handled in abacus-common.
  * It's developer's responsibility to handle {@code null} scenarios.
- * 
+ *
  * @see Matrix
  * @see Matrixes
  */
@@ -119,6 +119,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps each boolean element to an object using the provided mapper function.
      *
+     * <p>Example:
+     * <pre>
+     * boolean[] flags = {true, false, true};
+     * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
+     * // Result: ["YES", "NO", "YES"]
+     * </pre>
+     *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
      * @param a the boolean array to map
@@ -126,13 +133,6 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
-     *
-     * @example
-     * <pre>
-     * boolean[] flags = {true, false, true};
-     * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
-     * // Result: ["YES", "NO", "YES"]
-     * </pre>
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -450,6 +450,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps each int element to an object using the provided mapper function.
      *
+     * <p>Example:
+     * <pre>
+     * int[] numbers = {1, 2, 3};
+     * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
+     * // Result: ["Number: 1", "Number: 2", "Number: 3"]
+     * </pre>
+     *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
      * @param a the int array to map
@@ -457,13 +464,6 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
-     *
-     * @example
-     * <pre>
-     * int[] numbers = {1, 2, 3};
-     * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
-     * // Result: ["Number: 1", "Number: 2", "Number: 3"]
-     * </pre>
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
@@ -4150,7 +4150,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param valueForNoneC the default value to use when array 'c' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the byteest input array
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
@@ -4314,7 +4314,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the byteest input array
+     * @return a new 2D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
@@ -4479,7 +4479,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the byteest input array
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
@@ -4900,7 +4900,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * replaceIf(array, x -> x < 3, (short)10); // replaces 1 and 2 with 10
+     * replaceIf(array, x -&gt; x &lt; 3, (short)10); // replaces 1 and 2 with 10
      * </pre>
      *
      * @param <E> the type of exception the predicate may throw
@@ -5187,7 +5187,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the shorter input array
+     * @return a new array with length equal to the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
@@ -5274,7 +5274,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param valueForNoneC the default value to use when array 'c' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the shortest input array
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
@@ -5438,7 +5438,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the shortest input array
+     * @return a new 2D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
@@ -5604,7 +5604,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the shortest input array
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
@@ -5632,12 +5632,12 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of elements in a 2D short array.
      * Handles null arrays and null sub-arrays gracefully.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
      * long count = totalCountOfElements(array);
      * // count will be 9 (3 + 2 + 0 + 4)
-     * </pre></p>
+     * </pre>
      *
      * @param a the 2D array to count elements in
      * @return the total number of elements across all sub-arrays
@@ -5683,12 +5683,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D short array.
      * Returns 0 if the array is null or contains only null sub-arrays.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int minLen = minSubArrayLen(array);
      * // minLen will be 2
-     * </pre></p>
+     * </pre>
      *
      * @param a the 2D array to examine
      * @return the minimum length of any sub-array, or 0 if array is null
@@ -5711,12 +5711,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D short array.
      * Returns 0 if the array is null or empty.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int maxLen = maxSubArrayLen(array);
      * // maxLen will be 4
-     * </pre></p>
+     * </pre>
      *
      * @param a the 2D array to examine
      * @return the maximum length of any sub-array, or 0 if array is null or empty
@@ -5739,12 +5739,12 @@ public sealed class Arrays permits Arrays.f {
      * Prints a 1D short array to the console in a formatted string representation.
      * Handles null arrays gracefully.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * short[] array = {1, 2, 3, 4, 5};
      * println(array);
      * // Prints: [1, 2, 3, 4, 5]
-     * </pre></p>
+     * </pre>
      *
      * @param a the array to print
      * @return the string representation that was printed
@@ -5763,12 +5763,12 @@ public sealed class Arrays permits Arrays.f {
      * Prints a 2D short array to the console in a formatted string representation.
      * Each sub-array is printed on a new line for clarity.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * short[][] array = {{1, 2}, {3, 4, 5}, {6}};
      * println(array);
      * // Prints formatted 2D array representation
-     * </pre></p>
+     * </pre>
      *
      * @param a the 2D array to print
      * @return the string representation that was printed
@@ -6046,7 +6046,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre>
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
-     * Arrays.replaceIf(arr, x -> x < 3, 0);
+     * Arrays.replaceIf(arr, x -&gt; x &lt; 3, 0);
      * // arr is now {{{0, 0}}, {{3, 4}}}
      * </pre>
      *
@@ -6356,7 +6356,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the inter input array
+     * @return a new array with length equal to the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
@@ -6442,7 +6442,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param valueForNoneC the default value to use when array 'c' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the intest input array
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
@@ -6606,7 +6606,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the intest input array
+     * @return a new 2D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
@@ -6771,7 +6771,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the intest input array
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
@@ -7182,10 +7182,10 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of a 2D long array with a new value if it satisfies a given predicate.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * long[][] array = {{1L, -2L}, {3L, -4L}};
-     * replaceIf(array, x -> x < 0, 0L);
+     * replaceIf(array, x -&gt; x &lt; 0, 0L);
      * // array is now {{1L, 0L}, {3L, 0L}}
      * </pre>
      *
@@ -7208,10 +7208,10 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of a 3D long array with a new value if it satisfies a given predicate.
      *
-     * <p>Example usage:
+     * <p>Example usage:</p>
      * <pre>
      * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
-     * replaceIf(array, x -> x < 0, 99L);
+     * replaceIf(array, x -&gt; x &lt; 0, 99L);
      * // array is now {{{1L, 2L}}, {{99L, 4L}}}
      * </pre>
      *
@@ -8296,7 +8296,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
+     * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -8323,7 +8323,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * Arrays.replaceIf(matrix, x -&gt; x &lt;= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
      * </code></pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -8728,7 +8728,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param valueForNoneC the default value to use when array 'c' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the floatest input array
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
@@ -8892,7 +8892,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the floatest input array
+     * @return a new 2D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
@@ -9058,7 +9058,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the floatest input array
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
@@ -9424,7 +9424,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <pre><code>
      * double[] array = {1.0, -2.0, 3.0, -4.0};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0);
+     * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0);
      * // array is now {1.0, 0.0, 3.0, 0.0}
      * </code></pre>
      *
@@ -9861,7 +9861,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param valueForNoneC the default value to use when array 'c' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the doubleest input array
+     * @return a new array with length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double valueForNoneA,
@@ -10025,7 +10025,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the doubleest input array
+     * @return a new 2D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
@@ -10191,7 +10191,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the doubleest input array
+     * @return a new 3D array with outer length equal to the longest input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
@@ -12451,7 +12451,14 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a new type using the provided mapping function.
-         * 
+         *
+         * <p>Example:
+         * <pre>
+         * String[] strings = {"1", "2", "3"};
+         * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
+         * // Result: [1, 2, 3]
+         * </pre>
+         *
          * @param <T> the type of elements in the input array
          * @param <R> the type of elements in the result array
          * @param <E> the type of exception that the mapping function may throw
@@ -12460,13 +12467,6 @@ public sealed class Arrays permits Arrays.f {
          * @param targetElementType the class of the target element type
          * @return a new array containing the mapped elements, or null if input is null
          * @throws E if the mapping function throws an exception
-         * 
-         * @example
-         * <pre>
-         * String[] strings = {"1", "2", "3"};
-         * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
-         * // Result: [1, 2, 3]
-         * </pre>
          */
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
@@ -12487,19 +12487,19 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of the input array to a boolean value using the provided function.
          *
+         * <p>Example:
+         * <pre>
+         * String[] words = {"hello", "hi", "world"};
+         * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
+         * // Result: [true, false, true]
+         * </pre>
+         *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
          * @param a the input array to map
          * @param func the function that maps each element to a boolean
          * @return a boolean array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
-         *
-         * @example
-         * <pre>
-         * String[] words = {"hello", "hi", "world"};
-         * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
-         * // Result: [true, false, true]
-         * </pre>
          */
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -12519,19 +12519,19 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of the input array to a char value using the provided function.
          *
+         * <p>Example:
+         * <pre>
+         * String[] words = {"apple", "banana", "cherry"};
+         * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
+         * // Result: ['a', 'b', 'c']
+         * </pre>
+         *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
          * @param a the input array to map
          * @param func the function that maps each element to a char
          * @return a char array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
-         *
-         * @example
-         * <pre>
-         * String[] words = {"apple", "banana", "cherry"};
-         * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
-         * // Result: ['a', 'b', 'c']
-         * </pre>
          */
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -12601,19 +12601,19 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of the input array to an int value using the provided function.
          *
+         * <p>Example:
+         * <pre>
+         * String[] numbers = {"10", "20", "30"};
+         * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
+         * // Result: [10, 20, 30]
+         * </pre>
+         *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
          * @param a the input array to map
          * @param func the function that maps each element to an int
          * @return an int array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
-         *
-         * @example
-         * <pre>
-         * String[] numbers = {"10", "20", "30"};
-         * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
-         * // Result: [10, 20, 30]
-         * </pre>
          */
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
@@ -13810,8 +13810,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Type conversions through mapping operations</li>
      *   <li>Combining multiple arrays through zip operations</li>
      * </ul>
-     * </p>
-     * 
+     *
      * @author Landawn Abacus
      * @since 1.0
      */

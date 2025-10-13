@@ -80,12 +80,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Constructs a Matrix from a two-dimensional array.
-     * The array must be rectangular (all rows must have the same length).
-     * The matrix maintains a reference to the provided array, so modifications
-     * to the original array will affect the matrix.
      *
-     * @param a the two-dimensional array of elements
-     * @throws IllegalArgumentException if the array is null, empty, or not rectangular
+     * <p><b>Important:</b> The matrix maintains a reference to the provided array,
+     * not a copy. Modifications to the original array will affect the matrix,
+     * and vice versa.</p>
+     *
+     * <p>The array must be rectangular (all rows must have the same length).
+     * Empty arrays are allowed (e.g., {@code new String[0][0]} or {@code new String[5][0]}).</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * String[][] data = {{"A", "B"}, {"C", "D"}};
+     * Matrix<String> matrix = new Matrix<>(data);
+     * data[0][0] = "X"; // This also changes the matrix
+     * }</pre>
+     *
+     * @param a the two-dimensional array of elements (must not be null)
+     * @throws IllegalArgumentException if the array is null or if rows have different lengths (not rectangular)
      */
     public Matrix(final T[][] a) {
         super(a);
@@ -556,29 +567,33 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
         final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
         final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
-        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(j + 1, j + 1) : null;
+        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(i + 1, j + 1) : null;
         final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
 
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
     /**
-     * Returns a reference to the array containing the specified row.
-     * Modifications to the returned array will affect the matrix.
-     * This method provides direct access to the internal array structure.
-     * 
+     * Returns a reference to the internal array containing the specified row.
+     *
+     * <p><b>Warning:</b> This method returns a direct reference to the internal array, not a copy.
+     * Any modifications to the returned array will directly affect the matrix.</p>
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * T[] rowData = matrix.row(0);
-     * rowData[0] = newValue; // This modifies the matrix
-     * 
-     * // Use clone() if you need a copy
-     * T[] rowCopy = matrix.row(1).clone();
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * String[] rowData = matrix.row(0);
+     * rowData[0] = "X"; // This modifies the matrix directly
+     * // Matrix is now: [["X", "B"], ["C", "D"]]
+     *
+     * // Use clone() if you need an independent copy
+     * String[] rowCopy = matrix.row(1).clone();
+     * rowCopy[0] = "Y"; // Does not affect the matrix
      * }</pre>
      *
-     * @param rowIndex the row index to retrieve
-     * @return the array containing the row elements (not a copy)
-     * @throws IllegalArgumentException if rowIndex is out of bounds
+     * @param rowIndex the row index to retrieve (0-based)
+     * @return the internal array containing the row elements (not a copy - modifications will affect the matrix)
+     * @throws IllegalArgumentException if rowIndex is negative or greater than or equal to the number of rows
      */
     public T[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -588,19 +603,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns a copy of the specified column as an array.
+     * Unlike {@link #row(int)}, this method returns a new array, not a reference to internal data.
      * Modifications to the returned array will not affect the matrix.
-     * This method creates a new array and copies all column values.
-     * 
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * T[] colData = matrix.column(1);
-     * // colData contains a copy of all elements in column 1
-     * colData[0] = newValue; // Does not affect the matrix
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * String[] colData = matrix.column(1);
+     * // colData contains: ["B", "D"]
+     * colData[0] = "X"; // Does not affect the matrix
+     * // Matrix remains: [["A", "B"], ["C", "D"]]
      * }</pre>
      *
-     * @param columnIndex the column index to retrieve
-     * @return a new array containing the column elements
-     * @throws IllegalArgumentException if columnIndex is out of bounds
+     * @param columnIndex the column index to retrieve (0-based)
+     * @return a new array containing a copy of the column elements
+     * @throws IllegalArgumentException if columnIndex is negative or greater than or equal to the number of columns
      */
     public T[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -615,19 +632,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Replaces an entire row with the given array.
-     * The array must have the same length as the number of columns.
-     * The values are copied from the provided array.
+     * Replaces an entire row with values from the given array.
+     * The array must have the same length as the number of columns in this matrix.
+     * The values are copied from the provided array, so subsequent modifications to
+     * the input array will not affect the matrix.
      *
      * <p>Example:</p>
      * <pre>{@code
-     * T[] newRow = {val1, val2, val3};
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * String[] newRow = {"X", "Y"};
      * matrix.setRow(0, newRow); // Replace first row
+     * // Matrix is now: [["X", "Y"], ["C", "D"]]
      * }</pre>
      *
-     * @param rowIndex the row index to replace
-     * @param row the new row data
-     * @throws IllegalArgumentException if the row array length doesn't match the matrix width or rowIndex is out of bounds
+     * @param rowIndex the row index to replace (0-based)
+     * @param row the new row data (must have exactly {@code cols} elements)
+     * @throws IllegalArgumentException if the row array length doesn't match the number of columns,
+     *         or if rowIndex is negative or greater than or equal to the number of rows
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -636,19 +657,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Replaces an entire column with the given array.
-     * The array must have the same length as the number of rows.
+     * Replaces an entire column with values from the given array.
+     * The array must have the same length as the number of rows in this matrix.
      * Each element is copied to the corresponding row in the specified column.
      *
      * <p>Example:</p>
      * <pre>{@code
-     * T[] newColumn = {val1, val2, val3};
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * String[] newColumn = {"X", "Y"};
      * matrix.setColumn(1, newColumn); // Replace second column
+     * // Matrix is now: [["A", "X"], ["C", "Y"]]
      * }</pre>
      *
-     * @param columnIndex the column index to replace
-     * @param column the new column data
-     * @throws IllegalArgumentException if the column array length doesn't match the matrix height or columnIndex is out of bounds
+     * @param columnIndex the column index to replace (0-based)
+     * @param column the new column data (must have exactly {@code rows} elements)
+     * @throws IllegalArgumentException if the column array length doesn't match the number of rows,
+     *         or if columnIndex is negative or greater than or equal to the number of columns
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -1544,11 +1568,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Reverses the order of elements in each row (horizontal flip in-place).
-     * 
+     * This modifies the matrix directly.
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.reverseH(); // [[1,2,3]] becomes [[3,2,1]]
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * matrix.reverseH();
+     * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
+     *
+     * @see #flipH()
      */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
@@ -1557,12 +1586,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reverses the order of elements in each column (vertical flip in-place).
-     * 
+     * Reverses the order of rows in the matrix (vertical flip in-place).
+     * This modifies the matrix directly.
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.reverseV(); // [[1],[2],[3]] becomes [[3],[2],[1]]
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * matrix.reverseV();
+     * // Matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
+     *
+     * @see #flipV()
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
@@ -1917,11 +1951,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Flattens the underlying 2D array, applies an operation to the flattened array, then sets the values back.
-     * This is useful for operations that need to be applied to all elements regardless of structure.
+     * Applies an operation to each row array of the matrix by passing the row array
+     * directly to the operation. This provides direct access to the internal row arrays.
+     *
+     * <p><b>Warning:</b> The operation receives direct references to internal row arrays.
+     * Modifications within the operation will affect the matrix.</p>
+     *
+     * <p>This is useful for bulk operations that need to work with entire rows,
+     * such as sorting rows or applying array-level transformations.</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{3, 1, 2}, {6, 4, 5}});
+     * // Sort each row
+     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * // Matrix is now: [[1, 2, 3], [4, 5, 6]]
+     * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to the internal array
+     * @param op the operation to apply to each internal row array
      * @throws E if the operation throws an exception
      * @see ff#flatOp(Object[][], Throwables.Consumer)
      */
@@ -1998,8 +2046,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Combines this matrix with another matrix element-wise using the specified function.
-     * The function is applied to corresponding elements and returns elements of the same type.
-     * The matrices must have the same dimensions.
+     * The function is applied to corresponding elements at the same positions (i, j) in both matrices.
+     * Both matrices must have the same dimensions. The result matrix has the same element type as this matrix.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -2011,9 +2059,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <B> the element type of the other matrix
      * @param <E> the type of exception that the zip function may throw
-     * @param matrixB the other matrix to zip with
-     * @param zipFunction the function to apply to corresponding elements
+     * @param matrixB the other matrix to zip with (must have the same dimensions)
+     * @param zipFunction the binary function to apply to corresponding elements
      * @return a new matrix with the results of the zip function
+     * @throws IllegalArgumentException if the matrices don't have the same dimensions
      * @throws E if the zip function throws an exception
      */
     public <B, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, T, E> zipFunction) throws E {
@@ -2169,8 +2218,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2219,12 +2270,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][rows - ++cursor];
+                return a[cursor][cols - ++cursor];
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2321,8 +2374,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 if (n >= (long) (toRowIndex - i) * cols - j) {
                     i = toRowIndex;
@@ -2449,15 +2504,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 if (n >= (long) (toColumnIndex - j) * Matrix.this.rows - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (int) ((n + i) % Matrix.this.rows);
-                    j += (int) ((n + i) / Matrix.this.rows);
+                    final int offset = (int) (n + i);
+                    i = offset % Matrix.this.rows;
+                    j += offset / Matrix.this.rows;
                 }
             }
 
@@ -2547,8 +2605,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2639,8 +2699,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     }
 
                     @Override
-                    public void advance(final long n) throws IllegalArgumentException {
-                        N.checkArgNotNegative(n, "n");
+                    public void advance(final long n) {
+                        if (n <= 0) {
+                            return;
+                        }
 
                         cursor2 = n < toIndex2 - cursor2 ? cursor2 + (int) n : toIndex2;
                     }
@@ -2653,8 +2715,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public void advance(final long n) throws IllegalArgumentException {
-                N.checkArgNotNegative(n, "n");
+            public void advance(final long n) {
+                if (n <= 0) {
+                    return;
+                }
 
                 cursor = n < toIndex - cursor ? cursor + (int) n : toIndex;
             }
@@ -2668,10 +2732,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns the length of the given array.
-     * This is an internal helper method.
+     * This is an internal helper method used by the abstract base class for iteration
+     * and size calculations. It handles null arrays by returning 0.
      *
      * @param a the array to check
-     * @return the length of the array, or 0 if null
+     * @return the length of the array, or 0 if the array is null
      */
     @Override
     protected int length(@SuppressWarnings("hiding") final T[] a) {
