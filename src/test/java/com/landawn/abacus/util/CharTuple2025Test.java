@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.CharTuple.CharTuple0;
 import com.landawn.abacus.util.CharTuple.CharTuple1;
 import com.landawn.abacus.util.CharTuple.CharTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.CharTuple.CharTuple7;
 import com.landawn.abacus.util.CharTuple.CharTuple8;
 import com.landawn.abacus.util.CharTuple.CharTuple9;
 import com.landawn.abacus.util.stream.CharStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for CharTuple and its nested classes.

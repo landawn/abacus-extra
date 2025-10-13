@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.IntTuple.IntTuple0;
 import com.landawn.abacus.util.IntTuple.IntTuple1;
 import com.landawn.abacus.util.IntTuple.IntTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.IntTuple.IntTuple7;
 import com.landawn.abacus.util.IntTuple.IntTuple8;
 import com.landawn.abacus.util.IntTuple.IntTuple9;
 import com.landawn.abacus.util.stream.IntStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for IntTuple and its nested classes.

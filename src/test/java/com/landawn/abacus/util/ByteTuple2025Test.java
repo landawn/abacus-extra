@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.ByteTuple.ByteTuple0;
 import com.landawn.abacus.util.ByteTuple.ByteTuple1;
 import com.landawn.abacus.util.ByteTuple.ByteTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.ByteTuple.ByteTuple7;
 import com.landawn.abacus.util.ByteTuple.ByteTuple8;
 import com.landawn.abacus.util.ByteTuple.ByteTuple9;
 import com.landawn.abacus.util.stream.ByteStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for ByteTuple and its nested classes.

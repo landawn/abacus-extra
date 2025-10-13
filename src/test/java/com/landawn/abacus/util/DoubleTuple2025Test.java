@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple0;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.DoubleTuple.DoubleTuple7;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple8;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple9;
 import com.landawn.abacus.util.stream.DoubleStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for DoubleTuple and its nested classes.

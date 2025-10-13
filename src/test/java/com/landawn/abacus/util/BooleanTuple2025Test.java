@@ -28,6 +28,7 @@ import java.util.List;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple0;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple1;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple2;
@@ -39,7 +40,6 @@ import com.landawn.abacus.util.BooleanTuple.BooleanTuple7;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple8;
 import com.landawn.abacus.util.BooleanTuple.BooleanTuple9;
 import com.landawn.abacus.util.stream.Stream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for BooleanTuple and its nested classes.

@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.ShortTuple.ShortTuple0;
 import com.landawn.abacus.util.ShortTuple.ShortTuple1;
 import com.landawn.abacus.util.ShortTuple.ShortTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.ShortTuple.ShortTuple7;
 import com.landawn.abacus.util.ShortTuple.ShortTuple8;
 import com.landawn.abacus.util.ShortTuple.ShortTuple9;
 import com.landawn.abacus.util.stream.ShortStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for ShortTuple and its nested classes.

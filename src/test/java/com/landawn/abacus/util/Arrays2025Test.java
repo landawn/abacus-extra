@@ -645,7 +645,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testReplaceIf_BooleanArray() {
         boolean[] a = {true, false, true, false, true};
-        Arrays.replaceIf(a, b -> b == true, false);
+        Arrays.replaceIf(a, b -> b, false);
 
         assertArrayEquals(new boolean[]{false, false, false, false, false}, a);
     }
@@ -920,7 +920,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testReplaceIf_Boolean2D() {
         boolean[][] a = {{true, false}, {true, false}};
-        Arrays.replaceIf(a, b -> b == true, false);
+        Arrays.replaceIf(a, b -> b, false);
 
         assertFalse(a[0][0]);
         assertFalse(a[0][1]);
@@ -946,7 +946,7 @@ public class Arrays2025Test extends TestBase {
     @Test
     public void testReplaceIf_Boolean3D() {
         boolean[][][] a = {{{true, false, true}}};
-        Arrays.replaceIf(a, b -> b == true, false);
+        Arrays.replaceIf(a, b -> b, false);
 
         assertFalse(a[0][0][0]);
         assertFalse(a[0][0][1]);

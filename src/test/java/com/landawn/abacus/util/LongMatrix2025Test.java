@@ -147,8 +147,8 @@ public class LongMatrix2025Test extends TestBase {
     public void testCreateFromIntArray_withLargeInts() {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 1000000, -1000000 } };
         LongMatrix m = LongMatrix.create(ints);
-        assertEquals((long) Integer.MAX_VALUE, m.get(0, 0));
-        assertEquals((long) Integer.MIN_VALUE, m.get(0, 1));
+        assertEquals(Integer.MAX_VALUE, m.get(0, 0));
+        assertEquals(Integer.MIN_VALUE, m.get(0, 1));
         assertEquals(1000000L, m.get(1, 0));
         assertEquals(-1000000L, m.get(1, 1));
     }
@@ -1843,8 +1843,8 @@ public class LongMatrix2025Test extends TestBase {
         LongMatrix m = LongMatrix.create(ints);
 
         // Verify proper conversion
-        assertEquals((long) Integer.MAX_VALUE, m.get(0, 0));
-        assertEquals((long) Integer.MIN_VALUE, m.get(0, 1));
+        assertEquals(Integer.MAX_VALUE, m.get(0, 0));
+        assertEquals(Integer.MIN_VALUE, m.get(0, 1));
         assertEquals(0L, m.get(1, 0));
         assertEquals(-1L, m.get(1, 1));
 

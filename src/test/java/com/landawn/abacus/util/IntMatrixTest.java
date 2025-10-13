@@ -1297,7 +1297,7 @@ public class IntMatrixTest extends TestBase {
         int row1Sum = matrix.streamH(1).sum();
         assertEquals(15, row1Sum); // 4+5+6 = 15
 
-        // Test sum of specific column 
+        // Test sum of specific column
         int col0Sum = matrix.streamV(0).sum();
         assertEquals(12, col0Sum); // 1+4+7 = 12
 

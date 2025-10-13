@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.landawn.abacus.TestBase;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
+import com.landawn.abacus.util.DoubleTuple.DoubleTuple3;
 import com.landawn.abacus.util.IntTuple.IntTuple2;
 import com.landawn.abacus.util.IntTuple.IntTuple3;
 import com.landawn.abacus.util.LongTuple.LongTuple2;
 import com.landawn.abacus.util.LongTuple.LongTuple3;
-import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
-import com.landawn.abacus.util.DoubleTuple.DoubleTuple3;
 import com.landawn.abacus.util.u.Optional;
 
 /**

@@ -1812,8 +1812,8 @@ public class DoubleMatrix2025Test extends TestBase {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 1000000, -1000000 } };
         DoubleMatrix m = DoubleMatrix.create(ints);
 
-        assertEquals((double) Integer.MAX_VALUE, m.get(0, 0), DELTA);
-        assertEquals((double) Integer.MIN_VALUE, m.get(0, 1), DELTA);
+        assertEquals(Integer.MAX_VALUE, m.get(0, 0), DELTA);
+        assertEquals(Integer.MIN_VALUE, m.get(0, 1), DELTA);
         assertEquals(1000000.0, m.get(1, 0), DELTA);
         assertEquals(-1000000.0, m.get(1, 1), DELTA);
     }
@@ -1825,8 +1825,8 @@ public class DoubleMatrix2025Test extends TestBase {
         DoubleMatrix m = DoubleMatrix.create(longs);
 
         // Note: Very large long values may lose precision when converted to double
-        assertEquals((double) Long.MAX_VALUE, m.get(0, 0), 1.0); // Large tolerance for precision loss
-        assertEquals((double) Long.MIN_VALUE, m.get(0, 1), 1.0);
+        assertEquals(Long.MAX_VALUE, m.get(0, 0), 1.0); // Large tolerance for precision loss
+        assertEquals(Long.MIN_VALUE, m.get(0, 1), 1.0);
         assertEquals(1000000000000.0, m.get(1, 0), DELTA);
         assertEquals(-1000000000000.0, m.get(1, 1), DELTA);
     }
@@ -1839,7 +1839,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
         assertEquals(1.5, m.get(0, 0), DELTA);
         assertEquals(2.5, m.get(0, 1), DELTA);
-        assertEquals((double) Float.MAX_VALUE, m.get(1, 0), 1e30); // Large tolerance for float max
-        assertEquals((double) Float.MIN_VALUE, m.get(1, 1), 1e-40);
+        assertEquals(Float.MAX_VALUE, m.get(1, 0), 1e30); // Large tolerance for float max
+        assertEquals(Float.MIN_VALUE, m.get(1, 1), 1e-40);
     }
 }

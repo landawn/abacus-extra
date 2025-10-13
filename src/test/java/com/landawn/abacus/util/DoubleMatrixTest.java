@@ -1113,7 +1113,7 @@ public class DoubleMatrixTest extends TestBase {
         double row1Sum = matrix.streamH(1).sum();
         assertEquals(15.0, row1Sum, 0.0001); // 4+5+6 = 15
 
-        // Test sum of specific column 
+        // Test sum of specific column
         double col0Sum = matrix.streamV(0).sum();
         assertEquals(12.0, col0Sum, 0.0001); // 1+4+7 = 12
 
@@ -1371,7 +1371,7 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(Math.sin(Math.PI), sinConstants.get(0, 0), 0.0001);
         assertEquals(Math.sin(Math.E), sinConstants.get(0, 1), 0.0001);
 
-        // Test logarithmic operations  
+        // Test logarithmic operations
         DoubleMatrix logConstants = constants.map(Math::log);
         assertEquals(Math.log(Math.PI), logConstants.get(0, 0), 0.0001);
         assertEquals(1.0, logConstants.get(0, 1), 0.0001); // log(e) = 1

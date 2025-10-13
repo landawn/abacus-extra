@@ -380,7 +380,7 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        matrix.replaceIf(val -> val == false, true);
+        matrix.replaceIf(val -> !val, true);
         assertTrue(matrix.get(0, 0));
         assertTrue(matrix.get(0, 1));
         assertTrue(matrix.get(1, 0));

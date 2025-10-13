@@ -160,8 +160,8 @@ public class FloatMatrix2025Test extends TestBase {
     public void testCreateFromIntArray_largeValues() {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 1000000, -1000000 } };
         FloatMatrix m = FloatMatrix.create(ints);
-        assertEquals((float) Integer.MAX_VALUE, m.get(0, 0), 1.0f);
-        assertEquals((float) Integer.MIN_VALUE, m.get(0, 1), 1.0f);
+        assertEquals(Integer.MAX_VALUE, m.get(0, 0), 1.0f);
+        assertEquals(Integer.MIN_VALUE, m.get(0, 1), 1.0f);
         assertEquals(1000000.0f, m.get(1, 0), DELTA);
         assertEquals(-1000000.0f, m.get(1, 1), DELTA);
     }
@@ -1007,7 +1007,7 @@ public class FloatMatrix2025Test extends TestBase {
         assertEquals(1, reshaped.rows);
         assertEquals(9, reshaped.cols);
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), reshaped.get(0, i), DELTA);
+            assertEquals(i + 1, reshaped.get(0, i), DELTA);
         }
     }
 
@@ -1089,7 +1089,7 @@ public class FloatMatrix2025Test extends TestBase {
         FloatList flat = m.flatten();
         assertEquals(9, flat.size());
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), flat.get(i), DELTA);
+            assertEquals(i + 1, flat.get(i), DELTA);
         }
     }
 
@@ -1487,7 +1487,7 @@ public class FloatMatrix2025Test extends TestBase {
         m.forEach(v -> values.add(v));
         assertEquals(9, values.size());
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), values.get(i), DELTA);
+            assertEquals(i + 1, values.get(i), DELTA);
         }
     }
 

@@ -3013,22 +3013,22 @@ public class ArraysTest extends TestBase {
         public void testReplaceIf_BooleanArray() {
             // Test replacing all true values with false
             boolean[] arr = { true, false, true, false, true };
-            Arrays.replaceIf(arr, b -> b == true, false);
+            Arrays.replaceIf(arr, b -> b, false);
             Assertions.assertArrayEquals(new boolean[] { false, false, false, false, false }, arr);
 
             // Test replacing all false values with true
             boolean[] arr2 = { true, false, true, false };
-            Arrays.replaceIf(arr2, b -> b == false, true);
+            Arrays.replaceIf(arr2, b -> !b, true);
             Assertions.assertArrayEquals(new boolean[] { true, true, true, true }, arr2);
 
             // Test with empty array
             boolean[] emptyArr = {};
-            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Arrays.replaceIf(emptyArr, b -> b, false);
             Assertions.assertArrayEquals(new boolean[] {}, emptyArr);
 
             // Test with no matches
             boolean[] noMatch = { false, false, false };
-            Arrays.replaceIf(noMatch, b -> b == true, false);
+            Arrays.replaceIf(noMatch, b -> b, false);
             Assertions.assertArrayEquals(new boolean[] { false, false, false }, noMatch);
         }
 
@@ -3036,13 +3036,13 @@ public class ArraysTest extends TestBase {
         public void testReplaceIf_Boolean2DArray() {
             // Test with normal 2D array
             boolean[][] arr = { { true, false }, { true, true } };
-            Arrays.replaceIf(arr, b -> b == true, false);
+            Arrays.replaceIf(arr, b -> b, false);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[0]);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1]);
 
             // Test with empty 2D array
             boolean[][] emptyArr = {};
-            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Arrays.replaceIf(emptyArr, b -> b, false);
             Assertions.assertEquals(0, emptyArr.length);
         }
 
@@ -3050,13 +3050,13 @@ public class ArraysTest extends TestBase {
         public void testReplaceIf_Boolean3DArray() {
             // Test with normal 3D array
             boolean[][][] arr = { { { true, false } }, { { false, true } } };
-            Arrays.replaceIf(arr, b -> b == false, true);
+            Arrays.replaceIf(arr, b -> !b, true);
             Assertions.assertArrayEquals(new boolean[] { true, true }, arr[0][0]);
             Assertions.assertArrayEquals(new boolean[] { true, true }, arr[1][0]);
 
             // Test with empty 3D array
             boolean[][][] emptyArr = {};
-            Arrays.replaceIf(emptyArr, b -> b == true, false);
+            Arrays.replaceIf(emptyArr, b -> b, false);
             Assertions.assertEquals(0, emptyArr.length);
         }
 
@@ -3231,7 +3231,7 @@ public class ArraysTest extends TestBase {
             boolean[][] arr = { { true, false, true }, { false, true } };
             Arrays.flatOp(arr, flatArr -> {
                 // Sort to have all false values first
-                N.sort(flatArr);
+                CommonUtil.sort(flatArr);
             });
             // After sorting, false values come first
             Assertions.assertArrayEquals(new boolean[] { false, false, true }, arr[0]);

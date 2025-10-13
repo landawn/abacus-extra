@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.FloatTuple.FloatTuple0;
 import com.landawn.abacus.util.FloatTuple.FloatTuple1;
 import com.landawn.abacus.util.FloatTuple.FloatTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.FloatTuple.FloatTuple7;
 import com.landawn.abacus.util.FloatTuple.FloatTuple8;
 import com.landawn.abacus.util.FloatTuple.FloatTuple9;
 import com.landawn.abacus.util.stream.FloatStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for FloatTuple and its nested classes.

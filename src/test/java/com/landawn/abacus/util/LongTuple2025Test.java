@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.LongTuple.LongTuple0;
 import com.landawn.abacus.util.LongTuple.LongTuple1;
 import com.landawn.abacus.util.LongTuple.LongTuple2;
@@ -40,7 +41,6 @@ import com.landawn.abacus.util.LongTuple.LongTuple7;
 import com.landawn.abacus.util.LongTuple.LongTuple8;
 import com.landawn.abacus.util.LongTuple.LongTuple9;
 import com.landawn.abacus.util.stream.LongStream;
-import com.landawn.abacus.TestBase;
 
 /**
  * Comprehensive test suite for LongTuple and its nested classes.

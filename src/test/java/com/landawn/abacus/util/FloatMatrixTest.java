@@ -733,7 +733,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(1, reshaped.rows);
         assertEquals(9, reshaped.cols);
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), reshaped.get(0, i), DELTA);
+            assertEquals(i + 1, reshaped.get(0, i), DELTA);
         }
 
         // Test reshape back
@@ -799,7 +799,7 @@ public class FloatMatrixTest extends TestBase {
         FloatList flat = matrix.flatten();
         assertEquals(9, flat.size());
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), flat.get(i), DELTA);
+            assertEquals(i + 1, flat.get(i), DELTA);
         }
     }
 
@@ -1093,7 +1093,7 @@ public class FloatMatrixTest extends TestBase {
         matrix.forEach(it -> values.add(it));
         assertEquals(9, values.size());
         for (int i = 0; i < 9; i++) {
-            assertEquals((float) (i + 1), values.get(i), DELTA);
+            assertEquals(i + 1, values.get(i), DELTA);
         }
     }
 
