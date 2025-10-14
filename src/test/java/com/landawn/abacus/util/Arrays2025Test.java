@@ -89,7 +89,7 @@ public class Arrays2025Test extends TestBase {
         boolean[][] b = Arrays.reshape(a, 3);
 
         assertArrayEquals(new boolean[][] { { true, false, true }, { false, true } }, b);
-        ;
+
     }
 
     @Test
