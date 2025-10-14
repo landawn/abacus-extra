@@ -148,7 +148,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple8 containing eight byte values.
-     * 
+     *
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
@@ -158,8 +158,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
      * @return a new ByteTuple8 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static ByteTuple8 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
@@ -168,7 +167,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple9 containing nine byte values.
-     * 
+     *
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
@@ -179,8 +178,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
      * @return a new ByteTuple9 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static ByteTuple9 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8,
@@ -191,7 +189,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a ByteTuple from an array of byte values.
      * The size of the returned tuple depends on the length of the input array (0-9 elements).
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * byte[] values = {10, 20, 30};
@@ -199,9 +197,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param <TP> the specific ByteTuple subtype to return
-     * @param a the array of byte values (must contain 0-9 elements)
+     * @param a the array of byte values (must have length 0-9)
      * @return a ByteTuple of appropriate size containing the array elements
-     * @throws IllegalArgumentException if the array contains more than 9 elements
+     * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends ByteTuple<TP>> TP create(final byte[] a) {
         if (a == null || a.length == 0) {
@@ -351,7 +349,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * 
+     * Modifications to the returned array do not affect the tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);

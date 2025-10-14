@@ -147,7 +147,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Creates a BooleanTuple8 containing eight boolean values.
-     * 
+     *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
@@ -157,8 +157,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
      * @return a new BooleanTuple8 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -168,7 +167,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Creates a BooleanTuple9 containing nine boolean values.
-     * 
+     *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
@@ -179,8 +178,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _8 the eighth boolean value
      * @param _9 the ninth boolean value
      * @return a new BooleanTuple9 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -191,7 +189,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * Creates a BooleanTuple from an array of boolean values.
      * The size of the returned tuple depends on the length of the input array (0-9 elements).
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * boolean[] values = {true, false, true};
@@ -199,9 +197,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @param <TP> the specific BooleanTuple subtype to return
-     * @param a the array of boolean values (must contain 0-9 elements)
+     * @param a the array of boolean values (must have length 0-9)
      * @return a BooleanTuple of appropriate size containing the array elements
-     * @throws IllegalArgumentException if the array contains more than 9 elements
+     * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends BooleanTuple<TP>> TP create(final boolean[] a) {
         if (a == null || a.length == 0) {

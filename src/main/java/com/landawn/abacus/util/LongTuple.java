@@ -153,7 +153,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple8 with eight elements.
-     * 
+     *
      * @param _1 the first element
      * @param _2 the second element
      * @param _3 the third element
@@ -163,7 +163,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh element
      * @param _8 the eighth element
      * @return a new LongTuple8 instance
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static LongTuple8 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
@@ -183,7 +183,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth element
      * @param _9 the ninth element
      * @return a new LongTuple9 instance
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static LongTuple9 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8,
@@ -193,18 +193,16 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple from an array of long values.
-     * <p>
-     * The array length must be between 0 and 9 (inclusive). An empty array returns LongTuple0.EMPTY.
-     * </p>
+     * The size of the returned tuple depends on the length of the input array (0-9 elements).
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * long[] values = {10L, 20L, 30L};
      * LongTuple3 tuple = LongTuple.create(values);
      * }</pre>
      *
-     * @param <TP> the specific LongTuple type to create
-     * @param a the array of long values (length must be 0-9)
+     * @param <TP> the specific LongTuple type to return
+     * @param a the array of long values (must have length 0-9)
      * @return a LongTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
