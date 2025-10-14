@@ -165,8 +165,7 @@ public class ParallelEnabled2025Test extends TestBase {
         ParallelEnabled[] values = ParallelEnabled.values();
 
         for (int i = 0; i < values.length; i++) {
-            assertEquals(i, values[i].ordinal(),
-                "Ordinal of " + values[i] + " should be " + i);
+            assertEquals(i, values[i].ordinal(), "Ordinal of " + values[i] + " should be " + i);
         }
     }
 

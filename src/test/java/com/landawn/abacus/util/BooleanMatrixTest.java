@@ -456,7 +456,7 @@ public class BooleanMatrixTest extends TestBase {
         assertFalse(matrix.get(0, 1));
         assertFalse(matrix.get(0, 2));
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(-1, 0, fillArr));
+        assertThrows(IllegalArgumentException.class, () -> matrix.fill(-1, 0, fillArr));
     }
 
     @Test

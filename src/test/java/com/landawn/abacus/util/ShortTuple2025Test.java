@@ -157,7 +157,8 @@ public class ShortTuple2025Test extends TestBase {
 
     @Test
     public void testCreate9() {
-        ShortTuple9 tuple = ShortTuple.create(new short[] { (short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9 });
+        ShortTuple9 tuple = ShortTuple
+                .create(new short[] { (short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9 });
         assertEquals((short) 1, tuple._1);
         assertEquals((short) 9, tuple._9);
     }

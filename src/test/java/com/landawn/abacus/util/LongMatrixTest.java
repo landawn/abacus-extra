@@ -563,8 +563,8 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(1L, matrix.get(1, 1));
         Assertions.assertEquals(2L, matrix.get(1, 2));
 
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(-1, 0, b));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(0, -1, b));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.fill(-1, 0, b));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> matrix.fill(0, -1, b));
     }
 
     @Test

@@ -218,8 +218,7 @@ public class CharMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> CharMatrix.diagonal(new char[] { 'A', 'B' }, new char[] { 'X', 'Y', 'Z' }));
+        assertThrows(IllegalArgumentException.class, () -> CharMatrix.diagonal(new char[] { 'A', 'B' }, new char[] { 'X', 'Y', 'Z' }));
     }
 
     @Test

@@ -528,7 +528,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(4.0f, m.get(2, 2), DELTA);
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
         // assertThrows(IndexOutOfBoundsException.class, () -> m.fill(3, 0, patch));
         m.fill(3, 0, patch);
     }

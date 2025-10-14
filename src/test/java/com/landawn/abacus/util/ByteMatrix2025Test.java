@@ -218,8 +218,7 @@ public class ByteMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> ByteMatrix.diagonal(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> ByteMatrix.diagonal(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 }));
     }
 
     @Test

@@ -265,8 +265,7 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> FloatMatrix.diagonal(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.diagonal(new float[] { 1.0f, 2.0f }, new float[] { 3.0f, 4.0f, 5.0f }));
     }
 
     @Test
@@ -756,7 +755,7 @@ public class FloatMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         float[][] patch = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============

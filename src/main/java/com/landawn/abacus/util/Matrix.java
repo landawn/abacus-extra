@@ -291,13 +291,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements
-     * @param leftUp2RightDownDiagonal the main diagonal values (can be null)
-     * @param rightUp2LeftDownDiagonal the anti-diagonal values (can be null)
+     * @param leftUp2RightDownDiagonal the main diagonal values.
+     * @param rightUp2LeftDownDiagonal the anti-diagonal values.
      * @return a square matrix with the given diagonal values
      * @throws IllegalArgumentException if both arrays are null, or if both are non-null and have different lengths
      */
     @SuppressWarnings("null")
     public static <T> Matrix<T> diagonal(final T[] leftUp2RightDownDiagonal, final T[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
+        N.checkArgument(leftUp2RightDownDiagonal != null || rightUp2LeftDownDiagonal != null,
+                "Both 'leftUp2RightDownDiagonal' and 'rightUp2LeftDownDiagonal' can't be null");
+
         N.checkArgument(
                 N.isEmpty(leftUp2RightDownDiagonal) || N.isEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RightDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -1326,12 +1329,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index
      * @param fromColumnIndex the starting column index
-     * @param b the source matrix data
-     * @throws IndexOutOfBoundsException if the starting indices are out of bounds
+     * @param b the source array to copy values from
+     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromRowIndex, rows, rows);
-        N.checkFromToIndex(fromColumnIndex, cols, cols);
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
             N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));

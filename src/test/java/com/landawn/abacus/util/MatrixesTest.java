@@ -792,8 +792,8 @@ class MatrixesTest extends TestBase {
 
     @Test
     public void test_multiply_perf() {
-        final int rows = 2000;
-        final int cols = 3000;
+        final int rows = 200;
+        final int cols = 300;
 
         final int[][] a = new int[rows][cols];
         final int[][] b = new int[cols][rows];

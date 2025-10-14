@@ -1,5 +1,7 @@
 package com.landawn.abacus.util;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -526,8 +528,8 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('x', matrix.get(1, 1));
         Assertions.assertEquals('y', matrix.get(1, 2));
 
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(-1, 0, b));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(0, -1, b));
+        assertThrows(IllegalArgumentException.class, () -> matrix.fill(-1, 0, b));
+        assertThrows(IllegalArgumentException.class, () -> matrix.fill(0, -1, b));
     }
 
     @Test

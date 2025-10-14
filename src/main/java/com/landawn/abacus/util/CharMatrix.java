@@ -911,7 +911,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromRowIndex the starting row index in this matrix (must be &gt;= 0 and &lt;= rows)
      * @param fromColumnIndex the starting column index in this matrix (must be &gt;= 0 and &lt;= cols)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if fromRowIndex is negative or &gt; rows, or fromColumnIndex is negative or &gt; cols
+     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) throws IllegalArgumentException {
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);

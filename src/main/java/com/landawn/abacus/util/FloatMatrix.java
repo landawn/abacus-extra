@@ -115,9 +115,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols,
-                "All rows must have the same length. Row 0 has length %s but row %s has length %s",
-                cols, i, a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
+                    a[i] == null ? 0 : a[i].length);
         }
 
         final float[][] c = new float[a.length][cols];
@@ -908,12 +907,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * @param fromRowIndex the starting row index for filling
      * @param fromColumnIndex the starting column index for filling
-     * @param b the 2D array to copy values from
-     * @throws IndexOutOfBoundsException if the starting indices are out of bounds
+     * @param b the source array to copy values from
+     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final float[][] b) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromRowIndex, rows, rows);
-        N.checkFromToIndex(fromColumnIndex, cols, cols);
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final float[][] b) throws IllegalArgumentException {
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
             N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));

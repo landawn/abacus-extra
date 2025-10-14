@@ -518,7 +518,7 @@ public class DoubleMatrixTest extends TestBase {
         assertEquals(7.0, matrix.get(0, 1));
         assertEquals(8.0, matrix.get(0, 2));
 
-        assertThrows(IndexOutOfBoundsException.class, () -> matrix.fill(-1, 0, fillArr));
+        assertThrows(IllegalArgumentException.class, () -> matrix.fill(-1, 0, fillArr));
     }
 
     @Test

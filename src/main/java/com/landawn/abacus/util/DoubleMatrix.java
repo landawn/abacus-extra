@@ -117,9 +117,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols,
-                "All rows must have the same length. Row 0 has length %s but row %s has length %s",
-                cols, i, a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
+                    a[i] == null ? 0 : a[i].length);
         }
 
         final double[][] c = new double[a.length][cols];
@@ -161,9 +160,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols,
-                "All rows must have the same length. Row 0 has length %s but row %s has length %s",
-                cols, i, a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
+                    a[i] == null ? 0 : a[i].length);
         }
 
         final double[][] c = new double[a.length][cols];
@@ -205,9 +203,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols,
-                "All rows must have the same length. Row 0 has length %s but row %s has length %s",
-                cols, i, a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
+                    a[i] == null ? 0 : a[i].length);
         }
 
         final double[][] c = new double[a.length][cols];
@@ -1047,9 +1044,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param fromRowIndex the starting row index in this matrix
      * @param fromColumnIndex the starting column index in this matrix
      * @param b the source array to copy values from
-     * @throws IndexOutOfBoundsException if fromRowIndex or fromColumnIndex is negative or out of bounds
+     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IndexOutOfBoundsException {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IllegalArgumentException {
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 

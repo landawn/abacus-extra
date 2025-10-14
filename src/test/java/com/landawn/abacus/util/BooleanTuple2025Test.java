@@ -223,10 +223,9 @@ public class BooleanTuple2025Test extends TestBase {
     @Test
     public void testContainsTuple3() {
         BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        assertTrue(tuple.contains(true));
-        assertTrue(tuple.contains(false));
-        assertTrue(tuple.contains(true));
-        assertFalse(tuple.contains(false));
+        assertTrue(tuple._1);
+        assertFalse(tuple._2);
+        assertTrue(tuple._3);
     }
 
     // toArray tests

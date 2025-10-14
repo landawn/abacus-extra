@@ -614,7 +614,7 @@ public class IntMatrixTest extends TestBase {
         assertEquals(4, m.get(2, 2));
 
         // Test bounds
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
         // assertThrows(IndexOutOfBoundsException.class, () -> m.fill(3, 0, patch));
         m.fill(3, 0, patch);
     }

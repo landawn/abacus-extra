@@ -33,7 +33,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testOf_WithValidArray() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertEquals(5, immutable.length);
@@ -58,7 +58,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testOf_DoesNotCopyArray() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         // Modify original array
@@ -74,7 +74,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyOf_WithValidArray() {
-        int[] data = {10, 20, 30};
+        int[] data = { 10, 20, 30 };
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
         assertEquals(3, immutable.length);
@@ -99,7 +99,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyOf_CreatesDefensiveCopy() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
         // Modify original array
@@ -133,7 +133,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testGet_ValidIndex() {
-        int[] data = {5, 10, 15, 20, 25};
+        int[] data = { 5, 10, 15, 20, 25 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertEquals(5, immutable.get(0));
@@ -145,7 +145,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testGet_NegativeIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(-1));
@@ -153,7 +153,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testGet_IndexOutOfBounds() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> immutable.get(3));
@@ -173,7 +173,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEach_ValidArray() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         List<Integer> result = new ArrayList<>();
@@ -196,7 +196,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEach_NullAction() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IllegalArgumentException.class, () -> immutable.forEach(null));
@@ -204,7 +204,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEach_OrderPreserved() {
-        int[] data = {10, 20, 30, 40, 50};
+        int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         List<Integer> result = new ArrayList<>();
@@ -217,7 +217,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEach_WithSideEffects() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         AtomicInteger sum = new AtomicInteger(0);
@@ -232,7 +232,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEachIndexed_ValidArray() {
-        int[] data = {10, 20, 30};
+        int[] data = { 10, 20, 30 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         List<String> result = new ArrayList<>();
@@ -256,7 +256,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEachIndexed_NullAction() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IllegalArgumentException.class, () -> immutable.forEachIndexed(null));
@@ -264,7 +264,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEachIndexed_VerifyIndices() {
-        int[] data = {100, 200, 300, 400};
+        int[] data = { 100, 200, 300, 400 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         List<Integer> indices = new ArrayList<>();
@@ -282,7 +282,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testForEachIndexed_OrderPreserved() {
-        int[] data = {5, 10, 15, 20};
+        int[] data = { 5, 10, 15, 20 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         AtomicInteger expectedIndex = new AtomicInteger(0);
@@ -298,7 +298,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_ValidArray() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         IntStream stream = immutable.stream();
@@ -318,7 +318,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_Max() {
-        int[] data = {10, 50, 30, 20, 40};
+        int[] data = { 10, 50, 30, 20, 40 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int max = immutable.stream().max().orElse(0);
@@ -328,7 +328,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_Min() {
-        int[] data = {30, 10, 50, 20, 40};
+        int[] data = { 30, 10, 50, 20, 40 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int min = immutable.stream().min().orElse(0);
@@ -338,7 +338,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_Filter() {
-        int[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         long count = immutable.stream().filter(v -> v % 2 == 0).count();
@@ -348,7 +348,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_Map() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int sum = immutable.stream().map(v -> v * 2).sum();
@@ -358,12 +358,12 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testStream_ToArray() {
-        int[] data = {5, 4, 3, 2, 1};
+        int[] data = { 5, 4, 3, 2, 1 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int[] result = immutable.stream().sorted().toArray();
 
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, result);
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, result);
     }
 
     // ============================================
@@ -372,7 +372,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_FullRange() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         ImmutableIntArray copy = immutable.copy(0, 5);
@@ -384,7 +384,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_PartialRange() {
-        int[] data = {10, 20, 30, 40, 50};
+        int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         ImmutableIntArray copy = immutable.copy(1, 4);
@@ -397,7 +397,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_EmptyRange() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         ImmutableIntArray copy = immutable.copy(1, 1);
@@ -407,7 +407,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_InvalidFromIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(-1, 2));
@@ -415,7 +415,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_InvalidToIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(0, 10));
@@ -423,7 +423,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_FromIndexGreaterThanToIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copy(2, 1));
@@ -431,7 +431,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopy_IndependentOfOriginal() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
         ImmutableIntArray copy = immutable.copy(1, 4);
 
@@ -450,27 +450,27 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyToArray_FullRange() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int[] copy = immutable.copyToArray(0, 5);
 
-        assertArrayEquals(new int[]{1, 2, 3, 4, 5}, copy);
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, copy);
     }
 
     @Test
     public void testCopyToArray_PartialRange() {
-        int[] data = {10, 20, 30, 40, 50};
+        int[] data = { 10, 20, 30, 40, 50 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int[] copy = immutable.copyToArray(2, 4);
 
-        assertArrayEquals(new int[]{30, 40}, copy);
+        assertArrayEquals(new int[] { 30, 40 }, copy);
     }
 
     @Test
     public void testCopyToArray_EmptyRange() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         int[] copy = immutable.copyToArray(1, 1);
@@ -480,7 +480,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyToArray_InvalidFromIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(-1, 2));
@@ -488,7 +488,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyToArray_InvalidToIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(0, 10));
@@ -496,7 +496,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyToArray_FromIndexGreaterThanToIndex() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray immutable = ImmutableIntArray.of(data);
 
         assertThrows(IndexOutOfBoundsException.class, () -> immutable.copyToArray(2, 1));
@@ -504,7 +504,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCopyToArray_Mutable() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
 
         int[] copy = immutable.copyToArray(0, 5);
@@ -522,7 +522,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testHashCode_EqualArrays() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray array1 = ImmutableIntArray.of(data);
         ImmutableIntArray array2 = ImmutableIntArray.copyOf(data);
 
@@ -531,8 +531,8 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testHashCode_DifferentArrays() {
-        ImmutableIntArray array1 = ImmutableIntArray.of(new int[]{1, 2, 3});
-        ImmutableIntArray array2 = ImmutableIntArray.of(new int[]{4, 5, 6});
+        ImmutableIntArray array1 = ImmutableIntArray.of(new int[] { 1, 2, 3 });
+        ImmutableIntArray array2 = ImmutableIntArray.of(new int[] { 4, 5, 6 });
 
         assertNotEquals(array1.hashCode(), array2.hashCode());
     }
@@ -547,7 +547,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testHashCode_Consistency() {
-        int[] data = {10, 20, 30};
+        int[] data = { 10, 20, 30 };
         ImmutableIntArray array = ImmutableIntArray.of(data);
 
         int hash1 = array.hashCode();
@@ -562,7 +562,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testEquals_SameInstance() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray array = ImmutableIntArray.of(data);
 
         assertTrue(array.equals(array));
@@ -570,7 +570,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testEquals_EqualArrays() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray array1 = ImmutableIntArray.of(data);
         ImmutableIntArray array2 = ImmutableIntArray.copyOf(data);
 
@@ -580,16 +580,16 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testEquals_DifferentArrays() {
-        ImmutableIntArray array1 = ImmutableIntArray.of(new int[]{1, 2, 3});
-        ImmutableIntArray array2 = ImmutableIntArray.of(new int[]{1, 2, 4});
+        ImmutableIntArray array1 = ImmutableIntArray.of(new int[] { 1, 2, 3 });
+        ImmutableIntArray array2 = ImmutableIntArray.of(new int[] { 1, 2, 4 });
 
         assertFalse(array1.equals(array2));
     }
 
     @Test
     public void testEquals_DifferentLengths() {
-        ImmutableIntArray array1 = ImmutableIntArray.of(new int[]{1, 2, 3});
-        ImmutableIntArray array2 = ImmutableIntArray.of(new int[]{1, 2, 3, 4});
+        ImmutableIntArray array1 = ImmutableIntArray.of(new int[] { 1, 2, 3 });
+        ImmutableIntArray array2 = ImmutableIntArray.of(new int[] { 1, 2, 3, 4 });
 
         assertFalse(array1.equals(array2));
     }
@@ -604,14 +604,14 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testEquals_Null() {
-        ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3});
+        ImmutableIntArray array = ImmutableIntArray.of(new int[] { 1, 2, 3 });
 
         assertFalse(array.equals(null));
     }
 
     @Test
     public void testEquals_DifferentType() {
-        ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3});
+        ImmutableIntArray array = ImmutableIntArray.of(new int[] { 1, 2, 3 });
         String notAnArray = "not an array";
 
         assertFalse(array.equals(notAnArray));
@@ -619,7 +619,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testEquals_Transitivity() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray array1 = ImmutableIntArray.of(data);
         ImmutableIntArray array2 = ImmutableIntArray.copyOf(data);
         ImmutableIntArray array3 = ImmutableIntArray.of(data.clone());
@@ -635,7 +635,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testToString_ValidArray() {
-        int[] data = {1, 2, 3};
+        int[] data = { 1, 2, 3 };
         ImmutableIntArray array = ImmutableIntArray.of(data);
 
         String result = array.toString();
@@ -658,7 +658,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testToString_SingleElement() {
-        ImmutableIntArray array = ImmutableIntArray.of(new int[]{42});
+        ImmutableIntArray array = ImmutableIntArray.of(new int[] { 42 });
 
         String result = array.toString();
 
@@ -667,7 +667,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testToString_NegativeNumbers() {
-        int[] data = {-1, -2, -3};
+        int[] data = { -1, -2, -3 };
         ImmutableIntArray array = ImmutableIntArray.of(data);
 
         String result = array.toString();
@@ -690,7 +690,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testLength_SingleElement() {
-        ImmutableIntArray array = ImmutableIntArray.of(new int[]{42});
+        ImmutableIntArray array = ImmutableIntArray.of(new int[] { 42 });
 
         assertEquals(1, array.length);
     }
@@ -716,7 +716,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testImmutability_CopyOf() {
-        int[] data = {1, 2, 3, 4, 5};
+        int[] data = { 1, 2, 3, 4, 5 };
         ImmutableIntArray array = ImmutableIntArray.copyOf(data);
 
         // Modify original
@@ -730,7 +730,7 @@ public class ImmutableIntArray2025Test extends TestBase {
 
     @Test
     public void testCombinedOperations() {
-        int[] data = {10, 20, 30, 40, 50, 60, 70, 80};
+        int[] data = { 10, 20, 30, 40, 50, 60, 70, 80 };
         ImmutableIntArray array = ImmutableIntArray.copyOf(data);
 
         // Get a sub-range
@@ -747,12 +747,12 @@ public class ImmutableIntArray2025Test extends TestBase {
 
         // Copy to mutable array
         int[] mutableCopy = sub.copyToArray(1, 3);
-        assertArrayEquals(new int[]{40, 50}, mutableCopy);
+        assertArrayEquals(new int[] { 40, 50 }, mutableCopy);
     }
 
     @Test
     public void testBoundaryValues_MaxInt() {
-        int[] data = {Integer.MAX_VALUE, Integer.MIN_VALUE, 0};
+        int[] data = { Integer.MAX_VALUE, Integer.MIN_VALUE, 0 };
         ImmutableIntArray array = ImmutableIntArray.of(data);
 
         assertEquals(Integer.MAX_VALUE, array.get(0));

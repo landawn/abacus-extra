@@ -316,8 +316,7 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> IntMatrix.diagonal(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.diagonal(new int[] { 1, 2 }, new int[] { 3, 4, 5 }));
     }
 
     @Test
@@ -802,7 +801,7 @@ public class IntMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         int[][] patch = { { 1, 2 }, { 3, 4 } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============

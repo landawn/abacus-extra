@@ -188,8 +188,7 @@ public class BooleanMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> BooleanMatrix.diagonal(new boolean[] { true, false }, new boolean[] { true, false, true }));
+        assertThrows(IllegalArgumentException.class, () -> BooleanMatrix.diagonal(new boolean[] { true, false }, new boolean[] { true, false, true }));
     }
 
     @Test

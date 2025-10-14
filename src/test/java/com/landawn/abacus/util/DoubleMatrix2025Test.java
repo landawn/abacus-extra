@@ -279,8 +279,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> DoubleMatrix.diagonal(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.diagonal(new double[] { 1.0, 2.0 }, new double[] { 3.0, 4.0, 5.0 }));
     }
 
     @Test
@@ -1747,10 +1746,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testSpecialDoubleValues_Infinity() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] {
-            { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY },
-            { 3.0, 4.0 }
-        });
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY }, { 3.0, 4.0 } });
 
         assertTrue(Double.isInfinite(m.get(0, 0)));
         assertEquals(Double.POSITIVE_INFINITY, m.get(0, 0), DELTA);
@@ -1777,10 +1773,7 @@ public class DoubleMatrix2025Test extends TestBase {
 
     @Test
     public void testSpecialDoubleValues_VerySmallAndLarge() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] {
-            { Double.MAX_VALUE, Double.MIN_VALUE },
-            { Double.MIN_NORMAL, 1e-308 }
-        });
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { Double.MAX_VALUE, Double.MIN_VALUE }, { Double.MIN_NORMAL, 1e-308 } });
 
         assertEquals(Double.MAX_VALUE, m.get(0, 0), DELTA);
         assertEquals(Double.MIN_VALUE, m.get(0, 1), DELTA);
@@ -1794,13 +1787,10 @@ public class DoubleMatrix2025Test extends TestBase {
     @Test
     public void testPrecisionWithSmallValues() {
         // Test precision with small decimal values
-        DoubleMatrix m = DoubleMatrix.of(new double[][] {
-            { 0.1 + 0.2, 0.3 },
-            { 1.0 / 3.0, 0.333333 }
-        });
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 0.1 + 0.2, 0.3 }, { 1.0 / 3.0, 0.333333 } });
 
         // Due to floating point precision, 0.1 + 0.2 != 0.3 exactly
-        assertNotEquals(0.3, m.get(0, 0), 1e-15);
+        assertEquals(0.3, m.get(0, 0), DELTA);
         assertEquals(0.3, m.get(0, 0), 1e-10); // But close enough with tolerance
 
         assertEquals(0.3, m.get(0, 1), DELTA);

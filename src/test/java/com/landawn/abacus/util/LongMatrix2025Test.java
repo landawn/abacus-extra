@@ -296,8 +296,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> LongMatrix.diagonal(new long[] { 1L, 2L }, new long[] { 3L, 4L, 5L }));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.diagonal(new long[] { 1L, 2L }, new long[] { 3L, 4L, 5L }));
     }
 
     @Test
@@ -791,7 +790,7 @@ public class LongMatrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         long[][] patch = { { 1L, 2L }, { 3L, 4L } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============

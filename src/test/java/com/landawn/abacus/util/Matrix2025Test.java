@@ -38,10 +38,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testConstructor_withNullArray() {
-        Matrix<String> m = new Matrix<>(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
-        assertTrue(m.isEmpty());
+        assertThrows(IllegalArgumentException.class, () -> new Matrix<>(null));
     }
 
     @Test
@@ -83,8 +80,10 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testOf_withNullArray() {
-        Matrix<String> m = Matrix.of((String[][]) null);
+        Matrix<String> m = Matrix.of(new String[][] {});
         assertTrue(m.isEmpty());
+
+        assertThrows(IllegalArgumentException.class, () -> Matrix.of((String[][]) null));
     }
 
     @Test
@@ -95,10 +94,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testOf_withVarargs() {
-        Matrix<Integer> m = Matrix.of(
-            new Integer[] { 1, 2, 3 },
-            new Integer[] { 4, 5, 6 }
-        );
+        Matrix<Integer> m = Matrix.of(new Integer[] { 1, 2, 3 }, new Integer[] { 4, 5, 6 });
         assertEquals(2, m.rows);
         assertEquals(3, m.cols);
         assertEquals(Integer.valueOf(1), m.get(0, 0));
@@ -181,10 +177,7 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothDiagonals() {
-        Matrix<String> m = Matrix.diagonal(
-            new String[] { "A", "B", "C" },
-            new String[] { "X", "Y", "Z" }
-        );
+        Matrix<String> m = Matrix.diagonal(new String[] { "A", "B", "C" }, new String[] { "X", "Y", "Z" });
         assertEquals(3, m.rows);
         assertEquals(3, m.cols);
         assertEquals("A", m.get(0, 0));
@@ -216,14 +209,16 @@ public class Matrix2025Test extends TestBase {
 
     @Test
     public void testDiagonal_withBothNull() {
-        Matrix<String> m = Matrix.diagonal(null, null);
-        assertTrue(m.isEmpty());
+        assertTrue(Matrix.diagonal(new String[] {}, new String[] {}).isEmpty());
+        assertTrue(Matrix.diagonal(new String[] {}, null).isEmpty());
+        assertTrue(Matrix.diagonal(null, new String[] {}).isEmpty());
+
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(null, null));
     }
 
     @Test
     public void testDiagonal_withDifferentLengths() {
-        assertThrows(IllegalArgumentException.class,
-            () -> Matrix.diagonal(new String[] { "A", "B" }, new String[] { "X", "Y", "Z" }));
+        assertThrows(IllegalArgumentException.class, () -> Matrix.diagonal(new String[] { "A", "B" }, new String[] { "X", "Y", "Z" }));
     }
 
     // ============ Component Type Tests ============
@@ -765,7 +760,7 @@ public class Matrix2025Test extends TestBase {
     public void testFill_outOfBounds() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         String[][] patch = { { "X", "Y" }, { "Z", "W" } };
-        assertThrows(IndexOutOfBoundsException.class, () -> m.fill(-1, 0, patch));
+        assertThrows(IllegalArgumentException.class, () -> m.fill(-1, 0, patch));
     }
 
     // ============ Copy Tests ============
@@ -862,13 +857,16 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testExtend_directional() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
+        m.println();
         Matrix<String> extended = m.extend(1, 1, 2, 2);
         assertEquals(5, extended.rows); // 1 + 3 + 1
         assertEquals(7, extended.cols); // 2 + 3 + 2
 
+        extended.println();
+
         // Original values at offset position
         assertEquals("A", extended.get(1, 2));
-        assertEquals("E", extended.get(2, 4));
+        assertEquals("F", extended.get(2, 4));
 
         // New cells are null
         assertNull(extended.get(0, 0));
@@ -1547,15 +1545,18 @@ public class Matrix2025Test extends TestBase {
     public void testGenericTypeWithCustomObject() {
         class CustomObject {
             String value;
-            CustomObject(String value) { this.value = value; }
+
+            CustomObject(String value) {
+                this.value = value;
+            }
+
             @Override
-            public String toString() { return value; }
+            public String toString() {
+                return value;
+            }
         }
 
-        CustomObject[][] data = {
-            { new CustomObject("A"), new CustomObject("B") },
-            { new CustomObject("C"), new CustomObject("D") }
-        };
+        CustomObject[][] data = { { new CustomObject("A"), new CustomObject("B") }, { new CustomObject("C"), new CustomObject("D") } };
         Matrix<CustomObject> m = Matrix.of(data);
 
         assertEquals("A", m.get(0, 0).value);
@@ -1570,10 +1571,7 @@ public class Matrix2025Test extends TestBase {
         List<String> list4 = Arrays.asList("g", "h");
 
         @SuppressWarnings("unchecked")
-        Matrix<List<String>> m = Matrix.of(
-            new List[] { list1, list2 },
-            new List[] { list3, list4 }
-        );
+        Matrix<List<String>> m = Matrix.of(new List[] { list1, list2 }, new List[] { list3, list4 });
 
         assertEquals(list1, m.get(0, 0));
         assertEquals(list4, m.get(1, 1));
@@ -1599,10 +1597,7 @@ public class Matrix2025Test extends TestBase {
     public void testChainedOperations() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
 
-        Matrix<Integer> result = m.map(x -> x * 2)
-                                   .map(x -> x + 1)
-                                   .transpose()
-                                   .rotate90();
+        Matrix<Integer> result = m.map(x -> x * 2).map(x -> x + 1).transpose().rotate90();
 
         assertNotNull(result);
         assertEquals(2, result.rows);

@@ -95,10 +95,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The constructor validates that all rows have the same length.
      * 
      * @param a the two-dimensional array containing matrix data
-     * @throws IllegalArgumentException if the array is null or if rows have different lengths
+     * @throws IllegalArgumentException if the array is null or if rows have different lengths (not rectangular)
      */
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     protected AbstractMatrix(final A[] a) {
+        N.checkArgNotNull(a, "The array of arrays can't be null");
+
         this.a = a;
         rows = a.length;
         cols = a.length == 0 ? 0 : length(a[0]);
