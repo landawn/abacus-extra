@@ -615,4 +615,188 @@ public class DoubleTuple2025Test extends TestBase {
         assertEquals(8, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0).arity());
         assertEquals(9, DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0).arity());
     }
+
+    // Tests for inherited methods from PrimitiveTuple
+    @Test
+    public void testAcceptConsumer() {
+        DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        List<Double> result = new ArrayList<>();
+        tuple.accept(t -> {
+            result.add(t._1);
+            result.add(t._2);
+            result.add(t._3);
+        });
+        assertEquals(3, result.size());
+        assertEquals(Double.valueOf(1.0), result.get(0));
+        assertEquals(Double.valueOf(2.0), result.get(1));
+        assertEquals(Double.valueOf(3.0), result.get(2));
+    }
+
+    @Test
+    public void testMapFunction() {
+        DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        String result = tuple.map(t -> "Sum: " + (t._1 + t._2 + t._3));
+        assertEquals("Sum: 6.0", result);
+    }
+
+    @Test
+    public void testFilterPredicate() {
+        DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        var result = tuple.filter(t -> t._1 == 1.0);
+        assertTrue(result.isPresent());
+        assertEquals(tuple, result.get());
+    }
+
+    @Test
+    public void testFilterPredicateFalse() {
+        DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        var result = tuple.filter(t -> t._1 == 99.0);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testToOptional() {
+        DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        var result = tuple.toOptional();
+        assertTrue(result.isPresent());
+        assertEquals(tuple, result.get());
+    }
+
+    // Additional tests for larger tuple sizes - reverse
+    @Test
+    public void testReverseTuple4() {
+        DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        DoubleTuple4 reversed = tuple.reverse();
+        assertEquals(4.0, reversed._1, 0.001);
+        assertEquals(3.0, reversed._2, 0.001);
+        assertEquals(2.0, reversed._3, 0.001);
+        assertEquals(1.0, reversed._4, 0.001);
+    }
+
+    @Test
+    public void testReverseTuple5() {
+        DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        DoubleTuple5 reversed = tuple.reverse();
+        assertEquals(5.0, reversed._1, 0.001);
+        assertEquals(1.0, reversed._5, 0.001);
+    }
+
+    @Test
+    public void testReverseTuple6() {
+        DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        DoubleTuple6 reversed = tuple.reverse();
+        assertEquals(6.0, reversed._1, 0.001);
+        assertEquals(1.0, reversed._6, 0.001);
+    }
+
+    @Test
+    public void testReverseTuple7() {
+        DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        DoubleTuple7 reversed = tuple.reverse();
+        assertEquals(7.0, reversed._1, 0.001);
+        assertEquals(1.0, reversed._7, 0.001);
+    }
+
+    @Test
+    public void testReverseTuple8() {
+        DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        DoubleTuple8 reversed = tuple.reverse();
+        assertEquals(8.0, reversed._1, 0.001);
+        assertEquals(1.0, reversed._8, 0.001);
+    }
+
+    @Test
+    public void testReverseTuple9() {
+        DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        DoubleTuple9 reversed = tuple.reverse();
+        assertEquals(9.0, reversed._1, 0.001);
+        assertEquals(1.0, reversed._9, 0.001);
+    }
+
+    // Additional tests for larger tuple sizes - contains
+    @Test
+    public void testContainsTuple4() {
+        DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertTrue(tuple.contains(1.0));
+        assertTrue(tuple.contains(4.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    @Test
+    public void testContainsTuple5() {
+        DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertTrue(tuple.contains(5.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    @Test
+    public void testContainsTuple6() {
+        DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertTrue(tuple.contains(6.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    @Test
+    public void testContainsTuple7() {
+        DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertTrue(tuple.contains(7.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    @Test
+    public void testContainsTuple8() {
+        DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertTrue(tuple.contains(8.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    @Test
+    public void testContainsTuple9() {
+        DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertTrue(tuple.contains(9.0));
+        assertFalse(tuple.contains(99.0));
+    }
+
+    // Test for create() with all sizes (2, 4-9)
+    @Test
+    public void testCreate2() {
+        DoubleTuple2 tuple = DoubleTuple.create(new double[] { 1.0, 2.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(2.0, tuple._2, 0.001);
+    }
+
+    @Test
+    public void testCreate4() {
+        DoubleTuple4 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(4.0, tuple._4, 0.001);
+    }
+
+    @Test
+    public void testCreate5() {
+        DoubleTuple5 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(5.0, tuple._5, 0.001);
+    }
+
+    @Test
+    public void testCreate6() {
+        DoubleTuple6 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(6.0, tuple._6, 0.001);
+    }
+
+    @Test
+    public void testCreate7() {
+        DoubleTuple7 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(7.0, tuple._7, 0.001);
+    }
+
+    @Test
+    public void testCreate8() {
+        DoubleTuple8 tuple = DoubleTuple.create(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 });
+        assertEquals(1.0, tuple._1, 0.001);
+        assertEquals(8.0, tuple._8, 0.001);
+    }
 }

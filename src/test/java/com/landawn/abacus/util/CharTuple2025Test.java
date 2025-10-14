@@ -615,4 +615,188 @@ public class CharTuple2025Test extends TestBase {
         assertEquals(8, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h').arity());
         assertEquals(9, CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i').arity());
     }
+
+    // Tests for inherited methods from PrimitiveTuple
+    @Test
+    public void testAcceptConsumer() {
+        CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        List<Character> result = new ArrayList<>();
+        tuple.accept(t -> {
+            result.add(t._1);
+            result.add(t._2);
+            result.add(t._3);
+        });
+        assertEquals(3, result.size());
+        assertEquals(Character.valueOf('a'), result.get(0));
+        assertEquals(Character.valueOf('b'), result.get(1));
+        assertEquals(Character.valueOf('c'), result.get(2));
+    }
+
+    @Test
+    public void testMapFunction() {
+        CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        String result = tuple.map(t -> "" + t._1 + t._2 + t._3);
+        assertEquals("abc", result);
+    }
+
+    @Test
+    public void testFilterPredicate() {
+        CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        var result = tuple.filter(t -> t._1 == 'a');
+        assertTrue(result.isPresent());
+        assertEquals(tuple, result.get());
+    }
+
+    @Test
+    public void testFilterPredicateFalse() {
+        CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        var result = tuple.filter(t -> t._1 == 'z');
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void testToOptional() {
+        CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        var result = tuple.toOptional();
+        assertTrue(result.isPresent());
+        assertEquals(tuple, result.get());
+    }
+
+    // Additional tests for larger tuple sizes - reverse
+    @Test
+    public void testReverseTuple4() {
+        CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        CharTuple4 reversed = tuple.reverse();
+        assertEquals('d', reversed._1);
+        assertEquals('c', reversed._2);
+        assertEquals('b', reversed._3);
+        assertEquals('a', reversed._4);
+    }
+
+    @Test
+    public void testReverseTuple5() {
+        CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        CharTuple5 reversed = tuple.reverse();
+        assertEquals('e', reversed._1);
+        assertEquals('a', reversed._5);
+    }
+
+    @Test
+    public void testReverseTuple6() {
+        CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        CharTuple6 reversed = tuple.reverse();
+        assertEquals('f', reversed._1);
+        assertEquals('a', reversed._6);
+    }
+
+    @Test
+    public void testReverseTuple7() {
+        CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        CharTuple7 reversed = tuple.reverse();
+        assertEquals('g', reversed._1);
+        assertEquals('a', reversed._7);
+    }
+
+    @Test
+    public void testReverseTuple8() {
+        CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        CharTuple8 reversed = tuple.reverse();
+        assertEquals('h', reversed._1);
+        assertEquals('a', reversed._8);
+    }
+
+    @Test
+    public void testReverseTuple9() {
+        CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        CharTuple9 reversed = tuple.reverse();
+        assertEquals('i', reversed._1);
+        assertEquals('a', reversed._9);
+    }
+
+    // Additional tests for larger tuple sizes - contains
+    @Test
+    public void testContainsTuple4() {
+        CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('d'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    @Test
+    public void testContainsTuple5() {
+        CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertTrue(tuple.contains('e'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    @Test
+    public void testContainsTuple6() {
+        CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertTrue(tuple.contains('f'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    @Test
+    public void testContainsTuple7() {
+        CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertTrue(tuple.contains('g'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    @Test
+    public void testContainsTuple8() {
+        CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertTrue(tuple.contains('h'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    @Test
+    public void testContainsTuple9() {
+        CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertTrue(tuple.contains('i'));
+        assertFalse(tuple.contains('z'));
+    }
+
+    // Test for create() with all sizes (2, 4-9)
+    @Test
+    public void testCreate2() {
+        CharTuple2 tuple = CharTuple.create(new char[] { 'a', 'b' });
+        assertEquals('a', tuple._1);
+        assertEquals('b', tuple._2);
+    }
+
+    @Test
+    public void testCreate4() {
+        CharTuple4 tuple = CharTuple.create(new char[] { 'a', 'b', 'c', 'd' });
+        assertEquals('a', tuple._1);
+        assertEquals('d', tuple._4);
+    }
+
+    @Test
+    public void testCreate5() {
+        CharTuple5 tuple = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e' });
+        assertEquals('a', tuple._1);
+        assertEquals('e', tuple._5);
+    }
+
+    @Test
+    public void testCreate6() {
+        CharTuple6 tuple = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
+        assertEquals('a', tuple._1);
+        assertEquals('f', tuple._6);
+    }
+
+    @Test
+    public void testCreate7() {
+        CharTuple7 tuple = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
+        assertEquals('a', tuple._1);
+        assertEquals('g', tuple._7);
+    }
+
+    @Test
+    public void testCreate8() {
+        CharTuple8 tuple = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
+        assertEquals('a', tuple._1);
+        assertEquals('h', tuple._8);
+    }
 }
