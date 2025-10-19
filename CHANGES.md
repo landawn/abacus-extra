@@ -1,3 +1,7 @@
+### 2.25.0
+
+* Bug fixes and improvements.
+
 ### 2.3.7
 
 * Bug fixes and improvements.
