@@ -73,10 +73,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns an empty ShortMatrix instance (0x0 matrix). This is a singleton instance
-     * that is reused for all empty matrices.
-     * 
-     * @return an empty ShortMatrix with dimensions 0x0
+     * Creates an empty matrix with zero rows and zero columns.
+     *
+     * <p>Example:
+     * <pre>{@code
+     * ShortMatrix matrix = ShortMatrix.empty();
+     * // matrix.rows() returns 0
+     * // matrix.columns() returns 0
+     * }</pre>
+     *
+     * @return an empty short matrix
      */
     public static ShortMatrix empty() {
         return EMPTY_SHORT_MATRIX;
@@ -99,18 +105,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a 1xN matrix filled with random short values.
-     * The random values span the full range of short values (from {@code Short.MIN_VALUE} to {@code Short.MAX_VALUE}).
+     * Creates a 1-row matrix filled with random values.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix randomMatrix = ShortMatrix.random(5);
-     * // Creates a 1x5 matrix like [[12345, -3456, 23456, -12345, 6789]]
+     * ShortMatrix matrix = ShortMatrix.random(5);
+     * // Creates a 1x5 matrix with random short values
      * }</pre>
      *
-     * @param len the number of columns in the resulting 1-row matrix
-     * @return a new ShortMatrix with one row and 'len' columns containing random short values
-     * @throws IllegalArgumentException if len is negative
+     * @param len the number of columns
+     * @return a 1-row matrix filled with random short values
      */
     @SuppressWarnings("deprecation")
     public static ShortMatrix random(final int len) {
@@ -118,16 +122,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a 1xN matrix where all elements have the same specified value.
-     * 
-     * <p>Example:</p>
+     * Creates a 1-row matrix with all elements set to the specified value.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.repeat((short)5, 4); // Creates [[5, 5, 5, 5]]
+     * ShortMatrix matrix = ShortMatrix.repeat((short) 42, 5);
+     * // Creates a 1x5 matrix where all elements are 42
      * }</pre>
-     * 
+     *
      * @param val the value to repeat
-     * @param len the number of times to repeat the value (number of columns)
-     * @return a new 1xN ShortMatrix where all elements equal 'val'
+     * @param len the number of columns
+     * @return a 1-row matrix with all elements set to val
      */
     public static ShortMatrix repeat(final short val, final int len) {
         return new ShortMatrix(new short[][] { Array.repeat(val, len) });
@@ -204,63 +209,53 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the main diagonal
-     * (from left-up to right-down). All other elements are zero.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.diagonalLU2RD(new short[]{1, 2, 3});
-     * // Creates:
-     * // [[1, 0, 0],
-     * //  [0, 2, 0],
-     * //  [0, 0, 3]]
+     * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal the values to place on the main diagonal
-     * @return a new square ShortMatrix with the specified diagonal values
+     *
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static ShortMatrix diagonalLU2RD(final short[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the anti-diagonal
-     * (from right-up to left-down). All other elements are zero.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.diagonalRU2LD(new short[]{1, 2, 3});
-     * // Creates:
-     * // [[0, 0, 1],
-     * //  [0, 2, 0],
-     * //  [3, 0, 0]]
+     * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
-     * 
-     * @param rightUp2LeftDownDiagonal the values to place on the anti-diagonal
-     * @return a new square ShortMatrix with the specified anti-diagonal values
+     *
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * Creates a square diagonal matrix with values on both the main diagonal (left-up to right-down)
-     * and the anti-diagonal (right-up to left-down). If only one diagonal is specified, the other
-     * is filled with zeros. If both are specified, they must have the same length.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.diagonal(new short[]{1, 2, 3}, new short[]{4, 5, 6});
-     * // Creates:
-     * // [[1, 0, 4],
-     * //  [0, 2, 0],
-     * //  [6, 0, 3]]
+     * ShortMatrix matrix = ShortMatrix.diagonal(new short[]{1, 2}, new short[]{3, 4});
+     * // Creates 2x2 matrix with both diagonals set
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal the values for the main diagonal (can be null)
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal (can be null)
-     * @return a new square ShortMatrix with the specified diagonal values
-     * @throws IllegalArgumentException if both diagonals are non-null and have different lengths
+     *
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified diagonals
+     * @throws IllegalArgumentException if arrays have different lengths
      */
     public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -319,163 +314,163 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Gets the element at the specified row and column indices.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * short value = matrix.get(1, 0); // returns 3
+     * short value = matrix.get(0, 1); // Returns 2
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the short value at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if the indices are out of bounds
+     * @return the element at position (i, j)
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public short get(final int i, final int j) {
         return a[i][j];
     }
 
     /**
-     * Gets the element at the specified point.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified point.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * Point p = Point.of(1, 0);
-     * short value = matrix.get(p); // returns 3
+     * // Assuming you have a Point implementation
+     * // short value = matrix.get(point); // Returns element at point
      * }</pre>
-     * 
+     *
      * @param point the point containing row and column indices
-     * @return the short value at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @return the element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public short get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
     }
 
     /**
-     * Sets the element at the specified row and column indices to the given value.
-     * 
-     * <p>Example:</p>
+     * Sets the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * matrix.set(0, 1, (short)5); // matrix becomes [[1, 5], [3, 4]]
+     * matrix.set(0, 1, 9); // Sets element at row 0, column 1 to 9
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @param val the value to set at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if the indices are out of bounds
+     * @param val the value to set
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final short val) {
         a[i][j] = val;
     }
 
     /**
-     * Sets the element at the specified point to the given value.
-     * 
-     * <p>Example:</p>
+     * Sets the element at the specified point.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * Point p = Point.of(0, 1);
-     * matrix.set(p, (short)5); // matrix becomes [[1, 5], [3, 4]]
+     * // Assuming you have a Point implementation
+     * // matrix.set(point, 9); // Sets element at point
      * }</pre>
-     * 
+     *
      * @param point the point containing row and column indices
-     * @param val the value to set at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @param val the value to set
+     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public void set(final Point point, final short val) {
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
     /**
-     * Returns the element directly above the specified position, if it exists.
-     * 
-     * <p>Example:</p>
+     * Returns the element above the specified position, if it exists.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * OptionalShort above = matrix.upOf(1, 0); // returns Optional of 1
-     * OptionalShort none = matrix.upOf(0, 0); // returns empty Optional
+     * OptionalShort value = matrix.upOf(1, 0); // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.upOf(0, 0); // Returns OptionalShort.empty()
      * }</pre>
-     * 
-     * @param i the row index of the reference position
-     * @param j the column index of the reference position
-     * @return an OptionalShort containing the element above, or empty if at the top row
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element above, or empty if out of bounds
      */
     public OptionalShort upOf(final int i, final int j) {
         return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
     }
 
     /**
-     * Returns the element directly below the specified position, if it exists.
-     * 
-     * <p>Example:</p>
+     * Returns the element below the specified position, if it exists.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * OptionalShort below = matrix.downOf(0, 0); // returns Optional of 3
-     * OptionalShort none = matrix.downOf(1, 0); // returns empty Optional
+     * OptionalShort value = matrix.downOf(0, 0); // Returns OptionalShort.of((short)3)
+     * OptionalShort empty = matrix.downOf(1, 0); // Returns OptionalShort.empty()
      * }</pre>
-     * 
-     * @param i the row index of the reference position
-     * @param j the column index of the reference position
-     * @return an OptionalShort containing the element below, or empty if at the bottom row
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element below, or empty if out of bounds
      */
     public OptionalShort downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
     }
 
     /**
-     * Returns the element directly to the left of the specified position, if it exists.
-     * 
-     * <p>Example:</p>
+     * Returns the element to the left of the specified position, if it exists.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * OptionalShort left = matrix.leftOf(0, 1); // returns Optional of 1
-     * OptionalShort none = matrix.leftOf(0, 0); // returns empty Optional
+     * OptionalShort value = matrix.leftOf(0, 1); // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.leftOf(0, 0); // Returns OptionalShort.empty()
      * }</pre>
-     * 
-     * @param i the row index of the reference position
-     * @param j the column index of the reference position
-     * @return an OptionalShort containing the element to the left, or empty if at the leftmost column
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the left, or empty if out of bounds
      */
     public OptionalShort leftOf(final int i, final int j) {
         return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
     }
 
     /**
-     * Returns the element directly to the right of the specified position, if it exists.
-     * 
-     * <p>Example:</p>
+     * Returns the element to the right of the specified position, if it exists.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * OptionalShort right = matrix.rightOf(0, 0); // returns Optional of 2
-     * OptionalShort none = matrix.rightOf(0, 1); // returns empty Optional
+     * OptionalShort value = matrix.rightOf(0, 0); // Returns OptionalShort.of((short)2)
+     * OptionalShort empty = matrix.rightOf(0, 1); // Returns OptionalShort.empty()
      * }</pre>
-     * 
-     * @param i the row index of the reference position
-     * @param j the column index of the reference position
-     * @return an OptionalShort containing the element to the right, or empty if at the rightmost column
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the right, or empty if out of bounds
      */
     public OptionalShort rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
     }
 
     /**
-     * Returns the four adjacent points (up, right, down, left) of the specified position.
-     * Points that would be outside the matrix bounds are returned as null.
-     * 
-     * <p>Example:</p>
+     * Returns a stream of points adjacent to the specified position (up, down, left, right).
+     * Only includes points within matrix bounds.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> adjacent = matrix.adjacent4Points(1, 1); 
-     * // Returns stream of: Point(0,1), Point(1,2), Point(2,1), Point(1,0)
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
-     * 
-     * @param i the row index of the center position
-     * @param j the column index of the center position
-     * @return a Stream of Points in order: up, right, down, left (null for out-of-bounds positions)
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points (maximum 4)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -487,20 +482,19 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the eight adjacent points (including diagonals) of the specified position.
-     * Points that would be outside the matrix bounds are returned as null.
-     * The order is: left-up, up, right-up, right, right-down, down, left-down, left.
-     * 
-     * <p>Example:</p>
+     * Returns a stream of points adjacent to the specified position including diagonals.
+     * Only includes points within matrix bounds.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1); 
-     * // Returns stream of all 8 surrounding points of position (1,1)
+     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
+     * // Returns stream of all 8 surrounding points
      * }</pre>
-     * 
-     * @param i the row index of the center position
-     * @param j the column index of the center position
-     * @return a Stream of Points in clockwise order starting from left-up (null for out-of-bounds positions)
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points including diagonals (maximum 8)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -517,25 +511,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the internal array representing the specified row.
+     * Returns a copy of the specified row as an array.
      *
-     * <p><b>WARNING:</b> This method returns the internal array directly, not a copy.
-     * Any modifications to the returned array will affect the matrix. If you need to modify
-     * the array without affecting the matrix, you should clone it first.</p>
-     *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * short[] row1 = matrix.row(1); // returns [4, 5, 6]
-     * row1[0] = 99; // WARNING: This modifies the matrix!
-     *
-     * // To get a copy that can be safely modified:
-     * short[] safeCopy = matrix.row(1).clone();
+     * short[] firstRow = matrix.row(0); // Returns [1, 2, 3]
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the internal short array for the specified row (not a copy)
-     * @throws IllegalArgumentException if rowIndex is negative or >= number of rows
+     * @return a copy of the specified row
+     * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public short[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -544,20 +530,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a new array containing a copy of the specified column.
-     * Unlike {@link #row(int)}, this method returns a copy that can be safely modified
-     * without affecting the matrix.
+     * Returns a copy of the specified column as an array.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * short[] col1 = matrix.column(1); // returns [2, 5]
-     * col1[0] = 99; // Safe: does not affect the matrix
+     * short[] firstColumn = matrix.column(0); // Returns [1, 4]
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a new short array containing a copy of the specified column
-     * @throws IllegalArgumentException if columnIndex is negative or >= number of columns
+     * @return a copy of the specified column
+     * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public short[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -572,19 +555,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the values of the specified row to the values in the provided array.
-     * The length of the array must exactly match the number of columns in the matrix.
+     * Sets the values of the specified row.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.setRow(0, new short[]{7, 8, 9}); // matrix becomes [[7, 8, 9], [4, 5, 6]]
+     * matrix.setRow(0, new short[]{7, 8, 9}); // First row is now [7, 8, 9]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set in the row (must have length equal to number of columns)
-     * @throws IllegalArgumentException if the array length doesn't match the number of columns
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final short[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -593,19 +574,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the values of the specified column to the values in the provided array.
-     * The length of the array must exactly match the number of rows in the matrix.
+     * Sets the values of the specified column.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.setColumn(1, new short[]{7, 8}); // matrix becomes [[1, 7, 3], [4, 8, 6]]
+     * matrix.setColumn(0, new short[]{7, 8}); // First column is now [7, 8]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set in the column (must have length equal to number of rows)
-     * @throws IllegalArgumentException if the array length doesn't match the number of rows
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final short[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -660,18 +639,19 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Gets the values on the main diagonal (left-up to right-down) of the matrix.
-     * The matrix must be square (same number of rows and columns).
-     * Returns a new array containing the diagonal elements.
+     * Returns the elements on the main diagonal from left-upper to right-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
-     * <p>Example:</p>
+     * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] diagonal = matrix.getLU2RD(); // returns [1, 5, 9]
+     * short[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return a new short array containing the diagonal values from left-up to right-down
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @return a new short array containing the main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public short[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -686,19 +666,23 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the values on the main diagonal (left-up to right-down) of the matrix.
-     * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have at least as many elements as the matrix dimension.
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
      *
-     * <p>Example:</p>
+     * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.setLU2RD(new short[]{10, 11, 12}); // Diagonal becomes [10, 11, 12]
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
+     * matrix.setLU2RD(new short[]{9, 8});
+     * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the array of values to set on the diagonal (must have length >= matrix rows)
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
-     * @throws IllegalArgumentException if diagonal array length is less than the number of rows
+     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setLU2RD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -734,18 +718,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Gets the values on the anti-diagonal (right-up to left-down) of the matrix.
-     * The matrix must be square (same number of rows and columns).
-     * Returns a new array containing the anti-diagonal elements.
+     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
-     * <p>Example:</p>
+     * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] antiDiagonal = matrix.getRU2LD(); // returns [3, 5, 7]
+     * short[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return a new short array containing the anti-diagonal values from right-up to left-down
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @return a new short array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public short[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -760,19 +746,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the values on the anti-diagonal (right-up to left-down) of the matrix.
-     * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have at least as many elements as the matrix dimension.
+     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
      *
-     * <p>Example:</p>
+     * <p>This method sets the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.setRU2LD(new short[]{10, 11, 12}); // Anti-diagonal becomes [10, 11, 12]
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
+     * matrix.setRU2LD(new short[]{9, 8});
+     * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the array of values to set on the anti-diagonal (must have length >= matrix rows)
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
-     * @throws IllegalArgumentException if diagonal array length is less than the number of rows
+     * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setRU2LD(final short[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -1000,17 +991,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a deep copy of this matrix. The returned matrix has its own copy
-     * of the underlying data array.
-     * 
-     * <p>Example:</p>
+     * Returns a deep copy of this matrix.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
-     * ShortMatrix copy = matrix.copy();
-     * copy.set(0, 0, (short)9); // Original matrix is unchanged
+     * ShortMatrix original = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
+     * ShortMatrix copy = original.copy();
+     * // copy is independent from original
      * }</pre>
-     * 
-     * @return a new ShortMatrix that is a deep copy of this matrix
+     *
+     * @return a new matrix that is a deep copy of this matrix
      */
     @Override
     public ShortMatrix copy() {
@@ -1120,6 +1110,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public ShortMatrix extend(final int newRows, final int newCols, final short defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+
+        // Check for overflow before allocation
+        if ((long) newRows * newCols > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+        }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1318,18 +1313,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Rotates the matrix 90 degrees clockwise.
-     * The result is a new matrix where the first row of the original becomes the last column of the result.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 90 degrees clockwise.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
      * ShortMatrix rotated = matrix.rotate90();
-     * // Result: [[4, 1],
-     * //          [5, 2],
-     * //          [6, 3]]
+     * // rotated is {{3, 1}, {4, 2}}
      * }</pre>
-     * 
+     *
      * @return a new matrix rotated 90 degrees clockwise
      */
     @Override
@@ -1354,17 +1346,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Rotates the matrix 180 degrees.
-     * The result is a new matrix where both rows and columns are reversed.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 180 degrees.
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
      * ShortMatrix rotated = matrix.rotate180();
-     * // Result: [[6, 5, 4],
-     * //          [3, 2, 1]]
+     * // rotated is {{4, 3}, {2, 1}}
      * }</pre>
-     * 
+     *
      * @return a new matrix rotated 180 degrees
      */
     @Override
@@ -1380,18 +1370,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Rotates the matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
-     * The result is a new matrix where the first row of the original becomes the first column of the result.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     *
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
      * ShortMatrix rotated = matrix.rotate270();
-     * // Result: [[3, 6],
-     * //          [2, 5],
-     * //          [1, 4]]
+     * // rotated is {{2, 4}, {1, 3}}
      * }</pre>
-     * 
+     *
      * @return a new matrix rotated 270 degrees clockwise
      */
     @Override
@@ -1416,19 +1403,17 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Transposes the matrix by swapping rows and columns.
-     * The result is a new matrix where element at position (i,j) becomes element at position (j,i).
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose swaps rows and columns.
+     *
+     * <p>Example:
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
      * ShortMatrix transposed = matrix.transpose();
-     * // Result: [[1, 4],
-     * //          [2, 5],
-     * //          [3, 6]]
+     * // transposed is {{1, 4}, {2, 5}, {3, 6}}
      * }</pre>
-     * 
-     * @return a new transposed matrix
+     *
+     * @return a new matrix that is the transpose of this matrix
      */
     @Override
     public ShortMatrix transpose() {
@@ -1524,6 +1509,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public ShortMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final short[][] c = new short[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1567,6 +1560,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     public ShortMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final short[][] c = new short[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1585,20 +1586,23 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Flattens the matrix into a single-dimensional list by concatenating all rows.
-     * Elements are arranged in row-major order (row by row).
+     * Returns a list containing all matrix elements in row-major order.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2, 3}, {4, 5, 6}});
-     * ShortList flat = matrix.flatten();
-     * // Result: [1, 2, 3, 4, 5, 6]
+     * ShortMatrix matrix = ShortMatrix.of(new short[][]{{1, 2}, {3, 4}});
+     * ShortList list = matrix.flatten(); // Returns ShortList of 1, 2, 3, 4
      * }</pre>
      *
-     * @return a new {@code ShortList} containing all elements of the matrix in row-major order
+     * @return a list of all elements in row-major order
      */
     @Override
     public ShortList flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final short[] c = new short[rows * cols];
 
         for (int i = 0; i < rows; i++) {
@@ -1702,7 +1706,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Performs element-wise addition of this matrix with another matrix.
      * The two matrices must have the same dimensions.
-     * Note: Due to short arithmetic, overflow may occur without warning.
+     * <p><b>Note:</b> Short overflow may occur during addition.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1732,7 +1736,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Performs element-wise subtraction of another matrix from this matrix.
      * The two matrices must have the same dimensions.
-     * Note: Due to short arithmetic, overflow may occur without warning.
+     * <p><b>Note:</b> Short overflow may occur during subtraction.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1763,7 +1767,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Performs matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the specified matrix.
      * The result is a new matrix with dimensions (this.rows × b.cols).
-     * Note: Due to short arithmetic, overflow may occur without warning.
+     * <p><b>Note:</b> Short overflow may occur during multiplication.</p>
      *
      * <p>Example:</p>
      * <pre>{@code

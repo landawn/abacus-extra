@@ -242,8 +242,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the minimum value among all elements in this tuple.
-     * 
+     * Returns the minimum double value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
@@ -258,8 +258,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the maximum value among all elements in this tuple.
-     * 
+     * Returns the maximum double value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
@@ -309,15 +309,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the arithmetic mean of all elements in this tuple.
-     * 
+     * Returns the average of all double values in this tuple as a double.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double avg = tuple.average(); // 2.0
      * }</pre>
      *
-     * @return the average of all double values in this tuple
+     * @return the average of all double values as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -325,8 +325,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns a new tuple with elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
@@ -338,13 +338,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     public abstract TP reverse();
 
     /**
-     * Checks whether this tuple contains the specified double value.
+     * Checks if this tuple contains the specified double value.
      * Uses {@link N#equals(double, double)} for comparison to handle NaN and precision.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * boolean hasTwo = tuple.contains(2.0); // true
+     * boolean hasFive = tuple.contains(5.0); // false
      * }</pre>
      *
      * @param valueToFind the double value to search for
@@ -370,7 +371,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a new DoubleList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
@@ -404,7 +405,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a DoubleStream of all elements in this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);

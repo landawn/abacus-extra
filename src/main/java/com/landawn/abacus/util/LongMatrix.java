@@ -57,22 +57,28 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
 
     /**
-     * Constructs a LongMatrix with the specified 2D long array.
-     * <strong>WARNING:</strong> The array is used directly without copying, so modifications to the array
-     * after construction will be reflected in the matrix. For a safe copy, use {@link #of(long[]...)} instead.
+     * Constructs a LongMatrix from a 2D long array.
+     * If the input array is null, an empty matrix (0x0) is created.
+     * <p><b>Note:</b> The array is used directly without copying. Modifications to the input array
+     * after construction will affect the matrix, and vice versa.</p>
      *
-     * @param a the 2D long array representing the matrix data. If null, an empty matrix is created.
-     *          Each inner array represents a row of the matrix.
+     * @param a the 2D long array to wrap as a matrix. Can be null.
      */
     public LongMatrix(final long[][] a) {
         super(a == null ? new long[0][0] : a);
     }
 
     /**
-     * Returns an empty LongMatrix with zero rows and columns.
-     * This method returns a singleton instance for memory efficiency.
-     * 
-     * @return an empty LongMatrix instance
+     * Creates an empty matrix with zero rows and zero columns.
+     *
+     * <p>Example:
+     * <pre>{@code
+     * LongMatrix matrix = LongMatrix.empty();
+     * // matrix.rows() returns 0
+     * // matrix.columns() returns 0
+     * }</pre>
+     *
+     * @return an empty long matrix
      */
     public static LongMatrix empty() {
         return EMPTY_LONG_MATRIX;
@@ -142,19 +148,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a 1-row LongMatrix with random long values.
-     * The random values are generated using the default random number generator
-     * and span the full range of long values (from {@code Long.MIN_VALUE} to {@code Long.MAX_VALUE}).
+     * Creates a 1-row matrix filled with random values.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.random(5);
-     * // Result: 1×5 matrix with random values
+     * // Creates a 1x5 matrix with random long values
      * }</pre>
      *
-     * @param len the number of columns (length of the row), must be non-negative
-     * @return a new 1×len LongMatrix with random values
-     * @throws IllegalArgumentException if len is negative
+     * @param len the number of columns
+     * @return a 1-row matrix filled with random long values
      */
     @SuppressWarnings("deprecation")
     public static LongMatrix random(final int len) {
@@ -162,16 +165,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a 1-row LongMatrix with all elements set to the specified value.
-     * 
-     * <p>Example:</p>
+     * Creates a 1-row matrix with all elements set to the specified value.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.repeat(5L, 10); // Creates a 1×10 matrix filled with 5
+     * LongMatrix matrix = LongMatrix.repeat(42L, 5);
+     * // Creates a 1x5 matrix where all elements are 42
      * }</pre>
-     * 
-     * @param val the value to fill the matrix with
+     *
+     * @param val the value to repeat
      * @param len the number of columns
-     * @return a new 1×len LongMatrix with all elements set to val
+     * @return a 1-row matrix with all elements set to val
      */
     public static LongMatrix repeat(final long val, final int len) {
         return new LongMatrix(new long[][] { Array.repeat(val, len) });
@@ -246,62 +250,53 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the main diagonal (left-up to right-down).
-     * All other elements are set to 0.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.diagonalLU2RD(new long[]{1, 2, 3});
-     * // Creates:
-     * // [[1, 0, 0],
-     * //  [0, 2, 0],
-     * //  [0, 0, 3]]
+     * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal the values for the main diagonal
-     * @return a new n×n diagonal matrix where n is the length of the input array
+     *
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static LongMatrix diagonalLU2RD(final long[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the anti-diagonal (right-up to left-down).
-     * All other elements are set to 0.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.diagonalRU2LD(new long[]{1, 2, 3});
-     * // Creates:
-     * // [[0, 0, 1],
-     * //  [0, 2, 0],
-     * //  [3, 0, 0]]
+     * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
-     * 
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal
-     * @return a new n×n diagonal matrix where n is the length of the input array
+     *
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static LongMatrix diagonalRU2LD(final long[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * Creates a square matrix with specified values on both diagonals.
-     * This method can create matrices with values on the main diagonal, anti-diagonal, or both.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.diagonal(new long[]{1, 2, 3}, new long[]{4, 5, 6});
-     * // Creates:
-     * // [[1, 0, 4],
-     * //  [0, 2, 0],
-     * //  [6, 0, 3]]
+     * LongMatrix matrix = LongMatrix.diagonal(new long[]{1, 2}, new long[]{3, 4});
+     * // Creates 2x2 matrix with both diagonals set
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal values for the main diagonal (can be null)
-     * @param rightUp2LeftDownDiagonal values for the anti-diagonal (can be null)
-     * @return a new n×n matrix with the specified diagonal values
-     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
+     *
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified diagonals
+     * @throws IllegalArgumentException if arrays have different lengths
      */
     public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -344,7 +339,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param x the boxed Long matrix to convert
      * @return a new LongMatrix with unboxed primitive values
-     * @throws NullPointerException if x is null or contains null elements
      */
     public static LongMatrix unbox(final Matrix<Long> x) {
         return LongMatrix.of(Array.unbox(x.a));
@@ -363,32 +357,33 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the element at the specified row and column.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
-     * long value = matrix.get(1, 0); // Returns 3
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * long value = matrix.get(0, 1); // Returns 2L
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return the element at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if the indices are out of bounds
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public long get(final int i, final int j) {
         return a[i][j];
     }
 
     /**
-     * Gets the element at the specified point.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified point.
+     *
+     * <p>Example:
      * <pre>{@code
-     * Point p = Point.of(1, 0);
-     * long value = matrix.get(p); // Gets element at row 1, column 0
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * // Assuming you have a Point implementation
+     * // long value = matrix.get(point); // Returns element at point
      * }</pre>
-     * 
+     *
      * @param point the point containing row and column indices
      * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
@@ -398,17 +393,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the element at the specified row and column.
-     * 
-     * <p>Example:</p>
+     * Sets the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.set(1, 0, 10L); // Sets element at row 1, column 0 to 10
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * matrix.set(0, 1, 9L); // Sets element at row 0, column 1 to 9L
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the indices are out of bounds
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final long val) {
         a[i][j] = val;
@@ -416,13 +412,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Sets the element at the specified point.
-     * 
-     * <p>Example:</p>
+     *
+     * <p>Example:
      * <pre>{@code
-     * Point p = Point.of(1, 0);
-     * matrix.set(p, 10L); // Sets element at row 1, column 0 to 10
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * // Assuming you have a Point implementation
+     * // matrix.set(point, 9L); // Sets element at point
      * }</pre>
-     * 
+     *
      * @param point the point containing row and column indices
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
@@ -432,96 +429,91 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the element directly above the specified position, if it exists.
-     * Returns an empty OptionalLong if the position is in the top row (no element above).
+     * Returns the element above the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
-     * OptionalLong above = matrix.upOf(1, 0); // Returns OptionalLong.of(1)
-     * OptionalLong none = matrix.upOf(0, 0);  // Returns OptionalLong.empty()
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * OptionalLong value = matrix.upOf(1, 0); // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.upOf(0, 0); // Returns OptionalLong.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return an OptionalLong containing the element above, or empty if at the top row
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element above, or empty if out of bounds
      */
     public OptionalLong upOf(final int i, final int j) {
         return i == 0 ? OptionalLong.empty() : OptionalLong.of(a[i - 1][j]);
     }
 
     /**
-     * Gets the element directly below the specified position, if it exists.
-     * Returns an empty OptionalLong if the position is in the bottom row (no element below).
+     * Returns the element below the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
-     * OptionalLong below = matrix.downOf(0, 0); // Returns OptionalLong.of(3)
-     * OptionalLong none = matrix.downOf(1, 0);  // Returns OptionalLong.empty()
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * OptionalLong value = matrix.downOf(0, 0); // Returns OptionalLong.of(3L)
+     * OptionalLong empty = matrix.downOf(1, 0); // Returns OptionalLong.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return an OptionalLong containing the element below, or empty if at the bottom row
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element below, or empty if out of bounds
      */
     public OptionalLong downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalLong.empty() : OptionalLong.of(a[i + 1][j]);
     }
 
     /**
-     * Gets the element directly to the left of the specified position, if it exists.
-     * Returns an empty OptionalLong if the position is in the leftmost column (no element to the left).
+     * Returns the element to the left of the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
-     * OptionalLong left = matrix.leftOf(0, 1); // Returns OptionalLong.of(1)
-     * OptionalLong none = matrix.leftOf(0, 0); // Returns OptionalLong.empty()
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * OptionalLong value = matrix.leftOf(0, 1); // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.leftOf(0, 0); // Returns OptionalLong.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return an OptionalLong containing the element to the left, or empty if at the leftmost column
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the left, or empty if out of bounds
      */
     public OptionalLong leftOf(final int i, final int j) {
         return j == 0 ? OptionalLong.empty() : OptionalLong.of(a[i][j - 1]);
     }
 
     /**
-     * Gets the element directly to the right of the specified position, if it exists.
-     * Returns an empty OptionalLong if the position is in the rightmost column (no element to the right).
+     * Returns the element to the right of the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
-     * OptionalLong right = matrix.rightOf(0, 0); // Returns OptionalLong.of(2)
-     * OptionalLong none = matrix.rightOf(0, 1);  // Returns OptionalLong.empty()
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * OptionalLong value = matrix.rightOf(0, 0); // Returns OptionalLong.of(2L)
+     * OptionalLong empty = matrix.rightOf(0, 1); // Returns OptionalLong.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return an OptionalLong containing the element to the right, or empty if at the rightmost column
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the right, or empty if out of bounds
      */
     public OptionalLong rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalLong.empty() : OptionalLong.of(a[i][j + 1]);
     }
 
     /**
-     * Returns a stream of the four adjacent points (up, right, down, left) of the specified position.
-     * Points that would be outside the matrix bounds are returned as null.
-     * This is useful for navigating grid-based data structures.
+     * Returns a stream of points adjacent to the specified position (up, down, left, right).
+     * Only includes points within matrix bounds.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> adjacent = matrix.adjacent4Points(1, 1);
-     * // Returns: [Point(0,1), Point(1,2), Point(2,1), Point(1,0)]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of Points in order: up, right, down, left (null for positions outside matrix bounds)
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points (maximum 4)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -533,21 +525,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a stream of the eight adjacent points of the specified position, including diagonals.
-     * Points are returned in clockwise order starting from left-up: left-up, up, right-up, right, right-down, down, left-down, left.
-     * Points that would be outside the matrix bounds are returned as null.
-     * This is useful for navigating grid-based data structures with diagonal neighbors.
+     * Returns a stream of points adjacent to the specified position including diagonals.
+     * Only includes points within matrix bounds.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
-     * // Returns 8 points: (0,0), (0,1), (0,2), (1,2), (2,2), (2,1), (2,0), (1,0)
+     * // Returns stream of all 8 surrounding points
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of Points in clockwise order (null for positions outside matrix bounds)
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points including diagonals (maximum 8)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -564,19 +554,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns the specified row as an array.
-     * <strong>WARNING:</strong> The returned array is a direct reference to the internal data structure.
-     * Any modifications to the returned array will directly affect this matrix.
-     * If you need an independent copy, clone the returned array.
+     * Returns a copy of the specified row as an array.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * long[] firstRow = matrix.row(0); // Gets the first row
-     * firstRow[0] = 999L; // This WILL modify the matrix
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}});
+     * long[] firstRow = matrix.row(0); // Returns [1L, 2L, 3L]
      * }</pre>
      *
-     * @param rowIndex the row index (0-based), must be in range [0, rows)
-     * @return the row as a long array (direct reference to internal data)
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return a copy of the specified row
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public long[] row(final int rowIndex) throws IllegalArgumentException {
@@ -586,17 +573,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns the specified column as a new array.
-     * The returned array is a copy, so modifications to it will not affect the matrix.
+     * Returns a copy of the specified column as an array.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * long[] firstColumn = matrix.column(0); // Gets the first column
-     * firstColumn[0] = 999L; // This will NOT modify the matrix
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}});
+     * long[] firstColumn = matrix.column(0); // Returns [1L, 4L]
      * }</pre>
      *
-     * @param columnIndex the column index (0-based), must be in range [0, cols)
-     * @return the column as a new long array (independent copy)
+     * @param columnIndex the index of the column to retrieve (0-based)
+     * @return a copy of the specified column
      * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public long[] column(final int columnIndex) throws IllegalArgumentException {
@@ -612,16 +598,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the specified row with the given array values.
-     * 
-     * <p>Example:</p>
+     * Sets the values of the specified row.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setRow(0, new long[]{10, 20, 30}); // Sets the first row
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}});
+     * matrix.setRow(0, new long[]{7L, 8L, 9L}); // First row is now [7L, 8L, 9L]
      * }</pre>
-     * 
-     * @param rowIndex the row index to set (0-based)
-     * @param row the array of values to set
-     * @throws IllegalArgumentException if rowIndex is out of bounds or row length doesn't match column count
+     *
+     * @param rowIndex the index of the row to set (0-based)
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final long[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -630,16 +617,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the specified column with the given array values.
-     * 
-     * <p>Example:</p>
+     * Sets the values of the specified column.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setColumn(0, new long[]{10, 20, 30}); // Sets the first column
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}});
+     * matrix.setColumn(0, new long[]{7L, 8L}); // First column is now [7L, 8L]
      * }</pre>
-     * 
-     * @param columnIndex the column index to set (0-based)
-     * @param column the array of values to set
-     * @throws IllegalArgumentException if columnIndex is out of bounds or column length doesn't match row count
+     *
+     * @param columnIndex the index of the column to set (0-based)
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final long[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -688,17 +676,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the diagonal elements from left-up to right-down (main diagonal).
-     * The matrix must be square (same number of rows and columns).
-     * 
-     * <p>Example:</p>
+     * Returns the elements on the main diagonal from left-upper to right-down.
+     * The matrix must be square (rows == columns) for this operation.
+     *
+     * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * long[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
+     * long[] diagonal = matrix.getLU2RD(); // Returns [1L, 5L, 9L]
      * }</pre>
-     * 
-     * @return an array containing the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     *
+     * @return a new long array containing the main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public long[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -713,17 +703,23 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the diagonal elements from left-up to right-down (main diagonal).
-     * The matrix must be square.
-     * 
-     * <p>Example:</p>
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setLU2RD(new long[]{10, 20, 30}); // Sets main diagonal to [10, 20, 30]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * matrix.setLU2RD(new long[]{9L, 8L});
+     * // Diagonal is now [9L, 8L]
      * }</pre>
-     * 
-     * @param diagonal the values to set on the main diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     *
+     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setLU2RD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -757,17 +753,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the diagonal elements from right-up to left-down (anti-diagonal).
-     * The matrix must be square.
-     * 
-     * <p>Example:</p>
+     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * The matrix must be square (rows == columns) for this operation.
+     *
+     * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * long[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
+     * long[] diagonal = matrix.getRU2LD(); // Returns [3L, 5L, 7L]
      * }</pre>
-     * 
-     * @return an array containing the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     *
+     * @return a new long array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public long[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -782,17 +781,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the diagonal elements from right-up to left-down (anti-diagonal).
-     * The matrix must be square.
-     * 
-     * <p>Example:</p>
+     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setRU2LD(new long[]{10, 20, 30}); // Sets anti-diagonal to [10, 20, 30]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * matrix.setRU2LD(new long[]{9L, 8L});
+     * // Anti-diagonal is now [9L, 8L]
      * }</pre>
-     * 
-     * @param diagonal the values to set on the anti-diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     *
+     * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -1047,15 +1053,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a deep copy of this matrix.
-     * 
-     * <p>Example:</p>
+     * Returns a deep copy of this matrix.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix copy = matrix.copy();
-     * copy.set(0, 0, 100L); // Modifying copy doesn't affect original
+     * LongMatrix original = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
+     * LongMatrix copy = original.copy();
+     * // copy is independent from original
      * }</pre>
-     * 
-     * @return a new LongMatrix with the same values
+     *
+     * @return a new matrix that is a deep copy of this matrix
      */
     @Override
     public LongMatrix copy() {
@@ -1165,6 +1172,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public LongMatrix extend(final int newRows, final int newCols, final long defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+
+        // Check for overflow before allocation
+        if ((long) newRows * newCols > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+        }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1344,14 +1356,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a new matrix rotated 90 degrees clockwise.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 90 degrees clockwise.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix rotated = matrix.rotate90(); // [[1,2],[3,4]] becomes [[3,1],[4,2]]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
+     * LongMatrix rotated = matrix.rotate90();
+     * // rotated is {{3, 1}, {4, 2}}
      * }</pre>
-     * 
-     * @return a new LongMatrix rotated 90 degrees clockwise
+     *
+     * @return a new matrix rotated 90 degrees clockwise
      */
     @Override
     public LongMatrix rotate90() {
@@ -1375,14 +1389,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a new matrix rotated 180 degrees.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 180 degrees.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix rotated = matrix.rotate180(); // [[1,2],[3,4]] becomes [[4,3],[2,1]]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
+     * LongMatrix rotated = matrix.rotate180();
+     * // rotated is {{4, 3}, {2, 1}}
      * }</pre>
-     * 
-     * @return a new LongMatrix rotated 180 degrees
+     *
+     * @return a new matrix rotated 180 degrees
      */
     @Override
     public LongMatrix rotate180() {
@@ -1397,14 +1413,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix rotated = matrix.rotate270(); // [[1,2],[3,4]] becomes [[2,4],[1,3]]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2}, {3, 4}});
+     * LongMatrix rotated = matrix.rotate270();
+     * // rotated is {{2, 4}, {1, 3}}
      * }</pre>
-     * 
-     * @return a new LongMatrix rotated 270 degrees clockwise
+     *
+     * @return a new matrix rotated 270 degrees clockwise
      */
     @Override
     public LongMatrix rotate270() {
@@ -1428,14 +1446,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates the transpose of this matrix (rows become columns and vice versa).
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose swaps rows and columns.
+     *
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix transposed = matrix.transpose(); // [[1,2,3],[4,5,6]] becomes [[1,4],[2,5],[3,6]]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}});
+     * LongMatrix transposed = matrix.transpose();
+     * // transposed is {{1, 4}, {2, 5}, {3, 6}}
      * }</pre>
-     * 
-     * @return a new transposed LongMatrix
+     *
+     * @return a new matrix that is the transpose of this matrix
      */
     @Override
     public LongMatrix transpose() {
@@ -1459,23 +1480,22 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Reshapes the matrix to the specified dimensions.
+     * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read in row-major order from the original matrix and placed into the new shape.
-     * If the new shape has fewer elements, extra elements are discarded.
-     * If the new shape has more elements, the result is padded with zeros.
+     *
+     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
+     * If the new shape has more total elements, the additional positions are filled with zeros.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix reshaped = matrix.reshape(3, 2);
-     * // Result: [[1, 2],
-     * //          [3, 4],
-     * //          [5, 6]]
+     * LongMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
+     * LongMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix, must be non-negative
-     * @param newCols the number of columns in the reshaped matrix, must be non-negative
-     * @return a new LongMatrix with the specified shape
+     * @param newRows the number of rows in the reshaped matrix
+     * @param newCols the number of columns in the reshaped matrix
+     * @return a new LongMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
@@ -1530,6 +1550,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public LongMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final long[][] c = new long[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1573,6 +1601,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     public LongMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final long[][] c = new long[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1591,20 +1627,23 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flattens the matrix into a single-dimensional list by concatenating all rows.
-     * Elements are arranged in row-major order (row by row).
+     * Returns a list containing all matrix elements in row-major order.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][]{{1, 2, 3}, {4, 5, 6}});
-     * LongList flat = matrix.flatten();
-     * // Result: [1, 2, 3, 4, 5, 6]
+     * LongMatrix matrix = LongMatrix.of(new long[][]{{1L, 2L}, {3L, 4L}});
+     * LongList list = matrix.flatten(); // Returns LongList of 1L, 2L, 3L, 4L
      * }</pre>
      *
-     * @return a new {@code LongList} containing all elements of the matrix in row-major order
+     * @return a list of all elements in row-major order
      */
     @Override
     public LongList flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final long[] c = new long[rows * cols];
 
         for (int i = 0; i < rows; i++) {
@@ -1708,6 +1747,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Performs element-wise addition of this matrix with another matrix.
      * The two matrices must have the same dimensions.
+     * <p><b>Note:</b> Long overflow may occur during addition.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1737,6 +1777,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Performs element-wise subtraction of another matrix from this matrix.
      * The two matrices must have the same dimensions.
+     * <p><b>Note:</b> Long overflow may occur during subtraction.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1769,6 +1810,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * The result is a new matrix with dimensions (this.rows × b.cols).
      * This implements standard matrix multiplication where each element (i,j) of the result is the
      * dot product of row i from this matrix and column j from matrix b.
+     * <p><b>Note:</b> Long overflow may occur during multiplication.</p>
      *
      * <p>Example:</p>
      * <pre>{@code

@@ -240,8 +240,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the minimum value among all elements in this tuple.
-     * 
+     * Returns the minimum int value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
@@ -256,8 +256,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the maximum value among all elements in this tuple.
-     * 
+     * Returns the maximum int value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
@@ -307,15 +307,15 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the arithmetic mean of all elements in this tuple.
-     * 
+     * Returns the average of all int values in this tuple as a double.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * double avg = tuple.average(); // 2.0
      * }</pre>
      *
-     * @return the average of all int values in this tuple as a double
+     * @return the average of all int values as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -323,8 +323,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns a new tuple with elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -336,12 +336,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     public abstract TP reverse();
 
     /**
-     * Checks whether this tuple contains the specified int value.
-     * 
+     * Checks if this tuple contains the specified int value.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * boolean hasTwo = tuple.contains(2); // true
+     * boolean hasFive = tuple.contains(5); // false
      * }</pre>
      *
      * @param valueToFind the int value to search for
@@ -367,7 +368,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a new IntList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -401,7 +402,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns an IntStream of all elements in this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);

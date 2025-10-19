@@ -1522,4 +1522,565 @@ public class ShortMatrix2025Test extends TestBase {
         assertEquals(2, extended.cols);
         assertEquals(5, extended.get(0, 0));
     }
+
+    // ============ ForEach Tests ============
+
+    @Test
+    public void testForEach() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        List<Short> values = new ArrayList<>();
+        m.forEach((short v) -> values.add(v));
+        assertEquals(4, values.size());
+        assertEquals(Short.valueOf((short) 1), values.get(0));
+        assertEquals(Short.valueOf((short) 2), values.get(1));
+        assertEquals(Short.valueOf((short) 3), values.get(2));
+        assertEquals(Short.valueOf((short) 4), values.get(3));
+    }
+
+    @Test
+    public void testForEach_withRange() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        List<Short> values = new ArrayList<>();
+        m.forEach(1, 3, 1, 3, (short v) -> values.add(v));
+        assertEquals(4, values.size());
+        assertEquals(Short.valueOf((short) 5), values.get(0));
+        assertEquals(Short.valueOf((short) 6), values.get(1));
+        assertEquals(Short.valueOf((short) 8), values.get(2));
+        assertEquals(Short.valueOf((short) 9), values.get(3));
+    }
+
+    @Test
+    public void testForEach_emptyRange() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        List<Short> values = new ArrayList<>();
+        m.forEach(0, 0, 0, 0, (short v) -> values.add(v));
+        assertTrue(values.isEmpty());
+    }
+
+    @Test
+    public void testForEach_outOfBounds() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(-1, 2, 0, 2, x -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 3, 0, 2, x -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, -1, 2, x -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, 0, 3, x -> {
+        }));
+    }
+
+    // ============ Additional Edge Case Tests ============
+
+    @Test
+    public void testRepeat_zeroLength() {
+        ShortMatrix m = ShortMatrix.repeat((short) 5, 0);
+        assertEquals(1, m.rows);
+        assertEquals(0, m.cols);
+    }
+
+    @Test
+    public void testRandom_zeroLength() {
+        ShortMatrix m = ShortMatrix.random(0);
+        assertEquals(1, m.rows);
+        assertEquals(0, m.cols);
+    }
+
+    @Test
+    public void testRange_emptyRange() {
+        ShortMatrix m = ShortMatrix.range((short) 5, (short) 5);
+        assertEquals(1, m.rows);
+        assertEquals(0, m.cols);
+    }
+
+    @Test
+    public void testRangeClosed_singleElement() {
+        ShortMatrix m = ShortMatrix.rangeClosed((short) 5, (short) 5);
+        assertEquals(1, m.rows);
+        assertEquals(1, m.cols);
+        assertEquals(5, m.get(0, 0));
+    }
+
+    @Test
+    public void testExtend_sameSize() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        ShortMatrix extended = m.extend(2, 2);
+        assertEquals(2, extended.rows);
+        assertEquals(2, extended.cols);
+        assertEquals(1, extended.get(0, 0));
+        assertEquals(4, extended.get(1, 1));
+    }
+
+    @Test
+    public void testExtend_emptyMatrix() {
+        ShortMatrix empty = ShortMatrix.empty();
+        ShortMatrix extended = empty.extend(3, 3);
+        assertEquals(3, extended.rows);
+        assertEquals(3, extended.cols);
+        assertEquals(0, extended.get(0, 0));
+    }
+
+    @Test
+    public void testExtend_directionalZeroExtension() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        ShortMatrix extended = m.extend(0, 0, 0, 0);
+        assertEquals(2, extended.rows);
+        assertEquals(2, extended.cols);
+        assertEquals(1, extended.get(0, 0));
+    }
+
+    @Test
+    public void testRepelem_oneDimension() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
+        ShortMatrix repeated = m.repelem(1, 2);
+        assertEquals(1, repeated.rows);
+        assertEquals(4, repeated.cols);
+        assertEquals(1, repeated.get(0, 0));
+        assertEquals(1, repeated.get(0, 1));
+        assertEquals(2, repeated.get(0, 2));
+        assertEquals(2, repeated.get(0, 3));
+    }
+
+    @Test
+    public void testRepmat_oneDimension() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
+        ShortMatrix repeated = m.repmat(1, 2);
+        assertEquals(1, repeated.rows);
+        assertEquals(4, repeated.cols);
+        assertEquals(1, repeated.get(0, 0));
+        assertEquals(2, repeated.get(0, 1));
+        assertEquals(1, repeated.get(0, 2));
+        assertEquals(2, repeated.get(0, 3));
+    }
+
+    @Test
+    public void testCopy_entireMatrix() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        ShortMatrix copy = m.copy(0, 2);
+        assertEquals(2, copy.rows);
+        assertEquals(3, copy.cols);
+        assertEquals(1, copy.get(0, 0));
+        assertEquals(6, copy.get(1, 2));
+    }
+
+    @Test
+    public void testCopy_entireMatrixWithColumnRange() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        ShortMatrix copy = m.copy(0, 2, 0, 3);
+        assertEquals(2, copy.rows);
+        assertEquals(3, copy.cols);
+        assertEquals(1, copy.get(0, 0));
+        assertEquals(6, copy.get(1, 2));
+    }
+
+    @Test
+    public void testFill_entireMatrixWithArray() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        m.fill(new short[][] { { 9, 8 }, { 7, 6 } });
+        assertEquals(9, m.get(0, 0));
+        assertEquals(8, m.get(0, 1));
+        assertEquals(7, m.get(1, 0));
+        assertEquals(6, m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_withArrayAtOrigin() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        m.fill(0, 0, new short[][] { { 99, 88 } });
+        assertEquals(99, m.get(0, 0));
+        assertEquals(88, m.get(0, 1));
+        assertEquals(3, m.get(0, 2));
+        assertEquals(4, m.get(1, 0));
+    }
+
+    @Test
+    public void testReverseH_singleColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1 }, { 2 } });
+        m.reverseH();
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(1, 0));
+    }
+
+    @Test
+    public void testReverseV_singleRow() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
+        m.reverseV();
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(0, 1));
+    }
+
+    @Test
+    public void testRotate90_nonSquare() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        ShortMatrix rotated = m.rotate90();
+        assertEquals(3, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(4, rotated.get(0, 0));
+        assertEquals(1, rotated.get(0, 1));
+        assertEquals(6, rotated.get(2, 0));
+        assertEquals(3, rotated.get(2, 1));
+    }
+
+    @Test
+    public void testRotate180_nonSquare() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        ShortMatrix rotated = m.rotate180();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertEquals(6, rotated.get(0, 0));
+        assertEquals(5, rotated.get(0, 1));
+        assertEquals(4, rotated.get(0, 2));
+        assertEquals(3, rotated.get(1, 0));
+        assertEquals(2, rotated.get(1, 1));
+        assertEquals(1, rotated.get(1, 2));
+    }
+
+    @Test
+    public void testRotate270_nonSquare() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        ShortMatrix rotated = m.rotate270();
+        assertEquals(3, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(3, rotated.get(0, 0));
+        assertEquals(6, rotated.get(0, 1));
+        assertEquals(1, rotated.get(2, 0));
+        assertEquals(4, rotated.get(2, 1));
+    }
+
+    @Test
+    public void testReshape_toSingleRow() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        ShortMatrix reshaped = m.reshape(1, 4);
+        assertEquals(1, reshaped.rows);
+        assertEquals(4, reshaped.cols);
+        assertArrayEquals(new short[] { 1, 2, 3, 4 }, reshaped.row(0));
+    }
+
+    @Test
+    public void testReshape_toSingleColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        ShortMatrix reshaped = m.reshape(4, 1);
+        assertEquals(4, reshaped.rows);
+        assertEquals(1, reshaped.cols);
+        assertEquals(1, reshaped.get(0, 0));
+        assertEquals(2, reshaped.get(1, 0));
+        assertEquals(3, reshaped.get(2, 0));
+        assertEquals(4, reshaped.get(3, 0));
+    }
+
+    @Test
+    public void testVstack_sameMatrix() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 } });
+        ShortMatrix stacked = m.vstack(m);
+        assertEquals(2, stacked.rows);
+        assertEquals(2, stacked.cols);
+        assertEquals(1, stacked.get(0, 0));
+        assertEquals(1, stacked.get(1, 0));
+    }
+
+    @Test
+    public void testHstack_sameMatrix() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1 }, { 2 } });
+        ShortMatrix stacked = m.hstack(m);
+        assertEquals(2, stacked.rows);
+        assertEquals(2, stacked.cols);
+        assertEquals(1, stacked.get(0, 0));
+        assertEquals(1, stacked.get(0, 1));
+    }
+
+    @Test
+    public void testAdd_singleElement() {
+        ShortMatrix m1 = ShortMatrix.of(new short[][] { { 5 } });
+        ShortMatrix m2 = ShortMatrix.of(new short[][] { { 3 } });
+        ShortMatrix sum = m1.add(m2);
+        assertEquals(1, sum.rows);
+        assertEquals(1, sum.cols);
+        assertEquals(8, sum.get(0, 0));
+    }
+
+    @Test
+    public void testSubtract_singleElement() {
+        ShortMatrix m1 = ShortMatrix.of(new short[][] { { 5 } });
+        ShortMatrix m2 = ShortMatrix.of(new short[][] { { 3 } });
+        ShortMatrix diff = m1.subtract(m2);
+        assertEquals(1, diff.rows);
+        assertEquals(1, diff.cols);
+        assertEquals(2, diff.get(0, 0));
+    }
+
+    @Test
+    public void testMultiply_singleElement() {
+        ShortMatrix m1 = ShortMatrix.of(new short[][] { { 5 } });
+        ShortMatrix m2 = ShortMatrix.of(new short[][] { { 3 } });
+        ShortMatrix product = m1.multiply(m2);
+        assertEquals(1, product.rows);
+        assertEquals(1, product.cols);
+        assertEquals(15, product.get(0, 0));
+    }
+
+    @Test
+    public void testStreamH_emptyRow() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        short[] row = m.streamH(0, 0).toArray();
+        assertEquals(0, row.length);
+    }
+
+    @Test
+    public void testStreamV_emptyColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        short[] col = m.streamV(0, 0).toArray();
+        assertEquals(0, col.length);
+    }
+
+    @Test
+    public void testStreamR_emptyRange() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        long count = m.streamR(1, 1).count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testStreamC_emptyRange() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        long count = m.streamC(1, 1).count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testMapToObj_withNull() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<String> result = m.mapToObj(x -> x == 2 ? null : String.valueOf(x), String.class);
+        assertEquals("1", result.get(0, 0));
+        assertEquals(null, result.get(0, 1));
+        assertEquals("3", result.get(1, 0));
+    }
+
+    @Test
+    public void testUpdateAll_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        empty.updateAll(x -> (short) (x + 1));
+        assertTrue(empty.isEmpty());
+    }
+
+    @Test
+    public void testReplaceIf_noMatches() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        m.replaceIf(x -> x > 100, (short) 99);
+        assertEquals(1, m.get(0, 0));
+        assertEquals(2, m.get(0, 1));
+        assertEquals(3, m.get(1, 0));
+        assertEquals(4, m.get(1, 1));
+    }
+
+    @Test
+    public void testReplaceIf_allMatch() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        m.replaceIf(x -> x > 0, (short) 0);
+        assertEquals(0, m.get(0, 0));
+        assertEquals(0, m.get(0, 1));
+        assertEquals(0, m.get(1, 0));
+        assertEquals(0, m.get(1, 1));
+    }
+
+    @Test
+    public void testZipWith_singleElement() {
+        ShortMatrix m1 = ShortMatrix.of(new short[][] { { 2 } });
+        ShortMatrix m2 = ShortMatrix.of(new short[][] { { 3 } });
+        ShortMatrix result = m1.zipWith(m2, (a, b) -> (short) (a + b));
+        assertEquals(1, result.rows);
+        assertEquals(1, result.cols);
+        assertEquals(5, result.get(0, 0));
+    }
+
+    @Test
+    public void testZipWith_threeMatrices_singleElement() {
+        ShortMatrix m1 = ShortMatrix.of(new short[][] { { 1 } });
+        ShortMatrix m2 = ShortMatrix.of(new short[][] { { 2 } });
+        ShortMatrix m3 = ShortMatrix.of(new short[][] { { 3 } });
+        ShortMatrix result = m1.zipWith(m2, m3, (a, b, c) -> (short) (a + b + c));
+        assertEquals(1, result.rows);
+        assertEquals(1, result.cols);
+        assertEquals(6, result.get(0, 0));
+    }
+
+    @Test
+    public void testFlatOp_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        List<Integer> results = new ArrayList<>();
+        empty.flatOp(row -> results.add(row.length));
+        assertTrue(results.isEmpty());
+    }
+
+    @Test
+    public void testDiagonalLU2RD_singleElement() {
+        ShortMatrix m = ShortMatrix.diagonalLU2RD(new short[] { 5 });
+        assertEquals(1, m.rows);
+        assertEquals(1, m.cols);
+        assertEquals(5, m.get(0, 0));
+    }
+
+    @Test
+    public void testDiagonalRU2LD_singleElement() {
+        ShortMatrix m = ShortMatrix.diagonalRU2LD(new short[] { 5 });
+        assertEquals(1, m.rows);
+        assertEquals(1, m.cols);
+        assertEquals(5, m.get(0, 0));
+    }
+
+    @Test
+    public void testBoxed_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        Matrix<Short> boxed = empty.boxed();
+        assertEquals(0, boxed.rows);
+        assertEquals(0, boxed.cols);
+    }
+
+    @Test
+    public void testToIntMatrix_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        IntMatrix intMatrix = empty.toIntMatrix();
+        assertEquals(0, intMatrix.rows);
+        assertEquals(0, intMatrix.cols);
+    }
+
+    @Test
+    public void testToLongMatrix_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        LongMatrix longMatrix = empty.toLongMatrix();
+        assertEquals(0, longMatrix.rows);
+        assertEquals(0, longMatrix.cols);
+    }
+
+    @Test
+    public void testToFloatMatrix_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        FloatMatrix floatMatrix = empty.toFloatMatrix();
+        assertEquals(0, floatMatrix.rows);
+        assertEquals(0, floatMatrix.cols);
+    }
+
+    @Test
+    public void testToDoubleMatrix_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        DoubleMatrix doubleMatrix = empty.toDoubleMatrix();
+        assertEquals(0, doubleMatrix.rows);
+        assertEquals(0, doubleMatrix.cols);
+    }
+
+    @Test
+    public void testEquals_emptyMatrices() {
+        ShortMatrix empty1 = ShortMatrix.empty();
+        ShortMatrix empty2 = ShortMatrix.of(new short[0][0]);
+        assertTrue(empty1.equals(empty2));
+    }
+
+    @Test
+    public void testHashCode_emptyMatrices() {
+        ShortMatrix empty1 = ShortMatrix.empty();
+        ShortMatrix empty2 = ShortMatrix.of(new short[0][0]);
+        assertEquals(empty1.hashCode(), empty2.hashCode());
+    }
+
+    @Test
+    public void testToString_empty() {
+        ShortMatrix empty = ShortMatrix.empty();
+        String str = empty.toString();
+        assertNotNull(str);
+    }
+
+    @Test
+    public void testToString_singleElement() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 42 } });
+        String str = m.toString();
+        assertNotNull(str);
+        assertTrue(str.contains("42"));
+    }
+
+    @Test
+    public void testUpdateRow_outOfBounds() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateRow(-1, x -> x));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateRow(2, x -> x));
+    }
+
+    @Test
+    public void testUpdateColumn_outOfBounds() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateColumn(-1, x -> x));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.updateColumn(2, x -> x));
+    }
+
+    @Test
+    public void testTranspose_singleRow() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 } });
+        ShortMatrix transposed = m.transpose();
+        assertEquals(3, transposed.rows);
+        assertEquals(1, transposed.cols);
+        assertEquals(1, transposed.get(0, 0));
+        assertEquals(2, transposed.get(1, 0));
+        assertEquals(3, transposed.get(2, 0));
+    }
+
+    @Test
+    public void testTranspose_singleColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1 }, { 2 }, { 3 } });
+        ShortMatrix transposed = m.transpose();
+        assertEquals(1, transposed.rows);
+        assertEquals(3, transposed.cols);
+        assertEquals(1, transposed.get(0, 0));
+        assertEquals(2, transposed.get(0, 1));
+        assertEquals(3, transposed.get(0, 2));
+    }
+
+    @Test
+    public void testAdjacentPoints_emptyMatrix() {
+        ShortMatrix empty = ShortMatrix.empty();
+        // Can't test adjacent points on empty matrix as there are no valid indices
+        assertTrue(empty.isEmpty());
+    }
+
+    @Test
+    public void testAdjacentPoints_singleElement() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1 } });
+        List<Point> points4 = m.adjacent4Points(0, 0).toList();
+        assertEquals(4, points4.size());
+        // All should be null for single element matrix
+        for (Point p : points4) {
+            assertEquals(null, p);
+        }
+
+        List<Point> points8 = m.adjacent8Points(0, 0).toList();
+        assertEquals(8, points8.size());
+        for (Point p : points8) {
+            assertEquals(null, p);
+        }
+    }
+
+    @Test
+    public void testUpOf_emptyMatrix() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        OptionalShort up = m.upOf(0, 1);
+        assertFalse(up.isPresent());
+    }
+
+    @Test
+    public void testDownOf_bottomRow() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        OptionalShort down = m.downOf(1, 1);
+        assertFalse(down.isPresent());
+    }
+
+    @Test
+    public void testLeftOf_leftmostColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        OptionalShort left = m.leftOf(1, 0);
+        assertFalse(left.isPresent());
+    }
+
+    @Test
+    public void testRightOf_rightmostColumn() {
+        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
+        OptionalShort right = m.rightOf(1, 1);
+        assertFalse(right.isPresent());
+    }
 }

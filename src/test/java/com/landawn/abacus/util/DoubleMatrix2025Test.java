@@ -1832,4 +1832,162 @@ public class DoubleMatrix2025Test extends TestBase {
         assertEquals(Float.MAX_VALUE, m.get(1, 0), 1e30); // Large tolerance for float max
         assertEquals(Float.MIN_VALUE, m.get(1, 1), 1e-40);
     }
+
+    // ============ Additional Coverage Tests for Branches ============
+
+    @Test
+    public void testBoxed_moreRowsThanCols() {
+        // Test the else branch (rows > cols) in boxed() method
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 }, { 5.5, 6.5 }, { 7.5, 8.5 } }); // 4 rows, 2 cols
+        Matrix<Double> boxed = m.boxed();
+        assertEquals(4, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Double.valueOf(1.5), boxed.get(0, 0));
+        assertEquals(Double.valueOf(8.5), boxed.get(3, 1));
+        assertEquals(Double.valueOf(5.5), boxed.get(2, 0));
+    }
+
+    @Test
+    public void testRotate90_moreRowsThanCols() {
+        // Test the else branch (rows > cols) in rotate90() method
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } }); // 3 rows, 2 cols
+        DoubleMatrix rotated = m.rotate90();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        // After 90-degree clockwise rotation:
+        // Original:     Rotated:
+        // 1 2           5 3 1
+        // 3 4    =>     6 4 2
+        // 5 6
+        assertEquals(5.0, rotated.get(0, 0), DELTA);
+        assertEquals(3.0, rotated.get(0, 1), DELTA);
+        assertEquals(1.0, rotated.get(0, 2), DELTA);
+        assertEquals(6.0, rotated.get(1, 0), DELTA);
+        assertEquals(4.0, rotated.get(1, 1), DELTA);
+        assertEquals(2.0, rotated.get(1, 2), DELTA);
+    }
+
+    @Test
+    public void testRotate270_moreRowsThanCols() {
+        // Test the else branch (rows > cols) in rotate270() method
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } }); // 3 rows, 2 cols
+        DoubleMatrix rotated = m.rotate270();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        // After 270-degree clockwise rotation (or 90 counter-clockwise):
+        assertEquals(2.0, rotated.get(0, 0), DELTA);
+        assertEquals(4.0, rotated.get(0, 1), DELTA);
+        assertEquals(6.0, rotated.get(0, 2), DELTA);
+    }
+
+    @Test
+    public void testTranspose_moreRowsThanCols() {
+        // Test the else branch (rows > cols) in transpose() method
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } }); // 3 rows, 2 cols
+        DoubleMatrix transposed = m.transpose();
+        assertEquals(2, transposed.rows);
+        assertEquals(3, transposed.cols);
+        assertEquals(1.0, transposed.get(0, 0), DELTA);
+        assertEquals(3.0, transposed.get(0, 1), DELTA);
+        assertEquals(5.0, transposed.get(0, 2), DELTA);
+        assertEquals(2.0, transposed.get(1, 0), DELTA);
+        assertEquals(4.0, transposed.get(1, 1), DELTA);
+        assertEquals(6.0, transposed.get(1, 2), DELTA);
+    }
+
+    @Test
+    public void testNaNHandling() {
+        // Test operations with NaN values
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, Double.NaN }, { Double.NaN, 4.0 } });
+
+        // Test get
+        assertEquals(1.0, m.get(0, 0), DELTA);
+        assertTrue(Double.isNaN(m.get(0, 1)));
+        assertTrue(Double.isNaN(m.get(1, 0)));
+        assertEquals(4.0, m.get(1, 1), DELTA);
+
+        // Test map with NaN
+        DoubleMatrix mapped = m.map(x -> Double.isNaN(x) ? 0.0 : x * 2);
+        assertEquals(2.0, mapped.get(0, 0), DELTA);
+        assertEquals(0.0, mapped.get(0, 1), DELTA); // NaN replaced with 0
+        assertEquals(0.0, mapped.get(1, 0), DELTA); // NaN replaced with 0
+        assertEquals(8.0, mapped.get(1, 1), DELTA);
+
+        // Test replaceIf with NaN
+        DoubleMatrix replaced = DoubleMatrix.of(new double[][] { { 1.0, Double.NaN }, { Double.NaN, 4.0 } });
+        replaced.replaceIf(Double::isNaN, -1.0);
+        assertEquals(1.0, replaced.get(0, 0), DELTA);
+        assertEquals(-1.0, replaced.get(0, 1), DELTA);
+        assertEquals(-1.0, replaced.get(1, 0), DELTA);
+        assertEquals(4.0, replaced.get(1, 1), DELTA);
+    }
+
+    @Test
+    public void testInfinityHandling() {
+        // Test operations with Infinity values
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY }, { 1.0, -1.0 } });
+
+        assertEquals(Double.POSITIVE_INFINITY, m.get(0, 0), DELTA);
+        assertEquals(Double.NEGATIVE_INFINITY, m.get(0, 1), DELTA);
+
+        // Test addition with infinity
+        DoubleMatrix result = m.add(DoubleMatrix.of(new double[][] { { 1.0, 1.0 }, { 1.0, 1.0 } }));
+        assertEquals(Double.POSITIVE_INFINITY, result.get(0, 0), DELTA);
+        assertEquals(Double.NEGATIVE_INFINITY, result.get(0, 1), DELTA);
+
+        // Test replaceIf with infinity
+        m.replaceIf(Double::isInfinite, 999.0);
+        assertEquals(999.0, m.get(0, 0), DELTA);
+        assertEquals(999.0, m.get(0, 1), DELTA);
+        assertEquals(1.0, m.get(1, 0), DELTA);
+        assertEquals(-1.0, m.get(1, 1), DELTA);
+    }
+
+    @Test
+    public void testForEach_largeMatrix() {
+        // Test forEach with a large matrix to potentially trigger parallel execution path
+        // Create a 100x100 matrix (10,000 elements should exceed parallel threshold)
+        double[][] data = new double[100][100];
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                data[i][j] = i * 100 + j;
+            }
+        }
+        DoubleMatrix m = DoubleMatrix.of(data);
+
+        List<Double> values = new ArrayList<>();
+        m.forEach(v -> {
+            synchronized (values) {
+                values.add(v);
+            }
+        });
+
+        assertEquals(10000, values.size());
+        // Verify sum to ensure all elements were processed
+        double sum = values.stream().mapToDouble(Double::doubleValue).sum();
+        assertEquals(49995000.0, sum, 1.0); // Sum of 0 to 9999
+    }
+
+    @Test
+    public void testExtend_smallerWithZeroDefault() {
+        // Test extend where newRows < rows and newCols < cols with default value 0
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
+        DoubleMatrix extended = m.extend(1, 2, 0.0);
+        assertEquals(1, extended.rows);
+        assertEquals(2, extended.cols);
+        assertEquals(1.0, extended.get(0, 0), DELTA);
+        assertEquals(2.0, extended.get(0, 1), DELTA);
+    }
+
+    @Test
+    public void testMapToObj_withNullElements() {
+        // Test mapToObj to ensure proper object type conversion
+        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
+        Matrix<String> stringMatrix = m.mapToObj(d -> String.format("%.1f", d), String.class);
+
+        assertEquals(2, stringMatrix.rows);
+        assertEquals(2, stringMatrix.cols);
+        assertEquals("1.5", stringMatrix.get(0, 0));
+        assertEquals("4.5", stringMatrix.get(1, 1));
+    }
 }

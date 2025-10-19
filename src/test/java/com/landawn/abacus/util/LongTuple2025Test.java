@@ -615,4 +615,252 @@ public class LongTuple2025Test extends TestBase {
         assertEquals(8, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L).arity());
         assertEquals(9, LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L).arity());
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+
+        // Test reverse
+        LongTuple4 reversed = tuple.reverse();
+        assertEquals(4L, reversed._1);
+        assertEquals(3L, reversed._2);
+        assertEquals(2L, reversed._3);
+        assertEquals(1L, reversed._4);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(4L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L }, tuple.toArray());
+
+        // Test min/max/median/sum/average via base class
+        assertEquals(1L, tuple.min());
+        assertEquals(4L, tuple.max());
+        assertEquals(2L, tuple.median());
+        assertEquals(10L, tuple.sum());
+        assertEquals(2.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
+        LongTuple4 tuple3 = LongTuple.of(1L, 2L, 3L, 5L);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        String str = tuple.toString();
+        assertTrue(str.contains("1"));
+        assertTrue(str.contains("4"));
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+
+        // Test reverse
+        LongTuple5 reversed = tuple.reverse();
+        assertEquals(5L, reversed._1);
+        assertEquals(1L, reversed._5);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(5L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1L, tuple.min());
+        assertEquals(5L, tuple.max());
+        assertEquals(3L, tuple.median());
+        assertEquals(15L, tuple.sum());
+        assertEquals(3.0, tuple.average(), 0.001);
+
+        // Test equals
+        LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertEquals(tuple, tuple2);
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+
+        // Test reverse
+        LongTuple6 reversed = tuple.reverse();
+        assertEquals(6L, reversed._1);
+        assertEquals(1L, reversed._6);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(6L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1L, tuple.min());
+        assertEquals(6L, tuple.max());
+        assertEquals(21L, tuple.sum());
+        assertEquals(3.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+
+        // Test reverse
+        LongTuple7 reversed = tuple.reverse();
+        assertEquals(7L, reversed._1);
+        assertEquals(1L, reversed._7);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(7L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1L, tuple.min());
+        assertEquals(7L, tuple.max());
+        assertEquals(28L, tuple.sum());
+        assertEquals(4.0, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+
+        // Test reverse
+        LongTuple8 reversed = tuple.reverse();
+        assertEquals(8L, reversed._1);
+        assertEquals(1L, reversed._8);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(8L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1L, tuple.min());
+        assertEquals(8L, tuple.max());
+        assertEquals(36L, tuple.sum());
+        assertEquals(4.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+
+        // Test reverse
+        LongTuple9 reversed = tuple.reverse();
+        assertEquals(9L, reversed._1);
+        assertEquals(1L, reversed._9);
+
+        // Test contains
+        assertTrue(tuple.contains(1L));
+        assertTrue(tuple.contains(9L));
+        assertFalse(tuple.contains(99L));
+
+        // Test toArray
+        assertArrayEquals(new long[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1L, tuple.min());
+        assertEquals(9L, tuple.max());
+        assertEquals(45L, tuple.sum());
+        assertEquals(5.0, tuple.average(), 0.001);
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        LongTuple2 tuple2 = LongTuple.create(new long[] { 1L, 2L });
+        assertEquals(1L, tuple2._1);
+        assertEquals(2L, tuple2._2);
+
+        LongTuple4 tuple4 = LongTuple.create(new long[] { 1L, 2L, 3L, 4L });
+        assertEquals(1L, tuple4._1);
+        assertEquals(4L, tuple4._4);
+
+        LongTuple5 tuple5 = LongTuple.create(new long[] { 1L, 2L, 3L, 4L, 5L });
+        assertEquals(1L, tuple5._1);
+        assertEquals(5L, tuple5._5);
+
+        LongTuple6 tuple6 = LongTuple.create(new long[] { 1L, 2L, 3L, 4L, 5L, 6L });
+        assertEquals(1L, tuple6._1);
+        assertEquals(6L, tuple6._6);
+
+        LongTuple7 tuple7 = LongTuple.create(new long[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L });
+        assertEquals(1L, tuple7._1);
+        assertEquals(7L, tuple7._7);
+
+        LongTuple8 tuple8 = LongTuple.create(new long[] { 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L });
+        assertEquals(1L, tuple8._1);
+        assertEquals(8L, tuple8._8);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
+        LongList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals(4L, list4.get(3));
+
+        LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        LongList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals(9L, list9.get(8));
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        List<Long> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Long.valueOf(4L), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        LongTuple2 tuple = LongTuple.of(10L, 20L);
+        List<Long> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Long.valueOf(10L), result.get(0));
+        assertEquals(Long.valueOf(20L), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
+        List<Long> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Long.valueOf(30L), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        LongTuple4 tuple4 = LongTuple.of(1L, 2L, 3L, 4L);
+        assertEquals(10L, tuple4.stream().sum());
+
+        LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertEquals(45L, tuple9.stream().sum());
+    }
 }

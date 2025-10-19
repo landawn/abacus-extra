@@ -930,4 +930,233 @@ public class AbstractMatrix2025Test extends TestBase {
         assertEquals(1000, m.cols);
         assertEquals(1000000L, m.count);
     }
+
+    // ============ Constructor Validation Tests ============
+
+    @Test
+    public void testConstructor_nullArray() {
+        IntMatrix m = IntMatrix.of(null);
+        assertTrue(m.isEmpty());
+        assertEquals(0, m.rows);
+        assertEquals(0, m.cols);
+    }
+
+    @Test
+    public void testConstructor_inconsistentRowLengths() {
+        int[][] jagged = new int[][] { { 1, 2, 3 }, { 4, 5 }, { 7, 8, 9 } };
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.of(jagged));
+    }
+
+    @Test
+    public void testConstructor_inconsistentRowLengths_threeRows() {
+        int[][] jagged = new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6, 7 } };
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.of(jagged));
+    }
+
+    @Test
+    public void testConstructor_singleRowArray() {
+        int[][] singleRow = new int[][] { { 1, 2, 3 } };
+        IntMatrix m = IntMatrix.of(singleRow);
+        assertEquals(1, m.rows);
+        assertEquals(3, m.cols);
+    }
+
+    @Test
+    public void testConstructor_emptyRowsInArray() {
+        int[][] emptyRows = new int[][] { {}, {} };
+        IntMatrix m = IntMatrix.of(emptyRows);
+        assertEquals(2, m.rows);
+        assertEquals(0, m.cols);
+        assertEquals(0, m.count);
+    }
+
+    // ============ Reshape Edge Cases ============
+
+    @Test
+    public void testReshape_withCols_notEvenlyDivisible() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        IntMatrix reshaped = m.reshape(4);
+
+        assertEquals(2, reshaped.rows);
+        assertEquals(4, reshaped.cols);
+    }
+
+    @Test
+    public void testReshape_withCols_evenlyDivisible() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        IntMatrix reshaped = m.reshape(2);
+
+        assertEquals(3, reshaped.rows);
+        assertEquals(2, reshaped.cols);
+    }
+
+    @Test
+    public void testReshape_largerThanOriginal() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix reshaped = m.reshape(3, 3);
+
+        assertEquals(3, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals(0, reshaped.get(2, 2));
+    }
+
+    // ============ Additional Stream Tests ============
+
+    @Test
+    public void testStreamH_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.streamH().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testStreamV_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.streamV().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testStreamR_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.streamR().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testStreamC_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.streamC().count();
+        assertEquals(0, count);
+    }
+
+    // ============ ForEach Edge Cases ============
+
+    @Test
+    public void testForEach_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        List<String> positions = new ArrayList<>();
+
+        empty.forEach((i, j) -> positions.add(i + "," + j));
+
+        assertTrue(positions.isEmpty());
+    }
+
+    @Test
+    public void testForEach_emptyRange() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        List<String> positions = new ArrayList<>();
+
+        m.forEach(1, 1, 0, 2, (i, j) -> positions.add(i + "," + j));
+
+        assertTrue(positions.isEmpty());
+    }
+
+    @Test
+    public void testForEach_withMatrix_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        List<Integer> values = new ArrayList<>();
+
+        empty.forEach((i, j, matrix) -> values.add(matrix.get(i, j)));
+
+        assertTrue(values.isEmpty());
+    }
+
+    @Test
+    public void testForEach_withMatrixAndRange_emptyRange() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        List<Integer> values = new ArrayList<>();
+
+        m.forEach(0, 0, 1, 1, (i, j, matrix) -> values.add(matrix.get(i, j)));
+
+        assertTrue(values.isEmpty());
+    }
+
+    // ============ Point Stream Edge Cases ============
+
+    @Test
+    public void testPointsH_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.pointsH().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testPointsV_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.pointsV().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testPointsR_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.pointsR().count();
+        assertEquals(0, count);
+    }
+
+    @Test
+    public void testPointsC_emptyMatrix() {
+        IntMatrix empty = IntMatrix.empty();
+        long count = empty.pointsC().count();
+        assertEquals(0, count);
+    }
+
+    // ============ Apply and Accept Error Handling ============
+
+    @Test
+    public void testAccept_withException() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        assertThrows(RuntimeException.class, () -> m.accept(matrix -> {
+            throw new RuntimeException("Test exception");
+        }));
+    }
+
+    @Test
+    public void testApply_withException() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+
+        assertThrows(RuntimeException.class, () -> m.apply(matrix -> {
+            throw new RuntimeException("Test exception");
+        }));
+    }
+
+    // ============ Additional Edge Cases ============
+
+    @Test
+    public void testCopy_emptyRowRange() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        IntMatrix subset = m.copy(1, 1);
+
+        assertEquals(0, subset.rows);
+        assertEquals(0, subset.cols);
+        assertTrue(subset.isEmpty());
+    }
+
+    @Test
+    public void testCopy_emptyRegion() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        IntMatrix subset = m.copy(1, 1, 0, 2);
+
+        assertEquals(0, subset.rows);
+        assertEquals(0, subset.cols);
+        assertTrue(subset.isEmpty());
+    }
+
+    @Test
+    public void testIsSameShape_identicalMatrix() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        assertTrue(m.isSameShape(m));
+    }
+
+    @Test
+    public void testReshape_sameShape() {
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix reshaped = m.reshape(2, 2);
+
+        assertEquals(2, reshaped.rows);
+        assertEquals(2, reshaped.cols);
+        assertEquals(m, reshaped);
+    }
 }

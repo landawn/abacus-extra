@@ -274,14 +274,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the median byte value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte median = tuple.median(); // 20
+     *
+     * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte median = tuple.median(); // 20
      * }</pre>
      *
-     * @return the median byte value
+     * @return the median byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public byte median() {
@@ -289,15 +292,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all byte values in this tuple as an integer.
-     * 
+     * Returns the sum of all byte values in this tuple as an int.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * int sum = tuple.sum(); // 60
      * }</pre>
      *
-     * @return the sum of all byte values as an integer
+     * @return the sum of all byte values as an int
      */
     public int sum() {
         return N.sum(elements());
@@ -320,21 +323,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Creates a new tuple with the elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * ByteTuple3 reversed = tuple.reverse(); // contains 30, 20, 10
+     * ByteTuple3 reversed = tuple.reverse(); // (30, 20, 10)
      * }</pre>
      *
-     * @return a new tuple with elements in reversed order
+     * @return a new tuple with elements in reverse order
      */
     public abstract TP reverse();
 
     /**
      * Checks if this tuple contains the specified byte value.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
@@ -343,7 +346,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param valueToFind the byte value to search for
-     * @return {@code true} if the value is found, {@code false} otherwise
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(byte valueToFind);
 
@@ -365,7 +368,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new ByteList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
@@ -398,12 +401,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a ByteStream of the elements in this tuple.
-     * 
+     * Returns a ByteStream of all elements in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * long count = tuple.stream().filter(b -> b > 15).count(); // 2
+     * int sum = tuple.stream().sum(); // 60
      * }</pre>
      *
      * @return a ByteStream containing all tuple elements

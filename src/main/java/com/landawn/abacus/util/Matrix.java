@@ -1944,6 +1944,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public List<T> flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final T[] c = N.newArray(elementType, rows * cols);
 
         for (int i = 0; i < rows; i++) {

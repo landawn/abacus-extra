@@ -64,10 +64,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns an empty BooleanMatrix instance (0x0 matrix).
-     * This method returns a shared immutable empty matrix instance for memory efficiency.
+     * Creates an empty matrix with zero rows and zero columns.
      *
-     * @return an empty BooleanMatrix with dimensions 0x0
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.empty();
+     * // matrix.rows() returns 0
+     * // matrix.columns() returns 0
+     * }</pre>
+     *
+     * @return an empty boolean matrix
      */
     public static BooleanMatrix empty() {
         return EMPTY_BOOLEAN_MATRIX;
@@ -90,19 +96,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a 1-row BooleanMatrix with random boolean values.
-     * Each element is independently set to either {@code true} or {@code false} with approximately equal probability.
-     * The values are generated using BooleanList.random(len).
+     * Creates a 1-row matrix filled with random values.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix random = BooleanMatrix.random(5);
-     * // Creates a 1x5 matrix like: [[true, false, true, true, false]]
+     * BooleanMatrix matrix = BooleanMatrix.random(5);
+     * // Creates a 1x5 matrix with random boolean values
      * }</pre>
      *
-     * @param len the number of columns (length) of the random matrix; must be non-negative
-     * @return a 1x{@code len} BooleanMatrix with random boolean values
-     * @throws IllegalArgumentException if {@code len} is negative
+     * @param len the number of columns
+     * @return a 1-row matrix filled with random boolean values
      */
     @SuppressWarnings("deprecation")
     public static BooleanMatrix random(final int len) {
@@ -110,79 +113,70 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a 1-row BooleanMatrix with all elements set to the specified value.
-     * 
-     * <p>Example:
-     * <pre>
-     * BooleanMatrix matrix = BooleanMatrix.repeat(true, 5); // Creates [true, true, true, true, true]
-     * </pre>
+     * Creates a 1-row matrix with all elements set to the specified value.
      *
-     * @param val the boolean value to fill the matrix with
-     * @param len the number of columns (length) of the matrix
-     * @return a 1xlen BooleanMatrix with all elements set to val
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.repeat(true, 5);
+     * // Creates a 1x5 matrix where all elements are true
+     * }</pre>
+     *
+     * @param val the value to repeat
+     * @param len the number of columns
+     * @return a 1-row matrix with all elements set to val
      */
     public static BooleanMatrix repeat(final boolean val, final int len) {
         return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
     }
 
     /**
-     * Creates a diagonal matrix with the specified values on the diagonal from left-up to right-down.
+     * Creates a square matrix from the specified main diagonal elements.
      * All other elements are set to false.
-     * 
-     * <p>Example:
-     * <pre>
-     * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[]{true, false, true});
-     * // Creates: [[true, false, false],
-     * //           [false, false, false],
-     * //           [false, false, true]]
-     * </pre>
      *
-     * @param leftUp2RightDownDiagonal the values to place on the main diagonal
-     * @return a square matrix with the specified diagonal values
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[]{true, false, true});
+     * // Creates 3x3 matrix with diagonal [true, false, true] and false elsewhere
+     * }</pre>
+     *
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a diagonal matrix with the specified values on the diagonal from right-up to left-down.
+     * Creates a square matrix from the specified anti-diagonal elements.
      * All other elements are set to false.
-     * 
-     * <p>Example:
-     * <pre>
-     * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[]{true, false, true});
-     * // Creates: [[false, false, true],
-     * //           [false, false, false],
-     * //           [true, false, false]]
-     * </pre>
      *
-     * @param rightUp2LeftDownDiagonal the values to place on the anti-diagonal
-     * @return a square matrix with the specified anti-diagonal values
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[]{true, false, true});
+     * // Creates 3x3 matrix with anti-diagonal [true, false, true] and false elsewhere
+     * }</pre>
+     *
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * Creates a diagonal matrix with values on both the main diagonal and anti-diagonal.
-     * If both diagonal arrays are provided, they must have the same length.
-     * 
-     * <p>Example:
-     * <pre>
-     * BooleanMatrix matrix = BooleanMatrix.diagonal(
-     *     new boolean[]{true, true, true},    // main diagonal
-     *     new boolean[]{false, true, false}   // anti-diagonal
-     * // Creates:
-     * // [[true, false, false],
-     * //  [false, true, false],
-     * //  [false, false, true]]
-     * );
-     * </pre>
+     * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
+     * All other elements are set to false.
      *
-     * @param leftUp2RightDownDiagonal the values for the main diagonal (left-up to right-down), or null
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal (right-up to left-down), or null
-     * @return a square matrix with the specified diagonal values
-     * @throws IllegalArgumentException if both arrays are provided but have different lengths
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[]{true, true}, new boolean[]{false, false});
+     * // Creates 2x2 matrix with both diagonals set
+     * }</pre>
+     *
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified diagonals
+     * @throws IllegalArgumentException if arrays have different lengths
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -229,7 +223,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param x the boxed Boolean Matrix to convert; must not be null
      * @return a new BooleanMatrix with primitive boolean values
-     * @throws NullPointerException if {@code x} is null
      */
     public static BooleanMatrix unbox(final Matrix<Boolean> x) {
         return BooleanMatrix.of(Array.unbox(x.a));
@@ -247,17 +240,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Gets the boolean value at the specified row and column indices.
-     * 
+     * Returns the element at the specified row and column indices.
+     *
      * <p>Example:
-     * <pre>
+     * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * boolean val = matrix.get(0, 1); // Returns false
-     * </pre>
+     * boolean value = matrix.get(0, 1); // Returns false
+     * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the boolean value at position (i, j)
+     * @return the element at position (i, j)
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public boolean get(final int i, final int j) { // NOSONAR
@@ -265,10 +258,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Gets the boolean value at the specified point.
+     * Returns the element at the specified point.
      *
-     * @param point the Point object containing row and column indices
-     * @return the boolean value at the specified point
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * // Assuming you have a Point implementation
+     * // boolean value = matrix.get(point); // Returns element at point
+     * }</pre>
+     *
+     * @param point the point containing row and column indices
+     * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public boolean get(final Point point) { // NOSONAR
@@ -276,17 +276,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the boolean value at the specified row and column indices.
-     * 
+     * Sets the element at the specified row and column indices.
+     *
      * <p>Example:
-     * <pre>
+     * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * matrix.set(0, 1, true); // Sets element at (0,1) to true
-     * </pre>
+     * matrix.set(0, 1, true); // Sets element at row 0, column 1 to true
+     * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @param val the boolean value to set
+     * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final boolean val) {
@@ -294,10 +294,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the boolean value at the specified point.
+     * Sets the element at the specified point.
      *
-     * @param point the Point object containing row and column indices
-     * @param val the boolean value to set
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * // Assuming you have a Point implementation
+     * // matrix.set(point, true); // Sets element at point
+     * }</pre>
+     *
+     * @param point the point containing row and column indices
+     * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public void set(final Point point, final boolean val) {
@@ -305,122 +312,91 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the element directly above the specified position as an OptionalBoolean.
-     * If the position is in the first row (row 0), there is no element above it,
-     * so an empty OptionalBoolean is returned.
-     *
-     * <p>This method is useful for navigating the matrix and examining neighboring elements.
+     * Returns the element above the specified position, if it exists.
      *
      * <p>Example:
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * OptionalBoolean above = matrix.upOf(1, 0); // Returns OptionalBoolean[true]
-     * OptionalBoolean none = matrix.upOf(0, 0);   // Returns OptionalBoolean.empty()
+     * OptionalBoolean value = matrix.upOf(1, 0); // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.upOf(0, 0); // Returns OptionalBoolean.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return OptionalBoolean containing the element at position (i-1, j), or empty if at top edge
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element above, or empty if out of bounds
      */
     public OptionalBoolean upOf(final int i, final int j) {
         return i == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i - 1][j]);
     }
 
     /**
-     * Returns the element directly below the specified position as an OptionalBoolean.
-     * If the position is in the last row, there is no element below it,
-     * so an empty OptionalBoolean is returned.
-     *
-     * <p>This method is useful for navigating the matrix and examining neighboring elements.
+     * Returns the element below the specified position, if it exists.
      *
      * <p>Example:
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * OptionalBoolean below = matrix.downOf(0, 0); // Returns OptionalBoolean[false]
-     * OptionalBoolean none = matrix.downOf(1, 0);   // Returns OptionalBoolean.empty()
+     * OptionalBoolean value = matrix.downOf(0, 0); // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.downOf(1, 0); // Returns OptionalBoolean.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return OptionalBoolean containing the element at position (i+1, j), or empty if at bottom edge
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element below, or empty if out of bounds
      */
     public OptionalBoolean downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i + 1][j]);
     }
 
     /**
-     * Returns the element directly to the left of the specified position as an OptionalBoolean.
-     * If the position is in the first column (column 0), there is no element to the left,
-     * so an empty OptionalBoolean is returned.
-     *
-     * <p>This method is useful for navigating the matrix and examining neighboring elements.
+     * Returns the element to the left of the specified position, if it exists.
      *
      * <p>Example:
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * OptionalBoolean left = matrix.leftOf(0, 1); // Returns OptionalBoolean[true]
-     * OptionalBoolean none = matrix.leftOf(0, 0);  // Returns OptionalBoolean.empty()
+     * OptionalBoolean value = matrix.leftOf(0, 1); // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.leftOf(0, 0); // Returns OptionalBoolean.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return OptionalBoolean containing the element at position (i, j-1), or empty if at left edge
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the left, or empty if out of bounds
      */
     public OptionalBoolean leftOf(final int i, final int j) {
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
     }
 
     /**
-     * Returns the element directly to the right of the specified position as an OptionalBoolean.
-     * If the position is in the last column, there is no element to the right,
-     * so an empty OptionalBoolean is returned.
-     *
-     * <p>This method is useful for navigating the matrix and examining neighboring elements.
+     * Returns the element to the right of the specified position, if it exists.
      *
      * <p>Example:
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * OptionalBoolean right = matrix.rightOf(0, 0); // Returns OptionalBoolean[false]
-     * OptionalBoolean none = matrix.rightOf(0, 1);   // Returns OptionalBoolean.empty()
+     * OptionalBoolean value = matrix.rightOf(0, 0); // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.rightOf(0, 1); // Returns OptionalBoolean.empty()
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return OptionalBoolean containing the element at position (i, j+1), or empty if at right edge
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return an Optional containing the element to the right, or empty if out of bounds
      */
     public OptionalBoolean rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
     }
 
     /**
-     * Returns a stream of the four orthogonally adjacent points (up, right, down, left) of the specified position.
-     * Points that would be outside the matrix bounds are included as {@code null} in the stream.
-     *
-     * <p>The points are returned in clockwise order starting from the top: up, right, down, left.
-     * This method is useful for grid-based algorithms that need to examine immediate neighbors
-     * (e.g., flood fill, pathfinding, cellular automata).
+     * Returns a stream of points adjacent to the specified position (up, down, left, right).
+     * Only includes points within matrix bounds.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true}, {false, true, false}});
-     * Stream<Point> neighbors = matrix.adjacent4Points(0, 1); // Center of top row
-     * // Returns stream containing: [null, Point(0,2), Point(1,1), Point(0,0)]
-     * // up is null (out of bounds), right is (0,2), down is (1,1), left is (0,0)
-     *
-     * // Process only valid neighbors
-     * matrix.adjacent4Points(1, 1)
-     *       .filter(p -> p != null)
-     *       .forEach(p -> System.out.println(matrix.get(p)));
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a Stream of Points in clockwise order: up, right, down, left ({@code null} for out-of-bounds positions)
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points (maximum 4)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -432,36 +408,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a stream of all eight adjacent points (including diagonals) surrounding the specified position.
-     * Points that would be outside the matrix bounds are included as {@code null} in the stream.
-     *
-     * <p>The points are returned in clockwise order starting from the top-left diagonal:
-     * left-up, up, right-up, right, right-down, down, left-down, left.
-     * This method is useful for algorithms that consider diagonal neighbors (e.g., Conway's Game of Life,
-     * image processing, pattern matching).
+     * Returns a stream of points adjacent to the specified position including diagonals.
+     * Only includes points within matrix bounds.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
-     *     {true, false, true},
-     *     {false, true, false},
-     *     {true, false, true}
-     * });
-     * Stream<Point> allNeighbors = matrix.adjacent8Points(1, 1); // Center position
-     * // Returns 8 points: Point(0,0), Point(0,1), Point(0,2), Point(1,2),
-     * //                   Point(2,2), Point(2,1), Point(2,0), Point(1,0)
-     *
-     * // Count how many adjacent cells are true
-     * long trueNeighbors = matrix.adjacent8Points(1, 1)
-     *     .filter(p -> p != null)
-     *     .filter(p -> matrix.get(p))
-     *     .count(); // Returns 4
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true}, {false, true, false}, {true, false, true}});
+     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
+     * // Returns stream of all 8 surrounding points
      * }</pre>
      *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a Stream of 8 Points in clockwise order starting from top-left ({@code null} for out-of-bounds positions)
-     * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+     * @param i the row index
+     * @param j the column index
+     * @return a stream of adjacent points including diagonals (maximum 8)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -478,27 +437,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the internal array reference for the specified row.
-     *
-     * <p><b>IMPORTANT WARNING:</b> This method returns the actual internal array, NOT a copy.
-     * Any modifications made to the returned array will directly affect the matrix.
-     * If you need to modify the array without affecting the matrix, you must create
-     * a copy yourself using {@code Arrays.copyOf()} or similar methods.
+     * Returns a copy of the specified row as an array.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * boolean[] row = matrix.row(0); // Returns reference to internal array [true, false]
-     * row[0] = false; // WARNING: This modifies the matrix!
-     *
-     * // To safely modify without affecting the matrix:
-     * boolean[] rowCopy = Arrays.copyOf(matrix.row(0), matrix.cols());
-     * rowCopy[0] = false; // Safe: only modifies the copy
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * boolean[] firstRow = matrix.row(0); // Returns [true, false, false]
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return a reference to the internal boolean array representing the specified row
-     * @throws IllegalArgumentException if rowIndex is negative or >= number of rows
+     * @return a copy of the specified row
+     * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public boolean[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -507,17 +456,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a copy of the specified column as a boolean array.
-     * 
+     * Returns a copy of the specified column as an array.
+     *
      * <p>Example:
-     * <pre>
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * boolean[] column = matrix.column(1); // Returns [false, true]
-     * </pre>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * boolean[] firstColumn = matrix.column(0); // Returns [true, false]
+     * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a boolean array containing the values of the specified column
-     * @throws IllegalArgumentException if columnIndex is negative or >= number of columns
+     * @return a copy of the specified column
+     * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public boolean[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -532,21 +481,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets all values in the specified row using the provided array.
-     * The array length must exactly match the number of columns in the matrix.
+     * Sets the values of the specified row.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * matrix.setRow(0, new boolean[]{false, false});
-     * // Matrix is now: [[false, false], [false, true]]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * matrix.setRow(0, new boolean[]{false, false, false}); // First row is now [false, false, false]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the boolean array containing new values for the row; must not be null
-     * @throws IllegalArgumentException if the row array length doesn't match the matrix column count
-     * @throws ArrayIndexOutOfBoundsException if {@code rowIndex} is out of bounds
-     * @throws NullPointerException if {@code row} is null
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final boolean[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -555,21 +500,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets all values in the specified column using the provided array.
-     * The array length must exactly match the number of rows in the matrix.
+     * Sets the values of the specified column.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * matrix.setColumn(1, new boolean[]{true, true});
-     * // Matrix is now: [[true, true], [false, true]]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * matrix.setColumn(0, new boolean[]{false, false}); // First column is now [false, false]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the boolean array containing new values for the column; must not be null
-     * @throws IllegalArgumentException if the column array length doesn't match the matrix row count
-     * @throws ArrayIndexOutOfBoundsException if {@code columnIndex} is out of bounds
-     * @throws NullPointerException if {@code column} is null
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final boolean[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -618,8 +559,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the diagonal elements from left-up to right-down (main diagonal).
-     * The matrix must be square (rows == columns).
+     * Returns the elements on the main diagonal from left-upper to right-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
@@ -649,7 +590,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the diagonal elements from left-up to right-down (main diagonal).
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * at least as many elements as the matrix has rows.
      *
@@ -670,7 +611,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param diagonal the new values for the main diagonal; must have length &gt;= rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length &lt; rows
-     * @throws NullPointerException if {@code diagonal} is null
      */
     public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -702,7 +642,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the unary operator to apply to each diagonal element; must not be null
      * @throws E if the function throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws NullPointerException if {@code func} is null
      */
     public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -713,8 +652,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the diagonal elements from right-up to left-down (anti-diagonal).
-     * The matrix must be square (rows == columns).
+     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -745,7 +684,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the diagonal elements from right-up to left-down (anti-diagonal).
+     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
      * at least as many elements as the matrix has rows.
      *
@@ -767,7 +706,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length &lt; rows
-     * @throws NullPointerException if {@code diagonal} is null
      */
     public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -800,7 +738,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the unary operator to apply to each anti-diagonal element; must not be null
      * @throws E if the function throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws NullPointerException if {@code func} is null
      */
     public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -959,7 +896,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param b the 2D boolean array to copy values from; must not be null
-     * @throws NullPointerException if {@code b} is null
      */
     public void fill(final boolean[][] b) {
         fill(0, 0, b);
@@ -993,20 +929,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a deep copy of this matrix.
-     * The returned matrix is completely independent from this matrix - modifications to one
-     * will not affect the other.
+     * Returns a deep copy of this matrix.
      *
      * <p>Example:
      * <pre>{@code
      * BooleanMatrix original = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
      * BooleanMatrix copy = original.copy();
-     * copy.set(0, 0, false);
-     * // original is unchanged: [[true, false], [false, true]]
-     * // copy is modified: [[false, false], [false, true]]
+     * // copy is independent from original
      * }</pre>
      *
-     * @return a new BooleanMatrix with the same dimensions and values as this matrix
+     * @return a new matrix that is a deep copy of this matrix
      */
     @Override
     public BooleanMatrix copy() {
@@ -1126,6 +1058,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix extend(final int newRows, final int newCols, final boolean defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+
+        // Check for overflow before allocation
+        if ((long) newRows * newCols > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+        }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1308,21 +1245,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a new matrix by rotating this matrix 90 degrees clockwise.
-     * The resulting matrix will have dimensions (cols x rows), with rows becoming columns.
+     * Returns a new matrix rotated 90 degrees clockwise.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
-     *     {true, false},
-     *     {false, true}
-     * });
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate90();
-     * // Result: [[false, true],
-     * //          [true, false]]
+     * // rotated is {{false, true}, {true, false}}
      * }</pre>
      *
-     * @return a new BooleanMatrix rotated 90 degrees clockwise with dimensions (cols x rows)
+     * @return a new matrix rotated 90 degrees clockwise
      */
     @Override
     public BooleanMatrix rotate90() {
@@ -1346,22 +1278,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a new matrix by rotating this matrix 180 degrees.
-     * This is equivalent to flipping both horizontally and vertically.
-     * The resulting matrix has the same dimensions as the original.
+     * Returns a new matrix rotated 180 degrees.
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
-     *     {true, false, false},
-     *     {false, true, false}
-     * });
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate180();
-     * // Result: [[false, true, false],
-     * //          [false, false, true]]
+     * // rotated is {{true, false}, {false, true}}
      * }</pre>
      *
-     * @return a new BooleanMatrix rotated 180 degrees with the same dimensions
+     * @return a new matrix rotated 180 degrees
      */
     @Override
     public BooleanMatrix rotate180() {
@@ -1376,21 +1302,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a new matrix by rotating this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
-     * The resulting matrix will have dimensions (cols x rows), with rows becoming columns.
+     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
      *
      * <p>Example:
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
-     *     {true, false},
-     *     {false, true}
-     * });
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate270();
-     * // Result: [[false, true],
-     * //          [true, false]]
+     * // rotated is {{false, true}, {true, false}}
      * }</pre>
      *
-     * @return a new BooleanMatrix rotated 270 degrees clockwise with dimensions (cols x rows)
+     * @return a new matrix rotated 270 degrees clockwise
      */
     @Override
     public BooleanMatrix rotate270() {
@@ -1414,16 +1335,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a new matrix that is the transpose of this matrix.
-     * Rows become columns and columns become rows.
-     * 
-     * <p>Example:
-     * <pre>
-     * // [[true, false], [false, true]] becomes [[true, false], [false, true]]
-     * BooleanMatrix transposed = matrix.transpose();
-     * </pre>
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose swaps rows and columns.
      *
-     * @return a new BooleanMatrix with dimensions (cols x rows)
+     * <p>Example:
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * BooleanMatrix transposed = matrix.transpose();
+     * // transposed is {{true, false}, {false, true}, {false, false}}
+     * }</pre>
+     *
+     * @return a new matrix that is the transpose of this matrix
      */
     @Override
     public BooleanMatrix transpose() {
@@ -1518,6 +1440,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final boolean[][] c = new boolean[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1557,6 +1487,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     public BooleanMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final boolean[][] c = new boolean[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1575,28 +1513,23 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flattens the matrix into a one-dimensional BooleanList.
-     * Elements are collected in row-major order, meaning the matrix is traversed
-     * row by row from left to right.
-     * 
-     * <p>This method is useful when you need to convert the 2D matrix structure
-     * into a linear sequence while preserving the element order. The resulting
-     * list can be used for operations that require a flat representation of the data.</p>
-     * 
-     * <p>Example:</p>
+     * Returns a list containing all matrix elements in row-major order.
+     *
+     * <p>Example:
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * BooleanList flat = matrix.flatten(); // [true, false, false, true]
-     * 
-     * // Recreate matrix from flattened list
-     * boolean[] array = flat.array();
-     * BooleanMatrix restored = BooleanMatrix.of(array, matrix.rows(), matrix.cols());
+     * BooleanList list = matrix.flatten(); // Returns BooleanList of true, false, false, true
      * }</pre>
      *
-     * @return a BooleanList containing all elements of the matrix in row-major order
+     * @return a list of all elements in row-major order
      */
     @Override
     public BooleanList flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final boolean[] c = new boolean[rows * cols];
 
         for (int i = 0; i < rows; i++) {
@@ -1627,7 +1560,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the type of exception that the operation may throw
      * @param op the consumer operation to apply to the flattened internal array; must not be null
      * @throws E if the operation throws an exception
-     * @throws NullPointerException if {@code op} is null
      * @see Arrays#flatOp(boolean[][], Throwables.Consumer)
      */
     @Override

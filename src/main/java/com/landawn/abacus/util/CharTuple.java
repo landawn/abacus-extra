@@ -276,14 +276,17 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the median char value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char median = tuple.median(); // 'M'
+     *
+     * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
+     * char median = tuple.median(); // 'B'
      * }</pre>
      *
-     * @return the median char value
+     * @return the median char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public char median() {
@@ -291,16 +294,16 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all char values in this tuple as an integer.
+     * Returns the sum of all char values in this tuple as an int.
      * The sum is calculated by adding the numeric values of the chars.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'B'); // 'A'=65, 'B'=66
      * int sum = tuple.sum(); // 131
      * }</pre>
      *
-     * @return the sum of all char values as an integer
+     * @return the sum of all char values as an int
      */
     public int sum() {
         return N.sum(elements());
@@ -324,21 +327,21 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Creates a new tuple with the elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * CharTuple3 reversed = tuple.reverse(); // contains 'C', 'B', 'A'
+     * CharTuple3 reversed = tuple.reverse(); // ('C', 'B', 'A')
      * }</pre>
      *
-     * @return a new tuple with elements in reversed order
+     * @return a new tuple with elements in reverse order
      */
     public abstract TP reverse();
 
     /**
      * Checks if this tuple contains the specified char value.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
@@ -347,13 +350,14 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param valueToFind the char value to search for
-     * @return {@code true} if the value is found, {@code false} otherwise
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(char valueToFind);
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * 
+     * Modifications to the returned array do not affect the tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
@@ -368,7 +372,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new CharList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
@@ -401,12 +405,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a CharStream of the elements in this tuple.
-     * 
+     * Returns a CharStream of all elements in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * long count = tuple.stream().filter(ch -> ch > 'A').count(); // 2
+     * int sum = tuple.stream().sum(); // 198
      * }</pre>
      *
      * @return a CharStream containing all tuple elements

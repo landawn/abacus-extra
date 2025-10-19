@@ -616,4 +616,252 @@ public class ShortTuple2025Test extends TestBase {
         assertEquals(8, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8).arity());
         assertEquals(9, ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9).arity());
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+
+        // Test reverse
+        ShortTuple4 reversed = tuple.reverse();
+        assertEquals((short) 4, reversed._1);
+        assertEquals((short) 3, reversed._2);
+        assertEquals((short) 2, reversed._3);
+        assertEquals((short) 1, reversed._4);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 4));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4 }, tuple.toArray());
+
+        // Test min/max/median/sum/average via base class
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 4, tuple.max());
+        assertEquals((short) 2, tuple.median());
+        assertEquals(10, tuple.sum());
+        assertEquals(2.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        ShortTuple4 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        ShortTuple4 tuple3 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 5);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        String str = tuple.toString();
+        assertTrue(str.contains("1"));
+        assertTrue(str.contains("4"));
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        ShortTuple5 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+
+        // Test reverse
+        ShortTuple5 reversed = tuple.reverse();
+        assertEquals((short) 5, reversed._1);
+        assertEquals((short) 1, reversed._5);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 5));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 5, tuple.max());
+        assertEquals((short) 3, tuple.median());
+        assertEquals(15, tuple.sum());
+        assertEquals(3.0, tuple.average(), 0.001);
+
+        // Test equals
+        ShortTuple5 tuple2 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+        assertEquals(tuple, tuple2);
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        ShortTuple6 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6);
+
+        // Test reverse
+        ShortTuple6 reversed = tuple.reverse();
+        assertEquals((short) 6, reversed._1);
+        assertEquals((short) 1, reversed._6);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 6));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 6, tuple.max());
+        assertEquals(21, tuple.sum());
+        assertEquals(3.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        ShortTuple7 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7);
+
+        // Test reverse
+        ShortTuple7 reversed = tuple.reverse();
+        assertEquals((short) 7, reversed._1);
+        assertEquals((short) 1, reversed._7);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 7));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6, 7 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 7, tuple.max());
+        assertEquals(28, tuple.sum());
+        assertEquals(4.0, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        ShortTuple8 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8);
+
+        // Test reverse
+        ShortTuple8 reversed = tuple.reverse();
+        assertEquals((short) 8, reversed._1);
+        assertEquals((short) 1, reversed._8);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 8));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6, 7, 8 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 8, tuple.max());
+        assertEquals(36, tuple.sum());
+        assertEquals(4.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        ShortTuple9 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
+
+        // Test reverse
+        ShortTuple9 reversed = tuple.reverse();
+        assertEquals((short) 9, reversed._1);
+        assertEquals((short) 1, reversed._9);
+
+        // Test contains
+        assertTrue(tuple.contains((short) 1));
+        assertTrue(tuple.contains((short) 9));
+        assertFalse(tuple.contains((short) 99));
+
+        // Test toArray
+        assertArrayEquals(new short[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((short) 1, tuple.min());
+        assertEquals((short) 9, tuple.max());
+        assertEquals(45, tuple.sum());
+        assertEquals(5.0, tuple.average(), 0.001);
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        ShortTuple2 tuple2 = ShortTuple.create(new short[] { 1, 2 });
+        assertEquals((short) 1, tuple2._1);
+        assertEquals((short) 2, tuple2._2);
+
+        ShortTuple4 tuple4 = ShortTuple.create(new short[] { 1, 2, 3, 4 });
+        assertEquals((short) 1, tuple4._1);
+        assertEquals((short) 4, tuple4._4);
+
+        ShortTuple5 tuple5 = ShortTuple.create(new short[] { 1, 2, 3, 4, 5 });
+        assertEquals((short) 1, tuple5._1);
+        assertEquals((short) 5, tuple5._5);
+
+        ShortTuple6 tuple6 = ShortTuple.create(new short[] { 1, 2, 3, 4, 5, 6 });
+        assertEquals((short) 1, tuple6._1);
+        assertEquals((short) 6, tuple6._6);
+
+        ShortTuple7 tuple7 = ShortTuple.create(new short[] { 1, 2, 3, 4, 5, 6, 7 });
+        assertEquals((short) 1, tuple7._1);
+        assertEquals((short) 7, tuple7._7);
+
+        ShortTuple8 tuple8 = ShortTuple.create(new short[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        assertEquals((short) 1, tuple8._1);
+        assertEquals((short) 8, tuple8._8);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        ShortList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals((short) 4, list4.get(3));
+
+        ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
+        ShortList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals((short) 9, list9.get(8));
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        ShortTuple4 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        List<Short> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Short.valueOf((short) 4), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        ShortTuple2 tuple = ShortTuple.of((short) 10, (short) 20);
+        List<Short> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Short.valueOf((short) 10), result.get(0));
+        assertEquals(Short.valueOf((short) 20), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        ShortTuple3 tuple = ShortTuple.of((short) 10, (short) 20, (short) 30);
+        List<Short> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Short.valueOf((short) 30), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        ShortTuple4 tuple4 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4);
+        assertEquals(10, tuple4.stream().sum());
+
+        ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
+        assertEquals(45, tuple9.stream().sum());
+    }
 }

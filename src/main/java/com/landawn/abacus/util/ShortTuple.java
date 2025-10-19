@@ -261,80 +261,83 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the minimum value among all elements in this tuple.
-     * 
-     * <p>Example:
+     * Returns the minimum short value in this tuple.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)5, (short)2, (short)8);
      * short min = tuple.min(); // 2
      * }</pre>
      *
      * @return the minimum short value in this tuple
-     * @throws NoSuchElementException if the tuple is empty (ShortTuple0)
+     * @throws NoSuchElementException if the tuple is empty
      */
     public short min() {
         return N.min(elements());
     }
 
     /**
-     * Returns the maximum value among all elements in this tuple.
-     * 
-     * <p>Example:
+     * Returns the maximum short value in this tuple.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)5, (short)2, (short)8);
      * short max = tuple.max(); // 8
      * }</pre>
      *
      * @return the maximum short value in this tuple
-     * @throws NoSuchElementException if the tuple is empty (ShortTuple0)
+     * @throws NoSuchElementException if the tuple is empty
      */
     public short max() {
         return N.max(elements());
     }
 
     /**
-     * Returns the median value of all elements in this tuple.
+     * Returns the median short value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
-     * 
-     * <p>Example:
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)3, (short)2);
+     * short median = tuple.median(); // 2
+     *
+     * ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * short median = tuple.median(); // 2
      * }</pre>
      *
      * @return the median short value in this tuple
-     * @throws NoSuchElementException if the tuple is empty (ShortTuple0)
+     * @throws NoSuchElementException if the tuple is empty
      */
     public short median() {
         return N.median(elements());
     }
 
     /**
-     * Returns the sum of all elements in this tuple.
-     * 
-     * <p>Example:
+     * Returns the sum of all short values in this tuple as an int.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
      * int sum = tuple.sum(); // 6
      * }</pre>
      *
-     * @return the sum of all short values in this tuple as an int
+     * @return the sum of all short values as an int
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average (arithmetic mean) of all elements in this tuple.
-     * 
-     * <p>Example:
+     * Returns the average of all short values in this tuple as a double.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
      * double avg = tuple.average(); // 2.5
      * }</pre>
      *
-     * @return the average of all short values in this tuple as a double
-     * @throws NoSuchElementException if the tuple is empty (ShortTuple0)
+     * @return the average of all short values as a double
+     * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
         return N.average(elements());
@@ -342,25 +345,25 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new tuple with elements in reverse order.
-     * 
-     * <p>Example:
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortTuple3 reversed = tuple.reverse(); // (3, 2, 1)
      * }</pre>
      *
-     * @return a new tuple of the same type with elements in reverse order
+     * @return a new tuple with elements in reverse order
      */
     public abstract TP reverse();
 
     /**
-     * Checks if this tuple contains the specified value.
-     * 
-     * <p>Example:
+     * Checks if this tuple contains the specified short value.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
-     * boolean has2 = tuple.contains((short)2); // true
-     * boolean has5 = tuple.contains((short)5); // false
+     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
+     * boolean has2 = tuple.contains((short) 2); // true
+     * boolean has5 = tuple.contains((short) 5); // false
      * }</pre>
      *
      * @param valueToFind the short value to search for
@@ -371,30 +374,29 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Returns a new array containing all elements of this tuple.
      * Modifications to the returned array do not affect the tuple.
-     * 
-     * <p>Example:
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * short[] array = tuple.toArray(); // [1, 2, 3]
      * }</pre>
      *
-     * @return a new short array containing all tuple elements in order
+     * @return a new short array containing all tuple elements
      */
     public short[] toArray() {
         return elements().clone();
     }
 
     /**
-     * Returns a ShortList containing all elements of this tuple.
-     * The returned list is a new instance and modifications do not affect the tuple.
-     * 
-     * <p>Example:
+     * Returns a new ShortList containing all elements of this tuple.
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * ShortList list = tuple.toList();
      * }</pre>
      *
-     * @return a new ShortList containing all tuple elements in order
+     * @return a new ShortList containing all tuple elements
      */
     public ShortList toList() {
         return ShortList.of(elements().clone());
@@ -421,14 +423,14 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a ShortStream of all elements in this tuple.
-     * 
-     * <p>Example:
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+     * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
      * int sum = tuple.stream().sum(); // 6
      * }</pre>
      *
-     * @return a ShortStream containing all tuple elements in order
+     * @return a ShortStream containing all tuple elements
      */
     public ShortStream stream() {
         return ShortStream.of(elements());

@@ -615,4 +615,252 @@ public class ByteTuple2025Test extends TestBase {
         assertEquals(8, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8).arity());
         assertEquals(9, ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9).arity());
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+
+        // Test reverse
+        ByteTuple4 reversed = tuple.reverse();
+        assertEquals((byte) 4, reversed._1);
+        assertEquals((byte) 3, reversed._2);
+        assertEquals((byte) 2, reversed._3);
+        assertEquals((byte) 1, reversed._4);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 4));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4 }, tuple.toArray());
+
+        // Test min/max/median/sum/average via base class
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 4, tuple.max());
+        assertEquals((byte) 2, tuple.median());
+        assertEquals(10, tuple.sum());
+        assertEquals(2.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        ByteTuple4 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        ByteTuple4 tuple3 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 5);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        String str = tuple.toString();
+        assertTrue(str.contains("1"));
+        assertTrue(str.contains("4"));
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        ByteTuple5 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+
+        // Test reverse
+        ByteTuple5 reversed = tuple.reverse();
+        assertEquals((byte) 5, reversed._1);
+        assertEquals((byte) 1, reversed._5);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 5));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4, 5 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 5, tuple.max());
+        assertEquals((byte) 3, tuple.median());
+        assertEquals(15, tuple.sum());
+        assertEquals(3.0, tuple.average(), 0.001);
+
+        // Test equals
+        ByteTuple5 tuple2 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
+        assertEquals(tuple, tuple2);
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        ByteTuple6 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6);
+
+        // Test reverse
+        ByteTuple6 reversed = tuple.reverse();
+        assertEquals((byte) 6, reversed._1);
+        assertEquals((byte) 1, reversed._6);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 6));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4, 5, 6 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 6, tuple.max());
+        assertEquals(21, tuple.sum());
+        assertEquals(3.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        ByteTuple7 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7);
+
+        // Test reverse
+        ByteTuple7 reversed = tuple.reverse();
+        assertEquals((byte) 7, reversed._1);
+        assertEquals((byte) 1, reversed._7);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 7));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4, 5, 6, 7 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 7, tuple.max());
+        assertEquals(28, tuple.sum());
+        assertEquals(4.0, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        ByteTuple8 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8);
+
+        // Test reverse
+        ByteTuple8 reversed = tuple.reverse();
+        assertEquals((byte) 8, reversed._1);
+        assertEquals((byte) 1, reversed._8);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 8));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 8, tuple.max());
+        assertEquals(36, tuple.sum());
+        assertEquals(4.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        ByteTuple9 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+
+        // Test reverse
+        ByteTuple9 reversed = tuple.reverse();
+        assertEquals((byte) 9, reversed._1);
+        assertEquals((byte) 1, reversed._9);
+
+        // Test contains
+        assertTrue(tuple.contains((byte) 1));
+        assertTrue(tuple.contains((byte) 9));
+        assertFalse(tuple.contains((byte) 99));
+
+        // Test toArray
+        assertArrayEquals(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals((byte) 1, tuple.min());
+        assertEquals((byte) 9, tuple.max());
+        assertEquals(45, tuple.sum());
+        assertEquals(5.0, tuple.average(), 0.001);
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        ByteTuple2 tuple2 = ByteTuple.create(new byte[] { 1, 2 });
+        assertEquals((byte) 1, tuple2._1);
+        assertEquals((byte) 2, tuple2._2);
+
+        ByteTuple4 tuple4 = ByteTuple.create(new byte[] { 1, 2, 3, 4 });
+        assertEquals((byte) 1, tuple4._1);
+        assertEquals((byte) 4, tuple4._4);
+
+        ByteTuple5 tuple5 = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5 });
+        assertEquals((byte) 1, tuple5._1);
+        assertEquals((byte) 5, tuple5._5);
+
+        ByteTuple6 tuple6 = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6 });
+        assertEquals((byte) 1, tuple6._1);
+        assertEquals((byte) 6, tuple6._6);
+
+        ByteTuple7 tuple7 = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6, 7 });
+        assertEquals((byte) 1, tuple7._1);
+        assertEquals((byte) 7, tuple7._7);
+
+        ByteTuple8 tuple8 = ByteTuple.create(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        assertEquals((byte) 1, tuple8._1);
+        assertEquals((byte) 8, tuple8._8);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        ByteList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals((byte) 4, list4.get(3));
+
+        ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+        ByteList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals((byte) 9, list9.get(8));
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        ByteTuple4 tuple = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        List<Byte> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Byte.valueOf((byte) 4), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
+        List<Byte> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Byte.valueOf((byte) 10), result.get(0));
+        assertEquals(Byte.valueOf((byte) 20), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+        List<Byte> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Byte.valueOf((byte) 30), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        ByteTuple4 tuple4 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4);
+        assertEquals(10, tuple4.stream().sum());
+
+        ByteTuple9 tuple9 = ByteTuple.of((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5, (byte) 6, (byte) 7, (byte) 8, (byte) 9);
+        assertEquals(45, tuple9.stream().sum());
+    }
 }

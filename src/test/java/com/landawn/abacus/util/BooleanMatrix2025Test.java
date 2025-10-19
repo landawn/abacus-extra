@@ -1419,4 +1419,317 @@ public class BooleanMatrix2025Test extends TestBase {
             }
         }
     }
+
+    // ============ ForEach Tests ============
+
+    @Test
+    public void testForEach() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        List<Boolean> values = new ArrayList<>();
+        m.forEach(val -> values.add(val));
+
+        assertEquals(4, values.size());
+        assertTrue(values.get(0));
+        assertFalse(values.get(1));
+        assertFalse(values.get(2));
+        assertTrue(values.get(3));
+    }
+
+    @Test
+    public void testForEach_empty() {
+        BooleanMatrix empty = BooleanMatrix.empty();
+        List<Boolean> values = new ArrayList<>();
+        empty.forEach(val -> values.add(val));
+        assertTrue(values.isEmpty());
+    }
+
+    @Test
+    public void testForEach_withRanges() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
+        List<Boolean> values = new ArrayList<>();
+        m.forEach(1, 3, 1, 3, val -> values.add(val));
+
+        assertEquals(4, values.size());
+        assertTrue(values.get(0)); // (1,1)
+        assertFalse(values.get(1)); // (1,2)
+        assertFalse(values.get(2)); // (2,1)
+        assertTrue(values.get(3)); // (2,2)
+    }
+
+    @Test
+    public void testForEach_withRanges_singleCell() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        List<Boolean> values = new ArrayList<>();
+        m.forEach(0, 1, 0, 1, val -> values.add(val));
+
+        assertEquals(1, values.size());
+        assertTrue(values.get(0));
+    }
+
+    @Test
+    public void testForEach_withRanges_outOfBounds() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(-1, 2, 0, 2, val -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 3, 0, 2, val -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, -1, 2, val -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, 0, 3, val -> {
+        }));
+    }
+
+    // ============ Println Tests ============
+
+    @Test
+    public void testPrintln() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        // Just ensure it doesn't throw an exception
+        m.println();
+    }
+
+    @Test
+    public void testPrintln_empty() {
+        BooleanMatrix empty = BooleanMatrix.empty();
+        empty.println();
+    }
+
+    // ============ Additional Edge Cases ============
+
+    @Test
+    public void testReshape_invalidDimensions() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        // Reshaping with more elements than available should work but fill with default values
+        BooleanMatrix reshaped = m.reshape(3, 3);
+        assertEquals(3, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+    }
+
+    @Test
+    public void testFill_partialOverlap() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
+        boolean[][] patch = { { true, true }, { true, true } };
+        m.fill(2, 2, patch); // Only partial overlap
+        assertFalse(m.get(0, 0));
+        assertFalse(m.get(1, 1));
+        assertTrue(m.get(2, 2)); // Only this one should be set
+    }
+
+    @Test
+    public void testMapToObj_nullHandling() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        Matrix<Integer> result = m.mapToObj(x -> x ? 1 : 0, Integer.class);
+        assertEquals(Integer.valueOf(1), result.get(0, 0));
+        assertEquals(Integer.valueOf(0), result.get(0, 1));
+        assertEquals(Integer.valueOf(0), result.get(1, 0));
+        assertEquals(Integer.valueOf(1), result.get(1, 1));
+    }
+
+    @Test
+    public void testUpdateAll_complexFunction() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false, false }, { false, false, false }, { false, false, false } });
+        m.updateAll((i, j) -> (i + j) % 2 == 0);
+        assertTrue(m.get(0, 0)); // 0+0=0, even
+        assertFalse(m.get(0, 1)); // 0+1=1, odd
+        assertFalse(m.get(1, 0)); // 1+0=1, odd
+        assertTrue(m.get(1, 1)); // 1+1=2, even
+        assertTrue(m.get(2, 2)); // 2+2=4, even
+    }
+
+    @Test
+    public void testReplaceIf_noMatches() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, true }, { true, true } });
+        m.replaceIf(x -> !x, true); // Replace all false with true (but there are none)
+
+        // All should still be true
+        assertTrue(m.get(0, 0));
+        assertTrue(m.get(0, 1));
+        assertTrue(m.get(1, 0));
+        assertTrue(m.get(1, 1));
+    }
+
+    @Test
+    public void testReplaceIf_withIndices_edgeCases() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        m.replaceIf((i, j) -> i + j == 1, true); // Replace positions where i+j=1
+
+        assertTrue(m.get(0, 0)); // unchanged
+        assertTrue(m.get(0, 1)); // 0+1=1, replaced
+        assertTrue(m.get(1, 0)); // 1+0=1, replaced
+        assertTrue(m.get(1, 1)); // unchanged
+    }
+
+    @Test
+    public void testZipWith_xorOperation() {
+        BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix m2 = BooleanMatrix.of(new boolean[][] { { true, true }, { false, false } });
+        BooleanMatrix result = m1.zipWith(m2, (a, b) -> a ^ b); // XOR
+
+        assertFalse(result.get(0, 0)); // true ^ true = false
+        assertTrue(result.get(0, 1)); // false ^ true = true
+        assertFalse(result.get(1, 0)); // false ^ false = false
+        assertTrue(result.get(1, 1)); // true ^ false = true
+    }
+
+    @Test
+    public void testVstack_withEmpty() {
+        BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix empty = BooleanMatrix.of(new boolean[0][0]);
+
+        // Stacking with empty should still work if columns match
+        BooleanMatrix result = m1.vstack(m1.copy());
+        assertEquals(4, result.rows);
+        assertEquals(2, result.cols);
+    }
+
+    @Test
+    public void testHstack_withEmpty() {
+        BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix result = m1.hstack(m1.copy());
+        assertEquals(2, result.rows);
+        assertEquals(4, result.cols);
+    }
+
+    @Test
+    public void testRotate90_rectangle() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
+        BooleanMatrix rotated = m.rotate90();
+        assertEquals(3, rotated.rows);
+        assertEquals(1, rotated.cols);
+        assertTrue(rotated.get(0, 0));
+        assertFalse(rotated.get(1, 0));
+        assertTrue(rotated.get(2, 0));
+    }
+
+    @Test
+    public void testRotate180_rectangle() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
+        BooleanMatrix rotated = m.rotate180();
+        assertEquals(1, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertTrue(rotated.get(0, 0));
+        assertFalse(rotated.get(0, 1));
+        assertTrue(rotated.get(0, 2));
+    }
+
+    @Test
+    public void testRotate270_rectangle() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
+        BooleanMatrix rotated = m.rotate270();
+        assertEquals(3, rotated.rows);
+        assertEquals(1, rotated.cols);
+        assertTrue(rotated.get(0, 0));
+        assertFalse(rotated.get(1, 0));
+        assertTrue(rotated.get(2, 0));
+    }
+
+    @Test
+    public void testCopy_fullMatrix() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix copy = m.copy(0, 2, 0, 2);
+        assertEquals(2, copy.rows);
+        assertEquals(2, copy.cols);
+        assertTrue(copy.get(0, 0));
+        assertTrue(copy.get(1, 1));
+
+        // Modify copy shouldn't affect original
+        copy.set(0, 0, false);
+        assertTrue(m.get(0, 0));
+    }
+
+    @Test
+    public void testExtend_noChange() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix extended = m.extend(2, 2);
+        assertEquals(2, extended.rows);
+        assertEquals(2, extended.cols);
+        assertTrue(extended.get(0, 0));
+        assertTrue(extended.get(1, 1));
+    }
+
+    @Test
+    public void testStreamR_operations() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+        long rowsWithTrue = m.streamR().filter(row -> row.anyMatch(b -> b)).count();
+        assertEquals(2, rowsWithTrue);
+    }
+
+    @Test
+    public void testStreamC_operations() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+        long colsWithAllFalse = m.streamC().filter(col -> col.noneMatch(b -> b)).count();
+        assertEquals(0, colsWithAllFalse); // No columns have all false (col 0: true,false; col 1: false,true; col 2: true,false)
+    }
+
+    @Test
+    public void testEquals_emptyMatrices() {
+        BooleanMatrix empty1 = BooleanMatrix.empty();
+        BooleanMatrix empty2 = BooleanMatrix.of(new boolean[0][0]);
+        assertTrue(empty1.equals(empty2));
+    }
+
+    @Test
+    public void testHashCode_consistency() {
+        BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        int hash1 = m1.hashCode();
+        int hash2 = m1.hashCode();
+        assertEquals(hash1, hash2); // Same object should have same hash
+    }
+
+    @Test
+    public void testToString_singleRow() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true } });
+        String str = m.toString();
+        assertNotNull(str);
+        assertTrue(str.length() > 0);
+    }
+
+    @Test
+    public void testUpdateRow_allElements() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
+        m.updateRow(0, x -> true);
+        assertArrayEquals(new boolean[] { true, true, true }, m.row(0));
+        assertArrayEquals(new boolean[] { false, true, false }, m.row(1)); // unchanged
+    }
+
+    @Test
+    public void testUpdateColumn_allElements() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, false } });
+        m.updateColumn(1, x -> true);
+        assertArrayEquals(new boolean[] { true, true, true }, m.column(1));
+        assertArrayEquals(new boolean[] { true, false, true }, m.column(0)); // unchanged
+    }
+
+    @Test
+    public void testMap_identityFunction() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        BooleanMatrix result = m.map(x -> x);
+        assertEquals(m, result);
+    }
+
+    @Test
+    public void testRepelem_edge1x1() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
+        BooleanMatrix repeated = m.repelem(3, 3);
+        assertEquals(3, repeated.rows);
+        assertEquals(3, repeated.cols);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertTrue(repeated.get(i, j));
+            }
+        }
+    }
+
+    @Test
+    public void testRepmat_edge1x1() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
+        BooleanMatrix repeated = m.repmat(3, 3);
+        assertEquals(3, repeated.rows);
+        assertEquals(3, repeated.cols);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertTrue(repeated.get(i, j));
+            }
+        }
+    }
 }

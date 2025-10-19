@@ -66,6 +66,176 @@ public class Arrays2025Test extends TestBase {
         assertNotNull(result);
     }
 
+    @Test
+    public void testPrintln_1D_BooleanArray() {
+        boolean[] arr = { true, false, true };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+        assertTrue(result.contains("true"));
+        assertTrue(result.contains("false"));
+    }
+
+    @Test
+    public void testPrintln_2D_BooleanArray() {
+        boolean[][] arr = { { true, false }, { false, true } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_BooleanArray() {
+        boolean[][][] arr = { { { true, false } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_CharArray() {
+        char[] arr = { 'a', 'b', 'c' };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_CharArray() {
+        char[][] arr = { { 'a', 'b' }, { 'c', 'd' } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_CharArray() {
+        char[][][] arr = { { { 'a', 'b' } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_ByteArray() {
+        byte[] arr = { 1, 2, 3 };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_ByteArray() {
+        byte[][] arr = { { 1, 2 }, { 3, 4 } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_ByteArray() {
+        byte[][][] arr = { { { 1, 2 } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_ShortArray() {
+        short[] arr = { 1, 2, 3 };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_ShortArray() {
+        short[][] arr = { { 1, 2 }, { 3, 4 } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_ShortArray() {
+        short[][][] arr = { { { 1, 2 } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_IntArray() {
+        int[] arr = { 1, 2, 3 };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_IntArray() {
+        int[][] arr = { { 1, 2 }, { 3, 4 } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_IntArray() {
+        int[][][] arr = { { { 1, 2 } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_LongArray() {
+        long[] arr = { 1L, 2L, 3L };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_LongArray() {
+        long[][] arr = { { 1L, 2L }, { 3L, 4L } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_LongArray() {
+        long[][][] arr = { { { 1L, 2L } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_FloatArray() {
+        float[] arr = { 1.0f, 2.0f, 3.0f };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_FloatArray() {
+        float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_FloatArray() {
+        float[][][] arr = { { { 1.0f, 2.0f } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_1D_DoubleArray() {
+        double[] arr = { 1.0, 2.0, 3.0 };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_2D_DoubleArray() {
+        double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testPrintln_3D_DoubleArray() {
+        double[][][] arr = { { { 1.0, 2.0 } } };
+        String result = Arrays.println(arr);
+        assertNotNull(result);
+    }
+
     // ============================================
     // Tests for reshape methods - boolean arrays
     // ============================================
@@ -544,6 +714,185 @@ public class Arrays2025Test extends TestBase {
         assertArrayEquals(new String[] { "S10", "S20", "S30" }, result);
     }
 
+    @Test
+    public void testMapToObj_FloatArray() {
+        float[] a = { 1.5f, 2.5f, 3.5f };
+        String[] result = Arrays.mapToObj(a, f -> String.format("%.1f", f), String.class);
+
+        assertArrayEquals(new String[] { "1.5", "2.5", "3.5" }, result);
+    }
+
+    // ============================================
+    // Tests for mapToObj 2D arrays
+    // ============================================
+
+    @Test
+    public void testMapToObj_Boolean2D() {
+        boolean[][] a = { { true, false }, { true, false } };
+        String[][] result = Arrays.mapToObj(a, b -> b ? "TRUE" : "FALSE", String.class);
+
+        assertEquals(2, result.length);
+        assertEquals(2, result[0].length);
+        assertEquals("TRUE", result[0][0]);
+        assertEquals("FALSE", result[0][1]);
+        assertEquals("TRUE", result[1][0]);
+        assertEquals("FALSE", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Char2D() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        String[][] result = Arrays.mapToObj(a, c -> String.valueOf(c).toUpperCase(), String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("A", result[0][0]);
+        assertEquals("B", result[0][1]);
+        assertEquals("C", result[1][0]);
+        assertEquals("D", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Byte2D() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        String[][] result = Arrays.mapToObj(a, b -> "B" + b, String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("B1", result[0][0]);
+        assertEquals("B2", result[0][1]);
+        assertEquals("B3", result[1][0]);
+        assertEquals("B4", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Short2D() {
+        short[][] a = { { 10, 20 }, { 30, 40 } };
+        String[][] result = Arrays.mapToObj(a, s -> "Short:" + s, String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("Short:10", result[0][0]);
+        assertEquals("Short:20", result[0][1]);
+        assertEquals("Short:30", result[1][0]);
+        assertEquals("Short:40", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Float2D() {
+        float[][] a = { { 1.5f, 2.5f }, { 3.5f, 4.5f } };
+        String[][] result = Arrays.mapToObj(a, f -> String.format("%.1f", f), String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("1.5", result[0][0]);
+        assertEquals("2.5", result[0][1]);
+        assertEquals("3.5", result[1][0]);
+        assertEquals("4.5", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Long2D() {
+        long[][] a = { { 100L, 200L }, { 300L, 400L } };
+        String[][] result = Arrays.mapToObj(a, l -> "L" + l, String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("L100", result[0][0]);
+        assertEquals("L200", result[0][1]);
+        assertEquals("L300", result[1][0]);
+        assertEquals("L400", result[1][1]);
+    }
+
+    @Test
+    public void testMapToObj_Double2D() {
+        double[][] a = { { 1.1, 2.2 }, { 3.3, 4.4 } };
+        String[][] result = Arrays.mapToObj(a, d -> String.format("%.1f", d), String.class);
+
+        assertEquals(2, result.length);
+        assertEquals("1.1", result[0][0]);
+        assertEquals("2.2", result[0][1]);
+        assertEquals("3.3", result[1][0]);
+        assertEquals("4.4", result[1][1]);
+    }
+
+    // ============================================
+    // Tests for mapToObj 3D arrays
+    // ============================================
+
+    @Test
+    public void testMapToObj_Boolean3D() {
+        boolean[][][] a = { { { true, false }, { true } } };
+        String[][][] result = Arrays.mapToObj(a, b -> b ? "T" : "F", String.class);
+
+        assertEquals(1, result.length);
+        assertEquals(2, result[0].length);
+        assertEquals("T", result[0][0][0]);
+        assertEquals("F", result[0][0][1]);
+        assertEquals("T", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Char3D() {
+        char[][][] a = { { { 'a', 'b' }, { 'c' } } };
+        String[][][] result = Arrays.mapToObj(a, c -> String.valueOf(c).toUpperCase(), String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("A", result[0][0][0]);
+        assertEquals("B", result[0][0][1]);
+        assertEquals("C", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Byte3D() {
+        byte[][][] a = { { { 1, 2 }, { 3 } } };
+        String[][][] result = Arrays.mapToObj(a, b -> "Byte" + b, String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("Byte1", result[0][0][0]);
+        assertEquals("Byte2", result[0][0][1]);
+        assertEquals("Byte3", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Short3D() {
+        short[][][] a = { { { 10, 20 }, { 30 } } };
+        String[][][] result = Arrays.mapToObj(a, s -> "S" + s, String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("S10", result[0][0][0]);
+        assertEquals("S20", result[0][0][1]);
+        assertEquals("S30", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Float3D() {
+        float[][][] a = { { { 1.5f, 2.5f }, { 3.5f } } };
+        String[][][] result = Arrays.mapToObj(a, f -> String.format("%.1f", f), String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("1.5", result[0][0][0]);
+        assertEquals("2.5", result[0][0][1]);
+        assertEquals("3.5", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Long3D() {
+        long[][][] a = { { { 100L, 200L }, { 300L } } };
+        String[][][] result = Arrays.mapToObj(a, l -> "Long" + l, String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("Long100", result[0][0][0]);
+        assertEquals("Long200", result[0][0][1]);
+        assertEquals("Long300", result[0][1][0]);
+    }
+
+    @Test
+    public void testMapToObj_Double3D() {
+        double[][][] a = { { { 1.1, 2.2 }, { 3.3 } } };
+        String[][][] result = Arrays.mapToObj(a, d -> String.format("%.1f", d), String.class);
+
+        assertEquals(1, result.length);
+        assertEquals("1.1", result[0][0][0]);
+        assertEquals("2.2", result[0][0][1]);
+        assertEquals("3.3", result[0][1][0]);
+    }
+
     // ============================================
     // Tests for type conversion methods
     // ============================================
@@ -1017,5 +1366,413 @@ public class Arrays2025Test extends TestBase {
         Arrays.replaceIf(a, i -> i % 2 == 0, 0);
 
         assertArrayEquals(new int[] { 0, 0, 0, 0 }, a);
+    }
+
+    // ============================================
+    // Tests for null handling in mapToObj methods
+    // ============================================
+
+    @Test
+    public void testMapToObj_NullBooleanArray() {
+        boolean[] a = null;
+        String[] result = Arrays.mapToObj(a, b -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullCharArray() {
+        char[] a = null;
+        String[] result = Arrays.mapToObj(a, c -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullByteArray() {
+        byte[] a = null;
+        String[] result = Arrays.mapToObj(a, b -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullShortArray() {
+        short[] a = null;
+        String[] result = Arrays.mapToObj(a, s -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullIntArray() {
+        int[] a = null;
+        String[] result = Arrays.mapToObj(a, i -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullLongArray() {
+        long[] a = null;
+        String[] result = Arrays.mapToObj(a, l -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullFloatArray() {
+        float[] a = null;
+        String[] result = Arrays.mapToObj(a, f -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_NullDoubleArray() {
+        double[] a = null;
+        String[] result = Arrays.mapToObj(a, d -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_Null2DIntArray() {
+        int[][] a = null;
+        String[][] result = Arrays.mapToObj(a, i -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    @Test
+    public void testMapToObj_Null3DIntArray() {
+        int[][][] a = null;
+        String[][][] result = Arrays.mapToObj(a, i -> "X", String.class);
+        assertEquals(null, result);
+    }
+
+    // ============================================
+    // Additional edge case tests for updateAll with byte, short, float
+    // ============================================
+
+    @Test
+    public void testUpdateAll_ByteArray() {
+        byte[] a = { 1, 2, 3, 4 };
+        Arrays.updateAll(a, b -> (byte) (b * 2));
+
+        assertArrayEquals(new byte[] { 2, 4, 6, 8 }, a);
+    }
+
+    @Test
+    public void testUpdateAll_ShortArray() {
+        short[] a = { 10, 20, 30 };
+        Arrays.updateAll(a, s -> (short) (s / 2));
+
+        assertArrayEquals(new short[] { 5, 10, 15 }, a);
+    }
+
+    @Test
+    public void testUpdateAll_FloatArray() {
+        float[] a = { 1.0f, 2.0f, 3.0f };
+        Arrays.updateAll(a, f -> f * 2.0f);
+
+        assertArrayEquals(new float[] { 2.0f, 4.0f, 6.0f }, a, 0.0001f);
+    }
+
+    // ============================================
+    // Additional edge case tests for replaceIf
+    // ============================================
+
+    @Test
+    public void testReplaceIf_CharArray() {
+        char[] a = { 'a', 'b', 'c', 'd' };
+        Arrays.replaceIf(a, c -> c == 'b' || c == 'd', 'x');
+
+        assertArrayEquals(new char[] { 'a', 'x', 'c', 'x' }, a);
+    }
+
+    @Test
+    public void testReplaceIf_ByteArray() {
+        byte[] a = { 1, 2, 3, 4, 5 };
+        Arrays.replaceIf(a, b -> b > 3, (byte) 0);
+
+        assertArrayEquals(new byte[] { 1, 2, 3, 0, 0 }, a);
+    }
+
+    @Test
+    public void testReplaceIf_ShortArray() {
+        short[] a = { 10, 20, 30, 40 };
+        Arrays.replaceIf(a, s -> s >= 30, (short) 0);
+
+        assertArrayEquals(new short[] { 10, 20, 0, 0 }, a);
+    }
+
+    @Test
+    public void testReplaceIf_LongArray() {
+        long[] a = { 100L, 200L, 300L };
+        Arrays.replaceIf(a, l -> l == 200L, 0L);
+
+        assertArrayEquals(new long[] { 100L, 0L, 300L }, a);
+    }
+
+    @Test
+    public void testReplaceIf_FloatArray() {
+        float[] a = { 1.0f, 2.0f, 3.0f, 4.0f };
+        Arrays.replaceIf(a, f -> f > 2.5f, 0.0f);
+
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 0.0f, 0.0f }, a, 0.0001f);
+    }
+
+    // ============================================
+    // Additional 2D/3D edge case tests
+    // ============================================
+
+    @Test
+    public void testUpdateAll_Byte2D() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        Arrays.updateAll(a, b -> (byte) (b + 10));
+
+        assertEquals(11, a[0][0]);
+        assertEquals(12, a[0][1]);
+        assertEquals(13, a[1][0]);
+        assertEquals(14, a[1][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Short2D() {
+        short[][] a = { { 10, 20 }, { 30, 40 } };
+        Arrays.updateAll(a, s -> (short) (s / 10));
+
+        assertEquals(1, a[0][0]);
+        assertEquals(2, a[0][1]);
+        assertEquals(3, a[1][0]);
+        assertEquals(4, a[1][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Float2D() {
+        float[][] a = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
+        Arrays.updateAll(a, f -> f * 10.0f);
+
+        assertEquals(10.0f, a[0][0], 0.0001f);
+        assertEquals(20.0f, a[0][1], 0.0001f);
+        assertEquals(30.0f, a[1][0], 0.0001f);
+        assertEquals(40.0f, a[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testUpdateAll_Long2D() {
+        long[][] a = { { 100L, 200L }, { 300L, 400L } };
+        Arrays.updateAll(a, l -> l / 100);
+
+        assertEquals(1L, a[0][0]);
+        assertEquals(2L, a[0][1]);
+        assertEquals(3L, a[1][0]);
+        assertEquals(4L, a[1][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Double2D() {
+        double[][] a = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        Arrays.updateAll(a, d -> d * 5.0);
+
+        assertEquals(5.0, a[0][0], 0.0001);
+        assertEquals(10.0, a[0][1], 0.0001);
+        assertEquals(15.0, a[1][0], 0.0001);
+        assertEquals(20.0, a[1][1], 0.0001);
+    }
+
+    @Test
+    public void testUpdateAll_Char2D() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        Arrays.updateAll(a, c -> Character.toUpperCase(c));
+
+        assertEquals('A', a[0][0]);
+        assertEquals('B', a[0][1]);
+        assertEquals('C', a[1][0]);
+        assertEquals('D', a[1][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Byte3D() {
+        byte[][][] a = { { { 1, 2 } } };
+        Arrays.updateAll(a, b -> (byte) (b * 3));
+
+        assertEquals(3, a[0][0][0]);
+        assertEquals(6, a[0][0][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Short3D() {
+        short[][][] a = { { { 10, 20 } } };
+        Arrays.updateAll(a, s -> (short) (s + 5));
+
+        assertEquals(15, a[0][0][0]);
+        assertEquals(25, a[0][0][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Float3D() {
+        float[][][] a = { { { 1.0f, 2.0f } } };
+        Arrays.updateAll(a, f -> f * 2.5f);
+
+        assertEquals(2.5f, a[0][0][0], 0.0001f);
+        assertEquals(5.0f, a[0][0][1], 0.0001f);
+    }
+
+    @Test
+    public void testUpdateAll_Long3D() {
+        long[][][] a = { { { 100L, 200L } } };
+        Arrays.updateAll(a, l -> l + 50L);
+
+        assertEquals(150L, a[0][0][0]);
+        assertEquals(250L, a[0][0][1]);
+    }
+
+    @Test
+    public void testUpdateAll_Double3D() {
+        double[][][] a = { { { 1.0, 2.0 } } };
+        Arrays.updateAll(a, d -> d * 3.0);
+
+        assertEquals(3.0, a[0][0][0], 0.0001);
+        assertEquals(6.0, a[0][0][1], 0.0001);
+    }
+
+    @Test
+    public void testUpdateAll_Char3D() {
+        char[][][] a = { { { 'x', 'y' } } };
+        Arrays.updateAll(a, c -> Character.toUpperCase(c));
+
+        assertEquals('X', a[0][0][0]);
+        assertEquals('Y', a[0][0][1]);
+    }
+
+    // ============================================
+    // Additional 2D/3D replaceIf tests
+    // ============================================
+
+    @Test
+    public void testReplaceIf_Byte2D() {
+        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
+        Arrays.replaceIf(a, b -> b % 2 == 0, (byte) 0);
+
+        assertEquals(1, a[0][0]);
+        assertEquals(0, a[0][1]);
+        assertEquals(3, a[0][2]);
+        assertEquals(0, a[1][0]);
+        assertEquals(5, a[1][1]);
+        assertEquals(0, a[1][2]);
+    }
+
+    @Test
+    public void testReplaceIf_Short2D() {
+        short[][] a = { { 10, 20, 30 }, { 40, 50, 60 } };
+        Arrays.replaceIf(a, s -> s > 30, (short) 0);
+
+        assertEquals(10, a[0][0]);
+        assertEquals(20, a[0][1]);
+        assertEquals(30, a[0][2]);
+        assertEquals(0, a[1][0]);
+        assertEquals(0, a[1][1]);
+        assertEquals(0, a[1][2]);
+    }
+
+    @Test
+    public void testReplaceIf_Long2D() {
+        long[][] a = { { 100L, 200L }, { 300L, 400L } };
+        Arrays.replaceIf(a, l -> l >= 300L, 0L);
+
+        assertEquals(100L, a[0][0]);
+        assertEquals(200L, a[0][1]);
+        assertEquals(0L, a[1][0]);
+        assertEquals(0L, a[1][1]);
+    }
+
+    @Test
+    public void testReplaceIf_Float2D() {
+        float[][] a = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
+        Arrays.replaceIf(a, f -> f > 2.5f, 0.0f);
+
+        assertEquals(1.0f, a[0][0], 0.0001f);
+        assertEquals(2.0f, a[0][1], 0.0001f);
+        assertEquals(0.0f, a[1][0], 0.0001f);
+        assertEquals(0.0f, a[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testReplaceIf_Double2D() {
+        double[][] a = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
+        Arrays.replaceIf(a, d -> d < 3.0, 0.0);
+
+        assertEquals(0.0, a[0][0], 0.0001);
+        assertEquals(0.0, a[0][1], 0.0001);
+        assertEquals(3.0, a[0][2], 0.0001);
+        assertEquals(4.0, a[1][0], 0.0001);
+    }
+
+    @Test
+    public void testReplaceIf_Char2D() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        Arrays.replaceIf(a, c -> c == 'b' || c == 'd', 'x');
+
+        assertEquals('a', a[0][0]);
+        assertEquals('x', a[0][1]);
+        assertEquals('c', a[1][0]);
+        assertEquals('x', a[1][1]);
+    }
+
+    @Test
+    public void testReplaceIf_Byte3D() {
+        byte[][][] a = { { { 1, 2, 3, 4, 5 } } };
+        Arrays.replaceIf(a, b -> b > 3, (byte) 9);
+
+        assertEquals(1, a[0][0][0]);
+        assertEquals(2, a[0][0][1]);
+        assertEquals(3, a[0][0][2]);
+        assertEquals(9, a[0][0][3]);
+        assertEquals(9, a[0][0][4]);
+    }
+
+    @Test
+    public void testReplaceIf_Short3D() {
+        short[][][] a = { { { 10, 20, 30, 40 } } };
+        Arrays.replaceIf(a, s -> s <= 20, (short) 0);
+
+        assertEquals(0, a[0][0][0]);
+        assertEquals(0, a[0][0][1]);
+        assertEquals(30, a[0][0][2]);
+        assertEquals(40, a[0][0][3]);
+    }
+
+    @Test
+    public void testReplaceIf_Long3D() {
+        long[][][] a = { { { 100L, 200L, 300L } } };
+        Arrays.replaceIf(a, l -> l == 200L, 999L);
+
+        assertEquals(100L, a[0][0][0]);
+        assertEquals(999L, a[0][0][1]);
+        assertEquals(300L, a[0][0][2]);
+    }
+
+    @Test
+    public void testReplaceIf_Float3D() {
+        float[][][] a = { { { 1.0f, 2.0f, 3.0f } } };
+        Arrays.replaceIf(a, f -> f >= 2.0f, 0.0f);
+
+        assertEquals(1.0f, a[0][0][0], 0.0001f);
+        assertEquals(0.0f, a[0][0][1], 0.0001f);
+        assertEquals(0.0f, a[0][0][2], 0.0001f);
+    }
+
+    @Test
+    public void testReplaceIf_Double3D() {
+        double[][][] a = { { { 1.1, 2.2, 3.3, 4.4 } } };
+        Arrays.replaceIf(a, d -> d > 3.0, 0.0);
+
+        assertEquals(1.1, a[0][0][0], 0.0001);
+        assertEquals(2.2, a[0][0][1], 0.0001);
+        assertEquals(0.0, a[0][0][2], 0.0001);
+        assertEquals(0.0, a[0][0][3], 0.0001);
+    }
+
+    @Test
+    public void testReplaceIf_Char3D() {
+        char[][][] a = { { { 'a', 'b', 'c' } } };
+        Arrays.replaceIf(a, c -> c == 'b', 'z');
+
+        assertEquals('a', a[0][0][0]);
+        assertEquals('z', a[0][0][1]);
+        assertEquals('c', a[0][0][2]);
     }
 }

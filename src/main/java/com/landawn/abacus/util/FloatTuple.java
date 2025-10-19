@@ -242,8 +242,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the minimum value among all elements in this tuple.
-     * 
+     * Returns the minimum float value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
@@ -258,8 +258,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the maximum value among all elements in this tuple.
-     * 
+     * Returns the maximum float value in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
@@ -309,15 +309,15 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the arithmetic mean of all elements in this tuple.
-     * 
+     * Returns the average of all float values in this tuple as a double.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * double avg = tuple.average(); // 2.0
      * }</pre>
      *
-     * @return the average of all float values in this tuple as a double
+     * @return the average of all float values as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -325,8 +325,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns a new tuple with elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
@@ -338,13 +338,14 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     public abstract TP reverse();
 
     /**
-     * Checks whether this tuple contains the specified float value.
+     * Checks if this tuple contains the specified float value.
      * Uses {@link N#equals(float, float)} for comparison to handle NaN and precision.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * boolean hasTwo = tuple.contains(2.0f); // true
+     * boolean hasFive = tuple.contains(5.0f); // false
      * }</pre>
      *
      * @param valueToFind the float value to search for
@@ -370,7 +371,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new FloatList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
@@ -404,7 +405,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a FloatStream of all elements in this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);

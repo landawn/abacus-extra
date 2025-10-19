@@ -53,20 +53,26 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Constructs a FloatMatrix from a 2D float array.
      * If the input array is null, an empty matrix (0x0) is created.
-     * <b>Note:</b> The array is used directly without copying, so modifications to the
-     * array will affect the matrix.
+     * <p><b>Note:</b> The array is used directly without copying. Modifications to the input array
+     * after construction will affect the matrix, and vice versa.</p>
      *
-     * @param a the 2D float array to wrap in a matrix. Can be null.
+     * @param a the 2D float array to wrap as a matrix. Can be null.
      */
     public FloatMatrix(final float[][] a) {
         super(a == null ? new float[0][0] : a);
     }
 
     /**
-     * Returns an empty FloatMatrix with dimensions 0x0.
-     * This method returns a singleton empty matrix instance for memory efficiency.
-     * 
-     * @return an empty FloatMatrix instance
+     * Creates an empty matrix with zero rows and zero columns.
+     *
+     * <p>Example:
+     * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.empty();
+     * // matrix.rows() returns 0
+     * // matrix.columns() returns 0
+     * }</pre>
+     *
+     * @return an empty float matrix
      */
     public static FloatMatrix empty() {
         return EMPTY_FLOAT_MATRIX;
@@ -134,16 +140,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a 1xN FloatMatrix with random float values between 0.0 (inclusive) and 1.0 (exclusive).
-     * The random values are generated using the default random number generator.
+     * Creates a 1-row matrix filled with random values.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix randomRow = FloatMatrix.random(5); // Creates 1x5 matrix with random values
+     * FloatMatrix matrix = FloatMatrix.random(5);
+     * // Creates a 1x5 matrix with random float values
      * }</pre>
      *
-     * @param len the number of columns (length) of the resulting 1-row matrix
-     * @return a new 1xN FloatMatrix with random values in the range [0.0, 1.0)
+     * @param len the number of columns
+     * @return a 1-row matrix filled with random float values
      */
     @SuppressWarnings("deprecation")
     public static FloatMatrix random(final int len) {
@@ -151,76 +157,70 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a 1xN FloatMatrix where all elements have the same value.
-     * 
-     * <p>Example:</p>
+     * Creates a 1-row matrix with all elements set to the specified value.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.repeat(3.14f, 5); // Creates [[3.14, 3.14, 3.14, 3.14, 3.14]]
+     * FloatMatrix matrix = FloatMatrix.repeat(3.14f, 5);
+     * // Creates a 1x5 matrix where all elements are 3.14
      * }</pre>
-     * 
+     *
      * @param val the value to repeat
-     * @param len the number of columns (length) of the resulting 1-row matrix
-     * @return a new 1xN FloatMatrix with all elements set to val
+     * @param len the number of columns
+     * @return a 1-row matrix with all elements set to val
      */
     public static FloatMatrix repeat(final float val, final int len) {
         return new FloatMatrix(new float[][] { Array.repeat(val, len) });
     }
 
     /**
-     * Creates a diagonal matrix with the specified values on the main diagonal (left-up to right-down).
-     * All other elements are set to 0.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix diagonal = FloatMatrix.diagonalLU2RD(new float[]{1.0f, 2.0f, 3.0f});
-     * // Creates: [[1.0, 0.0, 0.0],
-     * //           [0.0, 2.0, 0.0],
-     * //           [0.0, 0.0, 3.0]]
+     * FloatMatrix matrix = FloatMatrix.diagonalLU2RD(new float[]{1.0f, 2.0f, 3.0f});
+     * // Creates 3x3 matrix with diagonal [1.0, 2.0, 3.0] and zeros elsewhere
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal the values for the main diagonal
-     * @return a new square FloatMatrix with the specified diagonal values
+     *
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static FloatMatrix diagonalLU2RD(final float[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a diagonal matrix with the specified values on the anti-diagonal (right-up to left-down).
-     * All other elements are set to 0.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix diagonal = FloatMatrix.diagonalRU2LD(new float[]{1.0f, 2.0f, 3.0f});
-     * // Creates: [[0.0, 0.0, 1.0],
-     * //           [0.0, 2.0, 0.0],
-     * //           [3.0, 0.0, 0.0]]
+     * FloatMatrix matrix = FloatMatrix.diagonalRU2LD(new float[]{1.0f, 2.0f, 3.0f});
+     * // Creates 3x3 matrix with anti-diagonal [1.0, 2.0, 3.0] and zeros elsewhere
      * }</pre>
-     * 
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal
-     * @return a new square FloatMatrix with the specified anti-diagonal values
+     *
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static FloatMatrix diagonalRU2LD(final float[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * Creates a diagonal matrix with values on both the main diagonal and anti-diagonal.
-     * The matrix size is determined by the length of the diagonal arrays.
-     * 
-     * <p>Example:</p>
+     * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
+     * All other elements are set to zero.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonal(new float[]{1.0f, 2.0f, 3.0f}, 
-     *                                          new float[]{4.0f, 5.0f, 6.0f});
-     * // Creates: [[1.0, 0.0, 4.0],
-     * //           [0.0, 2.0, 0.0],
-     * //           [6.0, 0.0, 3.0]]
+     * FloatMatrix matrix = FloatMatrix.diagonal(new float[]{1.0f, 2.0f}, new float[]{3.0f, 4.0f});
+     * // Creates 2x2 matrix with both diagonals set
      * }</pre>
-     * 
-     * @param leftUp2RightDownDiagonal the values for the main diagonal (can be null)
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal (can be null)
-     * @return a new square FloatMatrix with the specified diagonal values
-     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
+     *
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified diagonals
+     * @throws IllegalArgumentException if arrays have different lengths
      */
     public static FloatMatrix diagonal(final float[] leftUp2RightDownDiagonal, final float[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -280,17 +280,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the element at the specified row and column.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
      * float value = matrix.get(0, 1); // Returns 2.0f
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the element at position [i][j]
+     * @return the element at position (i, j)
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public float get(final int i, final int j) {
@@ -298,15 +298,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the element at the specified point.
-     * 
-     * <p>Example:</p>
+     * Returns the element at the specified point.
+     *
+     * <p>Example:
      * <pre>{@code
-     * Point p = Point.of(0, 1);
-     * float value = matrix.get(p); // Gets element at row 0, column 1
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * // Assuming you have a Point implementation
+     * // float value = matrix.get(point); // Returns element at point
      * }</pre>
-     * 
-     * @param point the point specifying row and column indices
+     *
+     * @param point the point containing row and column indices
      * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -315,13 +316,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the element at the specified row and column.
-     * 
-     * <p>Example:</p>
+     * Sets the element at the specified row and column indices.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.set(0, 1, 5.5f); // Sets element at row 0, column 1 to 5.5
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.set(0, 1, 9.0f); // Sets element at row 0, column 1 to 9.0f
      * }</pre>
-     * 
+     *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @param val the value to set
@@ -333,14 +335,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Sets the element at the specified point.
-     * 
-     * <p>Example:</p>
+     *
+     * <p>Example:
      * <pre>{@code
-     * Point p = Point.of(0, 1);
-     * matrix.set(p, 5.5f); // Sets element at row 0, column 1 to 5.5
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * // Assuming you have a Point implementation
+     * // matrix.set(point, 9.0f); // Sets element at point
      * }</pre>
-     * 
-     * @param point the point specifying row and column indices
+     *
+     * @param point the point containing row and column indices
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -351,17 +354,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Returns the element above the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * OptionalFloat above = matrix.upOf(1, 0); // Gets element at row 0, column 0
-     * if (above.isPresent()) {
-     *     System.out.println("Above element: " + above.get());
-     * }
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * OptionalFloat value = matrix.upOf(1, 0); // Returns OptionalFloat.of(1.0f)
+     * OptionalFloat empty = matrix.upOf(0, 0); // Returns OptionalFloat.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalFloat containing the element above [i-1][j], or empty if at top row (i==0)
+     * @return an Optional containing the element above, or empty if out of bounds
      */
     public OptionalFloat upOf(final int i, final int j) {
         return i == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i - 1][j]);
@@ -370,14 +372,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Returns the element below the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * OptionalFloat below = matrix.downOf(0, 0); // Gets element at row 1, column 0
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * OptionalFloat value = matrix.downOf(0, 0); // Returns OptionalFloat.of(3.0f)
+     * OptionalFloat empty = matrix.downOf(1, 0); // Returns OptionalFloat.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalFloat containing the element below [i+1][j], or empty if at bottom row
+     * @return an Optional containing the element below, or empty if out of bounds
      */
     public OptionalFloat downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i + 1][j]);
@@ -386,14 +390,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Returns the element to the left of the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * OptionalFloat left = matrix.leftOf(0, 1); // Gets element at row 0, column 0
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * OptionalFloat value = matrix.leftOf(0, 1); // Returns OptionalFloat.of(1.0f)
+     * OptionalFloat empty = matrix.leftOf(0, 0); // Returns OptionalFloat.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalFloat containing the element to the left [i][j-1], or empty if at leftmost column (j==0)
+     * @return an Optional containing the element to the left, or empty if out of bounds
      */
     public OptionalFloat leftOf(final int i, final int j) {
         return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
@@ -402,33 +408,35 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Returns the element to the right of the specified position, if it exists.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * OptionalFloat right = matrix.rightOf(0, 0); // Gets element at row 0, column 1
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * OptionalFloat value = matrix.rightOf(0, 0); // Returns OptionalFloat.of(2.0f)
+     * OptionalFloat empty = matrix.rightOf(0, 1); // Returns OptionalFloat.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalFloat containing the element to the right [i][j+1], or empty if at rightmost column
+     * @return an Optional containing the element to the right, or empty if out of bounds
      */
     public OptionalFloat rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
     }
 
     /**
-     * Returns a stream of the four orthogonally adjacent points (up, right, down, left) of the specified position.
-     * Points that would be outside the matrix bounds are included as null in the stream.
+     * Returns a stream of points adjacent to the specified position (up, down, left, right).
+     * Only includes points within matrix bounds.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * Stream<Point> adjacents = matrix.adjacent4Points(1, 1);
-     * // Returns stream of 4 points: up(0,1), right(1,2), down(2,1), left(1,0)
-     * adjacents.filter(Objects::nonNull).forEach(p -> System.out.println(matrix.get(p)));
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return a stream of 4 adjacent points in order: up, right, down, left (null for out-of-bounds)
+     * @return a stream of adjacent points (maximum 4)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -440,20 +448,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a stream of all eight adjacent points of the specified position, including diagonals.
-     * Points are returned in order: left-up, up, right-up, right, right-down, down, left-down, left.
-     * Points that would be outside the matrix bounds are included as null in the stream.
+     * Returns a stream of points adjacent to the specified position including diagonals.
+     * Only includes points within matrix bounds.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * Stream<Point> adjacents = matrix.adjacent8Points(1, 1);
-     * // Returns all 8 surrounding points (orthogonal + diagonal neighbors)
-     * long validNeighbors = adjacents.filter(Objects::nonNull).count();
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
+     * // Returns stream of all 8 surrounding points
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return a stream of 8 adjacent points in clockwise order starting from left-up (null for out-of-bounds)
+     * @return a stream of adjacent points including diagonals (maximum 8)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -470,18 +477,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns the internal array reference for the specified row.
-     * <b>Warning:</b> This method returns a direct reference to the internal array, not a copy.
-     * Modifications to the returned array will affect the matrix.
+     * Returns a copy of the specified row as an array.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * float[] firstRow = matrix.row(0); // Gets reference to the first row
-     * firstRow[0] = 999.0f; // This WILL modify the matrix!
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * float[] firstRow = matrix.row(0); // Returns [1.0f, 2.0f, 3.0f]
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return a direct reference to the internal array for the specified row
+     * @return a copy of the specified row
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public float[] row(final int rowIndex) throws IllegalArgumentException {
@@ -491,18 +496,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a new array containing a copy of the specified column.
-     * Unlike {@link #row(int)}, this method creates a new array since columns are not
-     * stored contiguously in memory.
+     * Returns a copy of the specified column as an array.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * float[] firstColumn = matrix.column(0); // Gets a copy of the first column
-     * firstColumn[0] = 999.0f; // This will NOT modify the matrix
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * float[] firstColumn = matrix.column(0); // Returns [1.0f, 4.0f]
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a new array containing the values from the specified column
+     * @return a copy of the specified column
      * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public float[] column(final int columnIndex) throws IllegalArgumentException {
@@ -518,18 +521,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets an entire row with the values from the provided array.
-     * The array length must match the number of columns in the matrix.
+     * Sets the values of the specified row.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * matrix.setRow(0, new float[]{1.0f, 2.0f, 3.0f}); // Sets the first row
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * matrix.setRow(0, new float[]{7.0f, 8.0f, 9.0f}); // First row is now [7.0f, 8.0f, 9.0f]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set in the row
-     * @throws IllegalArgumentException if row length doesn't match matrix columns
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final float[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -538,18 +540,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets an entire column with the values from the provided array.
-     * The array length must match the number of rows in the matrix.
+     * Sets the values of the specified column.
      *
-     * <p>Example:</p>
+     * <p>Example:
      * <pre>{@code
-     * matrix.setColumn(0, new float[]{1.0f, 2.0f, 3.0f}); // Sets the first column
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * matrix.setColumn(0, new float[]{7.0f, 8.0f}); // First column is now [7.0f, 8.0f]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set in the column
-     * @throws IllegalArgumentException if column length doesn't match matrix rows
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final float[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -602,17 +603,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the values on the main diagonal (left-up to right-down).
-     * The matrix must be square (rows == cols).
+     * Returns the elements on the main diagonal from left-upper to right-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
-     * <p>Example:</p>
+     * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1, 2}, {3, 4}});
-     * float[] diagonal = matrix.getLU2RD(); // Returns [1.0f, 4.0f]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * float[] diagonal = matrix.getLU2RD(); // Returns [1.0f, 5.0f, 9.0f]
      * }</pre>
      *
-     * @return a new array containing the main diagonal values
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new float array containing the main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public float[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -627,17 +630,23 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the values on the main diagonal (left-up to right-down).
-     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
-     * 
-     * <p>Example:</p>
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setLU2RD(new float[]{1.0f, 2.0f, 3.0f}); // Sets main diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.setLU2RD(new float[]{9.0f, 8.0f});
+     * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
-     * 
-     * @param diagonal the values to set on the main diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     *
+     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setLU2RD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -671,17 +680,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the values on the anti-diagonal (right-up to left-down).
-     * The matrix must be square (rows == cols).
+     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * The matrix must be square (rows == columns) for this operation.
      *
-     * <p>Example:</p>
+     * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1, 2}, {3, 4}});
-     * float[] antiDiagonal = matrix.getRU2LD(); // Returns [2.0f, 3.0f]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * float[] diagonal = matrix.getRU2LD(); // Returns [3.0f, 5.0f, 7.0f]
      * }</pre>
      *
-     * @return a new array containing the anti-diagonal values
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new float array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public float[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -696,17 +708,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the values on the anti-diagonal (right-up to left-down).
-     * The matrix must be square and the diagonal array must have at least as many elements as the matrix dimension.
-     * 
-     * <p>Example:</p>
+     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
+     * <p>Example:
      * <pre>{@code
-     * matrix.setRU2LD(new float[]{1.0f, 2.0f, 3.0f}); // Sets anti-diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.setRU2LD(new float[]{9.0f, 8.0f});
+     * // Anti-diagonal is now [9.0f, 8.0f]
      * }</pre>
-     * 
-     * @param diagonal the values to set on the anti-diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     *
+     * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setRU2LD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -920,15 +939,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a copy of the entire matrix.
-     * 
-     * <p>Example:</p>
+     * Returns a deep copy of this matrix.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix copy = matrix.copy();
-     * copy.set(0, 0, 99.0f); // Original matrix is unchanged
+     * FloatMatrix original = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix copy = original.copy();
+     * // copy is independent from original
      * }</pre>
-     * 
-     * @return a new FloatMatrix that is a copy of this matrix
+     *
+     * @return a new matrix that is a deep copy of this matrix
      */
     @Override
     public FloatMatrix copy() {
@@ -1031,6 +1051,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix extend(final int newRows, final int newCols, final float defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+
+        // Check for overflow before allocation
+        if ((long) newRows * newCols > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+        }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1203,16 +1228,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new matrix rotated 90 degrees clockwise.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 90 degrees clockwise.
+     *
+     * <p>Example:
      * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate90();
-     * // [[1,2],    becomes    [[3,1],
-     * //  [3,4]]                [4,2]]
+     * // rotated is {{3.0, 1.0}, {4.0, 2.0}}
      * }</pre>
-     * 
-     * @return a new FloatMatrix rotated 90 degrees clockwise
+     *
+     * @return a new matrix rotated 90 degrees clockwise
      */
     @Override
     public FloatMatrix rotate90() {
@@ -1236,16 +1261,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new matrix rotated 180 degrees.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 180 degrees.
+     *
+     * <p>Example:
      * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate180();
-     * // [[1,2],    becomes    [[4,3],
-     * //  [3,4]]                [2,1]]
+     * // rotated is {{4.0, 3.0}, {2.0, 1.0}}
      * }</pre>
-     * 
-     * @return a new FloatMatrix rotated 180 degrees
+     *
+     * @return a new matrix rotated 180 degrees
      */
     @Override
     public FloatMatrix rotate180() {
@@ -1260,16 +1285,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     *
+     * <p>Example:
      * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate270();
-     * // [[1,2],    becomes    [[2,4],
-     * //  [3,4]]                [1,3]]
+     * // rotated is {{2.0, 4.0}, {1.0, 3.0}}
      * }</pre>
-     * 
-     * @return a new FloatMatrix rotated 270 degrees clockwise
+     *
+     * @return a new matrix rotated 270 degrees clockwise
      */
     @Override
     public FloatMatrix rotate270() {
@@ -1293,18 +1318,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new matrix that is the transpose of this matrix.
-     * Rows become columns and columns become rows.
-     * 
-     * <p>Example:</p>
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose swaps rows and columns.
+     *
+     * <p>Example:
      * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * FloatMatrix transposed = matrix.transpose();
-     * // [[1,2,3],    becomes    [[1,4],
-     * //  [4,5,6]]                [2,5],
-     * //                          [3,6]]
+     * // transposed is {{1.0, 4.0}, {2.0, 5.0}, {3.0, 6.0}}
      * }</pre>
-     * 
-     * @return a new FloatMatrix that is the transpose of this matrix
+     *
+     * @return a new matrix that is the transpose of this matrix
      */
     @Override
     public FloatMatrix transpose() {
@@ -1328,15 +1352,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Reshapes the matrix to new dimensions.
-     * Elements are read in row-major order (left to right, top to bottom) and placed into the new shape.
-     * If the new shape has fewer elements than the original, extra elements are discarded.
-     * If the new shape has more elements, remaining positions are filled with 0.0f.
+     * Reshapes the matrix to new dimensions while preserving element order.
+     * Elements are read in row-major order from the original matrix and placed into the new shape.
+     *
+     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
+     * If the new shape has more total elements, the additional positions are filled with zeros.</p>
      *
      * <p>Example:</p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2,3},{4,5,6}});
-     * FloatMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1,2],[3,4],[5,6]]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1.0f, 2.0f], [3.0f, 4.0f], [5.0f, 6.0f]]
+     * FloatMatrix extended = matrix.reshape(2, 4); // Becomes [[1.0f, 2.0f, 3.0f, 4.0f], [5.0f, 6.0f, 0.0f, 0.0f]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix
@@ -1393,6 +1419,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1435,6 +1469,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public FloatMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1453,19 +1495,23 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Flattens the matrix into a single FloatList in row-major order.
-     * Elements are read row by row from left to right.
-     * 
-     * <p>Example:</p>
+     * Returns a list containing all matrix elements in row-major order.
+     *
+     * <p>Example:
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2},{3,4}});
-     * FloatList flat = matrix.flatten(); // Returns [1, 2, 3, 4]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatList list = matrix.flatten(); // Returns FloatList of 1.0f, 2.0f, 3.0f, 4.0f
      * }</pre>
-     * 
-     * @return a FloatList containing all elements in row-major order
+     *
+     * @return a list of all elements in row-major order
      */
     @Override
     public FloatList flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final float[] c = new float[rows * cols];
 
         for (int i = 0; i < rows; i++) {

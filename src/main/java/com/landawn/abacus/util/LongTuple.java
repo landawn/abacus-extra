@@ -245,15 +245,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the minimum value among all elements in this tuple.
+     * Returns the minimum long value in this tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
      * long min = tuple.min();  // 2
      * }</pre>
      *
-     * @return the minimum value
+     * @return the minimum long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public long min() {
@@ -261,15 +261,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the maximum value among all elements in this tuple.
+     * Returns the maximum long value in this tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
      * long max = tuple.max();  // 8
      * }</pre>
      *
-     * @return the maximum value
+     * @return the maximum long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public long max() {
@@ -277,19 +277,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the median value of all elements in this tuple.
-     * For even-sized tuples, returns the lower of the two middle values.
-     * 
+     * Returns the median long value in this tuple.
+     * For tuples with an even number of elements, returns the lower middle value.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
-     * LongTuple3 tuple = LongTuple.of(3, 1, 2);
+     * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long median = tuple.median(); // 2
-     * 
-     * LongTuple4 tuple = LongTuple.of(1, 2, 3, 4);
+     *
+     * LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
      * long median = tuple.median(); // 2
      * }</pre>
      *
-     * @return the median value
+     * @return the median long value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public long median() {
@@ -299,28 +299,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the sum of all elements in this tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
      * long sum = tuple.sum();  // 60
      * }</pre>
      *
-     * @return the sum of all elements, or 0 if the tuple is empty
+     * @return the sum of all long values in this tuple
      */
     public long sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average (arithmetic mean) of all elements in this tuple.
+     * Returns the average of all long values in this tuple as a double.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
      * double avg = tuple.average();  // 20.0
      * }</pre>
      *
-     * @return the average value as a double
+     * @return the average of all long values as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -330,10 +330,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new tuple with elements in reverse order.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * LongTuple3 reversed = tuple.reverse();  // (3, 2, 1)
+     * LongTuple3 reversed = tuple.reverse(); // (3, 2, 1)
      * }</pre>
      *
      * @return a new tuple with elements in reverse order
@@ -341,33 +341,31 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     public abstract TP reverse();
 
     /**
-     * Checks if this tuple contains the specified value.
+     * Checks if this tuple contains the specified long value.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
-     * boolean has20 = tuple.contains(20L);  // true
-     * boolean has40 = tuple.contains(40L);  // false
+     * boolean has20 = tuple.contains(20L); // true
+     * boolean has40 = tuple.contains(40L); // false
      * }</pre>
      *
-     * @param valueToFind the value to search for
-     * @return {@code true} if the value is found, {@code false} otherwise
+     * @param valueToFind the long value to search for
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(long valueToFind);
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * <p>
-     * The returned array is a copy, so modifications to it do not affect the tuple.
-     * </p>
+     * Modifications to the returned array do not affect the tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long[] array = tuple.toArray();  // {1, 2, 3}
+     * long[] array = tuple.toArray(); // [1, 2, 3]
      * }</pre>
      *
-     * @return a new array containing all tuple elements
+     * @return a new long array containing all tuple elements
      */
     public long[] toArray() {
         return elements().clone();
@@ -376,7 +374,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new LongList containing all elements of this tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongList list = tuple.toList();
@@ -410,10 +408,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a LongStream of all elements in this tuple.
      *
-     * <p>Example:</p>
+     * <p>Example usage:</p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long product = tuple.stream().reduce(1L, (a, b) -> a * b);  // 6
+     * long sum = tuple.stream().sum(); // 6
      * }</pre>
      *
      * @return a LongStream containing all tuple elements

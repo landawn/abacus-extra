@@ -711,4 +711,427 @@ public class Matrixes2025Test extends TestBase {
         Matrixes.run(3, 0, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(0, positions.size());
     }
+
+    // ============ Additional Coverage Tests ============
+
+    @Test
+    public void testRun_withRange_moreRowsThanCols_sequential() {
+        List<String> positions = new ArrayList<>();
+        // 5 rows x 2 cols - should iterate by columns first
+        Matrixes.run(0, 5, 0, 2, (i, j) -> positions.add(i + "," + j), false);
+        assertEquals(10, positions.size());
+        // Should start with all rows for first column
+        assertEquals("0,0", positions.get(0));
+        assertEquals("1,0", positions.get(1));
+    }
+
+    @Test
+    public void testRun_withRange_moreRowsThanCols_parallel() {
+        List<String> positions = new ArrayList<>();
+        Matrixes.setParallelEnabled(ParallelEnabled.NO);
+        // 5 rows x 2 cols - parallel should iterate by columns
+        Matrixes.run(0, 5, 0, 2, (i, j) -> {
+            synchronized (positions) {
+                positions.add(i + "," + j);
+            }
+        }, true);
+        assertEquals(10, positions.size());
+    }
+
+    @Test
+    public void testCall_withRange_moreRowsThanCols() {
+        // 4 rows x 2 cols - should iterate by columns
+        com.landawn.abacus.util.stream.Stream<String> result = Matrixes.call(0, 4, 0, 2, (i, j) -> i + ":" + j, false);
+        List<String> list = result.toList();
+        assertEquals(8, list.size());
+    }
+
+    @Test
+    public void testCall_withRange_moreRowsThanCols_parallel() {
+        // 4 rows x 2 cols - parallel should iterate by columns
+        com.landawn.abacus.util.stream.Stream<Integer> result = Matrixes.call(0, 4, 0, 2, (i, j) -> i * 10 + j, true);
+        List<Integer> list = result.toList();
+        assertEquals(8, list.size());
+    }
+
+    @Test
+    public void testCallToInt_withRange_moreRowsThanCols() {
+        // 5 rows x 2 cols - should iterate by columns
+        IntStream result = Matrixes.callToInt(0, 5, 0, 2, (i, j) -> i + j, false);
+        int[] array = result.toArray();
+        assertEquals(10, array.length);
+    }
+
+    @Test
+    public void testCallToInt_withRange_moreRowsThanCols_parallel() {
+        // 5 rows x 2 cols - parallel should iterate by columns
+        IntStream result = Matrixes.callToInt(0, 5, 0, 2, (i, j) -> i * j, true);
+        int[] array = result.toArray();
+        assertEquals(10, array.length);
+    }
+
+    @Test
+    public void testMultiply_differentDimensionOrdering_smallestIsColsA() {
+        // Test case where colsA is smallest dimension
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } }); // 3x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9, 10 }, { 11, 12, 13, 14 } }); // 2x4
+        int[][] result = new int[3][4];
+
+        Matrixes.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
+
+        assertEquals(29, result[0][0]); // 1*7 + 2*11
+        assertEquals(65, result[1][0]); // 3*7 + 4*11 = 21 + 44 = 65
+    }
+
+    @Test
+    public void testMultiply_differentDimensionOrdering_smallestIsColsB() {
+        // Test case where colsB is smallest dimension
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } }); // 4x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } }); // 3x2
+        int[][] result = new int[4][2];
+
+        Matrixes.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
+
+        assertEquals(22, result[0][0]); // 1*1 + 2*3 + 3*5
+        assertEquals(28, result[0][1]); // 1*2 + 2*4 + 3*6
+    }
+
+    @Test
+    public void testMultiply_parallelExecution_variousDimensions() {
+        // Test parallel execution with different dimension orderings
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6, 7 }, { 8, 9, 10 } }); // 2x3
+        int[][] result = new int[2][3];
+
+        Matrixes.multiply(m1, m2, (i, j, k) -> {
+            synchronized (result) {
+                result[i][j] += m1.get(i, k) * m2.get(k, j);
+            }
+        }, true);
+
+        assertEquals(21, result[0][0]); // 1*5 + 2*8
+        assertEquals(24, result[0][1]); // 1*6 + 2*9
+        assertEquals(27, result[0][2]); // 1*7 + 2*10
+    }
+
+    @Test
+    public void testZipToInt_byteMatrix_three() {
+        ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
+        ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } });
+        ByteMatrix m3 = ByteMatrix.of(new byte[][] { { 9, 10 }, { 11, 12 } });
+        IntMatrix result = Matrixes.zipToInt(m1, m2, m3, (a, b, c) -> a + b + c);
+
+        assertEquals(15, result.get(0, 0));
+        assertEquals(18, result.get(0, 1));
+        assertEquals(21, result.get(1, 0));
+        assertEquals(24, result.get(1, 1));
+    }
+
+    @Test
+    public void testZipToInt_byteMatrix_collection() {
+        Collection<ByteMatrix> matrices = Arrays.asList(ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } }), ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } }),
+                ByteMatrix.of(new byte[][] { { 9, 10 }, { 11, 12 } }));
+        IntMatrix result = Matrixes.zipToInt(matrices, arr -> arr[0] + arr[1] + arr[2]);
+
+        assertEquals(15, result.get(0, 0));
+        assertEquals(18, result.get(0, 1));
+        assertEquals(21, result.get(1, 0));
+        assertEquals(24, result.get(1, 1));
+    }
+
+    @Test
+    public void testZipToInt_byteMatrix_collection_withSharing() {
+        Collection<ByteMatrix> matrices = Arrays.asList(ByteMatrix.of(new byte[][] { { 2, 4 } }), ByteMatrix.of(new byte[][] { { 3, 6 } }));
+        IntMatrix result = Matrixes.zipToInt(matrices, arr -> arr[0] * arr[1], true);
+
+        assertEquals(6, result.get(0, 0));
+        assertEquals(24, result.get(0, 1));
+    }
+
+    @Test
+    public void testZipToLong_intMatrix_three() {
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
+        IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
+        LongMatrix result = Matrixes.zipToLong(m1, m2, m3, (a, b, c) -> (long) a + b + c);
+
+        assertEquals(15L, result.get(0, 0));
+        assertEquals(18L, result.get(0, 1));
+        assertEquals(21L, result.get(1, 0));
+        assertEquals(24L, result.get(1, 1));
+    }
+
+    @Test
+    public void testZipToLong_intMatrix_collection() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }), IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }));
+        LongMatrix result = Matrixes.zipToLong(matrices, arr -> (long) arr[0] * arr[1]);
+
+        assertEquals(5L, result.get(0, 0));
+        assertEquals(12L, result.get(0, 1));
+        assertEquals(21L, result.get(1, 0));
+        assertEquals(32L, result.get(1, 1));
+    }
+
+    @Test
+    public void testZipToLong_intMatrix_collection_withSharing() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 10, 20 } }), IntMatrix.of(new int[][] { { 2, 4 } }));
+        LongMatrix result = Matrixes.zipToLong(matrices, arr -> (long) arr[0] / arr[1], true);
+
+        assertEquals(5L, result.get(0, 0));
+        assertEquals(5L, result.get(0, 1));
+    }
+
+    @Test
+    public void testZipToDouble_intMatrix_three() {
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 10, 20 }, { 30, 40 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 2, 4 }, { 6, 8 } });
+        IntMatrix m3 = IntMatrix.of(new int[][] { { 1, 1 }, { 1, 1 } });
+        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b) / c);
+
+        assertEquals(12.0, result.get(0, 0), 0.0001);
+        assertEquals(24.0, result.get(0, 1), 0.0001);
+        assertEquals(36.0, result.get(1, 0), 0.0001);
+        assertEquals(48.0, result.get(1, 1), 0.0001);
+    }
+
+    @Test
+    public void testZipToDouble_intMatrix_collection() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 10, 20 }, { 30, 40 } }), IntMatrix.of(new int[][] { { 2, 4 }, { 6, 8 } }));
+        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) arr[0] / arr[1]);
+
+        assertEquals(5.0, result.get(0, 0), 0.0001);
+        assertEquals(5.0, result.get(0, 1), 0.0001);
+        assertEquals(5.0, result.get(1, 0), 0.0001);
+        assertEquals(5.0, result.get(1, 1), 0.0001);
+    }
+
+    @Test
+    public void testZipToDouble_intMatrix_collection_withSharing() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 100, 200 } }), IntMatrix.of(new int[][] { { 10, 20 } }),
+                IntMatrix.of(new int[][] { { 2, 4 } }));
+        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]) / arr[2], true);
+
+        assertEquals(55.0, result.get(0, 0), 0.0001);
+        assertEquals(55.0, result.get(0, 1), 0.0001);
+    }
+
+    @Test
+    public void testZip_longMatrix_three() {
+        LongMatrix m1 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
+        LongMatrix m2 = LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } });
+        LongMatrix m3 = LongMatrix.of(new long[][] { { 9L, 10L }, { 11L, 12L } });
+        LongMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + b + c);
+
+        assertEquals(15L, result.get(0, 0));
+        assertEquals(18L, result.get(0, 1));
+        assertEquals(21L, result.get(1, 0));
+        assertEquals(24L, result.get(1, 1));
+    }
+
+    @Test
+    public void testZip_longMatrix_toObject() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 1L, 2L } }), LongMatrix.of(new long[][] { { 3L, 4L } }));
+        Matrix<String> result = Matrixes.zip(matrices, arr -> arr[0] + "+" + arr[1], String.class);
+
+        assertEquals("1+3", result.get(0, 0));
+        assertEquals("2+4", result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_longMatrix_toObject_withSharing() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 10L, 20L } }), LongMatrix.of(new long[][] { { 5L, 10L } }));
+        Matrix<Long> result = Matrixes.zip(matrices, arr -> arr[0] - arr[1], true, Long.class);
+
+        assertEquals(5L, result.get(0, 0).longValue());
+        assertEquals(10L, result.get(0, 1).longValue());
+    }
+
+    @Test
+    public void testZipToDouble_longMatrix_three() {
+        LongMatrix m1 = LongMatrix.of(new long[][] { { 100L, 200L }, { 300L, 400L } });
+        LongMatrix m2 = LongMatrix.of(new long[][] { { 10L, 20L }, { 30L, 40L } });
+        LongMatrix m3 = LongMatrix.of(new long[][] { { 2L, 4L }, { 6L, 8L } });
+        DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double) (a + b) / c);
+
+        assertEquals(55.0, result.get(0, 0), 0.0001);
+        assertEquals(55.0, result.get(0, 1), 0.0001);
+        assertEquals(55.0, result.get(1, 0), 0.0001);
+        assertEquals(55.0, result.get(1, 1), 0.0001);
+    }
+
+    @Test
+    public void testZipToDouble_longMatrix_collection() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 100L, 200L }, { 300L, 400L } }),
+                LongMatrix.of(new long[][] { { 10L, 20L }, { 30L, 40L } }));
+        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) arr[0] / arr[1]);
+
+        assertEquals(10.0, result.get(0, 0), 0.0001);
+        assertEquals(10.0, result.get(0, 1), 0.0001);
+        assertEquals(10.0, result.get(1, 0), 0.0001);
+        assertEquals(10.0, result.get(1, 1), 0.0001);
+    }
+
+    @Test
+    public void testZipToDouble_longMatrix_collection_withSharing() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 50L, 100L } }), LongMatrix.of(new long[][] { { 10L, 20L } }),
+                LongMatrix.of(new long[][] { { 2L, 4L } }));
+        DoubleMatrix result = Matrixes.zipToDouble(matrices, arr -> (double) (arr[0] + arr[1]) / arr[2], true);
+
+        assertEquals(30.0, result.get(0, 0), 0.0001);
+        assertEquals(30.0, result.get(0, 1), 0.0001);
+    }
+
+    @Test
+    public void testZip_doubleMatrix_toObject() {
+        Collection<DoubleMatrix> matrices = Arrays.asList(DoubleMatrix.of(new double[][] { { 1.5, 2.5 } }), DoubleMatrix.of(new double[][] { { 0.5, 0.5 } }));
+        Matrix<String> result = Matrixes.zip(matrices, arr -> String.format("%.1f", arr[0] + arr[1]), String.class);
+
+        assertEquals("2.0", result.get(0, 0));
+        assertEquals("3.0", result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_doubleMatrix_toObject_withSharing() {
+        Collection<DoubleMatrix> matrices = Arrays.asList(DoubleMatrix.of(new double[][] { { 10.0, 20.0 } }),
+                DoubleMatrix.of(new double[][] { { 5.0, 10.0 } }));
+        Matrix<Double> result = Matrixes.zip(matrices, arr -> arr[0] / arr[1], true, Double.class);
+
+        assertEquals(2.0, result.get(0, 0), 0.0001);
+        assertEquals(2.0, result.get(0, 1), 0.0001);
+    }
+
+    @Test
+    public void testZip_objectMatrix_three_withTargetType() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } });
+        Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 9, 10 }, { 11, 12 } });
+        Matrix<String> result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a + "+" + b + "+" + c, String.class);
+
+        assertEquals("1+5+9", result.get(0, 0));
+        assertEquals("2+6+10", result.get(0, 1));
+        assertEquals("3+7+11", result.get(1, 0));
+        assertEquals("4+8+12", result.get(1, 1));
+    }
+
+    @Test
+    public void testZip_intMatrix_collection_singleItem() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 5, 10 }, { 15, 20 } }));
+        IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+
+        // Single matrix should be copied
+        assertEquals(5, result.get(0, 0));
+        assertEquals(10, result.get(0, 1));
+        assertEquals(15, result.get(1, 0));
+        assertEquals(20, result.get(1, 1));
+    }
+
+    @Test
+    public void testZip_intMatrix_collection_twoItems() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }), IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }));
+        IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+
+        // Two items should use zipWith directly
+        assertEquals(6, result.get(0, 0));
+        assertEquals(8, result.get(0, 1));
+        assertEquals(10, result.get(1, 0));
+        assertEquals(12, result.get(1, 1));
+    }
+
+    @Test
+    public void testZip_longMatrix_collection_singleItem() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 100L, 200L } }));
+        LongMatrix result = Matrixes.zip(matrices, (a, b) -> a * b);
+
+        // Single matrix should be copied
+        assertEquals(100L, result.get(0, 0));
+        assertEquals(200L, result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_longMatrix_collection_twoItems() {
+        Collection<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 2L, 4L } }), LongMatrix.of(new long[][] { { 3L, 5L } }));
+        LongMatrix result = Matrixes.zip(matrices, (a, b) -> a * b);
+
+        // Two items should use zipWith directly
+        assertEquals(6L, result.get(0, 0));
+        assertEquals(20L, result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_doubleMatrix_collection_singleItem() {
+        Collection<DoubleMatrix> matrices = Arrays.asList(DoubleMatrix.of(new double[][] { { 1.5, 2.5 } }));
+        DoubleMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
+
+        // Single matrix should be copied
+        assertEquals(1.5, result.get(0, 0), 0.0001);
+        assertEquals(2.5, result.get(0, 1), 0.0001);
+    }
+
+    @Test
+    public void testZip_doubleMatrix_collection_twoItems() {
+        Collection<DoubleMatrix> matrices = Arrays.asList(DoubleMatrix.of(new double[][] { { 1.0, 2.0 } }), DoubleMatrix.of(new double[][] { { 3.0, 4.0 } }));
+        DoubleMatrix result = Matrixes.zip(matrices, (a, b) -> a * b);
+
+        // Two items should use zipWith directly
+        assertEquals(3.0, result.get(0, 0), 0.0001);
+        assertEquals(8.0, result.get(0, 1), 0.0001);
+    }
+
+    @Test
+    public void testZip_objectMatrix_collection_singleItem() {
+        Collection<Matrix<Integer>> matrices = Arrays.asList(Matrix.of(new Integer[][] { { 10, 20 } }));
+        Matrix<Integer> result = Matrixes.zip(matrices, (a, b) -> a + b);
+
+        // Single matrix should be copied
+        assertEquals(10, result.get(0, 0).intValue());
+        assertEquals(20, result.get(0, 1).intValue());
+    }
+
+    @Test
+    public void testZip_objectMatrix_collection_twoItems() {
+        Collection<Matrix<String>> matrices = Arrays.asList(Matrix.of(new String[][] { { "a", "b" } }), Matrix.of(new String[][] { { "x", "y" } }));
+        Matrix<String> result = Matrixes.zip(matrices, (a, b) -> a + b);
+
+        // Two items should use zipWith directly
+        assertEquals("ax", result.get(0, 0));
+        assertEquals("by", result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_byteMatrix_collection_twoItems() {
+        Collection<ByteMatrix> matrices = Arrays.asList(ByteMatrix.of(new byte[][] { { 1, 2 } }), ByteMatrix.of(new byte[][] { { 3, 4 } }));
+        ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) (a + b));
+
+        // Two items should use zipWith directly
+        assertEquals(4, result.get(0, 0));
+        assertEquals(6, result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_byteMatrix_toObject_withSharing() {
+        Collection<ByteMatrix> matrices = Arrays.asList(ByteMatrix.of(new byte[][] { { 10, 20 } }), ByteMatrix.of(new byte[][] { { 5, 10 } }));
+        Matrix<Integer> result = Matrixes.zip(matrices, arr -> (int) (arr[0] - arr[1]), true, Integer.class);
+
+        assertEquals(5, result.get(0, 0).intValue());
+        assertEquals(10, result.get(0, 1).intValue());
+    }
+
+    @Test
+    public void testZip_intMatrix_toObject_withSharing() {
+        Collection<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 10, 20 } }), IntMatrix.of(new int[][] { { 5, 10 } }));
+        Matrix<String> result = Matrixes.zip(matrices, arr -> arr[0] + "-" + arr[1], true, String.class);
+
+        assertEquals("10-5", result.get(0, 0));
+        assertEquals("20-10", result.get(0, 1));
+    }
+
+    @Test
+    public void testZip_objectMatrix_collection_withSharing() {
+        Collection<Matrix<Integer>> matrices = Arrays.asList(Matrix.of(new Integer[][] { { 10, 20 } }), Matrix.of(new Integer[][] { { 5, 10 } }),
+                Matrix.of(new Integer[][] { { 1, 2 } }));
+        Matrix<Integer> result = Matrixes.zip(matrices, arr -> arr[0] + arr[1] + arr[2], true, Integer.class);
+
+        assertEquals(16, result.get(0, 0).intValue());
+        assertEquals(32, result.get(0, 1).intValue());
+    }
 }

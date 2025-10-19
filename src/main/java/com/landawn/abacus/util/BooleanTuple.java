@@ -240,36 +240,37 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Creates a new tuple with the elements in reversed order.
-     * 
+     * Returns a new tuple with elements in reverse order.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
-     * BooleanTuple3 reversed = tuple.reverse(); // contains false, false, true
+     * BooleanTuple3 reversed = tuple.reverse(); // (false, false, true)
      * }</pre>
      *
-     * @return a new tuple with elements in reversed order
+     * @return a new tuple with elements in reverse order
      */
     public abstract TP reverse();
 
     /**
      * Checks if this tuple contains the specified boolean value.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean hasTrue = tuple.contains(true);   // true
-     * boolean hasFalse = tuple.contains(false); // true
+     * boolean hasTrue = tuple.contains(true); // true
+     * boolean hasX = tuple.contains(false); // true
      * }</pre>
      *
      * @param valueToFind the boolean value to search for
-     * @return {@code true} if the value is found, {@code false} otherwise
+     * @return {@code true} if the value is found in this tuple, {@code false} otherwise
      */
     public abstract boolean contains(boolean valueToFind);
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * 
+     * Modifications to the returned array do not affect the tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
@@ -284,7 +285,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Returns a new BooleanList containing all elements of this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
@@ -317,8 +318,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Returns a Stream of Boolean objects containing the elements in this tuple.
-     * 
+     * Returns a Stream of Boolean objects containing all elements in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);

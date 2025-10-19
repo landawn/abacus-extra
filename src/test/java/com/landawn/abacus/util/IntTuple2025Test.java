@@ -718,4 +718,363 @@ public class IntTuple2025Test extends TestBase {
         assertEquals(8, IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8).arity());
         assertEquals(9, IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9).arity());
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+
+        // Test reverse
+        IntTuple4 reversed = tuple.reverse();
+        assertEquals(4, reversed._1);
+        assertEquals(3, reversed._2);
+        assertEquals(2, reversed._3);
+        assertEquals(1, reversed._4);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(4));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4 }, tuple.toArray());
+
+        // Test min/max/median/sum/average
+        assertEquals(1, tuple.min());
+        assertEquals(4, tuple.max());
+        assertEquals(2, tuple.median());
+        assertEquals(10, tuple.sum());
+        assertEquals(2.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
+        IntTuple4 tuple3 = IntTuple.of(1, 2, 3, 5);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4]", tuple.toString());
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+
+        // Test reverse
+        IntTuple5 reversed = tuple.reverse();
+        assertEquals(5, reversed._1);
+        assertEquals(4, reversed._2);
+        assertEquals(3, reversed._3);
+        assertEquals(2, reversed._4);
+        assertEquals(1, reversed._5);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(5));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1, tuple.min());
+        assertEquals(5, tuple.max());
+        assertEquals(3, tuple.median());
+        assertEquals(15, tuple.sum());
+        assertEquals(3.0, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
+        IntTuple5 tuple3 = IntTuple.of(1, 2, 3, 4, 6);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4, 5]", tuple.toString());
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+
+        // Test reverse
+        IntTuple6 reversed = tuple.reverse();
+        assertEquals(6, reversed._1);
+        assertEquals(5, reversed._2);
+        assertEquals(4, reversed._3);
+        assertEquals(3, reversed._4);
+        assertEquals(2, reversed._5);
+        assertEquals(1, reversed._6);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(6));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1, tuple.min());
+        assertEquals(6, tuple.max());
+        assertEquals(3, tuple.median());
+        assertEquals(21, tuple.sum());
+        assertEquals(3.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple6 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        IntTuple6 tuple3 = IntTuple.of(1, 2, 3, 4, 5, 7);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4, 5, 6]", tuple.toString());
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+
+        // Test reverse
+        IntTuple7 reversed = tuple.reverse();
+        assertEquals(7, reversed._1);
+        assertEquals(6, reversed._2);
+        assertEquals(5, reversed._3);
+        assertEquals(4, reversed._4);
+        assertEquals(3, reversed._5);
+        assertEquals(2, reversed._6);
+        assertEquals(1, reversed._7);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(7));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6, 7 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1, tuple.min());
+        assertEquals(7, tuple.max());
+        assertEquals(4, tuple.median());
+        assertEquals(28, tuple.sum());
+        assertEquals(4.0, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple7 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        IntTuple7 tuple3 = IntTuple.of(1, 2, 3, 4, 5, 6, 8);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4, 5, 6, 7]", tuple.toString());
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+
+        // Test reverse
+        IntTuple8 reversed = tuple.reverse();
+        assertEquals(8, reversed._1);
+        assertEquals(7, reversed._2);
+        assertEquals(6, reversed._3);
+        assertEquals(5, reversed._4);
+        assertEquals(4, reversed._5);
+        assertEquals(3, reversed._6);
+        assertEquals(2, reversed._7);
+        assertEquals(1, reversed._8);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(8));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1, tuple.min());
+        assertEquals(8, tuple.max());
+        assertEquals(4, tuple.median());
+        assertEquals(36, tuple.sum());
+        assertEquals(4.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple8 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        IntTuple8 tuple3 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 9);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8]", tuple.toString());
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+        // Test reverse
+        IntTuple9 reversed = tuple.reverse();
+        assertEquals(9, reversed._1);
+        assertEquals(8, reversed._2);
+        assertEquals(7, reversed._3);
+        assertEquals(6, reversed._4);
+        assertEquals(5, reversed._5);
+        assertEquals(4, reversed._6);
+        assertEquals(3, reversed._7);
+        assertEquals(2, reversed._8);
+        assertEquals(1, reversed._9);
+
+        // Test contains
+        assertTrue(tuple.contains(1));
+        assertTrue(tuple.contains(9));
+        assertFalse(tuple.contains(99));
+
+        // Test toArray
+        assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals(1, tuple.min());
+        assertEquals(9, tuple.max());
+        assertEquals(5, tuple.median());
+        assertEquals(45, tuple.sum());
+        assertEquals(5.0, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        IntTuple9 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntTuple9 tuple3 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 10);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9]", tuple.toString());
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        IntTuple2 tuple2 = IntTuple.create(new int[] { 1, 2 });
+        assertEquals(1, tuple2._1);
+        assertEquals(2, tuple2._2);
+
+        IntTuple4 tuple4 = IntTuple.create(new int[] { 1, 2, 3, 4 });
+        assertEquals(1, tuple4._1);
+        assertEquals(4, tuple4._4);
+
+        IntTuple5 tuple5 = IntTuple.create(new int[] { 1, 2, 3, 4, 5 });
+        assertEquals(1, tuple5._1);
+        assertEquals(5, tuple5._5);
+
+        IntTuple6 tuple6 = IntTuple.create(new int[] { 1, 2, 3, 4, 5, 6 });
+        assertEquals(1, tuple6._1);
+        assertEquals(6, tuple6._6);
+
+        IntTuple7 tuple7 = IntTuple.create(new int[] { 1, 2, 3, 4, 5, 6, 7 });
+        assertEquals(1, tuple7._1);
+        assertEquals(7, tuple7._7);
+
+        IntTuple8 tuple8 = IntTuple.create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        assertEquals(1, tuple8._1);
+        assertEquals(8, tuple8._8);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
+        IntList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals(1, list4.get(0));
+        assertEquals(4, list4.get(3));
+
+        IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+        IntList list5 = tuple5.toList();
+        assertEquals(5, list5.size());
+        assertEquals(5, list5.get(4));
+
+        IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        IntList list6 = tuple6.toList();
+        assertEquals(6, list6.size());
+        assertEquals(6, list6.get(5));
+
+        IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        IntList list7 = tuple7.toList();
+        assertEquals(7, list7.size());
+        assertEquals(7, list7.get(6));
+
+        IntTuple8 tuple8 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        IntList list8 = tuple8.toList();
+        assertEquals(8, list8.size());
+        assertEquals(8, list8.get(7));
+
+        IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals(9, list9.get(8));
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        List<Integer> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Integer.valueOf(1), result.get(0));
+        assertEquals(Integer.valueOf(2), result.get(1));
+        assertEquals(Integer.valueOf(3), result.get(2));
+        assertEquals(Integer.valueOf(4), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        IntTuple2 tuple = IntTuple.of(10, 20);
+        List<Integer> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Integer.valueOf(10), result.get(0));
+        assertEquals(Integer.valueOf(20), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        IntTuple3 tuple = IntTuple.of(10, 20, 30);
+        List<Integer> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Integer.valueOf(10), result.get(0));
+        assertEquals(Integer.valueOf(20), result.get(1));
+        assertEquals(Integer.valueOf(30), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
+        assertEquals(10, tuple4.stream().sum());
+
+        IntTuple5 tuple5 = IntTuple.of(1, 2, 3, 4, 5);
+        assertEquals(15, tuple5.stream().sum());
+
+        IntTuple6 tuple6 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertEquals(21, tuple6.stream().sum());
+
+        IntTuple7 tuple7 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertEquals(28, tuple7.stream().sum());
+
+        IntTuple8 tuple8 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertEquals(36, tuple8.stream().sum());
+
+        IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertEquals(45, tuple9.stream().sum());
+    }
 }

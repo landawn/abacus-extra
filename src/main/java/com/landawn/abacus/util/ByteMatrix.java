@@ -63,28 +63,28 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
     /**
-     * Constructs a ByteMatrix from a 2D byte array. If the input array is null,
-     * an empty matrix is created. The array is used directly without copying,
-     * so modifications to the array will affect the matrix.
+     * Constructs a ByteMatrix from a 2D byte array.
+     * If the input array is null, an empty matrix (0x0) is created.
+     * <p><b>Note:</b> The array is used directly without copying. Modifications to the input array
+     * after construction will affect the matrix, and vice versa.</p>
      *
-     * @param a the 2D byte array to wrap as a matrix
+     * @param a the 2D byte array to wrap as a matrix. Can be null.
      */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
     }
 
     /**
-     * Returns an empty ByteMatrix with zero rows and columns.
-     * This method returns a singleton instance for efficiency.
-     * 
+     * Creates an empty matrix with zero rows and zero columns.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix empty = ByteMatrix.empty();
-     * System.out.println(empty.rows()); // 0
-     * System.out.println(empty.cols()); // 0
+     * ByteMatrix matrix = ByteMatrix.empty();
+     * // matrix.rows() returns 0
+     * // matrix.columns() returns 0
      * }</pre>
      *
-     * @return an empty ByteMatrix instance
+     * @return an empty byte matrix
      */
     public static ByteMatrix empty() {
         return EMPTY_BYTE_MATRIX;
@@ -111,17 +111,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a 1-row ByteMatrix with random byte values of the specified length.
-     * The random values are generated using ByteList's random method.
-     * 
+     * Creates a 1-row matrix filled with random values.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix random = ByteMatrix.random(5);
+     * ByteMatrix matrix = ByteMatrix.random(5);
      * // Creates a 1x5 matrix with random byte values
      * }</pre>
      *
-     * @param len the number of columns for the matrix
-     * @return a new 1xlen ByteMatrix with random byte values 
+     * @param len the number of columns
+     * @return a 1-row matrix filled with random byte values
      */
     @SuppressWarnings("deprecation")
     public static ByteMatrix random(final int len) {
@@ -129,17 +128,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a 1-row ByteMatrix filled with the specified value repeated for the given length.
+     * Creates a 1-row matrix with all elements set to the specified value.
      *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.repeat((byte)7, 4);
-     * // Creates matrix: [[7, 7, 7, 7]]
+     * ByteMatrix matrix = ByteMatrix.repeat((byte) 42, 5);
+     * // Creates a 1x5 matrix where all elements are 42
      * }</pre>
      *
-     * @param val the byte value to repeat
-     * @param len the number of times to repeat the value
-     * @return a new 1xlen ByteMatrix filled with the specified value
+     * @param val the value to repeat
+     * @param len the number of columns
+     * @return a 1-row matrix with all elements set to val
      */
     public static ByteMatrix repeat(final byte val, final int len) {
         return new ByteMatrix(new byte[][] { Array.repeat(val, len) });
@@ -220,66 +219,53 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the diagonal from left-up to right-down.
-     * All other elements are set to 0.
-     * 
+     * Creates a square matrix from the specified main diagonal elements.
+     * All other elements are set to zero.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix diagonal = ByteMatrix.diagonalLU2RD(new byte[]{1, 2, 3});
-     * // Creates matrix:
-     * // [[1, 0, 0],
-     * //  [0, 2, 0],
-     * //  [0, 0, 3]]
+     * ByteMatrix matrix = ByteMatrix.diagonalLU2RD(new byte[]{1, 2, 3});
+     * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the values for the main diagonal
-     * @return a new square ByteMatrix with the specified diagonal values
+     * @param leftUp2RightDownDiagonal the array of diagonal elements
+     * @return a square matrix with the specified main diagonal
      */
     public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a square diagonal matrix with the specified values on the diagonal from right-up to left-down.
-     * All other elements are set to 0.
-     * 
+     * Creates a square matrix from the specified anti-diagonal elements.
+     * All other elements are set to zero.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix diagonal = ByteMatrix.diagonalRU2LD(new byte[]{1, 2, 3});
-     * // Creates matrix:
-     * // [[0, 0, 1],
-     * //  [0, 2, 0],
-     * //  [3, 0, 0]]
+     * ByteMatrix matrix = ByteMatrix.diagonalRU2LD(new byte[]{1, 2, 3});
+     * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the values for the anti-diagonal
-     * @return a new square ByteMatrix with the specified diagonal values
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified anti-diagonal
      */
     public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
-     * Creates a square diagonal matrix with specified values on both diagonals.
-     * The main diagonal runs from left-up to right-down, and the anti-diagonal runs from right-up to left-down.
-     * If both diagonals are specified, they must have the same length.
-     * 
+     * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
+     * All other elements are set to zero.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix diagonal = ByteMatrix.diagonal(
-     *     new byte[]{1, 2, 3},
-     *     new byte[]{4, 5, 6}
-     * );
-     * // Creates matrix:
-     * // [[1, 0, 4],
-     * //  [0, 2, 0],
-     * //  [6, 0, 3]]
+     * ByteMatrix matrix = ByteMatrix.diagonal(new byte[]{1, 2}, new byte[]{3, 4});
+     * // Creates 2x2 matrix with both diagonals set
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal values for the main diagonal (null if not needed)
-     * @param rightUp2LeftDownDiagonal values for the anti-diagonal (null if not needed)
-     * @return a new square ByteMatrix with the specified diagonal values
-     * @throws IllegalArgumentException if both diagonals are specified but have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
+     * @return a square matrix with the specified diagonals
+     * @throws IllegalArgumentException if arrays have different lengths
      */
     public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -338,8 +324,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Gets the byte value at the specified row and column indices.
-     * 
+     * Returns the element at the specified row and column indices.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -348,7 +334,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the byte value at position [i,j]
+     * @return the element at position (i, j)
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public byte get(final int i, final int j) {
@@ -356,16 +342,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Gets the byte value at the specified point in the matrix.
-     * 
+     * Returns the element at the specified point.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * byte value = matrix.get(Point.of(1, 0)); // Returns 3
+     * // Assuming you have a Point implementation
+     * // byte value = matrix.get(point); // Returns element at point
      * }</pre>
      *
      * @param point the point containing row and column indices
-     * @return the byte value at the specified point
+     * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public byte get(final Point point) {
@@ -373,18 +360,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the byte value at the specified row and column indices.
-     * 
+     * Sets the element at the specified row and column indices.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * matrix.set(0, 1, (byte)5);
-     * // Matrix is now: [[1, 5], [3, 4]]
+     * matrix.set(0, 1, 9); // Sets element at row 0, column 1 to 9
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @param val the byte value to set
+     * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public void set(final int i, final int j, final byte val) {
@@ -392,17 +378,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the byte value at the specified point in the matrix.
-     * 
+     * Sets the element at the specified point.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * matrix.set(Point.of(1, 1), (byte)5);
-     * // Matrix is now: [[1, 2], [3, 5]]
+     * // Assuming you have a Point implementation
+     * // matrix.set(point, 9); // Sets element at point
      * }</pre>
      *
      * @param point the point containing row and column indices
-     * @param val the byte value to set
+     * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
     public void set(final Point point, final byte val) {
@@ -410,91 +396,91 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the value immediately above the specified position, if it exists.
-     * 
+     * Returns the element above the specified position, if it exists.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * OptionalByte above = matrix.upOf(1, 0); // Returns OptionalByte.of(1)
-     * OptionalByte none = matrix.upOf(0, 0);  // Returns OptionalByte.empty()
+     * OptionalByte value = matrix.upOf(1, 0); // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.upOf(0, 0); // Returns OptionalByte.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalByte containing the value above [i,j], or empty if at the top row
+     * @return an Optional containing the element above, or empty if out of bounds
      */
     public OptionalByte upOf(final int i, final int j) {
         return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
     }
 
     /**
-     * Returns the value immediately below the specified position, if it exists.
-     * 
+     * Returns the element below the specified position, if it exists.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * OptionalByte below = matrix.downOf(0, 0); // Returns OptionalByte.of(3)
-     * OptionalByte none = matrix.downOf(1, 0);  // Returns OptionalByte.empty()
+     * OptionalByte value = matrix.downOf(0, 0); // Returns OptionalByte.of((byte)3)
+     * OptionalByte empty = matrix.downOf(1, 0); // Returns OptionalByte.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalByte containing the value below [i,j], or empty if at the bottom row
+     * @return an Optional containing the element below, or empty if out of bounds
      */
     public OptionalByte downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
     }
 
     /**
-     * Returns the value immediately to the left of the specified position, if it exists.
-     * 
+     * Returns the element to the left of the specified position, if it exists.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * OptionalByte left = matrix.leftOf(0, 1); // Returns OptionalByte.of(1)
-     * OptionalByte none = matrix.leftOf(0, 0); // Returns OptionalByte.empty()
+     * OptionalByte value = matrix.leftOf(0, 1); // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.leftOf(0, 0); // Returns OptionalByte.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalByte containing the value left of [i,j], or empty if at the leftmost column
+     * @return an Optional containing the element to the left, or empty if out of bounds
      */
     public OptionalByte leftOf(final int i, final int j) {
         return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
     }
 
     /**
-     * Returns the value immediately to the right of the specified position, if it exists.
-     * 
+     * Returns the element to the right of the specified position, if it exists.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * OptionalByte right = matrix.rightOf(0, 0); // Returns OptionalByte.of(2)
-     * OptionalByte none = matrix.rightOf(0, 1);  // Returns OptionalByte.empty()
+     * OptionalByte value = matrix.rightOf(0, 0); // Returns OptionalByte.of((byte)2)
+     * OptionalByte empty = matrix.rightOf(0, 1); // Returns OptionalByte.empty()
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return an OptionalByte containing the value right of [i,j], or empty if at the rightmost column
+     * @return an Optional containing the element to the right, or empty if out of bounds
      */
     public OptionalByte rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);
     }
 
     /**
-     * Returns a stream of the four adjacent points (up, right, down, left) to the specified position.
-     * Points that would be outside the matrix bounds are returned as null.
-     * 
+     * Returns a stream of points adjacent to the specified position (up, down, left, right).
+     * Only includes points within matrix bounds.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> adjacent = matrix.adjacent4Points(1, 1);
-     * // Returns points for positions: [0,1] (up), [1,2] (right), [2,1] (down), [1,0] (left)
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return a Stream of Points representing the four adjacent positions, with null for out-of-bounds positions
+     * @return a stream of adjacent points (maximum 4)
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -506,20 +492,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a stream of the eight adjacent points (including diagonals) to the specified position.
-     * Points are returned in order: left-up, up, right-up, right, right-down, down, left-down, left.
-     * Points that would be outside the matrix bounds are returned as null.
-     * 
+     * Returns a stream of points adjacent to the specified position including diagonals.
+     * Only includes points within matrix bounds.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
-     * // Returns points for all 8 surrounding positions of [1,1]
+     * // Returns stream of all 8 surrounding points
      * }</pre>
      *
      * @param i the row index
      * @param j the column index
-     * @return a Stream of Points representing the eight adjacent positions, with null for out-of-bounds positions
+     * @return a stream of adjacent points including diagonals (maximum 8)
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final Point up = i == 0 ? null : Point.of(i - 1, j);
@@ -536,22 +521,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the internal byte array representing the specified row.
-     *
-     * <p><b>WARNING:</b> The returned array is the actual internal array used by this matrix,
-     * not a copy. Modifications to the returned array will directly affect the matrix contents.
-     * If you need an independent copy, use {@code row(i).clone()} instead.
+     * Returns a copy of the specified row as an array.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * byte[] row = matrix.row(0); // Returns [1, 2, 3]
-     * row[0] = 9; // This modifies the matrix!
-     * // matrix is now: [[9, 2, 3], [4, 5, 6]]
+     * byte[] firstRow = matrix.row(0); // Returns [1, 2, 3]
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the internal byte array representing the specified row
+     * @return a copy of the specified row
      * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public byte[] row(final int rowIndex) throws IllegalArgumentException {
@@ -561,19 +540,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the specified column as a new byte array.
-     * The returned array is a new array containing copies of the column values,
-     * so modifications to the returned array will not affect the matrix.
+     * Returns a copy of the specified column as an array.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * byte[] col = matrix.column(1); // Returns [2, 5]
-     * col[0] = 9; // This does NOT modify the matrix
+     * byte[] firstColumn = matrix.column(0); // Returns [1, 4]
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a new byte array containing the values from the specified column
+     * @return a copy of the specified column
      * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public byte[] column(final int columnIndex) throws IllegalArgumentException {
@@ -589,20 +565,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces the specified row with the provided byte array by copying the values.
-     * The provided array must have exactly the same length as the number of columns in the matrix.
+     * Sets the values of the specified row.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.setRow(1, new byte[]{7, 8, 9});
-     * // Matrix is now: [[1, 2, 3], [7, 8, 9]]
+     * matrix.setRow(0, new byte[]{7, 8, 9}); // First row is now [7, 8, 9]
      * }</pre>
      *
-     * @param rowIndex the index of the row to replace (0-based)
-     * @param row the new values for the row (must have length equal to {@code cols})
-     * @throws IllegalArgumentException if row length doesn't match the number of columns
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @param rowIndex the index of the row to set (0-based)
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final byte[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -611,19 +584,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces the specified column with the provided byte array by copying the values.
-     * The provided array must have exactly the same length as the number of rows in the matrix.
+     * Sets the values of the specified column.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * matrix.setColumn(1, new byte[]{7, 8});
-     * // Matrix is now: [[1, 7, 3], [4, 8, 6]]
+     * matrix.setColumn(0, new byte[]{7, 8}); // First column is now [7, 8]
      * }</pre>
      *
-     * @param columnIndex the index of the column to replace (0-based)
-     * @param column the new values for the column (must have length equal to {@code rows})
-     * @throws IllegalArgumentException if column length doesn't match the number of rows or columnIndex is out of bounds
+     * @param columnIndex the index of the column to set (0-based)
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final byte[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -680,8 +651,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a new array containing the values on the main diagonal from left-up to right-down.
-     * The matrix must be square (same number of rows and columns) for this operation.
+     * Returns the elements on the main diagonal from left-upper to right-down.
+     * The matrix must be square (rows == columns) for this operation.
+     *
+     * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
      * <p>Example:
      * <pre>{@code
@@ -689,8 +662,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * byte[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return a new byte array containing the main diagonal values
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @return a new byte array containing the main diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public byte[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -705,19 +678,23 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the values on the main diagonal (left-up to right-down) from the provided array.
-     * The matrix must be square and the array length must be at least as long as the matrix dimension.
-     * 
+     * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.setLU2RD(new byte[]{10, 11, 12});
-     * // Matrix is now: [[10, 2, 3], [4, 11, 6], [7, 8, 12]]
+     * // Diagonal is now [10, 11, 12]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setLU2RD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -753,8 +730,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a new array containing the values on the anti-diagonal from right-up to left-down.
-     * The matrix must be square (same number of rows and columns) for this operation.
+     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * The matrix must be square (rows == columns) for this operation.
+     *
+     * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p>Example:
      * <pre>{@code
@@ -762,8 +742,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * byte[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return a new byte array containing the anti-diagonal values
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @return a new byte array containing the anti-diagonal elements
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public byte[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -778,19 +758,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the values on the anti-diagonal (right-up to left-down) from the provided array.
-     * The matrix must be square and the array length must be at least as long as the matrix dimension.
-     * 
+     * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
+     * The matrix must be square (rows == columns), and the diagonal array must have
+     * at least as many elements as the matrix has rows.
+     *
+     * <p>This method sets the anti-diagonal (secondary diagonal) elements from
+     * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * If the diagonal array is longer than needed, extra elements are ignored.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.setRU2LD(new byte[]{10, 11, 12});
-     * // Matrix is now: [[1, 2, 10], [4, 11, 6], [12, 8, 9]]
+     * // Anti-diagonal is now [10, 11, 12]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalArgumentException if diagonal array length &lt; rows
      */
     public void setRU2LD(final byte[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -1022,18 +1007,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a copy of this matrix with all values duplicated.
-     * 
+     * Returns a deep copy of this matrix.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * ByteMatrix copy = matrix.copy();
-     * copy.set(0, 0, (byte)9);
-     * // matrix is still: [[1, 2], [3, 4]]
-     * // copy is: [[9, 2], [3, 4]]
+     * ByteMatrix original = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix copy = original.copy();
+     * // copy is independent from original
      * }</pre>
      *
-     * @return a new ByteMatrix that is an exact copy of this matrix
+     * @return a new matrix that is a deep copy of this matrix
      */
     @Override
     public ByteMatrix copy() {
@@ -1144,6 +1127,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     public ByteMatrix extend(final int newRows, final int newCols, final byte defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+
+        // Check for overflow before allocation
+        if ((long) newRows * newCols > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+        }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1342,19 +1330,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix rotated 90 degrees clockwise.
-     * The dimensions are swapped: an m×n matrix becomes n×m.
-     * 
+     * Returns a new matrix rotated 90 degrees clockwise.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
      * ByteMatrix rotated = matrix.rotate90();
-     * // rotated is: [[4, 1],
-     * //              [5, 2],
-     * //              [6, 3]]
+     * // rotated is {{3, 1}, {4, 2}}
      * }</pre>
      *
-     * @return a new ByteMatrix rotated 90 degrees clockwise
+     * @return a new matrix rotated 90 degrees clockwise
      */
     @Override
     public ByteMatrix rotate90() {
@@ -1378,18 +1363,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix rotated 180 degrees.
-     * This is equivalent to flipping both horizontally and vertically.
-     * 
+     * Returns a new matrix rotated 180 degrees.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
      * ByteMatrix rotated = matrix.rotate180();
-     * // rotated is: [[6, 5, 4],
-     * //              [3, 2, 1]]
+     * // rotated is {{4, 3}, {2, 1}}
      * }</pre>
      *
-     * @return a new ByteMatrix rotated 180 degrees
+     * @return a new matrix rotated 180 degrees
      */
     @Override
     public ByteMatrix rotate180() {
@@ -1404,19 +1387,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
-     * The dimensions are swapped: an m×n matrix becomes n×m.
-     * 
+     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
      * ByteMatrix rotated = matrix.rotate270();
-     * // rotated is: [[3, 6],
-     * //              [2, 5],
-     * //              [1, 4]]
+     * // rotated is {{2, 4}, {1, 3}}
      * }</pre>
      *
-     * @return a new ByteMatrix rotated 270 degrees clockwise
+     * @return a new matrix rotated 270 degrees clockwise
      */
     @Override
     public ByteMatrix rotate270() {
@@ -1440,19 +1420,17 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new matrix that is the transpose of this matrix.
-     * Rows become columns and columns become rows.
-     * 
+     * Returns a new matrix that is the transpose of this matrix.
+     * The transpose swaps rows and columns.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * ByteMatrix transposed = matrix.transpose();
-     * // transposed is: [[1, 4],
-     * //                 [2, 5],
-     * //                 [3, 6]]
+     * // transposed is {{1, 4}, {2, 5}, {3, 6}}
      * }</pre>
      *
-     * @return a new ByteMatrix that is the transpose of this matrix
+     * @return a new matrix that is the transpose of this matrix
      */
     @Override
     public ByteMatrix transpose() {
@@ -1477,21 +1455,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Reshapes the matrix to new dimensions while preserving element order.
-     * Elements are read in row-major order and placed into the new shape.
-     * The total number of elements may change if the new dimensions differ.
-     * 
+     * Elements are read in row-major order from the original matrix and placed into the new shape.
+     *
+     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
+     * If the new shape has more total elements, the additional positions are filled with zeros.</p>
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix reshaped = matrix.reshape(3, 2);
-     * // reshaped is: [[1, 2],
-     * //               [3, 4],
-     * //               [5, 6]]
+     * ByteMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
+     * ByteMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix
      * @param newCols the number of columns in the reshaped matrix
-     * @return a new ByteMatrix with the specified shape
+     * @return a new ByteMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
@@ -1545,6 +1523,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     public ByteMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final byte[][] c = new byte[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1587,6 +1573,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     public ByteMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
+        // Check for overflow before allocation
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
+
         final byte[][] c = new byte[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
@@ -1605,20 +1599,23 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flattens the matrix into a single ByteList in row-major order.
-     * Elements are read row by row from left to right.
-     * 
+     * Returns a list containing all matrix elements in row-major order.
+     *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
-     * ByteList flattened = matrix.flatten();
-     * // flattened is: [1, 2, 3, 4, 5, 6]
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteList list = matrix.flatten(); // Returns ByteList of 1, 2, 3, 4
      * }</pre>
      *
-     * @return a ByteList containing all elements of the matrix
+     * @return a list of all elements in row-major order
      */
     @Override
     public ByteList flatten() {
+        // Check for overflow before allocation
+        if ((long) rows * cols > Integer.MAX_VALUE) {
+            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+        }
+
         final byte[] c = new byte[rows * cols];
 
         for (int i = 0; i < rows; i++) {

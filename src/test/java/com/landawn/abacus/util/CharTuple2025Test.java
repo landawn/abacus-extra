@@ -799,4 +799,252 @@ public class CharTuple2025Test extends TestBase {
         assertEquals('a', tuple._1);
         assertEquals('h', tuple._8);
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+
+        // Test reverse
+        CharTuple4 reversed = tuple.reverse();
+        assertEquals('d', reversed._1);
+        assertEquals('c', reversed._2);
+        assertEquals('b', reversed._3);
+        assertEquals('a', reversed._4);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('d'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd' }, tuple.toArray());
+
+        // Test min/max/median/sum/average via base class
+        assertEquals('a', tuple.min());
+        assertEquals('d', tuple.max());
+        assertEquals('b', tuple.median());
+        assertEquals(394, tuple.sum()); // 97+98+99+100
+        assertEquals(98.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        CharTuple4 tuple2 = CharTuple.of('a', 'b', 'c', 'd');
+        CharTuple4 tuple3 = CharTuple.of('a', 'b', 'c', 'e');
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        String str = tuple.toString();
+        assertTrue(str.contains("a"));
+        assertTrue(str.contains("d"));
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+
+        // Test reverse
+        CharTuple5 reversed = tuple.reverse();
+        assertEquals('e', reversed._1);
+        assertEquals('a', reversed._5);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('e'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd', 'e' }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals('a', tuple.min());
+        assertEquals('e', tuple.max());
+        assertEquals('c', tuple.median());
+        assertEquals(495, tuple.sum()); // 97+98+99+100+101
+        assertEquals(99.0, tuple.average(), 0.001);
+
+        // Test equals
+        CharTuple5 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertEquals(tuple, tuple2);
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+
+        // Test reverse
+        CharTuple6 reversed = tuple.reverse();
+        assertEquals('f', reversed._1);
+        assertEquals('a', reversed._6);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('f'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals('a', tuple.min());
+        assertEquals('f', tuple.max());
+        assertEquals(597, tuple.sum()); // 97+98+99+100+101+102
+        assertEquals(99.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+
+        // Test reverse
+        CharTuple7 reversed = tuple.reverse();
+        assertEquals('g', reversed._1);
+        assertEquals('a', reversed._7);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('g'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals('a', tuple.min());
+        assertEquals('g', tuple.max());
+        assertEquals(700, tuple.sum()); // 97+98+99+100+101+102+103
+        assertEquals(100.0, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+
+        // Test reverse
+        CharTuple8 reversed = tuple.reverse();
+        assertEquals('h', reversed._1);
+        assertEquals('a', reversed._8);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('h'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals('a', tuple.min());
+        assertEquals('h', tuple.max());
+        assertEquals(804, tuple.sum()); // 97+98+99+100+101+102+103+104
+        assertEquals(100.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+
+        // Test reverse
+        CharTuple9 reversed = tuple.reverse();
+        assertEquals('i', reversed._1);
+        assertEquals('a', reversed._9);
+
+        // Test contains
+        assertTrue(tuple.contains('a'));
+        assertTrue(tuple.contains('i'));
+        assertFalse(tuple.contains('z'));
+
+        // Test toArray
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i' }, tuple.toArray());
+
+        // Test statistical operations
+        assertEquals('a', tuple.min());
+        assertEquals('i', tuple.max());
+        assertEquals(909, tuple.sum()); // 97+98+99+100+101+102+103+104+105
+        assertEquals(101.0, tuple.average(), 0.001);
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        CharTuple2 tuple2 = CharTuple.create(new char[] { 'a', 'b' });
+        assertEquals('a', tuple2._1);
+        assertEquals('b', tuple2._2);
+
+        CharTuple4 tuple4 = CharTuple.create(new char[] { 'a', 'b', 'c', 'd' });
+        assertEquals('a', tuple4._1);
+        assertEquals('d', tuple4._4);
+
+        CharTuple5 tuple5 = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e' });
+        assertEquals('a', tuple5._1);
+        assertEquals('e', tuple5._5);
+
+        CharTuple6 tuple6 = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f' });
+        assertEquals('a', tuple6._1);
+        assertEquals('f', tuple6._6);
+
+        CharTuple7 tuple7 = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g' });
+        assertEquals('a', tuple7._1);
+        assertEquals('g', tuple7._7);
+
+        CharTuple8 tuple8 = CharTuple.create(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' });
+        assertEquals('a', tuple8._1);
+        assertEquals('h', tuple8._8);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
+        CharList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals('d', list4.get(3));
+
+        CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        CharList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals('i', list9.get(8));
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        List<Character> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Character.valueOf('d'), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        CharTuple2 tuple = CharTuple.of('x', 'y');
+        List<Character> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Character.valueOf('x'), result.get(0));
+        assertEquals(Character.valueOf('y'), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        CharTuple3 tuple = CharTuple.of('x', 'y', 'z');
+        List<Character> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Character.valueOf('z'), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        CharTuple4 tuple4 = CharTuple.of('a', 'b', 'c', 'd');
+        assertEquals(394, tuple4.stream().sum());
+
+        CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertEquals(909, tuple9.stream().sum());
+    }
 }

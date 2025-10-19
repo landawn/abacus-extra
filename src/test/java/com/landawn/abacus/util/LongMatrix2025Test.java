@@ -1004,6 +1004,36 @@ public class LongMatrix2025Test extends TestBase {
         assertEquals(3L, rotated.get(1, 1));
     }
 
+    @Test
+    public void testRotate90_verticalMatrix() {
+        // Test the rows > cols branch (3 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
+        LongMatrix rotated = m.rotate90();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertEquals(5L, rotated.get(0, 0));
+        assertEquals(3L, rotated.get(0, 1));
+        assertEquals(1L, rotated.get(0, 2));
+        assertEquals(6L, rotated.get(1, 0));
+        assertEquals(4L, rotated.get(1, 1));
+        assertEquals(2L, rotated.get(1, 2));
+    }
+
+    @Test
+    public void testRotate270_verticalMatrix() {
+        // Test the rows > cols branch (3 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
+        LongMatrix rotated = m.rotate270();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertEquals(2L, rotated.get(0, 0));
+        assertEquals(4L, rotated.get(0, 1));
+        assertEquals(6L, rotated.get(0, 2));
+        assertEquals(1L, rotated.get(1, 0));
+        assertEquals(3L, rotated.get(1, 1));
+        assertEquals(5L, rotated.get(1, 2));
+    }
+
     // ============ Transpose Tests ============
 
     @Test
@@ -1029,7 +1059,21 @@ public class LongMatrix2025Test extends TestBase {
         assertEquals(1L, transposed.get(0, 0));
         assertEquals(3L, transposed.get(0, 1));
         assertEquals(2L, transposed.get(1, 0));
+    }
+
+    @Test
+    public void testTranspose_verticalMatrix() {
+        // Test the rows > cols branch (3 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
+        LongMatrix transposed = m.transpose();
+        assertEquals(2, transposed.rows);
+        assertEquals(3, transposed.cols);
+        assertEquals(1L, transposed.get(0, 0));
+        assertEquals(3L, transposed.get(0, 1));
+        assertEquals(5L, transposed.get(0, 2));
+        assertEquals(2L, transposed.get(1, 0));
         assertEquals(4L, transposed.get(1, 1));
+        assertEquals(6L, transposed.get(1, 2));
     }
 
     // ============ Reshape Tests ============
@@ -1308,6 +1352,86 @@ public class LongMatrix2025Test extends TestBase {
         assertEquals(2, doubleMatrix.cols);
         assertEquals(1.0, doubleMatrix.get(0, 0), 0.0001);
         assertEquals(4.0, doubleMatrix.get(1, 1), 0.0001);
+    }
+
+    @Test
+    public void testBoxed_verticalMatrix() {
+        // Test the rows > cols branch (3 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
+        Matrix<Long> boxed = m.boxed();
+        assertEquals(3, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Long.valueOf(1L), boxed.get(0, 0));
+        assertEquals(Long.valueOf(4L), boxed.get(1, 1));
+        assertEquals(Long.valueOf(6L), boxed.get(2, 1));
+    }
+
+    @Test
+    public void testBoxed_extremeValues() {
+        LongMatrix m = LongMatrix.of(new long[][] { { Long.MAX_VALUE, Long.MIN_VALUE }, { 0L, -1L } });
+        Matrix<Long> boxed = m.boxed();
+        assertEquals(Long.valueOf(Long.MAX_VALUE), boxed.get(0, 0));
+        assertEquals(Long.valueOf(Long.MIN_VALUE), boxed.get(0, 1));
+        assertEquals(Long.valueOf(0L), boxed.get(1, 0));
+        assertEquals(Long.valueOf(-1L), boxed.get(1, 1));
+    }
+
+    @Test
+    public void testToFloatMatrix_verticalMatrix() {
+        // Test the rows > cols branch (4 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L }, { 7L, 8L } });
+        FloatMatrix floatMatrix = m.toFloatMatrix();
+        assertEquals(4, floatMatrix.rows);
+        assertEquals(2, floatMatrix.cols);
+        assertEquals(1.0f, floatMatrix.get(0, 0), 0.0001f);
+        assertEquals(8.0f, floatMatrix.get(3, 1), 0.0001f);
+    }
+
+    @Test
+    public void testToFloatMatrix_extremeValues() {
+        // Test conversion with extreme long values - may lose precision
+        LongMatrix m = LongMatrix.of(new long[][] { { Long.MAX_VALUE, Long.MIN_VALUE }, { 1000000000000L, -1000000000000L } });
+        FloatMatrix floatMatrix = m.toFloatMatrix();
+        // Verify conversion happened (exact values may lose precision)
+        assertNotNull(floatMatrix);
+        assertEquals(2, floatMatrix.rows);
+        assertEquals(2, floatMatrix.cols);
+    }
+
+    @Test
+    public void testToDoubleMatrix_verticalMatrix() {
+        // Test the rows > cols branch via create() (3 rows, 2 cols)
+        LongMatrix m = LongMatrix.of(new long[][] { { 10L, 20L }, { 30L, 40L }, { 50L, 60L } });
+        DoubleMatrix doubleMatrix = m.toDoubleMatrix();
+        assertEquals(3, doubleMatrix.rows);
+        assertEquals(2, doubleMatrix.cols);
+        assertEquals(10.0, doubleMatrix.get(0, 0), 0.0001);
+        assertEquals(60.0, doubleMatrix.get(2, 1), 0.0001);
+    }
+
+    @Test
+    public void testToDoubleMatrix_extremeValues() {
+        // Test with extreme long values - check precision
+        LongMatrix m = LongMatrix.of(new long[][] { { Long.MAX_VALUE, Long.MIN_VALUE }, { 9007199254740992L, -9007199254740992L } });
+        DoubleMatrix doubleMatrix = m.toDoubleMatrix();
+        // Double has 53 bits of precision, so very large longs may lose precision
+        assertNotNull(doubleMatrix);
+        assertEquals(2, doubleMatrix.rows);
+        assertEquals(2, doubleMatrix.cols);
+        // Verify the values are present (may not be exact due to precision)
+        assertTrue(doubleMatrix.get(0, 0) > 0);
+        assertTrue(doubleMatrix.get(0, 1) < 0);
+    }
+
+    @Test
+    public void testUnbox_verticalMatrix() {
+        // Test unbox with rows > cols (3 rows, 2 cols)
+        Matrix<Long> boxedMatrix = Matrix.of(new Long[][] { { 1L, 2L }, { 3L, 4L }, { 5L, 6L } });
+        LongMatrix m = LongMatrix.unbox(boxedMatrix);
+        assertEquals(3, m.rows);
+        assertEquals(2, m.cols);
+        assertEquals(1L, m.get(0, 0));
+        assertEquals(6L, m.get(2, 1));
     }
 
     // ============ ZipWith Tests ============

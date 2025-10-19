@@ -615,4 +615,252 @@ public class FloatTuple2025Test extends TestBase {
         assertEquals(8, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f).arity());
         assertEquals(9, FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f).arity());
     }
+
+    // Comprehensive tests for Tuple4 through Tuple9
+    @Test
+    public void testTuple4Operations() {
+        FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+
+        // Test reverse
+        FloatTuple4 reversed = tuple.reverse();
+        assertEquals(4.0f, reversed._1, 0.001f);
+        assertEquals(3.0f, reversed._2, 0.001f);
+        assertEquals(2.0f, reversed._3, 0.001f);
+        assertEquals(1.0f, reversed._4, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(4.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f }, tuple.toArray(), 0.001f);
+
+        // Test min/max/median/sum/average via base class
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(4.0f, tuple.max(), 0.001f);
+        assertEquals(2.0f, tuple.median(), 0.001f);
+        assertEquals(10.0f, tuple.sum(), 0.001f);
+        assertEquals(2.5, tuple.average(), 0.001);
+
+        // Test hashCode and equals
+        FloatTuple4 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        FloatTuple4 tuple3 = FloatTuple.of(1.0f, 2.0f, 3.0f, 5.0f);
+        assertEquals(tuple.hashCode(), tuple2.hashCode());
+        assertEquals(tuple, tuple2);
+        assertNotEquals(tuple, tuple3);
+
+        // Test toString
+        String str = tuple.toString();
+        assertTrue(str.contains("1.0"));
+        assertTrue(str.contains("4.0"));
+    }
+
+    @Test
+    public void testTuple5Operations() {
+        FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+
+        // Test reverse
+        FloatTuple5 reversed = tuple.reverse();
+        assertEquals(5.0f, reversed._1, 0.001f);
+        assertEquals(1.0f, reversed._5, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(5.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f }, tuple.toArray(), 0.001f);
+
+        // Test statistical operations
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(5.0f, tuple.max(), 0.001f);
+        assertEquals(3.0f, tuple.median(), 0.001f);
+        assertEquals(15.0f, tuple.sum(), 0.001f);
+        assertEquals(3.0, tuple.average(), 0.001);
+
+        // Test equals
+        FloatTuple5 tuple2 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+        assertEquals(tuple, tuple2);
+    }
+
+    @Test
+    public void testTuple6Operations() {
+        FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+
+        // Test reverse
+        FloatTuple6 reversed = tuple.reverse();
+        assertEquals(6.0f, reversed._1, 0.001f);
+        assertEquals(1.0f, reversed._6, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(6.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f }, tuple.toArray(), 0.001f);
+
+        // Test statistical operations
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(6.0f, tuple.max(), 0.001f);
+        assertEquals(21.0f, tuple.sum(), 0.001f);
+        assertEquals(3.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple7Operations() {
+        FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+
+        // Test reverse
+        FloatTuple7 reversed = tuple.reverse();
+        assertEquals(7.0f, reversed._1, 0.001f);
+        assertEquals(1.0f, reversed._7, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(7.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f }, tuple.toArray(), 0.001f);
+
+        // Test statistical operations
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(7.0f, tuple.max(), 0.001f);
+        assertEquals(28.0f, tuple.sum(), 0.001f);
+        assertEquals(4.0, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple8Operations() {
+        FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+
+        // Test reverse
+        FloatTuple8 reversed = tuple.reverse();
+        assertEquals(8.0f, reversed._1, 0.001f);
+        assertEquals(1.0f, reversed._8, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(8.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f }, tuple.toArray(), 0.001f);
+
+        // Test statistical operations
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(8.0f, tuple.max(), 0.001f);
+        assertEquals(36.0f, tuple.sum(), 0.001f);
+        assertEquals(4.5, tuple.average(), 0.001);
+    }
+
+    @Test
+    public void testTuple9Operations() {
+        FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+
+        // Test reverse
+        FloatTuple9 reversed = tuple.reverse();
+        assertEquals(9.0f, reversed._1, 0.001f);
+        assertEquals(1.0f, reversed._9, 0.001f);
+
+        // Test contains
+        assertTrue(tuple.contains(1.0f));
+        assertTrue(tuple.contains(9.0f));
+        assertFalse(tuple.contains(99.0f));
+
+        // Test toArray
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f }, tuple.toArray(), 0.001f);
+
+        // Test statistical operations
+        assertEquals(1.0f, tuple.min(), 0.001f);
+        assertEquals(9.0f, tuple.max(), 0.001f);
+        assertEquals(45.0f, tuple.sum(), 0.001f);
+        assertEquals(5.0, tuple.average(), 0.001);
+    }
+
+    // Test create methods for sizes 2, 4-8
+    @Test
+    public void testCreate2Through8() {
+        FloatTuple2 tuple2 = FloatTuple.create(new float[] { 1.0f, 2.0f });
+        assertEquals(1.0f, tuple2._1, 0.001f);
+        assertEquals(2.0f, tuple2._2, 0.001f);
+
+        FloatTuple4 tuple4 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f });
+        assertEquals(1.0f, tuple4._1, 0.001f);
+        assertEquals(4.0f, tuple4._4, 0.001f);
+
+        FloatTuple5 tuple5 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f });
+        assertEquals(1.0f, tuple5._1, 0.001f);
+        assertEquals(5.0f, tuple5._5, 0.001f);
+
+        FloatTuple6 tuple6 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f });
+        assertEquals(1.0f, tuple6._1, 0.001f);
+        assertEquals(6.0f, tuple6._6, 0.001f);
+
+        FloatTuple7 tuple7 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f });
+        assertEquals(1.0f, tuple7._1, 0.001f);
+        assertEquals(7.0f, tuple7._7, 0.001f);
+
+        FloatTuple8 tuple8 = FloatTuple.create(new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f });
+        assertEquals(1.0f, tuple8._1, 0.001f);
+        assertEquals(8.0f, tuple8._8, 0.001f);
+    }
+
+    // Test toList for larger tuples
+    @Test
+    public void testToListTuple4Through9() {
+        FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        FloatList list4 = tuple4.toList();
+        assertEquals(4, list4.size());
+        assertEquals(4.0f, list4.get(3), 0.001f);
+
+        FloatTuple9 tuple9 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+        FloatList list9 = tuple9.toList();
+        assertEquals(9, list9.size());
+        assertEquals(9.0f, list9.get(8), 0.001f);
+    }
+
+    // Test forEach for larger tuples
+    @Test
+    public void testForEachTuple4() {
+        FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        List<Float> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(4, result.size());
+        assertEquals(Float.valueOf(4.0f), result.get(3));
+    }
+
+    // Test forEach override for Tuple2
+    @Test
+    public void testForEachTuple2Override() {
+        FloatTuple2 tuple = FloatTuple.of(10.0f, 20.0f);
+        List<Float> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(2, result.size());
+        assertEquals(Float.valueOf(10.0f), result.get(0));
+        assertEquals(Float.valueOf(20.0f), result.get(1));
+    }
+
+    // Test forEach override for Tuple3
+    @Test
+    public void testForEachTuple3Override() {
+        FloatTuple3 tuple = FloatTuple.of(10.0f, 20.0f, 30.0f);
+        List<Float> result = new ArrayList<>();
+        tuple.forEach(i -> result.add(i));
+        assertEquals(3, result.size());
+        assertEquals(Float.valueOf(30.0f), result.get(2));
+    }
+
+    // Test stream for larger tuples
+    @Test
+    public void testStreamTuple4Through9() {
+        FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+        assertEquals(10.0f, tuple4.stream().sum(), 0.001f);
+
+        FloatTuple9 tuple9 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+        assertEquals(45.0f, tuple9.stream().sum(), 0.001f);
+    }
 }

@@ -1603,4 +1603,363 @@ public class Matrix2025Test extends TestBase {
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
     }
+
+    // ============ Additional Coverage Tests ============
+
+    @Test
+    public void testToDatasetH() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<String> columnNames = Arrays.asList("A", "B", "C");
+        Dataset dataset = m.toDatasetH(columnNames);
+
+        assertNotNull(dataset);
+        assertEquals(3, dataset.columnNameList().size());
+        assertEquals(2, dataset.size());
+        assertEquals(Integer.valueOf(1), dataset.getColumn("A").get(0));
+        assertEquals(Integer.valueOf(6), dataset.getColumn("C").get(1));
+    }
+
+    @Test
+    public void testToDatasetH_wrongColumnCount() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<String> columnNames = Arrays.asList("A", "B");
+        assertThrows(IllegalArgumentException.class, () -> m.toDatasetH(columnNames));
+    }
+
+    @Test
+    public void testToDatasetV() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<String> columnNames = Arrays.asList("Row1", "Row2");
+        Dataset dataset = m.toDatasetV(columnNames);
+
+        assertNotNull(dataset);
+        assertEquals(2, dataset.columnNameList().size());
+        assertEquals(3, dataset.size());
+        assertEquals(Integer.valueOf(1), dataset.getColumn("Row1").get(0));
+        assertEquals(Integer.valueOf(6), dataset.getColumn("Row2").get(2));
+    }
+
+    @Test
+    public void testToDatasetV_wrongColumnCount() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<String> columnNames = Arrays.asList("A", "B", "C");
+        assertThrows(IllegalArgumentException.class, () -> m.toDatasetV(columnNames));
+    }
+
+    @Test
+    public void testExtend_allZeros() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> result = m.extend(0, 0, 0, 0);
+        assertEquals(2, result.rows);
+        assertEquals(2, result.cols);
+        assertEquals("A", result.get(0, 0));
+        assertEquals("D", result.get(1, 1));
+    }
+
+    @Test
+    public void testExtend_withOnlyUp() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> extended = m.extend(2, 0, 0, 0, "X");
+        assertEquals(4, extended.rows);
+        assertEquals(2, extended.cols);
+        assertEquals("X", extended.get(0, 0));
+        assertEquals("X", extended.get(1, 0));
+        assertEquals("A", extended.get(2, 0));
+    }
+
+    @Test
+    public void testExtend_withOnlyLeft() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> extended = m.extend(0, 0, 2, 0, "X");
+        assertEquals(2, extended.rows);
+        assertEquals(4, extended.cols);
+        assertEquals("X", extended.get(0, 0));
+        assertEquals("X", extended.get(0, 1));
+        assertEquals("A", extended.get(0, 2));
+    }
+
+    @Test
+    public void testExtend_smaller_nonSquare() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
+        Matrix<String> result = m.extend(1, 2);
+        assertEquals(1, result.rows);
+        assertEquals(2, result.cols);
+        assertEquals("A", result.get(0, 0));
+        assertEquals("B", result.get(0, 1));
+    }
+
+    @Test
+    public void testExtend_largerRows_smallerCols() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> result = m.extend(3, 1, "X");
+        assertEquals(3, result.rows);
+        assertEquals(1, result.cols);
+        assertEquals("A", result.get(0, 0));
+        assertEquals("C", result.get(1, 0));
+        assertEquals("X", result.get(2, 0));
+    }
+
+    @Test
+    public void testReverseH_singleColumn() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A" }, { "B" }, { "C" } });
+        m.reverseH();
+        assertEquals("A", m.get(0, 0));
+        assertEquals("B", m.get(1, 0));
+        assertEquals("C", m.get(2, 0));
+    }
+
+    @Test
+    public void testReverseV_singleRow() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        m.reverseV();
+        assertEquals("A", m.get(0, 0));
+        assertEquals("B", m.get(0, 1));
+        assertEquals("C", m.get(0, 2));
+    }
+
+    @Test
+    public void testFill_withNullValue() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.fill((String) null);
+        assertNull(m.get(0, 0));
+        assertNull(m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_withArray_emptySource() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[][] emptySource = {};
+        m.fill(emptySource);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("D", m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_withArray_largerSource() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[][] largeSource = { { "X", "Y", "Z" }, { "W", "V", "U" }, { "T", "S", "R" } };
+        m.fill(largeSource);
+        assertEquals("X", m.get(0, 0));
+        assertEquals("Y", m.get(0, 1));
+        assertEquals("W", m.get(1, 0));
+        assertEquals("V", m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_atBoundary() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "A", "A" }, { "A", "A", "A" }, { "A", "A", "A" } });
+        String[][] patch = { { "X" } };
+        m.fill(2, 2, patch);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("X", m.get(2, 2));
+    }
+
+    @Test
+    public void testFill_atEdgePosition() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[][] patch = { { "X", "Y" } };
+        m.fill(1, 0, patch);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("X", m.get(1, 0));
+        assertEquals("Y", m.get(1, 1));
+    }
+
+    @Test
+    public void testReshape_largerSize() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> reshaped = m.reshape(2, 3);
+        assertEquals(2, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals("A", reshaped.get(0, 0));
+        assertEquals("D", reshaped.get(1, 0));
+        assertNull(reshaped.get(1, 2));
+    }
+
+    @Test
+    public void testReshape_singleRow() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C", "D" } });
+        Matrix<String> reshaped = m.reshape(2, 2);
+        assertEquals(2, reshaped.rows);
+        assertEquals(2, reshaped.cols);
+        assertEquals("A", reshaped.get(0, 0));
+        assertEquals("B", reshaped.get(0, 1));
+        assertEquals("C", reshaped.get(1, 0));
+        assertEquals("D", reshaped.get(1, 1));
+    }
+
+    @Test
+    public void testUpdateRow_withNullFunction() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.updateRow(0, x -> null);
+        assertNull(m.get(0, 0));
+        assertNull(m.get(0, 1));
+        assertEquals("C", m.get(1, 0));
+    }
+
+    @Test
+    public void testUpdateColumn_withNullFunction() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.updateColumn(0, x -> null);
+        assertNull(m.get(0, 0));
+        assertNull(m.get(1, 0));
+        assertEquals("B", m.get(0, 1));
+    }
+
+    @Test
+    public void testLength_withNullArray() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A" } });
+        assertEquals(0, m.length(null));
+    }
+
+    @Test
+    public void testAdjacentPoints_withPoint() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
+        Point p = Point.of(1, 1);
+        assertEquals("E", m.get(p));
+
+        // Test setting with point
+        m.set(p, "X");
+        assertEquals("X", m.get(1, 1));
+    }
+
+    @Test
+    public void testRotate90_nonSquare_rowsLessThanCols() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        Matrix<String> rotated = m.rotate90();
+        assertEquals(3, rotated.rows);
+        assertEquals(1, rotated.cols);
+        assertEquals("A", rotated.get(0, 0));
+        assertEquals("B", rotated.get(1, 0));
+        assertEquals("C", rotated.get(2, 0));
+    }
+
+    @Test
+    public void testRotate270_nonSquare_rowsLessThanCols() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        Matrix<String> rotated = m.rotate270();
+        assertEquals(3, rotated.rows);
+        assertEquals(1, rotated.cols);
+        assertEquals("C", rotated.get(0, 0));
+        assertEquals("B", rotated.get(1, 0));
+        assertEquals("A", rotated.get(2, 0));
+    }
+
+    @Test
+    public void testTranspose_nonSquare_rowsLessThanCols() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        Matrix<String> transposed = m.transpose();
+        assertEquals(3, transposed.rows);
+        assertEquals(1, transposed.cols);
+        assertEquals("A", transposed.get(0, 0));
+        assertEquals("B", transposed.get(1, 0));
+        assertEquals("C", transposed.get(2, 0));
+    }
+
+    @Test
+    public void testMap_withIndices() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.updateAll((i, j) -> m.get(i, j) + i + j);
+        assertEquals("A00", m.get(0, 0));
+        assertEquals("B01", m.get(0, 1));
+        assertEquals("C10", m.get(1, 0));
+        assertEquals("D11", m.get(1, 1));
+    }
+
+    @Test
+    public void testReplaceIf_noneMatch() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.replaceIf(x -> "Z".equals(x), "X");
+        assertEquals("A", m.get(0, 0));
+        assertEquals("D", m.get(1, 1));
+    }
+
+    @Test
+    public void testReplaceIf_withIndices_noneMatch() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.replaceIf((i, j) -> i > 10, "X");
+        assertEquals("A", m.get(0, 0));
+        assertEquals("D", m.get(1, 1));
+    }
+
+    @Test
+    public void testStreamH_singleRow() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        List<String> result = m.streamH(0).toList();
+        assertEquals(3, result.size());
+        assertEquals("A", result.get(0));
+        assertEquals("C", result.get(2));
+    }
+
+    @Test
+    public void testStreamV_singleColumn() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A" }, { "B" }, { "C" } });
+        List<String> result = m.streamV(0).toList();
+        assertEquals(3, result.size());
+        assertEquals("A", result.get(0));
+        assertEquals("C", result.get(2));
+    }
+
+    @Test
+    public void testForEach_fullMatrix() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        List<Integer> collected = new ArrayList<>();
+        m.forEach(0, 2, 0, 2, (Throwables.Consumer<Integer, RuntimeException>) collected::add);
+        assertEquals(4, collected.size());
+        assertTrue(collected.contains(1));
+        assertTrue(collected.contains(4));
+    }
+
+    @Test
+    public void testForEach_emptyRange() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        List<Integer> collected = new ArrayList<>();
+        m.forEach(0, 0, 0, 0, (Throwables.Consumer<Integer, RuntimeException>) collected::add);
+        assertEquals(0, collected.size());
+    }
+
+    @Test
+    public void testVstack_withSameMatrix() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
+        Matrix<String> result = m.vstack(m);
+        assertEquals(2, result.rows);
+        assertEquals(2, result.cols);
+        assertEquals("A", result.get(0, 0));
+        assertEquals("A", result.get(1, 0));
+    }
+
+    @Test
+    public void testHstack_withSameMatrix() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A" }, { "B" } });
+        Matrix<String> result = m.hstack(m);
+        assertEquals(2, result.rows);
+        assertEquals(2, result.cols);
+        assertEquals("A", result.get(0, 0));
+        assertEquals("A", result.get(0, 1));
+    }
+
+    @Test
+    public void testCopy_singleRow() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" } });
+        Matrix<String> copy = m.copy(0, 1);
+        assertEquals(1, copy.rows);
+        assertEquals(3, copy.cols);
+        assertEquals("A", copy.get(0, 0));
+    }
+
+    @Test
+    public void testCopy_singleElement() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> copy = m.copy(0, 1, 0, 1);
+        assertEquals(1, copy.rows);
+        assertEquals(1, copy.cols);
+        assertEquals("A", copy.get(0, 0));
+    }
+
+    @Test
+    public void testFlatOp_emptyMatrix() {
+        Matrix<String> empty = Matrix.of(new String[0][0]);
+        List<Integer> lengths = new ArrayList<>();
+        empty.flatOp(row -> lengths.add(row.length));
+        assertEquals(0, lengths.size());
+    }
 }

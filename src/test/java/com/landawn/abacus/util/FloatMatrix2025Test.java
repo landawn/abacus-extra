@@ -885,6 +885,27 @@ public class FloatMatrix2025Test extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> m.extend(-1, 1, 1, 1, 0.0f));
     }
 
+    @Test
+    public void testExtend_directional_allZeros() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+        FloatMatrix result = m.extend(0, 0, 0, 0, 5.5f);
+        assertEquals(2, result.rows);
+        assertEquals(2, result.cols);
+        assertEquals(1.0f, result.get(0, 0), DELTA);
+        assertEquals(4.0f, result.get(1, 1), DELTA);
+        assertFalse(result == m); // Should be a copy
+    }
+
+    @Test
+    public void testExtend_mixedSmallerAndLarger() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
+        FloatMatrix extended = m.extend(2, 1, 9.9f);
+        assertEquals(2, extended.rows);
+        assertEquals(1, extended.cols);
+        assertEquals(1.0f, extended.get(0, 0), DELTA);
+        assertEquals(4.0f, extended.get(1, 0), DELTA);
+    }
+
     // ============ Reverse/Flip Tests ============
 
     @Test
@@ -997,6 +1018,62 @@ public class FloatMatrix2025Test extends TestBase {
         assertEquals(4.0f, transposed.get(1, 1), DELTA);
     }
 
+    @Test
+    public void testTranspose_moreRowsThanCols() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
+        FloatMatrix transposed = m.transpose();
+        assertEquals(2, transposed.rows);
+        assertEquals(3, transposed.cols);
+        assertEquals(1.0f, transposed.get(0, 0), DELTA);
+        assertEquals(3.0f, transposed.get(0, 1), DELTA);
+        assertEquals(5.0f, transposed.get(0, 2), DELTA);
+        assertEquals(2.0f, transposed.get(1, 0), DELTA);
+        assertEquals(4.0f, transposed.get(1, 1), DELTA);
+        assertEquals(6.0f, transposed.get(1, 2), DELTA);
+    }
+
+    @Test
+    public void testRotate90_moreColsThanRows() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
+        FloatMatrix rotated = m.rotate90();
+        assertEquals(3, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(4.0f, rotated.get(0, 0), DELTA);
+        assertEquals(1.0f, rotated.get(0, 1), DELTA);
+    }
+
+    @Test
+    public void testRotate90_moreRowsThanCols() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
+        FloatMatrix rotated = m.rotate90();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertEquals(5.0f, rotated.get(0, 0), DELTA);
+        assertEquals(3.0f, rotated.get(0, 1), DELTA);
+        assertEquals(1.0f, rotated.get(0, 2), DELTA);
+    }
+
+    @Test
+    public void testRotate270_moreColsThanRows() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
+        FloatMatrix rotated = m.rotate270();
+        assertEquals(3, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(3.0f, rotated.get(0, 0), DELTA);
+        assertEquals(6.0f, rotated.get(0, 1), DELTA);
+    }
+
+    @Test
+    public void testRotate270_moreRowsThanCols() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
+        FloatMatrix rotated = m.rotate270();
+        assertEquals(2, rotated.rows);
+        assertEquals(3, rotated.cols);
+        assertEquals(2.0f, rotated.get(0, 0), DELTA);
+        assertEquals(4.0f, rotated.get(0, 1), DELTA);
+        assertEquals(6.0f, rotated.get(0, 2), DELTA);
+    }
+
     // ============ Reshape Tests ============
 
     @Test
@@ -1024,6 +1101,28 @@ public class FloatMatrix2025Test extends TestBase {
         FloatMatrix reshaped = empty.reshape(2, 3);
         assertEquals(2, reshaped.rows);
         assertEquals(3, reshaped.cols);
+    }
+
+    @Test
+    public void testReshape_singleRowMatrix() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f } });
+        FloatMatrix reshaped = m.reshape(2, 3);
+        assertEquals(2, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals(1.0f, reshaped.get(0, 0), DELTA);
+        assertEquals(2.0f, reshaped.get(0, 1), DELTA);
+        assertEquals(3.0f, reshaped.get(0, 2), DELTA);
+        assertEquals(4.0f, reshaped.get(1, 0), DELTA);
+        assertEquals(5.0f, reshaped.get(1, 1), DELTA);
+        assertEquals(6.0f, reshaped.get(1, 2), DELTA);
+    }
+
+    @Test
+    public void testReshape_toZeroDimensions() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+        FloatMatrix reshaped = m.reshape(0, 0);
+        assertEquals(0, reshaped.rows);
+        assertEquals(0, reshaped.cols);
     }
 
     // ============ Repeat Tests ============
@@ -1236,6 +1335,26 @@ public class FloatMatrix2025Test extends TestBase {
         assertEquals(3, boxed.cols);
         assertEquals(Float.valueOf(1.0f), boxed.get(0, 0));
         assertEquals(Float.valueOf(6.0f), boxed.get(1, 2));
+    }
+
+    @Test
+    public void testBoxed_moreRowsThanCols() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f }, { 7.0f, 8.0f } });
+        Matrix<Float> boxed = m.boxed();
+        assertEquals(4, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Float.valueOf(1.0f), boxed.get(0, 0));
+        assertEquals(Float.valueOf(8.0f), boxed.get(3, 1));
+    }
+
+    @Test
+    public void testBoxed_withSpecialValues() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { Float.NaN, Float.POSITIVE_INFINITY }, { Float.NEGATIVE_INFINITY, -0.0f } });
+        Matrix<Float> boxed = m.boxed();
+        assertTrue(Float.isNaN(boxed.get(0, 0)));
+        assertEquals(Float.POSITIVE_INFINITY, boxed.get(0, 1));
+        assertEquals(Float.NEGATIVE_INFINITY, boxed.get(1, 0));
+        assertEquals(-0.0f, boxed.get(1, 1));
     }
 
     @Test
@@ -1488,6 +1607,59 @@ public class FloatMatrix2025Test extends TestBase {
         for (int i = 0; i < 9; i++) {
             assertEquals(i + 1, values.get(i), DELTA);
         }
+    }
+
+    @Test
+    public void testForEach_withRange() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
+        List<Float> values = new ArrayList<>();
+        m.forEach(0, 2, 1, 3, v -> values.add(v));
+        assertEquals(4, values.size());
+        assertEquals(2.0f, values.get(0), DELTA);
+        assertEquals(3.0f, values.get(1), DELTA);
+        assertEquals(5.0f, values.get(2), DELTA);
+        assertEquals(6.0f, values.get(3), DELTA);
+    }
+
+    @Test
+    public void testForEach_withRange_outOfBounds() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(-1, 2, 0, 2, v -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 3, 0, 2, v -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, -1, 2, v -> {
+        }));
+        assertThrows(IndexOutOfBoundsException.class, () -> m.forEach(0, 2, 0, 3, v -> {
+        }));
+    }
+
+    @Test
+    public void testForEach_withSpecialValues() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { Float.NaN, Float.POSITIVE_INFINITY }, { Float.NEGATIVE_INFINITY, -0.0f } });
+        List<Float> values = new ArrayList<>();
+        m.forEach(v -> values.add(v));
+        assertEquals(4, values.size());
+        assertTrue(Float.isNaN(values.get(0)));
+        assertEquals(Float.POSITIVE_INFINITY, values.get(1), DELTA);
+        assertEquals(Float.NEGATIVE_INFINITY, values.get(2), DELTA);
+        assertEquals(-0.0f, values.get(3), DELTA);
+    }
+
+    @Test
+    public void testForEach_largeMatrix_parallelable() {
+        // Create a large matrix that should trigger parallel processing
+        int size = 1000;
+        float[][] data = new float[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                data[i][j] = i + j;
+            }
+        }
+        FloatMatrix large = FloatMatrix.of(data);
+        final float[] sum = { 0.0f };
+        large.forEach(1, 10, 1, 10, v -> sum[0] += v);
+        assertTrue(sum[0] > 0);
     }
 
     // ============ Object Methods Tests ============

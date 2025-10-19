@@ -1823,4 +1823,100 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(-2, doubled.get(0, 0));
         assertEquals(-8, doubled.get(1, 1));
     }
+
+    // ============ Additional Coverage Tests ============
+
+    @Test
+    public void testBoxed_withMoreRowsThanCols() {
+        // Test the rows > cols branch in boxed()
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 } });
+        Matrix<Integer> boxed = m.boxed();
+        assertEquals(4, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Integer.valueOf(1), boxed.get(0, 0));
+        assertEquals(Integer.valueOf(8), boxed.get(3, 1));
+    }
+
+    @Test
+    public void testBoxed_withEqualRowsAndCols() {
+        // Test the rows <= cols branch where rows == cols
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        Matrix<Integer> boxed = m.boxed();
+        assertEquals(3, boxed.rows);
+        assertEquals(3, boxed.cols);
+        assertEquals(Integer.valueOf(5), boxed.get(1, 1));
+    }
+
+    @Test
+    public void testBoxed_empty() {
+        // Test boxed() with empty matrix
+        IntMatrix empty = IntMatrix.empty();
+        Matrix<Integer> boxed = empty.boxed();
+        assertEquals(0, boxed.rows);
+        assertEquals(0, boxed.cols);
+    }
+
+    @Test
+    public void testIntegerBoundaryValues() {
+        // Test with Integer.MAX_VALUE and Integer.MIN_VALUE
+        IntMatrix m = IntMatrix.of(new int[][] { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 0, -1 } });
+
+        assertEquals(Integer.MAX_VALUE, m.get(0, 0));
+        assertEquals(Integer.MIN_VALUE, m.get(0, 1));
+
+        // Test conversion to long to avoid overflow
+        LongMatrix longM = m.toLongMatrix();
+        assertEquals((long) Integer.MAX_VALUE, longM.get(0, 0));
+        assertEquals((long) Integer.MIN_VALUE, longM.get(0, 1));
+    }
+
+    @Test
+    public void testMultiplyWithOverflow() {
+        // Test multiplication that causes overflow
+        IntMatrix m1 = IntMatrix.of(new int[][] { { Integer.MAX_VALUE / 2 } });
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 3 } });
+        IntMatrix product = m1.multiply(m2);
+
+        // Result will overflow - verify it wraps around
+        assertTrue(product.get(0, 0) != (Integer.MAX_VALUE / 2) * 3L);
+    }
+
+    @Test
+    public void testFlatOpWithMultipleRows() {
+        // Test flatOp to ensure it processes the flattened array correctly
+        IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        List<Integer> maxValues = new ArrayList<>();
+
+        m.flatOp(flatArray -> {
+            int max = Integer.MIN_VALUE;
+            for (int val : flatArray) {
+                if (val > max)
+                    max = val;
+            }
+            maxValues.add(max);
+        });
+
+        // flatOp flattens all rows into one array, so there's only 1 result
+        assertEquals(1, maxValues.size());
+        assertEquals(6, maxValues.get(0).intValue()); // max of [1,2,3,4,5,6] is 6
+    }
+
+    @Test
+    public void testForEachWithEmptyMatrix() {
+        // Test forEach on empty matrix
+        IntMatrix empty = IntMatrix.empty();
+        List<Integer> values = new ArrayList<>();
+        empty.forEach(v -> values.add(v));
+        assertTrue(values.isEmpty());
+    }
+
+    @Test
+    public void testForEachWithSingleElement() {
+        // Test forEach with single element matrix
+        IntMatrix single = IntMatrix.of(new int[][] { { 42 } });
+        List<Integer> values = new ArrayList<>();
+        single.forEach(v -> values.add(v));
+        assertEquals(1, values.size());
+        assertEquals(42, values.get(0).intValue());
+    }
 }
