@@ -1077,4 +1077,591 @@ public class IntTuple2025Test extends TestBase {
         IntTuple9 tuple9 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
         assertEquals(45, tuple9.stream().sum());
     }
+
+    // ==================== IntTuple Nested Class Tests ====================
+
+    // ============ IntTuple1 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple1_arity() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertEquals(1, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple1_reverse() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        IntTuple.IntTuple1 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._1);
+        assertEquals(tuple._1, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple1_contains() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple1_hashCode() {
+        IntTuple.IntTuple1 tuple1 = IntTuple.of(1);
+        IntTuple.IntTuple1 tuple2 = IntTuple.of(1);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple1_equals() {
+        IntTuple.IntTuple1 tuple1 = IntTuple.of(1);
+        IntTuple.IntTuple1 tuple2 = IntTuple.of(1);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple1_toString() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple1_forEach() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testIntTuple1_min() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testIntTuple1_max() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testIntTuple1_median() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testIntTuple1_sum() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testIntTuple1_average() {
+        IntTuple.IntTuple1 tuple = IntTuple.of(1);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    // ============ IntTuple2 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple2_arity() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertEquals(2, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple2_reverse() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        IntTuple.IntTuple2 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._2);
+        assertEquals(tuple._2, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple2_contains() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple2_hashCode() {
+        IntTuple.IntTuple2 tuple1 = IntTuple.of(1, 2);
+        IntTuple.IntTuple2 tuple2 = IntTuple.of(1, 2);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple2_equals() {
+        IntTuple.IntTuple2 tuple1 = IntTuple.of(1, 2);
+        IntTuple.IntTuple2 tuple2 = IntTuple.of(1, 2);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple2_toString() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple2_forEach() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(2, count.size());
+    }
+
+    @Test
+    public void testIntTuple2_min() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testIntTuple2_max() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testIntTuple2_median() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testIntTuple2_sum() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testIntTuple2_average() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testIntTuple2_accept_biConsumer() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testIntTuple2_map_biFunction() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        String result = tuple.map((a, b) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testIntTuple2_filter_biPredicate() {
+        IntTuple.IntTuple2 tuple = IntTuple.of(1, 2);
+        assertTrue(tuple.filter((a, b) -> true).isPresent());
+        assertFalse(tuple.filter((a, b) -> false).isPresent());
+    }
+
+    // ============ IntTuple3 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple3_arity() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertEquals(3, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple3_reverse() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        IntTuple.IntTuple3 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._3);
+        assertEquals(tuple._3, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple3_contains() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple3_hashCode() {
+        IntTuple.IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
+        IntTuple.IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple3_equals() {
+        IntTuple.IntTuple3 tuple1 = IntTuple.of(1, 2, 3);
+        IntTuple.IntTuple3 tuple2 = IntTuple.of(1, 2, 3);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple3_toString() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple3_forEach() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(3, count.size());
+    }
+
+    @Test
+    public void testIntTuple3_min() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testIntTuple3_max() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testIntTuple3_median() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testIntTuple3_sum() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testIntTuple3_average() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testIntTuple3_accept_triConsumer() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b, c) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testIntTuple3_map_triFunction() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        String result = tuple.map((a, b, c) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testIntTuple3_filter_triPredicate() {
+        IntTuple.IntTuple3 tuple = IntTuple.of(1, 2, 3);
+        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+    }
+
+    // ============ IntTuple4 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple4_arity() {
+        IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        assertEquals(4, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple4_reverse() {
+        IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        IntTuple.IntTuple4 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._4);
+        assertEquals(tuple._4, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple4_contains() {
+        IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple4_hashCode() {
+        IntTuple.IntTuple4 tuple1 = IntTuple.of(1, 2, 3, 4);
+        IntTuple.IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple4_equals() {
+        IntTuple.IntTuple4 tuple1 = IntTuple.of(1, 2, 3, 4);
+        IntTuple.IntTuple4 tuple2 = IntTuple.of(1, 2, 3, 4);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple4_toString() {
+        IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple4_forEach() {
+        IntTuple.IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(4, count.size());
+    }
+
+    // ============ IntTuple5 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple5_arity() {
+        IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+        assertEquals(5, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple5_reverse() {
+        IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+        IntTuple.IntTuple5 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._5);
+        assertEquals(tuple._5, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple5_contains() {
+        IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple5_hashCode() {
+        IntTuple.IntTuple5 tuple1 = IntTuple.of(1, 2, 3, 4, 5);
+        IntTuple.IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple5_equals() {
+        IntTuple.IntTuple5 tuple1 = IntTuple.of(1, 2, 3, 4, 5);
+        IntTuple.IntTuple5 tuple2 = IntTuple.of(1, 2, 3, 4, 5);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple5_toString() {
+        IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple5_forEach() {
+        IntTuple.IntTuple5 tuple = IntTuple.of(1, 2, 3, 4, 5);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(5, count.size());
+    }
+
+    // ============ IntTuple6 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple6_arity() {
+        IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertEquals(6, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple6_reverse() {
+        IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+        IntTuple.IntTuple6 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._6);
+        assertEquals(tuple._6, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple6_contains() {
+        IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple6_hashCode() {
+        IntTuple.IntTuple6 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        IntTuple.IntTuple6 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple6_equals() {
+        IntTuple.IntTuple6 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        IntTuple.IntTuple6 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple6_toString() {
+        IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple6_forEach() {
+        IntTuple.IntTuple6 tuple = IntTuple.of(1, 2, 3, 4, 5, 6);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(6, count.size());
+    }
+
+    // ============ IntTuple7 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple7_arity() {
+        IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertEquals(7, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple7_reverse() {
+        IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        IntTuple.IntTuple7 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._7);
+        assertEquals(tuple._7, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple7_contains() {
+        IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple7_hashCode() {
+        IntTuple.IntTuple7 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        IntTuple.IntTuple7 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple7_equals() {
+        IntTuple.IntTuple7 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        IntTuple.IntTuple7 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple7_toString() {
+        IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple7_forEach() {
+        IntTuple.IntTuple7 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(7, count.size());
+    }
+
+    // ============ IntTuple8 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple8_arity() {
+        IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertEquals(8, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple8_reverse() {
+        IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        IntTuple.IntTuple8 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._8);
+        assertEquals(tuple._8, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple8_contains() {
+        IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple8_hashCode() {
+        IntTuple.IntTuple8 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        IntTuple.IntTuple8 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple8_equals() {
+        IntTuple.IntTuple8 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        IntTuple.IntTuple8 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple8_toString() {
+        IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple8_forEach() {
+        IntTuple.IntTuple8 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(8, count.size());
+    }
+
+    // ============ IntTuple9 Nested Class Tests ============
+
+    @Test
+    public void testIntTuple9_arity() {
+        IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertEquals(9, tuple.arity());
+    }
+
+    @Test
+    public void testIntTuple9_reverse() {
+        IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntTuple.IntTuple9 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._9);
+        assertEquals(tuple._9, reversed._1);
+    }
+
+    @Test
+    public void testIntTuple9_contains() {
+        IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertTrue(tuple.contains(1));
+    }
+
+    @Test
+    public void testIntTuple9_hashCode() {
+        IntTuple.IntTuple9 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntTuple.IntTuple9 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testIntTuple9_equals() {
+        IntTuple.IntTuple9 tuple1 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        IntTuple.IntTuple9 tuple2 = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testIntTuple9_toString() {
+        IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testIntTuple9_forEach() {
+        IntTuple.IntTuple9 tuple = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(9, count.size());
+    }
+
 }

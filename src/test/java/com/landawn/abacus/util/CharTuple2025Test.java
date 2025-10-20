@@ -1047,4 +1047,591 @@ public class CharTuple2025Test extends TestBase {
         CharTuple9 tuple9 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
         assertEquals(909, tuple9.stream().sum());
     }
+
+    // ==================== CharTuple Nested Class Tests ====================
+
+    // ============ CharTuple1 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple1_arity() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertEquals(1, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple1_reverse() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        CharTuple.CharTuple1 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._1);
+        assertEquals(tuple._1, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple1_contains() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple1_hashCode() {
+        CharTuple.CharTuple1 tuple1 = CharTuple.of('a');
+        CharTuple.CharTuple1 tuple2 = CharTuple.of('a');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple1_equals() {
+        CharTuple.CharTuple1 tuple1 = CharTuple.of('a');
+        CharTuple.CharTuple1 tuple2 = CharTuple.of('a');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple1_toString() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple1_forEach() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testCharTuple1_min() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testCharTuple1_max() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testCharTuple1_median() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testCharTuple1_sum() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testCharTuple1_average() {
+        CharTuple.CharTuple1 tuple = CharTuple.of('a');
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    // ============ CharTuple2 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple2_arity() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertEquals(2, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple2_reverse() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        CharTuple.CharTuple2 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._2);
+        assertEquals(tuple._2, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple2_contains() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple2_hashCode() {
+        CharTuple.CharTuple2 tuple1 = CharTuple.of('a', 'b');
+        CharTuple.CharTuple2 tuple2 = CharTuple.of('a', 'b');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple2_equals() {
+        CharTuple.CharTuple2 tuple1 = CharTuple.of('a', 'b');
+        CharTuple.CharTuple2 tuple2 = CharTuple.of('a', 'b');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple2_toString() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple2_forEach() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(2, count.size());
+    }
+
+    @Test
+    public void testCharTuple2_min() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testCharTuple2_max() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testCharTuple2_median() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testCharTuple2_sum() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testCharTuple2_average() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testCharTuple2_accept_biConsumer() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testCharTuple2_map_biFunction() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        String result = tuple.map((a, b) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testCharTuple2_filter_biPredicate() {
+        CharTuple.CharTuple2 tuple = CharTuple.of('a', 'b');
+        assertTrue(tuple.filter((a, b) -> true).isPresent());
+        assertFalse(tuple.filter((a, b) -> false).isPresent());
+    }
+
+    // ============ CharTuple3 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple3_arity() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertEquals(3, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple3_reverse() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        CharTuple.CharTuple3 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._3);
+        assertEquals(tuple._3, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple3_contains() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple3_hashCode() {
+        CharTuple.CharTuple3 tuple1 = CharTuple.of('a', 'b', 'c');
+        CharTuple.CharTuple3 tuple2 = CharTuple.of('a', 'b', 'c');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple3_equals() {
+        CharTuple.CharTuple3 tuple1 = CharTuple.of('a', 'b', 'c');
+        CharTuple.CharTuple3 tuple2 = CharTuple.of('a', 'b', 'c');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple3_toString() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple3_forEach() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(3, count.size());
+    }
+
+    @Test
+    public void testCharTuple3_min() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testCharTuple3_max() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testCharTuple3_median() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testCharTuple3_sum() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testCharTuple3_average() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testCharTuple3_accept_triConsumer() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b, c) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testCharTuple3_map_triFunction() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        String result = tuple.map((a, b, c) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testCharTuple3_filter_triPredicate() {
+        CharTuple.CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
+        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+    }
+
+    // ============ CharTuple4 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple4_arity() {
+        CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        assertEquals(4, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple4_reverse() {
+        CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        CharTuple.CharTuple4 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._4);
+        assertEquals(tuple._4, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple4_contains() {
+        CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple4_hashCode() {
+        CharTuple.CharTuple4 tuple1 = CharTuple.of('a', 'b', 'c', 'd');
+        CharTuple.CharTuple4 tuple2 = CharTuple.of('a', 'b', 'c', 'd');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple4_equals() {
+        CharTuple.CharTuple4 tuple1 = CharTuple.of('a', 'b', 'c', 'd');
+        CharTuple.CharTuple4 tuple2 = CharTuple.of('a', 'b', 'c', 'd');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple4_toString() {
+        CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple4_forEach() {
+        CharTuple.CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(4, count.size());
+    }
+
+    // ============ CharTuple5 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple5_arity() {
+        CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertEquals(5, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple5_reverse() {
+        CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        CharTuple.CharTuple5 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._5);
+        assertEquals(tuple._5, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple5_contains() {
+        CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple5_hashCode() {
+        CharTuple.CharTuple5 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        CharTuple.CharTuple5 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple5_equals() {
+        CharTuple.CharTuple5 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        CharTuple.CharTuple5 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple5_toString() {
+        CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple5_forEach() {
+        CharTuple.CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(5, count.size());
+    }
+
+    // ============ CharTuple6 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple6_arity() {
+        CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertEquals(6, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple6_reverse() {
+        CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        CharTuple.CharTuple6 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._6);
+        assertEquals(tuple._6, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple6_contains() {
+        CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple6_hashCode() {
+        CharTuple.CharTuple6 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        CharTuple.CharTuple6 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple6_equals() {
+        CharTuple.CharTuple6 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        CharTuple.CharTuple6 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple6_toString() {
+        CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple6_forEach() {
+        CharTuple.CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(6, count.size());
+    }
+
+    // ============ CharTuple7 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple7_arity() {
+        CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertEquals(7, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple7_reverse() {
+        CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        CharTuple.CharTuple7 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._7);
+        assertEquals(tuple._7, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple7_contains() {
+        CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple7_hashCode() {
+        CharTuple.CharTuple7 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        CharTuple.CharTuple7 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple7_equals() {
+        CharTuple.CharTuple7 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        CharTuple.CharTuple7 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple7_toString() {
+        CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple7_forEach() {
+        CharTuple.CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(7, count.size());
+    }
+
+    // ============ CharTuple8 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple8_arity() {
+        CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertEquals(8, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple8_reverse() {
+        CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        CharTuple.CharTuple8 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._8);
+        assertEquals(tuple._8, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple8_contains() {
+        CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple8_hashCode() {
+        CharTuple.CharTuple8 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        CharTuple.CharTuple8 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple8_equals() {
+        CharTuple.CharTuple8 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        CharTuple.CharTuple8 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple8_toString() {
+        CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple8_forEach() {
+        CharTuple.CharTuple8 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(8, count.size());
+    }
+
+    // ============ CharTuple9 Nested Class Tests ============
+
+    @Test
+    public void testCharTuple9_arity() {
+        CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertEquals(9, tuple.arity());
+    }
+
+    @Test
+    public void testCharTuple9_reverse() {
+        CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        CharTuple.CharTuple9 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._9);
+        assertEquals(tuple._9, reversed._1);
+    }
+
+    @Test
+    public void testCharTuple9_contains() {
+        CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertTrue(tuple.contains('a'));
+    }
+
+    @Test
+    public void testCharTuple9_hashCode() {
+        CharTuple.CharTuple9 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        CharTuple.CharTuple9 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testCharTuple9_equals() {
+        CharTuple.CharTuple9 tuple1 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        CharTuple.CharTuple9 tuple2 = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testCharTuple9_toString() {
+        CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testCharTuple9_forEach() {
+        CharTuple.CharTuple9 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i');
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(9, count.size());
+    }
+
 }

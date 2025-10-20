@@ -1775,4 +1775,1366 @@ public class Arrays2025Test extends TestBase {
         assertEquals('z', a[0][0][1]);
         assertEquals('c', a[0][0][2]);
     }
+
+    // ============================================
+    // Tests for totalCountOfElements methods
+    // ============================================
+
+    @Test
+    public void testTotalCountOfElements_Boolean2D() {
+        boolean[][] a = { { true, false }, { true }, { true, false, true } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Boolean3D() {
+        boolean[][][] a = { { { true, false }, { true } }, { { false } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Char2D() {
+        char[][] a = { { 'a', 'b' }, { 'c' }, { 'd', 'e', 'f' } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Char3D() {
+        char[][][] a = { { { 'a', 'b' }, { 'c' } }, { { 'd' } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Byte2D() {
+        byte[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Byte3D() {
+        byte[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Short2D() {
+        short[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Short3D() {
+        short[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Int2D() {
+        int[][] a = { { 1, 2 }, { 3 }, { 4, 5, 6 } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Int3D() {
+        int[][][] a = { { { 1, 2 }, { 3 } }, { { 4 } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Long2D() {
+        long[][] a = { { 1L, 2L }, { 3L }, { 4L, 5L, 6L } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Long3D() {
+        long[][][] a = { { { 1L, 2L }, { 3L } }, { { 4L } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Float2D() {
+        float[][] a = { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Float3D() {
+        float[][][] a = { { { 1.0f, 2.0f }, { 3.0f } }, { { 4.0f } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Double2D() {
+        double[][] a = { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(6, result);
+    }
+
+    @Test
+    public void testTotalCountOfElements_Double3D() {
+        double[][][] a = { { { 1.0, 2.0 }, { 3.0 } }, { { 4.0 } } };
+        long result = Arrays.totalCountOfElements(a);
+        assertEquals(4, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - BooleanBinaryOperator
+    // ============================================
+
+    @Test
+    public void testZip_Boolean1D_BinaryOp() {
+        boolean[] a = { true, false, true };
+        boolean[] b = { false, false, true };
+        boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+        assertEquals(3, result.length);
+        assertFalse(result[0]);
+        assertFalse(result[1]);
+        assertTrue(result[2]);
+    }
+
+    @Test
+    public void testZip_Boolean1D_BinaryOp_WithDefaults() {
+        boolean[] a = { true, false };
+        boolean[] b = { false, false, true };
+        boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
+
+        assertEquals(3, result.length);
+        assertTrue(result[0]);
+        assertFalse(result[1]);
+        assertTrue(result[2]);
+    }
+
+    @Test
+    public void testZip_Boolean1D_TernaryOp() {
+        boolean[] a = { true, false };
+        boolean[] b = { false, true };
+        boolean[] c = { true, true };
+        boolean[] result = Arrays.zip(a, b, c, (x, y, z) -> (x || y) && z);
+
+        assertEquals(2, result.length);
+        assertTrue(result[0]);
+        assertTrue(result[1]);
+    }
+
+    @Test
+    public void testZip_Boolean1D_TernaryOp_WithDefaults() {
+        boolean[] a = { true };
+        boolean[] b = { false, true };
+        boolean[] c = { true, true };
+        boolean[] result = Arrays.zip(a, b, c, false, false, true, (x, y, z) -> (x || y) && z);
+
+        assertEquals(2, result.length);
+        assertTrue(result[0]);
+        assertTrue(result[1]);
+    }
+
+    // ============================================
+    // Tests for zip methods - Int arrays
+    // ============================================
+
+    @Test
+    public void testZip_Int1D_BinaryOp() {
+        int[] a = { 1, 2, 3 };
+        int[] b = { 4, 5, 6 };
+        int[] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertArrayEquals(new int[] { 5, 7, 9 }, result);
+    }
+
+    @Test
+    public void testZip_Int1D_BinaryOp_WithDefaults() {
+        int[] a = { 1, 2 };
+        int[] b = { 3, 4, 5 };
+        int[] result = Arrays.zip(a, b, 0, 0, (x, y) -> x + y);
+
+        assertArrayEquals(new int[] { 4, 6, 5 }, result);
+    }
+
+    @Test
+    public void testZip_Int1D_TernaryOp() {
+        int[] a = { 1, 2 };
+        int[] b = { 3, 4 };
+        int[] c = { 5, 6 };
+        int[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertArrayEquals(new int[] { 9, 12 }, result);
+    }
+
+    @Test
+    public void testZip_Int1D_TernaryOp_WithDefaults() {
+        int[] a = { 1 };
+        int[] b = { 2, 3 };
+        int[] c = { 4, 5 };
+        int[] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+
+        assertArrayEquals(new int[] { 7, 8 }, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - Long arrays
+    // ============================================
+
+    @Test
+    public void testZip_Long1D_BinaryOp() {
+        long[] a = { 1L, 2L, 3L };
+        long[] b = { 4L, 5L, 6L };
+        long[] result = Arrays.zip(a, b, (x, y) -> x * y);
+
+        assertArrayEquals(new long[] { 4L, 10L, 18L }, result);
+    }
+
+    @Test
+    public void testZip_Long1D_BinaryOp_WithDefaults() {
+        long[] a = { 1L, 2L };
+        long[] b = { 3L, 4L, 5L };
+        long[] result = Arrays.zip(a, b, 1L, 1L, (x, y) -> x * y);
+
+        assertArrayEquals(new long[] { 3L, 8L, 5L }, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - Double arrays
+    // ============================================
+
+    @Test
+    public void testZip_Double1D_BinaryOp() {
+        double[] a = { 1.0, 2.0, 3.0 };
+        double[] b = { 4.0, 5.0, 6.0 };
+        double[] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertArrayEquals(new double[] { 5.0, 7.0, 9.0 }, result, 0.0001);
+    }
+
+    @Test
+    public void testZip_Double1D_BinaryOp_WithDefaults() {
+        double[] a = { 1.0, 2.0 };
+        double[] b = { 3.0, 4.0, 5.0 };
+        double[] result = Arrays.zip(a, b, 0.0, 0.0, (x, y) -> x + y);
+
+        assertArrayEquals(new double[] { 4.0, 6.0, 5.0 }, result, 0.0001);
+    }
+
+    // ============================================
+    // Tests for zip methods - Char arrays
+    // ============================================
+
+    @Test
+    public void testZip_Char1D_BinaryOp() {
+        char[] a = { 'a', 'b', 'c' };
+        char[] b = { '1', '2', '3' };
+        char[] result = Arrays.zip(a, b, (x, y) -> x);
+
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - Byte arrays
+    // ============================================
+
+    @Test
+    public void testZip_Byte1D_BinaryOp() {
+        byte[] a = { 1, 2, 3 };
+        byte[] b = { 4, 5, 6 };
+        byte[] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
+
+        assertArrayEquals(new byte[] { 5, 7, 9 }, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - Short arrays
+    // ============================================
+
+    @Test
+    public void testZip_Short1D_BinaryOp() {
+        short[] a = { 1, 2, 3 };
+        short[] b = { 4, 5, 6 };
+        short[] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+
+        assertArrayEquals(new short[] { 5, 7, 9 }, result);
+    }
+
+    // ============================================
+    // Tests for zip methods - Float arrays
+    // ============================================
+
+    @Test
+    public void testZip_Float1D_BinaryOp() {
+        float[] a = { 1.0f, 2.0f, 3.0f };
+        float[] b = { 4.0f, 5.0f, 6.0f };
+        float[] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertArrayEquals(new float[] { 5.0f, 7.0f, 9.0f }, result, 0.0001f);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toBoolean
+    // ============================================
+
+    @Test
+    public void testToBoolean_ByteArray() {
+        byte[] a = { 0, 1, 0, 1 };
+        boolean[] result = Arrays.toBoolean(a);
+
+        assertArrayEquals(new boolean[] { false, true, false, true }, result);
+    }
+
+    @Test
+    public void testToBoolean_Byte2DArray() {
+        byte[][] a = { { 0, 1 }, { 1, 0 } };
+        boolean[][] result = Arrays.toBoolean(a);
+
+        assertEquals(2, result.length);
+        assertFalse(result[0][0]);
+        assertTrue(result[0][1]);
+        assertTrue(result[1][0]);
+        assertFalse(result[1][1]);
+    }
+
+    @Test
+    public void testToBoolean_Byte3DArray() {
+        byte[][][] a = { { { 0, 1 } } };
+        boolean[][][] result = Arrays.toBoolean(a);
+
+        assertEquals(1, result.length);
+        assertFalse(result[0][0][0]);
+        assertTrue(result[0][0][1]);
+    }
+
+    @Test
+    public void testToBoolean_IntArray() {
+        int[] a = { 0, 1, 0, 1 };
+        boolean[] result = Arrays.toBoolean(a);
+
+        assertArrayEquals(new boolean[] { false, true, false, true }, result);
+    }
+
+    @Test
+    public void testToBoolean_Int2DArray() {
+        int[][] a = { { 0, 1 }, { 1, 0 } };
+        boolean[][] result = Arrays.toBoolean(a);
+
+        assertEquals(2, result.length);
+        assertFalse(result[0][0]);
+        assertTrue(result[0][1]);
+    }
+
+    @Test
+    public void testToBoolean_Int3DArray() {
+        int[][][] a = { { { 0, 1 } } };
+        boolean[][][] result = Arrays.toBoolean(a);
+
+        assertEquals(1, result.length);
+        assertFalse(result[0][0][0]);
+        assertTrue(result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toChar
+    // ============================================
+
+    @Test
+    public void testToChar_IntArray() {
+        int[] a = { 65, 66, 67 };
+        char[] result = Arrays.toChar(a);
+
+        assertArrayEquals(new char[] { 'A', 'B', 'C' }, result);
+    }
+
+    @Test
+    public void testToChar_Int2DArray() {
+        int[][] a = { { 65, 66 }, { 67, 68 } };
+        char[][] result = Arrays.toChar(a);
+
+        assertEquals(2, result.length);
+        assertEquals('A', result[0][0]);
+        assertEquals('B', result[0][1]);
+        assertEquals('C', result[1][0]);
+        assertEquals('D', result[1][1]);
+    }
+
+    @Test
+    public void testToChar_Int3DArray() {
+        int[][][] a = { { { 65, 66 } } };
+        char[][][] result = Arrays.toChar(a);
+
+        assertEquals('A', result[0][0][0]);
+        assertEquals('B', result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toByte
+    // ============================================
+
+    @Test
+    public void testToByte_BooleanArray() {
+        boolean[] a = { true, false, true };
+        byte[] result = Arrays.toByte(a);
+
+        assertArrayEquals(new byte[] { 1, 0, 1 }, result);
+    }
+
+    @Test
+    public void testToByte_Boolean2DArray() {
+        boolean[][] a = { { true, false }, { false, true } };
+        byte[][] result = Arrays.toByte(a);
+
+        assertEquals(2, result.length);
+        assertEquals(1, result[0][0]);
+        assertEquals(0, result[0][1]);
+        assertEquals(0, result[1][0]);
+        assertEquals(1, result[1][1]);
+    }
+
+    @Test
+    public void testToByte_Boolean3DArray() {
+        boolean[][][] a = { { { true, false } } };
+        byte[][][] result = Arrays.toByte(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(0, result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toShort
+    // ============================================
+
+    @Test
+    public void testToShort_ByteArray() {
+        byte[] a = { 1, 2, 3 };
+        short[] result = Arrays.toShort(a);
+
+        assertArrayEquals(new short[] { 1, 2, 3 }, result);
+    }
+
+    @Test
+    public void testToShort_Byte2DArray() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        short[][] result = Arrays.toShort(a);
+
+        assertEquals(2, result.length);
+        assertEquals(1, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(3, result[1][0]);
+        assertEquals(4, result[1][1]);
+    }
+
+    @Test
+    public void testToShort_Byte3DArray() {
+        byte[][][] a = { { { 1, 2 } } };
+        short[][][] result = Arrays.toShort(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toInt
+    // ============================================
+
+    @Test
+    public void testToInt_BooleanArray() {
+        boolean[] a = { true, false, true };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 1, 0, 1 }, result);
+    }
+
+    @Test
+    public void testToInt_Boolean2DArray() {
+        boolean[][] a = { { true, false }, { false, true } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(0, result[0][1]);
+        assertEquals(0, result[1][0]);
+        assertEquals(1, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Boolean3DArray() {
+        boolean[][][] a = { { { true, false } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(0, result[0][0][1]);
+    }
+
+    @Test
+    public void testToInt_CharArray() {
+        char[] a = { 'A', 'B', 'C' };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 65, 66, 67 }, result);
+    }
+
+    @Test
+    public void testToInt_Char2DArray() {
+        char[][] a = { { 'A', 'B' }, { 'C', 'D' } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(65, result[0][0]);
+        assertEquals(66, result[0][1]);
+        assertEquals(67, result[1][0]);
+        assertEquals(68, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Char3DArray() {
+        char[][][] a = { { { 'A', 'B' } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(65, result[0][0][0]);
+        assertEquals(66, result[0][0][1]);
+    }
+
+    @Test
+    public void testToInt_ByteArray() {
+        byte[] a = { 1, 2, 3 };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
+    }
+
+    @Test
+    public void testToInt_Byte2DArray() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(3, result[1][0]);
+        assertEquals(4, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Byte3DArray() {
+        byte[][][] a = { { { 1, 2 } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+    }
+
+    @Test
+    public void testToInt_ShortArray() {
+        short[] a = { 1, 2, 3 };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
+    }
+
+    @Test
+    public void testToInt_Short2DArray() {
+        short[][] a = { { 1, 2 }, { 3, 4 } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(3, result[1][0]);
+        assertEquals(4, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Short3DArray() {
+        short[][][] a = { { { 1, 2 } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+    }
+
+    @Test
+    public void testToInt_FloatArray() {
+        float[] a = { 1.5f, 2.5f, 3.5f };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
+    }
+
+    @Test
+    public void testToInt_Float2DArray() {
+        float[][] a = { { 1.5f, 2.5f }, { 3.5f, 4.5f } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(3, result[1][0]);
+        assertEquals(4, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Float3DArray() {
+        float[][][] a = { { { 1.5f, 2.5f } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+    }
+
+    @Test
+    public void testToInt_DoubleArray() {
+        double[] a = { 1.9, 2.9, 3.9 };
+        int[] result = Arrays.toInt(a);
+
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
+    }
+
+    @Test
+    public void testToInt_Double2DArray() {
+        double[][] a = { { 1.9, 2.9 }, { 3.9, 4.9 } };
+        int[][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(3, result[1][0]);
+        assertEquals(4, result[1][1]);
+    }
+
+    @Test
+    public void testToInt_Double3DArray() {
+        double[][][] a = { { { 1.9, 2.9 } } };
+        int[][][] result = Arrays.toInt(a);
+
+        assertEquals(1, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toLong
+    // ============================================
+
+    @Test
+    public void testToLong_ByteArray() {
+        byte[] a = { 1, 2, 3 };
+        long[] result = Arrays.toLong(a);
+
+        assertArrayEquals(new long[] { 1L, 2L, 3L }, result);
+    }
+
+    @Test
+    public void testToLong_Byte2DArray() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        long[][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0]);
+        assertEquals(2L, result[0][1]);
+        assertEquals(3L, result[1][0]);
+        assertEquals(4L, result[1][1]);
+    }
+
+    @Test
+    public void testToLong_Byte3DArray() {
+        byte[][][] a = { { { 1, 2 } } };
+        long[][][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0][0]);
+        assertEquals(2L, result[0][0][1]);
+    }
+
+    @Test
+    public void testToLong_ShortArray() {
+        short[] a = { 10, 20, 30 };
+        long[] result = Arrays.toLong(a);
+
+        assertArrayEquals(new long[] { 10L, 20L, 30L }, result);
+    }
+
+    @Test
+    public void testToLong_Short2DArray() {
+        short[][] a = { { 10, 20 }, { 30, 40 } };
+        long[][] result = Arrays.toLong(a);
+
+        assertEquals(10L, result[0][0]);
+        assertEquals(20L, result[0][1]);
+        assertEquals(30L, result[1][0]);
+        assertEquals(40L, result[1][1]);
+    }
+
+    @Test
+    public void testToLong_Short3DArray() {
+        short[][][] a = { { { 10, 20 } } };
+        long[][][] result = Arrays.toLong(a);
+
+        assertEquals(10L, result[0][0][0]);
+        assertEquals(20L, result[0][0][1]);
+    }
+
+    @Test
+    public void testToLong_IntArray() {
+        int[] a = { 100, 200, 300 };
+        long[] result = Arrays.toLong(a);
+
+        assertArrayEquals(new long[] { 100L, 200L, 300L }, result);
+    }
+
+    @Test
+    public void testToLong_Int2DArray() {
+        int[][] a = { { 100, 200 }, { 300, 400 } };
+        long[][] result = Arrays.toLong(a);
+
+        assertEquals(100L, result[0][0]);
+        assertEquals(200L, result[0][1]);
+        assertEquals(300L, result[1][0]);
+        assertEquals(400L, result[1][1]);
+    }
+
+    @Test
+    public void testToLong_Int3DArray() {
+        int[][][] a = { { { 100, 200 } } };
+        long[][][] result = Arrays.toLong(a);
+
+        assertEquals(100L, result[0][0][0]);
+        assertEquals(200L, result[0][0][1]);
+    }
+
+    @Test
+    public void testToLong_FloatArray() {
+        float[] a = { 1.5f, 2.5f, 3.5f };
+        long[] result = Arrays.toLong(a);
+
+        assertArrayEquals(new long[] { 1L, 2L, 3L }, result);
+    }
+
+    @Test
+    public void testToLong_Float2DArray() {
+        float[][] a = { { 1.5f, 2.5f }, { 3.5f, 4.5f } };
+        long[][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0]);
+        assertEquals(2L, result[0][1]);
+        assertEquals(3L, result[1][0]);
+        assertEquals(4L, result[1][1]);
+    }
+
+    @Test
+    public void testToLong_Float3DArray() {
+        float[][][] a = { { { 1.5f, 2.5f } } };
+        long[][][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0][0]);
+        assertEquals(2L, result[0][0][1]);
+    }
+
+    @Test
+    public void testToLong_DoubleArray() {
+        double[] a = { 1.9, 2.9, 3.9 };
+        long[] result = Arrays.toLong(a);
+
+        assertArrayEquals(new long[] { 1L, 2L, 3L }, result);
+    }
+
+    @Test
+    public void testToLong_Double2DArray() {
+        double[][] a = { { 1.9, 2.9 }, { 3.9, 4.9 } };
+        long[][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0]);
+        assertEquals(2L, result[0][1]);
+        assertEquals(3L, result[1][0]);
+        assertEquals(4L, result[1][1]);
+    }
+
+    @Test
+    public void testToLong_Double3DArray() {
+        double[][][] a = { { { 1.9, 2.9 } } };
+        long[][][] result = Arrays.toLong(a);
+
+        assertEquals(1L, result[0][0][0]);
+        assertEquals(2L, result[0][0][1]);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toFloat
+    // ============================================
+
+    @Test
+    public void testToFloat_ByteArray() {
+        byte[] a = { 1, 2, 3 };
+        float[] result = Arrays.toFloat(a);
+
+        assertArrayEquals(new float[] { 1.0f, 2.0f, 3.0f }, result, 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Byte2DArray() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        float[][] result = Arrays.toFloat(a);
+
+        assertEquals(1.0f, result[0][0], 0.0001f);
+        assertEquals(2.0f, result[0][1], 0.0001f);
+        assertEquals(3.0f, result[1][0], 0.0001f);
+        assertEquals(4.0f, result[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Byte3DArray() {
+        byte[][][] a = { { { 1, 2 } } };
+        float[][][] result = Arrays.toFloat(a);
+
+        assertEquals(1.0f, result[0][0][0], 0.0001f);
+        assertEquals(2.0f, result[0][0][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_ShortArray() {
+        short[] a = { 10, 20, 30 };
+        float[] result = Arrays.toFloat(a);
+
+        assertArrayEquals(new float[] { 10.0f, 20.0f, 30.0f }, result, 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Short2DArray() {
+        short[][] a = { { 10, 20 }, { 30, 40 } };
+        float[][] result = Arrays.toFloat(a);
+
+        assertEquals(10.0f, result[0][0], 0.0001f);
+        assertEquals(20.0f, result[0][1], 0.0001f);
+        assertEquals(30.0f, result[1][0], 0.0001f);
+        assertEquals(40.0f, result[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Short3DArray() {
+        short[][][] a = { { { 10, 20 } } };
+        float[][][] result = Arrays.toFloat(a);
+
+        assertEquals(10.0f, result[0][0][0], 0.0001f);
+        assertEquals(20.0f, result[0][0][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_IntArray() {
+        int[] a = { 100, 200, 300 };
+        float[] result = Arrays.toFloat(a);
+
+        assertArrayEquals(new float[] { 100.0f, 200.0f, 300.0f }, result, 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Int2DArray() {
+        int[][] a = { { 100, 200 }, { 300, 400 } };
+        float[][] result = Arrays.toFloat(a);
+
+        assertEquals(100.0f, result[0][0], 0.0001f);
+        assertEquals(200.0f, result[0][1], 0.0001f);
+        assertEquals(300.0f, result[1][0], 0.0001f);
+        assertEquals(400.0f, result[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Int3DArray() {
+        int[][][] a = { { { 100, 200 } } };
+        float[][][] result = Arrays.toFloat(a);
+
+        assertEquals(100.0f, result[0][0][0], 0.0001f);
+        assertEquals(200.0f, result[0][0][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_LongArray() {
+        long[] a = { 1000L, 2000L, 3000L };
+        float[] result = Arrays.toFloat(a);
+
+        assertArrayEquals(new float[] { 1000.0f, 2000.0f, 3000.0f }, result, 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Long2DArray() {
+        long[][] a = { { 1000L, 2000L }, { 3000L, 4000L } };
+        float[][] result = Arrays.toFloat(a);
+
+        assertEquals(1000.0f, result[0][0], 0.0001f);
+        assertEquals(2000.0f, result[0][1], 0.0001f);
+        assertEquals(3000.0f, result[1][0], 0.0001f);
+        assertEquals(4000.0f, result[1][1], 0.0001f);
+    }
+
+    @Test
+    public void testToFloat_Long3DArray() {
+        long[][][] a = { { { 1000L, 2000L } } };
+        float[][][] result = Arrays.toFloat(a);
+
+        assertEquals(1000.0f, result[0][0][0], 0.0001f);
+        assertEquals(2000.0f, result[0][0][1], 0.0001f);
+    }
+
+    // ============================================
+    // Tests for type conversion methods - toDouble
+    // ============================================
+
+    @Test
+    public void testToDouble_ByteArray() {
+        byte[] a = { 1, 2, 3 };
+        double[] result = Arrays.toDouble(a);
+
+        assertArrayEquals(new double[] { 1.0, 2.0, 3.0 }, result, 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Byte2DArray() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        double[][] result = Arrays.toDouble(a);
+
+        assertEquals(1.0, result[0][0], 0.0001);
+        assertEquals(2.0, result[0][1], 0.0001);
+        assertEquals(3.0, result[1][0], 0.0001);
+        assertEquals(4.0, result[1][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Byte3DArray() {
+        byte[][][] a = { { { 1, 2 } } };
+        double[][][] result = Arrays.toDouble(a);
+
+        assertEquals(1.0, result[0][0][0], 0.0001);
+        assertEquals(2.0, result[0][0][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_ShortArray() {
+        short[] a = { 10, 20, 30 };
+        double[] result = Arrays.toDouble(a);
+
+        assertArrayEquals(new double[] { 10.0, 20.0, 30.0 }, result, 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Short2DArray() {
+        short[][] a = { { 10, 20 }, { 30, 40 } };
+        double[][] result = Arrays.toDouble(a);
+
+        assertEquals(10.0, result[0][0], 0.0001);
+        assertEquals(20.0, result[0][1], 0.0001);
+        assertEquals(30.0, result[1][0], 0.0001);
+        assertEquals(40.0, result[1][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Short3DArray() {
+        short[][][] a = { { { 10, 20 } } };
+        double[][][] result = Arrays.toDouble(a);
+
+        assertEquals(10.0, result[0][0][0], 0.0001);
+        assertEquals(20.0, result[0][0][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_IntArray() {
+        int[] a = { 100, 200, 300 };
+        double[] result = Arrays.toDouble(a);
+
+        assertArrayEquals(new double[] { 100.0, 200.0, 300.0 }, result, 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Int2DArray() {
+        int[][] a = { { 100, 200 }, { 300, 400 } };
+        double[][] result = Arrays.toDouble(a);
+
+        assertEquals(100.0, result[0][0], 0.0001);
+        assertEquals(200.0, result[0][1], 0.0001);
+        assertEquals(300.0, result[1][0], 0.0001);
+        assertEquals(400.0, result[1][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Int3DArray() {
+        int[][][] a = { { { 100, 200 } } };
+        double[][][] result = Arrays.toDouble(a);
+
+        assertEquals(100.0, result[0][0][0], 0.0001);
+        assertEquals(200.0, result[0][0][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_LongArray() {
+        long[] a = { 1000L, 2000L, 3000L };
+        double[] result = Arrays.toDouble(a);
+
+        assertArrayEquals(new double[] { 1000.0, 2000.0, 3000.0 }, result, 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Long2DArray() {
+        long[][] a = { { 1000L, 2000L }, { 3000L, 4000L } };
+        double[][] result = Arrays.toDouble(a);
+
+        assertEquals(1000.0, result[0][0], 0.0001);
+        assertEquals(2000.0, result[0][1], 0.0001);
+        assertEquals(3000.0, result[1][0], 0.0001);
+        assertEquals(4000.0, result[1][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Long3DArray() {
+        long[][][] a = { { { 1000L, 2000L } } };
+        double[][][] result = Arrays.toDouble(a);
+
+        assertEquals(1000.0, result[0][0][0], 0.0001);
+        assertEquals(2000.0, result[0][0][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_FloatArray() {
+        float[] a = { 1.5f, 2.5f, 3.5f };
+        double[] result = Arrays.toDouble(a);
+
+        assertArrayEquals(new double[] { 1.5, 2.5, 3.5 }, result, 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Float2DArray() {
+        float[][] a = { { 1.5f, 2.5f }, { 3.5f, 4.5f } };
+        double[][] result = Arrays.toDouble(a);
+
+        assertEquals(1.5, result[0][0], 0.0001);
+        assertEquals(2.5, result[0][1], 0.0001);
+        assertEquals(3.5, result[1][0], 0.0001);
+        assertEquals(4.5, result[1][1], 0.0001);
+    }
+
+    @Test
+    public void testToDouble_Float3DArray() {
+        float[][][] a = { { { 1.5f, 2.5f } } };
+        double[][][] result = Arrays.toDouble(a);
+
+        assertEquals(1.5, result[0][0][0], 0.0001);
+        assertEquals(2.5, result[0][0][1], 0.0001);
+    }
+
+    // ============================================
+    // Tests for zip methods - 2D and 3D arrays
+    // ============================================
+
+    @Test
+    public void testZip_Int2D_BinaryOp() {
+        int[][] a = { { 1, 2 }, { 3, 4 } };
+        int[][] b = { { 5, 6 }, { 7, 8 } };
+        int[][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new int[] { 6, 8 }, result[0]);
+        assertArrayEquals(new int[] { 10, 12 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Int2D_BinaryOp_WithDefaults() {
+        int[][] a = { { 1, 2 }, { 3 } };
+        int[][] b = { { 4 }, { 5, 6 } };
+        int[][] result = Arrays.zip(a, b, 0, 0, (x, y) -> x + y);
+
+        assertEquals(2, result.length);
+        assertEquals(5, result[0][0]);
+        assertEquals(2, result[0][1]);
+        assertEquals(8, result[1][0]);
+        assertEquals(6, result[1][1]);
+    }
+
+    @Test
+    public void testZip_Int2D_TernaryOp() {
+        int[][] a = { { 1, 2 }, { 3, 4 } };
+        int[][] b = { { 5, 6 }, { 7, 8 } };
+        int[][] c = { { 9, 10 }, { 11, 12 } };
+        int[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new int[] { 15, 18 }, result[0]);
+        assertArrayEquals(new int[] { 21, 24 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Int2D_TernaryOp_WithDefaults() {
+        int[][] a = { { 1, 2 } };
+        int[][] b = { { 3, 4 }, { 5, 6 } };
+        int[][] c = { { 7, 8 }, { 9, 10 } };
+        int[][] result = Arrays.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new int[] { 11, 14 }, result[0]);
+        assertArrayEquals(new int[] { 14, 16 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Int3D_BinaryOp() {
+        int[][][] a = { { { 1, 2 }, { 3, 4 } } };
+        int[][][] b = { { { 5, 6 }, { 7, 8 } } };
+        int[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(1, result.length);
+        assertEquals(2, result[0].length);
+        assertArrayEquals(new int[] { 6, 8 }, result[0][0]);
+        assertArrayEquals(new int[] { 10, 12 }, result[0][1]);
+    }
+
+    @Test
+    public void testZip_Int3D_BinaryOp_WithDefaults() {
+        int[][][] a = { { { 1, 2 } } };
+        int[][][] b = { { { 3 }, { 4, 5 } } };
+        int[][][] result = Arrays.zip(a, b, 0, 0, (x, y) -> x + y);
+
+        assertEquals(1, result.length);
+        assertEquals(2, result[0].length);
+        assertEquals(4, result[0][0][0]);
+        assertEquals(2, result[0][0][1]);
+        assertEquals(4, result[0][1][0]);
+        assertEquals(5, result[0][1][1]);
+    }
+
+    @Test
+    public void testZip_Int3D_TernaryOp() {
+        int[][][] a = { { { 1, 2 } } };
+        int[][][] b = { { { 3, 4 } } };
+        int[][][] c = { { { 5, 6 } } };
+        int[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertEquals(1, result.length);
+        assertEquals(1, result[0].length);
+        assertArrayEquals(new int[] { 9, 12 }, result[0][0]);
+    }
+
+    @Test
+    public void testZip_Long2D_BinaryOp() {
+        long[][] a = { { 1L, 2L }, { 3L, 4L } };
+        long[][] b = { { 5L, 6L }, { 7L, 8L } };
+        long[][] result = Arrays.zip(a, b, (x, y) -> x * y);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new long[] { 5L, 12L }, result[0]);
+        assertArrayEquals(new long[] { 21L, 32L }, result[1]);
+    }
+
+    @Test
+    public void testZip_Long2D_TernaryOp() {
+        long[][] a = { { 1L, 2L } };
+        long[][] b = { { 3L, 4L } };
+        long[][] c = { { 5L, 6L } };
+        long[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new long[] { 9L, 12L }, result[0]);
+    }
+
+    @Test
+    public void testZip_Long3D_BinaryOp() {
+        long[][][] a = { { { 1L, 2L } } };
+        long[][][] b = { { { 3L, 4L } } };
+        long[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new long[] { 4L, 6L }, result[0][0]);
+    }
+
+    @Test
+    public void testZip_Double2D_BinaryOp() {
+        double[][] a = { { 1.0, 2.0 }, { 3.0, 4.0 } };
+        double[][] b = { { 5.0, 6.0 }, { 7.0, 8.0 } };
+        double[][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new double[] { 6.0, 8.0 }, result[0], 0.0001);
+        assertArrayEquals(new double[] { 10.0, 12.0 }, result[1], 0.0001);
+    }
+
+    @Test
+    public void testZip_Double2D_TernaryOp() {
+        double[][] a = { { 1.0, 2.0 } };
+        double[][] b = { { 3.0, 4.0 } };
+        double[][] c = { { 5.0, 6.0 } };
+        double[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new double[] { 9.0, 12.0 }, result[0], 0.0001);
+    }
+
+    @Test
+    public void testZip_Double3D_BinaryOp() {
+        double[][][] a = { { { 1.0, 2.0 } } };
+        double[][][] b = { { { 3.0, 4.0 } } };
+        double[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new double[] { 4.0, 6.0 }, result[0][0], 0.0001);
+    }
+
+    @Test
+    public void testZip_Boolean2D_BinaryOp() {
+        boolean[][] a = { { true, false }, { true, true } };
+        boolean[][] b = { { false, false }, { true, false } };
+        boolean[][] result = Arrays.zip(a, b, (x, y) -> x && y);
+
+        assertEquals(2, result.length);
+        assertEquals(2, result[0].length);
+        assertFalse(result[0][0]);
+        assertFalse(result[0][1]);
+        assertTrue(result[1][0]);
+        assertFalse(result[1][1]);
+    }
+
+    @Test
+    public void testZip_Boolean2D_TernaryOp() {
+        boolean[][] a = { { true, false } };
+        boolean[][] b = { { false, true } };
+        boolean[][] c = { { true, true } };
+        boolean[][] result = Arrays.zip(a, b, c, (x, y, z) -> (x || y) && z);
+
+        assertEquals(1, result.length);
+        assertTrue(result[0][0]);
+        assertTrue(result[0][1]);
+    }
+
+    @Test
+    public void testZip_Boolean3D_BinaryOp() {
+        boolean[][][] a = { { { true, false } } };
+        boolean[][][] b = { { { false, true } } };
+        boolean[][][] result = Arrays.zip(a, b, (x, y) -> x || y);
+
+        assertEquals(1, result.length);
+        assertTrue(result[0][0][0]);
+        assertTrue(result[0][0][1]);
+    }
+
+    @Test
+    public void testZip_Char2D_BinaryOp() {
+        char[][] a = { { 'a', 'b' }, { 'c', 'd' } };
+        char[][] b = { { 'x', 'y' }, { 'z', 'w' } };
+        char[][] result = Arrays.zip(a, b, (x, y) -> x);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new char[] { 'a', 'b' }, result[0]);
+        assertArrayEquals(new char[] { 'c', 'd' }, result[1]);
+    }
+
+    @Test
+    public void testZip_Char2D_TernaryOp() {
+        char[][] a = { { 'a', 'b' } };
+        char[][] b = { { 'c', 'd' } };
+        char[][] c = { { 'e', 'f' } };
+        char[][] result = Arrays.zip(a, b, c, (x, y, z) -> x);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new char[] { 'a', 'b' }, result[0]);
+    }
+
+    @Test
+    public void testZip_Char3D_BinaryOp() {
+        char[][][] a = { { { 'a', 'b' } } };
+        char[][][] b = { { { 'c', 'd' } } };
+        char[][][] result = Arrays.zip(a, b, (x, y) -> x);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new char[] { 'a', 'b' }, result[0][0]);
+    }
+
+    @Test
+    public void testZip_Byte2D_BinaryOp() {
+        byte[][] a = { { 1, 2 }, { 3, 4 } };
+        byte[][] b = { { 5, 6 }, { 7, 8 } };
+        byte[][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new byte[] { 6, 8 }, result[0]);
+        assertArrayEquals(new byte[] { 10, 12 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Byte2D_TernaryOp() {
+        byte[][] a = { { 1, 2 } };
+        byte[][] b = { { 3, 4 } };
+        byte[][] c = { { 5, 6 } };
+        byte[][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new byte[] { 9, 12 }, result[0]);
+    }
+
+    @Test
+    public void testZip_Byte3D_BinaryOp() {
+        byte[][][] a = { { { 1, 2 } } };
+        byte[][][] b = { { { 3, 4 } } };
+        byte[][][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new byte[] { 4, 6 }, result[0][0]);
+    }
+
+    @Test
+    public void testZip_Short2D_BinaryOp() {
+        short[][] a = { { 1, 2 }, { 3, 4 } };
+        short[][] b = { { 5, 6 }, { 7, 8 } };
+        short[][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new short[] { 6, 8 }, result[0]);
+        assertArrayEquals(new short[] { 10, 12 }, result[1]);
+    }
+
+    @Test
+    public void testZip_Short2D_TernaryOp() {
+        short[][] a = { { 1, 2 } };
+        short[][] b = { { 3, 4 } };
+        short[][] c = { { 5, 6 } };
+        short[][] result = Arrays.zip(a, b, c, (x, y, z) -> (short) (x + y + z));
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new short[] { 9, 12 }, result[0]);
+    }
+
+    @Test
+    public void testZip_Short3D_BinaryOp() {
+        short[][][] a = { { { 1, 2 } } };
+        short[][][] b = { { { 3, 4 } } };
+        short[][][] result = Arrays.zip(a, b, (x, y) -> (short) (x + y));
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new short[] { 4, 6 }, result[0][0]);
+    }
+
+    @Test
+    public void testZip_Float2D_BinaryOp() {
+        float[][] a = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
+        float[][] b = { { 5.0f, 6.0f }, { 7.0f, 8.0f } };
+        float[][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(2, result.length);
+        assertArrayEquals(new float[] { 6.0f, 8.0f }, result[0], 0.0001f);
+        assertArrayEquals(new float[] { 10.0f, 12.0f }, result[1], 0.0001f);
+    }
+
+    @Test
+    public void testZip_Float2D_TernaryOp() {
+        float[][] a = { { 1.0f, 2.0f } };
+        float[][] b = { { 3.0f, 4.0f } };
+        float[][] c = { { 5.0f, 6.0f } };
+        float[][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new float[] { 9.0f, 12.0f }, result[0], 0.0001f);
+    }
+
+    @Test
+    public void testZip_Float3D_BinaryOp() {
+        float[][][] a = { { { 1.0f, 2.0f } } };
+        float[][][] b = { { { 3.0f, 4.0f } } };
+        float[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+
+        assertEquals(1, result.length);
+        assertArrayEquals(new float[] { 4.0f, 6.0f }, result[0][0], 0.0001f);
+    }
 }

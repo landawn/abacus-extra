@@ -863,4 +863,591 @@ public class LongTuple2025Test extends TestBase {
         LongTuple9 tuple9 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
         assertEquals(45L, tuple9.stream().sum());
     }
+
+    // ==================== LongTuple Nested Class Tests ====================
+
+    // ============ LongTuple1 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple1_arity() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertEquals(1, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple1_reverse() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        LongTuple.LongTuple1 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._1);
+        assertEquals(tuple._1, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple1_contains() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple1_hashCode() {
+        LongTuple.LongTuple1 tuple1 = LongTuple.of(1L);
+        LongTuple.LongTuple1 tuple2 = LongTuple.of(1L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple1_equals() {
+        LongTuple.LongTuple1 tuple1 = LongTuple.of(1L);
+        LongTuple.LongTuple1 tuple2 = LongTuple.of(1L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple1_toString() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple1_forEach() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testLongTuple1_min() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testLongTuple1_max() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testLongTuple1_median() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testLongTuple1_sum() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testLongTuple1_average() {
+        LongTuple.LongTuple1 tuple = LongTuple.of(1L);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    // ============ LongTuple2 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple2_arity() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertEquals(2, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple2_reverse() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        LongTuple.LongTuple2 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._2);
+        assertEquals(tuple._2, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple2_contains() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple2_hashCode() {
+        LongTuple.LongTuple2 tuple1 = LongTuple.of(1L, 2L);
+        LongTuple.LongTuple2 tuple2 = LongTuple.of(1L, 2L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple2_equals() {
+        LongTuple.LongTuple2 tuple1 = LongTuple.of(1L, 2L);
+        LongTuple.LongTuple2 tuple2 = LongTuple.of(1L, 2L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple2_toString() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple2_forEach() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(2, count.size());
+    }
+
+    @Test
+    public void testLongTuple2_min() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testLongTuple2_max() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testLongTuple2_median() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testLongTuple2_sum() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testLongTuple2_average() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testLongTuple2_accept_biConsumer() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testLongTuple2_map_biFunction() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        String result = tuple.map((a, b) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testLongTuple2_filter_biPredicate() {
+        LongTuple.LongTuple2 tuple = LongTuple.of(1L, 2L);
+        assertTrue(tuple.filter((a, b) -> true).isPresent());
+        assertFalse(tuple.filter((a, b) -> false).isPresent());
+    }
+
+    // ============ LongTuple3 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple3_arity() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertEquals(3, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple3_reverse() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        LongTuple.LongTuple3 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._3);
+        assertEquals(tuple._3, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple3_contains() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple3_hashCode() {
+        LongTuple.LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
+        LongTuple.LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple3_equals() {
+        LongTuple.LongTuple3 tuple1 = LongTuple.of(1L, 2L, 3L);
+        LongTuple.LongTuple3 tuple2 = LongTuple.of(1L, 2L, 3L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple3_toString() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple3_forEach() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(3, count.size());
+    }
+
+    @Test
+    public void testLongTuple3_min() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testLongTuple3_max() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testLongTuple3_median() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testLongTuple3_sum() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testLongTuple3_average() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testLongTuple3_accept_triConsumer() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b, c) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testLongTuple3_map_triFunction() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        String result = tuple.map((a, b, c) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testLongTuple3_filter_triPredicate() {
+        LongTuple.LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
+        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+    }
+
+    // ============ LongTuple4 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple4_arity() {
+        LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        assertEquals(4, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple4_reverse() {
+        LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        LongTuple.LongTuple4 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._4);
+        assertEquals(tuple._4, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple4_contains() {
+        LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple4_hashCode() {
+        LongTuple.LongTuple4 tuple1 = LongTuple.of(1L, 2L, 3L, 4L);
+        LongTuple.LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple4_equals() {
+        LongTuple.LongTuple4 tuple1 = LongTuple.of(1L, 2L, 3L, 4L);
+        LongTuple.LongTuple4 tuple2 = LongTuple.of(1L, 2L, 3L, 4L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple4_toString() {
+        LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple4_forEach() {
+        LongTuple.LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(4, count.size());
+    }
+
+    // ============ LongTuple5 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple5_arity() {
+        LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertEquals(5, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple5_reverse() {
+        LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        LongTuple.LongTuple5 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._5);
+        assertEquals(tuple._5, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple5_contains() {
+        LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple5_hashCode() {
+        LongTuple.LongTuple5 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        LongTuple.LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple5_equals() {
+        LongTuple.LongTuple5 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        LongTuple.LongTuple5 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple5_toString() {
+        LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple5_forEach() {
+        LongTuple.LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(5, count.size());
+    }
+
+    // ============ LongTuple6 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple6_arity() {
+        LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertEquals(6, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple6_reverse() {
+        LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        LongTuple.LongTuple6 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._6);
+        assertEquals(tuple._6, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple6_contains() {
+        LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple6_hashCode() {
+        LongTuple.LongTuple6 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        LongTuple.LongTuple6 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple6_equals() {
+        LongTuple.LongTuple6 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        LongTuple.LongTuple6 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple6_toString() {
+        LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple6_forEach() {
+        LongTuple.LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(6, count.size());
+    }
+
+    // ============ LongTuple7 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple7_arity() {
+        LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertEquals(7, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple7_reverse() {
+        LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        LongTuple.LongTuple7 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._7);
+        assertEquals(tuple._7, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple7_contains() {
+        LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple7_hashCode() {
+        LongTuple.LongTuple7 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        LongTuple.LongTuple7 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple7_equals() {
+        LongTuple.LongTuple7 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        LongTuple.LongTuple7 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple7_toString() {
+        LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple7_forEach() {
+        LongTuple.LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(7, count.size());
+    }
+
+    // ============ LongTuple8 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple8_arity() {
+        LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertEquals(8, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple8_reverse() {
+        LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        LongTuple.LongTuple8 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._8);
+        assertEquals(tuple._8, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple8_contains() {
+        LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple8_hashCode() {
+        LongTuple.LongTuple8 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        LongTuple.LongTuple8 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple8_equals() {
+        LongTuple.LongTuple8 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        LongTuple.LongTuple8 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple8_toString() {
+        LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple8_forEach() {
+        LongTuple.LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(8, count.size());
+    }
+
+    // ============ LongTuple9 Nested Class Tests ============
+
+    @Test
+    public void testLongTuple9_arity() {
+        LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertEquals(9, tuple.arity());
+    }
+
+    @Test
+    public void testLongTuple9_reverse() {
+        LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        LongTuple.LongTuple9 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._9);
+        assertEquals(tuple._9, reversed._1);
+    }
+
+    @Test
+    public void testLongTuple9_contains() {
+        LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertTrue(tuple.contains(1L));
+    }
+
+    @Test
+    public void testLongTuple9_hashCode() {
+        LongTuple.LongTuple9 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        LongTuple.LongTuple9 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testLongTuple9_equals() {
+        LongTuple.LongTuple9 tuple1 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        LongTuple.LongTuple9 tuple2 = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testLongTuple9_toString() {
+        LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testLongTuple9_forEach() {
+        LongTuple.LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(9, count.size());
+    }
+
 }

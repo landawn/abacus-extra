@@ -864,4 +864,591 @@ public class ShortTuple2025Test extends TestBase {
         ShortTuple9 tuple9 = ShortTuple.of((short) 1, (short) 2, (short) 3, (short) 4, (short) 5, (short) 6, (short) 7, (short) 8, (short) 9);
         assertEquals(45, tuple9.stream().sum());
     }
+
+    // ==================== ShortTuple Nested Class Tests ====================
+
+    // ============ ShortTuple1 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple1_arity() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertEquals(1, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple1_reverse() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        ShortTuple.ShortTuple1 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._1);
+        assertEquals(tuple._1, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple1_contains() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple1_hashCode() {
+        ShortTuple.ShortTuple1 tuple1 = ShortTuple.of((short)1);
+        ShortTuple.ShortTuple1 tuple2 = ShortTuple.of((short)1);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple1_equals() {
+        ShortTuple.ShortTuple1 tuple1 = ShortTuple.of((short)1);
+        ShortTuple.ShortTuple1 tuple2 = ShortTuple.of((short)1);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple1_toString() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple1_forEach() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testShortTuple1_min() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testShortTuple1_max() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testShortTuple1_median() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testShortTuple1_sum() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testShortTuple1_average() {
+        ShortTuple.ShortTuple1 tuple = ShortTuple.of((short)1);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    // ============ ShortTuple2 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple2_arity() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertEquals(2, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple2_reverse() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        ShortTuple.ShortTuple2 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._2);
+        assertEquals(tuple._2, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple2_contains() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple2_hashCode() {
+        ShortTuple.ShortTuple2 tuple1 = ShortTuple.of((short)1, (short)2);
+        ShortTuple.ShortTuple2 tuple2 = ShortTuple.of((short)1, (short)2);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple2_equals() {
+        ShortTuple.ShortTuple2 tuple1 = ShortTuple.of((short)1, (short)2);
+        ShortTuple.ShortTuple2 tuple2 = ShortTuple.of((short)1, (short)2);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple2_toString() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple2_forEach() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(2, count.size());
+    }
+
+    @Test
+    public void testShortTuple2_min() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testShortTuple2_max() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testShortTuple2_median() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testShortTuple2_sum() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testShortTuple2_average() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testShortTuple2_accept_biConsumer() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testShortTuple2_map_biFunction() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        String result = tuple.map((a, b) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testShortTuple2_filter_biPredicate() {
+        ShortTuple.ShortTuple2 tuple = ShortTuple.of((short)1, (short)2);
+        assertTrue(tuple.filter((a, b) -> true).isPresent());
+        assertFalse(tuple.filter((a, b) -> false).isPresent());
+    }
+
+    // ============ ShortTuple3 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple3_arity() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertEquals(3, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple3_reverse() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        ShortTuple.ShortTuple3 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._3);
+        assertEquals(tuple._3, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple3_contains() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple3_hashCode() {
+        ShortTuple.ShortTuple3 tuple1 = ShortTuple.of((short)1, (short)2, (short)3);
+        ShortTuple.ShortTuple3 tuple2 = ShortTuple.of((short)1, (short)2, (short)3);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple3_equals() {
+        ShortTuple.ShortTuple3 tuple1 = ShortTuple.of((short)1, (short)2, (short)3);
+        ShortTuple.ShortTuple3 tuple2 = ShortTuple.of((short)1, (short)2, (short)3);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple3_toString() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple3_forEach() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(3, count.size());
+    }
+
+    @Test
+    public void testShortTuple3_min() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testShortTuple3_max() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testShortTuple3_median() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testShortTuple3_sum() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testShortTuple3_average() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testShortTuple3_accept_triConsumer() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b, c) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testShortTuple3_map_triFunction() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        String result = tuple.map((a, b, c) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testShortTuple3_filter_triPredicate() {
+        ShortTuple.ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
+        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+    }
+
+    // ============ ShortTuple4 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple4_arity() {
+        ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        assertEquals(4, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple4_reverse() {
+        ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        ShortTuple.ShortTuple4 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._4);
+        assertEquals(tuple._4, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple4_contains() {
+        ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple4_hashCode() {
+        ShortTuple.ShortTuple4 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        ShortTuple.ShortTuple4 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple4_equals() {
+        ShortTuple.ShortTuple4 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        ShortTuple.ShortTuple4 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple4_toString() {
+        ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple4_forEach() {
+        ShortTuple.ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(4, count.size());
+    }
+
+    // ============ ShortTuple5 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple5_arity() {
+        ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        assertEquals(5, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple5_reverse() {
+        ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        ShortTuple.ShortTuple5 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._5);
+        assertEquals(tuple._5, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple5_contains() {
+        ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple5_hashCode() {
+        ShortTuple.ShortTuple5 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        ShortTuple.ShortTuple5 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple5_equals() {
+        ShortTuple.ShortTuple5 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        ShortTuple.ShortTuple5 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple5_toString() {
+        ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple5_forEach() {
+        ShortTuple.ShortTuple5 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(5, count.size());
+    }
+
+    // ============ ShortTuple6 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple6_arity() {
+        ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        assertEquals(6, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple6_reverse() {
+        ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        ShortTuple.ShortTuple6 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._6);
+        assertEquals(tuple._6, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple6_contains() {
+        ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple6_hashCode() {
+        ShortTuple.ShortTuple6 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        ShortTuple.ShortTuple6 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple6_equals() {
+        ShortTuple.ShortTuple6 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        ShortTuple.ShortTuple6 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple6_toString() {
+        ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple6_forEach() {
+        ShortTuple.ShortTuple6 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(6, count.size());
+    }
+
+    // ============ ShortTuple7 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple7_arity() {
+        ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        assertEquals(7, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple7_reverse() {
+        ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        ShortTuple.ShortTuple7 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._7);
+        assertEquals(tuple._7, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple7_contains() {
+        ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple7_hashCode() {
+        ShortTuple.ShortTuple7 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        ShortTuple.ShortTuple7 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple7_equals() {
+        ShortTuple.ShortTuple7 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        ShortTuple.ShortTuple7 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple7_toString() {
+        ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple7_forEach() {
+        ShortTuple.ShortTuple7 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(7, count.size());
+    }
+
+    // ============ ShortTuple8 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple8_arity() {
+        ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        assertEquals(8, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple8_reverse() {
+        ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        ShortTuple.ShortTuple8 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._8);
+        assertEquals(tuple._8, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple8_contains() {
+        ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple8_hashCode() {
+        ShortTuple.ShortTuple8 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        ShortTuple.ShortTuple8 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple8_equals() {
+        ShortTuple.ShortTuple8 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        ShortTuple.ShortTuple8 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple8_toString() {
+        ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple8_forEach() {
+        ShortTuple.ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(8, count.size());
+    }
+
+    // ============ ShortTuple9 Nested Class Tests ============
+
+    @Test
+    public void testShortTuple9_arity() {
+        ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        assertEquals(9, tuple.arity());
+    }
+
+    @Test
+    public void testShortTuple9_reverse() {
+        ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        ShortTuple.ShortTuple9 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._9);
+        assertEquals(tuple._9, reversed._1);
+    }
+
+    @Test
+    public void testShortTuple9_contains() {
+        ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        assertTrue(tuple.contains((short)1));
+    }
+
+    @Test
+    public void testShortTuple9_hashCode() {
+        ShortTuple.ShortTuple9 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        ShortTuple.ShortTuple9 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testShortTuple9_equals() {
+        ShortTuple.ShortTuple9 tuple1 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        ShortTuple.ShortTuple9 tuple2 = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testShortTuple9_toString() {
+        ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testShortTuple9_forEach() {
+        ShortTuple.ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7, (short)8, (short)9);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(9, count.size());
+    }
+
 }

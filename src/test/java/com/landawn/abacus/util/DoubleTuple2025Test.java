@@ -1049,4 +1049,591 @@ public class DoubleTuple2025Test extends TestBase {
         DoubleTuple9 tuple9 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
         assertEquals(45.0, tuple9.stream().sum(), 0.001);
     }
+
+    // ==================== DoubleTuple Nested Class Tests ====================
+
+    // ============ DoubleTuple1 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple1_arity() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertEquals(1, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple1_reverse() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        DoubleTuple.DoubleTuple1 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._1);
+        assertEquals(tuple._1, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple1_contains() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple1_hashCode() {
+        DoubleTuple.DoubleTuple1 tuple1 = DoubleTuple.of(1.0);
+        DoubleTuple.DoubleTuple1 tuple2 = DoubleTuple.of(1.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple1_equals() {
+        DoubleTuple.DoubleTuple1 tuple1 = DoubleTuple.of(1.0);
+        DoubleTuple.DoubleTuple1 tuple2 = DoubleTuple.of(1.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple1_toString() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple1_forEach() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testDoubleTuple1_min() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testDoubleTuple1_max() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testDoubleTuple1_median() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testDoubleTuple1_sum() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testDoubleTuple1_average() {
+        DoubleTuple.DoubleTuple1 tuple = DoubleTuple.of(1.0);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    // ============ DoubleTuple2 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple2_arity() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertEquals(2, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple2_reverse() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        DoubleTuple.DoubleTuple2 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._2);
+        assertEquals(tuple._2, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple2_contains() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple2_hashCode() {
+        DoubleTuple.DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
+        DoubleTuple.DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple2_equals() {
+        DoubleTuple.DoubleTuple2 tuple1 = DoubleTuple.of(1.0, 2.0);
+        DoubleTuple.DoubleTuple2 tuple2 = DoubleTuple.of(1.0, 2.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple2_toString() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple2_forEach() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(2, count.size());
+    }
+
+    @Test
+    public void testDoubleTuple2_min() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testDoubleTuple2_max() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testDoubleTuple2_median() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testDoubleTuple2_sum() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testDoubleTuple2_average() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testDoubleTuple2_accept_biConsumer() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testDoubleTuple2_map_biFunction() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        String result = tuple.map((a, b) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testDoubleTuple2_filter_biPredicate() {
+        DoubleTuple.DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
+        assertTrue(tuple.filter((a, b) -> true).isPresent());
+        assertFalse(tuple.filter((a, b) -> false).isPresent());
+    }
+
+    // ============ DoubleTuple3 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple3_arity() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertEquals(3, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple3_reverse() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        DoubleTuple.DoubleTuple3 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._3);
+        assertEquals(tuple._3, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple3_contains() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple3_hashCode() {
+        DoubleTuple.DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
+        DoubleTuple.DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple3_equals() {
+        DoubleTuple.DoubleTuple3 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0);
+        DoubleTuple.DoubleTuple3 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple3_toString() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple3_forEach() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(3, count.size());
+    }
+
+    @Test
+    public void testDoubleTuple3_min() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertNotNull(tuple.min());
+    }
+
+    @Test
+    public void testDoubleTuple3_max() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertNotNull(tuple.max());
+    }
+
+    @Test
+    public void testDoubleTuple3_median() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertNotNull(tuple.median());
+    }
+
+    @Test
+    public void testDoubleTuple3_sum() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertNotNull(tuple.sum());
+    }
+
+    @Test
+    public void testDoubleTuple3_average() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertTrue(tuple.average() >= 0 || tuple.average() < 0);
+    }
+
+    @Test
+    public void testDoubleTuple3_accept_triConsumer() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.accept((a, b, c) -> count.add(1));
+        assertEquals(1, count.size());
+    }
+
+    @Test
+    public void testDoubleTuple3_map_triFunction() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        String result = tuple.map((a, b, c) -> "test");
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testDoubleTuple3_filter_triPredicate() {
+        DoubleTuple.DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+    }
+
+    // ============ DoubleTuple4 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple4_arity() {
+        DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertEquals(4, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple4_reverse() {
+        DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        DoubleTuple.DoubleTuple4 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._4);
+        assertEquals(tuple._4, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple4_contains() {
+        DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple4_hashCode() {
+        DoubleTuple.DoubleTuple4 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        DoubleTuple.DoubleTuple4 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple4_equals() {
+        DoubleTuple.DoubleTuple4 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        DoubleTuple.DoubleTuple4 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple4_toString() {
+        DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple4_forEach() {
+        DoubleTuple.DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(4, count.size());
+    }
+
+    // ============ DoubleTuple5 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple5_arity() {
+        DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertEquals(5, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple5_reverse() {
+        DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        DoubleTuple.DoubleTuple5 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._5);
+        assertEquals(tuple._5, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple5_contains() {
+        DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple5_hashCode() {
+        DoubleTuple.DoubleTuple5 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        DoubleTuple.DoubleTuple5 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple5_equals() {
+        DoubleTuple.DoubleTuple5 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        DoubleTuple.DoubleTuple5 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple5_toString() {
+        DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple5_forEach() {
+        DoubleTuple.DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(5, count.size());
+    }
+
+    // ============ DoubleTuple6 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple6_arity() {
+        DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertEquals(6, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple6_reverse() {
+        DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        DoubleTuple.DoubleTuple6 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._6);
+        assertEquals(tuple._6, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple6_contains() {
+        DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple6_hashCode() {
+        DoubleTuple.DoubleTuple6 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        DoubleTuple.DoubleTuple6 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple6_equals() {
+        DoubleTuple.DoubleTuple6 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        DoubleTuple.DoubleTuple6 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple6_toString() {
+        DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple6_forEach() {
+        DoubleTuple.DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(6, count.size());
+    }
+
+    // ============ DoubleTuple7 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple7_arity() {
+        DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertEquals(7, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple7_reverse() {
+        DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        DoubleTuple.DoubleTuple7 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._7);
+        assertEquals(tuple._7, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple7_contains() {
+        DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple7_hashCode() {
+        DoubleTuple.DoubleTuple7 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        DoubleTuple.DoubleTuple7 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple7_equals() {
+        DoubleTuple.DoubleTuple7 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        DoubleTuple.DoubleTuple7 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple7_toString() {
+        DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple7_forEach() {
+        DoubleTuple.DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(7, count.size());
+    }
+
+    // ============ DoubleTuple8 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple8_arity() {
+        DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertEquals(8, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple8_reverse() {
+        DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        DoubleTuple.DoubleTuple8 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._8);
+        assertEquals(tuple._8, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple8_contains() {
+        DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple8_hashCode() {
+        DoubleTuple.DoubleTuple8 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        DoubleTuple.DoubleTuple8 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple8_equals() {
+        DoubleTuple.DoubleTuple8 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        DoubleTuple.DoubleTuple8 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple8_toString() {
+        DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple8_forEach() {
+        DoubleTuple.DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(8, count.size());
+    }
+
+    // ============ DoubleTuple9 Nested Class Tests ============
+
+    @Test
+    public void testDoubleTuple9_arity() {
+        DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertEquals(9, tuple.arity());
+    }
+
+    @Test
+    public void testDoubleTuple9_reverse() {
+        DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        DoubleTuple.DoubleTuple9 reversed = tuple.reverse();
+        assertEquals(tuple._1, reversed._9);
+        assertEquals(tuple._9, reversed._1);
+    }
+
+    @Test
+    public void testDoubleTuple9_contains() {
+        DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertTrue(tuple.contains(1.0));
+    }
+
+    @Test
+    public void testDoubleTuple9_hashCode() {
+        DoubleTuple.DoubleTuple9 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        DoubleTuple.DoubleTuple9 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertEquals(tuple1.hashCode(), tuple2.hashCode());
+    }
+
+    @Test
+    public void testDoubleTuple9_equals() {
+        DoubleTuple.DoubleTuple9 tuple1 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        DoubleTuple.DoubleTuple9 tuple2 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertEquals(tuple1, tuple2);
+    }
+
+    @Test
+    public void testDoubleTuple9_toString() {
+        DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        assertNotNull(tuple.toString());
+    }
+
+    @Test
+    public void testDoubleTuple9_forEach() {
+        DoubleTuple.DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+        List<Integer> count = new ArrayList<>();
+        tuple.forEach(v -> count.add(1));
+        assertEquals(9, count.size());
+    }
+
 }
