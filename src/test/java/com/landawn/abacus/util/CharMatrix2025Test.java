@@ -1517,4 +1517,88 @@ public class CharMatrix2025Test extends TestBase {
         assertEquals(2, extended.cols);
         assertEquals('X', extended.get(0, 0));
     }
+
+    // ============ High-Impact Tests for 95% Coverage ============
+
+    @Test
+    public void testRotateTransposeAndConvertTallMatrix() {
+        // Create a tall matrix (rows > cols) - 4 rows × 2 cols
+        CharMatrix m = CharMatrix.of(new char[][] {
+            { 'a', 'b' },
+            { 'c', 'd' },
+            { 'e', 'f' },
+            { 'g', 'h' }
+        });
+
+        // Test rotate90() with tall matrix
+        CharMatrix rotated90 = m.rotate90();
+        assertEquals(2, rotated90.rows);
+        assertEquals(4, rotated90.cols);
+        assertEquals('g', rotated90.get(0, 0));
+
+        // Test rotate270() with tall matrix
+        CharMatrix rotated270 = m.rotate270();
+        assertEquals(2, rotated270.rows);
+        assertEquals(4, rotated270.cols);
+        assertEquals('b', rotated270.get(0, 0));
+
+        // Test transpose() with tall matrix
+        CharMatrix transposed = m.transpose();
+        assertEquals(2, transposed.rows);
+        assertEquals(4, transposed.cols);
+        assertEquals('a', transposed.get(0, 0));
+        assertEquals('h', transposed.get(1, 3));
+
+        // Test boxed() with tall matrix
+        Matrix<Character> boxed = m.boxed();
+        assertEquals(4, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Character.valueOf('a'), boxed.get(0, 0));
+
+        // Test toLongMatrix() with tall matrix
+        LongMatrix longMat = m.toLongMatrix();
+        assertEquals(4, longMat.rows);
+        assertEquals(2, longMat.cols);
+        assertEquals((long)'a', longMat.get(0, 0));
+
+        // Test toFloatMatrix() with tall matrix
+        FloatMatrix floatMat = m.toFloatMatrix();
+        assertEquals(4, floatMat.rows);
+        assertEquals(2, floatMat.cols);
+
+        // Test toDoubleMatrix() with tall matrix
+        DoubleMatrix doubleMat = m.toDoubleMatrix();
+        assertEquals(4, doubleMat.rows);
+        assertEquals(2, doubleMat.cols);
+    }
+
+    @Test
+    public void testRepelemOverflow() {
+        int largeSize = 50000;
+        CharMatrix m = CharMatrix.of(new char[largeSize][2]);
+
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repelem(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        CharMatrix m2 = CharMatrix.of(new char[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repelem(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
+
+    @Test
+    public void testRepmatOverflow() {
+        int largeSize = 50000;
+        CharMatrix m = CharMatrix.of(new char[largeSize][2]);
+
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repmat(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        CharMatrix m2 = CharMatrix.of(new char[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repmat(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
 }

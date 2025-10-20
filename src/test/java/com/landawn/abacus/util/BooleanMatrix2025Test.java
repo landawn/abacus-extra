@@ -1732,4 +1732,85 @@ public class BooleanMatrix2025Test extends TestBase {
             }
         }
     }
+
+    // ============ High-Impact Tests for 95% Coverage ============
+
+    @Test
+    public void testRotateAndTransposeTallMatrix() {
+        // Create a tall matrix (rows > cols) - 4 rows × 2 cols
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] {
+            { true,  false },
+            { false, true  },
+            { true,  true  },
+            { false, false }
+        });
+
+        // Test rotate90() with tall matrix
+        BooleanMatrix rotated90 = m.rotate90();
+        assertEquals(2, rotated90.rows);
+        assertEquals(4, rotated90.cols);
+        assertFalse(rotated90.get(0, 0));
+        assertTrue(rotated90.get(0, 1));
+        assertFalse(rotated90.get(0, 2));
+        assertTrue(rotated90.get(0, 3));
+
+        // Test rotate270() with tall matrix
+        BooleanMatrix rotated270 = m.rotate270();
+        assertEquals(2, rotated270.rows);
+        assertEquals(4, rotated270.cols);
+        assertFalse(rotated270.get(0, 0));
+        assertTrue(rotated270.get(0, 1));
+        assertTrue(rotated270.get(0, 2));
+        assertFalse(rotated270.get(0, 3));
+
+        // Test transpose() with tall matrix
+        BooleanMatrix transposed = m.transpose();
+        assertEquals(2, transposed.rows);
+        assertEquals(4, transposed.cols);
+        assertTrue(transposed.get(0, 0));
+        assertFalse(transposed.get(0, 1));
+
+        // Test boxed() with tall matrix
+        Matrix<Boolean> boxed = m.boxed();
+        assertEquals(4, boxed.rows);
+        assertEquals(2, boxed.cols);
+        assertEquals(Boolean.TRUE, boxed.get(0, 0));
+        assertEquals(Boolean.FALSE, boxed.get(0, 1));
+    }
+
+    @Test
+    public void testRepelemOverflow() {
+        // Create matrix that will overflow when repeated
+        int largeSize = 50000;
+        BooleanMatrix m = BooleanMatrix.of(new boolean[largeSize][2]);
+
+        // Test row overflow
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repelem(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        // Test column overflow
+        BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repelem(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
+
+    @Test
+    public void testRepmatOverflow() {
+        // Create matrix that will overflow when tiled
+        int largeSize = 50000;
+        BooleanMatrix m = BooleanMatrix.of(new boolean[largeSize][2]);
+
+        // Test row overflow
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repmat(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        // Test column overflow
+        BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repmat(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
 }

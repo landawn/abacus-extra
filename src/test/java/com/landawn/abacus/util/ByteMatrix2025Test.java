@@ -1522,4 +1522,93 @@ public class ByteMatrix2025Test extends TestBase {
         assertEquals(2, extended.cols);
         assertEquals(5, extended.get(0, 0));
     }
+
+    // ============ High-Impact Tests for 95% Coverage ============
+
+    @Test
+    public void testRotateTransposeAndConvertTallMatrix() {
+        // Create a tall matrix (rows > cols) - 5 rows × 3 cols
+        ByteMatrix m = ByteMatrix.of(new byte[][] {
+            { 1, 2, 3 },
+            { 4, 5, 6 },
+            { 7, 8, 9 },
+            { 10, 11, 12 },
+            { 13, 14, 15 }
+        });
+
+        // Test rotate90() with tall matrix
+        ByteMatrix rotated90 = m.rotate90();
+        assertEquals(3, rotated90.rows);
+        assertEquals(5, rotated90.cols);
+        assertEquals(13, rotated90.get(0, 0));
+        assertEquals(1, rotated90.get(0, 4));
+
+        // Test rotate270() with tall matrix
+        ByteMatrix rotated270 = m.rotate270();
+        assertEquals(3, rotated270.rows);
+        assertEquals(5, rotated270.cols);
+        assertEquals(3, rotated270.get(0, 0));
+
+        // Test transpose() with tall matrix
+        ByteMatrix transposed = m.transpose();
+        assertEquals(3, transposed.rows);
+        assertEquals(5, transposed.cols);
+        assertEquals(1, transposed.get(0, 0));
+        assertEquals(15, transposed.get(2, 4));
+
+        // Test boxed() with tall matrix
+        Matrix<Byte> boxed = m.boxed();
+        assertEquals(5, boxed.rows);
+        assertEquals(3, boxed.cols);
+        assertEquals(Byte.valueOf((byte)1), boxed.get(0, 0));
+
+        // Test toLongMatrix() with tall matrix
+        LongMatrix longMat = m.toLongMatrix();
+        assertEquals(5, longMat.rows);
+        assertEquals(3, longMat.cols);
+        assertEquals(1L, longMat.get(0, 0));
+        assertEquals(15L, longMat.get(4, 2));
+
+        // Test toFloatMatrix() with tall matrix
+        FloatMatrix floatMat = m.toFloatMatrix();
+        assertEquals(5, floatMat.rows);
+        assertEquals(3, floatMat.cols);
+        assertEquals(1.0f, floatMat.get(0, 0), 0.001f);
+
+        // Test toDoubleMatrix() with tall matrix
+        DoubleMatrix doubleMat = m.toDoubleMatrix();
+        assertEquals(5, doubleMat.rows);
+        assertEquals(3, doubleMat.cols);
+        assertEquals(1.0, doubleMat.get(0, 0), 0.001);
+    }
+
+    @Test
+    public void testRepelemOverflow() {
+        int largeSize = 50000;
+        ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
+
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repelem(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repelem(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
+
+    @Test
+    public void testRepmatOverflow() {
+        int largeSize = 50000;
+        ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
+
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+            () -> m.repmat(50000, 1));
+        assertTrue(ex1.getMessage().contains("too many rows"));
+
+        ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+            () -> m2.repmat(1, 50000));
+        assertTrue(ex2.getMessage().contains("too many columns"));
+    }
 }
