@@ -65,10 +65,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Constructs a ByteMatrix from a 2D byte array.
      * If the input array is null, an empty matrix (0x0) is created.
-     * <p><b>Note:</b> The array is used directly without copying. Modifications to the input array
-     * after construction will affect the matrix, and vice versa.</p>
      *
-     * @param a the 2D byte array to wrap as a matrix. Can be null.
+     * <p><b>Important:</b> The input array is used directly without defensive copying.
+     * This means modifications to the input array after construction will affect the matrix,
+     * and vice versa. For independent matrices, create a copy of the array before passing it.</p>
+     *
+     * <p>Example:
+     * <pre>{@code
+     * byte[][] data = {{1, 2, 3}, {4, 5, 6}};
+     * ByteMatrix matrix = new ByteMatrix(data);
+     * data[0][0] = 99;  // This will also modify the matrix
+     * }</pre>
+     *
+     * @param a the 2D byte array to wrap as a matrix. If null, an empty matrix is created.
      */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
@@ -91,36 +100,35 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a ByteMatrix from one or more byte arrays. Each array becomes a row in the matrix.
-     * If no arrays are provided or the input is null, returns an empty matrix.
-     * 
-     * <p>Example:
+     * Creates a ByteMatrix from a 2D byte array.
+     *
+     * <p>Example:</p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.of(
-     *     new byte[]{1, 2, 3},
-     *     new byte[]{4, 5, 6}
-     * );
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * // Creates a 2x3 matrix
+     * // matrix.get(1, 2) returns 6
      * }</pre>
      *
-     * @param a the byte arrays to use as rows of the matrix
-     * @return a new ByteMatrix containing the provided arrays as rows
+     * @param a the 2D byte array to create the matrix from, or null/empty for an empty matrix
+     * @return a new ByteMatrix containing the provided data, or an empty ByteMatrix if input is null or empty
      */
     public static ByteMatrix of(final byte[]... a) {
         return N.isEmpty(a) ? EMPTY_BYTE_MATRIX : new ByteMatrix(a);
     }
 
     /**
-     * Creates a 1-row matrix filled with random values.
+     * Creates a 1-row matrix filled with random byte values.
+     * Each byte value is randomly generated within the full byte range (-128 to 127).
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.random(5);
-     * // Creates a 1x5 matrix with random byte values
+     * // Creates a 1x5 matrix with random byte values, e.g., [[23, -45, 67, -89, 12]]
      * }</pre>
      *
-     * @param len the number of columns
+     * @param len the number of columns (must be non-negative)
      * @return a 1-row matrix filled with random byte values
+     * @throws IllegalArgumentException if len is negative
      */
     @SuppressWarnings("deprecation")
     public static ByteMatrix random(final int len) {
@@ -521,17 +529,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the specified row as an array.
+     * Returns the specified row as an array.
+     *
+     * <p><b>Important:</b> This method returns the actual internal array for the row, not a copy.
+     * Modifications to the returned array will affect the matrix. If you need an independent copy,
+     * use {@code row(rowIndex).clone()} instead.</p>
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * byte[] firstRow = matrix.row(0); // Returns [1, 2, 3]
+     * firstRow[0] = 99; // This will modify the matrix as well
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return a copy of the specified row
-     * @throws IllegalArgumentException if rowIndex is out of bounds
+     * @return the specified row array (not a copy)
+     * @throws IllegalArgumentException if rowIndex is out of bounds (rowIndex &lt; 0 or rowIndex &gt;= rows)
      */
     public byte[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -541,16 +554,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a copy of the specified column as an array.
+     * Unlike {@link #row(int)}, this method always returns a new array copy,
+     * so modifications to the returned array will not affect the matrix.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * byte[] firstColumn = matrix.column(0); // Returns [1, 4]
+     * firstColumn[0] = 99; // This does NOT modify the matrix
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a copy of the specified column
-     * @throws IllegalArgumentException if columnIndex is out of bounds
+     * @return a new array containing a copy of the specified column
+     * @throws IllegalArgumentException if columnIndex is out of bounds (columnIndex &lt; 0 or columnIndex &gt;= cols)
      */
     public byte[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -966,7 +982,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Fills this matrix with values from another 2D byte array, starting from position [0,0].
-     * 
+     * Only the overlapping region is filled. If the source array is smaller than this matrix,
+     * only the overlapping portion is modified. If the source array is larger, only the portion
+     * that fits within this matrix is copied.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{0, 0, 0}, {0, 0, 0}});
@@ -975,6 +994,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param b the source array to copy values from
+     * @see #fill(int, int, byte[][])
      */
     public void fill(final byte[][] b) {
         fill(0, 0, b);
@@ -1007,16 +1027,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a deep copy of this matrix.
+     * Creates a copy of this matrix.
+     * The returned matrix is a completely independent copy; modifications to one
+     * do not affect the other.
      *
-     * <p>Example:
+     * <p>Example:</p>
      * <pre>{@code
      * ByteMatrix original = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
      * ByteMatrix copy = original.copy();
-     * // copy is independent from original
+     * copy.set(0, 0, (byte) 10); // Original matrix remains unchanged
      * }</pre>
      *
-     * @return a new matrix that is a deep copy of this matrix
+     * @return a new matrix that is a copy of this matrix
      */
     @Override
     public ByteMatrix copy() {
@@ -1331,6 +1353,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a new matrix rotated 90 degrees clockwise.
+     * The dimensions are transposed: a matrix with dimensions (rows x cols) becomes (cols x rows).
+     *
+     * <p>Rotation rules:
+     * <ul>
+     * <li>Element at position [i][j] moves to position [j][rows-1-i]</li>
+     * <li>The first row becomes the last column</li>
+     * <li>The last row becomes the first column</li>
+     * </ul>
      *
      * <p>Example:
      * <pre>{@code
@@ -1339,7 +1369,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // rotated is {{3, 1}, {4, 2}}
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise
+     * @return a new matrix rotated 90 degrees clockwise with dimensions (cols x rows)
+     * @see #rotate180()
+     * @see #rotate270()
      */
     @Override
     public ByteMatrix rotate90() {
@@ -1364,6 +1396,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a new matrix rotated 180 degrees.
+     * The dimensions remain the same: a matrix with dimensions (rows x cols) stays (rows x cols).
+     * This is equivalent to reversing both rows and columns.
+     *
+     * <p>Rotation rules:
+     * <ul>
+     * <li>Element at position [i][j] moves to position [rows-1-i][cols-1-j]</li>
+     * <li>The first row becomes the last row reversed</li>
+     * <li>The last row becomes the first row reversed</li>
+     * </ul>
      *
      * <p>Example:
      * <pre>{@code
@@ -1372,7 +1413,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // rotated is {{4, 3}, {2, 1}}
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees
+     * @return a new matrix rotated 180 degrees with the same dimensions
+     * @see #rotate90()
+     * @see #rotate270()
      */
     @Override
     public ByteMatrix rotate180() {
@@ -1388,6 +1431,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * The dimensions are transposed: a matrix with dimensions (rows x cols) becomes (cols x rows).
+     *
+     * <p>Rotation rules:
+     * <ul>
+     * <li>Element at position [i][j] moves to position [cols-1-j][i]</li>
+     * <li>The first row becomes the first column</li>
+     * <li>The last row becomes the last column</li>
+     * </ul>
      *
      * <p>Example:
      * <pre>{@code
@@ -1396,7 +1447,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // rotated is {{2, 4}, {1, 3}}
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise
+     * @return a new matrix rotated 270 degrees clockwise with dimensions (cols x rows)
+     * @see #rotate90()
+     * @see #rotate180()
      */
     @Override
     public ByteMatrix rotate270() {
@@ -1457,19 +1510,26 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read in row-major order from the original matrix and placed into the new shape.
      *
-     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
-     * If the new shape has more total elements, the additional positions are filled with zeros.</p>
+     * <p>The reshaping process follows these rules:
+     * <ul>
+     * <li>Elements are extracted from the original matrix in row-major order (left to right, top to bottom)</li>
+     * <li>Elements are placed into the new matrix in row-major order</li>
+     * <li>If the new shape has fewer total elements than the original, excess elements are truncated</li>
+     * <li>If the new shape has more total elements, the additional positions are filled with zeros</li>
+     * </ul>
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * ByteMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
      * ByteMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * ByteMatrix truncated = matrix.reshape(1, 4); // Becomes [[1, 2, 3, 4]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix
-     * @param newCols the number of columns in the reshaped matrix
+     * @param newRows the number of rows in the reshaped matrix (must be non-negative)
+     * @param newCols the number of columns in the reshaped matrix (must be non-negative)
      * @return a new ByteMatrix with the specified shape containing this matrix's elements
+     * @see #extend(int, int)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
@@ -1600,14 +1660,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a list containing all matrix elements in row-major order.
+     * This effectively converts the 2D matrix into a 1D list.
+     *
+     * <p>Elements are extracted row by row from left to right, starting from the first row.
+     * This is useful for bulk operations or when you need all matrix values as a flat collection.
      *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * ByteList list = matrix.flatten(); // Returns ByteList of 1, 2, 3, 4
+     * ByteList list = matrix.flatten(); // Returns ByteList containing [1, 2, 3, 4]
      * }</pre>
      *
-     * @return a list of all elements in row-major order
+     * @return a new ByteList containing all elements in row-major order
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
+     * @see #streamH()
      */
     @Override
     public ByteList flatten() {
@@ -1626,14 +1692,28 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies an operation to the internal 2D array structure using a flattened operation approach.
-     * This method is designed for specialized operations that need to work with the underlying array structure.
-     * The operation receives the internal 2D byte array and can perform batch operations on it.
+     * Applies an operation to each row's internal array using a flattened operation approach.
+     * This method is designed for specialized operations that need to work directly with
+     * the underlying row arrays for performance-critical scenarios.
      *
-     * <p><b>Note:</b> The operation receives the actual internal array, not a copy.
+     * <p>The operation is applied to each row array sequentially. The consumer receives
+     * the actual internal arrays, not copies, allowing for efficient in-place modifications.
      *
-     * @param <E> the type of exception that may be thrown
-     * @param op the operation to apply to the internal 2D array
+     * <p><b>Warning:</b> The operation receives direct references to the internal arrays.
+     * Modifying these arrays will change the matrix. Use with caution.
+     *
+     * <p>Example:
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * matrix.flatOp(row -> {
+     *     // Process each row array directly
+     *     Arrays.sort(row);
+     * });
+     * // Matrix rows are now sorted
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the operation
+     * @param op the operation to apply to each row's internal array
      * @throws E if the operation throws an exception
      * @see Arrays#flatOp(byte[][], Throwables.Consumer)
      */
@@ -1712,8 +1792,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Performs element-wise addition with another matrix of the same dimensions.
-     * Note that byte overflow may occur during addition.
-     * 
+     * The operation may be parallelized for large matrices to improve performance.
+     *
+     * <p><b>Important:</b> Byte overflow may occur during addition. If the sum exceeds the byte
+     * range (-128 to 127), the result will wrap around. For example, (byte)127 + (byte)1 = (byte)-128.</p>
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix1 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
@@ -1722,9 +1805,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // sum is: [[6, 8], [10, 12]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param b the matrix to add to this matrix; must have the same dimensions
      * @return a new ByteMatrix containing the element-wise sum
-     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws IllegalArgumentException if the matrices have different dimensions (rows or columns don't match)
+     * @see #subtract(ByteMatrix)
      */
     public ByteMatrix add(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
@@ -1740,8 +1824,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Performs element-wise subtraction with another matrix of the same dimensions.
-     * Note that byte overflow may occur during subtraction.
-     * 
+     * The operation may be parallelized for large matrices to improve performance.
+     *
+     * <p><b>Important:</b> Byte underflow may occur during subtraction. If the difference goes below
+     * the byte range (-128 to 127), the result will wrap around. For example, (byte)-128 - (byte)1 = (byte)127.</p>
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix1 = ByteMatrix.of(new byte[][]{{5, 6}, {7, 8}});
@@ -1750,9 +1837,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // diff is: [[4, 4], [4, 4]]
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix
+     * @param b the matrix to subtract from this matrix; must have the same dimensions
      * @return a new ByteMatrix containing the element-wise difference
-     * @throws IllegalArgumentException if the matrices have different dimensions
+     * @throws IllegalArgumentException if the matrices have different dimensions (rows or columns don't match)
+     * @see #add(ByteMatrix)
      */
     public ByteMatrix subtract(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
@@ -1767,21 +1855,27 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Performs matrix multiplication with another matrix.
+     * Performs standard matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the other matrix.
-     * Note that byte overflow may occur during multiplication.
-     * 
+     * The resulting matrix will have dimensions (this.rows x b.cols).
+     *
+     * <p><b>Important:</b> This is matrix multiplication, not element-wise multiplication.
+     * Byte overflow may occur during the computation. For matrices A(m×n) and B(n×p),
+     * result[i][j] = sum(A[i][k] * B[k][j]) for k from 0 to n-1.</p>
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix1 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
      * ByteMatrix matrix2 = ByteMatrix.of(new byte[][]{{5, 6}, {7, 8}});
      * ByteMatrix product = matrix1.multiply(matrix2);
      * // product is: [[19, 22], [43, 50]]
+     * // because: 1*5+2*7=19, 1*6+2*8=22, 3*5+4*7=43, 3*6+4*8=50
      * }</pre>
      *
-     * @param b the matrix to multiply with
-     * @return a new ByteMatrix containing the matrix product
-     * @throws IllegalArgumentException if the matrices have incompatible dimensions for multiplication
+     * @param b the matrix to multiply with; must have rows equal to this matrix's columns
+     * @return a new ByteMatrix containing the matrix product with dimensions (this.rows x b.cols)
+     * @throws IllegalArgumentException if this.cols != b.rows (incompatible dimensions for multiplication)
+     * @see #zipWith(ByteMatrix, Throwables.ByteBinaryOperator)
      */
     public ByteMatrix multiply(final ByteMatrix b) throws IllegalArgumentException {
         N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
@@ -1834,15 +1928,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Converts this ByteMatrix to an IntMatrix by widening each byte value to int.
      * Each byte value is promoted to a 32-bit integer with sign extension.
+     * This is a lossless conversion that preserves all values and their signs.
      *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, -2}, {127, -128}});
      * IntMatrix intMatrix = byteMatrix.toIntMatrix();
-     * // intMatrix contains the same values as 32-bit integers
+     * // intMatrix contains: [[1, -2], [127, -128]] as ints
      * }</pre>
      *
      * @return a new IntMatrix with the same dimensions and values converted to int
+     * @see #toLongMatrix()
+     * @see #toFloatMatrix()
+     * @see #toDoubleMatrix()
      * @see IntMatrix#create(byte[][])
      */
     public IntMatrix toIntMatrix() {
@@ -1852,15 +1950,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Converts this ByteMatrix to a LongMatrix by widening each byte value to long.
      * Each byte value is promoted to a 64-bit long integer with sign extension.
+     * This is a lossless conversion that preserves all values and their signs.
      *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, -2}, {127, -128}});
      * LongMatrix longMatrix = byteMatrix.toLongMatrix();
-     * // longMatrix contains the same values as 64-bit longs
+     * // longMatrix contains: [[1, -2], [127, -128]] as longs
      * }</pre>
      *
      * @return a new LongMatrix with the same dimensions and values converted to long
+     * @see #toIntMatrix()
+     * @see #toFloatMatrix()
+     * @see #toDoubleMatrix()
      */
     public LongMatrix toLongMatrix() {
         final long[][] c = new long[rows][cols];
@@ -1888,15 +1990,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Converts this ByteMatrix to a FloatMatrix by converting each byte value to float.
      * Each byte value is converted to a 32-bit floating-point number.
+     * This is a lossless conversion since all byte values can be exactly represented as floats.
      *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, -2}, {127, -128}});
      * FloatMatrix floatMatrix = byteMatrix.toFloatMatrix();
-     * // floatMatrix contains the same values as floating-point numbers
+     * // floatMatrix contains: [[1.0, -2.0], [127.0, -128.0]]
      * }</pre>
      *
      * @return a new FloatMatrix with the same dimensions and values converted to float
+     * @see #toIntMatrix()
+     * @see #toLongMatrix()
+     * @see #toDoubleMatrix()
      */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
@@ -1924,15 +2030,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Converts this ByteMatrix to a DoubleMatrix by converting each byte value to double.
      * Each byte value is converted to a 64-bit double-precision floating-point number.
+     * This is a lossless conversion since all byte values can be exactly represented as doubles.
      *
      * <p>Example:
      * <pre>{@code
-     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][]{{1, -2}, {127, -128}});
      * DoubleMatrix doubleMatrix = byteMatrix.toDoubleMatrix();
-     * // doubleMatrix contains the same values as double-precision floating-point numbers
+     * // doubleMatrix contains: [[1.0, -2.0], [127.0, -128.0]]
      * }</pre>
      *
      * @return a new DoubleMatrix with the same dimensions and values converted to double
+     * @see #toIntMatrix()
+     * @see #toLongMatrix()
+     * @see #toFloatMatrix()
      */
     public DoubleMatrix toDoubleMatrix() {
         final double[][] c = new double[rows][cols];
@@ -2141,8 +2251,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a stream of all elements in row-major order (horizontally).
-     * Elements are streamed row by row from left to right.
-     * 
+     * Elements are streamed row by row from left to right. This is the default
+     * iteration order for most matrix operations.
+     *
+     * <p>The stream iterates through elements in the following order:
+     * [0][0], [0][1], ..., [0][cols-1], [1][0], [1][1], ..., [rows-1][cols-1]
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -2151,6 +2265,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a ByteStream of all matrix elements in row-major order
+     * @see #streamV()
+     * @see #streamR()
      */
     @Override
     public ByteStream streamH() {
@@ -2266,7 +2382,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns a stream of all elements in column-major order (vertically).
      * Elements are streamed column by column from top to bottom.
-     * 
+     *
+     * <p>The stream iterates through elements in the following order:
+     * [0][0], [1][0], ..., [rows-1][0], [0][1], [1][1], ..., [rows-1][cols-1]
+     *
+     * <p><b>Note:</b> This method is marked as @Beta and may change in future versions.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -2275,6 +2396,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @return a ByteStream of all matrix elements in column-major order
+     * @see #streamH()
+     * @see #streamC()
      */
     @Override
     @Beta
@@ -2391,16 +2514,27 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a stream where each element is a ByteStream representing a row of the matrix.
-     * 
+     * This provides a convenient way to process the matrix row by row.
+     *
+     * <p>Each ByteStream in the returned Stream represents one row of the matrix.
+     * This is useful for row-wise operations or when you need to apply stream operations
+     * to individual rows.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<ByteStream> rows = matrix.streamR();
      * // First element: ByteStream of [1, 2, 3]
      * // Second element: ByteStream of [4, 5, 6]
+     *
+     * // Find the sum of each row
+     * rows.forEach(row -> System.out.println(row.sum()));
+     * // Prints: 6, 15
      * }</pre>
      *
-     * @return a Stream of ByteStream, one for each row
+     * @return a Stream of ByteStream, one for each row in the matrix
+     * @see #streamC()
+     * @see #streamH()
      */
     @Override
     public Stream<ByteStream> streamR() {
@@ -2467,7 +2601,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a stream where each element is a ByteStream representing a column of the matrix.
-     * 
+     * This provides a convenient way to process the matrix column by column.
+     *
+     * <p>Each ByteStream in the returned Stream represents one column of the matrix.
+     * This is useful for column-wise operations or when you need to apply stream operations
+     * to individual columns.
+     *
+     * <p><b>Note:</b> This method is marked as @Beta and may change in future versions.
+     *
      * <p>Example:
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2, 3}, {4, 5, 6}});
@@ -2475,9 +2616,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // First element: ByteStream of [1, 4]
      * // Second element: ByteStream of [2, 5]
      * // Third element: ByteStream of [3, 6]
+     *
+     * // Find the max of each column
+     * columns.forEach(col -> System.out.println(col.max().orElse((byte)0)));
+     * // Prints: 4, 5, 6
      * }</pre>
      *
-     * @return a Stream of ByteStream, one for each column
+     * @return a Stream of ByteStream, one for each column in the matrix
+     * @see #streamR()
+     * @see #streamV()
      */
     @Override
     @Beta
@@ -2578,10 +2725,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the length of the specified byte array, or 0 if the array is null.
-     * This is an internal helper method used by the abstract parent class.
+     * This is an internal helper method used by the abstract parent class for
+     * operations that need to determine array lengths safely.
+     *
+     * <p>This method is {@code protected} and primarily used internally by the
+     * matrix implementation and should not typically be called by external code.
      *
      * @param a the byte array to measure
-     * @return the length of the array, or 0 if null
+     * @return the length of the array, or 0 if the array is null
      */
     @Override
     protected int length(@SuppressWarnings("hiding") final byte[] a) {
@@ -2647,9 +2798,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Prints the matrix to standard output in a formatted manner.
+     * Prints the matrix to standard output in a human-readable formatted manner.
      * Each row is printed on a separate line with elements separated by commas
-     * and enclosed in square brackets.
+     * and enclosed in square brackets. This is useful for debugging and visualization.
+     *
+     * <p>The output format matches the format used by {@link #toString()}, but each
+     * row is printed on its own line for better readability.
      *
      * <p>Example:
      * <pre>{@code
@@ -2659,6 +2813,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // [1, 2, 3]
      * // [4, 5, 6]
      * }</pre>
+     *
+     * @see #toString()
      */
     @Override
     public void println() {
@@ -2666,9 +2822,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a hash code value for the matrix based on its contents.
+     * Returns a hash code value for this matrix based on its contents.
+     * The hash code is computed using a deep hash of the internal 2D array,
+     * ensuring that matrices with identical dimensions and element values
+     * produce the same hash code.
      *
-     * @return a hash code value for this matrix
+     * <p>This implementation is consistent with the {@link #equals(Object)} method:
+     * if two matrices are equal according to {@code equals()}, they will have the same hash code.
+     *
+     * <p><b>Note:</b> The hash code computation examines all elements in the matrix,
+     * so it may be expensive for large matrices.
+     *
+     * @return a hash code value for this matrix based on its contents
+     * @see #equals(Object)
      */
     @Override
     public int hashCode() {
@@ -2676,11 +2842,32 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Compares this matrix to another object for equality.
-     * Two ByteMatrix objects are equal if they have the same dimensions and all corresponding elements are equal.
+     * Compares this matrix to the specified object for equality.
+     * Two ByteMatrix objects are considered equal if and only if:
+     * <ul>
+     * <li>They have the same number of rows</li>
+     * <li>They have the same number of columns</li>
+     * <li>All corresponding elements are equal</li>
+     * </ul>
      *
-     * @param obj the object to compare with
-     * @return {@code true} if the specified object is a ByteMatrix with the same dimensions and values
+     * <p>This method performs a deep comparison of all matrix elements.
+     * For large matrices, this operation may be expensive.
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix m3 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 5}});
+     *
+     * m1.equals(m2); // true - same dimensions and values
+     * m1.equals(m3); // false - different values
+     * m1.equals(null); // false - null is not equal
+     * m1.equals("string"); // false - different type
+     * }</pre>
+     *
+     * @param obj the object to compare with this matrix
+     * @return {@code true} if the objects are equal ByteMatrix instances with identical contents, {@code false} otherwise
+     * @see #hashCode()
      */
     @Override
     public boolean equals(final Object obj) {
@@ -2696,16 +2883,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a string representation of the matrix.
-     * The format is a 2D array representation with rows and columns clearly displayed.
-     * 
+     * Returns a string representation of this matrix in a compact 2D array format.
+     * The output shows all matrix elements with rows enclosed in brackets and
+     * elements separated by commas and spaces.
+     *
+     * <p>The format is suitable for debugging and logging. For pretty-printed output
+     * with each row on a separate line, use {@link #println()} instead.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * System.out.println(matrix.toString()); // Prints: [[1, 2], [3, 4]]
+     * System.out.println(matrix.toString()); // Output: [[1, 2], [3, 4]]
+     *
+     * ByteMatrix empty = ByteMatrix.empty();
+     * System.out.println(empty.toString()); // Output: []
      * }</pre>
      *
-     * @return a string representation of this matrix
+     * @return a string representation of this matrix in 2D array format
+     * @see #println()
      */
     @Override
     public String toString() {

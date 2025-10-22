@@ -105,27 +105,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a Matrix from a two-dimensional array.
-     * This is a convenience factory method equivalent to calling the constructor.
-     * The method uses varargs to allow for easy matrix creation.
-     * 
+     * Creates a Matrix from a 2D array.
+     *
+     * <p><b>Important:</b> The matrix maintains a reference to the provided array,
+     * not a copy. Modifications to the original array will affect the matrix,
+     * and vice versa.</p>
+     *
+     * <p>All rows must have the same length as the first row (rectangular array required).</p>
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * String[][] data = {{"a", "b"}, {"c", "d"}};
-     * Matrix<String> matrix = Matrix.of(data);
-     * 
-     * // Using varargs
-     * Matrix<Integer> numbers = Matrix.of(
-     *     new Integer[]{1, 2, 3},
-     *     new Integer[]{4, 5, 6},
-     *     new Integer[]{7, 8, 9}
-     * );
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
+     * // matrix.get(1, 0) returns "c"
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param a the two-dimensional array of elements (varargs of arrays)
-     * @return a new Matrix containing the given elements
-     * @throws IllegalArgumentException if the array is null, empty, or not rectangular
+     * @param a the 2D array to create the matrix from (must not be null)
+     * @return a new Matrix containing the provided data
+     * @throws IllegalArgumentException if the array is null or if rows have different lengths (non-rectangular array)
      */
     @SafeVarargs
     public static <T> Matrix<T> of(final T[]... a) {
@@ -333,8 +330,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns the component type of the elements in this matrix.
-     * For example, for a {@code Matrix<Integer>}, this returns {@code Integer.class}.
-     * This is useful for reflection-based operations or when creating new arrays.
+     *
+     * <p>For example, for a {@code Matrix<Integer>}, this returns {@code Integer.class}.
+     * This is useful for reflection-based operations or when creating new arrays
+     * of the same type as the matrix elements.</p>
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}});
+     * Class<?> type = matrix.componentType(); // Returns String.class
+     * }</pre>
      *
      * @return the Class object representing the element type
      */
@@ -650,8 +655,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index to replace (0-based)
      * @param row the new row data (must have exactly {@code cols} elements)
-     * @throws IllegalArgumentException if the row array length doesn't match the number of columns,
-     *         or if rowIndex is negative or greater than or equal to the number of rows
+     * @throws IllegalArgumentException if the row array length doesn't match the number of columns
+     * @throws IndexOutOfBoundsException if rowIndex is negative or greater than or equal to the number of rows
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -674,8 +679,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param columnIndex the column index to replace (0-based)
      * @param column the new column data (must have exactly {@code rows} elements)
-     * @throws IllegalArgumentException if the column array length doesn't match the number of rows,
-     *         or if columnIndex is negative or greater than or equal to the number of columns
+     * @throws IllegalArgumentException if the column array length doesn't match the number of rows
+     * @throws IndexOutOfBoundsException if columnIndex is negative or greater than or equal to the number of columns
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -688,22 +693,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Updates all elements in the specified row by applying the given function.
      * The function is applied to each element in the row, and the result
-     * replaces the original value.
-     * 
+     * replaces the original value. The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Double all values in row 0
      * matrix.updateRow(0, x -> x * 2);
-     * 
+     *
      * // Convert strings to uppercase in row 1
      * stringMatrix.updateRow(1, String::toUpperCase);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param rowIndex the row index to update
-     * @param func the function to apply to each element
+     * @param <E> the type of exception that might be thrown by the function
+     * @param rowIndex the row index to update (0-based)
+     * @param func the function to apply to each element (must not be null)
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if rowIndex is out of bounds
+     * @throws IndexOutOfBoundsException if rowIndex is negative or greater than or equal to the number of rows
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -714,22 +719,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Updates all elements in the specified column by applying the given function.
      * The function is applied to each element in the column, and the result
-     * replaces the original value.
-     * 
+     * replaces the original value. The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Append suffix to all strings in column 1
      * matrix.updateColumn(1, s -> s + "_suffix");
-     * 
+     *
      * // Square all numbers in column 0
      * numberMatrix.updateColumn(0, n -> n * n);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param columnIndex the column index to update
-     * @param func the function to apply to each element
+     * @param <E> the type of exception that might be thrown by the function
+     * @param columnIndex the column index to update (0-based)
+     * @param func the function to apply to each element (must not be null)
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if columnIndex is out of bounds
+     * @throws IndexOutOfBoundsException if columnIndex is negative or greater than or equal to the number of columns
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -739,16 +744,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Gets the main diagonal elements (left-up to right-down).
-     * The matrix must be square. Returns a new array containing the diagonal values.
-     * 
+     * The matrix must be square (same number of rows and columns).
+     * Returns a new array containing the diagonal values, modifications to which
+     * will not affect the matrix.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return an array containing the diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new array containing the diagonal elements from top-left to bottom-right
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public T[] getLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -764,18 +771,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Sets the main diagonal elements (left-up to right-down).
-     * The matrix must be square and the diagonal array must have at least as many
-     * elements as the matrix dimension. Extra elements in the array are ignored.
+     * The matrix must be square (same number of rows and columns).
+     * The diagonal array must have at least as many elements as the matrix dimension.
+     * Extra elements in the array are ignored. The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.setLU2RD(new Integer[]{10, 20, 30});
+     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * m.setLU2RD(new Integer[]{10, 20, 30});
      * // Diagonal is now [10, 20, 30]
+     * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
      *
-     * @param diagonal the new diagonal values
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     * @param diagonal the new diagonal values (must not be null and must have at least {@code rows} elements)
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalArgumentException if diagonal array has fewer elements than the matrix dimension
      */
     public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -788,21 +798,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Updates the main diagonal elements (left-up to right-down) by applying the given function.
-     * The matrix must be square. Each diagonal element is replaced by the result of the function.
+     * The matrix must be square (same number of rows and columns).
+     * Each diagonal element is replaced by the result of the function.
+     * The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
      * // Double the diagonal values
      * matrix.updateLU2RD(x -> x * 2);
-     * 
+     *
      * // Set diagonal to zeros
      * matrix.updateLU2RD(x -> 0);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param func the function to apply to each diagonal element
+     * @param <E> the type of exception that might be thrown by the function
+     * @param func the function to apply to each diagonal element (must not be null)
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -814,17 +826,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Gets the anti-diagonal elements (right-up to left-down).
-     * The matrix must be square. Returns a new array containing the anti-diagonal values.
+     * The matrix must be square (same number of rows and columns).
+     * Returns a new array containing the anti-diagonal values.
      * The first element is from the top-right corner, the last from the bottom-left corner.
-     * 
+     * Modifications to the returned array will not affect the matrix.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return an array containing the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @return a new array containing the anti-diagonal elements from top-right to bottom-left
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public T[] getRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -840,18 +854,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Sets the anti-diagonal elements (right-up to left-down).
-     * The matrix must be square and the diagonal array must have at least as many
-     * elements as the matrix dimension. The first element goes to the top-right corner.
+     * The matrix must be square (same number of rows and columns).
+     * The diagonal array must have at least as many elements as the matrix dimension.
+     * The first element goes to the top-right corner, the last to the bottom-left corner.
+     * Extra elements in the array are ignored. The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
-     * matrix.setRU2LD(new Integer[]{10, 20, 30});
+     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * m.setRU2LD(new Integer[]{10, 20, 30});
      * // Anti-diagonal is now [10, 20, 30] from top-right to bottom-left
+     * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
      *
-     * @param diagonal the new anti-diagonal values
-     * @throws IllegalStateException if the matrix is not square
-     * @throws IllegalArgumentException if diagonal array is too short
+     * @param diagonal the new anti-diagonal values (must not be null and must have at least {@code rows} elements)
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalArgumentException if diagonal array has fewer elements than the matrix dimension
      */
     public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -864,21 +882,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Updates the anti-diagonal elements (right-up to left-down) by applying the given function.
-     * The matrix must be square. Each anti-diagonal element is replaced by the result of the function.
+     * The matrix must be square (same number of rows and columns).
+     * Each anti-diagonal element is replaced by the result of the function.
+     * The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
      * // Negate the anti-diagonal values
      * matrix.updateRU2LD(x -> -x);
-     * 
+     *
      * // Convert anti-diagonal strings to lowercase
      * stringMatrix.updateRU2LD(String::toLowerCase);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param func the function to apply to each anti-diagonal element
+     * @param <E> the type of exception that might be thrown by the function
+     * @param func the function to apply to each anti-diagonal element (must not be null)
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -892,23 +912,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Updates all elements in the matrix by applying the given function.
-     * The operation can be performed in parallel for large matrices.
+     * The operation may be performed in parallel for large matrices.
      * Each element is replaced by the result of applying the function.
-     * 
+     * The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Convert all elements to uppercase
      * stringMatrix.updateAll(String::toUpperCase);
-     * 
+     *
      * // Square all numbers
      * numberMatrix.updateAll(x -> x * x);
-     * 
+     *
      * // Replace nulls with default value
      * matrix.updateAll(x -> x == null ? defaultValue : x);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param func the function to apply to each element
+     * @param <E> the type of exception that might be thrown by the function
+     * @param func the function to apply to each element (must not be null)
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> func) throws E {
@@ -918,23 +939,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Updates all elements in the matrix based on their position.
-     * The function receives the row and column indices and returns the new value.
-     * This is useful for position-dependent transformations.
-     * 
+     * The function receives the row and column indices (both 0-based) and returns the new value.
+     * This is useful for position-dependent transformations. The operation may be performed
+     * in parallel for large matrices. The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Set each element to its row + column index
      * matrix.updateAll((i, j) -> i + j);
-     * 
+     *
      * // Create a checkerboard pattern
      * matrix.updateAll((i, j) -> (i + j) % 2 == 0 ? "black" : "white");
-     * 
+     *
      * // Set diagonal to special value
      * matrix.updateAll((i, j) -> i == j ? diagonalValue : otherValue);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param func the function that takes row and column indices and returns the new value
+     * @param <E> the type of exception that might be thrown by the function
+     * @param func the function that takes row and column indices and returns the new value (must not be null)
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> func) throws E {
@@ -945,22 +967,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Replaces all elements that match the predicate with the new value.
      * The predicate is tested against each element's value, not its position.
-     * 
+     * The operation may be performed in parallel for large matrices.
+     * The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Replace all null values with empty string
      * matrix.replaceIf(Objects::isNull, "");
-     * 
+     *
      * // Replace negative numbers with zero
      * matrix.replaceIf(x -> x < 0, 0);
-     * 
+     *
      * // Replace empty strings with placeholder
      * matrix.replaceIf(String::isEmpty, "N/A");
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param predicate the condition to test each element
-     * @param newValue the value to use as replacement
+     * @param <E> the type of exception that might be thrown by the predicate
+     * @param predicate the condition to test each element (must not be null)
+     * @param newValue the value to use as replacement (can be null)
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
@@ -970,24 +994,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Replaces elements based on their position using a predicate.
-     * The predicate receives row and column indices, not the element value.
-     * This is useful for position-based replacements.
-     * 
+     * The predicate receives row and column indices (both 0-based), not the element value.
+     * This is useful for position-based replacements. The operation may be performed
+     * in parallel for large matrices. The matrix is modified in-place.
+     *
      * <p>Example:</p>
      * <pre>{@code
      * // Replace diagonal elements with zero
      * matrix.replaceIf((i, j) -> i == j, zero);
-     * 
+     *
      * // Replace upper triangle with null
      * matrix.replaceIf((i, j) -> i < j, null);
-     * 
+     *
      * // Replace border elements
      * matrix.replaceIf((i, j) -> i == 0 || i == rows-1 || j == 0 || j == cols-1, borderValue);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param predicate the condition based on position
-     * @param newValue the value to use as replacement
+     * @param <E> the type of exception that might be thrown by the predicate
+     * @param predicate the condition based on position (must not be null)
+     * @param newValue the value to use as replacement (can be null)
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final T newValue) throws E {
@@ -1281,7 +1306,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Fills all elements in the matrix with the specified value.
-     * This replaces every element with the same value.
+     * This replaces every element with the same value. The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1290,7 +1315,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.fill(""); // Fill with empty strings
      * }</pre>
      *
-     * @param val the value to fill the matrix with
+     * @param val the value to fill the matrix with (can be null)
      */
     public void fill(final T val) {
         for (int i = 0; i < rows; i++) {
@@ -1299,10 +1324,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Fills the matrix with values from another matrix.
-     * Copies as much data as will fit, starting from the top-left corner.
-     * If the source matrix is larger, extra data is ignored.
-     * If the source matrix is smaller, the remaining cells are unchanged.
+     * Fills the matrix with values from another 2D array.
+     * Copies as much data as will fit, starting from the top-left corner (position 0,0).
+     * If the source array is larger than this matrix, extra data is ignored.
+     * If the source array is smaller than this matrix, the remaining cells are unchanged.
+     * The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1310,16 +1336,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.fill(data); // Copy from top-left
      * }</pre>
      *
-     * @param b the source matrix data
+     * @param b the source 2D array to copy values from (must not be null)
      */
     public void fill(final T[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills the matrix with values from another matrix starting at the specified position.
+     * Fills the matrix with values from another 2D array starting at the specified position.
      * Copies as much data as will fit from the starting position.
      * If the source data extends beyond the matrix bounds, it is truncated.
+     * The matrix is modified in-place.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1327,9 +1354,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.fill(1, 2, patch); // Start filling at row 1, column 2
      * }</pre>
      *
-     * @param fromRowIndex the starting row index
-     * @param fromColumnIndex the starting column index
-     * @param b the source array to copy values from
+     * @param fromRowIndex the starting row index (0-based, must be between 0 and rows inclusive)
+     * @param fromColumnIndex the starting column index (0-based, must be between 0 and cols inclusive)
+     * @param b the source 2D array to copy values from (must not be null)
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
@@ -1799,6 +1826,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read row-by-row from the original matrix and placed
      * row-by-row into the new shape. The total number of elements may change.
+     * If the new dimensions require more elements than available, the remaining
+     * cells are left as null. If the new dimensions require fewer elements,
+     * extra elements from the original matrix are discarded.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1807,8 +1837,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2}, {3, 4}, {5, 6}}
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix
-     * @param newCols the number of columns in the reshaped matrix
+     * @param newRows the number of rows in the reshaped matrix (must be non-negative)
+     * @param newCols the number of columns in the reshaped matrix (must be non-negative)
      * @return a new matrix with the specified shape
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
@@ -1931,7 +1961,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Flattens the matrix into a one-dimensional list by reading elements row by row.
-     * The list is a new collection independent of the matrix.
+     * The list is a new collection independent of the matrix. Elements are read in
+     * row-major order (left to right, top to bottom).
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1941,6 +1972,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a list containing all elements in row-major order
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols > Integer.MAX_VALUE)
      */
     @Override
     public List<T> flatten() {
@@ -1990,6 +2022,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Vertically stacks this matrix with another matrix.
      * The matrices must have the same number of columns.
      * The result has rows from this matrix followed by rows from the other matrix.
+     * Creates a new matrix; neither input matrix is modified.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -1999,9 +2032,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2}, {3, 4}, {5, 6}, {7, 8}}
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
-     * @return a new vertically stacked matrix
+     * @param b the matrix to stack below this matrix (must not be null)
+     * @return a new vertically stacked matrix with dimensions (this.rows + b.rows) × cols
      * @throws IllegalArgumentException if the matrices have different column counts
+     * @see #hstack(Matrix)
      * @see IntMatrix#vstack(IntMatrix)
      */
     public Matrix<T> vstack(final Matrix<? extends T> b) throws IllegalArgumentException {
@@ -2025,6 +2059,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Horizontally stacks this matrix with another matrix.
      * The matrices must have the same number of rows.
      * The result has columns from this matrix followed by columns from the other matrix.
+     * Creates a new matrix; neither input matrix is modified.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -2034,9 +2069,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2, 5}, {3, 4, 6}}
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix
-     * @return a new horizontally stacked matrix
+     * @param b the matrix to stack to the right of this matrix (must not be null)
+     * @return a new horizontally stacked matrix with dimensions rows × (this.cols + b.cols)
      * @throws IllegalArgumentException if the matrices have different row counts
+     * @see #vstack(Matrix)
      * @see IntMatrix#hstack(IntMatrix)
      */
     public Matrix<T> hstack(final Matrix<? extends T> b) throws IllegalArgumentException {
@@ -2056,6 +2092,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Combines this matrix with another matrix element-wise using the specified function.
      * The function is applied to corresponding elements at the same positions (i, j) in both matrices.
      * Both matrices must have the same dimensions. The result matrix has the same element type as this matrix.
+     * The operation may be performed in parallel for large matrices.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -2067,8 +2104,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <B> the element type of the other matrix
      * @param <E> the type of exception that the zip function may throw
-     * @param matrixB the other matrix to zip with (must have the same dimensions)
-     * @param zipFunction the binary function to apply to corresponding elements
+     * @param matrixB the other matrix to zip with (must have the same dimensions, must not be null)
+     * @param zipFunction the binary function to apply to corresponding elements (must not be null)
      * @return a new matrix with the results of the zip function
      * @throws IllegalArgumentException if the matrices don't have the same dimensions
      * @throws E if the zip function throws an exception
@@ -2080,7 +2117,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Combines this matrix with another matrix element-wise using the specified function.
      * The function can return elements of a different type than the input matrices.
-     * The matrices must have the same dimensions.
+     * The matrices must have the same dimensions. The operation may be performed
+     * in parallel for large matrices.
      *
      * <p>Example:</p>
      * <pre>{@code
@@ -2093,9 +2131,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <B> the element type of the other matrix
      * @param <R> the element type of the result matrix
      * @param <E> the type of exception that the zip function may throw
-     * @param matrixB the other matrix to zip with
-     * @param zipFunction the function to apply to corresponding elements
-     * @param targetElementType the class of the result element type
+     * @param matrixB the other matrix to zip with (must have the same dimensions, must not be null)
+     * @param zipFunction the function to apply to corresponding elements (must not be null)
+     * @param targetElementType the class of the result element type (must not be null)
      * @return a new matrix with the results of the zip function
      * @throws IllegalArgumentException if the matrices don't have the same shape
      * @throws E if the zip function throws an exception
@@ -2740,10 +2778,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns the length of the given array.
-     * This is an internal helper method used by the abstract base class for iteration
-     * and size calculations. It handles null arrays by returning 0.
      *
-     * @param a the array to check
+     * <p>This is an internal helper method used by the abstract base class for iteration
+     * and size calculations. It handles null arrays by returning 0.</p>
+     *
+     * @param a the array to check (can be null)
      * @return the length of the array, or 0 if the array is null
      */
     @Override
@@ -2923,8 +2962,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed using a deep hash algorithm that considers
-     * all elements in the matrix.
+     * The hash code is computed based on the deep contents of the internal 2D array.
+     * Matrices with the same dimensions and element values will have equal hash codes,
+     * consistent with the {@link #equals(Object)} method.
      *
      * @return a hash code value for this matrix
      */
@@ -2934,23 +2974,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Compares this matrix with the specified object for equality.
-     * Two matrices are considered equal if they have the same dimensions and
-     * contain the same elements in the same positions.
+     * Compares this matrix to the specified object for equality.
+     * Returns {@code true} if the given object is also a Matrix with the same dimensions
+     * and all corresponding elements are equal.
      *
-     * <p><b>Example:</b></p>
+     * <p>Example:</p>
      * <pre>{@code
-     * Matrix<Integer> matrix1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> matrix2 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> matrix3 = Matrix.of(new Integer[][]{{1, 3}, {2, 4}});
-     *
-     * boolean result1 = matrix1.equals(matrix2); // true
-     * boolean result2 = matrix1.equals(matrix3); // false
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * m1.equals(m2); // true
      * }</pre>
      *
      * @param obj the object to compare with
-     * @return {@code true} if this matrix is equal to the specified object,
-     *         {@code false} otherwise
+     * @return {@code true} if the objects are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -2969,15 +3005,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns a string representation of this matrix.
-     * The string representation consists of a list of the matrix's elements,
-     * enclosed in square brackets ("[]"). Adjacent elements are separated by
-     * the characters ", " (comma and space).
+     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
      *
-     * <p><b>Example:</b></p>
+     * <p>Example:</p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * String str = matrix.toString();
-     * // Result: "[[1, 2], [3, 4]]"
+     * System.out.println(matrix.toString()); // [[1, 2], [3, 4]]
      * }</pre>
      *
      * @return a string representation of this matrix

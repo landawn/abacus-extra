@@ -92,6 +92,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple4 containing four double values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
@@ -104,6 +110,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple5 containing five double values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+     * double first = tuple._1;
+     * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
@@ -119,6 +131,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple6 containing six double values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+     * double first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
@@ -133,6 +151,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple7 containing seven double values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+     * double first = tuple._1;
+     * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
@@ -325,7 +349,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -333,7 +357,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * DoubleTuple3 reversed = tuple.reverse(); // (3.0, 2.0, 1.0)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -478,46 +502,103 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         DoubleTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns the minimum value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
+         */
         @Override
         public double min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
+         */
         @Override
         public double max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
+         */
         @Override
         public double median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all elements in this tuple.
+         * For an empty tuple, the sum is 0.
+         *
+         * @return 0
+         */
         @Override
         public double sum() {
             return 0;
         }
 
+        /**
+         * Returns the average of all elements in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns a reversed version of this tuple.
+         * For an empty tuple, returns the same instance.
+         *
+         * @return this instance
+         */
         @Override
         public DoubleTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks whether this tuple contains the specified value.
+         * Since this tuple is empty, this method always returns false.
+         *
+         * @param valueToFind the value to search for
+         * @return false always, as there are no elements
+         */
         @Override
         public boolean contains(final double valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -607,7 +688,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
          *
          * @return a new DoubleTuple1 with the same value
@@ -757,7 +838,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple2 with (_2, _1)
          */
@@ -976,7 +1057,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple3 with (_3, _2, _1)
          */
@@ -1149,7 +1230,58 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the four elements.
+         *
+         * @return the smallest of _1, _2, _3, and _4
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the maximum value among the four elements.
+         *
+         * @return the largest of _1, _2, _3, and _4
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the median value of the four elements.
+         * For a tuple with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the sum of the four elements.
+         *
+         * @return _1 + _2 + _3 + _4
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the average of the four elements.
+         *
+         * @return (_1 + _2 + _3 + _4) / 4
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple4 with (_4, _3, _2, _1)
          */
@@ -1167,6 +1299,58 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         @Override
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all four elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * _1 + _2) + _3)) + _4);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple4 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple4 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
         }
 
         @Override
@@ -1219,7 +1403,57 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the five elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the largest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the median value of the five elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the sum of the five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the average of the five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple5 with (_5, _4, _3, _2, _1)
          */
@@ -1238,6 +1472,59 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind)
                     || N.equals(_5, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all five elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple5 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple5 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
         }
 
         @Override
@@ -1293,7 +1580,58 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the six elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the maximum value among the six elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the median value of the six elements.
+         * For a tuple with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the sum of the six elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the average of the six elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
          */
@@ -1312,6 +1650,61 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
                     || N.equals(_6, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all six elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple6 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple6 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
         }
 
         @Override
@@ -1370,7 +1763,57 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the seven elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the maximum value among the seven elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the median value of the seven elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the sum of the seven elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the average of the seven elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -1389,6 +1832,62 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all seven elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple7 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple7 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
         }
 
         @Override
@@ -1453,9 +1952,60 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the eight elements.
          *
-         * @return a new DoubleTuple8 with elements in reverse order
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the maximum value among the eight elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the median value of the eight elements.
+         * For a tuple with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the sum of the eight elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the average of the eight elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new DoubleTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple8 reverse() {
@@ -1472,6 +2022,63 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all eight elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple8 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple8 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7) && N.equals(_8, other._8);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
         }
 
         @Override
@@ -1540,9 +2147,59 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the nine elements.
          *
-         * @return a new DoubleTuple9 with elements in reverse order
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         */
+        @Override
+        public double min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the maximum value among the nine elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         */
+        @Override
+        public double max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the median value of the nine elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public double median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the sum of the nine elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         */
+        @Override
+        public double sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the average of the nine elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new DoubleTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public DoubleTuple9 reverse() {
@@ -1559,6 +2216,64 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         public boolean contains(final double valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind) || N.equals(_9, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all nine elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a DoubleTuple9 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final DoubleTuple9 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7) && N.equals(_8, other._8) && N.equals(_9, other._9);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
         }
 
         @Override

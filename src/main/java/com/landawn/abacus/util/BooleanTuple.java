@@ -89,6 +89,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * Creates a BooleanTuple4 containing four boolean values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
+     * boolean fourth = tuple._4; // false
+     * }</pre>
+     *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
@@ -101,6 +107,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Creates a BooleanTuple5 containing five boolean values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
+     * boolean fifth = tuple._5; // true
+     * }</pre>
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
@@ -116,6 +128,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * Creates a BooleanTuple6 containing six boolean values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+     * boolean sixth = tuple._6; // false
+     * }</pre>
+     *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
@@ -130,6 +148,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Creates a BooleanTuple7 containing seven boolean values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+     * boolean seventh = tuple._7; // true
+     * }</pre>
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
@@ -148,6 +172,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * Creates a BooleanTuple8 containing eight boolean values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+     * boolean eighth = tuple._8; // false
+     * }</pre>
+     *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
      * @param _3 the third boolean value
@@ -157,7 +187,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _7 the seventh boolean value
      * @param _8 the eighth boolean value
      * @return a new BooleanTuple8 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
     @Deprecated
     public static BooleanTuple8 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -167,6 +197,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Creates a BooleanTuple9 containing nine boolean values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+     * boolean ninth = tuple._9; // true
+     * }</pre>
      *
      * @param _1 the first boolean value
      * @param _2 the second boolean value
@@ -178,7 +214,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @param _8 the eighth boolean value
      * @param _9 the ninth boolean value
      * @return a new BooleanTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
     @Deprecated
     public static BooleanTuple9 of(final boolean _1, final boolean _2, final boolean _3, final boolean _4, final boolean _5, final boolean _6, final boolean _7,
@@ -240,7 +276,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -248,7 +284,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * BooleanTuple3 reversed = tuple.reverse(); // (false, false, true)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -380,6 +416,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     /**
      * An empty BooleanTuple containing no elements.
      * This class represents a tuple with arity 0.
+     *
+     * <p>This is typically returned by the {@link #create(boolean[])} method when
+     * a null or empty array is provided.</p>
      */
     static final class BooleanTuple0 extends BooleanTuple<BooleanTuple0> {
         private static final BooleanTuple0 EMPTY = new BooleanTuple0();
@@ -387,21 +426,43 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         BooleanTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns this empty tuple (reversing an empty tuple yields itself).
+         *
+         * @return this BooleanTuple0 instance
+         */
         @Override
         public BooleanTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified boolean value.
+         * An empty tuple never contains any value.
+         *
+         * @param valueToFind the boolean value to search for
+         * @return {@code false} always, since this tuple contains no elements
+         */
         @Override
         public boolean contains(final boolean valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -431,9 +492,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 1.
          *
-         * @return always returns 1
+         * @return 1
          */
         @Override
         public int arity() {
@@ -441,8 +502,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple1 with the same element.
-         * Since this tuple has only one element, reversing has no effect.
+         * Returns a new tuple with the elements in reverse order.
+         * For a single-element tuple, returns a copy of itself.
          *
          * @return a new BooleanTuple1 with the same element
          */
@@ -455,7 +516,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if the tuple's element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the element equals valueToFind, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -530,9 +591,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 2.
          *
-         * @return always returns 2
+         * @return 2
          */
         @Override
         public int arity() {
@@ -540,9 +601,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple2 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple2 with elements swapped
+         * @return a new BooleanTuple2 with the elements in reverse order
          */
         @Override
         public BooleanTuple2 reverse() {
@@ -553,7 +614,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if either element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -702,9 +763,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 3.
          *
-         * @return always returns 3
+         * @return 3
          */
         @Override
         public int arity() {
@@ -712,9 +773,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple3 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple3 with elements in reversed order
+         * @return a new BooleanTuple3 with the elements in reverse order
          */
         @Override
         public BooleanTuple3 reverse() {
@@ -725,7 +786,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -854,7 +915,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly four boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      */
     public static final class BooleanTuple4 extends BooleanTuple<BooleanTuple4> {
 
@@ -879,9 +940,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 4.
          *
-         * @return always returns 4
+         * @return 4
          */
         @Override
         public int arity() {
@@ -889,9 +950,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple4 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple4 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
+         * BooleanTuple4 reversed = tuple.reverse(); // (false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple4 with the elements in reverse order
          */
         @Override
         public BooleanTuple4 reverse() {
@@ -902,7 +969,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -921,7 +988,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly five boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, and {@code _5}.
      */
     public static final class BooleanTuple5 extends BooleanTuple<BooleanTuple5> {
 
@@ -949,9 +1016,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 5.
          *
-         * @return always returns 5
+         * @return 5
          */
         @Override
         public int arity() {
@@ -959,9 +1026,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple5 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple5 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
+         * BooleanTuple5 reversed = tuple.reverse(); // (true, false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple5 with the elements in reverse order
          */
         @Override
         public BooleanTuple5 reverse() {
@@ -972,7 +1045,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -991,7 +1064,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly six boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, {@code _5}, and {@code _6}.
      */
     public static final class BooleanTuple6 extends BooleanTuple<BooleanTuple6> {
 
@@ -1022,9 +1095,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 6.
          *
-         * @return always returns 6
+         * @return 6
          */
         @Override
         public int arity() {
@@ -1032,9 +1105,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple6 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple6 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
+         * BooleanTuple6 reversed = tuple.reverse(); // (false, true, false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple6 with the elements in reverse order
          */
         @Override
         public BooleanTuple6 reverse() {
@@ -1045,7 +1124,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -1064,7 +1143,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly seven boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, {@code _5}, {@code _6}, and {@code _7}.
      */
     public static final class BooleanTuple7 extends BooleanTuple<BooleanTuple7> {
 
@@ -1098,9 +1177,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 7.
          *
-         * @return always returns 7
+         * @return 7
          */
         @Override
         public int arity() {
@@ -1108,9 +1187,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple7 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple7 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+         * BooleanTuple7 reversed = tuple.reverse(); // (true, false, true, false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple7 with the elements in reverse order
          */
         @Override
         public BooleanTuple7 reverse() {
@@ -1121,7 +1206,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -1141,8 +1226,11 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly eight boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
+    @Deprecated
     public static final class BooleanTuple8 extends BooleanTuple<BooleanTuple8> {
 
         /** The first boolean value stored in this tuple. */
@@ -1179,9 +1267,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 8.
          *
-         * @return always returns 8
+         * @return 8
          */
         @Override
         public int arity() {
@@ -1189,9 +1277,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple8 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple8 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+         * BooleanTuple8 reversed = tuple.reverse(); // (false, true, false, true, false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple8 with the elements in reverse order
          */
         @Override
         public BooleanTuple8 reverse() {
@@ -1202,7 +1296,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {
@@ -1222,8 +1316,11 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * A BooleanTuple containing exactly nine boolean elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
      */
+    @Deprecated
     public static final class BooleanTuple9 extends BooleanTuple<BooleanTuple9> {
 
         /** The first boolean value stored in this tuple. */
@@ -1263,9 +1360,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 9.
          *
-         * @return always returns 9
+         * @return 9
          */
         @Override
         public int arity() {
@@ -1273,9 +1370,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
-         * Creates a new BooleanTuple9 with the elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new BooleanTuple9 with elements in reversed order
+         * <p>Example:</p>
+         * <pre>{@code
+         * BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+         * BooleanTuple9 reversed = tuple.reverse(); // (true, false, true, false, true, false, true, false, true)
+         * }</pre>
+         *
+         * @return a new BooleanTuple9 with the elements in reverse order
          */
         @Override
         public BooleanTuple9 reverse() {
@@ -1286,7 +1389,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * Checks if this tuple contains the specified boolean value.
          *
          * @param valueToFind the boolean value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final boolean valueToFind) {

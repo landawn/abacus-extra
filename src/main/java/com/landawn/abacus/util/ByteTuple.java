@@ -91,6 +91,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a ByteTuple4 containing four byte values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple4 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4);
+     * byte first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
@@ -103,6 +109,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple5 containing five byte values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple5 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5);
+     * byte first = tuple._1;
+     * }</pre>
      *
      * @param _1 the first byte value
      * @param _2 the second byte value
@@ -118,6 +130,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a ByteTuple6 containing six byte values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple6 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6);
+     * byte first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
@@ -132,6 +150,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple7 containing seven byte values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple7 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7);
+     * byte first = tuple._1;
+     * }</pre>
      *
      * @param _1 the first byte value
      * @param _2 the second byte value
@@ -241,14 +265,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the minimum byte value in this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte min = tuple.min(); // 10
      * }</pre>
      *
-     * @return the minimum byte value
+     * @return the minimum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public byte min() {
@@ -257,14 +281,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the maximum byte value in this tuple.
-     * 
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte max = tuple.max(); // 30
      * }</pre>
      *
-     * @return the maximum byte value
+     * @return the maximum byte value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public byte max() {
@@ -292,7 +316,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all byte values in this tuple as an int.
+     * Returns the sum of all elements in this tuple.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -300,22 +324,22 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int sum = tuple.sum(); // 60
      * }</pre>
      *
-     * @return the sum of all byte values as an int
+     * @return the sum of all byte values in this tuple
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average of all byte values in this tuple as a double.
-     * 
+     * Returns the average of all byte values in this tuple.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * double avg = tuple.average(); // 20.0
      * }</pre>
      *
-     * @return the average of all byte values
+     * @return the average of all byte values in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -323,7 +347,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -331,7 +355,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * ByteTuple3 reversed = tuple.reverse(); // (30, 20, 10)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -471,46 +495,103 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         ByteTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns the minimum byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public byte min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public byte max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median byte value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public byte median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all byte values in this tuple.
+         * Since this tuple is empty, returns 0.
+         *
+         * @return 0
+         */
         @Override
         public int sum() {
             return 0;
         }
 
+        /**
+         * Returns the average of all byte values in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns this empty tuple instance.
+         * Since this tuple has no elements, reversing has no effect.
+         *
+         * @return this ByteTuple0 instance
+         */
         @Override
         public ByteTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified byte value.
+         * Since this tuple is empty, always returns false.
+         *
+         * @param valueToFind the byte value to search for
+         * @return {@code false} always, because the tuple is empty
+         */
         @Override
         public boolean contains(final byte valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -540,9 +621,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 1.
          *
-         * @return always returns 1
+         * @return 1
          */
         @Override
         public int arity() {
@@ -605,7 +686,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple1 with the same element.
+         * Returns a new ByteTuple1 with the same element.
          * Since this tuple has only one element, reversing has no effect.
          *
          * @return a new ByteTuple1 with the same element
@@ -619,7 +700,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if the tuple's element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -694,9 +775,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 2.
          *
-         * @return always returns 2
+         * @return 2
          */
         @Override
         public int arity() {
@@ -755,7 +836,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple2 with the elements in reversed order.
+         * Returns a new ByteTuple2 with the elements in reverse order.
          *
          * @return a new ByteTuple2 with elements swapped
          */
@@ -768,7 +849,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if either element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -914,9 +995,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 3.
          *
-         * @return always returns 3
+         * @return 3
          */
         @Override
         public int arity() {
@@ -974,9 +1055,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple3 with the elements in reversed order.
+         * Returns a new ByteTuple3 with the elements in reverse order.
          *
-         * @return a new ByteTuple3 with elements in reversed order
+         * @return a new ByteTuple3 with the elements in reverse order
          */
         @Override
         public ByteTuple3 reverse() {
@@ -987,7 +1068,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
@@ -1112,7 +1193,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly four byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte first = tuple._1;  // 10
+     * byte fourth = tuple._4; // 40
+     * }</pre>
      */
     public static final class ByteTuple4 extends ByteTuple<ByteTuple4> {
 
@@ -1137,9 +1225,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 4.
          *
-         * @return always returns 4
+         * @return 4
          */
         @Override
         public int arity() {
@@ -1147,9 +1235,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple4 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple4 with elements in reversed order
+         * @return the smallest of the four byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the four byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of four elements, returns the lower of the two middle values when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all four byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all four byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns a new ByteTuple4 with the elements in reverse order.
+         *
+         * @return a new ByteTuple4 with the elements in reverse order
          */
         @Override
         public ByteTuple4 reverse() {
@@ -1160,11 +1299,26 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
         }
 
         @Override
@@ -1179,7 +1333,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly five byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
+     * byte first = tuple._1;  // 10
+     * byte fifth = tuple._5;  // 50
+     * }</pre>
      */
     public static final class ByteTuple5 extends ByteTuple<ByteTuple5> {
 
@@ -1207,9 +1368,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 5.
          *
-         * @return always returns 5
+         * @return 5
          */
         @Override
         public int arity() {
@@ -1217,9 +1378,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple5 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple5 with elements in reversed order
+         * @return the smallest of the five byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the five byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of five elements, returns the middle value when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all five byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all five byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns a new ByteTuple5 with the elements in reverse order.
+         *
+         * @return a new ByteTuple5 with the elements in reverse order
          */
         @Override
         public ByteTuple5 reverse() {
@@ -1230,11 +1442,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
         }
 
         @Override
@@ -1249,7 +1477,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly six byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
+     * byte first = tuple._1;  // 10
+     * byte sixth = tuple._6;  // 60
+     * }</pre>
      */
     public static final class ByteTuple6 extends ByteTuple<ByteTuple6> {
 
@@ -1280,9 +1515,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 6.
          *
-         * @return always returns 6
+         * @return 6
          */
         @Override
         public int arity() {
@@ -1290,9 +1525,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple6 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple6 with elements in reversed order
+         * @return the smallest of the six byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the six byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of six elements, returns the lower of the two middle values when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all six byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all six byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns a new ByteTuple6 with the elements in reverse order.
+         *
+         * @return a new ByteTuple6 with the elements in reverse order
          */
         @Override
         public ByteTuple6 reverse() {
@@ -1303,11 +1589,28 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
         }
 
         @Override
@@ -1322,7 +1625,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly seven byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+     * byte first = tuple._1;   // 10
+     * byte seventh = tuple._7; // 70
+     * }</pre>
      */
     public static final class ByteTuple7 extends ByteTuple<ByteTuple7> {
 
@@ -1356,9 +1666,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 7.
          *
-         * @return always returns 7
+         * @return 7
          */
         @Override
         public int arity() {
@@ -1366,9 +1676,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple7 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple7 with elements in reversed order
+         * @return the smallest of the seven byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the seven byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of seven elements, returns the middle value when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all seven byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all seven byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns a new ByteTuple7 with the elements in reverse order.
+         *
+         * @return a new ByteTuple7 with the elements in reverse order
          */
         @Override
         public ByteTuple7 reverse() {
@@ -1379,12 +1740,30 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
         }
 
         @Override
@@ -1399,7 +1778,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly eight byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+     * byte first = tuple._1;  // 10
+     * byte eighth = tuple._8; // 80
+     * }</pre>
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     public static final class ByteTuple8 extends ByteTuple<ByteTuple8> {
 
@@ -1436,9 +1824,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 8.
          *
-         * @return always returns 8
+         * @return 8
          */
         @Override
         public int arity() {
@@ -1446,9 +1834,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple8 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple8 with elements in reversed order
+         * @return the smallest of the eight byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the eight byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of eight elements, returns the lower of the two middle values when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all eight byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all eight byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns a new ByteTuple8 with the elements in reverse order.
+         *
+         * @return a new ByteTuple8 with the elements in reverse order
          */
         @Override
         public ByteTuple8 reverse() {
@@ -1459,12 +1898,31 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
         }
 
         @Override
@@ -1479,7 +1937,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly nine byte elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+     * byte first = tuple._1; // 10
+     * byte ninth = tuple._9; // 90
+     * }</pre>
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     public static final class ByteTuple9 extends ByteTuple<ByteTuple9> {
 
@@ -1519,9 +1986,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 9.
          *
-         * @return always returns 9
+         * @return 9
          */
         @Override
         public int arity() {
@@ -1529,9 +1996,60 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new ByteTuple9 with the elements in reversed order.
+         * Returns the minimum byte value in this tuple.
          *
-         * @return a new ByteTuple9 with elements in reversed order
+         * @return the smallest of the nine byte values
+         */
+        @Override
+        public byte min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the maximum byte value in this tuple.
+         *
+         * @return the largest of the nine byte values
+         */
+        @Override
+        public byte max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the median byte value in this tuple.
+         * For a tuple of nine elements, returns the middle value when sorted.
+         *
+         * @return the median byte value
+         */
+        @Override
+        public byte median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the sum of all byte values in this tuple.
+         *
+         * @return the sum of all nine byte values as an integer
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the average of all byte values in this tuple.
+         *
+         * @return the average of all nine byte values as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns a new ByteTuple9 with the elements in reverse order.
+         *
+         * @return a new ByteTuple9 with the elements in reverse order
          */
         @Override
         public ByteTuple9 reverse() {
@@ -1542,12 +2060,32 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified byte value.
          *
          * @param valueToFind the byte value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final byte valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
         }
 
         @Override

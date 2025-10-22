@@ -63,26 +63,30 @@ public final class Points {
         }
 
         /**
-         * The Class ByteBytePoint.
+         * Represents an immutable 2D point with byte coordinates and a byte value.
+         * This class is optimized for memory-constrained scenarios where coordinates
+         * and values fit within the byte range (-128 to 127).
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteBytePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final byte x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final byte y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final byte v; // value
 
             /**
-             * Instantiates a new byte point.
+             * Constructs a new ByteBytePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             ByteBytePoint(final byte x, final byte y, final byte v) {
                 this.x = x;
@@ -152,26 +156,30 @@ public final class Points {
         }
 
         /**
-         * The Class ByteIntPoint.
+         * Represents an immutable 2D point with byte coordinates and an integer value.
+         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * but the associated value requires the full integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteIntPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final byte x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final byte y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final int v; // value
 
             /**
-             * Instantiates a new byte int point.
+             * Constructs a new ByteIntPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             ByteIntPoint(final byte x, final byte y, final int v) {
                 this.x = x;
@@ -180,12 +188,18 @@ public final class Points {
             }
 
             /**
-             * Creates a new point with the specified coordinates and value.
+             * Creates a ByteIntPoint with the specified coordinates and value.
+             *
+             * <p>Example:</p>
+             * <pre>{@code
+             * ByteIntPoint point = ByteIntPoint.of((byte)10, (byte)20, 100);
+             * // point.x == 10, point.y == 20, point.v == 100
+             * }</pre>
              *
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new point instance
+             * @return a new ByteIntPoint instance
              */
             public static ByteIntPoint of(final byte x, final byte y, final int v) {
                 return new ByteIntPoint(x, y, v);
@@ -233,26 +247,30 @@ public final class Points {
         }
 
         /**
-         * The Class ByteLongPoint.
+         * Represents an immutable 2D point with byte coordinates and a long value.
+         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * but the associated value requires the full long integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteLongPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final byte x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final byte y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final long v; // value
 
             /**
-             * Instantiates a new byte long point.
+             * Constructs a new ByteLongPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             ByteLongPoint(final byte x, final byte y, final long v) {
                 this.x = x;
@@ -261,12 +279,18 @@ public final class Points {
             }
 
             /**
-             * Creates a new point with the specified coordinates and value.
+             * Creates a ByteLongPoint with the specified coordinates and value.
+             *
+             * <p>Example:</p>
+             * <pre>{@code
+             * ByteLongPoint point = ByteLongPoint.of((byte)10, (byte)20, 100L);
+             * // point.x == 10, point.y == 20, point.v == 100L
+             * }</pre>
              *
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new point instance
+             * @return a new ByteLongPoint instance
              */
             public static ByteLongPoint of(final byte x, final byte y, final long v) {
                 return new ByteLongPoint(x, y, v);
@@ -314,26 +338,30 @@ public final class Points {
         }
 
         /**
-         * The Class ByteDoublePoint.
+         * Represents an immutable 2D point with byte coordinates and a double-precision floating-point value.
+         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * but the associated value requires floating-point precision.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteDoublePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final byte x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final byte y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final double v; // value
 
             /**
-             * Instantiates a new byte double point.
+             * Constructs a new ByteDoublePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             ByteDoublePoint(final byte x, final byte y, final double v) {
                 this.x = x;
@@ -342,12 +370,18 @@ public final class Points {
             }
 
             /**
-             * Creates a new point with the specified coordinates and value.
+             * Creates a ByteDoublePoint with the specified coordinates and value.
+             *
+             * <p>Example:</p>
+             * <pre>{@code
+             * ByteDoublePoint point = ByteDoublePoint.of((byte)10, (byte)20, 100.5);
+             * // point.x == 10, point.y == 20, point.v == 100.5
+             * }</pre>
              *
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new point instance
+             * @return a new ByteDoublePoint instance
              */
             public static ByteDoublePoint of(final byte x, final byte y, final double v) {
                 return new ByteDoublePoint(x, y, v);
@@ -395,28 +429,32 @@ public final class Points {
         }
 
         /**
-         * The Class ByteObjPoint.
+         * Represents an immutable 2D point with byte coordinates and a generic object value.
+         * This class is useful when coordinates are constrained to byte range (-128 to 127)
+         * but the associated value can be any object type.
          *
-         * @param <T> the type of the value object
+         * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param <T> the type of the value object associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class ByteObjPoint<T> implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final byte x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final byte y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final T v; // value
 
             /**
-             * Instantiates a new byte obj point.
+             * Constructs a new ByteObjPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             ByteObjPoint(final byte x, final byte y, final T v) {
                 this.x = x;
@@ -489,26 +527,30 @@ public final class Points {
         }
 
         /**
-         * The Class IntBytePoint.
+         * Represents an immutable 2D point with integer coordinates and a byte value.
+         * This class is useful when coordinates require the full integer range
+         * but the associated value is constrained to byte range (-128 to 127).
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntBytePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final int x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final int y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final byte v; // value
 
             /**
-             * Instantiates a new int byte point.
+             * Constructs a new IntBytePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             IntBytePoint(final int x, final int y, final byte v) {
                 this.x = x;
@@ -570,26 +612,30 @@ public final class Points {
         }
 
         /**
-         * The Class IntIntPoint.
+         * Represents an immutable 2D point with integer coordinates and an integer value.
+         * This class is the most commonly used point type for general-purpose integer-based
+         * coordinate systems and grid operations.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntIntPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final int x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final int y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final int v; // value
 
             /**
-             * Instantiates a new int point.
+             * Constructs a new IntIntPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             IntIntPoint(final int x, final int y, final int v) {
                 this.x = x;
@@ -651,26 +697,30 @@ public final class Points {
         }
 
         /**
-         * The Class IntLongPoint.
+         * Represents an immutable 2D point with integer coordinates and a long value.
+         * This class is useful when coordinates fit within the integer range
+         * but the associated value requires the full long integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntLongPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final int x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final int y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final long v; // value
 
             /**
-             * Instantiates a new int long point.
+             * Constructs a new IntLongPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             IntLongPoint(final int x, final int y, final long v) {
                 this.x = x;
@@ -732,26 +782,30 @@ public final class Points {
         }
 
         /**
-         * The Class IntDoublePoint.
+         * Represents an immutable 2D point with integer coordinates and a double-precision floating-point value.
+         * This class is useful when coordinates fit within the integer range
+         * but the associated value requires floating-point precision.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntDoublePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final int x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final int y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final double v; // value
 
             /**
-             * Instantiates a new int double point.
+             * Constructs a new IntDoublePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             IntDoublePoint(final int x, final int y, final double v) {
                 this.x = x;
@@ -813,28 +867,32 @@ public final class Points {
         }
 
         /**
-         * The Class IntObjPoint.
+         * Represents an immutable 2D point with integer coordinates and a generic object value.
+         * This class is useful when coordinates fit within the integer range
+         * but the associated value can be any object type.
          *
-         * @param <T> the type of the value object
+         * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param <T> the type of the value object associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class IntObjPoint<T> implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final int x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final int y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final T v; // value
 
             /**
-             * Instantiates a new int obj point.
+             * Constructs a new IntObjPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             IntObjPoint(final int x, final int y, final T v) {
                 this.x = x;
@@ -907,26 +965,30 @@ public final class Points {
         }
 
         /**
-         * The Class LongBytePoint.
+         * Represents an immutable 2D point with long integer coordinates and a byte value.
+         * This class is useful when coordinates require the full long integer range
+         * but the associated value is constrained to byte range (-128 to 127).
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongBytePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final long x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final long y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final byte v; // value
 
             /**
-             * Instantiates a new long byte point.
+             * Constructs a new LongBytePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             LongBytePoint(final long x, final long y, final byte v) {
                 this.x = x;
@@ -988,26 +1050,30 @@ public final class Points {
         }
 
         /**
-         * The Class LongIntPoint.
+         * Represents an immutable 2D point with long integer coordinates and an integer value.
+         * This class is useful when coordinates require the full long integer range
+         * but the associated value fits within the integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongIntPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final long x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final long y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final int v; // value
 
             /**
-             * Instantiates a new long int point.
+             * Constructs a new LongIntPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             LongIntPoint(final long x, final long y, final int v) {
                 this.x = x;
@@ -1069,26 +1135,30 @@ public final class Points {
         }
 
         /**
-         * The Class LongLongPoint.
+         * Represents an immutable 2D point with long integer coordinates and a long value.
+         * This class is useful for large-scale coordinate systems where both coordinates
+         * and values require the full long integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongLongPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final long x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final long y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final long v; // value
 
             /**
-             * Instantiates a new long point.
+             * Constructs a new LongLongPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             LongLongPoint(final long x, final long y, final long v) {
                 this.x = x;
@@ -1150,26 +1220,30 @@ public final class Points {
         }
 
         /**
-         * The Class LongDoublePoint.
+         * Represents an immutable 2D point with long integer coordinates and a double-precision floating-point value.
+         * This class is useful when coordinates require the full long integer range
+         * but the associated value requires floating-point precision.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongDoublePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final long x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final long y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final double v; // value
 
             /**
-             * Instantiates a new long double point.
+             * Constructs a new LongDoublePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             LongDoublePoint(final long x, final long y, final double v) {
                 this.x = x;
@@ -1231,28 +1305,32 @@ public final class Points {
         }
 
         /**
-         * The Class LongObjPoint.
+         * Represents an immutable 2D point with long integer coordinates and a generic object value.
+         * This class is useful when coordinates require the full long integer range
+         * but the associated value can be any object type.
          *
-         * @param <T> the type of the value object
+         * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param <T> the type of the value object associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class LongObjPoint<T> implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final long x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final long y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final T v; // value
 
             /**
-             * Instantiates a new long obj point.
+             * Constructs a new LongObjPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             LongObjPoint(final long x, final long y, final T v) {
                 this.x = x;
@@ -1325,26 +1403,30 @@ public final class Points {
         }
 
         /**
-         * The Class DoubleBytePoint.
+         * Represents an immutable 2D point with double-precision floating-point coordinates and a byte value.
+         * This class is useful when coordinates require floating-point precision
+         * but the associated value is constrained to byte range (-128 to 127).
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleBytePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final double x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final double y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final byte v; // value
 
             /**
-             * Instantiates a new double byte point.
+             * Constructs a new DoubleBytePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             DoubleBytePoint(final double x, final double y, final byte v) {
                 this.x = x;
@@ -1406,26 +1488,30 @@ public final class Points {
         }
 
         /**
-         * The Class DoubleIntPoint.
+         * Represents an immutable 2D point with double-precision floating-point coordinates and an integer value.
+         * This class is useful when coordinates require floating-point precision
+         * but the associated value fits within the integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleIntPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final double x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final double y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final int v; // value
 
             /**
-             * Instantiates a new double int point.
+             * Constructs a new DoubleIntPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             DoubleIntPoint(final double x, final double y, final int v) {
                 this.x = x;
@@ -1487,26 +1573,30 @@ public final class Points {
         }
 
         /**
-         * The Class DoubleLongPoint.
+         * Represents an immutable 2D point with double-precision floating-point coordinates and a long value.
+         * This class is useful when coordinates require floating-point precision
+         * but the associated value requires the full long integer range.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleLongPoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final double x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final double y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final long v; // value
 
             /**
-             * Instantiates a new double long point.
+             * Constructs a new DoubleLongPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             DoubleLongPoint(final double x, final double y, final long v) {
                 this.x = x;
@@ -1568,26 +1658,30 @@ public final class Points {
         }
 
         /**
-         * The Class DoubleDoublePoint.
+         * Represents an immutable 2D point with double-precision floating-point coordinates and a double value.
+         * This class is useful for high-precision floating-point coordinate systems and scientific computations
+         * where both coordinates and values require double precision.
+         *
+         * <p>All instances are immutable and thread-safe.</p>
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleDoublePoint implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final double x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final double y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final double v; // value
 
             /**
-             * Instantiates a new double point.
+             * Constructs a new DoubleDoublePoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             DoubleDoublePoint(final double x, final double y, final double v) {
                 this.x = x;
@@ -1649,28 +1743,32 @@ public final class Points {
         }
 
         /**
-         * The Class DoubleObjPoint.
+         * Represents an immutable 2D point with double-precision floating-point coordinates and a generic object value.
+         * This class is useful when coordinates require floating-point precision
+         * but the associated value can be any object type.
          *
-         * @param <T> the type of the value object
+         * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param <T> the type of the value object associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
         public static final class DoubleObjPoint<T> implements Immutable {
 
-            /** The x. */
+            /** The x-coordinate of this point. */
             public final double x;
 
-            /** The y. */
+            /** The y-coordinate of this point. */
             public final double y;
 
-            /** The v. */
+            /** The value associated with this point. */
             public final T v; // value
 
             /**
-             * Instantiates a new double obj point.
+             * Constructs a new DoubleObjPoint with the specified coordinates and value.
              *
-             * @param x
-             * @param y
-             * @param v
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              */
             DoubleObjPoint(final double x, final double y, final T v) {
                 this.x = x;

@@ -41,91 +41,214 @@ import com.landawn.abacus.util.u.Optional;
 abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutable {
 
     /**
-     * Returns the number of elements in this tuple.
+     * Returns the number of elements (arity) contained in this tuple.
      * <p>
-     * The arity represents the size of the tuple. For example, a Tuple3 has an arity of 3.
+     * The arity represents the fixed size of the tuple at compile-time. For example,
+     * an {@code IntTuple3} has an arity of 3, containing three int values. This value
+     * is constant for each tuple type and never changes during the tuple's lifetime.
      * </p>
      *
-     * @return the number of elements in this tuple
-     */
-    public abstract int arity();
-
-    /**
-     * Performs the given action on this tuple.
      * <p>
-     * This method allows performing side effects on the tuple without returning a value.
+     * Implementors of this abstract class must override this method to return the
+     * specific arity of their tuple type.
      * </p>
      *
      * <p>Example:</p>
      * <pre>{@code
-     * IntTuple2 tuple = IntTuple.of(10, 20);
-     * tuple.accept(t -> System.out.println("Sum: " + (t._1 + t._2)));
+     * IntTuple2 tuple2 = IntTuple.of(10, 20);
+     * int size = tuple2.arity(); // returns 2
+     *
+     * IntTuple3 tuple3 = IntTuple.of(1, 2, 3);
+     * int size3 = tuple3.arity(); // returns 3
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
-     * @param action the action to be performed on this tuple
-     * @throws E if the action throws an exception
+     * @return the number of elements in this tuple, which is a positive integer greater than zero
+     */
+    public abstract int arity();
+
+    /**
+     * Performs the given action on this tuple, allowing side effects to be executed.
+     * <p>
+     * This method executes the provided consumer action with this tuple as the argument.
+     * It is primarily used for operations that produce side effects (such as logging,
+     * printing, or updating external state) rather than transforming the tuple itself.
+     * Since tuples are immutable, this method does not modify the tuple and returns void.
+     * </p>
+     *
+     * <p>
+     * The action parameter accepts the specific tuple type (TP), allowing type-safe
+     * access to all tuple fields within the consumer lambda.
+     * </p>
+     *
+     * <p>Examples:</p>
+     * <pre>{@code
+     * // Printing tuple values
+     * IntTuple2 tuple = IntTuple.of(10, 20);
+     * tuple.accept(t -> System.out.println("Values: " + t._1 + ", " + t._2));
+     *
+     * // Performing calculations for side effects
+     * IntTuple3 coords = IntTuple.of(1, 2, 3);
+     * coords.accept(t -> {
+     *     int sum = t._1 + t._2 + t._3;
+     *     logger.info("Sum of coordinates: " + sum);
+     * });
+     *
+     * // Exception handling
+     * DoubleTuple2 values = DoubleTuple.of(5.0, 10.0);
+     * values.accept(t -> {
+     *     if (t._1 <= 0) throw new IllegalArgumentException("Value must be positive");
+     *     processValues(t._1, t._2);
+     * });
+     * }</pre>
+     *
+     * @param <E> the type of exception that may be thrown by the action
+     * @param action the consumer action to be performed on this tuple, must not be {@code null}
+     * @throws E if the action throws an exception during execution
+     * @throws NullPointerException if the action is {@code null}
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         action.accept((TP) this);
     }
 
     /**
-     * Applies the given mapping function to this tuple and returns the result.
+     * Applies the given mapping function to this tuple and returns the transformed result.
      * <p>
-     * This method transforms the tuple into a value of a different type using the provided mapper function.
+     * This method provides a functional way to transform the tuple into a value of a different
+     * type. The mapper function receives this tuple as input and produces a value of type U.
+     * This is useful for extracting computed values, converting to different types, or
+     * performing any transformation based on the tuple's contents.
      * </p>
      *
-     * <p>Example:</p>
+     * <p>
+     * The mapper function has type-safe access to all fields of the specific tuple type (TP),
+     * enabling direct access to tuple elements like {@code t._1}, {@code t._2}, etc.
+     * </p>
+     *
+     * <p>
+     * This method does not modify the tuple itself (tuples are immutable), but creates a
+     * new value based on the tuple's contents.
+     * </p>
+     *
+     * <p>Examples:</p>
      * <pre>{@code
-     * IntTuple2 tuple = IntTuple.of(3, 4);
-     * Double distance = tuple.map(t -> Math.sqrt(t._1 * t._1 + t._2 * t._2));
+     * // Calculate Euclidean distance from origin
+     * IntTuple2 point = IntTuple.of(3, 4);
+     * Double distance = point.map(t -> Math.sqrt(t._1 * t._1 + t._2 * t._2));
+     * // distance = 5.0
+     *
+     * // Convert tuple to a formatted string
+     * IntTuple3 rgb = IntTuple.of(255, 128, 0);
+     * String hexColor = rgb.map(t -> String.format("#%02X%02X%02X", t._1, t._2, t._3));
+     * // hexColor = "#FF8000"
+     *
+     * // Extract a single computed value
+     * DoubleTuple2 dimensions = DoubleTuple.of(10.5, 20.3);
+     * Double area = dimensions.map(t -> t._1 * t._2);
+     * // area = 213.15
+     *
+     * // Transform to a complex object
+     * IntTuple2 coords = IntTuple.of(100, 200);
+     * Point2D point2D = coords.map(t -> new Point2D(t._1, t._2));
      * }</pre>
      *
-     * @param <U> the type of the result
-     * @param <E> the type of exception that may be thrown
-     * @param mapper the mapping function to apply to this tuple
-     * @return the result of applying the mapper function
-     * @throws E if the mapper function throws an exception
+     * @param <U> the type of the result produced by the mapping function
+     * @param <E> the type of exception that may be thrown by the mapper
+     * @param mapper the mapping function to apply to this tuple, must not be {@code null}
+     * @return the result of applying the mapper function to this tuple
+     * @throws E if the mapper function throws an exception during execution
+     * @throws NullPointerException if the mapper is {@code null}
      */
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
         return mapper.apply((TP) this);
     }
 
     /**
-     * Returns an Optional containing this tuple if it matches the given predicate, otherwise returns an empty Optional.
+     * Tests this tuple against the given predicate and returns an Optional containing this tuple
+     * if the predicate is satisfied, or an empty Optional otherwise.
      * <p>
-     * This method is useful for conditional processing of tuples based on their content.
+     * This method provides a functional way to conditionally select tuples based on their contents.
+     * The predicate receives this tuple as input and returns a boolean indicating whether the
+     * condition is met. If the predicate returns {@code true}, this method returns an Optional
+     * containing this tuple; if {@code false}, it returns an empty Optional.
      * </p>
      *
-     * <p>Example:</p>
+     * <p>
+     * This is particularly useful in functional pipelines where you want to process tuples only
+     * when certain conditions are met, enabling clean and expressive filtering logic.
+     * </p>
+     *
+     * <p>Examples:</p>
      * <pre>{@code
+     * // Filter for positive values
      * IntTuple2 tuple = IntTuple.of(5, 10);
      * Optional<IntTuple2> positive = tuple.filter(t -> t._1 > 0 && t._2 > 0);
+     * // positive.isPresent() = true
+     *
+     * // Filter for negative values
+     * Optional<IntTuple2> negative = tuple.filter(t -> t._1 < 0 || t._2 < 0);
+     * // negative.isPresent() = false
+     *
+     * // Filter with range validation
+     * DoubleTuple2 coords = DoubleTuple.of(45.5, -122.6);
+     * Optional<DoubleTuple2> validCoords = coords.filter(t ->
+     *     t._1 >= -90 && t._1 <= 90 &&  // valid latitude
+     *     t._2 >= -180 && t._2 <= 180   // valid longitude
+     * );
+     *
+     * // Chain with other operations
+     * IntTuple3 values = IntTuple.of(10, 20, 30);
+     * String result = values.filter(t -> t._1 + t._2 + t._3 > 50)
+     *                       .map(t -> "Sum is: " + (t._1 + t._2 + t._3))
+     *                       .orElse("Sum too small");
+     * // result = "Sum is: 60"
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
-     * @param predicate the predicate to test this tuple against
-     * @return an Optional containing this tuple if the predicate is satisfied, otherwise empty Optional
-     * @throws E if the predicate test throws an exception
+     * @param <E> the type of exception that may be thrown by the predicate
+     * @param predicate the predicate to test this tuple against, must not be {@code null}
+     * @return an {@link Optional} containing this tuple if the predicate returns {@code true},
+     *         otherwise an empty Optional
+     * @throws E if the predicate test throws an exception during execution
+     * @throws NullPointerException if the predicate is {@code null}
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
     }
 
     /**
-     * Wraps this tuple in an Optional.
+     * Wraps this tuple in an Optional container.
      * <p>
      * This is a convenience method that always returns a non-empty Optional containing this tuple.
+     * Since tuples are immutable and non-null by design, the returned Optional is guaranteed to
+     * be present (never empty). This method is useful when integrating with APIs or functional
+     * pipelines that work with Optional values.
      * </p>
      *
-     * <p>Example:</p>
+     * <p>
+     * This method is equivalent to {@code Optional.of(this)} and provides a fluent way to
+     * start an Optional-based processing chain directly from the tuple.
+     * </p>
+     *
+     * <p>Examples:</p>
      * <pre>{@code
+     * // Simple wrapping
      * IntTuple2 tuple = IntTuple.of(1, 2);
      * Optional<IntTuple2> optional = tuple.toOptional();
+     * // optional.isPresent() = true
+     *
+     * // Use in functional chains
+     * IntTuple3 coords = IntTuple.of(10, 20, 30);
+     * String description = coords.toOptional()
+     *                            .filter(t -> t._1 > 0)
+     *                            .map(t -> "Coordinates: " + t._1 + ", " + t._2 + ", " + t._3)
+     *                            .orElse("Invalid coordinates");
+     *
+     * // Integrate with Optional-based APIs
+     * DoubleTuple2 values = DoubleTuple.of(3.14, 2.71);
+     * values.toOptional()
+     *       .ifPresent(t -> processValues(t._1, t._2));
      * }</pre>
      *
-     * @return an Optional containing this tuple
+     * @return an {@link Optional} containing this tuple, never empty
      */
     public Optional<TP> toOptional() {
         return Optional.of((TP) this);

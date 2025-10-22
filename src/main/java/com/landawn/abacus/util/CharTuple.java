@@ -91,6 +91,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple4 containing four char values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
+     * char fourth = tuple._4; // 'D'
+     * }</pre>
+     *
      * @param _1 the first char value
      * @param _2 the second char value
      * @param _3 the third char value
@@ -103,6 +109,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a CharTuple5 containing five char values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
+     * char median = tuple.median(); // 'C' (middle value when sorted)
+     * }</pre>
      *
      * @param _1 the first char value
      * @param _2 the second char value
@@ -117,6 +129,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a CharTuple6 containing six char values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+     * int sum = tuple.sum(); // Sum of ASCII values
+     * }</pre>
      *
      * @param _1 the first char value
      * @param _2 the second char value
@@ -133,6 +151,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple7 containing seven char values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple7 tuple = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
+     * CharTuple7 reversed = tuple.reverse(); // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
+     * }</pre>
+     *
      * @param _1 the first char value
      * @param _2 the second char value
      * @param _3 the third char value
@@ -148,7 +172,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a CharTuple8 containing eight char values.
-     * 
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+     * boolean hasX = tuple.contains('X'); // false
+     * }</pre>
+     *
      * @param _1 the first char value
      * @param _2 the second char value
      * @param _3 the third char value
@@ -168,7 +198,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a CharTuple9 containing nine char values.
-     * 
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+     * char[] array = tuple.toArray(); // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+     * }</pre>
+     *
      * @param _1 the first char value
      * @param _2 the second char value
      * @param _3 the third char value
@@ -327,7 +363,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -335,7 +371,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * CharTuple3 reversed = tuple.reverse(); // ('C', 'B', 'A')
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -467,6 +503,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * An empty CharTuple containing no elements.
      * This class represents a tuple with arity 0.
+     *
+     * <p>This is a singleton class accessed via {@code CharTuple.create(new char[0])}.</p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
 
@@ -475,46 +513,102 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         CharTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns the minimum char value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public char min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum char value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public char max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median char value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public char median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all char values in this tuple.
+         * Since this tuple is empty, this method always returns 0.
+         *
+         * @return 0
+         */
         @Override
         public int sum() {
             return 0;
         }
 
+        /**
+         * Returns the average of all char values in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns this empty tuple (reversing an empty tuple has no effect).
+         *
+         * @return this CharTuple0 instance
+         */
         @Override
         public CharTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified char value.
+         * Since this tuple is empty, this method always returns false.
+         *
+         * @param valueToFind the char value to search for
+         * @return false always, because the tuple is empty
+         */
         @Override
         public boolean contains(final char valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -544,9 +638,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 1.
          *
-         * @return always returns 1
+         * @return 1
          */
         @Override
         public int arity() {
@@ -609,7 +703,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple1 with the same element.
+         * Returns a new CharTuple1 with the same element.
          * Since this tuple has only one element, reversing has no effect.
          *
          * @return a new CharTuple1 with the same element
@@ -623,7 +717,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if the tuple's element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -698,9 +792,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 2.
          *
-         * @return always returns 2
+         * @return 2
          */
         @Override
         public int arity() {
@@ -759,7 +853,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple2 with the elements in reversed order.
+         * Returns a new CharTuple2 with the elements in reverse order.
          *
          * @return a new CharTuple2 with elements swapped
          */
@@ -772,7 +866,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if either element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -918,9 +1012,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 3.
          *
-         * @return always returns 3
+         * @return 3
          */
         @Override
         public int arity() {
@@ -978,9 +1072,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple3 with the elements in reversed order.
+         * Returns a new CharTuple3 with the elements in reverse order.
          *
-         * @return a new CharTuple3 with elements in reversed order
+         * @return a new CharTuple3 with the elements in reverse order
          */
         @Override
         public CharTuple3 reverse() {
@@ -991,7 +1085,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1141,9 +1235,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 4.
          *
-         * @return always returns 4
+         * @return 4
          */
         @Override
         public int arity() {
@@ -1151,9 +1245,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple4 with the elements in reversed order.
+         * Returns a new CharTuple4 with the elements in reverse order.
          *
-         * @return a new CharTuple4 with elements in reversed order
+         * @return a new CharTuple4 with the elements in reverse order
          */
         @Override
         public CharTuple4 reverse() {
@@ -1164,7 +1258,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1211,9 +1305,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 5.
          *
-         * @return always returns 5
+         * @return 5
          */
         @Override
         public int arity() {
@@ -1221,9 +1315,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple5 with the elements in reversed order.
+         * Returns a new CharTuple5 with the elements in reverse order.
          *
-         * @return a new CharTuple5 with elements in reversed order
+         * @return a new CharTuple5 with the elements in reverse order
          */
         @Override
         public CharTuple5 reverse() {
@@ -1234,7 +1328,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1284,9 +1378,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 6.
          *
-         * @return always returns 6
+         * @return 6
          */
         @Override
         public int arity() {
@@ -1294,9 +1388,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple6 with the elements in reversed order.
+         * Returns a new CharTuple6 with the elements in reverse order.
          *
-         * @return a new CharTuple6 with elements in reversed order
+         * @return a new CharTuple6 with the elements in reverse order
          */
         @Override
         public CharTuple6 reverse() {
@@ -1307,7 +1401,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1360,9 +1454,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 7.
          *
-         * @return always returns 7
+         * @return 7
          */
         @Override
         public int arity() {
@@ -1370,9 +1464,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple7 with the elements in reversed order.
+         * Returns a new CharTuple7 with the elements in reverse order.
          *
-         * @return a new CharTuple7 with elements in reversed order
+         * @return a new CharTuple7 with the elements in reverse order
          */
         @Override
         public CharTuple7 reverse() {
@@ -1383,7 +1477,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1440,9 +1534,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 8.
          *
-         * @return always returns 8
+         * @return 8
          */
         @Override
         public int arity() {
@@ -1450,9 +1544,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple8 with the elements in reversed order.
+         * Returns a new CharTuple8 with the elements in reverse order.
          *
-         * @return a new CharTuple8 with elements in reversed order
+         * @return a new CharTuple8 with the elements in reverse order
          */
         @Override
         public CharTuple8 reverse() {
@@ -1463,7 +1557,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -1523,9 +1617,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 9.
          *
-         * @return always returns 9
+         * @return 9
          */
         @Override
         public int arity() {
@@ -1533,9 +1627,9 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Creates a new CharTuple9 with the elements in reversed order.
+         * Returns a new CharTuple9 with the elements in reverse order.
          *
-         * @return a new CharTuple9 with elements in reversed order
+         * @return a new CharTuple9 with the elements in reverse order
          */
         @Override
         public CharTuple9 reverse() {
@@ -1546,7 +1640,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified char value.
          *
          * @param valueToFind the char value to search for
-         * @return {@code true} if any element equals valueToFind, {@code false} otherwise
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final char valueToFind) {

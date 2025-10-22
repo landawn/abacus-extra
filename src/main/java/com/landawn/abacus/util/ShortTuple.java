@@ -313,7 +313,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the sum of all short values in this tuple as an int.
+     * Returns the sum of all elements in this tuple.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -321,14 +321,14 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * int sum = tuple.sum(); // 6
      * }</pre>
      *
-     * @return the sum of all short values as an int
+     * @return the sum of all short values in this tuple
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average of all short values in this tuple as a double.
+     * Returns the average of all short values in this tuple.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -336,7 +336,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * double avg = tuple.average(); // 2.5
      * }</pre>
      *
-     * @return the average of all short values as a double
+     * @return the average of all short values in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -344,7 +344,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -352,7 +352,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * ShortTuple3 reversed = tuple.reverse(); // (3, 2, 1)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -498,46 +498,99 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         ShortTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns the minimum value in this tuple.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no minimum value
+         */
         @Override
         public short min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum value in this tuple.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no maximum value
+         */
         @Override
         public short max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median value in this tuple.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no median value
+         */
         @Override
         public short median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all values in this tuple.
+         * For an empty tuple, the sum is 0.
+         *
+         * @return 0
+         */
         @Override
         public int sum() {
             return 0;
         }
 
+        /**
+         * Returns the average of all values in this tuple.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no average value
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns a tuple with the elements in reverse order.
+         * For an empty tuple, returns itself as there are no elements to reverse.
+         *
+         * @return this empty tuple
+         */
         @Override
         public ShortTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified value.
+         * An empty tuple contains no values.
+         *
+         * @param valueToFind the value to search for
+         * @return {@code false} always, as the tuple is empty
+         */
         @Override
         public boolean contains(final short valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -573,9 +626,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 1.
          *
-         * @return always returns 1
+         * @return 1
          */
         @Override
         public int arity() {
@@ -638,7 +691,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a new tuple with the same value.
          *
          * @return a new ShortTuple1 with the same value
@@ -740,9 +793,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 2.
          *
-         * @return always returns 2
+         * @return 2
          */
         @Override
         public int arity() {
@@ -801,7 +854,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple2 with values (_2, _1)
          */
@@ -835,8 +888,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action with both values as arguments.
-         * 
+         * Performs the given bi-consumer on the two elements.
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
@@ -844,7 +897,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the action to perform with both values
+         * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ShortBiConsumer<E> action) throws E {
@@ -852,8 +905,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Applies the given function to both values and returns the result.
-         * 
+         * Applies the given bi-function to the two elements and returns the result.
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
@@ -862,7 +915,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the function to apply to both values
+         * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
@@ -873,7 +926,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple2 pair = ShortTuple.of((short)3, (short)5);
@@ -881,7 +934,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the predicate to test with both values
+         * @param predicate the bi-predicate to test the two elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -973,9 +1026,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 3.
          *
-         * @return always returns 3
+         * @return 3
          */
         @Override
         public int arity() {
@@ -1033,7 +1086,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple3 with values (_3, _2, _1)
          */
@@ -1068,8 +1121,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given action with all three values as arguments.
-         * 
+         * Performs the given tri-consumer on the three elements.
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
@@ -1077,7 +1130,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the action to perform with all three values
+         * @param action the tri-consumer to perform on the three elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ShortTriConsumer<E> action) throws E {
@@ -1085,8 +1138,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Applies the given function to all three values and returns the result.
-         * 
+         * Applies the given tri-function to the three elements and returns the result.
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
@@ -1095,7 +1148,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the function to apply to all three values
+         * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
@@ -1106,7 +1159,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p>Example:
          * <pre>{@code
          * ShortTuple3 triple = ShortTuple.of((short)2, (short)3, (short)5);
@@ -1114,7 +1167,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the predicate to test with all three values
+         * @param predicate the tri-predicate to test the three elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -1202,9 +1255,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 4.
          *
-         * @return always returns 4
+         * @return 4
          */
         @Override
         public int arity() {
@@ -1212,7 +1265,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the four elements.
+         *
+         * @return the smallest of _1, _2, _3, and _4
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the four elements.
+         *
+         * @return the largest of _1, _2, _3, and _4
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the four elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) short value when sorted
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all four elements.
+         *
+         * @return _1 + _2 + _3 + _4 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all four elements.
+         *
+         * @return (_1 + _2 + _3 + _4) / 4.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple4 with values (_4, _3, _2, _1)
          */
@@ -1230,6 +1334,21 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         @Override
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
         }
 
         @Override
@@ -1278,9 +1397,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 5.
          *
-         * @return always returns 5
+         * @return 5
          */
         @Override
         public int arity() {
@@ -1288,7 +1407,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the five elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the largest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the five elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
+         *
+         * @return the median short value
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple5 with values (_5, _4, _3, _2, _1)
          */
@@ -1306,6 +1476,22 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         @Override
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
         }
 
         @Override
@@ -1357,9 +1543,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 6.
          *
-         * @return always returns 6
+         * @return 6
          */
         @Override
         public int arity() {
@@ -1367,7 +1553,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the six elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the six elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the six elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) short value when sorted
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all six elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all six elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple6 with values (_6, _5, _4, _3, _2, _1)
          */
@@ -1385,6 +1622,23 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         @Override
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
         }
 
         @Override
@@ -1439,9 +1693,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 7.
          *
-         * @return always returns 7
+         * @return 7
          */
         @Override
         public int arity() {
@@ -1449,7 +1703,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the seven elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the seven elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the seven elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
+         *
+         * @return the median short value
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all seven elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all seven elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple7 with values (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -1468,6 +1773,24 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
         }
 
         @Override
@@ -1532,9 +1855,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 8.
          *
-         * @return always returns 8
+         * @return 8
          */
         @Override
         public int arity() {
@@ -1542,7 +1865,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the eight elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, and _8
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the eight elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, and _8
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the eight elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) short value when sorted
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all eight elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all eight elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple8 with values (_8, _7, _6, _5, _4, _3, _2, _1)
          */
@@ -1561,6 +1935,25 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
         }
 
         @Override
@@ -1629,9 +2022,9 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the number of elements in this tuple.
+         * Returns the number of elements in this tuple, which is always 9.
          *
-         * @return always returns 9
+         * @return 9
          */
         @Override
         public int arity() {
@@ -1639,7 +2032,58 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reverse order.
+         * Returns the minimum value among the nine elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         */
+        @Override
+        public short min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the nine elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, _7, _8, and _9
+         */
+        @Override
+        public short max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the nine elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
+         *
+         * @return the median short value
+         */
+        @Override
+        public short median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of all nine elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as an int
+         */
+        @Override
+        public int sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of all nine elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new ShortTuple9 with values (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
@@ -1658,6 +2102,26 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         public boolean contains(final short valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
         }
 
         @Override

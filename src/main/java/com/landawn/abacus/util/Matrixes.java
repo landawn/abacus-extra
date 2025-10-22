@@ -78,12 +78,23 @@ public final class Matrixes {
     }
 
     /**
-     * Gets the current parallel processing setting for the current thread.
-     * The setting is thread-local, allowing different threads to have different
-     * parallelization behaviors.
+     * Returns the current parallel processing setting for the current thread.
      *
-     * @return the current {@link ParallelEnabled} setting for this thread
+     * <p>The parallel processing setting is thread-local, allowing different threads to have
+     * independent parallelization behaviors. This enables fine-grained control over parallel
+     * execution in multi-threaded applications.</p>
+     *
+     * <p>The returned value indicates how matrix operations should decide whether to use
+     * parallel processing:</p>
+     * <ul>
+     * <li>{@link ParallelEnabled#YES} - Forces parallel execution regardless of matrix size</li>
+     * <li>{@link ParallelEnabled#NO} - Forces sequential execution regardless of matrix size</li>
+     * <li>{@link ParallelEnabled#DEFAULT} - Automatically decides based on matrix size (threshold: 8192 elements)</li>
+     * </ul>
+     *
+     * @return the current {@link ParallelEnabled} setting for this thread, never {@code null}
      * @see #setParallelEnabled(ParallelEnabled)
+     * @see ParallelEnabled
      */
     public static ParallelEnabled getParallelEnabled() {
         return isParallelEnabled_TL.get();
@@ -91,22 +102,38 @@ public final class Matrixes {
 
     /**
      * Sets the parallel processing behavior for matrix operations in the current thread.
-     * This setting affects how matrix operations decide whether to use parallel processing.
-     * 
-     * <p>Example:</p>
+     *
+     * <p>This method configures a thread-local setting that controls how matrix operations
+     * decide whether to use parallel processing. The setting only affects the current thread,
+     * allowing different threads to have independent parallelization strategies.</p>
+     *
+     * <p>Available settings:</p>
+     * <ul>
+     * <li>{@link ParallelEnabled#YES} - Forces all matrix operations to use parallel processing,
+     *     regardless of matrix size. Use this when you know operations will benefit from parallelization.</li>
+     * <li>{@link ParallelEnabled#NO} - Forces all matrix operations to use sequential processing,
+     *     regardless of matrix size. Use this to avoid parallelization overhead for small matrices.</li>
+     * <li>{@link ParallelEnabled#DEFAULT} - Automatically decides based on matrix size. Operations
+     *     on matrices with 8192 or more elements use parallel processing; smaller matrices use sequential processing.</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * // Force parallel execution for large matrix operations
      * Matrixes.setParallelEnabled(ParallelEnabled.YES);
      * try {
-     *     // Perform matrix operations here
+     *     // All matrix operations here will use parallel processing
+     *     matrix1.multiply(matrix2);
+     *     matrix3.add(matrix4);
      * } finally {
-     *     // Reset to default
+     *     // Always reset to default to avoid affecting other code
      *     Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
      * }
      * }</pre>
      *
-     * @param flag the {@link ParallelEnabled} setting to use
-     * @throws IllegalArgumentException if flag is null
+     * @param flag the {@link ParallelEnabled} setting to apply to the current thread, must not be {@code null}
+     * @throws IllegalArgumentException if {@code flag} is {@code null}
+     * @see #getParallelEnabled()
      * @see ParallelEnabled
      */
     public static void setParallelEnabled(final ParallelEnabled flag) throws IllegalArgumentException {
@@ -116,29 +143,53 @@ public final class Matrixes {
     }
 
     /**
-     * Determines whether the given matrix should be processed in parallel based on its size.
-     * Uses the matrix's total element count to make the decision.
+     * Determines whether the given matrix should be processed using parallel execution.
      *
-     * @param x the matrix to check
-     * @return {@code true} if parallel processing should be used, {@code false} otherwise
+     * <p>This method evaluates whether parallel processing should be used for operations on the
+     * specified matrix based on its total element count. The decision considers:</p>
+     * <ul>
+     * <li>The current thread's {@link ParallelEnabled} setting</li>
+     * <li>Whether parallel stream support is available in the runtime environment</li>
+     * <li>The total number of elements in the matrix (rows × columns)</li>
+     * </ul>
+     *
+     * <p>This is a convenience method that delegates to {@link #isParallelable(AbstractMatrix, long)}
+     * using the matrix's total element count.</p>
+     *
+     * @param x the matrix to evaluate for parallelization, must not be {@code null}
+     * @return {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
      * @see #isParallelable(AbstractMatrix, long)
+     * @see #setParallelEnabled(ParallelEnabled)
      */
     public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
         return isParallelable(x, x.count);
     }
 
     /**
-     * Determines whether a matrix operation should be processed in parallel based on
-     * the element count and current parallel settings. The decision is made based on:
-     * <ul>
-     * <li>Whether parallel streams are supported in the runtime</li>
-     * <li>The current thread's {@link ParallelEnabled} setting</li>
-     * <li>The number of elements to process (default threshold is 8192)</li>
-     * </ul>
+     * Determines whether a matrix operation should be processed using parallel execution
+     * based on the element count and current parallel settings.
      *
-     * @param x the matrix (used for future extensibility, currently not used in decision)
-     * @param count the number of elements to process
-     * @return {@code true} if parallel processing should be used, {@code false} otherwise
+     * <p>This method makes the parallelization decision using a multi-factor evaluation:</p>
+     * <ol>
+     * <li><b>Runtime Support:</b> Parallel streams must be available in the runtime environment.
+     *     If not supported, always returns {@code false}.</li>
+     * <li><b>Thread Setting:</b> Checks the current thread's {@link ParallelEnabled} setting:
+     *     <ul>
+     *     <li>{@link ParallelEnabled#YES} - Always returns {@code true} (if runtime supports it)</li>
+     *     <li>{@link ParallelEnabled#NO} - Always returns {@code false}</li>
+     *     <li>{@link ParallelEnabled#DEFAULT} - Decides based on element count</li>
+     *     </ul>
+     * </li>
+     * <li><b>Element Count:</b> When using {@code DEFAULT} setting, returns {@code true} only if
+     *     {@code count >= 8192}. This threshold balances the overhead of parallel execution
+     *     against the performance benefits for larger datasets.</li>
+     * </ol>
+     *
+     * @param x the matrix being evaluated (reserved for future extensibility, currently not used in the decision logic)
+     * @param count the number of elements to process; typically the total element count or a subset being operated on
+     * @return {@code true} if parallel processing should be used; {@code false} for sequential processing
+     * @see #setParallelEnabled(ParallelEnabled)
+     * @see ParallelEnabled
      */
     public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
         return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
@@ -146,44 +197,68 @@ public final class Matrixes {
     }
 
     /**
-     * Checks if two matrices have the same shape (same number of rows and columns).
-     * 
+     * Checks if two matrices have the same shape (identical dimensions).
+     *
+     * <p>Two matrices are considered to have the same shape if and only if they have
+     * the same number of rows AND the same number of columns. This is a fundamental
+     * requirement for many matrix operations such as element-wise addition, subtraction,
+     * and comparison.</p>
+     *
      * <p>Example:</p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
-     * boolean same = Matrixes.isSameShape(m1, m2); // true
+     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});      // 2×2 matrix
+     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});      // 2×2 matrix
+     * IntMatrix m3 = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}}); // 2×3 matrix
+     *
+     * boolean same1 = Matrixes.isSameShape(m1, m2); // true
+     * boolean same2 = Matrixes.isSameShape(m1, m3); // false
      * }</pre>
      *
-     * @param <X> the type of matrix
-     * @param a the first matrix
-     * @param b the second matrix
-     * @return {@code true} if both matrices have the same number of rows and columns
+     * @param <X> the type of matrix, must extend {@link AbstractMatrix}
+     * @param a the first matrix to compare, must not be {@code null}
+     * @param b the second matrix to compare, must not be {@code null}
+     * @return {@code true} if both matrices have the same number of rows and columns; {@code false} otherwise
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b) {
         return a.rows == b.rows && a.cols == b.cols;
     }
 
     /**
-     * Checks if three matrices have the same shape (same number of rows and columns).
+     * Checks if three matrices have the same shape (identical dimensions).
      *
-     * @param <X> the type of matrix
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param c the third matrix
-     * @return {@code true} if all three matrices have the same number of rows and columns
+     * <p>Three matrices are considered to have the same shape if they all have the same
+     * number of rows AND the same number of columns. This method is commonly used to
+     * validate inputs for ternary matrix operations.</p>
+     *
+     * @param <X> the type of matrix, must extend {@link AbstractMatrix}
+     * @param a the first matrix to compare, must not be {@code null}
+     * @param b the second matrix to compare, must not be {@code null}
+     * @param c the third matrix to compare, must not be {@code null}
+     * @return {@code true} if all three matrices have the same number of rows and columns; {@code false} otherwise
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b, final X c) {
         return a.rows == b.rows && a.rows == c.rows && a.cols == b.cols && a.cols == c.cols;
     }
 
     /**
-     * Checks if all matrices in a collection have the same shape.
-     * Returns true for empty collections or collections with a single matrix.
+     * Checks if all matrices in a collection have the same shape (identical dimensions).
      *
-     * @param <X> the type of matrix
-     * @param xs the collection of matrices to check
-     * @return {@code true} if all matrices have the same number of rows and columns, or if the collection is empty or has one element
+     * <p>This method verifies that all matrices in the collection have the same number of
+     * rows and columns. It is particularly useful for validating inputs before performing
+     * operations that require multiple matrices of the same shape, such as element-wise
+     * aggregations or zip operations.</p>
+     *
+     * <p>Special cases:</p>
+     * <ul>
+     * <li>Empty collection: Returns {@code true} (vacuous truth)</li>
+     * <li>Single matrix: Returns {@code true} (trivially same shape)</li>
+     * <li>Multiple matrices: Returns {@code true} only if all have identical dimensions</li>
+     * </ul>
+     *
+     * @param <X> the type of matrix, must extend {@link AbstractMatrix}
+     * @param xs the collection of matrices to check, may be {@code null} or empty
+     * @return {@code true} if all matrices have the same number of rows and columns, or if the collection
+     *         is {@code null}, empty, or contains only one matrix; {@code false} if any matrix has different dimensions
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final Collection<? extends X> xs) {
         if (N.isEmpty(xs) || xs.size() == 1) {
@@ -209,19 +284,32 @@ public final class Matrixes {
 
     /**
      * Creates a new two-dimensional array with the specified dimensions and element type.
-     * This is a utility method for creating properly typed 2D arrays at runtime.
-     * 
-     * <p>Example:</p>
+     *
+     * <p>This utility method constructs a properly typed 2D array at runtime, handling the
+     * complexity of creating generic arrays in Java. The method automatically wraps primitive
+     * types to their corresponding wrapper classes (e.g., {@code int} becomes {@code Integer}).</p>
+     *
+     * <p>The resulting array is fully initialized with all row arrays allocated. Each element
+     * is initialized to {@code null} for reference types or the default value for primitive
+     * wrapper types.</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * Double[][] array = Matrixes.newArray(3, 4, Double.class);
-     * // Creates a 3x4 array of Double objects
+     * // Create a 3×4 array of Double objects
+     * Double[][] doubles = Matrixes.newArray(3, 4, Double.class);
+     *
+     * // Create a 2×5 array of String objects
+     * String[][] strings = Matrixes.newArray(2, 5, String.class);
+     *
+     * // Primitive types are automatically wrapped
+     * Integer[][] ints = Matrixes.newArray(10, 20, int.class);
      * }</pre>
      *
-     * @param <T> the element type
-     * @param rows the number of rows
-     * @param cols the number of columns
-     * @param targetElementType the class of the element type
-     * @return a new 2D array with the specified dimensions
+     * @param <T> the element type of the array
+     * @param rows the number of rows in the 2D array, must be non-negative
+     * @param cols the number of columns in each row, must be non-negative
+     * @param targetElementType the class of the element type; primitive types will be auto-wrapped
+     * @return a new 2D array of type {@code T[][]} with the specified dimensions, never {@code null}
      */
     public static <T> T[][] newArray(final int rows, final int cols, final Class<T> targetElementType) {
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
@@ -237,22 +325,40 @@ public final class Matrixes {
     }
 
     /**
-     * Executes the specified command with the given parallel setting and restores
-     * the original setting after execution. This is useful for temporarily changing
-     * the parallel execution behavior for a specific operation.
-     * 
-     * <p>Example:</p>
+     * Executes the specified command with a temporary parallel processing setting, then
+     * restores the original setting.
+     *
+     * <p>This method provides a safe way to temporarily change the parallel processing behavior
+     * for a specific operation without affecting the thread-local setting for subsequent operations.
+     * The original {@link ParallelEnabled} setting is always restored, even if the command throws
+     * an exception.</p>
+     *
+     * <p>This is particularly useful when you need to force parallel or sequential execution for
+     * a specific block of code without manually managing the setting changes.</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
+     * // Force parallel execution for specific operations
      * Matrixes.run(() -> {
-     *     // This operation will run with parallel enabled
-     *     matrix.multiply(otherMatrix);
+     *     // This operation will use parallel processing
+     *     matrix1.multiply(matrix2);
+     *     matrix3.add(matrix4);
      * }, ParallelEnabled.YES);
+     *
+     * // After execution, the original setting is restored
+     *
+     * // Force sequential execution for small operations
+     * Matrixes.run(() -> {
+     *     smallMatrix.transpose();
+     * }, ParallelEnabled.NO);
      * }</pre>
-     * 
-     * @param <E> the type of exception that might be thrown
-     * @param cmd the command to execute
-     * @param parallelEnabled the parallel setting to use during execution
-     * @throws E if the command throws an exception
+     *
+     * @param <E> the type of exception that the command might throw
+     * @param cmd the command to execute, must not be {@code null}
+     * @param parallelEnabled the temporary {@link ParallelEnabled} setting to use during command execution
+     * @throws E if the command throws an exception during execution
+     * @see #setParallelEnabled(ParallelEnabled)
+     * @see #getParallelEnabled()
      */
     public static <E extends Exception> void run(final Throwables.Runnable<E> cmd, final ParallelEnabled parallelEnabled) throws E {
         final ParallelEnabled original = Matrixes.getParallelEnabled();
@@ -266,41 +372,66 @@ public final class Matrixes {
     }
 
     /**
-     * Executes a command for each position in a matrix defined by rows and columns.
-     * The command receives the row and column indices as parameters.
-     * 
-     * <p>Example:</p>
+     * Executes a command for each position in a matrix grid defined by rows and columns.
+     *
+     * <p>This method iterates over all positions in a matrix of the specified dimensions,
+     * executing the provided command with the row and column indices (i, j) for each position.
+     * The iteration order is optimized based on the relative sizes of rows and columns to
+     * improve cache locality.</p>
+     *
+     * <p>This is a convenience method that delegates to
+     * {@link #run(int, int, int, int, Throwables.IntBiConsumer, boolean)} with the full
+     * range of rows and columns (starting from 0).</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * // Print all positions in a 3x4 matrix
-     * Matrixes.run(3, 4, (i, j) -> System.out.println("(" + i + "," + j + ")"), false);
+     * // Print all positions in a 3×4 matrix
+     * Matrixes.run(3, 4, (i, j) ->
+     *     System.out.println("(" + i + "," + j + ")"), false);
+     *
+     * // Initialize a result array in parallel
+     * int[][] result = new int[100][100];
+     * Matrixes.run(100, 100, (i, j) ->
+     *     result[i][j] = i * j, true);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param rows the number of rows
-     * @param cols the number of columns
-     * @param cmd the command to execute for each position
-     * @param inParallel whether to execute in parallel
-     * @throws E if the command throws an exception
+     * @param <E> the type of exception that the command might throw
+     * @param rows the number of rows to iterate over, must be non-negative
+     * @param cols the number of columns to iterate over, must be non-negative
+     * @param cmd the command to execute for each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @throws E if the command throws an exception during execution
+     * @see #run(int, int, int, int, Throwables.IntBiConsumer, boolean)
      */
     public static <E extends Exception> void run(final int rows, final int cols, final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws E {
         run(0, rows, 0, cols, cmd, inParallel);
     }
 
     /**
-     * Executes a command for each position in a subregion of a matrix.
-     * The command is called with row and column indices for each position
-     * in the specified range. Execution order depends on which dimension
-     * is larger and whether parallel execution is enabled.
+     * Executes a command for each position in a specified subregion of a matrix grid.
      *
-     * @param <E> the type of exception that might be thrown
-     * @param fromRowIndex the starting row index (inclusive)
-     * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
-     * @param toColumnIndex the ending column index (exclusive)
-     * @param cmd the command to execute for each position
-     * @param inParallel whether to execute in parallel
-     * @throws IndexOutOfBoundsException if the indices are invalid
-     * @throws E if the command throws an exception
+     * <p>This method iterates over a rectangular region defined by the row and column index ranges,
+     * executing the provided command with the (i, j) indices for each position in the region.
+     * The iteration order is automatically optimized based on the relative sizes of the row and
+     * column ranges to improve cache locality and performance.</p>
+     *
+     * <p>Iteration strategy:</p>
+     * <ul>
+     * <li>If there are fewer or equal rows than columns, iterates by rows first (row-major order)</li>
+     * <li>If there are more rows than columns, iterates by columns first (column-major order)</li>
+     * <li>When parallel execution is enabled, the outer loop is parallelized while the inner loop
+     *     remains sequential</li>
+     * </ul>
+     *
+     * @param <E> the type of exception that the command might throw
+     * @param fromRowIndex the starting row index (inclusive), must be non-negative
+     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param fromColumnIndex the starting column index (inclusive), must be non-negative
+     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param cmd the command to execute for each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
+     * @throws E if the command throws an exception during execution
      */
     public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> cmd, final boolean inParallel) throws IndexOutOfBoundsException, E {
@@ -344,21 +475,33 @@ public final class Matrixes {
     }
 
     /**
-     * Executes a function for each position in a matrix and returns the results as a stream.
-     * 
-     * <p>Example:</p>
+     * Executes a function for each position in a matrix grid and returns the results as a stream.
+     *
+     * <p>This method applies the provided function to each position (i, j) in a matrix of the
+     * specified dimensions and collects all results into a {@link Stream}. The iteration order
+     * is optimized based on the relative sizes of rows and columns.</p>
+     *
+     * <p>This is a convenience method that delegates to
+     * {@link #call(int, int, int, int, Throwables.IntBiFunction, boolean)} with the full
+     * range of rows and columns (starting from 0).</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * // Generate coordinates as strings
      * Stream<String> coords = Matrixes.call(2, 3, (i, j) -> i + "," + j, false);
      * // Results: "0,0", "0,1", "0,2", "1,0", "1,1", "1,2"
+     *
+     * // Create Point objects for each position
+     * Stream<Point> points = Matrixes.call(10, 10, (i, j) -> new Point(i, j), true);
      * }</pre>
      *
      * @param <T> the type of elements in the result stream
-     * @param rows the number of rows
-     * @param cols the number of columns
-     * @param cmd the function to apply at each position
-     * @param inParallel whether to execute in parallel
-     * @return a stream of results from applying the function at each position
+     * @param rows the number of rows to iterate over, must be non-negative
+     * @param cols the number of columns to iterate over, must be non-negative
+     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @return a {@link Stream} of results from applying the function at each position, never {@code null}
+     * @see #call(int, int, int, int, Throwables.IntBiFunction, boolean)
      */
     public static <T> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
             final boolean inParallel) {
@@ -366,19 +509,29 @@ public final class Matrixes {
     }
 
     /**
-     * Executes a function for each position in a subregion of a matrix and returns the results as a stream.
-     * The function is called with row and column indices and can return any type of result.
-     * The order of elements in the stream depends on the relative sizes of rows and columns.
+     * Executes a function for each position in a specified subregion of a matrix grid and
+     * returns the results as a stream.
+     *
+     * <p>This method applies the provided function to each position (i, j) in the rectangular
+     * region defined by the row and column index ranges, collecting all results into a {@link Stream}.
+     * The iteration order is automatically optimized based on the relative sizes of the row and
+     * column ranges to improve performance.</p>
+     *
+     * <p>The order of elements in the stream depends on whether there are more rows or columns:</p>
+     * <ul>
+     * <li>If rows ≤ columns: Elements are ordered by rows first (row-major order)</li>
+     * <li>If rows > columns: Elements are ordered by columns first (column-major order)</li>
+     * </ul>
      *
      * @param <T> the type of elements in the result stream
-     * @param fromRowIndex the starting row index (inclusive)
-     * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
-     * @param toColumnIndex the ending column index (exclusive)
-     * @param cmd the function to apply at each position
-     * @param inParallel whether to execute in parallel
-     * @return a stream of results from applying the function at each position
-     * @throws IndexOutOfBoundsException if the indices are invalid
+     * @param fromRowIndex the starting row index (inclusive), must be non-negative
+     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param fromColumnIndex the starting column index (inclusive), must be non-negative
+     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @return a {@link Stream} of results from applying the function at each position, never {@code null}
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
      */
     @SuppressWarnings("resource")
     public static <T> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -421,30 +574,48 @@ public final class Matrixes {
     }
 
     /**
-     * Executes a function that returns int values for each position in a matrix and returns the results as an IntStream.
+     * Executes a function that returns {@code int} values for each position in a matrix grid
+     * and returns the results as an {@link IntStream}.
      *
-     * @param rows the number of rows
-     * @param cols the number of columns
-     * @param cmd the function to apply at each position
-     * @param inParallel whether to execute in parallel
-     * @return an IntStream of results from applying the function at each position
+     * <p>This method applies the provided integer binary operator to each position (i, j) in a
+     * matrix of the specified dimensions and collects all results into an {@link IntStream}.
+     * This is optimized for primitive {@code int} operations, avoiding boxing overhead.</p>
+     *
+     * <p>This is a convenience method that delegates to
+     * {@link #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)} with the
+     * full range of rows and columns (starting from 0).</p>
+     *
+     * @param rows the number of rows to iterate over, must be non-negative
+     * @param cols the number of columns to iterate over, must be non-negative
+     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
+     * @see #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)
      */
     public static IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) {
         return callToInt(0, rows, 0, cols, cmd, inParallel);
     }
 
     /**
-     * Executes a function that returns int values for each position in a subregion of a matrix 
-     * and returns the results as an IntStream.
+     * Executes a function that returns {@code int} values for each position in a specified
+     * subregion of a matrix grid and returns the results as an {@link IntStream}.
      *
-     * @param fromRowIndex the starting row index (inclusive)
-     * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
-     * @param toColumnIndex the ending column index (exclusive)
-     * @param cmd the function to apply at each position
-     * @param inParallel whether to execute in parallel
-     * @return an IntStream of results from applying the function at each position
-     * @throws IndexOutOfBoundsException if the indices are invalid
+     * <p>This method applies the provided integer binary operator to each position (i, j) in the
+     * rectangular region defined by the row and column index ranges, collecting all results into
+     * an {@link IntStream}. This is optimized for primitive {@code int} operations, avoiding
+     * boxing overhead associated with generic streams.</p>
+     *
+     * <p>The iteration order is automatically optimized based on the relative sizes of the row
+     * and column ranges to improve cache locality and performance.</p>
+     *
+     * @param fromRowIndex the starting row index (inclusive), must be non-negative
+     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param fromColumnIndex the starting column index (inclusive), must be non-negative
+     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
      */
     @SuppressWarnings("resource")
     public static IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -487,25 +658,43 @@ public final class Matrixes {
     }
 
     /**
-     * Performs matrix multiplication using a custom accumulator function.
-     * The function is called with indices (i, j, k) where i is the row index
-     * in matrix a, j is the column index in matrix b, and k is the common dimension.
-     * 
-     * <p>The matrices must satisfy the multiplication constraint: a.cols == b.rows</p>
-     * 
-     * <p>Example:</p>
+     * Performs matrix multiplication iteration using a custom accumulator function.
+     *
+     * <p>This method iterates through all the positions required for matrix multiplication,
+     * calling the provided command for each (i, j, k) triple. It does NOT perform the actual
+     * multiplication arithmetic - that must be implemented in the command function. This provides
+     * maximum flexibility for custom multiplication algorithms.</p>
+     *
+     * <p>For standard matrix multiplication C = A × B, the command would typically accumulate:
+     * {@code C[i][j] += A[i][k] * B[k][j]}</p>
+     *
+     * <p>Index meanings:</p>
+     * <ul>
+     * <li>{@code i} - Row index in matrix A (and result matrix C)</li>
+     * <li>{@code j} - Column index in matrix B (and result matrix C)</li>
+     * <li>{@code k} - Common dimension (columns in A, rows in B)</li>
+     * </ul>
+     *
+     * <p>The matrices must satisfy the multiplication constraint: {@code a.cols == b.rows}.
+     * The resulting matrix would have dimensions {@code a.rows × b.cols}.</p>
+     *
+     * <p>Parallelization is automatically determined based on the matrix sizes and current
+     * thread settings using {@link #isParallelable(AbstractMatrix, long)}.</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * // Custom multiplication accumulator
+     * int[][] result = new int[matrixA.rows()][matrixB.cols()];
      * Matrixes.multiply(matrixA, matrixB, (i, j, k) -> {
      *     result[i][j] += matrixA.get(i, k) * matrixB.get(k, j);
      * });
      * }</pre>
      *
-     * @param <X> the type of matrix
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param cmd the accumulator function called for each multiplication step
-     * @throws IllegalArgumentException if matrix dimensions are incompatible (a.cols != b.rows)
+     * @param <X> the type of matrix, must extend {@link AbstractMatrix}
+     * @param a the first matrix (left operand), must not be {@code null}
+     * @param b the second matrix (right operand), must not be {@code null}
+     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication
+     * @throws IllegalArgumentException if matrix dimensions are incompatible ({@code a.cols != b.rows})
+     * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer, boolean)
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd)
             throws IllegalArgumentException {
@@ -515,16 +704,29 @@ public final class Matrixes {
     }
 
     /**
-     * Performs matrix multiplication using a custom accumulator function with explicit parallel control.
-     * The function provides fine-grained control over the multiplication process by calling
-     * the command for each (i, j, k) triple in the multiplication.
+     * Performs matrix multiplication iteration using a custom accumulator function with explicit
+     * control over parallel execution.
      *
-     * @param <X> the type of matrix
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param cmd the accumulator function called for each multiplication step
-     * @param inParallel whether to execute in parallel
-     * @throws IllegalArgumentException if matrix dimensions are incompatible (a.cols != b.rows)
+     * <p>This method provides the same iteration functionality as
+     * {@link #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)} but with
+     * explicit control over whether to use parallel processing. The iteration strategy is
+     * automatically optimized based on the matrix dimensions to minimize cache misses and
+     * maximize performance.</p>
+     *
+     * <p>The iteration order is determined by which dimension is smallest among:
+     * {@code a.rows}, {@code a.cols} (= {@code b.rows}), and {@code b.cols}. The smallest
+     * dimension is used for the outermost loop to optimize parallelization.</p>
+     *
+     * <p>When parallel execution is enabled, the outermost loop is parallelized while inner
+     * loops remain sequential for better performance.</p>
+     *
+     * @param <X> the type of matrix, must extend {@link AbstractMatrix}
+     * @param a the first matrix (left operand), must not be {@code null}
+     * @param b the second matrix (right operand), must not be {@code null}
+     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication
+     * @param inParallel {@code true} to force parallel execution; {@code false} for sequential execution
+     * @throws IllegalArgumentException if matrix dimensions are incompatible ({@code a.cols != b.rows})
+     * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
@@ -656,36 +858,60 @@ public final class Matrixes {
     }
 
     /**
-     * Combines two ByteMatrix objects element-wise using the provided binary operator.
-     * Both matrices must have the same shape.
-     * 
-     * <p>Example:</p>
+     * Combines two {@link ByteMatrix} objects element-wise using a binary operator.
+     *
+     * <p>This method performs element-wise combination of two byte matrices using the provided
+     * binary operator. For each position (i, j), the function is called with the corresponding
+     * elements from both matrices: {@code zipFunction.apply(a[i][j], b[i][j])}.</p>
+     *
+     * <p>Both matrices must have identical dimensions (same number of rows and columns).
+     * The operation delegates to the {@link ByteMatrix#zipWith} method.</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * ByteMatrix sum = Matrixes.zip(matrix1, matrix2, (a, b) -> (byte)(a + b));
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{5, 6}, {7, 8}});
+     *
+     * // Element-wise addition
+     * ByteMatrix sum = Matrixes.zip(m1, m2, (a, b) -> (byte)(a + b));
+     * // Result: [[6, 8], [10, 12]]
+     *
+     * // Element-wise maximum
+     * ByteMatrix max = Matrixes.zip(m1, m2, (a, b) -> (byte)Math.max(a, b));
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param zipFunction the binary operator to combine corresponding elements
-     * @return a new ByteMatrix with the combined values
-     * @throws E if the zip function throws an exception
+     * @param <E> the type of exception that the zip function might throw
+     * @param a the first matrix, must not be {@code null}
+     * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param zipFunction the binary operator to combine corresponding elements from both matrices
+     * @return a new {@link ByteMatrix} containing the results of applying the function to each pair of elements
+     * @throws IllegalArgumentException if the matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
+     * @see ByteMatrix#zipWith(ByteMatrix, Throwables.ByteBinaryOperator)
      */
     public static <E extends Exception> ByteMatrix zip(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         return a.zipWith(b, zipFunction);
     }
 
     /**
-     * Combines three ByteMatrix objects element-wise using the provided ternary operator.
-     * All matrices must have the same shape.
+     * Combines three {@link ByteMatrix} objects element-wise using a ternary operator.
      *
-     * @param <E> the type of exception that might be thrown
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param c the third matrix
-     * @param zipFunction the ternary operator to combine corresponding elements
-     * @return a new ByteMatrix with the combined values
-     * @throws E if the zip function throws an exception
+     * <p>This method performs element-wise combination of three byte matrices using the provided
+     * ternary operator. For each position (i, j), the function is called with the corresponding
+     * elements from all three matrices: {@code zipFunction.apply(a[i][j], b[i][j], c[i][j])}.</p>
+     *
+     * <p>All three matrices must have identical dimensions (same number of rows and columns).
+     * The operation delegates to the {@link ByteMatrix#zipWith} method.</p>
+     *
+     * @param <E> the type of exception that the zip function might throw
+     * @param a the first matrix, must not be {@code null}
+     * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param c the third matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param zipFunction the ternary operator to combine corresponding elements from all three matrices
+     * @return a new {@link ByteMatrix} containing the results of applying the function to each triple of elements
+     * @throws IllegalArgumentException if the matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
+     * @see ByteMatrix#zipWith(ByteMatrix, ByteMatrix, Throwables.ByteTernaryOperator)
      */
     public static <E extends Exception> ByteMatrix zip(final ByteMatrix a, final ByteMatrix b, final ByteMatrix c,
             final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
@@ -693,22 +919,40 @@ public final class Matrixes {
     }
 
     /**
-     * Combines multiple ByteMatrix objects element-wise using the provided binary operator.
-     * The operator is applied sequentially across all matrices at each position.
-     * All matrices must have the same shape.
-     * 
-     * <p>Example:</p>
+     * Combines multiple {@link ByteMatrix} objects element-wise using a binary operator applied sequentially.
+     *
+     * <p>This method combines an arbitrary number of byte matrices by applying the binary operator
+     * sequentially across all matrices at each position. For a collection of matrices [m1, m2, m3, ...],
+     * the result at position (i, j) is computed as:</p>
+     * <pre>
+     * result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
+     * </pre>
+     *
+     * <p>All matrices in the collection must have identical dimensions. The operation is optimized
+     * for single and two-element collections:</p>
+     * <ul>
+     * <li>One matrix: Returns a copy of that matrix</li>
+     * <li>Two matrices: Directly applies the binary operator</li>
+     * <li>Three or more: Applies the operator sequentially, accumulating results</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     *
+     * // Element-wise maximum across all matrices
      * ByteMatrix max = Matrixes.zip(matrices, (a, b) -> (byte)Math.max(a, b));
+     *
+     * // Element-wise sum across all matrices
+     * ByteMatrix sum = Matrixes.zip(matrices, (a, b) -> (byte)(a + b));
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown
-     * @param c the collection of matrices to combine
-     * @param zipFunction the binary operator to combine elements
-     * @return a new ByteMatrix with the combined values
-     * @throws IllegalArgumentException if matrices don't have the same shape or collection is empty
-     * @throws E if the zip function throws an exception
+     * @param <E> the type of exception that the zip function might throw
+     * @param c the collection of matrices to combine, must not be {@code null} or empty
+     * @param zipFunction the binary operator to combine elements sequentially
+     * @return a new {@link ByteMatrix} containing the combined results
+     * @throws IllegalArgumentException if {@code c} is {@code null}, empty, or if matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
      */
     public static <E extends Exception> ByteMatrix zip(final Collection<ByteMatrix> c, final Throwables.ByteBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
@@ -742,17 +986,26 @@ public final class Matrixes {
     }
 
     /**
-     * Combines multiple ByteMatrix objects element-wise using a function that takes an array of bytes.
-     * At each position, the function receives an array containing the values from all matrices
-     * at that position.
+     * Combines multiple {@link ByteMatrix} objects element-wise using a function that operates on byte arrays.
+     *
+     * <p>This method combines an arbitrary number of byte matrices by applying a function that takes
+     * an array of bytes (one from each matrix at each position) and produces a result of any type.
+     * At each position (i, j), an array containing [m1[i][j], m2[i][j], m3[i][j], ...] is passed
+     * to the zip function.</p>
+     *
+     * <p>This is a convenience method that calls
+     * {@link #zip(Collection, Throwables.ByteNFunction, boolean, Class)} with
+     * {@code shareIntermediateArray = false}.</p>
      *
      * @param <R> the type of elements in the result matrix
-     * @param <E> the type of exception that might be thrown
-     * @param c the collection of matrices to combine
-     * @param zipFunction the function that takes an array of bytes and returns a result
+     * @param <E> the type of exception that the zip function might throw
+     * @param c the collection of matrices to combine, must not be {@code null} or empty
+     * @param zipFunction the function that takes an array of bytes (one from each matrix) and returns a result of type R
      * @param targetElementType the class of the result element type
-     * @return a new Matrix with the combined values
-     * @throws E if the zip function throws an exception
+     * @return a new {@link Matrix} of type R containing the combined values
+     * @throws IllegalArgumentException if {@code c} is {@code null}, empty, or if matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
+     * @see #zip(Collection, Throwables.ByteNFunction, boolean, Class)
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<? extends R, E> zipFunction,
             final Class<R> targetElementType) throws E {
@@ -760,18 +1013,32 @@ public final class Matrixes {
     }
 
     /**
-     * Combines multiple ByteMatrix objects element-wise using a function that takes an array of bytes.
-     * Provides control over whether the intermediate array can be shared between calls.
+     * Combines multiple {@link ByteMatrix} objects element-wise using a function that operates on byte arrays,
+     * with control over intermediate array sharing.
+     *
+     * <p>This method combines byte matrices by applying a function that takes an array of bytes
+     * (one from each matrix at each position). The {@code shareIntermediateArray} parameter controls
+     * memory optimization:</p>
+     * <ul>
+     * <li>{@code true} and sequential execution: Reuses the same intermediate array for all positions,
+     *     reducing memory allocations but requiring the zip function to not retain references to the array</li>
+     * <li>{@code false} or parallel execution: Creates a new array for each position, safer but uses more memory</li>
+     * </ul>
+     *
+     * <p><b>Warning:</b> When {@code shareIntermediateArray} is {@code true}, the zip function must NOT
+     * store references to the array, as it will be mutated for subsequent positions. Only use this
+     * optimization if the function immediately processes and discards the array.</p>
      *
      * @param <R> the type of elements in the result matrix
-     * @param <E> the type of exception that might be thrown
-     * @param c the collection of matrices to combine
-     * @param zipFunction the function that takes an array of bytes and returns a result
-     * @param shareIntermediateArray if true and not parallel, reuses the same array for efficiency
+     * @param <E> the type of exception that the zip function might throw
+     * @param c the collection of matrices to combine, must not be {@code null} or empty
+     * @param zipFunction the function that takes an array of bytes (one from each matrix) and returns a result of type R
+     * @param shareIntermediateArray {@code true} to reuse the intermediate array (sequential execution only);
+     *                               {@code false} to create new arrays for each position
      * @param targetElementType the class of the result element type
-     * @return a new Matrix with the combined values
-     * @throws IllegalArgumentException if matrices don't have the same shape
-     * @throws E if the zip function throws an exception
+     * @return a new {@link Matrix} of type R containing the combined values
+     * @throws IllegalArgumentException if {@code c} is {@code null}, empty, or if matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
      */
     public static <R, E extends Exception> Matrix<R> zip(final Collection<ByteMatrix> c, final Throwables.ByteNFunction<? extends R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {
@@ -803,15 +1070,32 @@ public final class Matrixes {
     }
 
     /**
-     * Combines two ByteMatrix objects element-wise using a function that returns Integer values.
-     * Both matrices must have the same shape.
+     * Combines two {@link ByteMatrix} objects element-wise using a function that returns {@code Integer} values,
+     * producing an {@link IntMatrix}.
      *
-     * @param <E> the type of exception that might be thrown
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param zipFunction the function to combine corresponding elements
-     * @return a new IntMatrix with the combined values
-     * @throws E if the zip function throws an exception
+     * <p>This method performs element-wise combination of two byte matrices using a function that
+     * takes two {@code byte} values and returns an {@code Integer}. The result is collected into
+     * an {@link IntMatrix}. This is useful for operations that widen from bytes to integers, such
+     * as computing sums or differences that may exceed byte range.</p>
+     *
+     * <p>Both matrices must have identical dimensions.</p>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{100, 120}, {-50, 80}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{60, 40}, {-30, 90}});
+     *
+     * // Compute sum as integers (to avoid byte overflow)
+     * IntMatrix sum = Matrixes.zipToInt(m1, m2, (a, b) -> (int)a + (int)b);
+     * }</pre>
+     *
+     * @param <E> the type of exception that the zip function might throw
+     * @param a the first matrix, must not be {@code null}
+     * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param zipFunction the function to combine corresponding elements, takes two bytes and returns an Integer
+     * @return a new {@link IntMatrix} with the combined values
+     * @throws IllegalArgumentException if the matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
      */
     public static <E extends Exception> IntMatrix zipToInt(final ByteMatrix a, final ByteMatrix b, final Throwables.ByteBiFunction<Integer, E> zipFunction)
             throws E {
@@ -1677,17 +1961,37 @@ public final class Matrixes {
     }
 
     /**
-     * Combines two generic Matrix objects element-wise using the provided binary function.
-     * Both matrices must have the same shape. The result matrix has the same element type as the first matrix.
+     * Combines two generic {@link Matrix} objects element-wise using a binary function.
      *
-     * @param <A> the element type of the first matrix
+     * <p>This method performs element-wise combination of two matrices with potentially different
+     * element types. For each position (i, j), the function is called with elements from both matrices:
+     * {@code zipFunction.apply(a[i][j], b[i][j])}. The result matrix has the same element type as
+     * the first matrix.</p>
+     *
+     * <p>Both matrices must have identical dimensions (same number of rows and columns).
+     * This operation delegates to the {@link Matrix#zipWith} method.</p>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * Matrix<String> names = Matrix.of(new String[][]{{"Alice", "Bob"}, {"Carol", "Dave"}});
+     * Matrix<Integer> ages = Matrix.of(new Integer[][]{{25, 30}, {35, 40}});
+     *
+     * // Combine names and ages into formatted strings
+     * Matrix<String> result = Matrixes.zip(names, ages,
+     *     (name, age) -> name + " (age " + age + ")");
+     * // Result: [["Alice (age 25)", "Bob (age 30)"], ["Carol (age 35)", "Dave (age 40)"]]
+     * }</pre>
+     *
+     * @param <A> the element type of the first matrix and the result matrix
      * @param <B> the element type of the second matrix
-     * @param <E> the type of exception that might be thrown
-     * @param a the first matrix
-     * @param b the second matrix
-     * @param zipFunction the function to combine corresponding elements
-     * @return a new Matrix with the combined values
-     * @throws E if the zip function throws an exception
+     * @param <E> the type of exception that the zip function might throw
+     * @param a the first matrix, must not be {@code null}
+     * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
+     * @param zipFunction the function to combine corresponding elements from both matrices
+     * @return a new {@link Matrix} of type A containing the combined values
+     * @throws IllegalArgumentException if the matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
+     * @see Matrix#zipWith(Matrix, Throwables.BiFunction)
      */
     public static <A, B, E extends Exception> Matrix<A> zip(final Matrix<A> a, final Matrix<B> b,
             final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
@@ -1819,27 +2123,51 @@ public final class Matrixes {
     }
 
     /**
-     * Combines multiple generic Matrix objects element-wise using a function that takes an array of values.
-     * Provides control over whether the intermediate array can be shared between calls.
-     * 
-     * <p>Example:</p>
+     * Combines multiple generic {@link Matrix} objects element-wise using a function that operates on arrays,
+     * with control over intermediate array sharing.
+     *
+     * <p>This method combines an arbitrary number of matrices by applying a function that takes
+     * an array of values (one from each matrix at each position) and produces a result. At each
+     * position (i, j), an array containing [m1[i][j], m2[i][j], m3[i][j], ...] is passed to the
+     * zip function.</p>
+     *
+     * <p>The {@code shareIntermediateArray} parameter controls memory optimization:</p>
+     * <ul>
+     * <li>{@code true} and sequential execution: Reuses the same intermediate array for all positions,
+     *     reducing memory allocations but requiring the zip function to not retain references to the array</li>
+     * <li>{@code false} or parallel execution: Creates a new array for each position, safer but uses more memory</li>
+     * </ul>
+     *
+     * <p><b>Warning:</b> When {@code shareIntermediateArray} is {@code true}, the zip function must NOT
+     * store references to the array, as it will be mutated for subsequent positions. Only use this
+     * optimization if the function immediately processes and discards the array.</p>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
      * List<Matrix<Integer>> matrices = Arrays.asList(m1, m2, m3);
-     * Matrix<Double> avg = Matrixes.zip(matrices, 
+     *
+     * // Compute average across all matrices at each position
+     * Matrix<Double> avg = Matrixes.zip(matrices,
      *     arr -> Arrays.stream(arr).mapToInt(i -> i).average().orElse(0.0),
      *     true, Double.class);
+     *
+     * // Find maximum value at each position
+     * Matrix<Integer> max = Matrixes.zip(matrices,
+     *     arr -> Arrays.stream(arr).max(Integer::compare).orElse(0),
+     *     false, Integer.class);
      * }</pre>
      *
      * @param <T> the element type of the input matrices
      * @param <R> the element type of the result matrix
-     * @param <E> the type of exception that might be thrown
-     * @param c the collection of matrices to combine
-     * @param zipFunction the function that takes an array of values and returns a result
-     * @param shareIntermediateArray if true and not parallel, reuses the same array for efficiency
+     * @param <E> the type of exception that the zip function might throw
+     * @param c the collection of matrices to combine, must not be {@code null} or empty
+     * @param zipFunction the function that takes an array of values (one from each matrix) and returns a result of type R
+     * @param shareIntermediateArray {@code true} to reuse the intermediate array (sequential execution only);
+     *                               {@code false} to create new arrays for each position
      * @param targetElementType the class of the result element type
-     * @return a new Matrix with the combined values
-     * @throws IllegalArgumentException if matrices don't have the same shape
-     * @throws E if the zip function throws an exception
+     * @return a new {@link Matrix} of type R containing the combined values
+     * @throws IllegalArgumentException if {@code c} is {@code null}, empty, or if matrices have different shapes
+     * @throws E if the zip function throws an exception during execution
      */
     public static <T, R, E extends Exception> Matrix<R> zip(final Collection<Matrix<T>> c, final Throwables.Function<? super T[], R, E> zipFunction,
             final boolean shareIntermediateArray, final Class<R> targetElementType) throws IllegalArgumentException, E {

@@ -92,6 +92,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Creates a FloatTuple4 containing four float values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple4 quad = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * float sum = quad.sum(); // 10.0f
+     * }</pre>
+     *
      * @param _1 the first float value
      * @param _2 the second float value
      * @param _3 the third float value
@@ -104,6 +110,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple5 containing five float values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+     * float median = tuple.median(); // 3.0f
+     * }</pre>
      *
      * @param _1 the first float value
      * @param _2 the second float value
@@ -118,6 +130,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple6 containing six float values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+     * double average = tuple.average(); // 3.5
+     * }</pre>
      *
      * @param _1 the first float value
      * @param _2 the second float value
@@ -134,6 +152,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Creates a FloatTuple7 containing seven float values.
      *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+     * float max = tuple.max(); // 7.0f
+     * }</pre>
+     *
      * @param _1 the first float value
      * @param _2 the second float value
      * @param _3 the third float value
@@ -149,6 +173,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple8 containing eight float values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+     * float min = tuple.min(); // 1.0f
+     * }</pre>
      *
      * @param _1 the first float value
      * @param _2 the second float value
@@ -169,7 +199,13 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple9 containing nine float values.
-     * 
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+     * float sum = tuple.sum(); // 45.0f
+     * }</pre>
+     *
      * @param _1 the first float value
      * @param _2 the second float value
      * @param _3 the third float value
@@ -325,7 +361,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -333,7 +369,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * FloatTuple3 reversed = tuple.reverse(); // (3.0f, 2.0f, 1.0f)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -478,46 +514,96 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         FloatTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Throws NoSuchElementException as there is no minimum value in an empty tuple.
+         *
+         * @return never returns
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Throws NoSuchElementException as there is no maximum value in an empty tuple.
+         *
+         * @return never returns
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Throws NoSuchElementException as there is no median value in an empty tuple.
+         *
+         * @return never returns
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all elements in this tuple, which is 0 for an empty tuple.
+         *
+         * @return 0
+         */
         @Override
         public float sum() {
             return 0;
         }
 
+        /**
+         * Throws NoSuchElementException as there is no average for an empty tuple.
+         *
+         * @return never returns
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns this tuple as reversing an empty tuple yields the same empty tuple.
+         *
+         * @return this FloatTuple0 instance
+         */
         @Override
         public FloatTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Always returns false as an empty tuple contains no elements.
+         *
+         * @param valueToFind the value to search for
+         * @return {@code false} always
+         */
         @Override
         public boolean contains(final float valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "[]"
+         */
         @Override
         public String toString() {
             return "[]";
@@ -607,7 +693,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
          *
          * @return a new FloatTuple1 with the same value
@@ -757,7 +843,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple2 with (_2, _1)
          */
@@ -976,7 +1062,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple3 with (_3, _2, _1)
          */
@@ -1114,7 +1200,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly four float values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      */
     public static final class FloatTuple4 extends FloatTuple<FloatTuple4> {
 
@@ -1149,7 +1235,58 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the four elements.
+         *
+         * @return the smallest of _1, _2, _3, and _4
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the maximum value among the four elements.
+         *
+         * @return the largest of _1, _2, _3, and _4
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the median value of the four elements.
+         * For an even number of elements, returns the lower middle value.
+         *
+         * @return the median float value
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the sum of the four elements.
+         *
+         * @return _1 + _2 + _3 + _4
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the average of the four elements.
+         *
+         * @return (_1 + _2 + _3 + _4) / 4.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple4 with (_4, _3, _2, _1)
          */
@@ -1169,6 +1306,58 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind);
         }
 
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all four elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * _1 + _2) + _3) + _4);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple4 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple4 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
+        }
+
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1181,7 +1370,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly five float values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, and {@code _5}.
      */
     public static final class FloatTuple5 extends FloatTuple<FloatTuple5> {
 
@@ -1219,7 +1408,57 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the five elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the largest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the median value of the five elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the sum of the five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the average of the five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple5 with (_5, _4, _3, _2, _1)
          */
@@ -1240,6 +1479,59 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                     || N.equals(_5, valueToFind);
         }
 
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all five elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple5 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple5 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
+        }
+
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1252,7 +1544,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly six float values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
      */
     public static final class FloatTuple6 extends FloatTuple<FloatTuple6> {
 
@@ -1293,7 +1585,58 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the six elements.
+         *
+         * @return the smallest of all elements
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the maximum value among the six elements.
+         *
+         * @return the largest of all elements
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the median value of the six elements.
+         * For an even number of elements, returns the lower middle value.
+         *
+         * @return the median float value
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the sum of the six elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the average of the six elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple6 with (_6, _5, _4, _3, _2, _1)
          */
@@ -1314,6 +1657,61 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                     || N.equals(_6, valueToFind);
         }
 
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all six elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple6 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple6 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
+        }
+
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1326,7 +1724,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly seven float values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
      */
     public static final class FloatTuple7 extends FloatTuple<FloatTuple7> {
 
@@ -1370,7 +1768,57 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the seven elements.
+         *
+         * @return the smallest of all elements
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the maximum value among the seven elements.
+         *
+         * @return the largest of all elements
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the median value of the seven elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the sum of the seven elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the average of the seven elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -1391,6 +1839,62 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind);
         }
 
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all seven elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple7 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple7 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
+        }
+
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1403,8 +1907,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly eight float values.
-     * Provides direct access to elements via public final fields.
-     * 
+     * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
+     *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
@@ -1453,9 +1957,60 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the eight elements.
          *
-         * @return a new FloatTuple8 with elements in reverse order
+         * @return the smallest of all elements
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the maximum value among the eight elements.
+         *
+         * @return the largest of all elements
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the median value of the eight elements.
+         * For an even number of elements, returns the lower middle value.
+         *
+         * @return the median float value
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the sum of the eight elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the average of the eight elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple8 reverse() {
@@ -1474,6 +2029,63 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind);
         }
 
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all eight elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple8 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple8 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7) && N.equals(_8, other._8);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
+        }
+
         @Override
         protected float[] elements() {
             if (elements == null) {
@@ -1486,8 +2098,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly nine float values.
-     * Provides direct access to elements via public final fields.
-     * 
+     * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
+     *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
@@ -1540,9 +2152,59 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the nine elements.
          *
-         * @return a new FloatTuple9 with elements in reverse order
+         * @return the smallest of all elements
+         */
+        @Override
+        public float min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the maximum value among the nine elements.
+         *
+         * @return the largest of all elements
+         */
+        @Override
+        public float max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the median value of the nine elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public float median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the sum of the nine elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         */
+        @Override
+        public float sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the average of the nine elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public FloatTuple9 reverse() {
@@ -1559,6 +2221,64 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         public boolean contains(final float valueToFind) {
             return N.equals(_1, valueToFind) || N.equals(_2, valueToFind) || N.equals(_3, valueToFind) || N.equals(_4, valueToFind) || N.equals(_5, valueToFind)
                     || N.equals(_6, valueToFind) || N.equals(_7, valueToFind) || N.equals(_8, valueToFind) || N.equals(_9, valueToFind);
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all nine elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (int) (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8) + _9);
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a FloatTuple9 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final FloatTuple9 other)) {
+                return false;
+            } else {
+                return N.equals(_1, other._1) && N.equals(_2, other._2) && N.equals(_3, other._3) && N.equals(_4, other._4) && N.equals(_5, other._5)
+                        && N.equals(_6, other._6) && N.equals(_7, other._7) && N.equals(_8, other._8) && N.equals(_9, other._9);
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
         }
 
         @Override

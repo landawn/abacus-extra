@@ -92,6 +92,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple4 containing four int values.
      *
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
+     * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
+     * }</pre>
+     *
      * @param _1 the first int value
      * @param _2 the second int value
      * @param _3 the third int value
@@ -104,6 +110,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Creates an IntTuple5 containing five int values.
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntTuple5 quint = IntTuple.of(1, 2, 3, 4, 5);
+     * // quint._5 == 5
+     * }</pre>
      *
      * @param _1 the first int value
      * @param _2 the second int value
@@ -118,6 +130,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Creates an IntTuple6 containing six int values.
+     *
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntTuple6 sext = IntTuple.of(1, 2, 3, 4, 5, 6);
+     * // sext._6 == 6
+     * }</pre>
      *
      * @param _1 the first int value
      * @param _2 the second int value
@@ -134,6 +152,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple7 containing seven int values.
      *
+     * <p>Example:</p>
+     * <pre>{@code
+     * IntTuple7 sept = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
+     * // sept._7 == 7
+     * }</pre>
+     *
      * @param _1 the first int value
      * @param _2 the second int value
      * @param _3 the third int value
@@ -149,6 +173,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Creates an IntTuple8 containing eight int values.
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * IntTuple8 oct = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
+     * // oct._8 == 8
+     * }</pre>
      *
      * @param _1 the first int value
      * @param _2 the second int value
@@ -168,7 +198,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Creates an IntTuple9 containing nine int values.
-     * 
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * IntTuple9 non = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+     * // non._9 == 9
+     * }</pre>
+     *
      * @param _1 the first int value
      * @param _2 the second int value
      * @param _3 the third int value
@@ -272,14 +308,14 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the median value of all elements in this tuple.
-     * For even-sized tuples, returns the lower of the two middle values.
-     * 
+     * Returns the median int value in this tuple.
+     * For tuples with an even number of elements, returns the lower middle value.
+     *
      * <p>Example usage:</p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int median = tuple.median(); // 2
-     * 
+     *
      * IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
      * int median = tuple.median(); // 2
      * }</pre>
@@ -307,7 +343,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the average of all int values in this tuple as a double.
+     * Returns the average of all int values in this tuple.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -315,7 +351,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * double avg = tuple.average(); // 2.0
      * }</pre>
      *
-     * @return the average of all int values as a double
+     * @return the average of all int values in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -323,7 +359,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns a new tuple with elements in reverse order.
+     * Returns a new tuple with the elements in reverse order.
      *
      * <p>Example usage:</p>
      * <pre>{@code
@@ -331,7 +367,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * IntTuple3 reversed = tuple.reverse(); // (3, 2, 1)
      * }</pre>
      *
-     * @return a new tuple with elements in reverse order
+     * @return a new tuple with the elements in reverse order
      */
     public abstract TP reverse();
 
@@ -604,7 +640,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
          *
          * @return a new IntTuple1 with the same value
@@ -754,7 +790,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple2 with (_2, _1)
          */
@@ -788,8 +824,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Performs the given binary action on the two elements.
-         * 
+         * Performs the given bi-consumer on the two elements.
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
@@ -797,7 +833,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the binary action to perform
+         * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntBiConsumer<E> action) throws E {
@@ -805,8 +841,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Applies the given binary function to the two elements and returns the result.
-         * 
+         * Applies the given bi-function to the two elements and returns the result.
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
@@ -815,7 +851,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the binary function to apply
+         * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
@@ -826,7 +862,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
@@ -834,7 +870,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the binary predicate to test
+         * @param predicate the bi-predicate to test the two elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -973,7 +1009,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple3 with (_3, _2, _1)
          */
@@ -1008,8 +1044,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Performs the given ternary action on the three elements.
-         * 
+         * Performs the given tri-consumer on the three elements.
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -1017,7 +1053,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
-         * @param action the ternary action to perform
+         * @param action the tri-consumer to perform on the three elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.IntTriConsumer<E> action) throws E {
@@ -1025,8 +1061,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Applies the given ternary function to the three elements and returns the result.
-         * 
+         * Applies the given tri-function to the three elements and returns the result.
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -1035,7 +1071,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
-         * @param mapper the ternary function to apply
+         * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
@@ -1046,7 +1082,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p>Example usage:</p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -1054,7 +1090,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
-         * @param predicate the ternary predicate to test
+         * @param predicate the tri-predicate to test the three elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -1146,7 +1182,58 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the four elements.
+         *
+         * @return the smallest of _1, _2, _3, and _4
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the maximum value among the four elements.
+         *
+         * @return the largest of _1, _2, _3, and _4
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the median value of the four elements.
+         * For a tuple of four elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) int value
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the sum of the four elements.
+         *
+         * @return _1 + _2 + _3 + _4
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns the average of the four elements.
+         *
+         * @return (_1 + _2 + _3 + _4) / 4.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple4 with (_4, _3, _2, _1)
          */
@@ -1164,6 +1251,58 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         @Override
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all four elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * _1 + _2) + _3)) + _4;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple4 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple4 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
         }
 
         @Override
@@ -1216,7 +1355,57 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the five elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the largest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the median value of the five elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the sum of the five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the average of the five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple5 with (_5, _4, _3, _2, _1)
          */
@@ -1234,6 +1423,59 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         @Override
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all five elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple5 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple5 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
         }
 
         @Override
@@ -1289,7 +1531,58 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the six elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the maximum value among the six elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, and _6
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the median value of the six elements.
+         * For a tuple of six elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) int value
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the sum of the six elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns the average of the six elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple6 with (_6, _5, _4, _3, _2, _1)
          */
@@ -1307,6 +1600,60 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         @Override
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all six elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple6 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple6 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
         }
 
         @Override
@@ -1365,7 +1712,57 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the seven elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the maximum value among the seven elements.
+         *
+         * @return the largest of _1, _2, _3, _4, _5, _6, and _7
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the median value of the seven elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the sum of the seven elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns the average of the seven elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
          *
          * @return a new IntTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -1384,6 +1781,61 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all seven elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple7 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple7 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
         }
 
         @Override
@@ -1448,9 +1900,60 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the eight elements.
          *
-         * @return a new IntTuple8 with elements in reverse order
+         * @return the smallest of all eight elements
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the maximum value among the eight elements.
+         *
+         * @return the largest of all eight elements
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the median value of the eight elements.
+         * For a tuple of eight elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) int value
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the sum of the eight elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns the average of the eight elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new IntTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple8 reverse() {
@@ -1467,6 +1970,63 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all eight elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple8 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple8 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
         }
 
         @Override
@@ -1534,9 +2094,59 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a new tuple with elements in reversed order.
+         * Returns the minimum value among the nine elements.
          *
-         * @return a new IntTuple9 with elements in reverse order
+         * @return the smallest of all nine elements
+         */
+        @Override
+        public int min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the maximum value among the nine elements.
+         *
+         * @return the largest of all nine elements
+         */
+        @Override
+        public int max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the median value of the nine elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public int median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the sum of the nine elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         */
+        @Override
+        public int sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns the average of the nine elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
+        }
+
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         *
+         * @return a new IntTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */
         @Override
         public IntTuple9 reverse() {
@@ -1553,6 +2163,64 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         public boolean contains(final int valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in order.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to perform
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code for this tuple based on all nine elements.
+         *
+         * @return the hash code
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is an IntTuple9 with equal elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final IntTuple9 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8 && _9 == other._9;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
         }
 
         @Override
