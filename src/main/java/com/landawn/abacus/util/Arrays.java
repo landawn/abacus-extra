@@ -71,18 +71,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 1D object array to the console and returns the printed string.
-     * Handles null arrays and empty arrays appropriately.
+     * Prints a string representation of a 1D object array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 1D object array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * Object[] arr = {"Hello", "World", 123};
-     * String output = println(arr);
-     * // Prints and returns: [Hello, World, 123]
+     * Object[] array = {"Hello", "World", 123};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[Hello, World, 123]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((Object[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * Object[] empty = new Object[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a the object array to print
-     * @return the string representation that was printed
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D object array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(Object[][]) for 2D array printing
+     * @see #println(Object[][][]) for 3D array printing
      */
     public static String println(final Object[] a) {
         if (a == null) {
@@ -95,22 +119,103 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 2D object array to the console with proper formatting and returns the printed string.
-     * Uses the internal formatter for 2D arrays.
+     * Prints a string representation of a 2D object array to the console and returns the string.
      *
-     * @param a the 2D object array to print
-     * @return the string representation that was printed
+     * <p>This method formats a 2D object array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * Object[][] array = {{"Hello", "World"}, {123, 456}, null, {}, {"End"}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[Hello, World],
+     * //  [123, 456],
+     * //  null,
+     * //  [],
+     * //  [End]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((Object[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * Object[][] empty = new Object[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D object array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(Object[]) for 1D array printing
+     * @see #println(Object[][][]) for 3D array printing
      */
     public static String println(final Object[][] a) {
         return ff.println(a);
     }
 
     /**
-     * Prints a 3D object array to the console with proper formatting and returns the printed string.
-     * Uses the internal formatter for 3D arrays.
+     * Prints a string representation of a 3D object array to the console and returns the string.
      *
-     * @param a the 3D object array to print
-     * @return the string representation that was printed
+     * <p>This method formats a 3D object array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * Object[][][] array = {{{"A", "B"}, {"C"}}, {{"D"}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[A, B],
+     * //    [C]],
+     * //  [[D],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((Object[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * Object[][][] empty = new Object[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D object array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(Object[]) for 1D array printing
+     * @see #println(Object[][]) for 2D array printing
      */
     public static String println(final Object[][][] a) {
         return fff.println(a);
@@ -2281,18 +2386,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 1D boolean array to the console and returns the printed string.
-     * Handles null arrays and empty arrays appropriately.
+     * Prints a string representation of a 1D boolean array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 1D boolean array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[] arr = {true, false, true};
-     * String output = println(arr);
-     * // Prints and returns: [true, false, true]
+     * boolean[] array = {true, false, true};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[true, false, true]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((boolean[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * boolean[] empty = new boolean[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a the boolean array to print
-     * @return the string representation that was printed
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D boolean array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(boolean[][]) for 2D array printing
+     * @see #println(boolean[][][]) for 3D array printing
      */
     public static String println(final boolean[] a) {
         if (a == null) {
@@ -2305,19 +2434,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 2D boolean array to the console with proper formatting and returns the printed string.
-     * Each sub-array is printed on a separate line with appropriate indentation.
+     * Prints a string representation of a 2D boolean array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 2D boolean array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * boolean[][] arr = {{true, false}, {false, true}};
-     * String output = println(arr);
-     * // Prints: [[true, false],
-     * //          [false, true]]
+     * boolean[][] array = {{true, false, true}, {false, true}, null, {}, {true}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[true, false, true],
+     * //  [false, true],
+     * //  null,
+     * //  [],
+     * //  [true]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((boolean[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * boolean[][] empty = new boolean[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a the 2D boolean array to print
-     * @return the string representation that was printed
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D boolean array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(boolean[]) for 1D array printing
+     * @see #println(boolean[][][]) for 3D array printing
      */
     public static String println(final boolean[][] a) {
         if (a == null) {
@@ -2368,11 +2527,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 3D boolean array to the console with proper formatting and returns the printed string.
-     * The array is formatted with multiple levels of indentation for readability.
+     * Prints a string representation of a 3D boolean array to the console and returns the string.
      *
-     * @param a the 3D boolean array to print
-     * @return the string representation that was printed
+     * <p>This method formats a 3D boolean array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * boolean[][][] array = {{{true, false, true}, {false, true}}, {{true, false}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[true, false, true],
+     * //    [false, true]],
+     * //  [[true, false],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((boolean[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * boolean[][][] empty = new boolean[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D boolean array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(boolean[]) for 1D array printing
+     * @see #println(boolean[][]) for 2D array printing
      */
     public static String println(final boolean[][][] a) {
         if (a == null) {
@@ -3502,18 +3704,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 1D character array to the console and returns its string representation.
-     * This method handles null and empty arrays gracefully.
+     * Prints a string representation of a 1D character array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 1D character array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[] arr = {'H', 'e', 'l', 'l', 'o'};
-     * String output = Arrays.println(arr);
-     * // Prints "[H, e, l, l, o]" to console and returns it.
+     * char[] array = {'H', 'e', 'l', 'l', 'o'};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[H, e, l, l, o]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((char[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * char[] empty = new char[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a The character array to print.
-     * @return The string representation that was printed.
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D character array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(char[][]) for 2D array printing
+     * @see #println(char[][][]) for 3D array printing
      */
     public static String println(final char[] a) {
         if (a == null) {
@@ -3526,18 +3752,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 2D character array to the console and returns its string representation.
-     * Each sub-array is represented as a string, separated by commas.
+     * Prints a string representation of a 2D character array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 2D character array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][] arr = {{'a', 'b'}, {'c', 'd'}};
-     * String output = Arrays.println(arr);
-     * // Prints "[[a, b], [c, d]]" to console and returns it.
+     * char[][] array = {{'a', 'b', 'c'}, {'d', 'e'}, null, {}, {'f'}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[a, b, c],
+     * //  [d, e],
+     * //  null,
+     * //  [],
+     * //  [f]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((char[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * char[][] empty = new char[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a The 2D character array to print.
-     * @return The string representation that was printed.
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D character array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(char[]) for 1D array printing
+     * @see #println(char[][][]) for 3D array printing
      */
     public static String println(final char[][] a) {
         if (a == null) {
@@ -3588,18 +3845,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 3D character array to the console and returns its string representation.
-     * The array is formatted with newlines between the major elements for readability.
+     * Prints a string representation of a 3D character array to the console and returns the string.
      *
-     * <p>Example usage:
+     * <p>This method formats a 3D character array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
      * <pre>{@code
-     * char[][][] arr = {{{'a'}}, {{'b', 'c'}}};
-     * String output = Arrays.println(arr);
-     * // Prints a formatted string like "[[[a]], [[b, c]]]" and returns it.
+     * char[][][] array = {{{'a', 'b', 'c'}, {'d', 'e'}}, {{'f', 'g'}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[a, b, c],
+     * //    [d, e]],
+     * //  [[f, g],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((char[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * char[][][] empty = new char[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
      * }</pre>
      *
-     * @param a The 3D character array to print.
-     * @return The string representation that was printed.
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D character array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(char[]) for 1D array printing
+     * @see #println(char[][]) for 2D array printing
      */
     public static String println(final char[][][] a) {
         if (a == null) {
@@ -4612,16 +4905,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a one-dimensional byte array to the console and returns the printed string.
-     * Handles null arrays and empty arrays appropriately.
+     * Prints a string representation of a 1D byte array to the console and returns the string.
      *
-     * <pre>
-     * byte[] array = {1, 2, 3};
-     * String output = println(array); // prints and returns "[1, 2, 3]"
-     * </pre>
+     * <p>This method formats a 1D byte array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
      *
-     * @param a the byte array to print
-     * @return the string representation that was printed
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * byte[] array = {1, 2, 3, 4, 5};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((byte[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * byte[] empty = new byte[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D byte array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(byte[][]) for 2D array printing
+     * @see #println(byte[][][]) for 3D array printing
      */
     public static String println(final byte[] a) {
         if (a == null) {
@@ -4634,16 +4953,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a two-dimensional byte array to the console with proper formatting.
-     * Each sub-array is printed on the same line, separated by the ARRAY_PRINT_SEPARATOR.
+     * Prints a string representation of a 2D byte array to the console and returns the string.
      *
-     * <pre>
-     * byte[][] array = {{1, 2}, {3, 4, 5}};
-     * String output = println(array); // prints formatted 2D array
-     * </pre>
+     * <p>This method formats a 2D byte array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
-     * @param a the two-dimensional byte array to print
-     * @return the string representation that was printed
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * byte[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1, 2, 3],
+     * //  [4, 5],
+     * //  null,
+     * //  [],
+     * //  [6]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((byte[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * byte[][] empty = new byte[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D byte array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(byte[]) for 1D array printing
+     * @see #println(byte[][][]) for 3D array printing
      */
     public static String println(final byte[][] a) {
         if (a == null) {
@@ -4694,16 +5046,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a three-dimensional byte array to the console with multi-line formatting.
-     * Sub-arrays at different levels are properly indented for readability.
+     * Prints a string representation of a 3D byte array to the console and returns the string.
      *
-     * <pre>
-     * byte[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
-     * String output = println(array); // prints formatted 3D array
-     * </pre>
+     * <p>This method formats a 3D byte array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
-     * @param a the three-dimensional byte array to print
-     * @return the string representation that was printed
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * byte[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1, 2, 3],
+     * //    [4, 5]],
+     * //  [[6, 7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((byte[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * byte[][][] empty = new byte[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D byte array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(byte[]) for 1D array printing
+     * @see #println(byte[][]) for 2D array printing
      */
     public static String println(final byte[][][] a) {
         if (a == null) {
@@ -5736,18 +6126,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 1D short array to the console in a formatted string representation.
-     * Handles null arrays gracefully.
+     * Prints a string representation of a 1D short array to the console and returns the string.
+     *
+     * <p>This method formats a 1D short array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
      *
      * <p>Example usage:</p>
-     * <pre>
+     * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * println(array);
-     * // Prints: [1, 2, 3, 4, 5]
-     * </pre>
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
      *
-     * @param a the array to print
-     * @return the string representation that was printed
+     * // Null array
+     * String nullResult = Arrays.println((short[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * short[] empty = new short[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D short array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(short[][]) for 2D array printing
+     * @see #println(short[][][]) for 3D array printing
      */
     public static String println(final short[] a) {
         if (a == null) {
@@ -5760,18 +6174,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 2D short array to the console in a formatted string representation.
-     * Each sub-array is printed on a new line for clarity.
+     * Prints a string representation of a 2D short array to the console and returns the string.
+     *
+     * <p>This method formats a 2D short array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
      *
      * <p>Example usage:</p>
-     * <pre>
-     * short[][] array = {{1, 2}, {3, 4, 5}, {6}};
-     * println(array);
-     * // Prints formatted 2D array representation
-     * </pre>
+     * <pre>{@code
+     * short[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1, 2, 3],
+     * //  [4, 5],
+     * //  null,
+     * //  [],
+     * //  [6]]
      *
-     * @param a the 2D array to print
-     * @return the string representation that was printed
+     * // Null array
+     * String nullResult = Arrays.println((short[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * short[][] empty = new short[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D short array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(short[]) for 1D array printing
+     * @see #println(short[][][]) for 3D array printing
      */
     public static String println(final short[][] a) {
         if (a == null) {
@@ -5822,11 +6267,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a 3D short array to the console in a formatted string representation.
-     * Uses indentation and line breaks to show the array structure clearly.
+     * Prints a string representation of a 3D short array to the console and returns the string.
      *
-     * @param a the 3D array to print
-     * @return the string representation that was printed
+     * <p>This method formats a 3D short array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
+     *
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * short[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1, 2, 3],
+     * //    [4, 5]],
+     * //  [[6, 7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((short[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * short[][][] empty = new short[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D short array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(short[]) for 1D array printing
+     * @see #println(short[][]) for 2D array printing
      */
     public static String println(final short[][][] a) {
         if (a == null) {
@@ -6910,18 +7398,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of an integer array to the console and returns the string.
-     * Handles null and empty arrays.
+     * Prints a string representation of a 1D integer array to the console and returns the string.
      *
-     * <p>Example usage:
-     * <pre>
-     * int[] a = {1, 2, 3};
-     * String s = println(a);
-     * // Prints "[1, 2, 3]" to console and s is "[1, 2, 3]"
-     * </pre>
+     * <p>This method formats a 1D integer array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
      *
-     * @param a The integer array to print.
-     * @return The string representation of the array.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * int[] array = {1, 2, 3, 4, 5};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println(null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * int[] empty = new int[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D integer array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(int[][]) for 2D array printing
+     * @see #println(int[][][]) for 3D array printing
      */
     public static String println(final int[] a) {
         if (a == null) {
@@ -6935,17 +7447,48 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Prints a string representation of a 2D integer array to the console and returns the string.
-     * Handles null and empty arrays/sub-arrays.
-     *
-     * <p>Example usage:
-     * <pre>
-     * int[][] a = {{1, 2}, {3, 4}};
-     * String s = println(a);
-     * // Prints "[[1, 2], [3, 4]]" to console and s is "[[1, 2], [3, 4]]"
-     * </pre>
-     *
-     * @param a The 2D integer array to print.
-     * @return The string representation of the 2D array.
+     * 
+     * <p>This method formats a 2D integer array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
+     * 
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     * 
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * int[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1, 2, 3],
+     * //  [4, 5],
+     * //  null,
+     * //  [],
+     * //  [6]]
+     * 
+     * // Null array
+     * String nullResult = Arrays.println(null);
+     * // Prints "null"
+     * 
+     * // Empty array
+     * int[][] empty = new int[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     * 
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     * 
+     * @param a the 2D integer array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(int[]) for 1D array printing
+     * @see #println(int[][][]) for 3D array printing
      */
     public static String println(final int[][] a) {
         if (a == null) {
@@ -6997,17 +7540,53 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Prints a string representation of a 3D integer array to the console and returns the string.
-     * Handles null and empty arrays/sub-arrays.
      *
-     * <p>Example usage:
-     * <pre>
-     * int[][][] a = {{{1, 2}}, {{3, 4}}};
-     * String s = println(a);
-     * // Prints a formatted string representation to console and returns it.
-     * </pre>
+     * <p>This method formats a 3D integer array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
-     * @param a The 3D integer array to print.
-     * @return The string representation of the 3D array.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * int[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1, 2, 3],
+     * //    [4, 5]],
+     * //  [[6, 7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((int[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * int[][][] empty = new int[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D integer array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(int[]) for 1D array printing
+     * @see #println(int[][]) for 2D array printing
      */
     public static String println(final int[][][] a) {
         if (a == null) {
@@ -8060,17 +8639,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a long array to the console and returns the string.
+     * Prints a string representation of a 1D long array to the console and returns the string.
      *
-     * <p>Example usage:
-     * <pre>
-     * long[] a = {1L, 2L, 3L};
-     * String s = println(a);
-     * // Prints "[1, 2, 3]" to console and returns it.
-     * </pre>
+     * <p>This method formats a 1D long array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
      *
-     * @param a The long array to print.
-     * @return The string representation of the array.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * long[] array = {1L, 2L, 3L, 4L, 5L};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1, 2, 3, 4, 5]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((long[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * long[] empty = new long[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D long array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(long[][]) for 2D array printing
+     * @see #println(long[][][]) for 3D array printing
      */
     public static String println(final long[] a) {
         if (a == null) {
@@ -8085,15 +8689,47 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Prints a string representation of a 2D long array to the console and returns the string.
      *
-     * <p>Example usage:
-     * <pre>
-     * long[][] a = {{1L, 2L}, {3L, 4L}};
-     * String s = println(a);
-     * // Prints "[[1, 2], [3, 4]]" to console and returns it.
-     * </pre>
+     * <p>This method formats a 2D long array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
-     * @param a The 2D long array to print.
-     * @return The string representation of the 2D array.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * long[][] array = {{1L, 2L, 3L}, {4L, 5L}, null, {}, {6L}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1, 2, 3],
+     * //  [4, 5],
+     * //  null,
+     * //  [],
+     * //  [6]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((long[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * long[][] empty = new long[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D long array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(long[]) for 1D array printing
+     * @see #println(long[][][]) for 3D array printing
      */
     public static String println(final long[][] a) {
         if (a == null) {
@@ -8146,15 +8782,52 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Prints a string representation of a 3D long array to the console and returns the string.
      *
-     * <p>Example usage:
-     * <pre>
-     * long[][][] a = {{{1L, 2L}}, {{3L, 4L}}};
-     * String s = println(a);
-     * // Prints a formatted string to console and returns it.
-     * </pre>
+     * <p>This method formats a 3D long array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
-     * @param a The 3D long array to print.
-     * @return The string representation of the 3D array.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * long[][][] array = {{{1L, 2L, 3L}, {4L, 5L}}, {{6L, 7L}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1, 2, 3],
+     * //    [4, 5]],
+     * //  [[6, 7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((long[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * long[][][] empty = new long[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D long array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(long[]) for 1D array printing
+     * @see #println(long[][]) for 2D array printing
      */
     public static String println(final long[][][] a) {
         if (a == null) {
@@ -9189,16 +9862,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a float array to a string, prints it to the console, and returns the string.
-     * Handles null arrays gracefully.
+     * Prints a string representation of a 1D float array to the console and returns the string.
      *
-     * <pre><code>
-     * float[] array = {1.1f, 2.2f, 3.3f};
-     * String s = Arrays.println(array); // Prints "[1.1, 2.2, 3.3]" and returns it.
-     * </code></pre>
+     * <p>This method formats a 1D float array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
      *
-     * @param a the array to print.
-     * @return the string representation of the array, followed by a newline.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * float[] array = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((float[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * float[] empty = new float[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D float array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(float[][]) for 2D array printing
+     * @see #println(float[][][]) for 3D array printing
      */
     public static String println(final float[] a) {
         if (a == null) {
@@ -9211,16 +9910,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D float array to a formatted string, prints it to the console, and returns the string.
-     * Handles null arrays and null sub-arrays gracefully.
+     * Prints a string representation of a 2D float array to the console and returns the string.
      *
-     * <pre><code>
-     * float[][] matrix = {{1.1f, 2.2f}, {3.3f}};
-     * String s = Arrays.println(matrix); // Prints "[[1.1, 2.2],\n [3.3]]" (example) and returns it.
-     * </code></pre>
+     * <p>This method formats a 2D float array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
-     * @param a the 2D array to print.
-     * @return the formatted string representation of the array, followed by a newline.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * float[][] array = {{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}, null, {}, {6.6f}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1.1, 2.2, 3.3],
+     * //  [4.4, 5.5],
+     * //  null,
+     * //  [],
+     * //  [6.6]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((float[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * float[][] empty = new float[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D float array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(float[]) for 1D array printing
+     * @see #println(float[][][]) for 3D array printing
      */
     public static String println(final float[][] a) {
         if (a == null) {
@@ -9271,16 +10003,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D float array to a formatted string, prints it to the console, and returns the string.
-     * Handles null arrays and null sub-arrays gracefully.
+     * Prints a string representation of a 3D float array to the console and returns the string.
      *
-     * <pre><code>
-     * float[][][] cube = {{{1.1f}}, {{2.2f, 3.3f}}};
-     * String s = Arrays.println(cube); // Prints a formatted 3D representation and returns it.
-     * </code></pre>
+     * <p>This method formats a 3D float array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
-     * @param a the 3D array to print.
-     * @return the formatted string representation of the array, followed by a newline.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * float[][][] array = {{{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}}, {{6.6f, 7.7f}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1.1, 2.2, 3.3],
+     * //    [4.4, 5.5]],
+     * //  [[6.6, 7.7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((float[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * float[][][] empty = new float[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D float array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(float[]) for 1D array printing
+     * @see #println(float[][]) for 2D array printing
      */
     public static String println(final float[][][] a) {
         if (a == null) {
@@ -10324,16 +11094,42 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints the contents of a 1D double array to the console, followed by a new line.
-     * Handles null and empty arrays gracefully.
+     * Prints a string representation of a 1D double array to the console and returns the string.
      *
-     * <pre><code>
-     * double[] array = {1.1, 2.2, 3.3};
-     * Arrays.println(array); // Prints "[1.1, 2.2, 3.3]"
-     * </code></pre>
+     * <p>This method formats a 1D double array as a readable string representation with standard
+     * bracket notation. The method handles null arrays and empty arrays gracefully, providing
+     * appropriate string representations for each case.</p>
      *
-     * @param a the array to print.
-     * @return The string that was printed to the console.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[element1, element2, element3]"</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * double[] array = {1.1, 2.2, 3.3, 4.4, 5.5};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns: "[1.1, 2.2, 3.3, 4.4, 5.5]"
+     *
+     * // Null array
+     * String nullResult = Arrays.println((double[]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * double[] empty = new double[0];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 1D double array to print (can be null)
+     * @return the string representation of the array that was printed to console
+     * @see #println(double[][]) for 2D array printing
+     * @see #println(double[][][]) for 3D array printing
      */
     public static String println(final double[] a) {
         if (a == null) {
@@ -10346,16 +11142,49 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints the contents of a 2D double array to the console, followed by a new line.
-     * Provides a formatted string representation for readability.
+     * Prints a string representation of a 2D double array to the console and returns the string.
      *
-     * <pre><code>
-     * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
-     * Arrays.println(matrix); // Prints "[[1.0, 2.0],\n [3.0, 4.0]]" (format may vary)
-     * </code></pre>
+     * <p>This method formats a 2D double array as a readable string representation with proper
+     * nested bracket notation. Each sub-array is displayed on its own line for better readability.
+     * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
-     * @param a the 2D array to print.
-     * @return The string that was printed to the console.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[element1, element2], [element3, element4]]" (with line separators)</li>
+     *   <li>Null sub-array: "null" within the outer brackets</li>
+     *   <li>Empty sub-array: "[]" within the outer brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * double[][] array = {{1.1, 2.2, 3.3}, {4.4, 5.5}, null, {}, {6.6}};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[1.1, 2.2, 3.3],
+     * //  [4.4, 5.5],
+     * //  null,
+     * //  [],
+     * //  [6.6]]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((double[][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * double[][] empty = new double[0][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use.</p>
+     *
+     * @param a the 2D double array to print (can be null)
+     * @return the string representation of the 2D array that was printed to console
+     * @see #println(double[]) for 1D array printing
+     * @see #println(double[][][]) for 3D array printing
      */
     public static String println(final double[][] a) {
         if (a == null) {
@@ -10406,16 +11235,54 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints the contents of a 3D double array to the console, followed by a new line.
-     * Provides a formatted string representation for readability.
+     * Prints a string representation of a 3D double array to the console and returns the string.
      *
-     * <pre><code>
-     * double[][][] cube = {{{1.0}, {2.0}}, {{3.0}, {4.0}}};
-     * Arrays.println(cube); // Prints a formatted representation of the 3D array.
-     * </code></pre>
+     * <p>This method formats a 3D double array as a readable string representation with proper
+     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * appropriate line separators and indentation for better readability. The method handles
+     * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
-     * @param a the 3D array to print.
-     * @return The string that was printed to the console.
+     * <p>The output format follows this pattern:</p>
+     * <ul>
+     *   <li>Null array: "null"</li>
+     *   <li>Empty array: "[]"</li>
+     *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
+     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
+     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
+     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
+     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     * </ul>
+     *
+     * <p>Example usage:</p>
+     * <pre>{@code
+     * double[][][] array = {{{1.1, 2.2, 3.3}, {4.4, 5.5}}, {{6.6, 7.7}, null, {}}, null};
+     * String result = Arrays.println(array);
+     * // Prints to console and returns:
+     * // [[[1.1, 2.2, 3.3],
+     * //    [4.4, 5.5]],
+     * //  [[6.6, 7.7],
+     * //   null,
+     * //   []],
+     * //  null]
+     *
+     * // Null array
+     * String nullResult = Arrays.println((double[][][]) null);
+     * // Prints "null"
+     *
+     * // Empty array
+     * double[][][] empty = new double[0][][];
+     * String emptyResult = Arrays.println(empty);
+     * // Prints "[]"
+     * }</pre>
+     *
+     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * the formatted string for potential further use. The formatting includes proper indentation
+     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     *
+     * @param a the 3D double array to print (can be null)
+     * @return the string representation of the 3D array that was printed to console
+     * @see #println(double[]) for 1D array printing
+     * @see #println(double[][]) for 2D array printing
      */
     public static String println(final double[][][] a) {
         if (a == null) {
