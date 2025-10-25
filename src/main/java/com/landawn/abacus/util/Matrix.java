@@ -45,7 +45,7 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li>Conversion to primitive type matrices</li>
  * </ul>
  * 
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Create a 3x3 matrix of integers
  * Integer[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
@@ -88,7 +88,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p>The array must be rectangular (all rows must have the same length).
      * Empty arrays are allowed (e.g., {@code new String[0][0]} or {@code new String[5][0]}).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * String[][] data = {{"A", "B"}, {"C", "D"}};
      * Matrix<String> matrix = new Matrix<>(data);
@@ -113,7 +113,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
      * // matrix.get(1, 0) returns "c"
@@ -133,7 +133,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a matrix with a single row containing the specified element repeated.
      * This method requires the element to be non-null to infer the element type.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.repeat("X", 5);
      * // Creates: [["X", "X", "X", "X", "X"]]
@@ -160,7 +160,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * This method requires explicit specification of the element class for proper array creation.
      * The element can be null when using this method.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Double> matrix = Matrix.repeat(0.0, 5, Double.class);
      * // Creates: [[0.0, 0.0, 0.0, 0.0, 0.0]]
@@ -190,7 +190,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The element class is inferred from the element itself.
      * This method is a convenience wrapper that ensures type safety for non-null elements.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.repeatNonNull("X", 3);
      * // Creates: [["X", "X", "X"]]
@@ -215,7 +215,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[]{1, 2, 3});
      * // Creates: [[1, null, null],
@@ -240,7 +240,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[]{1, 2, 3});
      * // Creates: [[null, null, 1],
@@ -267,7 +267,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * runs from right-up to left-down. If diagonals intersect (odd dimension),
      * the main diagonal value takes precedence. At least one diagonal must be non-null.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> diag = Matrix.diagonal(
      *     new String[]{"A", "B", "C"},
@@ -335,7 +335,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * This is useful for reflection-based operations or when creating new arrays
      * of the same type as the matrix elements.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}});
      * Class<?> type = matrix.componentType(); // Returns String.class
@@ -353,7 +353,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Gets the element at the specified row and column.
      * Row and column indices are 0-based.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
      * String value = matrix.get(1, 0); // Returns "C"
@@ -373,7 +373,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Gets the element at the specified point.
      * This is a convenience method that takes a Point object instead of separate indices.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Point p = Point.of(1, 2);
      * T value = matrix.get(p); // Same as matrix.get(1, 2)
@@ -392,7 +392,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Sets the element at the specified row and column.
      * Row and column indices are 0-based.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.set(1, 2, "newValue");
      * // Element at row 1, column 2 is now "newValue"
@@ -411,7 +411,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Sets the element at the specified point.
      * This is a convenience method that takes a Point object instead of separate indices.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Point p = Point.of(0, 1);
      * matrix.set(p, newValue); // Same as matrix.set(0, 1, newValue)
@@ -431,7 +431,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns empty if the position is in the first row.
      * This method is useful for algorithms that need to check adjacent elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Nullable<T> above = matrix.upOf(1, 2);
      * if (above.isPresent()) {
@@ -453,7 +453,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns empty if the position is in the last row.
      * This method is useful for algorithms that need to check adjacent elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Nullable<T> below = matrix.downOf(0, 1);
      * if (below.isPresent()) {
@@ -475,7 +475,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns empty if the position is in the first column.
      * This method is useful for algorithms that need to check adjacent elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Nullable<T> left = matrix.leftOf(1, 2);
      * if (left.isPresent()) {
@@ -497,7 +497,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns empty if the position is in the last column.
      * This method is useful for algorithms that need to check adjacent elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Nullable<T> right = matrix.rightOf(1, 0);
      * if (right.isPresent()) {
@@ -519,7 +519,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Points that would be outside the matrix bounds are returned as null.
      * The order is: up, right, down, left (clockwise starting from top).
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<Point> adjacent = matrix.adjacent4Points(1, 1);
      * adjacent.filter(Objects::nonNull).forEach(point -> {
@@ -551,7 +551,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Points that would be outside the matrix bounds are returned as null.
      * This includes both orthogonal and diagonal neighbors.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<Point> adjacent = matrix.adjacent8Points(2, 2);
      * List<Point> validPoints = adjacent
@@ -587,7 +587,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Warning:</b> This method returns a direct reference to the internal array, not a copy.
      * Any modifications to the returned array will directly affect the matrix.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
      * String[] rowData = matrix.row(0);
@@ -614,7 +614,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Unlike {@link #row(int)}, this method returns a new array, not a reference to internal data.
      * Modifications to the returned array will not affect the matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
      * String[] colData = matrix.column(1);
@@ -645,7 +645,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The values are copied from the provided array, so subsequent modifications to
      * the input array will not affect the matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
      * String[] newRow = {"X", "Y"};
@@ -669,7 +669,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The array must have the same length as the number of rows in this matrix.
      * Each element is copied to the corresponding row in the specified column.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
      * String[] newColumn = {"X", "Y"};
@@ -695,7 +695,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The function is applied to each element in the row, and the result
      * replaces the original value. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Double all values in row 0
      * matrix.updateRow(0, x -> x * 2);
@@ -721,7 +721,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The function is applied to each element in the column, and the result
      * replaces the original value. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Append suffix to all strings in column 1
      * matrix.updateColumn(1, s -> s + "_suffix");
@@ -748,7 +748,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns a new array containing the diagonal values, modifications to which
      * will not affect the matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getLU2RD(); // Returns [1, 5, 9]
@@ -775,7 +775,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The diagonal array must have at least as many elements as the matrix dimension.
      * Extra elements in the array are ignored. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * m.setLU2RD(new Integer[]{10, 20, 30});
@@ -802,7 +802,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Each diagonal element is replaced by the result of the function.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Double the diagonal values
      * matrix.updateLU2RD(x -> x * 2);
@@ -831,7 +831,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The first element is from the top-right corner, the last from the bottom-left corner.
      * Modifications to the returned array will not affect the matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getRU2LD(); // Returns [3, 5, 7]
@@ -859,7 +859,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The first element goes to the top-right corner, the last to the bottom-left corner.
      * Extra elements in the array are ignored. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
      * m.setRU2LD(new Integer[]{10, 20, 30});
@@ -886,7 +886,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Each anti-diagonal element is replaced by the result of the function.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Negate the anti-diagonal values
      * matrix.updateRU2LD(x -> -x);
@@ -916,7 +916,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Each element is replaced by the result of applying the function.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert all elements to uppercase
      * stringMatrix.updateAll(String::toUpperCase);
@@ -943,7 +943,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * This is useful for position-dependent transformations. The operation may be performed
      * in parallel for large matrices. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Set each element to its row + column index
      * matrix.updateAll((i, j) -> i + j);
@@ -970,7 +970,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The operation may be performed in parallel for large matrices.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Replace all null values with empty string
      * matrix.replaceIf(Objects::isNull, "");
@@ -998,7 +998,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * This is useful for position-based replacements. The operation may be performed
      * in parallel for large matrices. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Replace diagonal elements with zero
      * matrix.replaceIf((i, j) -> i == j, zero);
@@ -1025,7 +1025,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The result matrix has the same element type as the original.
      * This is a convenience method that uses the same element type for input and output.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> upper = stringMatrix.map(String::toUpperCase);
      * Matrix<Integer> doubled = intMatrix.map(x -> x * 2);
@@ -1046,7 +1046,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The result matrix can have a different element type than the original.
      * The target element type must be explicitly specified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert Integer matrix to String matrix
      * Matrix<String> strings = intMatrix.map(Object::toString, String.class);
@@ -1078,7 +1078,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a boolean matrix by applying a boolean-valued function to each element.
      * This is useful for creating masks or performing element-wise comparisons.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Check for null values
      * BooleanMatrix nullMask = matrix.mapToBoolean(Objects::isNull);
@@ -1108,7 +1108,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a byte matrix by applying a byte-valued function to each element.
      * Values outside the byte range (-128 to 127) will be truncated.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert to byte values
      * ByteMatrix bytes = matrix.mapToByte(x -> x.byteValue());
@@ -1135,7 +1135,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a char matrix by applying a char-valued function to each element.
      * This is useful for character-based transformations.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Get first character of each string
      * CharMatrix firstChars = stringMatrix.mapToChar(s -> s.charAt(0));
@@ -1164,7 +1164,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a short matrix by applying a short-valued function to each element.
      * Values outside the short range (-32,768 to 32,767) will be truncated.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert to short values
      * ShortMatrix shorts = matrix.mapToShort(x -> x.shortValue());
@@ -1191,7 +1191,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates an int matrix by applying an int-valued function to each element.
      * This is one of the most commonly used primitive type conversions.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Get string lengths
      * IntMatrix lengths = stringMatrix.mapToInt(String::length);
@@ -1221,7 +1221,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a long matrix by applying a long-valued function to each element.
      * Useful for operations that require 64-bit integer precision.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert to long values
      * LongMatrix longs = matrix.mapToLong(x -> x.longValue());
@@ -1251,7 +1251,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a float matrix by applying a float-valued function to each element.
      * Useful for single-precision floating-point operations.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert to float values
      * FloatMatrix floats = matrix.mapToFloat(x -> x.floatValue());
@@ -1278,7 +1278,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a double matrix by applying a double-valued function to each element.
      * Useful for double-precision floating-point operations.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Convert to double values
      * DoubleMatrix doubles = matrix.mapToDouble(x -> x.doubleValue());
@@ -1308,7 +1308,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Fills all elements in the matrix with the specified value.
      * This replaces every element with the same value. The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.fill(null); // Clear all values
      * matrix.fill(defaultValue); // Reset to default
@@ -1330,7 +1330,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * If the source array is smaller than this matrix, the remaining cells are unchanged.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * T[][] data = {{"A", "B"}, {"C", "D"}};
      * matrix.fill(data); // Copy from top-left
@@ -1348,7 +1348,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * If the source data extends beyond the matrix bounds, it is truncated.
      * The matrix is modified in-place.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * T[][] patch = {{"X", "Y"}, {"Z", "W"}};
      * matrix.fill(1, 2, patch); // Start filling at row 1, column 2
@@ -1373,7 +1373,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The returned matrix is independent of the original; modifications to one
      * do not affect the other. Each row array is cloned.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<T> copy = matrix.copy();
      * copy.set(0, 0, newValue); // Does not affect original matrix
@@ -1397,7 +1397,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The returned matrix contains only the specified rows.
      * Row indices are inclusive of fromRowIndex and exclusive of toRowIndex.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<T> topRows = matrix.copy(0, 3); // Copy first 3 rows
      * Matrix<T> middleRows = matrix.copy(2, 5); // Copy rows 2, 3, 4
@@ -1426,7 +1426,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The returned matrix contains elements from the specified row and column ranges.
      * All indices are inclusive of the 'from' index and exclusive of the 'to' index.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original 4x4 matrix
      * Matrix<T> subMatrix = matrix.copy(1, 3, 1, 3); // Copy 2x2 center sub-matrix
@@ -1458,7 +1458,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * If the new dimensions are larger, new cells are filled with null values.
      * If the new dimensions are smaller, the matrix is truncated.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(3, 3); // 3x3 matrix with nulls in new cells
@@ -1477,7 +1477,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * If the new dimensions are larger, new cells are filled with the specified default value.
      * If the new dimensions are smaller, the matrix is truncated.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(3, 3, 0); // 3x3 matrix with 0s in new cells
@@ -1519,7 +1519,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Extends the matrix by adding rows and columns in all directions.
      * New cells are filled with null values.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1); // Adds 1 row/column on each side
@@ -1540,7 +1540,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Extends the matrix by adding rows and columns in all directions.
      * New cells are filled with the specified default value.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1, 0);
@@ -1600,7 +1600,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Reverses the order of elements in each row (horizontal flip in-place).
      * This modifies the matrix directly.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.reverseH();
@@ -1619,7 +1619,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Reverses the order of rows in the matrix (vertical flip in-place).
      * This modifies the matrix directly.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * matrix.reverseV();
@@ -1643,7 +1643,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix that is horizontally flipped (each row reversed).
      * The original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> flipped = matrix.flipH();
@@ -1665,7 +1665,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix that is vertically flipped (each column reversed).
      * The original matrix is not modified.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> flipped = matrix.flipV();
@@ -1687,7 +1687,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix rotated 90 degrees clockwise.
      * The dimensions are swapped: an m×n matrix becomes n×m.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> rotated = matrix.rotate90();
@@ -1725,7 +1725,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix rotated 180 degrees.
      * Equivalent to flipping both horizontally and vertically.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> rotated = matrix.rotate180();
@@ -1750,7 +1750,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
      * The dimensions are swapped: an m×n matrix becomes n×m.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> rotated = matrix.rotate270();
@@ -1789,7 +1789,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Rows become columns and columns become rows.
      * The dimensions are swapped: an m×n matrix becomes n×m.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> transposed = matrix.transpose();
@@ -1830,7 +1830,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * cells are left as null. If the new dimensions require fewer elements,
      * extra elements from the original matrix are discarded.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> reshaped = matrix.reshape(3, 2);
@@ -1877,7 +1877,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Repeats each element in the matrix by the specified number of times in both directions.
      * Each element is expanded into a block of rowRepeats×colRepeats identical elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> repeated = matrix.repelem(2, 3);
@@ -1893,6 +1893,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     @Override
     public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
 
@@ -1921,7 +1929,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Repeats the entire matrix as a tile pattern by the specified number of times.
      * The matrix is repeated as a whole block rowRepeats times vertically and colRepeats times horizontally.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> tiled = matrix.repmat(2, 3);
@@ -1937,6 +1945,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     @Override
     public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+
+        if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+        }
+
+        if ((long) cols * colRepeats > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+        }
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
 
@@ -1964,7 +1980,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The list is a new collection independent of the matrix. Elements are read in
      * row-major order (left to right, top to bottom).
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * List<Integer> flat = matrix.flatten();
@@ -2000,7 +2016,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p>This is useful for bulk operations that need to work with entire rows,
      * such as sorting rows or applying array-level transformations.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{3, 1, 2}, {6, 4, 5}});
      * // Sort each row
@@ -2024,7 +2040,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The result has rows from this matrix followed by rows from the other matrix.
      * Creates a new matrix; neither input matrix is modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
@@ -2061,7 +2077,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The result has columns from this matrix followed by columns from the other matrix.
      * Creates a new matrix; neither input matrix is modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5}, {6}});
@@ -2094,7 +2110,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Both matrices must have the same dimensions. The result matrix has the same element type as this matrix.
      * The operation may be performed in parallel for large matrices.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
@@ -2120,7 +2136,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The matrices must have the same dimensions. The operation may be performed
      * in parallel for large matrices.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Double> m2 = Matrix.of(new Double[][]{{0.5, 1.0}, {1.5, 2.0}});
@@ -2157,7 +2173,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The function is applied to corresponding elements from all three matrices.
      * All matrices must have the same dimensions.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
@@ -2185,7 +2201,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The function can return elements of a different type than the input matrices.
      * All matrices must have the same dimensions.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<String> m2 = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
@@ -2227,7 +2243,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of elements on the diagonal from left-upper to right-down.
      * The matrix must be square (same number of rows and columns).
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> diagonal = matrix.streamLU2RD();
@@ -2283,7 +2299,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of elements on the diagonal from right-upper to left-down.
      * The matrix must be square (same number of rows and columns).
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> diagonal = matrix.streamRU2LD();
@@ -2338,7 +2354,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of all elements in row-major order (left to right, top to bottom).
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Stream<Integer> stream = matrix.streamH();
@@ -2355,7 +2371,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of elements from a specific row.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> row1 = matrix.streamH(1);
@@ -2374,7 +2390,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of elements from a range of rows in row-major order.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Stream<Integer> rows = matrix.streamH(1, 3);
@@ -2465,7 +2481,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of all elements in column-major order (top to bottom, left to right).
      * This method is marked as @Beta.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Stream<Integer> stream = matrix.streamV();
@@ -2483,7 +2499,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of elements from a specific column.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> col1 = matrix.streamV(1);
@@ -2503,7 +2519,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of elements from a range of columns in column-major order.
      * This method is marked as @Beta.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<Integer> cols = matrix.streamV(1, 3);
@@ -2595,7 +2611,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of streams, where each inner stream represents a row.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Stream<Stream<Integer>> rows = matrix.streamR();
@@ -2612,7 +2628,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a stream of streams for a range of rows.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
      * Stream<Stream<Integer>> rows = matrix.streamR(1, 3);
@@ -2670,7 +2686,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of streams, where each inner stream represents a column.
      * This method is marked as @Beta.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<Stream<Integer>> columns = matrix.streamC();
@@ -2689,7 +2705,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a stream of streams for a range of columns.
      * This method is marked as @Beta.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<Stream<Integer>> columns = matrix.streamC(1, 3);
@@ -2794,7 +2810,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Applies the given action to each element in the matrix.
      * The action is performed on all elements in row-major order.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * matrix.forEach(element -> System.out.print(element + " "));
@@ -2814,7 +2830,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The action is performed on elements within the specified row and column ranges.
      * Processing may be parallelized for large matrices.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.forEach(1, 3, 1, 3, element -> System.out.print(element + " "));
@@ -2857,18 +2873,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p>The column names are used in the order they appear in the collection,
      * and must match the number of columns in the matrix exactly.</p>
      *
-     * <p><b>Example:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("A", "B", "C");
-     * 
+     *
      * Dataset dataset = matrix.toDatasetH(columnNames);
      * // Dataset with:
      * // A  B  C
      * // -------
      * // 1  2  3
      * // 4  5  6
-     * 
+     *
      * // Access data by column name
      * List<Integer> columnA = dataset.getColumn("A"); // [1, 4]
      * }</pre>
@@ -2907,7 +2923,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p>The column names are used in the order they appear in the collection,
      * and must match the number of rows in the matrix exactly.</p>
      *
-     * <p><b>Example:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("Row1", "Row2");
@@ -2946,12 +2962,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Prints this matrix to the standard output using the Arrays.println method.
      * This provides a convenient way to visualize the matrix content.
      *
-     * <p><b>Example:</b></p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.println();
      * // Output:
-     * // [[1, 2, 3], 
+     * // [[1, 2, 3],
      * //  [4, 5, 6]]
      * }</pre>
      */
@@ -2978,7 +2994,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns {@code true} if the given object is also a Matrix with the same dimensions
      * and all corresponding elements are equal.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
@@ -3007,7 +3023,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Returns a string representation of this matrix.
      * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * System.out.println(matrix.toString()); // [[1, 2], [3, 4]]

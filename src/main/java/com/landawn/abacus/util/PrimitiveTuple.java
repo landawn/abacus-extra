@@ -24,7 +24,7 @@ import com.landawn.abacus.util.u.Optional;
  * implementations extend this class and are immutable by design.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * IntTuple3 tuple = IntTuple.of(1, 2, 3);
  * Optional<IntTuple3> filtered = tuple.filter(t -> t._1 > 0);
@@ -53,7 +53,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * specific arity of their tuple type.
      * </p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple2 tuple2 = IntTuple.of(10, 20);
      * int size = tuple2.arity(); // returns 2
@@ -80,7 +80,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * access to all tuple fields within the consumer lambda.
      * </p>
      *
-     * <p>Examples:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Printing tuple values
      * IntTuple2 tuple = IntTuple.of(10, 20);
@@ -103,8 +103,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * @param <E> the type of exception that may be thrown by the action
      * @param action the consumer action to be performed on this tuple, must not be {@code null}
-     * @throws E if the action throws an exception during execution
-     * @throws NullPointerException if the action is {@code null}
+     * @throws E if the action throws an exception during execution if the action is {@code null}
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         action.accept((TP) this);
@@ -129,7 +128,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * new value based on the tuple's contents.
      * </p>
      *
-     * <p>Examples:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Calculate Euclidean distance from origin
      * IntTuple2 point = IntTuple.of(3, 4);
@@ -155,8 +154,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param <E> the type of exception that may be thrown by the mapper
      * @param mapper the mapping function to apply to this tuple, must not be {@code null}
      * @return the result of applying the mapper function to this tuple
-     * @throws E if the mapper function throws an exception during execution
-     * @throws NullPointerException if the mapper is {@code null}
+     * @throws E if the mapper function throws an exception during execution if the mapper is {@code null}
      */
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
         return mapper.apply((TP) this);
@@ -177,7 +175,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * when certain conditions are met, enabling clean and expressive filtering logic.
      * </p>
      *
-     * <p>Examples:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Filter for positive values
      * IntTuple2 tuple = IntTuple.of(5, 10);
@@ -207,8 +205,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param predicate the predicate to test this tuple against, must not be {@code null}
      * @return an {@link Optional} containing this tuple if the predicate returns {@code true},
      *         otherwise an empty Optional
-     * @throws E if the predicate test throws an exception during execution
-     * @throws NullPointerException if the predicate is {@code null}
+     * @throws E if the predicate test throws an exception during execution if the predicate is {@code null}
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();
@@ -228,7 +225,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * start an Optional-based processing chain directly from the tuple.
      * </p>
      *
-     * <p>Examples:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Simple wrapping
      * IntTuple2 tuple = IntTuple.of(1, 2);

@@ -45,7 +45,7 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li>Conversion methods to other matrix types (Long, Float, Double, boxed Integer)</li>
  * </ul>
  *
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Create matrices
  * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
@@ -82,7 +82,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates an empty matrix with zero rows and zero columns.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.empty();
      * // matrix.rows() returns 0
@@ -98,7 +98,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates an IntMatrix from a 2D int array.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * // matrix.get(0, 1) returns 2
@@ -116,7 +116,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.create(new char[][]{{'A', 'B'}, {'C', 'D'}});
      * // Creates a matrix with ASCII values {{65, 66}, {67, 68}}
@@ -161,7 +161,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.create(new byte[][]{{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1, 2}, {3, 4}}
@@ -206,7 +206,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.create(new short[][]{{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1, 2}, {3, 4}}
@@ -252,7 +252,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The random values are generated using the default random number generator
      * and will span the entire range of possible int values (Integer.MIN_VALUE to Integer.MAX_VALUE).</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.random(5);
      * // Creates a 1x5 matrix like [[453, -8291, 9384, 1243, -4432]]
@@ -269,7 +269,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1-row matrix with all elements set to the specified value.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.repeat(42, 5);
      * // Creates a 1x5 matrix [[42, 42, 42, 42, 42]]
@@ -286,7 +286,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1xN IntMatrix with values from startInclusive to endExclusive.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix range = IntMatrix.range(0, 5); // Creates [[0, 1, 2, 3, 4]]
      * }</pre>
@@ -302,7 +302,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1xN IntMatrix with values from startInclusive to endExclusive with specified step.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix range = IntMatrix.range(0, 10, 2); // Creates [[0, 2, 4, 6, 8]]
      * }</pre>
@@ -319,7 +319,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1xN IntMatrix with values from startInclusive to endInclusive.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix range = IntMatrix.rangeClosed(0, 4); // Creates [[0, 1, 2, 3, 4]]
      * }</pre>
@@ -335,7 +335,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a 1xN IntMatrix with values from startInclusive to endInclusive with specified step.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix range = IntMatrix.rangeClosed(0, 10, 2); // Creates [[0, 2, 4, 6, 8, 10]]
      * }</pre>
@@ -353,7 +353,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates a square matrix from the specified main diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonalLU2RD(new int[]{1, 2, 3});
      * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
@@ -370,7 +370,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates a square matrix from the specified anti-diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonalRU2LD(new int[]{1, 2, 3});
      * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
@@ -387,7 +387,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonal(new int[]{1, 2}, new int[]{3, 4});
      * // Creates 2x2 matrix with both diagonals set
@@ -430,7 +430,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Converts a boxed Integer Matrix to a primitive IntMatrix.
      * Null values in the input matrix are converted to 0.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> boxed = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
      * IntMatrix primitive = IntMatrix.unbox(boxed);
@@ -457,7 +457,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Returns the element at the specified row and column indices.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * int value = matrix.get(0, 1); // Returns 2
@@ -475,7 +475,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Returns the element at the specified point.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * // Assuming you have a Point implementation
@@ -493,7 +493,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the element at the specified row and column indices.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.set(0, 1, 9); // Sets element at row 0, column 1 to 9
@@ -511,7 +511,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the element at the specified point.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * // Assuming you have a Point implementation
@@ -533,7 +533,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * requiring explicit bounds checking. If the specified position is in the top row
      * (i == 0), an empty Optional is returned.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * OptionalInt value = matrix.upOf(1, 0); // Returns OptionalInt.of(1)
@@ -557,7 +557,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * requiring explicit bounds checking. If the specified position is in the bottom row
      * (i == rows - 1), an empty Optional is returned.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * OptionalInt value = matrix.downOf(0, 0); // Returns OptionalInt.of(3)
@@ -581,7 +581,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * requiring explicit bounds checking. If the specified position is in the leftmost
      * column (j == 0), an empty Optional is returned.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * OptionalInt value = matrix.leftOf(0, 1); // Returns OptionalInt.of(1)
@@ -605,7 +605,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * requiring explicit bounds checking. If the specified position is in the rightmost
      * column (j == cols - 1), an empty Optional is returned.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * OptionalInt value = matrix.rightOf(0, 0); // Returns OptionalInt.of(2)
@@ -629,7 +629,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The points are returned in the order: up, right, down, left (clockwise from top).
      * Points that would fall outside the matrix bounds are excluded from the stream.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
@@ -659,7 +659,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The points are returned in the order: left-up, up, right-up, right, right-down, down, left-down, left
      * (clockwise from top-left). Points that would fall outside the matrix bounds are excluded from the stream.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
@@ -694,7 +694,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Any modifications to the returned array will directly affect the matrix. For a safe
      * copy that won't affect the original matrix, use {@code matrix.row(i).clone()}.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * int[] firstRow = matrix.row(0); // Returns reference to [1, 2, 3]
@@ -719,7 +719,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * columns are not stored contiguously in the internal 2D array representation.
      * Modifications to the returned array will not affect the matrix.</p>
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * int[] firstColumn = matrix.column(0); // Returns new array [1, 4]
@@ -745,7 +745,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the values of the specified row.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.setRow(0, new int[]{7, 8, 9}); // First row is now [7, 8, 9]
@@ -764,7 +764,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the values of the specified column.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.setColumn(0, new int[]{7, 8}); // First column is now [7, 8]
@@ -789,7 +789,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The function is applied to each element in the specified row sequentially
      * from left to right (column 0 to column cols-1).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.updateRow(0, x -> x * 2); // Doubles all values in the first row
@@ -816,7 +816,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The function is applied to each element in the specified column sequentially
      * from top to bottom (row 0 to row rows-1).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * matrix.updateColumn(0, x -> x + 10); // Adds 10 to all values in the first column
@@ -842,7 +842,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * int[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
@@ -871,7 +871,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      * If the diagonal array is longer than needed, extra elements are ignored.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.setLU2RD(new int[]{9, 8});
@@ -895,7 +895,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
      * The matrix must be square.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.updateLU2RD(x -> x * x); // Squares all diagonal values
      * }</pre>
@@ -920,7 +920,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * int[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
@@ -950,7 +950,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      * If the diagonal array is longer than needed, extra elements are ignored.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.setRU2LD(new int[]{9, 8});
@@ -974,7 +974,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified function.
      * The matrix must be square.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.updateRU2LD(x -> -x); // Negates all anti-diagonal values
      * }</pre>
@@ -999,7 +999,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The operation may be performed in parallel for large matrices to improve performance.
      * Elements are processed in row-major order when executed sequentially.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.updateAll(x -> x * 2); // Doubles all values in the matrix
@@ -1024,7 +1024,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * for that position. This is useful for initializing matrices based on position patterns or
      * mathematical formulas. The operation may be performed in parallel for large matrices.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{0, 0, 0}, {0, 0, 0}});
      * matrix.updateAll((i, j) -> i + j); // Sets each element to sum of its indices
@@ -1051,7 +1051,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>The operation may be performed in parallel for large matrices to improve performance.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{-1, 2, -3}, {4, -5, 6}});
      * matrix.replaceIf(x -> x < 0, 0); // Replaces all negative values with 0
@@ -1080,7 +1080,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This is useful for position-based replacements such as setting diagonals, borders,
      * or specific regions. The operation may be performed in parallel for large matrices.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.replaceIf((i, j) -> i == j, 0); // Sets main diagonal elements to 0
@@ -1108,7 +1108,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The operation may be performed in parallel for large matrices to improve performance.
      * This is the immutable counterpart to {@link #updateAll(Throwables.IntUnaryOperator)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix squared = matrix.map(x -> x * x); // Creates new matrix with squared values
@@ -1137,7 +1137,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a new LongMatrix by applying a function that converts int values to long.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix longMatrix = matrix.mapToLong(x -> (long) x * 1000000);
      * }</pre>
@@ -1159,7 +1159,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a new DoubleMatrix by applying a function that converts int values to double.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix doubleMatrix = matrix.mapToDouble(x -> x * 0.1);
      * }</pre>
@@ -1181,7 +1181,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Creates a new Matrix by applying a function that converts int values to objects of type T.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> stringMatrix = matrix.mapToObj(x -> String.valueOf(x), String.class);
      * }</pre>
@@ -1206,7 +1206,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Fills the entire matrix with the specified value in-place.
      * This modifies the matrix directly, setting every element to the given value.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.fill(0); // Sets all elements to 0
@@ -1229,7 +1229,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * If the source array is larger than the matrix, only the fitting portion is copied.
      * If the source array is smaller, only the available values are copied.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{0, 0, 0}, {0, 0, 0}});
      * int[][] patch = {{1, 2}, {3, 4}};
@@ -1246,7 +1246,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Fills a portion of the matrix with values from another 2D array.
      * The filling starts at the specified position and copies as much as will fit.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] patch = {{1, 2}, {3, 4}};
      * matrix.fill(1, 1, patch); // Fills starting at row 1, column 1
@@ -1271,7 +1271,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix original = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix copy = original.copy();
@@ -1296,7 +1296,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The returned matrix contains only the specified rows and is completely independent
      * from the original matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * IntMatrix subMatrix = matrix.copy(0, 2); // Contains rows 0 and 1
@@ -1325,7 +1325,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The returned matrix contains only the specified rows and columns and is completely
      * independent from the original matrix.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix subMatrix = matrix.copy(0, 2, 1, 3); // Contains [[2, 3], [5, 6]]
@@ -1358,7 +1358,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * If the new dimensions are larger, new cells are filled with the default value (0).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix extended = matrix.extend(3, 3);
@@ -1379,7 +1379,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * If the new dimensions are larger, new cells are filled with the specified default value.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix extended = matrix.extend(3, 3, -1);
@@ -1428,7 +1428,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The original matrix content is positioned in the center of the extended matrix.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix extended = matrix.extend(1, 1, 1, 1);
@@ -1453,7 +1453,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The original matrix content is positioned in the center of the extended matrix.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix extended = matrix.extend(1, 1, 1, 1, -1);
@@ -1481,6 +1481,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
         } else {
+            if ((long) toUp + rows + toDown > Integer.MAX_VALUE) {
+                throw new IllegalArgumentException("Result would have too many rows: " + toUp + " + " + rows + " + " + toDown);
+            }
+
+            if ((long) toLeft + cols + toRight > Integer.MAX_VALUE) {
+                throw new IllegalArgumentException("Result would have too many columns: " + toLeft + " + " + cols + " + " + toRight);
+            }
+
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
@@ -1517,7 +1525,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This is an in-place operation that modifies the current matrix.
      * For a non-destructive version that returns a new matrix, use {@link #flipH()}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.reverseH();
@@ -1541,7 +1549,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This is an in-place operation that modifies the current matrix.
      * For a non-destructive version that returns a new matrix, use {@link #flipV()}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * matrix.reverseV();
@@ -1567,7 +1575,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Each row is reversed left-to-right (the leftmost element becomes rightmost).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntMatrix flipped = matrix.flipH();
@@ -1589,7 +1597,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The rows are reversed top-to-bottom (the topmost row becomes bottommost).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntMatrix flipped = matrix.flipV();
@@ -1612,7 +1620,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * column of the result being the last row of the original, reading upward.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 90° clockwise:
      * // 1 2 3        7 4 1
@@ -1649,7 +1657,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * order of all elements. The resulting matrix has the same dimensions as the original.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 180°:
      * // 1 2 3        9 8 7
@@ -1677,7 +1685,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * column of the result being the first row of the original, reading downward.
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 270° clockwise:
      * // 1 2 3        3 6 9
@@ -1715,7 +1723,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * has dimensions swapped (rows x cols becomes cols x rows).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Transposed:
      * // 1 2 3        1 4 7
@@ -1754,7 +1762,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * default values (0 for numeric types, false for boolean, null for objects).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
@@ -1797,7 +1805,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Repeats elements in both row and column directions.
      * Each element is repeated to form a block of size rowRepeats x colRepeats.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2}});
      * IntMatrix repeated = matrix.repelem(2, 3);
@@ -1845,7 +1853,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Repeats the entire matrix in a tiled pattern.
      * The matrix is repeated as a whole rowRepeats times vertically and colRepeats times horizontally.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2},{3,4}});
      * IntMatrix repeated = matrix.repmat(2, 3);
@@ -1893,7 +1901,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Returns a list containing all matrix elements in row-major order.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntList list = matrix.flatten(); // Returns IntList of 1, 2, 3, 4
@@ -1921,7 +1929,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Applies an operation to each row array of the matrix.
      * This method provides direct access to the internal row arrays for batch operations.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{3, 1, 2}, {6, 4, 5}});
      * matrix.flatOp(row -> java.util.Arrays.sort(row));
@@ -1946,7 +1954,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This operation is also known as vertical concatenation or rbind (bind by rows).
      * Creates a new matrix; the original matrices are not modified.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});     // 2x3
      * IntMatrix b = IntMatrix.of(new int[][]{{7, 8, 9}, {10, 11, 12}});  // 2x3
@@ -1987,7 +1995,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This operation is also known as horizontal concatenation or cbind (bind by columns).
      * Creates a new matrix; the original matrices are not modified.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});     // 2x3
      * IntMatrix b = IntMatrix.of(new int[][]{{7, 8, 9}, {10, 11, 12}});  // 2x3
@@ -2019,7 +2027,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The matrices must have the same dimensions.
      * <p><b>Note:</b> Integer overflow may occur during addition.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1,2},{3,4}});
      * IntMatrix b = IntMatrix.of(new int[][]{{5,6},{7,8}});
@@ -2047,7 +2055,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The matrices must have the same dimensions.
      * <p><b>Note:</b> Integer overflow may occur during subtraction.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{5,6},{7,8}});
      * IntMatrix b = IntMatrix.of(new int[][]{{1,2},{3,4}});
@@ -2075,7 +2083,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The number of columns in this matrix must equal the number of rows in the other matrix.
      * <p><b>Note:</b> Integer overflow may occur during multiplication.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1,2},{3,4}});
      * IntMatrix b = IntMatrix.of(new int[][]{{5,6},{7,8}});
@@ -2101,7 +2109,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Converts this primitive int matrix to a boxed Integer matrix.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix primitive = IntMatrix.of(new int[][]{{1, 2}});
      * Matrix<Integer> boxed = primitive.boxed();
@@ -2136,7 +2144,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Converts this int matrix to a long matrix.
      * Each int value is converted to long.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
      * LongMatrix longMatrix = intMatrix.toLongMatrix();
@@ -2152,7 +2160,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Converts this int matrix to a float matrix.
      * Each int value is converted to float.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
      * FloatMatrix floatMatrix = intMatrix.toFloatMatrix();
@@ -2168,7 +2176,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Converts this int matrix to a double matrix.
      * Each int value is converted to double.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}});
      * DoubleMatrix doubleMatrix = intMatrix.toDoubleMatrix();
@@ -2192,7 +2200,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The operation may be performed in parallel for large matrices to improve performance.
      * Creates a new matrix; the original matrices are not modified.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix b = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
@@ -2239,7 +2247,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>The operation may be performed in parallel for large matrices to improve performance.
      * Creates a new matrix; the original matrices are not modified.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix a = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix b = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
@@ -2282,7 +2290,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Returns a stream of elements on the main diagonal (left-up to right-down).
      * The matrix must be square.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
      * IntStream diagonal = matrix.streamLU2RD(); // Stream of [1, 5, 9]
@@ -2337,7 +2345,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Returns a stream of elements on the anti-diagonal (right-up to left-down).
      * The matrix must be square.
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
      * IntStream antiDiagonal = matrix.streamRU2LD(); // Stream of [3, 5, 7]
@@ -2397,7 +2405,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * without concern for their row/column positions. The stream supports all
      * standard IntStream operations including sum, average, filter, map, etc.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntStream stream = matrix.streamH(); // Stream of [1, 2, 3, 4]
@@ -2420,7 +2428,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * a specific row of the matrix independently. The returned stream can be
      * used with all standard IntStream operations.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream rowStream = matrix.streamH(0); // Stream of [1, 2, 3]
@@ -2446,7 +2454,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The stream maintains the row-major order, meaning all elements from one row
      * are streamed before moving to the next row.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * IntStream stream = matrix.streamH(1, 3); // Stream rows 1 and 2: [3, 4, 5, 6]
@@ -2539,7 +2547,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * in future versions. It provides an alternative way to iterate through matrix
      * elements compared to the row-major order of streamH().</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntStream stream = matrix.streamV(); // Stream of [1, 3, 2, 4]
@@ -2561,7 +2569,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method is useful for column-wise operations such as calculating
      * column sums, finding column maximums, or filtering column values.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream colStream = matrix.streamV(1); // Stream of [2, 5]
@@ -2586,7 +2594,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method is marked as @Beta and allows for efficient processing of a
      * subset of matrix columns in column-major order.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream stream = matrix.streamV(1, 3); // Stream columns 1 and 2: [2, 5, 3, 6]
@@ -2682,7 +2690,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * such as row-wise transformations, filtering rows based on conditions, or mapping
      * rows to other values.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * Stream<IntStream> rows = matrix.streamR();
@@ -2706,7 +2714,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method allows for processing a subset of rows while maintaining the
      * ability to work with complete rows as individual streams.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * Stream<IntStream> middleRows = matrix.streamR(1, 3); // Rows 1 and 2
@@ -2772,7 +2780,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * entire columns as units, such as column-wise statistics, transformations, or filtering
      * columns based on conditions.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<IntStream> columns = matrix.streamC();
@@ -2797,7 +2805,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p>This method is marked as @Beta and allows for processing a subset of columns
      * while maintaining the ability to work with complete columns as individual streams.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * Stream<IntStream> lastTwoCols = matrix.streamC(1, 3); // Columns 1 and 2
@@ -2913,7 +2921,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * or accumulating). For transformations that create new matrices, use {@link #map(Throwables.IntUnaryOperator)}
      * or {@link #updateAll(Throwables.IntUnaryOperator)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      *
@@ -2950,7 +2958,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The operation may be parallelized internally if the sub-matrix is large enough
      * to benefit from parallel processing.</p>
      * 
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * 
@@ -2996,7 +3004,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Each row is printed on a separate line with elements separated by commas
      * and enclosed in square brackets. The entire matrix is also enclosed in brackets.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.println();
@@ -3028,7 +3036,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Returns {@code true} if the given object is also an IntMatrix with the same dimensions
      * and all corresponding elements are equal.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix m2 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
@@ -3055,7 +3063,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Returns a string representation of this matrix.
      * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * System.out.println(matrix.toString()); // [[1, 2], [3, 4]]

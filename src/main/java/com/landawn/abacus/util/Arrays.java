@@ -34,7 +34,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *   <li>Array manipulation (reverse, rotate, shuffle)</li>
  * </ul>
  * 
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Element-wise addition
  * int[] a = {1, 2, 3};
@@ -84,7 +84,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[] array = {"Hello", "World", 123};
      * String result = Arrays.println(array);
@@ -100,7 +100,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D object array to print (can be null)
@@ -134,7 +134,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[][] array = {{"Hello", "World"}, {123, 456}, null, {}, {"End"}};
      * String result = Arrays.println(array);
@@ -155,7 +155,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D object array to print (can be null)
@@ -186,7 +186,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Object[][][] array = {{{"A", "B"}, {"C"}}, {{"D"}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -208,7 +208,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -225,11 +225,11 @@ public sealed class Arrays permits Arrays.f {
      * Maps each boolean element to an object using the provided mapper function.
      *
      * <p>Example:
-     * <pre>
+     * <pre>{@code
      * boolean[] flags = {true, false, true};
      * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
      * // Result: ["YES", "NO", "YES"]
-     * </pre>
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -257,6 +257,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each boolean element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every element across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] matrix = {{true, false}, {false, true}};
+     * String[][] result = Arrays.mapToObj(matrix, b -> b ? "YES" : "NO", String.class);
+     * // Result: {{"YES", "NO"}, {"NO", "YES"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -284,6 +293,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each boolean element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every element across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] cube = {{{true, false}, {true, true}}, {{false, false}, {true, false}}};
+     * Integer[][][] result = Arrays.mapToObj(cube, b -> b ? 1 : 0, Integer.class);
+     * // Result: {{{1, 0}, {1, 1}}, {{0, 0}, {1, 0}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -311,6 +329,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each char element to an object using the provided mapper function.
+     * Each character in the array is transformed according to the provided mapping function.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[] chars = {'a', 'b', 'c'};
+     * String[] strings = Arrays.mapToObj(chars, c -> String.valueOf(c).toUpperCase(), String.class);
+     * // Result: ["A", "B", "C"]
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -338,6 +364,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each char element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every character across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[][] matrix = {{'a', 'b'}, {'c', 'd'}};
+     * String[][] result = Arrays.mapToObj(matrix, c -> String.valueOf(c).toUpperCase(), String.class);
+     * // Result: {{"A", "B"}, {"C", "D"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -365,6 +400,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each char element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every character across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[][][] cube = {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g', 'h'}}};
+     * Integer[][][] result = Arrays.mapToObj(cube, c -> (int) c, Integer.class);
+     * // Result: {{{97, 98}, {99, 100}}, {{101, 102}, {103, 104}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -392,6 +436,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each byte element to an object using the provided mapper function.
+     * Each byte value in the array is transformed according to the provided mapping function.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[] bytes = {1, 2, 3, 4};
+     * String[] hex = Arrays.mapToObj(bytes, b -> String.format("%02X", b), String.class);
+     * // Result: ["01", "02", "03", "04"]
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -419,6 +471,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each byte element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every byte across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] matrix = {{1, 2}, {3, 4}};
+     * String[][] result = Arrays.mapToObj(matrix, b -> "0x" + Integer.toHexString(b), String.class);
+     * // Result: {{"0x1", "0x2"}, {"0x3", "0x4"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -446,6 +507,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each byte element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every byte across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * Integer[][][] result = Arrays.mapToObj(cube, b -> (int) b * 10, Integer.class);
+     * // Result: {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -473,6 +543,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each short element to an object using the provided mapper function.
+     * Each short value in the array is transformed according to the provided mapping function.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[] values = {100, 200, 300};
+     * String[] result = Arrays.mapToObj(values, s -> "Value: " + s, String.class);
+     * // Result: ["Value: 100", "Value: 200", "Value: 300"]
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -500,6 +578,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each short element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every short value across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[][] matrix = {{10, 20}, {30, 40}};
+     * Integer[][] result = Arrays.mapToObj(matrix, s -> (int) s * 2, Integer.class);
+     * // Result: {{20, 40}, {60, 80}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -527,6 +614,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each short element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every short value across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * String[][][] result = Arrays.mapToObj(cube, s -> "#" + s, String.class);
+     * // Result: {{{"#1", "#2"}, {"#3", "#4"}}, {{"#5", "#6"}, {"#7", "#8"}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -556,11 +652,11 @@ public sealed class Arrays permits Arrays.f {
      * Maps each int element to an object using the provided mapper function.
      *
      * <p>Example:
-     * <pre>
+     * <pre>{@code
      * int[] numbers = {1, 2, 3};
      * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
      * // Result: ["Number: 1", "Number: 2", "Number: 3"]
-     * </pre>
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -588,6 +684,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each int element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every integer across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] matrix = {{1, 2, 3}, {4, 5, 6}};
+     * String[][] result = Arrays.mapToObj(matrix, i -> "Item " + i, String.class);
+     * // Result: {{"Item 1", "Item 2", "Item 3"}, {"Item 4", "Item 5", "Item 6"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -615,6 +720,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each int element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every integer across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * Double[][][] result = Arrays.mapToObj(cube, i -> i * 1.5, Double.class);
+     * // Result: {{{1.5, 3.0}, {4.5, 6.0}}, {{7.5, 9.0}, {10.5, 12.0}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -642,6 +756,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each long element to an object using the provided mapper function.
+     * Each long value in the array is transformed according to the provided mapping function.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[] values = {1000000L, 2000000L, 3000000L};
+     * String[] result = Arrays.mapToObj(values, l -> l / 1000000 + "M", String.class);
+     * // Result: ["1M", "2M", "3M"]
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -669,6 +791,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each long element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every long value across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][] matrix = {{100L, 200L}, {300L, 400L}};
+     * String[][] result = Arrays.mapToObj(matrix, l -> "ID-" + l, String.class);
+     * // Result: {{"ID-100", "ID-200"}, {"ID-300", "ID-400"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -696,6 +827,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each long element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every long value across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][][] cube = {{{1L, 2L}, {3L, 4L}}, {{5L, 6L}, {7L, 8L}}};
+     * BigInteger[][][] result = Arrays.mapToObj(cube, l -> BigInteger.valueOf(l), BigInteger.class);
+     * // Converts each long to BigInteger while maintaining 3D structure
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -723,6 +863,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each float element to an object using the provided mapper function.
+     * Each float value in the array is transformed according to the provided mapping function.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * float[] temperatures = {98.6f, 99.5f, 97.3f};
+     * String[] result = Arrays.mapToObj(temperatures, t -> t + "°F", String.class);
+     * // Result: ["98.6°F", "99.5°F", "97.3°F"]
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -750,6 +898,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each float element in a 2D array to an object using the provided mapper function.
+     * This method applies the mapper function to every float value across all sub-arrays, maintaining
+     * the 2D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * float[][] matrix = {{1.1f, 2.2f}, {3.3f, 4.4f}};
+     * String[][] result = Arrays.mapToObj(matrix, f -> String.format("%.1f", f), String.class);
+     * // Result: {{"1.1", "2.2"}, {"3.3", "4.4"}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -777,6 +934,15 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each float element in a 3D array to an object using the provided mapper function.
+     * This method applies the mapper function to every float value across all levels of nested sub-arrays,
+     * preserving the 3D structure of the original array.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * float[][][] cube = {{{1.5f, 2.5f}, {3.5f, 4.5f}}, {{5.5f, 6.5f}, {7.5f, 8.5f}}};
+     * Double[][][] result = Arrays.mapToObj(cube, f -> (double) f * 2, Double.class);
+     * // Result: {{{3.0, 5.0}, {7.0, 9.0}}, {{11.0, 13.0}, {15.0, 17.0}}}
+     * }</pre>
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
@@ -941,7 +1107,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D int array to a 2D long array using the provided mapper function.
-     * Each int element is transformed to a long value.
+     * Each int element is transformed to a long value, preserving the 2D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] matrix = {{1, 2}, {3, 4}};
+     * long[][] result = Arrays.mapToLong(matrix, i -> i * 1000000000L);
+     * // Result: {{1000000000L, 2000000000L}, {3000000000L, 4000000000L}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
      * @param a the input 2D int array
@@ -966,7 +1139,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D int array to a 3D long array using the provided mapper function.
-     * Each int element is transformed to a long value.
+     * Each int element is transformed to a long value, preserving the 3D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * long[][][] result = Arrays.mapToLong(cube, i -> (long) i * i);
+     * // Result: {{{1L, 4L}, {9L, 16L}}, {{25L, 36L}, {49L, 64L}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
      * @param a the input 3D int array
@@ -1023,7 +1203,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D int array to a 2D double array using the provided mapper function.
-     * Each int element is transformed to a double value.
+     * Each int element is transformed to a double value, preserving the 2D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] matrix = {{10, 20}, {30, 40}};
+     * double[][] result = Arrays.mapToDouble(matrix, i -> i / 3.0);
+     * // Result: {{3.33..., 6.66...}, {10.0, 13.33...}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
      * @param a the input 2D int array
@@ -1048,7 +1235,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D int array to a 3D double array using the provided mapper function.
-     * Each int element is transformed to a double value.
+     * Each int element is transformed to a double value, preserving the 3D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * double[][][] result = Arrays.mapToDouble(cube, i -> Math.sqrt(i));
+     * // Result: {{{1.0, 1.41...}, {1.73..., 2.0}}, {{2.23..., 2.44...}, {2.64..., 2.82...}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
      * @param a the input 3D int array
@@ -1205,7 +1399,14 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D long array to a 3D double array using the provided mapper function.
-     * Each long element is transformed to a double value.
+     * Each long element is transformed to a double value, preserving the 3D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][][] cube = {{{100L, 200L}, {300L, 400L}}, {{500L, 600L}, {700L, 800L}}};
+     * double[][][] result = Arrays.mapToDouble(cube, l -> l / 100.0);
+     * // Result: {{{1.0, 2.0}, {3.0, 4.0}}, {{5.0, 6.0}, {7.0, 8.0}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
      * @param a the input 3D long array
@@ -1738,7 +1939,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method is useful when you want to perform element-wise operations on two
      * arrays without worrying about length mismatches. Null arrays are treated as empty.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true, false};
@@ -1775,7 +1976,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method is ideal when you need to process arrays of different lengths and want
      * to provide sensible defaults for missing values rather than truncating to the shorter length.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
@@ -1824,7 +2025,7 @@ public sealed class Arrays permits Arrays.f {
      * for combining multiple arrays when you only care about positions where all arrays
      * have values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true, false};
@@ -1865,7 +2066,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>The result array has a length equal to the longest input array, with default values
      * substituted for any missing elements from shorter arrays.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] a = {true, false, true, false};
      * boolean[] b = {false, true};
@@ -1917,7 +2118,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method is useful for matrix-like operations where you want to combine
      * corresponding rows from two 2D arrays.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}};
@@ -1956,7 +2157,7 @@ public sealed class Arrays permits Arrays.f {
      * For each position, if one array lacks a sub-array, a null is treated as an empty array and
      * default values are used for all positions.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}, {true}};
@@ -2007,7 +2208,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method extends the 2D zip concept to three arrays, useful for combining
      * data from three different sources row by row.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}};
@@ -2048,7 +2249,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>The result has an outer array length equal to the longest input outer array. Missing sub-arrays
      * are treated as null/empty, and the provided default values are used for any missing elements.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] a = {{true, false}, {false, true, false}};
      * boolean[][] b = {{false, true, false}, {true, false}, {true}};
@@ -2100,7 +2301,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method is useful for combining 3D data structures like cubes or time-series of matrices,
      * where you want to perform element-wise operations on corresponding positions.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}};
@@ -2138,7 +2339,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>The result has an outer array length equal to the longest input outer array. Missing 2D
      * sub-arrays are handled by treating them as null and using default values throughout.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] a = {{{true, false}, {false, true}}, {{true, true}}};
      * boolean[][][] b = {{{false, true}, {true, false}}, {{false, false}, {true, true}}, {{false}}};
@@ -2189,7 +2390,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>This method is suitable for combining three 3D data structures where you need to perform
      * operations on corresponding elements across all three sources.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] a = {{{true, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}};
@@ -2230,7 +2431,7 @@ public sealed class Arrays permits Arrays.f {
      * <p>The result has an outer array length equal to the longest input outer array. Default values
      * are used whenever any array lacks elements at any level of the structure.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] a = {{{true, false}}};
      * boolean[][][] b = {{{false, true}, {true, false}}};
@@ -2399,7 +2600,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] array = {true, false, true};
      * String result = Arrays.println(array);
@@ -2415,7 +2616,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D boolean array to print (can be null)
@@ -2449,7 +2650,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] array = {{true, false, true}, {false, true}, null, {}, {true}};
      * String result = Arrays.println(array);
@@ -2470,7 +2671,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D boolean array to print (can be null)
@@ -2545,7 +2746,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] array = {{{true, false, true}, {false, true}}, {{true, false}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -2567,7 +2768,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -3047,7 +3248,7 @@ public sealed class Arrays permits Arrays.f {
      * to corresponding elements. The resulting array length equals the length of the shorter
      * input array. Null arrays are treated as empty arrays.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y', 'Z'};
@@ -3084,7 +3285,7 @@ public sealed class Arrays permits Arrays.f {
      * When one array is shorter, the specified default value is used in place of missing elements.
      * This allows for complete processing of both arrays even when they have different lengths.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] a = { 'A', 'B', 'C', 'D' };
      * char[] b = { 'X', 'Y' };
@@ -3136,7 +3337,7 @@ public sealed class Arrays permits Arrays.f {
      * by the shortest input array, ensuring all elements in the result have valid inputs
      * from all three source arrays.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y', 'Z'};
@@ -3179,7 +3380,7 @@ public sealed class Arrays permits Arrays.f {
      * for missing elements. This enables complete processing of all arrays regardless of
      * their individual lengths.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] a = {'A', 'B', 'C', 'D'};
      * char[] b = {'X', 'Y'};
@@ -3231,7 +3432,7 @@ public sealed class Arrays permits Arrays.f {
      * of the shorter outer array. Each inner array is processed independently using the
      * single-array zip operation.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
@@ -3269,7 +3470,7 @@ public sealed class Arrays permits Arrays.f {
      * When processing inner arrays, default values are used for any missing elements within
      * those arrays as well.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
@@ -3320,7 +3521,7 @@ public sealed class Arrays permits Arrays.f {
      * to corresponding elements within each triplet of inner arrays. The outer array length
      * of the result is determined by the shortest outer array among the three inputs.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}};
@@ -3362,7 +3563,7 @@ public sealed class Arrays permits Arrays.f {
      * Default values are used whenever an array or sub-array is shorter than the others,
      * ensuring all positions in the result array are filled.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] a = {{'A', 'B'}, {'C', 'D', 'E'}};
      * char[][] b = {{'X', 'Y', 'Z'}, {'1', '2'}, {'3'}};
@@ -3415,7 +3616,7 @@ public sealed class Arrays permits Arrays.f {
      * length of the shorter outermost array. Each 2D sub-array is processed using the 2D
      * array zip operation.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}, {'G', 'H'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}};
@@ -3453,7 +3654,7 @@ public sealed class Arrays permits Arrays.f {
      * equals the length of the longer outermost array. Default values are propagated through
      * all levels of array processing.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] a = {{{'A', 'B'}, {'C', 'D'}}, {{'E', 'F'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}, {{'5', '6'}, {'7', '8'}}, {{'9'}}};
@@ -3505,7 +3706,7 @@ public sealed class Arrays permits Arrays.f {
      * is determined by the shortest outermost array among the three inputs. Each triplet
      * of 2D sub-arrays is processed using the 2D array tri-zip operation.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] a = {{{'A', 'B'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
@@ -3548,7 +3749,7 @@ public sealed class Arrays permits Arrays.f {
      * values are used whenever any array or sub-array is shorter than the others, ensuring
      * complete processing of all input data.</p>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] a = {{{'A', 'B'}}};
      * char[][][] b = {{{'1', '2'}, {'3', '4'}}};
@@ -3717,7 +3918,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'H', 'e', 'l', 'l', 'o'};
      * String result = Arrays.println(array);
@@ -3733,7 +3934,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D character array to print (can be null)
@@ -3767,7 +3968,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b', 'c'}, {'d', 'e'}, null, {}, {'f'}};
      * String result = Arrays.println(array);
@@ -3788,7 +3989,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D character array to print (can be null)
@@ -3863,7 +4064,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a', 'b', 'c'}, {'d', 'e'}}, {{'f', 'g'}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -3885,7 +4086,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -4309,7 +4510,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two byte arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
@@ -4342,7 +4543,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two byte arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
@@ -4389,7 +4590,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three byte arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
@@ -4426,7 +4627,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three byte arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
@@ -4473,7 +4674,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
@@ -4506,7 +4707,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D byte arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -4553,7 +4754,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
@@ -4590,7 +4791,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D byte arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -4638,7 +4839,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D byte arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -4671,7 +4872,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D byte arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -4718,7 +4919,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D byte arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
@@ -4755,7 +4956,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D byte arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
@@ -4800,10 +5001,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total count of elements in a two-dimensional byte array.
      * Null sub-arrays are treated as having zero elements.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
      * long count = totalCountOfElements(array); // returns 5
-     * </pre>
+     * }</pre>
      *
      * @param a the two-dimensional byte array
      * @return the total count of all elements across all sub-arrays
@@ -4822,10 +5024,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total count of elements in a three-dimensional byte array.
      * Empty or null sub-arrays at any level are skipped.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
      * long count = totalCountOfElements(array); // returns 6
-     * </pre>
+     * }</pre>
      *
      * @param a the three-dimensional byte array
      * @return the total count of all elements across all sub-arrays
@@ -4855,10 +5058,11 @@ public sealed class Arrays permits Arrays.f {
      * Null sub-arrays are treated as having length 0.
      * Returns 0 if the input array is null or empty.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int minLen = minSubArrayLen(array); // returns 2
-     * </pre>
+     * }</pre>
      *
      * @param a the two-dimensional byte array to analyze
      * @return the minimum sub-array length, or 0 if the array is empty
@@ -4882,10 +5086,11 @@ public sealed class Arrays permits Arrays.f {
      * Null sub-arrays are treated as having length 0.
      * Returns 0 if the input array is null or empty.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
      * int maxLen = maxSubArrayLen(array); // returns 4
-     * </pre>
+     * }</pre>
      *
      * @param a the two-dimensional byte array to analyze
      * @return the maximum sub-array length, or 0 if the array is empty
@@ -4918,7 +5123,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] array = {1, 2, 3, 4, 5};
      * String result = Arrays.println(array);
@@ -4934,7 +5139,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D byte array to print (can be null)
@@ -4968,7 +5173,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
@@ -4989,7 +5194,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D byte array to print (can be null)
@@ -5064,7 +5269,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -5086,7 +5291,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -5164,10 +5369,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates all elements in a short array using the provided unary operator.
      * The operator is applied to each element and the result replaces the original value.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] array = {1, 2, 3};
      * updateAll(array, x -> (short)(x * x)); // array becomes {1, 4, 9}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the operator may throw
      * @param a the array to update
@@ -5188,10 +5394,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates all elements in a two-dimensional short array using the provided unary operator.
      * The operator is applied to each element in all sub-arrays.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
      * updateAll(array, x -> (short)(x + 10)); // array becomes {{11, 12}, {13, 14}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the operator may throw
      * @param a the two-dimensional array to update
@@ -5212,10 +5419,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates all elements in a three-dimensional short array using the provided unary operator.
      * The operator is applied recursively to all elements in all sub-arrays.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
      * updateAll(array, x -> (short)(x * 2)); // all elements doubled
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the operator may throw
      * @param a the three-dimensional array to update
@@ -5236,10 +5444,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces elements in a short array that match the predicate with a new value.
      * Only elements for which the predicate returns {@code true} are replaced.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
      * replaceIf(array, x -> x > 3, (short)0); // array becomes {1, 2, 3, 0, 0}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the predicate may throw
      * @param a the array to modify
@@ -5263,10 +5472,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces elements in a two-dimensional short array that match the predicate with a new value.
      * The predicate is applied to all elements in all sub-arrays.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
      * replaceIf(array, x -> x % 2 == 0, (short)0); // array becomes {{1, 0}, {3, 0}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the predicate may throw
      * @param a the two-dimensional array to modify
@@ -5288,10 +5498,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces elements in a three-dimensional short array that match the predicate with a new value.
      * The predicate is applied recursively to all elements in all sub-arrays.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * replaceIf(array, x -&gt; x &lt; 3, (short)10); // replaces 1 and 2 with 10
-     * </pre>
+     * replaceIf(array, x -> x < 3, (short)10); // replaces 1 and 2 with 10
+     * }</pre>
      *
      * @param <E> the type of exception the predicate may throw
      * @param a the three-dimensional array to modify
@@ -5313,10 +5524,11 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional short array into a two-dimensional array with the specified number of columns.
      * The last row may have fewer elements if the array length is not evenly divisible by cols.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
      * short[][] reshaped = reshape(array, 2); // returns {{1, 2}, {3, 4}, {5}}
-     * </pre>
+     * }</pre>
      *
      * @param a the array to reshape
      * @param cols the number of columns in each row
@@ -5345,10 +5557,11 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
      * The array is divided into blocks of size rows×cols, with partial blocks allowed.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5, 6, 7, 8};
      * short[][][] reshaped = reshape(array, 2, 2); // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
-     * </pre>
+     * }</pre>
      *
      * @param a the array to reshape
      * @param rows the number of rows in each 2D block
@@ -5383,10 +5596,11 @@ public sealed class Arrays permits Arrays.f {
      * All elements from all sub-arrays are combined into a single array in row-major order.
      * Null or empty sub-arrays are skipped.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4, 5}};
      * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
-     * </pre>
+     * }</pre>
      *
      * @param a the two-dimensional array to flatten
      * @return a one-dimensional array containing all elements
@@ -5419,10 +5633,11 @@ public sealed class Arrays permits Arrays.f {
      * All elements from all sub-arrays at all levels are combined into a single array.
      * Null or empty sub-arrays at any level are skipped.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
      * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
-     * </pre>
+     * }</pre>
      *
      * @param a the three-dimensional array to flatten
      * @return a one-dimensional array containing all elements
@@ -5460,10 +5675,11 @@ public sealed class Arrays permits Arrays.f {
      * Performs an operation on a flattened view of a two-dimensional array and writes the result back.
      * This method flattens the array, applies the operation, then copies the values back to their original positions.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{3, 1}, {4, 2}};
      * flatOp(array, t -> Arrays.sort(t)); // sorts all elements across sub-arrays
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the operation may throw
      * @param a the two-dimensional array to operate on
@@ -5493,10 +5709,11 @@ public sealed class Arrays permits Arrays.f {
      * Performs an operation on a flattened view of a three-dimensional array and writes the result back.
      * This method flattens the array, applies the operation, then copies the values back to their original positions.
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
      * flatOp(array, t -> Arrays.sort(t)); // sorts all elements across all sub-arrays
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception the operation may throw
      * @param a the three-dimensional array to operate on
@@ -5530,7 +5747,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two short arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
@@ -5563,7 +5780,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two short arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
@@ -5610,7 +5827,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three short arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6, 7};
@@ -5647,7 +5864,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three short arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] a = {1, 2, 3, 4};
      * short[] b = {5, 6};
@@ -5694,7 +5911,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
@@ -5727,7 +5944,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D short arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -5774,7 +5991,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}};
@@ -5811,7 +6028,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D short arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] a = {{1, 2}, {3, 4, 5}};
      * short[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -5859,7 +6076,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D short arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -5893,7 +6110,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D short arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * short[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -5940,7 +6157,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D short arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
@@ -5977,7 +6194,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D short arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] a = {{{1, 2}}};
      * short[][][] b = {{{11, 12}, {13, 14}}};
@@ -6022,12 +6239,12 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of elements in a 2D short array.
      * Handles null arrays and null sub-arrays gracefully.
      *
-     * <p>Example usage:</p>
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {6, 7, 8, 9}};
      * long count = totalCountOfElements(array);
      * // count will be 9 (3 + 2 + 0 + 4)
-     * </pre>
+     * }</pre>
      *
      * @param a the 2D array to count elements in
      * @return the total number of elements across all sub-arrays
@@ -6073,12 +6290,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D short array.
      * Returns 0 if the array is null or contains only null sub-arrays.
      *
-     * <p>Example usage:</p>
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int minLen = minSubArrayLen(array);
      * // minLen will be 2
-     * </pre>
+     * }</pre>
      *
      * @param a the 2D array to examine
      * @return the minimum length of any sub-array, or 0 if array is null
@@ -6101,12 +6318,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D short array.
      * Returns 0 if the array is null or empty.
      *
-     * <p>Example usage:</p>
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
      * int maxLen = maxSubArrayLen(array);
      * // maxLen will be 4
-     * </pre>
+     * }</pre>
      *
      * @param a the 2D array to examine
      * @return the maximum length of any sub-array, or 0 if array is null or empty
@@ -6139,7 +6356,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
      * String result = Arrays.println(array);
@@ -6155,7 +6372,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D short array to print (can be null)
@@ -6189,7 +6406,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
@@ -6210,7 +6427,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D short array to print (can be null)
@@ -6285,7 +6502,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -6307,7 +6524,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -6388,11 +6605,12 @@ public sealed class Arrays permits Arrays.f {
      * The operator can throw a checked exception of type E. If the array is null or empty,
      * the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] arr = {1, 2, 3};
      * Arrays.updateAll(arr, x -> x * x);
      * // arr is now {1, 4, 9}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
      * @param a the array to be modified
@@ -6416,11 +6634,12 @@ public sealed class Arrays permits Arrays.f {
      * in all sub-arrays. The operator can throw a checked exception of type E.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] arr = {{1, 2}, {3, 4}};
      * Arrays.updateAll(arr, x -> x + 10);
      * // arr is now {{11, 12}, {13, 14}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
      * @param a the 2D array to be modified
@@ -6444,11 +6663,12 @@ public sealed class Arrays permits Arrays.f {
      * in all nested arrays. The operator can throw a checked exception of type E.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
      * Arrays.updateAll(arr, x -> x * 2);
      * // arr is now {{{2, 4}}, {{6, 8}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the operator may throw
      * @param a the 3D array to be modified
@@ -6472,11 +6692,12 @@ public sealed class Arrays permits Arrays.f {
      * and replacing matching elements with the new value. The predicate can throw a checked
      * exception of type E. If the array is null or empty, the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] arr = {1, 2, 3, 4, 5};
      * Arrays.replaceIf(arr, x -> x % 2 == 0, 0);
      * // arr is now {1, 0, 3, 0, 5}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
      * @param a the array to be modified
@@ -6503,11 +6724,12 @@ public sealed class Arrays permits Arrays.f {
      * with the predicate and replacing matching elements with the new value.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] arr = {{1, 2}, {3, 4}};
      * Arrays.replaceIf(arr, x -> x > 2, 10);
      * // arr is now {{1, 2}, {10, 10}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
      * @param a the 2D array to be modified
@@ -6532,11 +6754,12 @@ public sealed class Arrays permits Arrays.f {
      * with the predicate and replacing matching elements with the new value.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
      * Arrays.replaceIf(arr, x -&gt; x &lt; 3, 0);
      * // arr is now {{{0, 0}}, {{3, 4}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
      * @param a the 3D array to be modified
@@ -6561,11 +6784,12 @@ public sealed class Arrays permits Arrays.f {
      * column count. The last row may contain fewer elements if the array length is not evenly
      * divisible by the column count. If the input array is null or empty, returns an empty 2D array.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] arr = {1, 2, 3, 4, 5, 6, 7};
      * int[][] result = Arrays.reshape(arr, 3);
      * // result is {{1, 2, 3}, {4, 5, 6}, {7}}
-     * </pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape
      * @param cols the number of columns in each row
@@ -6597,11 +6821,12 @@ public sealed class Arrays permits Arrays.f {
      * of the specified row and column counts. Each matrix may be incomplete if the array length
      * is not evenly divisible by rows × cols. If the input array is null or empty, returns an empty 3D array.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
      * int[][][] result = Arrays.reshape(arr, 2, 2);
      * // result is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
-     * </pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape
      * @param rows the number of rows in each 2D matrix
@@ -6638,11 +6863,12 @@ public sealed class Arrays permits Arrays.f {
      * in row-major order. Empty sub-arrays are skipped. If the input array is null or empty,
      * returns an empty array.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] arr = {{1, 2, 3}, {4, 5}, {6, 7, 8}};
      * int[] result = Arrays.flatten(arr);
      * // result is {1, 2, 3, 4, 5, 6, 7, 8}
-     * </pre>
+     * }</pre>
      *
      * @param a the 2D array to flatten
      * @return a new 1D array containing all elements from the input array
@@ -6677,11 +6903,12 @@ public sealed class Arrays permits Arrays.f {
      * in depth-first order. Empty sub-arrays at any level are skipped. If the input array
      * is null or empty, returns an empty array.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] arr = {{{1, 2}, {3}}, {{4, 5, 6}}};
      * int[] result = Arrays.flatten(arr);
      * // result is {1, 2, 3, 4, 5, 6}
-     * </pre>
+     * }</pre>
      *
      * @param a the 3D array to flatten
      * @return a new 1D array containing all elements from the input array
@@ -6722,11 +6949,12 @@ public sealed class Arrays permits Arrays.f {
      * The array is flattened, the operation is applied to the flattened array, and then the values
      * are copied back to the original 2D array structure.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] arr = {{3, 1, 4}, {1, 5, 9}};
      * Arrays.flatOp(arr, t -> Arrays.sort(t));
      * // arr is now {{1, 1, 3}, {4, 5, 9}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param a the 2D array to process
@@ -6759,11 +6987,12 @@ public sealed class Arrays permits Arrays.f {
      * The array is flattened, the operation is applied to the flattened array, and then the values
      * are copied back to the original 3D array structure.</p>
      *
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] arr = {{{5, 2}}, {{8, 1}}};
      * Arrays.flatOp(arr, t -> Arrays.sort(t));
      * // arr is now {{{1, 2}}, {{5, 8}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
      * @param a the 3D array to process
@@ -6797,7 +7026,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two int arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6, 7};
@@ -6830,7 +7059,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two int arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6};
@@ -6877,7 +7106,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three int arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6, 7};
@@ -6913,7 +7142,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three int arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] a = {1, 2, 3, 4};
      * int[] b = {5, 6};
@@ -6960,7 +7189,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}};
@@ -6993,7 +7222,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -7040,7 +7269,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}};
@@ -7077,7 +7306,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}};
      * int[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -7125,7 +7354,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D int arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * int[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -7158,7 +7387,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * int[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -7205,7 +7434,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D int arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1, 2}}};
      * int[][][] b = {{{11, 12}, {13, 14}}};
@@ -7242,7 +7471,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1, 2}}};
      * int[][][] b = {{{11, 12}, {13, 14}}};
@@ -7288,11 +7517,11 @@ public sealed class Arrays permits Arrays.f {
      * It handles null or empty sub-arrays gracefully.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
      * long count = totalCountOfElements(a);
      * // count will be 5
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D integer array.
      * @return The total count of integer elements.
@@ -7312,11 +7541,11 @@ public sealed class Arrays permits Arrays.f {
      * It safely handles null or empty sub-arrays at any depth.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * int[][][] a = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
      * long count = totalCountOfElements(a);
      * // count will be 6
-     * </pre>
+     * }</pre>
      *
      * @param a The 3D integer array.
      * @return The total count of integer elements.
@@ -7346,11 +7575,11 @@ public sealed class Arrays permits Arrays.f {
      * A null sub-array is considered to have a length of 0.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
      * int minLen = minSubArrayLen(a);
      * // minLen will be 0
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D integer array.
      * @return The minimum length of a sub-array, or 0 if the input array is null or empty.
@@ -7374,11 +7603,11 @@ public sealed class Arrays permits Arrays.f {
      * A null sub-array is considered to have a length of 0.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
      * int maxLen = maxSubArrayLen(a);
      * // maxLen will be 3
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D integer array.
      * @return The maximum length of a sub-array, or 0 if the input array is null or empty.
@@ -7411,7 +7640,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] array = {1, 2, 3, 4, 5};
      * String result = Arrays.println(array);
@@ -7427,7 +7656,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D integer array to print (can be null)
@@ -7461,7 +7690,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] array = {{1, 2, 3}, {4, 5}, null, {}, {6}};
      * String result = Arrays.println(array);
@@ -7482,7 +7711,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      * 
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      * 
      * @param a the 2D integer array to print (can be null)
@@ -7557,7 +7786,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] array = {{{1, 2, 3}, {4, 5}}, {{6, 7}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -7579,7 +7808,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -7659,11 +7888,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates each element of the specified long array in-place by applying a unary operator.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[] array = {1L, 2L, 3L};
      * updateAll(array, x -> x * x);
      * // array is now {1L, 4L, 9L}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The array to be modified. The modification happens in-place.
@@ -7684,11 +7913,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates each element of the specified 2D long array in-place by applying a unary operator.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L}};
      * updateAll(array, x -> -x);
      * // array is now {{-1L, -2L}, {-3L, -4L}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The 2D array to be modified. The modification happens in-place.
@@ -7709,11 +7938,11 @@ public sealed class Arrays permits Arrays.f {
      * Updates each element of the specified 3D long array in-place by applying a unary operator.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
      * updateAll(array, x -> x + 1);
      * // array is now {{{2L}, {3L}}, {{4L}, {5L}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The 3D array to be modified. The modification happens in-place.
@@ -7734,11 +7963,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces each element of a long array with a new value if it satisfies a given predicate.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
      * replaceIf(array, x -> x % 2 == 0, 0L);
      * // array is now {1L, 0L, 3L, 0L, 5L}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The array to be modified.
@@ -7761,12 +7990,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of a 2D long array with a new value if it satisfies a given predicate.
      *
-     * <p>Example usage:</p>
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][] array = {{1L, -2L}, {3L, -4L}};
      * replaceIf(array, x -&gt; x &lt; 0, 0L);
      * // array is now {{1L, 0L}, {3L, 0L}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The 2D array to be modified.
@@ -7787,12 +8016,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of a 3D long array with a new value if it satisfies a given predicate.
      *
-     * <p>Example usage:</p>
-     * <pre>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
      * replaceIf(array, x -&gt; x &lt; 0, 99L);
      * // array is now {{{1L, 2L}}, {{99L, 4L}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The 3D array to be modified.
@@ -7815,11 +8044,11 @@ public sealed class Arrays permits Arrays.f {
      * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7};
      * long[][] reshaped = reshape(array, 3);
      * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
-     * </pre>
+     * }</pre>
      *
      * @param a The 1D array to reshape.
      * @param cols The number of columns in the resulting 2D array.
@@ -7849,11 +8078,11 @@ public sealed class Arrays permits Arrays.f {
      * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
      * long[][][] reshaped = reshape(array, 2, 2);
      * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
-     * </pre>
+     * }</pre>
      *
      * @param a The 1D array to reshape.
      * @param rows The number of rows in each 2D sub-array.
@@ -7887,11 +8116,11 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D long array into a 1D long array by concatenating its rows.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L, 5L}};
      * long[] flattened = flatten(array);
      * // flattened is {1L, 2L, 3L, 4L, 5L}
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D array to flatten.
      * @return A new 1D long array containing all elements from the input.
@@ -7923,11 +8152,11 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 3D long array into a 1D long array by concatenating its elements in order.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
      * long[] flattened = flatten(array);
      * // flattened is {1L, 2L, 3L, 4L, 5L}
-     * </pre>
+     * }</pre>
      *
      * @param a The 3D array to flatten.
      * @return A new 1D long array containing all elements from the input.
@@ -7966,11 +8195,11 @@ public sealed class Arrays permits Arrays.f {
      * copies the modified elements back into the original 2D array.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] array = {{3L, 1L}, {4L, 2L}};
      * flatOp(array, t -> Arrays.sort(t));
      * // array is now {{1L, 2L}, {3L, 4L}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The 2D array to operate on.
@@ -8001,11 +8230,11 @@ public sealed class Arrays permits Arrays.f {
      * copies the modified elements back into the original 3D array.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
      * flatOp(array, t -> Arrays.sort(t));
      * // array is now {{{1L}, {2L}}, {{3L, 4L}}}
-     * </pre>
+     * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The 3D array to operate on.
@@ -8039,7 +8268,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two long arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1, 2, 3, 4};
      * long[] b = {5, 6, 7};
@@ -8072,7 +8301,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two long arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1, 2, 3, 4};
      * long[] b = {5, 6};
@@ -8119,7 +8348,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three long arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1, 2, 3, 4};
      * long[] b = {5, 6, 7};
@@ -8156,7 +8385,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three long arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] a = {1, 2, 3, 4};
      * long[] b = {5, 6};
@@ -8203,7 +8432,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1, 2}, {3, 4, 5}};
      * long[][] b = {{5, 6, 7}, {8, 9}};
@@ -8236,7 +8465,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D long arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1, 2}, {3, 4, 5}};
      * long[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -8283,7 +8512,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1, 2}, {3, 4, 5}};
      * long[][] b = {{5, 6, 7}, {8, 9}};
@@ -8320,7 +8549,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D long arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1, 2}, {3, 4, 5}};
      * long[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -8368,7 +8597,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D long arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * long[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -8401,7 +8630,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D long arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * long[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -8448,7 +8677,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D long arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1, 2}}};
      * long[][][] b = {{{11, 12}, {13, 14}}};
@@ -8485,7 +8714,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D long arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] a = {{{1, 2}}};
      * long[][][] b = {{{11, 12}, {13, 14}}};
@@ -8530,11 +8759,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of long elements in a 2D array, handling null sub-arrays.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] array = {{1, 2}, {3, 4, 5}, null};
      * long count = totalCountOfElements(array);
      * // count is 5
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D array to inspect.
      * @return The total count of long elements.
@@ -8553,11 +8782,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of long elements in a 3D array, handling null sub-arrays.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][][] array = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
      * long count = totalCountOfElements(array);
      * // count is 6
-     * </pre>
+     * }</pre>
      *
      * @param a The 3D array to inspect.
      * @return The total count of long elements.
@@ -8587,11 +8816,11 @@ public sealed class Arrays permits Arrays.f {
      * A null sub-array is considered to have a length of 0.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
      * int minLen = minSubArrayLen(a);
      * // minLen will be 0
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D long array.
      * @return The minimum length of a sub-array, or 0 if the input array is null or empty.
@@ -8615,11 +8844,11 @@ public sealed class Arrays permits Arrays.f {
      * A null sub-array is considered to have a length of 0.
      *
      * <p>Example usage:
-     * <pre>
+     * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
      * int maxLen = maxSubArrayLen(a);
      * // maxLen will be 3
-     * </pre>
+     * }</pre>
      *
      * @param a The 2D long array.
      * @return The maximum length of a sub-array, or 0 if the input array is null or empty.
@@ -8652,7 +8881,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
      * String result = Arrays.println(array);
@@ -8668,7 +8897,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D long array to print (can be null)
@@ -8702,7 +8931,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L, 3L}, {4L, 5L}, null, {}, {6L}};
      * String result = Arrays.println(array);
@@ -8723,7 +8952,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D long array to print (can be null)
@@ -8798,7 +9027,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L, 3L}, {4L, 5L}}, {{6L, 7L}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -8820,7 +9049,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -8897,10 +9126,11 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified float array in-place by applying a given unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f};
      * Arrays.updateAll(array, x -> Math.abs(x)); // array becomes {1.0f, 2.0f, 3.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the array to be updated. If null or empty, the method returns immediately.
@@ -8920,10 +9150,11 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 2D float array in-place by applying a given unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
      * Arrays.updateAll(matrix, x -> x * x); // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the 2D array to be updated. If null or empty, the method returns immediately.
@@ -8943,10 +9174,11 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 3D float array in-place by applying a given unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
      * Arrays.updateAll(cube, x -> -x); // cube becomes {{{1.0f}}, {{-2.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the 3D array to be updated. If null or empty, the method returns immediately.
@@ -8967,10 +9199,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces each element of a float array with the specified new value if it satisfies the given predicate.
      * The modification is done in-place.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
      * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the array to be modified.
@@ -8994,10 +9227,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces each element of a 2D float array with the specified new value if it satisfies the given predicate.
      * The modification is done in-place.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
      * Arrays.replaceIf(matrix, x -&gt; x &lt;= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the 2D array to be modified.
@@ -9019,10 +9253,11 @@ public sealed class Arrays permits Arrays.f {
      * Replaces each element of a 3D float array with the specified new value if it satisfies the given predicate.
      * The modification is done in-place.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
      * Arrays.replaceIf(cube, x -> x > 0, 0.0f); // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the 3D array to be modified.
@@ -9045,10 +9280,11 @@ public sealed class Arrays permits Arrays.f {
      * The last row of the resulting 2D array may have fewer elements if the length of the
      * input array is not a multiple of {@code cols}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
      * float[][] matrix = Arrays.reshape(array, 3); // returns {{1, 2, 3}, {4, 5, 6}, {7}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape.
      * @param cols the number of columns in the new 2D array.
@@ -9078,10 +9314,11 @@ public sealed class Arrays permits Arrays.f {
      * The last sub-array may be smaller if the total number of elements is not a multiple
      * of {@code rows * cols}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
      * float[][][] cube = Arrays.reshape(array, 2, 2); // returns {{{1,2},{3,4}},{{5,6},{7}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape.
      * @param rows the number of rows in each 2D sub-array.
@@ -9116,10 +9353,11 @@ public sealed class Arrays permits Arrays.f {
      * This method concatenates all sub-arrays into a single array.
      * Null or empty sub-arrays are skipped.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
      * float[] array = Arrays.flatten(matrix); // returns {1.0f, 2.0f, 3.0f, 4.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array to flatten.
      * @return a new 1D array containing all elements from the 2D array.
@@ -9152,10 +9390,11 @@ public sealed class Arrays permits Arrays.f {
      * This method concatenates all innermost sub-arrays into a single array.
      * Null or empty sub-arrays at any level are skipped.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
      * float[] array = Arrays.flatten(cube); // returns {1.0f, 2.0f, 3.0f, 4.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 3D array to flatten.
      * @return a new 1D array containing all elements from the 3D array.
@@ -9195,10 +9434,11 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{4.0f, 1.0f}, {3.0f, 2.0f}};
      * Arrays.flatOp(matrix, N::sort); // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the 2D array to operate on.
@@ -9230,10 +9470,11 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
      * Arrays.flatOp(cube, N::sort); // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the 3D array to operate on.
@@ -9267,7 +9508,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two float arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6, 7};
@@ -9300,7 +9541,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two float arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6};
@@ -9347,7 +9588,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three float arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6, 7};
@@ -9384,7 +9625,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three float arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] a = {1, 2, 3, 4};
      * float[] b = {5, 6};
@@ -9431,7 +9672,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}};
@@ -9464,7 +9705,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D float arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -9511,7 +9752,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}};
@@ -9548,7 +9789,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D float arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] a = {{1, 2}, {3, 4, 5}};
      * float[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -9596,7 +9837,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D float arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * float[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -9630,7 +9871,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D float arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * float[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -9677,7 +9918,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D float arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] a = {{{1, 2}}};
      * float[][][] b = {{{11, 12}, {13, 14}}};
@@ -9714,7 +9955,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D float arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] a = {{{1, 2}}};
      * float[][][] b = {{{11, 12}, {13, 14}}};
@@ -9759,10 +10000,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of elements in a 2D float array.
      * This method sums the lengths of all sub-arrays.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
      * long count = Arrays.totalCountOfElements(matrix); // count is 3
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array to count elements in.
      * @return the total count of elements.
@@ -9781,10 +10023,11 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of elements in a 3D float array.
      * This method recursively sums the lengths of all innermost sub-arrays.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
      * long count = Arrays.totalCountOfElements(cube); // count is 3
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 3D array to count elements in.
      * @return the total count of elements.
@@ -9813,10 +10056,11 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length of any sub-array within a 2D float array.
      * Returns 0 for null or empty input array, or if a sub-array is null.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
      * int minLen = Arrays.minSubArrayLen(matrix); // minLen is 0
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array to inspect.
      * @return the minimum sub-array length found.
@@ -9839,10 +10083,11 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length of any sub-array within a 2D float array.
      * Returns 0 for null or empty input array. A null sub-array has a length of 0.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
      * int maxLen = Arrays.maxSubArrayLen(matrix); // maxLen is 3
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array to inspect.
      * @return the maximum sub-array length found.
@@ -9875,7 +10120,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.1f, 2.2f, 3.3f, 4.4f, 5.5f};
      * String result = Arrays.println(array);
@@ -9891,7 +10136,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D float array to print (can be null)
@@ -9925,7 +10170,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] array = {{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}, null, {}, {6.6f}};
      * String result = Arrays.println(array);
@@ -9946,7 +10191,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D float array to print (can be null)
@@ -10021,7 +10266,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] array = {{{1.1f, 2.2f, 3.3f}, {4.4f, 5.5f}}, {{6.6f, 7.7f}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -10043,7 +10288,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -10120,11 +10365,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified array in-place by applying a unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] array = {1.0, -2.0, 3.0};
      * Arrays.updateAll(array, x -> Math.abs(x));
      * // array is now {1.0, 2.0, 3.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to be updated.
@@ -10144,11 +10390,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 2D array in-place by applying a unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1.0, 4.0}, {9.0, 16.0}};
      * Arrays.updateAll(matrix, x -> Math.sqrt(x));
      * // matrix is now {{1.0, 2.0}, {3.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the 2D array to be updated.
@@ -10168,11 +10415,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 3D array in-place by applying a unary operator.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] cube = {{{1.1}, {2.8}}, {{3.3}, {4.6}}};
      * Arrays.updateAll(cube, x -> Math.round(x));
      * // cube is now {{{1.0}, {3.0}}, {{3.0}, {5.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the 3D array to be updated.
@@ -10192,11 +10440,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of the array with the specified new value if it satisfies the given predicate.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] array = {1.0, -2.0, 3.0, -4.0};
      * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0);
      * // array is now {1.0, 0.0, 3.0, 0.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the array to be modified.
@@ -10219,11 +10468,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of the 2D array with the specified new value if it satisfies the given predicate.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1.0, -2.0}, {Double.NaN, 4.0}};
      * Arrays.replaceIf(matrix, x -> Double.isNaN(x), 0.0);
      * // matrix is now {{1.0, -2.0}, {0.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the 2D array to be modified.
@@ -10244,11 +10494,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of the 3D array with the specified new value if it satisfies the given predicate.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] cube = {{{1.0}, {Double.POSITIVE_INFINITY}}, {{3.0}, {-4.0}}};
      * Arrays.replaceIf(cube, x -> !Double.isFinite(x), -1.0);
      * // cube is now {{{1.0}, {-1.0}}, {{3.0}, {-4.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the 3D array to be modified.
@@ -10271,11 +10522,12 @@ public sealed class Arrays permits Arrays.f {
      * The number of rows is determined by dividing the total number of elements by the number of columns.
      * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] array = {1, 2, 3, 4, 5, 6, 7};
      * double[][] matrix = Arrays.reshape(array, 3);
      * // matrix is now {{1, 2, 3}, {4, 5, 6}, {7}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape.
      * @param cols the number of columns in the new 2D array.
@@ -10305,11 +10557,12 @@ public sealed class Arrays permits Arrays.f {
      * The dimensions of the resulting array are determined based on the total element count.
      * The last sub-arrays may be shorter if the total count is not a multiple of {@code rows * cols}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
      * double[][][] cube = Arrays.reshape(array, 2, 3);
      * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 1D array to reshape.
      * @param rows the number of rows in each 2D slice.
@@ -10343,11 +10596,12 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D array into a 1D array by concatenating its rows.
      * Null or empty sub-arrays are skipped.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1.0, 2.0}, {3.0, 4.0}};
      * double[] array = Arrays.flatten(matrix);
      * // array is now {1.0, 2.0, 3.0, 4.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array to flatten.
      * @return a new 1D array containing all elements from the input array.
@@ -10379,11 +10633,12 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 3D array into a 1D array by concatenating its elements in order.
      * Null or empty sub-arrays are skipped.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] cube = {{{1.0}, {2.0, 3.0}}, {{4.0}}};
      * double[] array = Arrays.flatten(cube);
      * // array is now {1.0, 2.0, 3.0, 4.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 3D array to flatten.
      * @return a new 1D array containing all elements from the input array.
@@ -10423,11 +10678,12 @@ public sealed class Arrays permits Arrays.f {
      * This allows for operations like sorting across the entire 2D array.
      * The modification happens in-place on the original 2D array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{5.0, 2.0}, {8.0, 1.0}};
      * Arrays.flatOp(matrix, arr -> Arrays.sort(arr));
      * // matrix is now {{1.0, 2.0}, {5.0, 8.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the 2D array to operate on.
@@ -10459,11 +10715,12 @@ public sealed class Arrays permits Arrays.f {
      * This allows for operations like sorting across the entire 3D array.
      * The modification happens in-place on the original 3D array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] cube = {{{9.0, 2.0}}, {{5.0}, {1.0}}};
      * Arrays.flatOp(cube, arr -> Arrays.sort(arr));
      * // cube is now {{{1.0, 2.0}}, {{5.0}, {9.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the 3D array to operate on.
@@ -10497,7 +10754,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two double arrays using the provided zip function.
      * The operation stops when the shorter array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6, 7};
@@ -10530,7 +10787,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two double arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6};
@@ -10577,7 +10834,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three double arrays using the provided zip function.
      * The operation stops when the shortest array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6, 7};
@@ -10614,7 +10871,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three double arrays using the provided zip function, with default values
      * for missing elements when arrays have different lengths.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] a = {1, 2, 3, 4};
      * double[] b = {5, 6};
@@ -10661,7 +10918,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}};
@@ -10694,7 +10951,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 2D double arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -10741,7 +10998,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}};
@@ -10778,7 +11035,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 2D double arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] a = {{1, 2}, {3, 4, 5}};
      * double[][] b = {{5, 6, 7}, {8, 9}, {10}};
@@ -10826,7 +11083,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D double arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * double[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
@@ -10860,7 +11117,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from two 3D double arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * double[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
@@ -10907,7 +11164,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D double arrays using the provided zip function.
      * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] a = {{{1, 2}}};
      * double[][][] b = {{{11, 12}, {13, 14}}};
@@ -10944,7 +11201,7 @@ public sealed class Arrays permits Arrays.f {
      * Combines elements from three 3D double arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] a = {{{1, 2}}};
      * double[][][] b = {{{11, 12}, {13, 14}}};
@@ -10988,11 +11245,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Calculates the total number of double elements in a jagged 2D array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1, 2}, {3, 4, 5}, null, {}};
      * long count = Arrays.totalCountOfElements(matrix);
      * // count is 5
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array.
      * @return the total count of elements.
@@ -11010,11 +11268,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Calculates the total number of double elements in a jagged 3D array.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] cube = {{{1}, {2, 3}}, null, {{{4}}}};
      * long count = Arrays.totalCountOfElements(cube);
      * // count is 4
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 3D array.
      * @return the total count of elements.
@@ -11043,11 +11302,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length of any sub-array in a 2D array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
      * int minLen = Arrays.minSubArrayLen(matrix);
      * // minLen is 0
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array.
      * @return the minimum sub-array length, or 0 if the input array is null or empty.
@@ -11070,11 +11330,12 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length of any sub-array in a 2D array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] matrix = {{1, 2, 3}, {4, 5}, null};
      * int maxLen = Arrays.maxSubArrayLen(matrix);
      * // maxLen is 3
-     * </code></pre>
+     * }</pre>
      *
      * @param a the 2D array.
      * @return the maximum sub-array length, or 0 if the input array is null or empty.
@@ -11107,7 +11368,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Non-empty array: "[element1, element2, element3]"</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1.1, 2.2, 3.3, 4.4, 5.5};
      * String result = Arrays.println(array);
@@ -11123,7 +11384,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 1D double array to print (can be null)
@@ -11157,7 +11418,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty sub-array: "[]" within the outer brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] array = {{1.1, 2.2, 3.3}, {4.4, 5.5}, null, {}, {6.6}};
      * String result = Arrays.println(array);
@@ -11178,7 +11439,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
      * @param a the 2D double array to print (can be null)
@@ -11253,7 +11514,7 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
      * </ul>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] array = {{{1.1, 2.2, 3.3}, {4.4, 5.5}}, {{6.6, 7.7}, null, {}}, null};
      * String result = Arrays.println(array);
@@ -11275,7 +11536,7 @@ public sealed class Arrays permits Arrays.f {
      * // Prints "[]"
      * }</pre>
      *
-     * <p><b>Note:</b> This method both prints to the console via {@code N.println()} and returns
+     * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
      * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
      *
@@ -11353,11 +11614,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts an array of bytes to an array of booleans. A byte value greater than 0
      * is converted to {@code true}, otherwise {@code false}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] bytes = {1, 0, -1, 5};
      * boolean[] bools = Arrays.toBoolean(bytes);
      * // bools is {true, false, false, true}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of bytes to convert.
      * @return a new boolean array, or null if the input is null.
@@ -11425,11 +11687,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts an array of integers to an array of booleans. An integer value greater than 0
      * is converted to {@code true}, otherwise {@code false}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] ints = {1, 0, -1, 5};
      * boolean[] bools = Arrays.toBoolean(ints);
      * // bools is {true, false, false, true}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of integers to convert.
      * @return a new boolean array, or null if the input is null.
@@ -11496,11 +11759,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of integers to an array of chars by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] ints = {65, 66, 67};
      * char[] chars = Arrays.toChar(ints);
      * // chars is {'A', 'B', 'C'}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of integers to convert.
      * @return a new char array, or null if the input is null.
@@ -11568,11 +11832,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts an array of booleans to an array of bytes.
      * {@code true} becomes 1, and {@code false} becomes 0.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * boolean[] bools = {true, false, true};
      * byte[] bytes = Arrays.toByte(bools);
      * // bytes is {1, 0, 1}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of booleans to convert.
      * @return a new byte array, or null if the input is null.
@@ -11639,11 +11904,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of bytes to an array of shorts by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] bytes = {10, 20, 30};
      * short[] shorts = Arrays.toShort(bytes);
      * // shorts is {10, 20, 30}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of bytes to convert.
      * @return a new short array, or null if the input is null.
@@ -11711,11 +11977,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts an array of booleans to an array of integers.
      * {@code true} becomes 1, and {@code false} becomes 0.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * boolean[] bools = {true, false, true};
      * int[] ints = Arrays.toInt(bools);
      * // ints is {1, 0, 1}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of booleans to convert.
      * @return a new integer array, or null if the input is null.
@@ -11782,11 +12049,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of chars to an array of integers by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * char[] chars = {'A', 'B', 'C'};
      * int[] ints = Arrays.toInt(chars);
      * // ints is {65, 66, 67}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of chars to convert.
      * @return a new integer array, or null if the input is null.
@@ -11853,11 +12121,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of bytes to an array of integers by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] bytes = {10, 20, 30};
      * int[] ints = Arrays.toInt(bytes);
      * // ints is {10, 20, 30}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of bytes to convert.
      * @return a new integer array, or null if the input is null.
@@ -11924,11 +12193,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of shorts to an array of integers by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] shorts = {100, 200, 300};
      * int[] ints = Arrays.toInt(shorts);
      * // ints is {100, 200, 300}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of shorts to convert.
      * @return a new integer array, or null if the input is null.
@@ -11995,11 +12265,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of floats to an array of integers by casting (truncating).
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] floats = {1.1f, 2.9f, -3.5f};
      * int[] ints = Arrays.toInt(floats);
      * // ints is {1, 2, -3}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of floats to convert.
      * @return a new integer array, or null if the input is null.
@@ -12066,11 +12337,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of doubles to an array of integers by casting (truncating).
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] doubles = {1.1, 2.9, -3.5};
      * int[] ints = Arrays.toInt(doubles);
      * // ints is {1, 2, -3}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of doubles to convert.
      * @return a new integer array, or null if the input is null.
@@ -12137,11 +12409,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Converts an array of bytes to an array of longs by casting.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] bytes = {10, 20, 30};
      * long[] longs = Arrays.toLong(bytes);
      * // longs is {10L, 20L, 30L}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the array of bytes to convert.
      * @return a new long array, or null if the input is null.
@@ -12209,11 +12482,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code short} array to a one-dimensional {@code long} array.
      * Each {@code short} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] source = {1, 2, 3};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12237,11 +12511,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code short} array to a two-dimensional {@code long} array.
      * Each {@code short} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] source = {{1, 2}, {3, 4}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12265,11 +12540,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code short} array to a three-dimensional {@code long} array.
      * Each {@code short} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12293,11 +12569,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code int} array to a one-dimensional {@code long} array.
      * Each {@code int} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] source = {1, 2, 3};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12321,11 +12598,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code int} array to a two-dimensional {@code long} array.
      * Each {@code int} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] source = {{1, 2}, {3, 4}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12349,11 +12627,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code int} array to a three-dimensional {@code long} array.
      * Each {@code int} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12377,11 +12656,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code float} array to a one-dimensional {@code long} array.
      * Each {@code float} element is cast to a {@code long}, involving a narrowing primitive conversion.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] source = {1.1f, 2.9f, 3.5f};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12405,11 +12685,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code float} array to a two-dimensional {@code long} array.
      * Each {@code float} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] source = {{1.1f, 2.9f}, {3.5f, 4.0f}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12433,11 +12714,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code float} array to a three-dimensional {@code long} array.
      * Each {@code float} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] source = {{{1.1f, 2.9f}}, {{3.5f, 4.0f}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12461,11 +12743,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code double} array to a one-dimensional {@code long} array.
      * Each {@code double} element is cast to a {@code long}, involving a narrowing primitive conversion.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[] source = {1.1, 2.9, 3.5};
      * long[] result = Arrays.toLong(source);
      * // result is {1L, 2L, 3L}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12489,11 +12772,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code double} array to a two-dimensional {@code long} array.
      * Each {@code double} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][] source = {{1.1, 2.9}, {3.5, 4.0}};
      * long[][] result = Arrays.toLong(source);
      * // result is {{1L, 2L}, {3L, 4L}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12517,11 +12801,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code double} array to a three-dimensional {@code long} array.
      * Each {@code double} element is cast to a {@code long}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * double[][][] source = {{{1.1, 2.9}}, {{3.5, 4.0}}};
      * long[][][] result = Arrays.toLong(source);
      * // result is {{{1L, 2L}}, {{3L, 4L}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
@@ -12545,11 +12830,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code byte} array to a one-dimensional {@code float} array.
      * Each {@code byte} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12573,11 +12859,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code byte} array to a two-dimensional {@code float} array.
      * Each {@code byte} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12601,11 +12888,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code byte} array to a three-dimensional {@code float} array.
      * Each {@code byte} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12629,11 +12917,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code short} array to a one-dimensional {@code float} array.
      * Each {@code short} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12657,11 +12946,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code short} array to a two-dimensional {@code float} array.
      * Each {@code short} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12685,11 +12975,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code short} array to a three-dimensional {@code float} array.
      * Each {@code short} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12713,11 +13004,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code int} array to a one-dimensional {@code float} array.
      * Each {@code int} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] source = {1, 2, 3};
      * float[] result = Arrays.toFloat(source);
      * // result is {1.0f, 2.0f, 3.0f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12741,11 +13033,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code int} array to a two-dimensional {@code float} array.
      * Each {@code int} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] source = {{1, 2}, {3, 4}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12769,11 +13062,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code int} array to a three-dimensional {@code float} array.
      * Each {@code int} element is cast to a {@code float}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12797,11 +13091,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code long} array to a one-dimensional {@code float} array.
      * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[] source = {1L, 2L, 9007199254740992L};
      * float[] result = Arrays.toFloat(source);
      * // result may be {1.0f, 2.0f, 9.0071992E15f}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12825,11 +13120,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code long} array to a two-dimensional {@code float} array.
      * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][] source = {{1L, 2L}, {3L, 4L}};
      * float[][] result = Arrays.toFloat(source);
      * // result is {{1.0f, 2.0f}, {3.0f, 4.0f}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12853,11 +13149,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code long} array to a three-dimensional {@code float} array.
      * Each {@code long} element is cast to a {@code float}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
      * float[][][] result = Arrays.toFloat(source);
      * // result is {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
@@ -12881,11 +13178,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code byte} array to a one-dimensional {@code double} array.
      * Each {@code byte} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -12909,11 +13207,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code byte} array to a two-dimensional {@code double} array.
      * Each {@code byte} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -12937,11 +13236,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code byte} array to a three-dimensional {@code double} array.
      * Each {@code byte} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * byte[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -12965,11 +13265,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code short} array to a one-dimensional {@code double} array.
      * Each {@code short} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -12993,11 +13294,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code short} array to a two-dimensional {@code double} array.
      * Each {@code short} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13021,11 +13323,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code short} array to a three-dimensional {@code double} array.
      * Each {@code short} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * short[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13049,11 +13352,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code int} array to a one-dimensional {@code double} array.
      * Each {@code int} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[] source = {1, 2, 3};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 3.0}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13077,11 +13381,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code int} array to a two-dimensional {@code double} array.
      * Each {@code int} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][] source = {{1, 2}, {3, 4}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13105,11 +13410,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code int} array to a three-dimensional {@code double} array.
      * Each {@code int} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * int[][][] source = {{{1, 2}}, {{3, 4}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13133,11 +13439,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code long} array to a one-dimensional {@code double} array.
      * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[] source = {1L, 2L, 9007199254740992L};
      * double[] result = Arrays.toDouble(source);
      * // result is {1.0, 2.0, 9.007199254740992E15}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13161,11 +13468,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code long} array to a two-dimensional {@code double} array.
      * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][] source = {{1L, 2L}, {3L, 4L}};
      * double[][] result = Arrays.toDouble(source);
      * // result is {{1.0, 2.0}, {3.0, 4.0}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13189,11 +13497,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code long} array to a three-dimensional {@code double} array.
      * Each {@code long} element is cast to a {@code double}, which may result in a loss of precision.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * long[][][] source = {{{1L, 2L}}, {{3L, 4L}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is {{{1.0, 2.0}}, {{3.0, 4.0}}}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13217,11 +13526,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a one-dimensional {@code float} array to a one-dimensional {@code double} array.
      * Each {@code float} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[] source = {1.1f, 2.2f, 3.3f};
      * double[] result = Arrays.toDouble(source);
      * // result is approximately {1.100000023841858, 2.200000047683716, 3.299999952316284}
-     * </code></pre>
+     * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13245,11 +13555,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a two-dimensional {@code float} array to a two-dimensional {@code double} array.
      * Each {@code float} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][] source = {{1.1f, 2.2f}, {3.3f, 4.4f}};
      * double[][] result = Arrays.toDouble(source);
      * // result is a 2D double array with converted values.
-     * </code></pre>
+     * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13273,11 +13584,12 @@ public sealed class Arrays permits Arrays.f {
      * Converts a three-dimensional {@code float} array to a three-dimensional {@code double} array.
      * Each {@code float} element is cast to a {@code double}.
      *
-     * <pre><code>
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * float[][][] source = {{{1.1f, 2.2f}}, {{3.3f, 4.4f}}};
      * double[][][] result = Arrays.toDouble(source);
      * // result is a 3D double array with converted values.
-     * </code></pre>
+     * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
@@ -13320,11 +13632,11 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of the input array to a new type using the provided mapping function.
          *
          * <p>Example:
-         * <pre>
+         * <pre>{@code
          * String[] strings = {"1", "2", "3"};
          * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
          * // Result: [1, 2, 3]
-         * </pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <R> the type of elements in the result array
@@ -13355,11 +13667,11 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of the input array to a boolean value using the provided function.
          *
          * <p>Example:
-         * <pre>
+         * <pre>{@code
          * String[] words = {"hello", "hi", "world"};
          * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
          * // Result: [true, false, true]
-         * </pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
@@ -13387,11 +13699,11 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of the input array to a char value using the provided function.
          *
          * <p>Example:
-         * <pre>
+         * <pre>{@code
          * String[] words = {"apple", "banana", "cherry"};
          * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
          * // Result: ['a', 'b', 'c']
-         * </pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
@@ -13469,11 +13781,11 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of the input array to an int value using the provided function.
          *
          * <p>Example:
-         * <pre>
+         * <pre>{@code
          * String[] numbers = {"10", "20", "30"};
          * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
          * // Result: [10, 20, 30]
-         * </pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
@@ -13612,11 +13924,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method iterates through each element of the nested arrays and replaces it with
          * the result of applying the operator. Null sub-arrays and empty sub-arrays are safely skipped.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"hello", "world"}, {"foo", "bar"}};
          * ff.updateAll(array, str -> str.toUpperCase());
          * // array is now {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the operator
@@ -13647,11 +13960,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is useful for conditional replacement operations, such as replacing null values
          * or elements matching certain criteria.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{1, null, 3}, {null, 5, 6}};
          * ff.replaceIf(array, val -> val == null, 0);
          * // array is now {{1, 0, 3}, {0, 5, 6}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the predicate
@@ -13686,11 +14000,12 @@ public sealed class Arrays permits Arrays.f {
          * If the array length is not evenly divisible by the column count, the last row will contain
          * fewer elements than specified columns.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[] array = {1, 2, 3, 4, 5, 6, 7};
          * Integer[][] reshaped = ff.reshape(array, 3);
          * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the component type of the array
          * @param a the one-dimensional array to reshape. Must not be null
@@ -13724,11 +14039,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>Elements are concatenated in row-major order. Null or empty sub-arrays are safely skipped
          * without adding any elements to the result.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{1, 2}, {3, 4, 5}, {6}};
          * Integer[] flattened = ff.flatten(array);
          * // flattened is {1, 2, 3, 4, 5, 6}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the component type of the array elements
          * @param a the two-dimensional array to flatten. Must not be null
@@ -13761,11 +14077,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is particularly useful for operations that need to work on all elements
          * as a single sequence, such as sorting all elements across the entire 2D array.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
          * ff.flatOp(array, arr -> java.util.Arrays.sort(arr));
          * // array is now {{1, 1, 3}, {4, 5, 9}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the operation
@@ -13799,11 +14116,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method creates a new array with the same dimensions as the input array,
          * where each element is the result of applying the function to the corresponding input element.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{1, 2}, {3, 4}};
          * Integer[][] doubled = ff.map(array, x -> x * 2);
          * // doubled is {{2, 4}, {6, 8}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in both source and result arrays
          * @param <E> the type of exception that may be thrown by the function
@@ -13827,11 +14145,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The resulting array has the same structure as the input array but with elements
          * of the target type.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"1", "2"}, {"3", "4"}};
          * Integer[][] numbers = ff.map(array, Integer::parseInt, Integer.class);
          * // numbers is {{1, 2}, {3, 4}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <R> the type of elements in the result array
@@ -13862,11 +14181,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a boolean value using the provided predicate.
          * This method is useful for creating boolean masks or condition arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{1, 2, 3}, {4, 5, 6}};
          * boolean[][] evens = ff.mapToBoolean(array, x -> x % 2 == 0);
          * // evens is {{false, true, false}, {true, false, true}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -13894,11 +14214,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a char value using the provided function.
          * This method is useful for character-based transformations.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"apple", "banana"}, {"cat", "dog"}};
          * char[][] firstChars = ff.mapToChar(array, s -> s.charAt(0));
          * // firstChars is {{'a', 'b'}, {'c', 'd'}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -13926,11 +14247,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a byte value using the provided function.
          * This method is useful for byte-level transformations or data compression.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{10, 20}, {30, 40}};
          * byte[][] bytes = ff.mapToByte(array, Integer::byteValue);
          * // bytes is {{10, 20}, {30, 40}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -13958,11 +14280,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a short value using the provided function.
          * This method provides type-safe conversion to short primitive arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] array = {{100, 200}, {300, 400}};
          * short[][] shorts = ff.mapToShort(array, Integer::shortValue);
          * // shorts is {{100, 200}, {300, 400}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -13990,11 +14313,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to an int value using the provided function.
          * This is one of the most commonly used primitive mapping operations.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"10", "20"}, {"30", "40"}};
          * int[][] numbers = ff.mapToInt(array, Integer::parseInt);
          * // numbers is {{10, 20}, {30, 40}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -14022,11 +14346,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a long value using the provided function.
          * This method is useful for converting to long primitive arrays for large numeric values.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"1000000", "2000000"}, {"3000000", "4000000"}};
          * long[][] longs = ff.mapToLong(array, Long::parseLong);
          * // longs is {{1000000L, 2000000L}, {3000000L, 4000000L}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -14054,11 +14379,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a float value using the provided function.
          * This method enables conversion to floating-point primitive arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"1.5", "2.5"}, {"3.5", "4.5"}};
          * float[][] floats = ff.mapToFloat(array, Float::parseFloat);
          * // floats is {{1.5f, 2.5f}, {3.5f, 4.5f}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -14086,11 +14412,12 @@ public sealed class Arrays permits Arrays.f {
          * Maps each element of a two-dimensional array to a double value using the provided function.
          * This method provides the highest precision for numeric conversions.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"1.234", "2.345"}, {"3.456", "4.567"}};
          * double[][] doubles = ff.mapToDouble(array, Double::parseDouble);
          * // doubles is {{1.234, 2.345}, {3.456, 4.567}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -14121,12 +14448,13 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method pairs elements at the same positions and applies the zip function.
          * If arrays have different dimensions, extra elements are ignored.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1, 2}, {3, 4}};
          * Integer[][] b = {{10, 20}, {30, 40}};
          * Integer[][] sums = ff.zip(a, b, (x, y) -> x + y);
          * // sums is {{11, 22}, {33, 44}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -14146,12 +14474,13 @@ public sealed class Arrays permits Arrays.f {
          * Combines corresponding elements from two 2D arrays into a new array of a specified type.
          * This method allows the result type to differ from the input types.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1, 2}, {3, 4}};
          * String[][] b = {{"a", "b"}, {"c", "d"}};
          * String[][] combined = ff.zip(a, b, (i, s) -> i + s, String.class);
          * // combined is {{"1a", "2b"}, {"3c", "4d"}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -14194,12 +14523,13 @@ public sealed class Arrays permits Arrays.f {
          * <p>When one array is shorter than the other, the default values are used
          * for the missing elements during combination.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1, 2}, {3}};
          * Integer[][] b = {{10}, {30, 40}};
          * Integer[][] sums = ff.zip(a, b, 0, 0, (x, y) -> x + y);
          * // sums is {{11, 2}, {33, 40}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -14224,12 +14554,13 @@ public sealed class Arrays permits Arrays.f {
          * <p>This is the most flexible zip operation, allowing different input and output types
          * while handling arrays of different sizes gracefully.</p>
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1}, {2, 3}};
          * String[][] b = {{"X", "Y"}, {"Z"}};
          * String[][] result = ff.zip(a, b, 0, "-", (i, s) -> i + s, String.class);
          * // result is {{"1X", "0Y"}, {"2Z", "3-"}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -14273,13 +14604,14 @@ public sealed class Arrays permits Arrays.f {
          * Combines corresponding elements from three 2D arrays using a tri-function.
          * The result has dimensions equal to the minimum dimensions of all input arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1, 2}, {3, 4}};
          * Integer[][] b = {{10, 20}, {30, 40}};
          * Integer[][] c = {{100, 200}, {300, 400}};
          * Integer[][] sums = ff.zip(a, b, c, (x, y, z) -> x + y + z);
          * // sums is {{111, 222}, {333, 444}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of all arrays and the result
          * @param <B> the element type of the second array
@@ -14301,13 +14633,14 @@ public sealed class Arrays permits Arrays.f {
          * Combines elements from three 2D arrays into a new array of a specified type.
          * This method allows flexible type transformation when combining three arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1}, {2}};
          * Double[][] b = {{1.5, 2.5}, {3.5}};
          * String[][] c = {{"A"}, {"B", "C"}};
          * String[][] result = ff.zip(a, b, c, (i, d, s) -> i + ":" + d + ":" + s, String.class);
          * // result is {{"1:1.5:A"}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -14351,13 +14684,14 @@ public sealed class Arrays permits Arrays.f {
          * Combines elements from three 2D arrays with default values for missing elements.
          * The result has dimensions equal to the maximum dimensions of all input arrays.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1}, {2, 3}};
          * Integer[][] b = {{10, 20}};
          * Integer[][] c = {{100}, {200, 300}};
          * Integer[][] sums = ff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
          * // sums is {{111, 20}, {202, 303}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of all arrays and the result
          * @param <B> the element type of the second array
@@ -14382,14 +14716,15 @@ public sealed class Arrays permits Arrays.f {
          * Combines elements from three 2D arrays into a result array of a specified type,
          * using default values for missing elements. This is the most flexible three-array zip operation.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][] a = {{1}};
          * String[][] b = {{"X", "Y"}};
          * Double[][] c = {{0.5}, {1.5, 2.5}};
          * String[][] result = ff.zip(a, b, c, 0, "-", 0.0, 
          *                           (i, s, d) -> i + s + d, String.class);
          * // result is {{"1X0.5", "0Y0.0"}, {"0-1.5", "0-2.5"}}
-         * </code></pre>
+         * }</pre>
          * 
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -14518,11 +14853,12 @@ public sealed class Arrays permits Arrays.f {
          * Calculates the total number of elements across all sub-arrays in a two-dimensional array.
          * This method correctly handles jagged arrays and counts null sub-arrays as having zero elements.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
          * long total = ff.totalCountOfElements(array);
          * // total is 6 (3 + 2 + 0 + 1)
-         * </code></pre>
+         * }</pre>
          * 
          * @param a the two-dimensional array to count elements in. Can be null
          * @return the total number of elements across all sub-arrays, or 0 if the array is null
@@ -14544,11 +14880,12 @@ public sealed class Arrays permits Arrays.f {
          * Finds the minimum length among all sub-arrays in a two-dimensional array.
          * Null sub-arrays are treated as having length 0.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
          * int minLen = ff.minSubArrayLen(array);
          * // minLen is 0 (due to the null sub-array)
-         * </code></pre>
+         * }</pre>
          * 
          * @param a the two-dimensional array to examine. Can be null
          * @return the minimum sub-array length, or 0 if the array is null or empty
@@ -14571,11 +14908,12 @@ public sealed class Arrays permits Arrays.f {
          * Finds the maximum length among all sub-arrays in a two-dimensional array.
          * Null sub-arrays are treated as having length 0.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Object[][] array = {{1, 2, 3}, {4, 5}, null, {6}};
          * int maxLen = ff.maxSubArrayLen(array);
          * // maxLen is 3 (from the first sub-array)
-         * </code></pre>
+         * }</pre>
          * 
          * @param a the two-dimensional array to examine. Can be null
          * @return the maximum sub-array length, or 0 if the array is null or empty
@@ -14598,14 +14936,15 @@ public sealed class Arrays permits Arrays.f {
          * Creates a string representation of a two-dimensional array and prints it to the console.
          * Each sub-array is formatted on a separate line for readability.
          * 
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][] array = {{"a", "b"}, {"c", "d", "e"}};
          * String result = ff.println(array);
          * // Prints:
          * // [[a, b],
          * //  [c, d, e]]
          * // Returns the same string
-         * </code></pre>
+         * }</pre>
          * 
          * @param a the two-dimensional array to print. Can be null
          * @return the string representation that was printed
@@ -14702,11 +15041,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The operator is applied to every non-null element in the array, traversing through
          * all three dimensions. Null elements at any level are skipped.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] arr = {{{"hello", "world"}}, {{"foo", "bar"}}};
          * fff.updateAll(arr, str -> str.toUpperCase());
          * // arr is now {{{"HELLO", "WORLD"}}, {{"FOO", "BAR"}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the operator
@@ -14732,11 +15072,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is useful for conditional bulk updates, such as replacing all null
          * values, replacing values that meet certain criteria, or normalizing data.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] arr = {{{1, 2, null}}, {{3, null, 5}}};
          * fff.replaceIf(arr, val -> val == null, 0);
          * // arr is now {{{1, 2, 0}}, {{3, 0, 5}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the predicate
@@ -14764,11 +15105,12 @@ public sealed class Arrays permits Arrays.f {
          * If the total number of elements doesn't evenly divide into the specified dimensions,
          * the last slices may be partially filled.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[] flat = {1, 2, 3, 4, 5, 6, 7, 8};
          * Integer[][][] reshaped = fff.reshape(flat, 2, 2);
          * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the array
          * @param a the one-dimensional array to reshape. Must not be null
@@ -14809,11 +15151,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This operation is the inverse of reshape, converting a multi-dimensional
          * structure back into a linear representation. Empty sub-arrays are skipped.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] cube = {{{1, 2}}, {{3}}, {{4, 5, 6}}};
          * Integer[] flat = fff.flatten(cube);
          * // flat is {1, 2, 3, 4, 5, 6}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the component type of the array elements
          * @param a the three-dimensional array to flatten. Must not be null
@@ -14854,11 +15197,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The operation preserves the original shape of the 3D array while allowing
          * transformations that work on the entire dataset as a single unit.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] arr = {{{5, 2}}, {{9, 1}}, {{3, 7}}};
          * fff.flatOp(arr, flat -> java.util.Arrays.sort(flat));
          * // arr is now {{{1, 2}}, {{3, 5}}, {{7, 9}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the array
          * @param <E> the type of exception that may be thrown by the operation
@@ -14897,11 +15241,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method preserves the exact structure of the input array, including any
          * null elements or empty sub-arrays. Only non-null elements are transformed.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] numbers = {{{1, 2}}, {{3, 4}}};
          * Integer[][][] doubled = fff.map(numbers, n -> n * 2);
          * // doubled is {{{2, 4}}, {{6, 8}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in both source and result arrays
          * @param <E> the type of exception that may be thrown by the function
@@ -14927,11 +15272,12 @@ public sealed class Arrays permits Arrays.f {
          * transformed according to the provided function. This is useful for converting between
          * different data types or applying complex transformations.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] strings = {{{"1", "2"}}, {{"3", "4"}}};
          * Integer[][][] numbers = fff.map(strings, Integer::parseInt, Integer.class);
          * // numbers is {{{1, 2}}, {{3, 4}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <R> the type of elements in the result array
@@ -14966,11 +15312,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The resulting array has the same structure as the input, with each element
          * replaced by the boolean result of the predicate evaluation.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] numbers = {{{1, 2, 3}}, {{4, 5, 6}}};
          * boolean[][][] evenMask = fff.mapToBoolean(numbers, n -> n % 2 == 0);
          * // evenMask is {{{false, true, false}}, {{true, false, true}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15001,11 +15348,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is particularly useful when working with string data where you
          * need to extract specific characters or perform character-based transformations.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] words = {{{"apple", "banana"}}, {{"cat", "dog"}}};
          * char[][][] firstLetters = fff.mapToChar(words, s -> s.charAt(0));
          * // firstLetters is {{{'a', 'b'}}, {{'c', 'd'}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15037,11 +15385,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>Care should be taken to ensure that the conversion doesn't result in data loss
          * due to byte's limited range (-128 to 127).</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] numbers = {{{10, 20}}, {{30, 40}}};
          * byte[][][] bytes = fff.mapToByte(numbers, Integer::byteValue);
          * // bytes is {{{10, 20}}, {{30, 40}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15073,11 +15422,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The short data type has a range of -32,768 to 32,767, making it suitable
          * for many numeric applications while using less memory than int.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] numbers = {{{100, 200}}, {{300, 400}}};
          * short[][][] shorts = fff.mapToShort(numbers, Integer::shortValue);
          * // shorts is {{{100, 200}}, {{300, 400}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15109,11 +15459,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is particularly useful for parsing strings to integers or
          * extracting integer properties from complex objects.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] stringNumbers = {{{"1", "2"}}, {{"3", "4"}}};
          * int[][][] integers = fff.mapToInt(stringNumbers, Integer::parseInt);
          * // integers is {{{1, 2}}, {{3, 4}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15145,11 +15496,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The long data type can represent values from -2^63 to 2^63-1, making it
          * suitable for applications requiring large integer values.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] timestamps = {{{"1000000"}}, {{"2000000"}}};
          * long[][][] longs = fff.mapToLong(timestamps, Long::parseLong);
          * // longs is {{{1000000L}}, {{2000000L}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15181,11 +15533,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>Float provides approximately 7 decimal digits of precision and is suitable
          * for many scientific and graphics applications.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] decimals = {{{"1.5", "2.7"}}, {{"3.14", "4.2"}}};
          * float[][][] floats = fff.mapToFloat(decimals, Float::parseFloat);
          * // floats is {{{1.5f, 2.7f}}, {{3.14f, 4.2f}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15217,11 +15570,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>Double provides approximately 15-17 decimal digits of precision and is
          * the standard choice for scientific computing and high-precision calculations.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] scientificData = {{{"1.23e10", "4.56e-5"}}, {{"7.89e15"}}};
          * double[][][] doubles = fff.mapToDouble(scientificData, Double::parseDouble);
          * // doubles is {{{1.23e10, 4.56e-5}}, {{7.89e15}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <T> the type of elements in the source array
          * @param <E> the type of exception that may be thrown by the function
@@ -15253,12 +15607,13 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is useful for element-wise operations like addition, multiplication,
          * or any custom binary operation between corresponding elements.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] a = {{{1, 2}}, {{3, 4}}};
          * Integer[][][] b = {{{10, 20}}, {{30, 40}}};
          * Integer[][][] sum = fff.zip(a, b, (x, y) -> x + y);
          * // sum is {{{11, 22}}, {{33, 44}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -15283,12 +15638,13 @@ public sealed class Arrays permits Arrays.f {
          * dimensions of the input arrays. This method enables combining arrays of
          * different types into a new type.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] numbers = {{{1, 2}}};
          * String[][][] strings = {{{"a", "b"}}};
          * String[][][] combined = fff.zip(numbers, strings, (n, s) -> n + s, String.class);
          * // combined is {{{"1a", "2b"}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -15323,12 +15679,13 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method is particularly useful when you want to combine arrays of
          * different sizes without truncation, filling gaps with specified defaults.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] a = {{{1, 2}}};
          * Integer[][][] b = {{{10}}, {{20, 30}}};
          * Integer[][][] result = fff.zip(a, b, 0, 0, (x, y) -> x + y);
          * // result is {{{11, 2}}, {{20, 30}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -15354,13 +15711,14 @@ public sealed class Arrays permits Arrays.f {
          * <p>The result array dimensions match the maximum dimensions of the input arrays,
          * with default values filling any gaps where one array is smaller than the other.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] nums = {{{1}}};
          * String[][][] strs = {{{"a", "b"}}, {{"c"}}};
          * String[][][] result = fff.zip(nums, strs, 0, "x", 
          *                               (n, s) -> n + "-" + s, String.class);
          * // result is {{{"1-a", "0-b"}}, {{"0-c"}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -15408,13 +15766,14 @@ public sealed class Arrays permits Arrays.f {
          * <p>This method enables complex three-way operations on corresponding elements
          * from three different arrays, useful for operations that require three inputs.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] a = {{{1, 2}}};
          * Integer[][][] b = {{{10, 20}}};
          * Integer[][][] c = {{{100, 200}}};
          * Integer[][][] sum = fff.zip(a, b, c, (x, y, z) -> x + y + z);
          * // sum is {{{111, 222}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -15440,14 +15799,15 @@ public sealed class Arrays permits Arrays.f {
          * <p>The dimensions of the result array are the minimum of the corresponding
          * dimensions of all three input arrays.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] nums = {{{1}}};
          * String[][][] strs = {{{"a"}}};
          * Double[][][] dbls = {{{2.5}}};
          * String[][][] result = fff.zip(nums, strs, dbls, 
          *                               (n, s, d) -> n + s + d, String.class);
          * // result is {{{"1a2.5"}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -15485,13 +15845,14 @@ public sealed class Arrays permits Arrays.f {
          * <p>The result array dimensions match the maximum dimensions of the input arrays,
          * with default values used whenever an array lacks an element at a given position.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] a = {{{1}}};
          * Integer[][][] b = {{{10, 20}}};
          * Integer[][][] c = {{{}, {{100}}};
          * Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
          * // result is {{{11, 20}, {100}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array and the result
          * @param <B> the element type of the second array
@@ -15521,14 +15882,15 @@ public sealed class Arrays permits Arrays.f {
          * <p>The result array dimensions match the maximum dimensions of all input arrays,
          * with default values filling any gaps where arrays differ in size.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Integer[][][] a = {{{1}}};
          * String[][][] b = {{{"a", "b"}}};
          * Double[][][] c = {{{1.1}}, {{2.2}}};
          * String[][][] result = fff.zip(a, b, c, 0, "x", 0.0,
          *                               (i, s, d) -> i + s + d, String.class);
          * // result is {{{"1a1.1", "0b0.0"}}, {{"0x2.2"}}}
-         * </code></pre>
+         * }</pre>
          *
          * @param <A> the element type of the first array
          * @param <B> the element type of the second array
@@ -15578,11 +15940,12 @@ public sealed class Arrays permits Arrays.f {
          * <p>The count includes only actual elements, not null references to sub-arrays.
          * Empty sub-arrays contribute zero to the count.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * Object[][][] array = {{{1, 2}, {3}}, null, {{4, 5, 6}}};
          * long count = fff.totalCountOfElements(array);
          * // count is 6 (elements: 1, 2, 3, 4, 5, 6)
-         * </code></pre>
+         * }</pre>
          *
          * @param a the three-dimensional array to count elements in
          * @return the total number of non-null elements across all dimensions
@@ -15619,14 +15982,15 @@ public sealed class Arrays permits Arrays.f {
          * to visualize the contents and structure of 3D arrays. Each 2D slice is
          * separated by line breaks for clarity.</p>
          *
-         * <pre><code>
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
          * String[][][] data = {{{"a", "b"}}, {{"c", "d"}, {"e"}}};
          * String output = fff.println(data);
          * // Prints to console and returns:
          * // [[["a", "b"]],
          * //  [["c", "d"],
          * //   ["e"]]]
-         * </code></pre>
+         * }</pre>
          *
          * @param a the three-dimensional array to print. Can be null
          * @return the string representation that was printed to console

@@ -41,7 +41,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple1 containing a single double value.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple1 single = DoubleTuple.of(3.14);
      * double value = single._1; // 3.14
@@ -57,7 +57,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple2 containing two double values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
      * double sum = pair._1 + pair._2; // 4.0
@@ -74,7 +74,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple3 containing three double values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double average = triple.average(); // 2.0
@@ -92,7 +92,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple4 containing four double values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
      * double first = tuple._1;
@@ -111,7 +111,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple5 containing five double values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
      * double first = tuple._1;
@@ -131,7 +131,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple6 containing six double values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
      * double first = tuple._1;
@@ -152,7 +152,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple7 containing seven double values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
      * double first = tuple._1;
@@ -216,7 +216,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Creates a DoubleTuple from an array of double values.
      * The size of the returned tuple depends on the array length (0-9).
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] values = {1.0, 2.0, 3.0};
      * DoubleTuple3 tuple = DoubleTuple.create(values);
@@ -268,7 +268,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the minimum double value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double min = tuple.min(); // 1.0
@@ -284,7 +284,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the maximum double value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double max = tuple.max(); // 3.0
@@ -301,7 +301,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Returns the median double value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(30.0, 10.0, 20.0);
      * double median = tuple.median(); // 20.0
@@ -320,7 +320,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the sum of all elements in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.sum(); // 6.0
@@ -335,7 +335,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns the average of all double values in this tuple as a double.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double avg = tuple.average(); // 2.0
@@ -351,7 +351,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns a new tuple with the elements in reverse order.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleTuple3 reversed = tuple.reverse(); // (3.0, 2.0, 1.0)
@@ -365,7 +365,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Checks if this tuple contains the specified double value.
      * Uses {@link N#equals(double, double)} for comparison to handle NaN and precision.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * boolean hasTwo = tuple.contains(2.0); // true
@@ -381,7 +381,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * Returns a new array containing all elements of this tuple.
      * Modifications to the returned array do not affect the tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double[] array = tuple.toArray(); // [1.0, 2.0, 3.0]
@@ -396,7 +396,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns a new DoubleList containing all elements of this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleList list = tuple.toList();
@@ -411,7 +411,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Performs the given action for each element in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * tuple.forEach(System.out::println); // prints each value
@@ -430,7 +430,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Returns a DoubleStream of all elements in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.stream().sum(); // 6.0
@@ -716,7 +716,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) _1;
+            return Double.hashCode(_1);
         }
 
         /**
@@ -874,7 +874,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given binary action on the two elements.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
@@ -891,7 +891,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Applies the given binary function to the two elements and returns the result.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * double product = tuple.map((a, b) -> a * b); // 12.0
@@ -911,7 +911,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // present
@@ -933,7 +933,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) (31 * _1 + _2);
+            long bits1 = Double.doubleToLongBits(_1);
+            long bits2 = Double.doubleToLongBits(_2);
+            return (int) (31 * (bits1 ^ (bits1 >>> 32)) + (bits2 ^ (bits2 >>> 32)));
         }
 
         /**
@@ -1094,7 +1096,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given ternary action on the three elements.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
@@ -1111,7 +1113,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Applies the given ternary function to the three elements and returns the result.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * double product = tuple.map((a, b, c) -> a * b * c); // 6.0
@@ -1131,7 +1133,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // present
@@ -1153,7 +1155,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * _1 + _2)) + _3);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            return 31 * result + Double.hashCode(_3);
         }
 
         /**
@@ -1323,7 +1327,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * _1 + _2) + _3)) + _4);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            return 31 * result + Double.hashCode(_4);
         }
 
         /**
@@ -1497,7 +1504,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            result = 31 * result + Double.hashCode(_4);
+            return 31 * result + Double.hashCode(_5);
         }
 
         /**
@@ -1676,7 +1687,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            result = 31 * result + Double.hashCode(_4);
+            result = 31 * result + Double.hashCode(_5);
+            return 31 * result + Double.hashCode(_6);
         }
 
         /**
@@ -1859,7 +1875,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            result = 31 * result + Double.hashCode(_4);
+            result = 31 * result + Double.hashCode(_5);
+            result = 31 * result + Double.hashCode(_6);
+            return 31 * result + Double.hashCode(_7);
         }
 
         /**
@@ -2050,7 +2072,14 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            result = 31 * result + Double.hashCode(_4);
+            result = 31 * result + Double.hashCode(_5);
+            result = 31 * result + Double.hashCode(_6);
+            result = 31 * result + Double.hashCode(_7);
+            return 31 * result + Double.hashCode(_8);
         }
 
         /**
@@ -2245,7 +2274,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9);
+            int result = Double.hashCode(_1);
+            result = 31 * result + Double.hashCode(_2);
+            result = 31 * result + Double.hashCode(_3);
+            result = 31 * result + Double.hashCode(_4);
+            result = 31 * result + Double.hashCode(_5);
+            result = 31 * result + Double.hashCode(_6);
+            result = 31 * result + Double.hashCode(_7);
+            result = 31 * result + Double.hashCode(_8);
+            return 31 * result + Double.hashCode(_9);
         }
 
         /**

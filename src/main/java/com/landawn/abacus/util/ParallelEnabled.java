@@ -23,7 +23,7 @@ package com.landawn.abacus.util;
  * across multiple threads. When enabled, operations on large matrices can utilize
  * multiple CPU cores for better performance.</p>
  * 
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Force parallel execution
  * Matrixes.setParallelEnabled(ParallelEnabled.YES);

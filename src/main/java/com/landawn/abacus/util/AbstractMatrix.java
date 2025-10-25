@@ -123,7 +123,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This method is useful for reflection-based operations and type checking at runtime.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * Class<?> type = intMatrix.componentType(); // Returns int.class
@@ -146,7 +146,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Any changes made to the returned array will be reflected in the matrix.
      * If you need an independent copy, use {@link #copy()} instead.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * int[][] array = matrix.array();
@@ -173,7 +173,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * </ul>
      * </p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.println();
@@ -191,7 +191,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>Note: An empty matrix can have various shapes such as 0×0, 0×n, or m×0.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix empty1 = IntMatrix.of(new int[0][0]);
      * boolean isEmpty1 = empty1.isEmpty(); // Returns true (0×0)
@@ -217,7 +217,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This method creates new array instances and copies all element values.
      * For large matrices, this operation can be memory and time intensive.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix original = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix copy = original.copy();
@@ -237,7 +237,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, cols)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * IntMatrix subMatrix = matrix.copy(0, 2); // Contains rows 0 and 1
@@ -261,7 +261,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This method allows you to extract any rectangular subregion of the matrix.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix subMatrix = matrix.copy(0, 2, 1, 3);
@@ -291,7 +291,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>Rotation formula: element at position (i, j) in the original matrix
      * moves to position (j, rows - 1 - i) in the rotated matrix.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 90° clockwise:
      * // 1 2 3        7 4 1
@@ -317,7 +317,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This operation is equivalent to calling {@code rotate90().rotate90()}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 180°:
      * // 1 2 3        9 8 7
@@ -344,7 +344,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}
      * or {@code transpose().rotate180().transpose()}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Rotated 270° clockwise:
      * // 1 2 3        3 6 9
@@ -372,7 +372,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>The transpose is a fundamental matrix operation used in linear algebra,
      * statistics, and many matrix algorithms.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    Transposed:
      * // 1 2 3        1 4 7
@@ -397,7 +397,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>The new row count is calculated as: {@code ceiling(count / newCols)}</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(2); // Becomes [[1, 2], [3, 4], [5, 6]]
@@ -425,7 +425,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This is a fundamental operation for restructuring matrix data without changing
      * the underlying element values (within the bounds of the new shape).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
@@ -448,7 +448,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This method is useful for validating matrix compatibility before operations
      * that require same-shaped matrices (e.g., element-wise addition or subtraction).</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
@@ -475,7 +475,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * effectively creating a "zoomed in" version of the matrix where each original element
      * occupies multiple positions.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    repelem(2, 2):
      * // 1 2          1 1 2 2
@@ -504,7 +504,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This operation is similar to MATLAB's repmat function. The entire matrix pattern
      * is replicated, creating a tiled arrangement.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Original:    repmat(2, 2):
      * // 1 2          1 2 1 2
@@ -532,7 +532,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>The flattening operation converts a 2D matrix structure into a 1D sequence,
      * which is useful for operations that work on linear data structures.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntList flat = matrix.flatten(); // Returns [1, 2, 3, 4]
@@ -555,7 +555,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><strong>Note:</strong> The operation modifies the array in place, which affects the matrix.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{3, 1, 4}, {1, 5, 9}});
      * matrix.flatOp(a -> Arrays.sort(a)); // Sorts all elements
@@ -580,7 +580,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This method is useful when you need to access matrix positions without caring about
      * the actual element values, or when the element access logic is handled inside the action.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.forEach((i, j) -> {
      *     System.out.println("Position: (" + i + "," + j + ")");
@@ -619,7 +619,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This allows selective processing of matrix subregions without creating a copy.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Process only a 2×2 subregion starting at (1,1)
      * matrix.forEach(1, 3, 1, 3, (i, j) -> {
@@ -668,7 +668,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This variant is useful when the action needs access to matrix elements or methods,
      * allowing you to read/write values or use matrix operations within the action.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * matrix.forEach((i, j, m) -> {
@@ -707,7 +707,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This combines region-based iteration with matrix access, allowing you to process
      * a subregion while having access to the entire matrix.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.forEach(1, 3, 1, 3, (i, j, m) -> {
      *     // Process only the 2×2 subregion with access to matrix
@@ -757,7 +757,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> diagonal = matrix.pointsLU2RD(); // Points: (0,0), (1,1), (2,2)
@@ -781,7 +781,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> antiDiagonal = matrix.pointsRU2LD(); // Points: (0,2), (1,1), (2,0)
@@ -804,7 +804,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>H = Horizontal. This is equivalent to calling {@code pointsH(0, rows)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * Stream<Point> allPoints = matrix.pointsH();
@@ -823,7 +823,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This is equivalent to calling {@code pointsH(rowIndex, rowIndex + 1)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<Point> row1Points = matrix.pointsH(1); // All points in row 1
      * // For a 3-column matrix: (1,0), (1,1), (1,2)
@@ -841,7 +841,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of points for a range of rows in row-major order (horizontal traversal).
      * Points are generated row by row from left to right for the specified row range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Get points from rows 1 and 2 (indices 1 and 2, not including 3)
      * Stream<Point> points = matrix.pointsH(1, 3);
@@ -867,7 +867,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>V = Vertical. This is equivalent to calling {@code pointsV(0, cols)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * Stream<Point> columnOrder = matrix.pointsV();
@@ -886,7 +886,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>This is equivalent to calling {@code pointsV(columnIndex, columnIndex + 1)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<Point> col2Points = matrix.pointsV(2); // All points in column 2
      * // For a 3-row matrix: (0,2), (1,2), (2,2)
@@ -904,7 +904,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of points for a range of columns in column-major order (vertical traversal).
      * Points are generated column by column from top to bottom for the specified column range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Get points from columns 1 through 3 (indices 1, 2, 3, not including 4)
      * Stream<Point> points = matrix.pointsV(1, 4);
@@ -930,7 +930,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>R = Row. This is equivalent to calling {@code pointsR(0, rows)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.pointsR().forEach(rowStream -> {
      *     rowStream.forEach(point -> System.out.println("Point: " + point));
@@ -952,7 +952,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams for a range of rows, where each inner stream represents a row of points.
      * This allows for selective row-by-row processing of matrix positions.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Process rows 1 and 2 separately
      * matrix.pointsR(1, 3).forEach(rowStream -> {
@@ -980,7 +980,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>C = Column. This is equivalent to calling {@code pointsC(0, cols)}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.pointsC().forEach(colStream -> {
      *     colStream.forEach(point -> System.out.println("Point: " + point));
@@ -1002,7 +1002,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams for a range of columns, where each inner stream represents a column of points.
      * This allows for selective column-by-column processing of matrix positions.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Process columns 2 through 4 separately
      * matrix.pointsC(2, 5).forEach(colStream -> {
@@ -1031,7 +1031,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntStream diagonal = matrix.streamLU2RD(); // Stream of: 1, 5, 9
@@ -1050,7 +1050,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntStream antiDiagonal = matrix.streamRU2LD(); // Stream of: 3, 5, 7
@@ -1068,7 +1068,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>H = Horizontal.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntStream elements = matrix.streamH(); // Stream of: 1, 2, 3, 4
@@ -1083,7 +1083,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of elements from a specific row.
      * Elements are streamed from left to right within the row.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream row1 = matrix.streamH(1); // Stream of: 4, 5, 6
@@ -1100,7 +1100,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of elements from a range of rows in row-major order.
      * Elements are streamed row by row from left to right for the specified row range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
      * IntStream rows1and2 = matrix.streamH(1, 3); // Stream of: 3, 4, 5, 6
@@ -1120,7 +1120,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>V = Vertical.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
      * IntStream elements = matrix.streamV(); // Stream of: 1, 3, 2, 4
@@ -1135,7 +1135,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of elements from a specific column.
      * Elements are streamed from top to bottom within the column.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream col1 = matrix.streamV(1); // Stream of: 2, 5
@@ -1152,7 +1152,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of elements from a range of columns in column-major order.
      * Elements are streamed column by column from top to bottom for the specified column range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * IntStream cols1and2 = matrix.streamV(1, 3); // Stream of: 2, 5, 3, 6
@@ -1173,7 +1173,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>R = Row.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
      * matrix.streamR().forEach(rowStream -> {
@@ -1193,7 +1193,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Each element in the outer stream is a stream representing one row of the matrix
      * within the specified range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Process only rows 1 and 2
      * matrix.streamR(1, 3).forEach(rowStream -> {
@@ -1216,7 +1216,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p>C = Column.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][]{{1.0, 2.0}, {3.0, 4.0}});
      * matrix.streamC().forEach(colStream -> {
@@ -1236,7 +1236,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Each element in the outer stream is a stream representing one column of the matrix
      * within the specified range.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Process columns 2 through 4
      * matrix.streamC(2, 5).forEach(colStream -> {
@@ -1260,7 +1260,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This method is useful for performing operations on the matrix in a fluent chain
      * or for passing the matrix to utility methods that expect a consumer.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.accept(m -> {
      *     System.out.println("Matrix dimensions: " + m.rows + "x" + m.cols);
@@ -1289,7 +1289,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p>This method is useful for extracting values from the matrix or transforming it
      * into a different type while maintaining a fluent interface.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double determinant = matrix.apply(MatrixUtils::calculateDeterminant);
      * String info = matrix.apply(m -> "Matrix " + m.rows + "x" + m.cols);

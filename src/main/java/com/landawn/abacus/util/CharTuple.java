@@ -39,7 +39,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple1 containing a single char value.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple1 tuple = CharTuple.of('A');
      * char value = tuple._1; // 'A'
@@ -55,7 +55,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple2 containing two char values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'B');
      * char first = tuple._1;  // 'A'
@@ -73,7 +73,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple3 containing three char values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * char third = tuple._3; // 'C'
@@ -91,7 +91,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple4 containing four char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
      * char fourth = tuple._4; // 'D'
@@ -110,7 +110,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple5 containing five char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
      * char median = tuple.median(); // 'C' (middle value when sorted)
@@ -130,7 +130,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple6 containing six char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
      * int sum = tuple.sum(); // Sum of ASCII values
@@ -151,7 +151,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple7 containing seven char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple7 tuple = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
      * CharTuple7 reversed = tuple.reverse(); // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
@@ -173,7 +173,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple8 containing eight char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
      * boolean hasX = tuple.contains('X'); // false
@@ -199,7 +199,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a CharTuple9 containing nine char values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
      * char[] array = tuple.toArray(); // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
@@ -228,7 +228,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Creates a CharTuple from an array of char values.
      * The size of the returned tuple depends on the length of the input array (0-9 elements).
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] values = {'A', 'B', 'C'};
      * CharTuple3 tuple = CharTuple.create(values);
@@ -280,7 +280,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the minimum char value in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char min = tuple.min(); // 'A'
@@ -296,7 +296,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the maximum char value in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char max = tuple.max(); // 'Z'
@@ -313,7 +313,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns the median char value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char median = tuple.median(); // 'M'
@@ -333,7 +333,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns the sum of all char values in this tuple as an int.
      * The sum is calculated by adding the numeric values of the chars.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'B'); // 'A'=65, 'B'=66
      * int sum = tuple.sum(); // 131
@@ -349,7 +349,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns the average of all char values in this tuple as a double.
      * The average is calculated based on the numeric values of the chars.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'C'); // 'A'=65, 'C'=67
      * double avg = tuple.average(); // 66.0
@@ -365,7 +365,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new tuple with the elements in reverse order.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * CharTuple3 reversed = tuple.reverse(); // ('C', 'B', 'A')
@@ -378,7 +378,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Checks if this tuple contains the specified char value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * boolean hasB = tuple.contains('B'); // true
@@ -394,7 +394,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns a new array containing all elements of this tuple.
      * Modifications to the returned array do not affect the tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * char[] array = tuple.toArray(); // ['A', 'B', 'C']
@@ -409,7 +409,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new CharList containing all elements of this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * CharList list = tuple.toList();
@@ -424,7 +424,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Performs the given action for each element in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * tuple.forEach(ch -> System.out.print(ch + " ")); // prints "A B C "
@@ -443,7 +443,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a CharStream of all elements in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * int sum = tuple.stream().sum(); // 198
@@ -889,7 +889,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given action to both elements of this tuple.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
          * tuple.accept((a, b) -> System.out.println(a + " and " + b)); // prints "A and B"
@@ -906,7 +906,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given function to both elements of this tuple and returns the result.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
          * String result = tuple.map((a, b) -> "" + a + b); // "AB"
@@ -926,7 +926,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
          * Optional<CharTuple2> result = tuple.filter((a, b) -> a < b); // Optional containing the tuple
@@ -1109,7 +1109,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given action to all three elements of this tuple.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
@@ -1126,7 +1126,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given function to all three elements of this tuple and returns the result.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * String result = tuple.map((a, b, c) -> "" + a + b + c); // "ABC"
@@ -1146,7 +1146,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
          * 
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
          * Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c); // Optional containing the tuple
@@ -1265,6 +1265,21 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+        }
+
         @Override
         protected char[] elements() {
             if (elements == null) {
@@ -1333,6 +1348,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         @Override
         public boolean contains(final char valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
         }
 
         @Override
@@ -1406,6 +1437,23 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         @Override
         public boolean contains(final char valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
         }
 
         @Override
@@ -1483,6 +1531,24 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         public boolean contains(final char valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
         }
 
         @Override
@@ -1563,6 +1629,25 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         public boolean contains(final char valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
         }
 
         @Override
@@ -1646,6 +1731,26 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         public boolean contains(final char valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that the consumer may throw
+         * @param consumer the action to be performed for each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
         }
 
         @Override

@@ -27,7 +27,7 @@ import com.landawn.abacus.util.stream.LongStream;
  * All LongTuple implementations are immutable and thread-safe.
  * </p>
  *
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * LongTuple3 coords = LongTuple.of(100L, 200L, 300L);
  * long sum = coords.sum();  // 600
@@ -48,7 +48,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a LongTuple1 with one element.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple1 single = LongTuple.of(42L);
      * }</pre>
@@ -63,7 +63,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a LongTuple2 with two elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple2 pair = LongTuple.of(10L, 20L);
      * }</pre>
@@ -79,7 +79,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a LongTuple3 with three elements.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
      * }</pre>
@@ -195,7 +195,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * Creates a LongTuple from an array of long values.
      * The size of the returned tuple depends on the length of the input array (0-9 elements).
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] values = {10L, 20L, 30L};
      * LongTuple3 tuple = LongTuple.create(values);
@@ -247,7 +247,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the minimum long value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
      * long min = tuple.min();  // 2
@@ -263,7 +263,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the maximum long value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
      * long max = tuple.max();  // 8
@@ -280,7 +280,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * Returns the median long value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long median = tuple.median(); // 2
@@ -299,7 +299,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the sum of all elements in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
      * long sum = tuple.sum();  // 60
@@ -314,7 +314,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the average of all long values in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
      * double avg = tuple.average();  // 20.0
@@ -330,7 +330,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new tuple with the elements in reverse order.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongTuple3 reversed = tuple.reverse(); // (3, 2, 1)
@@ -343,7 +343,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Checks if this tuple contains the specified long value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(10L, 20L, 30L);
      * boolean has20 = tuple.contains(20L); // true
@@ -359,7 +359,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * Returns a new array containing all elements of this tuple.
      * Modifications to the returned array do not affect the tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long[] array = tuple.toArray(); // [1, 2, 3]
@@ -374,7 +374,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a new LongList containing all elements of this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongList list = tuple.toList();
@@ -389,7 +389,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Performs the given action for each element in this tuple.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * tuple.forEach(value -> System.out.println(value));
@@ -408,7 +408,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Returns a LongStream of all elements in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long sum = tuple.stream().sum(); // 6
@@ -460,7 +460,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * and separated by commas.
      * </p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * String str = tuple.toString();  // "[1, 2, 3]"
@@ -603,7 +603,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * This class provides optimized implementations for single-element operations.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple1 single = LongTuple.of(42L);
      * long value = single._1;  // 42
@@ -757,7 +757,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * bi-consumer and bi-function support.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple2 pair = LongTuple.of(10L, 20L);
      * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
@@ -878,7 +878,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given bi-consumer on the two elements.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(3L, 4L);
          * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
@@ -895,7 +895,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given bi-function to the two elements and returns the result.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 3L);
          * long remainder = pair.map((a, b) -> a % b);  // 1
@@ -914,7 +914,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it satisfies the given bi-predicate.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 20L);
          * Optional<LongTuple2> result = pair.filter((a, b) -> a < b);  // Optional containing the tuple
@@ -983,7 +983,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * tri-consumer and tri-function support.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
      * triple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
@@ -1107,7 +1107,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given tri-consumer action on the three elements.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(3L, 4L, 5L);
          * triple.accept((a, b, c) -> {
@@ -1126,7 +1126,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Applies the given tri-function to the three elements and returns the result.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
          * long volume = triple.map((l, w, h) -> l * w * h);  // 24
@@ -1145,7 +1145,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it satisfies the given tri-predicate.
          *
-         * <p>Example:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
          * Optional<LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);  // Optional containing the tuple
@@ -1214,7 +1214,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, and average.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
      * long sum = quad.sum();  // 10
@@ -1276,6 +1276,31 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public long min() {
+            return N.min(_1, _2, _3, _4);
+        }
+
+        @Override
+        public long max() {
+            return N.max(_1, _2, _3, _4);
+        }
+
+        @Override
+        public long median() {
+            return N.median(_1, _2, _3, _4);
+        }
+
+        @Override
+        public long sum() {
+            return N.sum(_1, _2, _3, _4);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4);
+        }
+
+        @Override
         protected long[] elements() {
             if (elements == null) {
                 elements = new long[] { _1, _2, _3, _4 };
@@ -1292,7 +1317,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, average, and median.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple5 quintuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
      * double avg = quintuple.average();  // 3.0
@@ -1357,6 +1382,31 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public long min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        @Override
+        public long max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        @Override
+        public long median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        @Override
+        public long sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        @Override
         protected long[] elements() {
             if (elements == null) {
                 elements = new long[] { _1, _2, _3, _4, _5 };
@@ -1373,7 +1423,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, average, and median.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple6 sextuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
      * long sum = sextuple.sum();  // 21
@@ -1440,6 +1490,31 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public long min() {
+            return N.min(_1, _2, _3, _4, _5, _6);
+        }
+
+        @Override
+        public long max() {
+            return N.max(_1, _2, _3, _4, _5, _6);
+        }
+
+        @Override
+        public long median() {
+            return N.median(_1, _2, _3, _4, _5, _6);
+        }
+
+        @Override
+        public long sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6);
+        }
+
+        @Override
         protected long[] elements() {
             if (elements == null) {
                 elements = new long[] { _1, _2, _3, _4, _5, _6 };
@@ -1456,7 +1531,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, average, and median.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple7 septuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
      * long sum = septuple.sum();  // 28
@@ -1527,6 +1602,31 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         @Override
+        public long min() {
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        @Override
+        public long max() {
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        @Override
+        public long median() {
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        @Override
+        public long sum() {
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
+        }
+
+        @Override
         protected long[] elements() {
             if (elements == null) {
                 elements = new long[] { _1, _2, _3, _4, _5, _6, _7 };
@@ -1543,7 +1643,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, average, and median.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple8 octuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
      * long sum = octuple.sum();  // 36
@@ -1636,7 +1736,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * for common operations like min, max, sum, average, and median.
      * </p>
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple9 nonuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
      * long sum = nonuple.sum();  // 45

@@ -28,7 +28,7 @@ import com.landawn.abacus.util.stream.IntStream;
  *   <li>{@link #copyOf(int[])} - Creates a wrapper around a defensive copy of the array</li>
  * </ul>
  * 
- * <p>Example usage:</p>
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * int[] data = {1, 2, 3, 4, 5};
  * ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
@@ -71,7 +71,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method is more efficient than {@link #copyOf(int[])} when you know the array
      * will not be modified, as it avoids the overhead of array copying.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] data = new int[]{10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.of(data);
@@ -101,7 +101,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>Unlike {@link #of(int[])}, which wraps the array directly, this method provides
      * true immutability at the cost of array copying overhead.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] data = {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.copyOf(data);
@@ -128,7 +128,7 @@ public final class ImmutableIntArray implements Immutable {
      * The index is zero-based, meaning the first element is at index 0 and the
      * last element is at index {@code length - 1}.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{5, 10, 15, 20});
      * int value = array.get(1); // returns 10
@@ -155,7 +155,7 @@ public final class ImmutableIntArray implements Immutable {
      * printing, accumulating values, or updating external state. For transformations
      * or filtering, consider using the {@link #stream()} method instead.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3, 4, 5});
      *
@@ -192,7 +192,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method is useful when you need to know the position of each element during iteration,
      * such as for creating index-based mappings or when the index is needed for computation.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30});
      *
@@ -234,7 +234,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method is useful for applying functional transformations and operations
      * on the array elements without manually iterating through them.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3, 4, 5});
      *
@@ -271,7 +271,7 @@ public final class ImmutableIntArray implements Immutable {
      * <p>This method creates a defensive copy of the specified range, so the returned
      * ImmutableIntArray is completely independent of the original array.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30, 40, 50});
      *
@@ -309,7 +309,7 @@ public final class ImmutableIntArray implements Immutable {
      * a standard mutable int array that can be modified. This is useful when you need to perform
      * mutations on the copied data or when interfacing with APIs that require primitive arrays.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30, 40, 50});
      *
@@ -371,7 +371,7 @@ public final class ImmutableIntArray implements Immutable {
      * </ul>
      * </p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array1 = ImmutableIntArray.of(new int[]{1, 2, 3});
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[]{1, 2, 3});
@@ -399,7 +399,7 @@ public final class ImmutableIntArray implements Immutable {
      * consistent with {@link java.util.Arrays#toString(int[])} and provides a human-readable
      * representation of the array contents.</p>
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3});
      * System.out.println(array.toString()); // prints: [1, 2, 3]

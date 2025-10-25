@@ -41,7 +41,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple1 containing a single int value.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple1 single = IntTuple.of(42);
      * int value = single._1; // 42
@@ -57,7 +57,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple2 containing two int values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple2 pair = IntTuple.of(1, 2);
      * int sum = pair._1 + pair._2; // 3
@@ -74,7 +74,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple3 containing three int values.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 triple = IntTuple.of(1, 2, 3);
      * double average = triple.average(); // 2.0
@@ -92,7 +92,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple4 containing four int values.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple4 quad = IntTuple.of(1, 2, 3, 4);
      * // quad._1 == 1, quad._2 == 2, quad._3 == 3, quad._4 == 4
@@ -111,7 +111,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple5 containing five int values.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple5 quint = IntTuple.of(1, 2, 3, 4, 5);
      * // quint._5 == 5
@@ -131,7 +131,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple6 containing six int values.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple6 sext = IntTuple.of(1, 2, 3, 4, 5, 6);
      * // sext._6 == 6
@@ -152,7 +152,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple7 containing seven int values.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple7 sept = IntTuple.of(1, 2, 3, 4, 5, 6, 7);
      * // sept._7 == 7
@@ -174,7 +174,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple8 containing eight int values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple8 oct = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8);
      * // oct._8 == 8
@@ -199,7 +199,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple9 containing nine int values.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple9 non = IntTuple.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
      * // non._9 == 9
@@ -226,7 +226,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * Creates an IntTuple from an array of int values.
      * The size of the returned tuple depends on the array length (0-9).
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] values = {1, 2, 3};
      * IntTuple3 tuple = IntTuple.create(values);
@@ -278,7 +278,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the minimum int value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int min = tuple.min(); // 1
@@ -294,7 +294,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the maximum int value in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int max = tuple.max(); // 3
@@ -311,7 +311,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * Returns the median int value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int median = tuple.median(); // 2
@@ -330,7 +330,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the sum of all elements in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.sum(); // 6
@@ -345,7 +345,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the average of all int values in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * double avg = tuple.average(); // 2.0
@@ -361,7 +361,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns a new tuple with the elements in reverse order.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * IntTuple3 reversed = tuple.reverse(); // (3, 2, 1)
@@ -374,7 +374,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Checks if this tuple contains the specified int value.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * boolean hasTwo = tuple.contains(2); // true
@@ -390,7 +390,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * Returns a new array containing all elements of this tuple.
      * Modifications to the returned array do not affect the tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int[] array = tuple.toArray(); // [1, 2, 3]
@@ -405,7 +405,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns a new IntList containing all elements of this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * IntList list = tuple.toList();
@@ -420,7 +420,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Performs the given action for each element in this tuple.
      * 
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * tuple.forEach(System.out::println); // prints each value
@@ -439,7 +439,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns an IntStream of all elements in this tuple.
      *
-     * <p>Example usage:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.stream().sum(); // 6
@@ -826,7 +826,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Performs the given bi-consumer on the two elements.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
@@ -843,7 +843,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Applies the given bi-function to the two elements and returns the result.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
          * int product = tuple.map((a, b) -> a * b); // 12
@@ -863,7 +863,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
          * Optional<IntTuple2> result = tuple.filter((a, b) -> a + b > 5); // present
@@ -1046,7 +1046,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Performs the given tri-consumer on the three elements.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
@@ -1063,7 +1063,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Applies the given tri-function to the three elements and returns the result.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * int product = tuple.map((a, b, c) -> a * b * c); // 6
@@ -1083,7 +1083,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
          *
-         * <p>Example usage:</p>
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
          * Optional<IntTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // present

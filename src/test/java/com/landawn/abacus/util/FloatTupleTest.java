@@ -313,10 +313,10 @@ public class FloatTupleTest extends TestBase {
 
         // Test specific hashcodes for coverage
         FloatTuple.FloatTuple1 single = FloatTuple.of(1.5f);
-        assertNotEquals(Float.floatToIntBits(1.5f), single.hashCode());
+        assertEquals(Float.floatToIntBits(1.5f), single.hashCode());
 
         FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-        assertNotEquals(31 * Float.floatToIntBits(1.5f) + Float.floatToIntBits(2.5f), pair.hashCode());
+        assertEquals(31 * Float.floatToIntBits(1.5f) + Float.floatToIntBits(2.5f), pair.hashCode());
     }
 
     @Test

@@ -64,7 +64,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Important:</b> Since the array is not copied, any external modifications
      * to the array will affect this matrix. For a safe copy, use {@link #of(char[][])} instead.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] data = {{'a', 'b'}, {'c', 'd'}};
      * CharMatrix matrix = new CharMatrix(data);
@@ -83,7 +83,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates an empty matrix with zero rows and zero columns.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.empty();
      * // matrix.rows() returns 0
@@ -99,7 +99,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a CharMatrix from a 2D char array.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * // matrix.get(1, 0) returns 'c'
@@ -115,7 +115,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a 1-row matrix filled with random values.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.random(5);
      * // Creates a 1x5 matrix with random char values
@@ -132,7 +132,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a 1-row matrix with all elements set to the specified value.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.repeat('x', 5);
      * // Creates a 1x5 matrix where all elements are 'x'
@@ -150,7 +150,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a single-row CharMatrix containing a range of char values.
      * The range is [startInclusive, endExclusive).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.range('a', 'e'); // Creates [['a', 'b', 'c', 'd']]
      * }</pre>
@@ -166,7 +166,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a single-row CharMatrix containing a range of char values with a step.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.range('a', 'g', 2); // Creates [['a', 'c', 'e']]
      * }</pre>
@@ -184,7 +184,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a single-row CharMatrix containing a closed range of char values.
      * The range is [startInclusive, endInclusive].
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.rangeClosed('a', 'd'); // Creates [['a', 'b', 'c', 'd']]
      * }</pre>
@@ -201,7 +201,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a single-row CharMatrix containing a closed range of char values with a step.
      * The range is [startInclusive, endInclusive].
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.rangeClosed('a', 'g', 2); // Creates [['a', 'c', 'e', 'g']]
      * }</pre>
@@ -219,7 +219,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a square matrix from the specified main diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.diagonalLU2RD(new char[]{'a', 'b', 'c'});
      * // Creates 3x3 matrix with diagonal ['a', 'b', 'c'] and zeros elsewhere
@@ -236,7 +236,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a square matrix from the specified anti-diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.diagonalRU2LD(new char[]{'a', 'b', 'c'});
      * // Creates 3x3 matrix with anti-diagonal ['a', 'b', 'c'] and zeros elsewhere
@@ -253,7 +253,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
      * All other elements are set to zero.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.diagonal(new char[]{'a', 'b'}, new char[]{'x', 'y'});
      * // Creates 2x2 matrix with both diagonals set
@@ -298,7 +298,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This method unboxes each Character element to its primitive char value.
      * Null values in the input matrix are converted to the default char value ('\u0000' or 0).
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Character> boxed = Matrix.of(new Character[][]{{'a', 'b'}, {null, 'c'}});
      * CharMatrix unboxed = CharMatrix.unbox(boxed);
@@ -330,7 +330,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element at the specified row and column indices.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * char value = matrix.get(0, 1); // Returns 'b'
@@ -348,7 +348,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element at the specified point.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * // Assuming you have a Point implementation
@@ -366,7 +366,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the element at the specified row and column indices.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.set(0, 1, 'x'); // Sets element at row 0, column 1 to 'x'
@@ -384,7 +384,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the element at the specified point.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * // Assuming you have a Point implementation
@@ -402,7 +402,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element above the specified position, if it exists.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * OptionalChar value = matrix.upOf(1, 0); // Returns OptionalChar.of('a')
@@ -420,7 +420,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element below the specified position, if it exists.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * OptionalChar value = matrix.downOf(0, 0); // Returns OptionalChar.of('c')
@@ -438,7 +438,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element to the left of the specified position, if it exists.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * OptionalChar value = matrix.leftOf(0, 1); // Returns OptionalChar.of('a')
@@ -456,7 +456,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the element to the right of the specified position, if it exists.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * OptionalChar value = matrix.rightOf(0, 0); // Returns OptionalChar.of('b')
@@ -475,7 +475,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of points adjacent to the specified position (up, down, left, right).
      * Only includes points within matrix bounds.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
@@ -499,7 +499,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of points adjacent to the specified position including diagonals.
      * Only includes points within matrix bounds.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
@@ -530,7 +530,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Important:</b> This method returns the internal array directly, not a copy.
      * Modifications to the returned array will affect the matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * char[] firstRow = matrix.row(0); // Returns ['a', 'b', 'c']
@@ -554,7 +554,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * a copy of the column data. Modifications to the returned array will not
      * affect the matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * char[] firstColumn = matrix.column(0); // Returns ['a', 'd']
@@ -583,7 +583,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>The values from the source array are copied into the matrix row.
      * The source array must have exactly the same length as the number of columns in the matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * matrix.setRow(0, new char[]{'x', 'y', 'z'}); // First row is now ['x', 'y', 'z']
@@ -606,7 +606,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>The values from the source array are copied into the matrix column.
      * The source array must have exactly the same length as the number of rows in the matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * matrix.setColumn(0, new char[]{'x', 'y'}); // First column is now ['x', 'y']
@@ -632,7 +632,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>Each element in the row is replaced with the result of applying the function
      * to that element. The operation modifies the matrix directly.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.updateRow(0, c -> Character.toUpperCase(c));
@@ -657,7 +657,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>Each element in the column is replaced with the result of applying the function
      * to that element. The operation modifies the matrix directly.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'A', 'B'}, {'C', 'D'}});
      * matrix.updateColumn(1, c -> Character.toLowerCase(c));
@@ -683,7 +683,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
      * char[] diagonal = matrix.getLU2RD(); // Returns ['a', 'e', 'i']
@@ -712,7 +712,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      * If the diagonal array is longer than needed, extra elements are ignored.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
@@ -739,7 +739,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * The matrix must be square. Each diagonal element is replaced with the result of applying
      * the function to that element.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.updateLU2RD(c -> Character.toUpperCase(c));
@@ -766,7 +766,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
@@ -798,7 +798,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      * If the diagonal array is longer than needed, extra elements are ignored.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
@@ -825,7 +825,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * The matrix must be square. Each anti-diagonal element is replaced with the result of applying
      * the function to that element.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.updateRU2LD(c -> Character.toUpperCase(c));
@@ -851,7 +851,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>Each element is replaced with the result of applying the function to that element.
      * For large matrices, this operation may be performed in parallel to improve performance.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.updateAll(c -> Character.toUpperCase(c));
@@ -874,7 +874,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * This is useful when the new value depends on the element's location in the matrix.
      * For large matrices, this operation may be performed in parallel.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[3][4]);
      * matrix.updateAll((i, j) -> (char)('a' + i * 4 + j));
@@ -900,7 +900,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * returns true are replaced; other elements remain unchanged.
      * For large matrices, this operation may be performed in parallel.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'e', 'c'}, {'b', 'f', 'd'}});
      * matrix.replaceIf(c -> c < 'd', 'x'); // Replace all chars less than 'd' with 'x'
@@ -925,7 +925,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * elements based on their location (e.g., diagonal elements, specific rows/columns).
      * For large matrices, this operation may be performed in parallel.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
@@ -950,7 +950,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This is a non-mutating operation that returns a new matrix. The original matrix
      * is not modified. For large matrices, this operation may be performed in parallel.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix upper = matrix.map(c -> Character.toUpperCase(c));
@@ -978,7 +978,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * applying the mapping function to convert each char to an object of type T.
      * For large matrices, this operation may be performed in parallel.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * Matrix<String> stringMatrix = matrix.mapToObj(c -> String.valueOf(c), String.class);
@@ -1010,7 +1010,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This operation modifies the matrix in-place, setting every element
      * to the same value.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.fill('x'); // All elements become 'x'
@@ -1030,7 +1030,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * If the source array is larger than the matrix, only the fitting portion is copied.
      * If the source array is smaller, only the available values are copied.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{0, 0}, {0, 0}});
      * matrix.fill(new char[][]{{'a', 'b'}, {'c', 'd'}});
@@ -1048,7 +1048,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Values are copied starting from the specified position. If the source array
      * extends beyond the matrix bounds, only the fitting portion is copied.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
      * matrix.fill(1, 1, new char[][]{{'a', 'b'}, {'c', 'd'}});
@@ -1072,7 +1072,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a copy of this matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix original = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix copy = original.copy();
@@ -1096,7 +1096,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a copy of a portion of rows from this matrix.
      * All columns from the specified rows are included in the copy.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * CharMatrix copy = matrix.copy(1, 3); // Returns [['c', 'd'], ['e', 'f']]
@@ -1123,7 +1123,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Creates a copy of a rectangular region from this matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
      * CharMatrix sub = matrix.copy(0, 2, 1, 3); // Copy rows 0-1, columns 1-2
@@ -1157,7 +1157,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * New cells are filled with the default char value (0/'\u0000').
      * If the new dimensions are smaller, the matrix is truncated.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix extended = matrix.extend(3, 3); // Extends to 3x3, new cells are '\u0000'
@@ -1177,7 +1177,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a new matrix by extending or truncating rows and columns.
      * New cells are filled with the specified default value.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix extended = matrix.extend(5, 5, 'x'); // Extend to 5x5, fill new cells with 'x'
      * }</pre>
@@ -1223,7 +1223,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a new matrix by extending the current matrix in all four directions.
      * New cells are filled with the default char value (0/'\u0000').
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix extended = matrix.extend(1, 1, 1, 1);
@@ -1245,7 +1245,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a new matrix by extending the current matrix in all four directions.
      * New cells are filled with the specified default value.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix extended = matrix.extend(1, 1, 1, 1, 'x'); // Add 1 row/col on each side with 'x'
      * }</pre>
@@ -1268,6 +1268,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
         } else {
+            if ((long) toUp + rows + toDown > Integer.MAX_VALUE) {
+                throw new IllegalArgumentException("Result would have too many rows: " + toUp + " + " + rows + " + " + toDown);
+            }
+
+            if ((long) toLeft + cols + toRight > Integer.MAX_VALUE) {
+                throw new IllegalArgumentException("Result would have too many columns: " + toLeft + " + " + cols + " + " + toRight);
+            }
+
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
@@ -1301,7 +1309,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Reverses the order of elements in each row horizontally (in-place).
      * This modifies the matrix directly. Each row is reversed independently.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * matrix.reverseH();
@@ -1320,7 +1328,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Reverses the order of rows vertically (in-place).
      * This modifies the matrix directly. The first row becomes the last, second becomes second-to-last, etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * matrix.reverseV();
@@ -1344,7 +1352,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a new matrix that is horizontally flipped (each row reversed).
      * The original matrix is not modified. This is equivalent to reversing each row.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}});
      * CharMatrix flipped = matrix.flipH(); // Returns [['c', 'b', 'a']]
@@ -1364,7 +1372,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates a new matrix that is vertically flipped (rows reversed).
      * The original matrix is not modified. The first row becomes the last row, etc.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * CharMatrix flipped = matrix.flipV(); // Returns [['e', 'f'], ['c', 'd'], ['a', 'b']]
@@ -1383,7 +1391,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a new matrix rotated 90 degrees clockwise.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix rotated = matrix.rotate90();
@@ -1416,7 +1424,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a new matrix rotated 180 degrees.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix rotated = matrix.rotate180();
@@ -1440,7 +1448,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix rotated = matrix.rotate270();
@@ -1474,7 +1482,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a new matrix that is the transpose of this matrix.
      * The transpose swaps rows and columns.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * CharMatrix transposed = matrix.transpose();
@@ -1515,7 +1523,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Note:</b> Unlike some matrix libraries, this operation does not require the new
      * dimensions to match the total number of elements in the original matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * // Original is 2x3 (6 elements)
@@ -1566,7 +1574,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Repeats each element in both row and column directions.
      * Each element is repeated rowRepeats times vertically and colRepeats times horizontally.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Before: [['a', 'b']]
      * CharMatrix repeated = matrix.repelem(2, 3);
@@ -1614,7 +1622,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Repeats the entire matrix in both row and column directions.
      * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * // Before: [['a', 'b'], ['c', 'd']]
      * CharMatrix repeated = matrix.repmat(2, 3);
@@ -1665,7 +1673,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>This method converts the 2D matrix into a 1D list by reading elements
      * row by row from left to right, top to bottom.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * CharList list = matrix.flatten();
@@ -1699,7 +1707,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Note:</b> The operation receives references to internal arrays.
      * Any modifications will directly affect the matrix.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.flatOp(row -> java.util.Arrays.sort(row));
@@ -1720,7 +1728,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Vertically stacks this matrix on top of another matrix.
      * Both matrices must have the same number of columns.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'a', 'b'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{'c', 'd'}});
@@ -1753,7 +1761,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Horizontally stacks this matrix to the left of another matrix.
      * Both matrices must have the same number of rows.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'a'}, {'b'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{'c'}, {'d'}});
@@ -1782,7 +1790,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Performs element-wise addition with another matrix.
      * Both matrices must have the same dimensions.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'a', 'b'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{1, 2}});
@@ -1810,7 +1818,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Both matrices must have the same dimensions. The operation performs
      * this[i][j] - b[i][j] for each element.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'d', 'e'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{1, 2}});
@@ -1842,7 +1850,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * or unexpected character values. Consider using IntMatrix or DoubleMatrix for
      * numerical computations.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{2, 3}, {4, 5}});
      * CharMatrix b = CharMatrix.of(new char[][]{{1, 2}, {3, 4}});
@@ -1871,7 +1879,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * This is useful when you need to work with object-based operations
      * or APIs that require Character objects instead of primitives.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * Matrix<Character> boxed = charMatrix.boxed();
@@ -1906,7 +1914,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Converts this CharMatrix to an IntMatrix.
      * Each char value is converted to its corresponding int value (Unicode code point).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][]{{'a', 'b'}});
      * IntMatrix intMatrix = charMatrix.toIntMatrix(); // Result: [[97, 98]]
@@ -1922,7 +1930,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Converts this CharMatrix to a LongMatrix.
      * Each char value is converted to its corresponding long value (Unicode code point).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][]{{'a', 'b'}});
      * LongMatrix longMatrix = charMatrix.toLongMatrix(); // Result: [[97L, 98L]]
@@ -1957,7 +1965,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Converts this CharMatrix to a FloatMatrix.
      * Each char value is converted to its corresponding float value (Unicode code point).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][]{{'a', 'b'}});
      * FloatMatrix floatMatrix = charMatrix.toFloatMatrix(); // Result: [[97.0f, 98.0f]]
@@ -1992,7 +2000,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Converts this CharMatrix to a DoubleMatrix.
      * Each char value is converted to its corresponding double value (Unicode code point).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][]{{'a', 'b'}});
      * DoubleMatrix doubleMatrix = charMatrix.toDoubleMatrix(); // Result: [[97.0, 98.0]]
@@ -2028,7 +2036,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Both matrices must have the same dimensions. The zip function is applied
      * to corresponding elements from both matrices.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'a', 'b'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{'A', 'B'}});
@@ -2062,7 +2070,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * All three matrices must have the same dimensions. The zip function is applied
      * to corresponding elements from all three matrices.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][]{{'a', 'b'}});
      * CharMatrix b = CharMatrix.of(new char[][]{{'c', 'd'}});
@@ -2098,7 +2106,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of elements on the diagonal from left-up to right-down.
      * The matrix must be square (same number of rows and columns).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, 
      *                                                 {'d', 'e', 'f'}, 
@@ -2155,7 +2163,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of elements on the diagonal from right-up to left-down.
      * The matrix must be square (same number of rows and columns).
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, 
      *                                                 {'d', 'e', 'f'}, 
@@ -2213,7 +2221,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Elements are returned in row-major order: all elements from the first row,
      * then all elements from the second row, and so on.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharStream stream = matrix.streamH(); // Stream of: 'a', 'b', 'c', 'd'
@@ -2229,7 +2237,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a stream of elements from a specific row.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharStream row = matrix.streamH(1); // Stream of: 'c', 'd'
@@ -2248,7 +2256,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of elements from a range of rows, traversed horizontally.
      * Elements are returned in row-major order within the specified range.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * CharStream stream = matrix.streamH(1, 3); // Stream of: 'c', 'd', 'e', 'f'
@@ -2338,7 +2346,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * 
      * <p>Note: This method is marked as @Beta and may be subject to change.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharStream stream = matrix.streamV(); // Stream of: 'a', 'c', 'b', 'd'
@@ -2355,7 +2363,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a stream of elements from a specific column.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharStream column = matrix.streamV(1); // Stream of: 'b', 'd'
@@ -2376,7 +2384,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * 
      * <p>Note: This method is marked as @Beta and may be subject to change.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * CharStream stream = matrix.streamV(1, 3); // Stream of: 'b', 'e', 'c', 'f'
@@ -2465,7 +2473,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of CharStreams, where each CharStream represents a row in the matrix.
      * This allows for row-wise operations on the matrix.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * Stream<CharStream> rows = matrix.streamR();
@@ -2484,7 +2492,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a stream of CharStreams for a range of rows.
      * Each CharStream in the result represents a complete row from the matrix.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
      * Stream<CharStream> rows = matrix.streamR(1, 3);
@@ -2545,7 +2553,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * 
      * <p>Note: This method is marked as @Beta and may be subject to change.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * Stream<CharStream> columns = matrix.streamC();
@@ -2567,7 +2575,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * 
      * <p>Note: This method is marked as @Beta and may be subject to change.
      * 
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * Stream<CharStream> columns = matrix.streamC(1, 3);
@@ -2675,7 +2683,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p>The action is performed on all elements in row-major order (left to right, top to bottom).
      * For large matrices, the operation may be parallelized automatically to improve performance.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * matrix.forEach(ch -> System.out.print(ch + " ")); // Prints: a b c d
@@ -2700,7 +2708,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * without affecting other elements. For large sub-regions, the operation may be parallelized
      * automatically to improve performance.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
@@ -2750,7 +2758,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * (enclosed in single quotes), separated by commas, and the row enclosed in square brackets.
      * This provides a clear visual representation of the matrix structure.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * matrix.println();
@@ -2784,7 +2792,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns {@code true} if the given object is also a CharMatrix with the same dimensions
      * and all corresponding elements are equal.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix m1 = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * CharMatrix m2 = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
@@ -2811,7 +2819,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a string representation of this matrix.
      * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
      *
-     * <p>Example:</p>
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][]{{'a', 'b'}, {'c', 'd'}});
      * System.out.println(matrix.toString()); // [[a, b], [c, d]]
