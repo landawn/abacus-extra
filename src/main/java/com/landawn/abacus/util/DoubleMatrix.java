@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li>Type conversion to other numeric matrix types</li>
  * </ul>
  * 
- * <p>Example usage:
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
  * double value = matrix.get(0, 1); // returns 2.0

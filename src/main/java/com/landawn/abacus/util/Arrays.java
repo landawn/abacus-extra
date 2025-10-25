@@ -968,7 +968,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a double array to an object array using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] doubles = {1.5, 2.5, 3.5};
      * String[] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
@@ -1003,7 +1003,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 2D double array to a 2D object array using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] doubles = {{1.5, 2.5}, {3.5, 4.5}};
      * String[][] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
@@ -1038,7 +1038,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 3D double array to a 3D object array using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] doubles = {{{1.1, 2.2}}, {{3.3, 4.4}}};
      * Integer[][][] integers = mapToObj(doubles, d -> (int) d, Integer.class);
@@ -1073,7 +1073,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 1D int array to a 1D long array using the provided mapper function.
      * Each int element is transformed to a long value.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] ints = {1, 2, 3};
      * long[] longs = mapToLong(ints, i -> i * 1000000000L);
@@ -1169,7 +1169,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 1D int array to a 1D double array using the provided mapper function.
      * Each int element is transformed to a double value.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] ints = {1, 2, 3};
      * double[] doubles = mapToDouble(ints, i -> i / 2.0);
@@ -1265,7 +1265,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 1D long array to a 1D int array using the provided mapper function.
      * Each long element is transformed to an int value.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] longs = {1000L, 2000L, 3000L};
      * int[] ints = mapToInt(longs, l -> (int)(l / 1000));
@@ -1429,7 +1429,7 @@ public sealed class Arrays permits Arrays.f {
      * Maps a 1D double array to a 1D int array using the provided mapper function.
      * Each double element is transformed to an int value.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] doubles = {1.7, 2.3, 3.9};
      * int[] ints = mapToInt(doubles, d -> (int) Math.round(d));
@@ -1586,7 +1586,7 @@ public sealed class Arrays permits Arrays.f {
      * Updates all elements in a boolean array using the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true};
      * updateAll(arr, b -> !b);
@@ -1650,7 +1650,7 @@ public sealed class Arrays permits Arrays.f {
      * Replaces all elements in a boolean array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false};
      * replaceIf(arr, b -> b == true, false);
@@ -1719,7 +1719,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional boolean array into a two-dimensional boolean array with the specified number of columns.
      * The last row may have fewer elements if the total elements don't divide evenly.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false, true};
      * boolean[][] reshaped = reshape(arr, 2);
@@ -1753,7 +1753,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
      * The array is divided into blocks of size rows × cols.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false, true, false};
      * boolean[][][] reshaped = reshape(arr, 2, 2);
@@ -1792,7 +1792,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D boolean array into a 1D boolean array.
      * All elements from all sub-arrays are combined into a single array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {true}, {false, true}};
      * boolean[] flattened = flatten(arr);
@@ -1865,7 +1865,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D boolean array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {false, true}};
      * flatOp(arr, t -> Arrays.sort(t)); // Sorts all elements
@@ -2472,7 +2472,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total count of elements in a 2D boolean array.
      * Counts all elements across all sub-arrays, handling null sub-arrays gracefully.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {true}, {false, true, false}};
      * long count = totalCountOfElements(arr);
@@ -2496,7 +2496,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total count of elements in a 3D boolean array.
      * Counts all elements across all sub-arrays at all levels, handling null arrays gracefully.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] arr = {{{true, false}, {true}}, {{false}, {true, false}}};
      * long count = totalCountOfElements(arr);
@@ -2530,7 +2530,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D boolean array.
      * Returns 0 if the input array is null or empty.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
      * int minLen = minSubArrayLen(arr);
@@ -2558,7 +2558,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D boolean array.
      * Returns 0 if the input array is null or empty.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false, true}, {true}, {false, true}};
      * int maxLen = maxSubArrayLen(arr);
@@ -2844,7 +2844,7 @@ public sealed class Arrays permits Arrays.f {
      * Updates every element in the specified character array by applying a given operator.
      * This method modifies the array in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'a', 'b', 'c'};
      * Arrays.updateAll(array, c -> (char) (c + 1));
@@ -2871,7 +2871,7 @@ public sealed class Arrays permits Arrays.f {
      * The method iterates through each sub-array and applies the operator to every character.
      * The operation is performed in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}};
      * Arrays.updateAll(array, c -> Character.toUpperCase(c));
@@ -2898,7 +2898,7 @@ public sealed class Arrays permits Arrays.f {
      * It traverses the nested structure and applies the operator to each character.
      * The operation is performed in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a'}}, {{'b', 'c'}}};
      * Arrays.updateAll(array, c -> '*');
@@ -2924,7 +2924,7 @@ public sealed class Arrays permits Arrays.f {
      * Replaces each element of a character array with a new value if the element satisfies
      * the given predicate. The operation is performed in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'a'};
      * Arrays.replaceIf(array, c -> c == 'a', 'x');
@@ -2953,7 +2953,7 @@ public sealed class Arrays permits Arrays.f {
      * Recursively replaces each element of a 2D character array with a new value if the
      * element satisfies the given predicate. The operation is performed in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c', 'A'}};
      * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'U');
@@ -2980,7 +2980,7 @@ public sealed class Arrays permits Arrays.f {
      * Recursively replaces each element of a 3D character array with a new value if the
      * element satisfies the given predicate. The operation is performed in-place.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a'}}, {{'B', 'c'}}};
      * Arrays.replaceIf(array, c -> Character.isUpperCase(c), 'X');
@@ -3008,7 +3008,7 @@ public sealed class Arrays permits Arrays.f {
      * If the length of the input array is not a multiple of {@code cols}, the last sub-array
      * will be shorter.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'd', 'e'};
      * char[][] reshaped = Arrays.reshape(array, 2);
@@ -3043,7 +3043,7 @@ public sealed class Arrays permits Arrays.f {
      * If the input array's length is not a perfect multiple of {@code rows * cols},
      * the last sub-arrays may be shorter.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[] array = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
      * char[][][] reshaped = Arrays.reshape(array, 2, 2);
@@ -3082,7 +3082,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D character array into a new 1D character array by concatenating
      * all its sub-arrays. Null or empty sub-arrays are skipped.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, null, {'c'}};
      * char[] flattened = Arrays.flatten(array);
@@ -3119,7 +3119,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 3D character array into a new 1D character array by concatenating
      * all its innermost sub-arrays.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a'}, {'b'}}, {{'c', 'd'}}};
      * char[] flattened = Arrays.flatten(array);
@@ -3164,7 +3164,7 @@ public sealed class Arrays permits Arrays.f {
      * This allows for applying 1D array operations (like sorting) across a 2D structure.
      * The operation is performed in-place on the original 2D array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'c', 'a'}, {'b'}};
      * Arrays.flatOp(array, t -> Arrays.sort(t));
@@ -3201,7 +3201,7 @@ public sealed class Arrays permits Arrays.f {
      * This is useful for applying 1D array operations across a 3D structure.
      * The operation is performed in-place on the original 3D array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'d', 'a'}}, {{'c'}, {'b'}}};
      * Arrays.flatOp(array, t -> Arrays.sort(t));
@@ -3790,7 +3790,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of characters in a 2D character array.
      * It safely handles null sub-arrays.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
      * long count = Arrays.totalCountOfElements(array);
@@ -3814,7 +3814,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of characters in a 3D character array.
      * It safely handles null or empty sub-arrays at any level.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{{'d'}}}};
      * long count = Arrays.totalCountOfElements(array);
@@ -3848,7 +3848,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D character array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a', 'b'}, {'c'}, null};
      * int minLen = Arrays.minSubArrayLen(array);
@@ -3876,7 +3876,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D character array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
      * int maxLen = Arrays.maxSubArrayLen(array);
@@ -4160,7 +4160,7 @@ public sealed class Arrays permits Arrays.f {
      * Updates all elements in a byte array using the provided unary operator.
      * Each element is replaced with the result of applying the operator.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3};
      * updateAll(arr, b -> (byte)(b * b));
@@ -4224,7 +4224,7 @@ public sealed class Arrays permits Arrays.f {
      * Replaces all elements in a byte array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 2, 4};
      * replaceIf(arr, b -> b == 2, (byte)10);
@@ -4293,7 +4293,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D byte array into a 1D byte array.
      * All elements from all sub-arrays are combined into a single array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{1, 2}, {3}, {4, 5}};
      * byte[] flattened = flatten(arr);
@@ -4366,7 +4366,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D byte array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{3, 1}, {4, 2}};
      * flatOp(arr, t -> Arrays.sort(t)); // Sorts all elements
@@ -4433,7 +4433,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional byte array into a two-dimensional byte array with the specified number of columns.
      * The last row may have fewer elements if the total elements don't divide evenly.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 4, 5};
      * byte[][] reshaped = reshape(arr, 2);
@@ -4467,7 +4467,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
      * The array is divided into blocks of size rows × cols.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 4, 5, 6};
      * byte[][][] reshaped = reshape(arr, 2, 2);
@@ -7512,7 +7512,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of integer elements in a 2D array.
      * It handles null or empty sub-arrays gracefully.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2}, {3, 4, 5}, null, {}};
      * long count = totalCountOfElements(a);
@@ -7536,7 +7536,7 @@ public sealed class Arrays permits Arrays.f {
      * Calculates the total number of integer elements in a 3D array.
      * It safely handles null or empty sub-arrays at any depth.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] a = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
      * long count = totalCountOfElements(a);
@@ -7570,7 +7570,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D integer array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1, 2, 3}, {4, 5}, null, {6}};
      * int minLen = minSubArrayLen(a);
@@ -7598,7 +7598,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D integer array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] a = {{1}, {2, 3}, null, {4, 5, 6}};
      * int maxLen = maxSubArrayLen(a);
@@ -7883,7 +7883,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified long array in-place by applying a unary operator.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L};
      * updateAll(array, x -> x * x);
@@ -7908,7 +7908,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 2D long array in-place by applying a unary operator.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L}};
      * updateAll(array, x -> -x);
@@ -7933,7 +7933,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates each element of the specified 3D long array in-place by applying a unary operator.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L}, {2L}}, {{3L}, {4L}}};
      * updateAll(array, x -> x + 1);
@@ -7958,7 +7958,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces each element of a long array with a new value if it satisfies a given predicate.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
      * replaceIf(array, x -> x % 2 == 0, 0L);
@@ -8039,7 +8039,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a 1D long array into a 2D long array with a specified number of columns.
      * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7};
      * long[][] reshaped = reshape(array, 3);
@@ -8073,7 +8073,7 @@ public sealed class Arrays permits Arrays.f {
      * Reshapes a 1D long array into a 3D long array with a specified number of rows and columns.
      * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
      * long[][][] reshaped = reshape(array, 2, 2);
@@ -8111,7 +8111,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a 2D long array into a 1D long array by concatenating its rows.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L, 5L}};
      * long[] flattened = flatten(array);
@@ -8147,7 +8147,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Flattens a 3D long array into a 1D long array by concatenating its elements in order.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
      * long[] flattened = flatten(array);
@@ -8190,7 +8190,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 2D array, performs an in-place operation on the resulting 1D array, and then
      * copies the modified elements back into the original 2D array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{3L, 1L}, {4L, 2L}};
      * flatOp(array, t -> Arrays.sort(t));
@@ -8225,7 +8225,7 @@ public sealed class Arrays permits Arrays.f {
      * Flattens a 3D array, performs an in-place operation on the resulting 1D array, and then
      * copies the modified elements back into the original 3D array.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{3L}, {1L}}, {{4L, 2L}}};
      * flatOp(array, t -> Arrays.sort(t));
@@ -8754,7 +8754,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Calculates the total number of long elements in a 2D array, handling null sub-arrays.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1, 2}, {3, 4, 5}, null};
      * long count = totalCountOfElements(array);
@@ -8777,7 +8777,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Calculates the total number of long elements in a 3D array, handling null sub-arrays.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1}, {2, 3}}, null, {{{4, 5, 6}}}};
      * long count = totalCountOfElements(array);
@@ -8811,7 +8811,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the minimum length among all sub-arrays in a 2D long array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L, 2L, 3L}, {4L, 5L}, null, {6L}};
      * int minLen = minSubArrayLen(a);
@@ -8839,7 +8839,7 @@ public sealed class Arrays permits Arrays.f {
      * Finds the maximum length among all sub-arrays in a 2D long array.
      * A null sub-array is considered to have a length of 0.
      *
-     * <p>Example usage:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] a = {{1L}, {2L, 3L}, null, {4L, 5L, 6L}};
      * int maxLen = maxSubArrayLen(a);

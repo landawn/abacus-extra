@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * <li>Stream-based iteration</li>
  * </ul>
  * 
- * <p>Example usage:
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * // Create a 3x3 matrix
  * byte[][] data = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};

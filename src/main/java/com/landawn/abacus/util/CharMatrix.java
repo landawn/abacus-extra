@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li>Reshaping and extending operations</li>
  * </ul>
  * 
- * <p>Example usage:
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
  * char value = matrix.get(0, 1); // returns 'b'

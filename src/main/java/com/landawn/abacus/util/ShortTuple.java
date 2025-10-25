@@ -33,7 +33,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  *   <li>Utility methods (reverse, contains, toArray, toList)</li>
  * </ul>
  * 
- * <p>Example usage:
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
  * short min = tuple.min(); // 1
