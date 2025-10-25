@@ -64,7 +64,7 @@ public sealed class Arrays permits Arrays.f {
     static final byte BYTE_0 = (byte) 0;
     static final byte BYTE_1 = (byte) 1;
     static final short SHORT_0 = (short) 0;
-    private static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR;
+    static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR;
 
     private Arrays() {
         // utility class.
@@ -2685,8 +2685,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -2705,7 +2705,7 @@ public sealed class Arrays permits Arrays.f {
                         final boolean[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -2783,8 +2783,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -2803,7 +2803,7 @@ public sealed class Arrays permits Arrays.f {
                         final boolean[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -4003,8 +4003,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -4023,7 +4023,7 @@ public sealed class Arrays permits Arrays.f {
                         final char[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -4101,8 +4101,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -4121,7 +4121,7 @@ public sealed class Arrays permits Arrays.f {
                         final char[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -5208,8 +5208,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -5228,7 +5228,7 @@ public sealed class Arrays permits Arrays.f {
                         final byte[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -5306,8 +5306,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -5326,7 +5326,7 @@ public sealed class Arrays permits Arrays.f {
                         final byte[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -6441,8 +6441,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -6461,7 +6461,7 @@ public sealed class Arrays permits Arrays.f {
                         final short[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -6539,8 +6539,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -6559,7 +6559,7 @@ public sealed class Arrays permits Arrays.f {
                         final short[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -7725,8 +7725,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -7745,7 +7745,7 @@ public sealed class Arrays permits Arrays.f {
                         final int[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -7823,8 +7823,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -7843,7 +7843,7 @@ public sealed class Arrays permits Arrays.f {
                         final int[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -8966,8 +8966,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -8986,7 +8986,7 @@ public sealed class Arrays permits Arrays.f {
                         final long[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -9064,8 +9064,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -9084,7 +9084,7 @@ public sealed class Arrays permits Arrays.f {
                         final long[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -10205,8 +10205,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -10225,7 +10225,7 @@ public sealed class Arrays permits Arrays.f {
                         final float[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -10303,8 +10303,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -10323,7 +10323,7 @@ public sealed class Arrays permits Arrays.f {
                         final float[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -11453,8 +11453,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -11473,7 +11473,7 @@ public sealed class Arrays permits Arrays.f {
                         final double[] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
@@ -11551,8 +11551,8 @@ public sealed class Arrays permits Arrays.f {
         } else if (a.length == 0) {
             return N.println("[]");
         } else {
-            final int len = a.length;
             final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
             String str = null;
 
             try {
@@ -11571,7 +11571,7 @@ public sealed class Arrays permits Arrays.f {
                         final double[][] ai = a[i];
                         sb.append('[');
 
-                        for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
@@ -14955,10 +14955,9 @@ public sealed class Arrays permits Arrays.f {
             } else if (a.length == 0) {
                 return N.println("[]");
             } else {
-                final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
+                final int len = a.length;
                 String str = null;
-                final String ARRAY_PRINT_SEPARATOR = System.lineSeparator();
 
                 try {
                     sb.append('[');
@@ -14976,7 +14975,7 @@ public sealed class Arrays permits Arrays.f {
                             final Object[] ai = a[i];
                             sb.append('[');
 
-                            for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                            for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                                 if (j > 0) {
                                     sb.append(", ");
                                 }
@@ -16001,10 +16000,9 @@ public sealed class Arrays permits Arrays.f {
             } else if (a.length == 0) {
                 return N.println("[]");
             } else {
-                final int len = a.length;
                 final StringBuilder sb = Objectory.createStringBuilder();
+                final int len = a.length;
                 String str = null;
-                final String ARRAY_PRINT_SEPARATOR = System.lineSeparator();
 
                 try {
                     sb.append('[');
@@ -16022,7 +16020,7 @@ public sealed class Arrays permits Arrays.f {
                             final Object[][] ai = a[i];
                             sb.append('[');
 
-                            for (int j = 0, aiLen = ai.length; j < aiLen; j++) {
+                            for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
                                 if (j > 0) {
                                     sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                                 }

@@ -58,6 +58,8 @@ import com.landawn.abacus.util.stream.Stream;
 public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>>
         permits BooleanMatrix, CharMatrix, ByteMatrix, ShortMatrix, DoubleMatrix, FloatMatrix, IntMatrix, LongMatrix, Matrix {
 
+    protected static final String ARRAY_PRINT_SEPARATOR = Arrays.ARRAY_PRINT_SEPARATOR;
+
     static final char CHAR_0 = (char) 0;
 
     static final byte BYTE_0 = (byte) 0;
@@ -181,8 +183,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // [1, 2]
      * // [3, 4]
      * }</pre>
+     *
+     * @return the formatted string representation of the matrix
      */
-    public abstract void println();
+    public abstract String println();
 
     /**
      * Checks if the matrix is empty (contains no elements).

@@ -2691,10 +2691,45 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // [1.0, 2.0, 3.0]
      * // [4.0, 5.0, 6.0]
      * }</pre>
+     * 
+     * @return the formatted string representation of the matrix
      */
     @Override
-    public void println() {
-        Arrays.println(a);
+    public String println() {
+        if (a.length == 0) {
+            return N.println("[]");
+        } else {
+            final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
+            String str = null;
+
+            try {
+                for (int i = 0; i < len; i++) {
+                    if (i > 0) {
+                        sb.append(ARRAY_PRINT_SEPARATOR);
+                    }
+
+                    final double[] row = a[i];
+                    sb.append('[');
+
+                    for (int j = 0, rowLen = row.length; j < rowLen; j++) {
+                        if (j > 0) {
+                            sb.append(", ");
+                        }
+
+                        sb.append(row[j]);
+                    }
+
+                    sb.append(']');
+                }
+
+                str = sb.toString();
+            } finally {
+                Objectory.recycle(sb);
+            }
+
+            return N.println(str);
+        }
     }
 
     /**

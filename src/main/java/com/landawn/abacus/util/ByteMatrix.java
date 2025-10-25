@@ -2821,12 +2821,45 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // [1, 2, 3]
      * // [4, 5, 6]
      * }</pre>
-     *
-     * @see #toString()
+     * 
+     * @return the formatted string representation of the matrix
      */
     @Override
-    public void println() {
-        Arrays.println(a);
+    public String println() {
+        if (a.length == 0) {
+            return N.println("[]");
+        } else {
+            final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
+            String str = null;
+
+            try {
+                for (int i = 0; i < len; i++) {
+                    if (i > 0) {
+                        sb.append(ARRAY_PRINT_SEPARATOR);
+                    }
+
+                    final byte[] row = a[i];
+                    sb.append('[');
+
+                    for (int j = 0, rowLen = row.length; j < rowLen; j++) {
+                        if (j > 0) {
+                            sb.append(", ");
+                        }
+
+                        sb.append(row[j]);
+                    }
+
+                    sb.append(']');
+                }
+
+                str = sb.toString();
+            } finally {
+                Objectory.recycle(sb);
+            }
+
+            return N.println(str);
+        }
     }
 
     /**

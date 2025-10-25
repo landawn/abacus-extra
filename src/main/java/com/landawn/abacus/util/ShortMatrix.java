@@ -2715,10 +2715,45 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // [1, 2, 3]
      * // [4, 5, 6]
      * }</pre>
+     * 
+     * @return the formatted string representation of the matrix
      */
     @Override
-    public void println() {
-        Arrays.println(a);
+    public String println() {
+        if (a.length == 0) {
+            return N.println("[]");
+        } else {
+            final StringBuilder sb = Objectory.createStringBuilder();
+            final int len = a.length;
+            String str = null;
+
+            try {
+                for (int i = 0; i < len; i++) {
+                    if (i > 0) {
+                        sb.append(ARRAY_PRINT_SEPARATOR);
+                    }
+
+                    final short[] ai = a[i];
+                    sb.append('[');
+
+                    for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        if (j > 0) {
+                            sb.append(", ");
+                        }
+
+                        sb.append(ai[j]);
+                    }
+
+                    sb.append(']');
+                }
+
+                str = sb.toString();
+            } finally {
+                Objectory.recycle(sb);
+            }
+
+            return N.println(str);
+        }
     }
 
     /**
