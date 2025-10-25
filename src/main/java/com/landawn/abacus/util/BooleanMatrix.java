@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.Stream;
  * 
  * <p>Usage example:
  * <pre>{@code
- * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+ * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
  * boolean value = matrix.get(0, 1); // false
  * matrix.set(1, 0, true); // Set element at row 1, column 0 to true
  * }</pre>
@@ -84,7 +84,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * // matrix.get(0, 1) returns false
      * }</pre>
      *
@@ -135,7 +135,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[]{true, false, true});
+     * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with diagonal [true, false, true] and false elsewhere
      * }</pre>
      *
@@ -152,7 +152,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[]{true, false, true});
+     * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with anti-diagonal [true, false, true] and false elsewhere
      * }</pre>
      *
@@ -169,7 +169,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[]{true, true}, new boolean[]{false, false});
+     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[] {true, true}, new boolean[] {false, false});
      * // Creates 2x2 matrix with both diagonals set
      * }</pre>
      *
@@ -216,7 +216,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Boolean> boxed = Matrix.of(new Boolean[][]{{true, false}, {null, true}});
+     * Matrix<Boolean> boxed = Matrix.of(new Boolean[][] {{true, false}, {null, true}});
      * BooleanMatrix primitive = BooleanMatrix.unbox(boxed);
      * // null is converted to false: [[true, false], [false, true]]
      * }</pre>
@@ -235,7 +235,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
      * Class<?> type = matrix.componentType(); // Returns boolean.class
      * }</pre>
      *
@@ -252,7 +252,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * boolean value = matrix.get(0, 1); // Returns false
      * }</pre>
      *
@@ -270,7 +270,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * // Assuming you have a Point implementation
      * // boolean value = matrix.get(point); // Returns element at point
      * }</pre>
@@ -288,7 +288,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * matrix.set(0, 1, true); // Sets element at row 0, column 1 to true
      * }</pre>
      *
@@ -306,7 +306,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * // Assuming you have a Point implementation
      * // matrix.set(point, true); // Sets element at point
      * }</pre>
@@ -326,7 +326,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * OptionalBoolean value = matrix.upOf(1, 0); // Returns OptionalBoolean.of(true)
      * OptionalBoolean empty = matrix.upOf(0, 0); // Returns OptionalBoolean.empty() - no row above
      * }</pre>
@@ -347,7 +347,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * OptionalBoolean value = matrix.downOf(0, 0); // Returns OptionalBoolean.of(false)
      * OptionalBoolean empty = matrix.downOf(1, 0); // Returns OptionalBoolean.empty() - no row below
      * }</pre>
@@ -368,7 +368,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * OptionalBoolean value = matrix.leftOf(0, 1); // Returns OptionalBoolean.of(true)
      * OptionalBoolean empty = matrix.leftOf(0, 0); // Returns OptionalBoolean.empty() - no column to the left
      * }</pre>
@@ -389,7 +389,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * OptionalBoolean value = matrix.rightOf(0, 0); // Returns OptionalBoolean.of(false)
      * OptionalBoolean empty = matrix.rightOf(0, 1); // Returns OptionalBoolean.empty() - no column to the right
      * }</pre>
@@ -414,7 +414,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
      * // Returns stream of Point.of(0, 1) and Point.of(1, 0) - only right and down exist
      *
@@ -449,7 +449,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true}, {false, true, false}, {true, false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}, {true, false, true}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
      * // Returns stream of all 8 surrounding points for the center position
      *
@@ -485,7 +485,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
      * boolean[] firstRow = matrix.row(0); // Returns [true, false, false]
      *
      * // Direct modification affects the matrix
@@ -511,7 +511,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
      * boolean[] firstColumn = matrix.column(0); // Returns [true, false]
      *
      * // Modification does NOT affect the matrix (it's a copy)
@@ -539,8 +539,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
-     * matrix.setRow(0, new boolean[]{false, false, false}); // First row is now [false, false, false]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
+     * matrix.setRow(0, new boolean[] {false, false, false}); // First row is now [false, false, false]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -558,8 +558,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
-     * matrix.setColumn(0, new boolean[]{false, false}); // First column is now [false, false]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
+     * matrix.setColumn(0, new boolean[] {false, false}); // First column is now [false, false]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -583,7 +583,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true}, {false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}});
      * matrix.updateRow(0, val -> !val); // Inverts all values in row 0
      * // Row 0 is now [false, true, false]
      *
@@ -613,7 +613,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true}, {false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}});
      * matrix.updateColumn(1, val -> !val); // Inverts all values in column 1
      * // Column 1 is now [true, false]
      *
@@ -642,7 +642,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, false},
      *     {false, true, false},
      *     {false, false, true}
@@ -675,12 +675,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, false},
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * matrix.setLU2RD(new boolean[]{false, false, false});
+     * matrix.setLU2RD(new boolean[] {false, false, false});
      * // Diagonal is now all false
      * }</pre>
      *
@@ -705,7 +705,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, false},
      *     {false, true, false},
      *     {false, false, false}
@@ -736,7 +736,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false},
      *     {true, false, false}
@@ -770,12 +770,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, false},
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * matrix.setRU2LD(new boolean[]{true, true, true});
+     * matrix.setRU2LD(new boolean[] {true, true, true});
      * // Anti-diagonal is now all true
      * }</pre>
      *
@@ -801,7 +801,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false},
      *     {true, false, false}
@@ -833,7 +833,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * matrix.updateAll(val -> !val); // Inverts all values in the matrix
      * // Matrix is now [[false, true], [true, false]]
      *
@@ -888,12 +888,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * matrix.replaceIf(val -> val == false, true); // Replace all false values with true
      * // Matrix is now [[true, true], [true, true]]
      *
      * // Replace all true values with false
-     * BooleanMatrix matrix2 = BooleanMatrix.of(new boolean[][]{{true, false}, {true, false}});
+     * BooleanMatrix matrix2 = BooleanMatrix.of(new boolean[][] {{true, false}, {true, false}});
      * matrix2.replaceIf(val -> val, false);
      * // Matrix2 is now [[false, false], [false, false]]
      * }</pre>
@@ -948,7 +948,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix inverted = matrix.map(val -> !val); // Creates new matrix with inverted values
      * // inverted is [[false, true], [true, false]]
      * // original matrix remains [[true, false], [false, true]]
@@ -981,7 +981,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      *
      * // Convert to String matrix
      * Matrix<String> stringMatrix = matrix.mapToObj(val -> val ? "YES" : "NO", String.class);
@@ -1017,7 +1017,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * matrix.fill(true); // Sets all elements to true
      * // Matrix is now [[true, true], [true, true]]
      *
@@ -1040,7 +1040,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[3][3]); // 3x3 of false
-     * matrix.fill(new boolean[][]{{true, true}, {true, true}});
+     * matrix.fill(new boolean[][] {{true, true}, {true, true}});
      * // Top-left 2x2 region is now true, rest remains false
      * }</pre>
      *
@@ -1059,7 +1059,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[4][4]); // 4x4 of false
-     * matrix.fill(1, 1, new boolean[][]{{true, true}, {true, true}});
+     * matrix.fill(1, 1, new boolean[][] {{true, true}, {true, true}});
      * // 2x2 region starting at (1,1) is now true, rest remains false
      * }</pre>
      *
@@ -1082,7 +1082,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix original = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix original = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix copy = original.copy();
      * // copy is independent from original
      * }</pre>
@@ -1106,7 +1106,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false},
      *     {false, true},
      *     {true, true}
@@ -1145,7 +1145,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true, false},
      *     {false, true, false, true},
      *     {true, true, false, false}
@@ -1191,7 +1191,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix extended = matrix.extend(3, 3);
      * // Result: [[true, false, false],
      * //          [false, true, false],
@@ -1218,7 +1218,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix extended = matrix.extend(3, 4, true); // Extend to 3x4, fill new cells with true
      * // Result: [[true, false, true, true],
      * //          [false, true, true, true],
@@ -1276,7 +1276,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, true}});
      * BooleanMatrix extended = matrix.extend(1, 1, 1, 1);
      * // Result: [[false, false, false, false],
      * //          [false, true,  true,  false],
@@ -1311,7 +1311,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, true}});
      * BooleanMatrix padded = matrix.extend(1, 1, 2, 2, true);
      * // Result: [[true, true, true, true, true, true],
      * //          [true, true, true, true, true, true],
@@ -1390,12 +1390,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, true, false}, {false, true, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, true, false}, {false, true, true}});
      * matrix.reverseH();
      * // Matrix is now [[false, true, true], [true, true, false]]
      *
      * // Reverse single row matrix
-     * BooleanMatrix row = BooleanMatrix.of(new boolean[][]{{true, false, true, false}});
+     * BooleanMatrix row = BooleanMatrix.of(new boolean[][] {{true, false, true, false}});
      * row.reverseH(); // Now [[false, true, false, true]]
      * }</pre>
      */
@@ -1415,7 +1415,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false},
      *     {true, true},
      *     {false, true}
@@ -1424,7 +1424,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Matrix is now [[false, true], [true, true], [true, false]]
      *
      * // Reverse single column matrix
-     * BooleanMatrix col = BooleanMatrix.of(new boolean[][]{{true}, {false}, {true}});
+     * BooleanMatrix col = BooleanMatrix.of(new boolean[][] {{true}, {false}, {true}});
      * col.reverseV(); // Now [[true], [false], [true]]
      * }</pre>
      */
@@ -1486,7 +1486,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate90();
      * // rotated is {{false, true}, {true, false}}
      * }</pre>
@@ -1519,7 +1519,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate180();
      * // rotated is {{true, false}, {false, true}}
      * }</pre>
@@ -1543,7 +1543,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanMatrix rotated = matrix.rotate270();
      * // rotated is {{false, true}, {true, false}}
      * }</pre>
@@ -1577,7 +1577,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, false}, {false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {false, true, false}});
      * BooleanMatrix transposed = matrix.transpose();
      * // transposed is {{true, false}, {false, true}, {false, false}}
      * }</pre>
@@ -1617,7 +1617,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false, true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true, false}});
      * BooleanMatrix reshaped = matrix.reshape(2, 2);
      * // Result: [[true, false],
      * //          [true, false]]
@@ -1754,7 +1754,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * BooleanList list = matrix.flatten(); // Returns BooleanList of true, false, false, true
      * }</pre>
      *
@@ -1789,7 +1789,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{false, true}, {true, false}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{false, true}, {true, false}});
      * matrix.flatOp(arr -> Arrays.sort(arr)); // Sort all elements
      * // Matrix elements are now sorted: [[false, false], [true, true]]
      * }</pre>
@@ -1815,16 +1815,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix top = BooleanMatrix.of(new boolean[][]{{true, false}});
-     * BooleanMatrix bottom = BooleanMatrix.of(new boolean[][]{{false, true}});
+     * BooleanMatrix top = BooleanMatrix.of(new boolean[][] {{true, false}});
+     * BooleanMatrix bottom = BooleanMatrix.of(new boolean[][] {{false, true}});
      * BooleanMatrix stacked = top.vstack(bottom);
      * // Result: [[true, false],
      * //          [false, true]]
      * 
      * // Stack multiple matrices
-     * BooleanMatrix m1 = BooleanMatrix.of(new boolean[][]{{true, true}});
-     * BooleanMatrix m2 = BooleanMatrix.of(new boolean[][]{{false, false}});
-     * BooleanMatrix m3 = BooleanMatrix.of(new boolean[][]{{true, false}});
+     * BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] {{true, true}});
+     * BooleanMatrix m2 = BooleanMatrix.of(new boolean[][] {{false, false}});
+     * BooleanMatrix m3 = BooleanMatrix.of(new boolean[][] {{true, false}});
      * BooleanMatrix combined = m1.vstack(m2).vstack(m3); // 3x2 matrix
      * }</pre>
      *
@@ -1859,15 +1859,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix left = BooleanMatrix.of(new boolean[][]{{true}, {false}});
-     * BooleanMatrix right = BooleanMatrix.of(new boolean[][]{{false}, {true}});
+     * BooleanMatrix left = BooleanMatrix.of(new boolean[][] {{true}, {false}});
+     * BooleanMatrix right = BooleanMatrix.of(new boolean[][] {{false}, {true}});
      * BooleanMatrix stacked = left.hstack(right);
      * // Result: [[true, false],
      * //          [false, true]]
      * 
      * // Create a wider matrix by stacking multiple columns
-     * BooleanMatrix col1 = BooleanMatrix.of(new boolean[][]{{true}, {true}, {false}});
-     * BooleanMatrix col2 = BooleanMatrix.of(new boolean[][]{{false}, {true}, {true}});
+     * BooleanMatrix col1 = BooleanMatrix.of(new boolean[][] {{true}, {true}, {false}});
+     * BooleanMatrix col2 = BooleanMatrix.of(new boolean[][] {{false}, {true}, {true}});
      * BooleanMatrix wide = col1.hstack(col2); // 3x2 matrix
      * }</pre>
      *
@@ -1898,7 +1898,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix primitive = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix primitive = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Matrix<Boolean> boxed = primitive.boxed();
      * 
      * // Now you can use methods that work with generic types
@@ -1941,8 +1941,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix a = BooleanMatrix.of(new boolean[][]{{true, false}, {true, true}});
-     * BooleanMatrix b = BooleanMatrix.of(new boolean[][]{{true, true}, {false, true}});
+     * BooleanMatrix a = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}});
+     * BooleanMatrix b = BooleanMatrix.of(new boolean[][] {{true, true}, {false, true}});
      * 
      * // Element-wise AND
      * BooleanMatrix and = a.zipWith(b, (x, y) -> x && y);
@@ -1988,9 +1988,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix a = BooleanMatrix.of(new boolean[][]{{true, false}, {true, true}});
-     * BooleanMatrix b = BooleanMatrix.of(new boolean[][]{{true, true}, {false, true}});
-     * BooleanMatrix c = BooleanMatrix.of(new boolean[][]{{false, true}, {true, false}});
+     * BooleanMatrix a = BooleanMatrix.of(new boolean[][] {{true, false}, {true, true}});
+     * BooleanMatrix b = BooleanMatrix.of(new boolean[][] {{true, true}, {false, true}});
+     * BooleanMatrix c = BooleanMatrix.of(new boolean[][] {{false, true}, {true, false}});
      * 
      * // Majority vote: true if at least 2 out of 3 are true
      * BooleanMatrix majority = a.zipWith(b, c, (x, y, z) -> 
@@ -2033,7 +2033,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, false},
      *     {false, true, false},
      *     {false, false, true}
@@ -2099,7 +2099,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false},
      *     {true, false, false}
@@ -2166,7 +2166,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Stream<Boolean> stream = matrix.streamH(); // Stream of [true, false, false, true]
      * 
      * // Count true values
@@ -2192,7 +2192,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false}
      * });
@@ -2222,7 +2222,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false},
      *     {false, true},
      *     {true, true}
@@ -2326,7 +2326,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Stream<Boolean> stream = matrix.streamV(); // Stream of [true, false, false, true]
      * 
      * // Process in column order
@@ -2350,7 +2350,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {true, true, false}
      * });
@@ -2379,7 +2379,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false}
      * });
@@ -2483,7 +2483,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, false, false},
      *     {true, true, true}
@@ -2517,7 +2517,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, true, false},
      *     {false, true, true},
      *     {true, false, true}
@@ -2591,7 +2591,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {true, true, false}
      * });
@@ -2625,7 +2625,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true, false},
      *     {false, true, false, true}
      * });
@@ -2743,7 +2743,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * 
      * // Count true values
      * int[] trueCount = {0};
@@ -2775,7 +2775,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {
      *     {true, false, true},
      *     {false, true, false},
      *     {true, true, true}
@@ -2829,7 +2829,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * matrix.println();
      * // Output:
      * // [true, false]
@@ -2896,8 +2896,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix m1 = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
-     * BooleanMatrix m2 = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * BooleanMatrix m2 = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * m1.equals(m2); // true
      * }</pre>
      *
@@ -2923,7 +2923,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][]{{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * System.out.println(matrix.toString()); // [[true, false], [false, true]]
      * }</pre>
      *

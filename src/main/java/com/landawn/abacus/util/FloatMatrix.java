@@ -37,7 +37,7 @@ import com.landawn.abacus.util.stream.Stream;
  * 
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
- * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+ * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
  * FloatMatrix transposed = matrix.transpose();
  * float element = matrix.get(0, 1); // Returns 2.0f
  * }</pre>
@@ -92,7 +92,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * // matrix.get(0, 1) returns 2.0f
      * }</pre>
      *
@@ -115,7 +115,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.create(new int[][]{{1, 2}, {3, 4}});
+     * FloatMatrix matrix = FloatMatrix.create(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * assert matrix.get(1, 0) == 3.0f;
      * assert matrix.rows() == 2 && matrix.cols() == 2;
@@ -205,7 +205,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonalLU2RD(new float[]{1.0f, 2.0f, 3.0f});
+     * FloatMatrix matrix = FloatMatrix.diagonalLU2RD(new float[] {1.0f, 2.0f, 3.0f});
      * // Creates 3x3 matrix:
      * // [[1.0, 0.0, 0.0],
      * //  [0.0, 2.0, 0.0],
@@ -226,7 +226,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonalRU2LD(new float[]{1.0f, 2.0f, 3.0f});
+     * FloatMatrix matrix = FloatMatrix.diagonalRU2LD(new float[] {1.0f, 2.0f, 3.0f});
      * // Creates 3x3 matrix:
      * // [[0.0, 0.0, 1.0],
      * //  [0.0, 2.0, 0.0],
@@ -248,7 +248,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonal(new float[]{1.0f, 4.0f}, new float[]{2.0f, 3.0f});
+     * FloatMatrix matrix = FloatMatrix.diagonal(new float[] {1.0f, 4.0f}, new float[] {2.0f, 3.0f});
      * // Creates 2x2 matrix:
      * // [[1.0, 2.0],
      * //  [3.0, 4.0]]
@@ -293,7 +293,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Float> boxed = Matrix.of(new Float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * Matrix<Float> boxed = Matrix.of(new Float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix primitive = FloatMatrix.unbox(boxed);
      * }</pre>
      * 
@@ -311,7 +311,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}});
      * Class<?> type = matrix.componentType();
      * assert type == float.class;
      * assert type.isPrimitive();
@@ -330,7 +330,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * float value = matrix.get(0, 1); // Returns 2.0f
      * }</pre>
      *
@@ -349,7 +349,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * Point point = Point.of(0, 1);
      * float value = matrix.get(point); // Returns 2.0f
      * }</pre>
@@ -368,7 +368,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * matrix.set(0, 1, 9.0f); // Sets element at row 0, column 1 to 9.0f
      * }</pre>
      *
@@ -387,7 +387,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * Point point = Point.of(0, 1);
      * matrix.set(point, 9.0f);
      * assert matrix.get(point) == 9.0f;
@@ -408,7 +408,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * OptionalFloat value = matrix.upOf(1, 0); // Returns OptionalFloat.of(1.0f)
      * OptionalFloat empty = matrix.upOf(0, 0); // Returns OptionalFloat.empty() (no row above)
      * }</pre>
@@ -428,7 +428,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * OptionalFloat value = matrix.downOf(0, 0); // Returns OptionalFloat.of(3.0f)
      * OptionalFloat empty = matrix.downOf(1, 0); // Returns OptionalFloat.empty() (no row below)
      * }</pre>
@@ -448,7 +448,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * OptionalFloat value = matrix.leftOf(0, 1); // Returns OptionalFloat.of(1.0f)
      * OptionalFloat empty = matrix.leftOf(0, 0); // Returns OptionalFloat.empty() (no column to left)
      * }</pre>
@@ -468,7 +468,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * OptionalFloat value = matrix.rightOf(0, 0); // Returns OptionalFloat.of(2.0f)
      * OptionalFloat empty = matrix.rightOf(0, 1); // Returns OptionalFloat.empty() (no column to right)
      * }</pre>
@@ -489,7 +489,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
      * // Returns stream containing Point.of(0, 1) and Point.of(1, 0)
      * // (right and down neighbors, as up and left are out of bounds)
@@ -516,7 +516,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
      * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
      * // Returns stream of all 8 surrounding points (center position has all 8 neighbors)
      * long count = adjacent.count(); // count == 8
@@ -552,7 +552,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * float[] firstRow = matrix.row(0); // Returns [1.0f, 2.0f, 3.0f]
      * firstRow[0] = 99.0f; // This modifies the matrix
      * }</pre>
@@ -576,7 +576,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * float[] firstColumn = matrix.column(0); // Returns [1.0f, 4.0f]
      * firstColumn[0] = 99.0f; // This does NOT modify the matrix
      * }</pre>
@@ -603,8 +603,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * matrix.setRow(0, new float[]{7.0f, 8.0f, 9.0f}); // First row is now [7.0f, 8.0f, 9.0f]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * matrix.setRow(0, new float[] {7.0f, 8.0f, 9.0f}); // First row is now [7.0f, 8.0f, 9.0f]
      * assert matrix.get(0, 0) == 7.0f;
      * assert matrix.get(0, 2) == 9.0f;
      * }</pre>
@@ -626,8 +626,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * matrix.setColumn(0, new float[]{7.0f, 8.0f}); // First column is now [7.0f, 8.0f]
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * matrix.setColumn(0, new float[] {7.0f, 8.0f}); // First column is now [7.0f, 8.0f]
      * assert matrix.get(0, 0) == 7.0f;
      * assert matrix.get(1, 0) == 8.0f;
      * }</pre>
@@ -694,7 +694,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
      * float[] diagonal = matrix.getLU2RD(); // Returns [1.0f, 5.0f, 9.0f]
      * }</pre>
      *
@@ -723,8 +723,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.setLU2RD(new float[]{9.0f, 8.0f});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.setLU2RD(new float[] {9.0f, 8.0f});
      * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
@@ -772,7 +772,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
      * float[] diagonal = matrix.getRU2LD(); // Returns [3.0f, 5.0f, 7.0f]
      * }</pre>
      *
@@ -802,8 +802,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * matrix.setRU2LD(new float[]{9.0f, 8.0f});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.setRU2LD(new float[] {9.0f, 8.0f});
      * // Anti-diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
@@ -1027,7 +1027,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix original = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix original = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix copy = original.copy();
      * // copy is independent from original
      * }</pre>
@@ -1324,7 +1324,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate90();
      * // rotated is {{3.0, 1.0}, {4.0, 2.0}}
      * }</pre>
@@ -1357,7 +1357,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate180();
      * // rotated is {{4.0, 3.0}, {2.0, 1.0}}
      * }</pre>
@@ -1381,7 +1381,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix rotated = matrix.rotate270();
      * // rotated is {{2.0, 4.0}, {1.0, 3.0}}
      * }</pre>
@@ -1415,7 +1415,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * FloatMatrix transposed = matrix.transpose();
      * // transposed is {{1.0, 4.0}, {2.0, 5.0}, {3.0, 6.0}}
      * }</pre>
@@ -1452,7 +1452,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * FloatMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1.0f, 2.0f], [3.0f, 4.0f], [5.0f, 6.0f]]
      * FloatMatrix extended = matrix.reshape(2, 4); // Becomes [[1.0f, 2.0f, 3.0f, 4.0f], [5.0f, 6.0f, 0.0f, 0.0f]]
      * }</pre>
@@ -1495,7 +1495,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2}});
      * FloatMatrix repeated = matrix.repelem(2, 3);
      * // Result: [[1,1,1,2,2,2],
      * //          [1,1,1,2,2,2]]
@@ -1543,7 +1543,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2},{3,4}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2},{3,4}});
      * FloatMatrix repeated = matrix.repmat(2, 3);
      * // Result: [[1,2,1,2,1,2],
      * //          [3,4,3,4,3,4],
@@ -1591,7 +1591,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatList list = matrix.flatten(); // Returns FloatList of 1.0f, 2.0f, 3.0f, 4.0f
      * }</pre>
      *
@@ -1639,8 +1639,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix a = FloatMatrix.of(new float[][]{{1,2},{3,4}});
-     * FloatMatrix b = FloatMatrix.of(new float[][]{{5,6},{7,8}});
+     * FloatMatrix a = FloatMatrix.of(new float[][] {{1,2},{3,4}});
+     * FloatMatrix b = FloatMatrix.of(new float[][] {{5,6},{7,8}});
      * FloatMatrix stacked = a.vstack(b);
      * // Result: [[1,2],
      * //          [3,4],
@@ -1676,8 +1676,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix a = FloatMatrix.of(new float[][]{{1,2},{3,4}});
-     * FloatMatrix b = FloatMatrix.of(new float[][]{{5,6},{7,8}});
+     * FloatMatrix a = FloatMatrix.of(new float[][] {{1,2},{3,4}});
+     * FloatMatrix b = FloatMatrix.of(new float[][] {{5,6},{7,8}});
      * FloatMatrix stacked = a.hstack(b);
      * // Result: [[1,2,5,6],
      * //          [3,4,7,8]]
@@ -1710,8 +1710,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix a = FloatMatrix.of(new float[][]{{1,2},{3,4}});
-     * FloatMatrix b = FloatMatrix.of(new float[][]{{5,6},{7,8}});
+     * FloatMatrix a = FloatMatrix.of(new float[][] {{1,2},{3,4}});
+     * FloatMatrix b = FloatMatrix.of(new float[][] {{5,6},{7,8}});
      * FloatMatrix sum = a.add(b); // Result: [[6,8],[10,12]]
      * }</pre>
      *
@@ -1740,8 +1740,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix a = FloatMatrix.of(new float[][]{{5,6},{7,8}});
-     * FloatMatrix b = FloatMatrix.of(new float[][]{{1,2},{3,4}});
+     * FloatMatrix a = FloatMatrix.of(new float[][] {{5,6},{7,8}});
+     * FloatMatrix b = FloatMatrix.of(new float[][] {{1,2},{3,4}});
      * FloatMatrix diff = a.subtract(b); // Result: [[4,4],[4,4]]
      * }</pre>
      *
@@ -1773,8 +1773,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix a = FloatMatrix.of(new float[][]{{1,2},{3,4}});
-     * FloatMatrix b = FloatMatrix.of(new float[][]{{5,6},{7,8}});
+     * FloatMatrix a = FloatMatrix.of(new float[][] {{1,2},{3,4}});
+     * FloatMatrix b = FloatMatrix.of(new float[][] {{5,6},{7,8}});
      * FloatMatrix product = a.multiply(b); // Result: [[19,22],[43,50]]
      * }</pre>
      *
@@ -1800,7 +1800,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix primitive = FloatMatrix.of(new float[][]{{1.0f, 2.0f}});
+     * FloatMatrix primitive = FloatMatrix.of(new float[][] {{1.0f, 2.0f}});
      * Matrix<Float> boxed = primitive.boxed();
      * }</pre>
      * 
@@ -1835,7 +1835,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix floatMatrix = FloatMatrix.of(new float[][]{{1.5f, 2.5f}});
+     * FloatMatrix floatMatrix = FloatMatrix.of(new float[][] {{1.5f, 2.5f}});
      * DoubleMatrix doubleMatrix = floatMatrix.toDoubleMatrix();
      * }</pre>
      * 
@@ -1913,7 +1913,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2,3},{4,5,6},{7,8,9}});
      * FloatStream diagonal = matrix.streamLU2RD(); // Stream of [1, 5, 9]
      * }</pre>
      * 
@@ -1968,7 +1968,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2,3},{4,5,6},{7,8,9}});
      * FloatStream antiDiagonal = matrix.streamRU2LD(); // Stream of [3, 5, 7]
      * }</pre>
      * 
@@ -2023,7 +2023,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2},{3,4}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2},{3,4}});
      * FloatStream stream = matrix.streamH(); // Stream of [1, 2, 3, 4]
      * }</pre>
      * 
@@ -2141,7 +2141,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1,2},{3,4}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2},{3,4}});
      * FloatStream stream = matrix.streamV(); // Stream of [1, 3, 2, 4]
      * }</pre>
      * 
@@ -2508,7 +2508,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * matrix.println();
      * // Output:
      * // [1.0, 2.0, 3.0]
@@ -2575,8 +2575,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix m1 = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * FloatMatrix m2 = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix m1 = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix m2 = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * m1.equals(m2); // true
      * }</pre>
      *
@@ -2602,7 +2602,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][]{{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * System.out.println(matrix.toString()); // [[1.0, 2.0], [3.0, 4.0]]
      * }</pre>
      *

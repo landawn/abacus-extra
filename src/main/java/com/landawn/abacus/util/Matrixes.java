@@ -206,9 +206,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});      // 2×2 matrix
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});      // 2×2 matrix
-     * IntMatrix m3 = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}}); // 2×3 matrix
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});      // 2×2 matrix
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});      // 2×2 matrix
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}}); // 2×3 matrix
      *
      * boolean same1 = Matrixes.isSameShape(m1, m2); // true
      * boolean same2 = Matrixes.isSameShape(m1, m3); // false
@@ -869,8 +869,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{1, 2}, {3, 4}});
-     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{5, 6}, {7, 8}});
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{5, 6}, {7, 8}});
      *
      * // Element-wise addition
      * ByteMatrix sum = Matrixes.zip(m1, m2, (a, b) -> (byte)(a + b));
@@ -1082,8 +1082,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{100, 120}, {-50, 80}});
-     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{60, 40}, {-30, 90}});
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][] {{100, 120}, {-50, 80}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{60, 40}, {-30, 90}});
      *
      * // Compute sum as integers (to avoid byte overflow)
      * IntMatrix sum = Matrixes.zipToInt(m1, m2, (a, b) -> (int)a + (int)b);
@@ -1131,9 +1131,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix m1 = ByteMatrix.of(new byte[][]{{10, 20}, {30, 40}});
-     * ByteMatrix m2 = ByteMatrix.of(new byte[][]{{5, 10}, {15, 20}});
-     * ByteMatrix m3 = ByteMatrix.of(new byte[][]{{2, 3}, {4, 5}});
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][] {{10, 20}, {30, 40}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{5, 10}, {15, 20}});
+     * ByteMatrix m3 = ByteMatrix.of(new byte[][] {{2, 3}, {4, 5}});
      *
      * // Compute weighted sum: a*2 + b*3 + c
      * IntMatrix result = Matrixes.zipToInt(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
@@ -1287,8 +1287,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
      *
      * // Element-wise addition
      * IntMatrix sum = Matrixes.zip(m1, m2, (a, b) -> a + b);
@@ -1323,9 +1323,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
-     * IntMatrix m3 = IntMatrix.of(new int[][]{{10, 20}, {30, 40}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{10, 20}, {30, 40}});
      *
      * // Compute weighted sum: a*2 + b*3 + c
      * IntMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a*2 + b*3 + c);
@@ -1535,8 +1535,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1000000, 2000000}, {3000000, 4000000}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5000000, 6000000}, {7000000, 8000000}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1000000, 2000000}, {3000000, 4000000}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5000000, 6000000}, {7000000, 8000000}});
      *
      * // Compute product as longs (to avoid integer overflow)
      * LongMatrix product = Matrixes.zipToLong(m1, m2, (a, b) -> (long)a * (long)b);
@@ -1580,9 +1580,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{100000, 200000}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{300000, 400000}});
-     * IntMatrix m3 = IntMatrix.of(new int[][]{{500000, 600000}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{100000, 200000}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{300000, 400000}});
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{500000, 600000}});
      *
      * // Compute a*b + c as long (to avoid overflow)
      * LongMatrix result = Matrixes.zipToLong(m1, m2, m3, (a, b, c) -> (long)a * b + c);
@@ -1722,8 +1722,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{10, 20}, {30, 40}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{3, 4}, {5, 6}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{10, 20}, {30, 40}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{3, 4}, {5, 6}});
      *
      * // Compute division with double precision
      * DoubleMatrix ratio = Matrixes.zipToDouble(m1, m2, (a, b) -> (double)a / b);
@@ -1764,9 +1764,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{10, 20}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{3, 4}});
-     * IntMatrix m3 = IntMatrix.of(new int[][]{{2, 5}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{10, 20}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{3, 4}});
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{2, 5}});
      *
      * // Compute (a + b) / c with double precision
      * DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
@@ -1900,8 +1900,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix m1 = LongMatrix.of(new long[][]{{100L, 200L}, {300L, 400L}});
-     * LongMatrix m2 = LongMatrix.of(new long[][]{{50L, 60L}, {70L, 80L}});
+     * LongMatrix m1 = LongMatrix.of(new long[][] {{100L, 200L}, {300L, 400L}});
+     * LongMatrix m2 = LongMatrix.of(new long[][] {{50L, 60L}, {70L, 80L}});
      *
      * // Element-wise addition
      * LongMatrix sum = Matrixes.zip(m1, m2, (a, b) -> a + b);
@@ -1933,9 +1933,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix m1 = LongMatrix.of(new long[][]{{1L, 2L}});
-     * LongMatrix m2 = LongMatrix.of(new long[][]{{3L, 4L}});
-     * LongMatrix m3 = LongMatrix.of(new long[][]{{5L, 6L}});
+     * LongMatrix m1 = LongMatrix.of(new long[][] {{1L, 2L}});
+     * LongMatrix m2 = LongMatrix.of(new long[][] {{3L, 4L}});
+     * LongMatrix m3 = LongMatrix.of(new long[][] {{5L, 6L}});
      *
      * // Compute a*b + c
      * LongMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> a * b + c);
@@ -2110,8 +2110,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix m1 = LongMatrix.of(new long[][]{{100L, 200L}, {300L, 400L}});
-     * LongMatrix m2 = LongMatrix.of(new long[][]{{3L, 4L}, {5L, 6L}});
+     * LongMatrix m1 = LongMatrix.of(new long[][] {{100L, 200L}, {300L, 400L}});
+     * LongMatrix m2 = LongMatrix.of(new long[][] {{3L, 4L}, {5L, 6L}});
      *
      * // Compute division with double precision
      * DoubleMatrix ratio = Matrixes.zipToDouble(m1, m2, (a, b) -> (double)a / b);
@@ -2152,9 +2152,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix m1 = LongMatrix.of(new long[][]{{100L, 200L}});
-     * LongMatrix m2 = LongMatrix.of(new long[][]{{10L, 20L}});
-     * LongMatrix m3 = LongMatrix.of(new long[][]{{3L, 4L}});
+     * LongMatrix m1 = LongMatrix.of(new long[][] {{100L, 200L}});
+     * LongMatrix m2 = LongMatrix.of(new long[][] {{10L, 20L}});
+     * LongMatrix m3 = LongMatrix.of(new long[][] {{3L, 4L}});
      *
      * // Compute (a + b) / c with double precision
      * DoubleMatrix result = Matrixes.zipToDouble(m1, m2, m3, (a, b, c) -> (double)(a + b) / c);
@@ -2276,8 +2276,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix m1 = DoubleMatrix.of(new double[][]{{1.5, 2.5}, {3.5, 4.5}});
-     * DoubleMatrix m2 = DoubleMatrix.of(new double[][]{{0.5, 1.0}, {1.5, 2.0}});
+     * DoubleMatrix m1 = DoubleMatrix.of(new double[][] {{1.5, 2.5}, {3.5, 4.5}});
+     * DoubleMatrix m2 = DoubleMatrix.of(new double[][] {{0.5, 1.0}, {1.5, 2.0}});
      *
      * // Element-wise multiplication
      * DoubleMatrix product = Matrixes.zip(m1, m2, (a, b) -> a * b);
@@ -2310,9 +2310,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix m1 = DoubleMatrix.of(new double[][]{{1.0, 2.0}});
-     * DoubleMatrix m2 = DoubleMatrix.of(new double[][]{{3.0, 4.0}});
-     * DoubleMatrix m3 = DoubleMatrix.of(new double[][]{{0.5, 0.25}});
+     * DoubleMatrix m1 = DoubleMatrix.of(new double[][] {{1.0, 2.0}});
+     * DoubleMatrix m2 = DoubleMatrix.of(new double[][] {{3.0, 4.0}});
+     * DoubleMatrix m3 = DoubleMatrix.of(new double[][] {{0.5, 0.25}});
      *
      * // Compute (a + b) * c
      * DoubleMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
@@ -2489,8 +2489,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> names = Matrix.of(new String[][]{{"Alice", "Bob"}, {"Carol", "Dave"}});
-     * Matrix<Integer> ages = Matrix.of(new Integer[][]{{25, 30}, {35, 40}});
+     * Matrix<String> names = Matrix.of(new String[][] {{"Alice", "Bob"}, {"Carol", "Dave"}});
+     * Matrix<Integer> ages = Matrix.of(new Integer[][] {{25, 30}, {35, 40}});
      *
      * // Combine names and ages into formatted strings
      * Matrix<String> result = Matrixes.zip(names, ages,
@@ -2528,8 +2528,8 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> numbers = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<String> labels = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<Integer> numbers = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<String> labels = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      *
      * // Combine numbers and labels into formatted strings
      * Matrix<String> result = Matrixes.zip(numbers, labels,
@@ -2569,9 +2569,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{3, 4}});
-     * Matrix<Integer> m3 = Matrix.of(new Integer[][]{{5, 6}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{3, 4}});
+     * Matrix<Integer> m3 = Matrix.of(new Integer[][] {{5, 6}});
      *
      * // Compute (a + b) * c
      * Matrix<Integer> result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (a + b) * c);
@@ -2609,9 +2609,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> numbers = Matrix.of(new Integer[][]{{1, 2}});
-     * Matrix<String> units = Matrix.of(new String[][]{{"kg", "m"}});
-     * Matrix<Boolean> valid = Matrix.of(new Boolean[][]{{true, false}});
+     * Matrix<Integer> numbers = Matrix.of(new Integer[][] {{1, 2}});
+     * Matrix<String> units = Matrix.of(new String[][] {{"kg", "m"}});
+     * Matrix<Boolean> valid = Matrix.of(new Boolean[][] {{true, false}});
      *
      * // Combine all three into formatted strings
      * Matrix<String> result = Matrixes.zip(numbers, units, valid,

@@ -73,7 +73,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[] data = new int[]{10, 20, 30};
+     * int[] data = new int[] {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.of(data);
      * System.out.println(array.get(1)); // prints: 20
      *
@@ -130,7 +130,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{5, 10, 15, 20});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {5, 10, 15, 20});
      * int value = array.get(1); // returns 10
      * int first = array.get(0); // returns 5
      * int last = array.get(array.length - 1); // returns 20
@@ -157,7 +157,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3, 4, 5});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3, 4, 5});
      *
      * // Print each element
      * array.forEach(value -> System.out.println(value));
@@ -194,7 +194,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30});
      *
      * // Print each element with its index
      * array.forEachIndexed((index, value) ->
@@ -236,7 +236,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3, 4, 5});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3, 4, 5});
      *
      * // Calculate sum
      * int sum = array.stream().sum(); // returns 15
@@ -273,7 +273,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30, 40, 50});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
      *
      * ImmutableIntArray subArray = array.copy(1, 4);
      * // subArray contains {20, 30, 40} with length 3
@@ -311,7 +311,7 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{10, 20, 30, 40, 50});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {10, 20, 30, 40, 50});
      *
      * int[] mutableCopy = array.copyToArray(1, 4);
      * // mutableCopy is {20, 30, 40}
@@ -373,13 +373,13 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array1 = ImmutableIntArray.of(new int[]{1, 2, 3});
-     * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[]{1, 2, 3});
-     * ImmutableIntArray array3 = ImmutableIntArray.of(new int[]{1, 2, 4});
+     * ImmutableIntArray array1 = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
+     * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
      *
      * System.out.println(array1.equals(array2)); // prints: true
      * System.out.println(array1.equals(array3)); // prints: false
-     * System.out.println(array1.equals(new int[]{1, 2, 3})); // prints: false (different type)
+     * System.out.println(array1.equals(new int[] {1, 2, 3})); // prints: false (different type)
      * }</pre>
      *
      * @param obj the object to compare with this ImmutableIntArray
@@ -401,14 +401,14 @@ public final class ImmutableIntArray implements Immutable {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ImmutableIntArray array = ImmutableIntArray.of(new int[]{1, 2, 3});
+     * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3});
      * System.out.println(array.toString()); // prints: [1, 2, 3]
      * System.out.println(array); // prints: [1, 2, 3]
      *
      * ImmutableIntArray empty = ImmutableIntArray.of(null);
      * System.out.println(empty); // prints: []
      *
-     * ImmutableIntArray single = ImmutableIntArray.of(new int[]{42});
+     * ImmutableIntArray single = ImmutableIntArray.of(new int[] {42});
      * System.out.println(single); // prints: [42]
      * }</pre>
      *

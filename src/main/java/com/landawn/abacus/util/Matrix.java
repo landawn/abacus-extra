@@ -115,7 +115,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b"}, {"c", "d"}});
      * // matrix.get(1, 0) returns "c"
      * }</pre>
      *
@@ -217,12 +217,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[]{1, 2, 3});
+     * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[] {1, 2, 3});
      * // Creates: [[1, null, null],
      * //           [null, 2, null],
      * //           [null, null, 3]]
      * 
-     * Matrix<String> strDiag = Matrix.diagonalLU2RD(new String[]{"A", "B"});
+     * Matrix<String> strDiag = Matrix.diagonalLU2RD(new String[] {"A", "B"});
      * // Creates: [["A", null],
      * //           [null, "B"]]
      * }</pre>
@@ -242,12 +242,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[]{1, 2, 3});
+     * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[] {1, 2, 3});
      * // Creates: [[null, null, 1],
      * //           [null, 2, null],
      * //           [3, null, null]]
      * 
-     * Matrix<String> strDiag = Matrix.diagonalRU2LD(new String[]{"X", "Y"});
+     * Matrix<String> strDiag = Matrix.diagonalRU2LD(new String[] {"X", "Y"});
      * // Creates: [[null, "X"],
      * //           ["Y", null]]
      * }</pre>
@@ -270,8 +270,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> diag = Matrix.diagonal(
-     *     new String[]{"A", "B", "C"},
-     *     new String[]{"X", "Y", "Z"}
+     *     new String[] {"A", "B", "C"},
+     *     new String[] {"X", "Y", "Z"}
      * );
      * // Creates: [["A", null, "X"],
      * //           [null, "B", null],
@@ -279,8 +279,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * // With intersection (odd dimension)
      * Matrix<Integer> numbers = Matrix.diagonal(
-     *     new Integer[]{1, 2, 3},
-     *     new Integer[]{7, 8, 9}
+     *     new Integer[] {1, 2, 3},
+     *     new Integer[] {7, 8, 9}
      * );
      * // Creates: [[1, null, 7],
      * //           [null, 2, null],  // 2 takes precedence over 8
@@ -337,7 +337,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"a", "b"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b"}});
      * Class<?> type = matrix.componentType(); // Returns String.class
      * }</pre>
      *
@@ -355,7 +355,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      * String value = matrix.get(1, 0); // Returns "C"
      * String corner = matrix.get(1, 1); // Returns "D"
      * }</pre>
@@ -589,7 +589,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      * String[] rowData = matrix.row(0);
      * rowData[0] = "X"; // This modifies the matrix directly
      * // Matrix is now: [["X", "B"], ["C", "D"]]
@@ -616,7 +616,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      * String[] colData = matrix.column(1);
      * // colData contains: ["B", "D"]
      * colData[0] = "X"; // Does not affect the matrix
@@ -647,7 +647,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      * String[] newRow = {"X", "Y"};
      * matrix.setRow(0, newRow); // Replace first row
      * // Matrix is now: [["X", "Y"], ["C", "D"]]
@@ -671,7 +671,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][]{{"A", "B"}, {"C", "D"}});
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
      * String[] newColumn = {"X", "Y"};
      * matrix.setColumn(1, newColumn); // Replace second column
      * // Matrix is now: [["A", "X"], ["C", "Y"]]
@@ -750,7 +750,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
@@ -777,8 +777,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
-     * m.setLU2RD(new Integer[]{10, 20, 30});
+     * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
+     * m.setLU2RD(new Integer[] {10, 20, 30});
      * // Diagonal is now [10, 20, 30]
      * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
@@ -833,7 +833,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
+     * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
      * Integer[] diag = m.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
@@ -861,8 +861,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m = Matrix.of(new Integer[][]{{1,2,3},{4,5,6},{7,8,9}});
-     * m.setRU2LD(new Integer[]{10, 20, 30});
+     * Matrix<Integer> m = Matrix.of(new Integer[][] {{1,2,3},{4,5,6},{7,8,9}});
+     * m.setRU2LD(new Integer[] {10, 20, 30});
      * // Anti-diagonal is now [10, 20, 30] from top-right to bottom-left
      * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
@@ -1460,7 +1460,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(3, 3); // 3x3 matrix with nulls in new cells
      * }</pre>
      *
@@ -1479,7 +1479,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(3, 3, 0); // 3x3 matrix with 0s in new cells
      * }</pre>
      *
@@ -1521,7 +1521,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1); // Adds 1 row/column on each side
      * // Result: 4x4 matrix with original in center
      * }</pre>
@@ -1542,7 +1542,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> extended = matrix.extend(1, 1, 1, 1, 0);
      * // Result: 4x4 matrix with original in center, surrounded by 0s
      * }</pre>
@@ -1602,7 +1602,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * matrix.reverseH();
      * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
      * }</pre>
@@ -1621,7 +1621,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * matrix.reverseV();
      * // Matrix is now: [[5, 6], [3, 4], [1, 2]]
      * }</pre>
@@ -1645,7 +1645,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> flipped = matrix.flipH();
      * // Result: {{3, 2, 1}, {6, 5, 4}}
      * }</pre>
@@ -1667,7 +1667,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> flipped = matrix.flipV();
      * // Result: {{5, 6}, {3, 4}, {1, 2}}
      * }</pre>
@@ -1689,7 +1689,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> rotated = matrix.rotate90();
      * // Result: {{5, 3, 1}, {6, 4, 2}}
      * }</pre>
@@ -1727,7 +1727,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> rotated = matrix.rotate180();
      * // Result: {{6, 5, 4}, {3, 2, 1}}
      * }</pre>
@@ -1752,7 +1752,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Matrix<Integer> rotated = matrix.rotate270();
      * // Result: {{2, 4, 6}, {1, 3, 5}}
      * }</pre>
@@ -1791,7 +1791,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> transposed = matrix.transpose();
      * // Result: {{1, 4}, {2, 5}, {3, 6}}
      * }</pre>
@@ -1832,7 +1832,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Matrix<Integer> reshaped = matrix.reshape(3, 2);
      * // Result: {{1, 2}, {3, 4}, {5, 6}}
      * }</pre>
@@ -1879,7 +1879,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> repeated = matrix.repelem(2, 3);
      * // Result: {{1,1,1,2,2,2}, {1,1,1,2,2,2}, {3,3,3,4,4,4}, {3,3,3,4,4,4}}
      * }</pre>
@@ -1931,7 +1931,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<Integer> tiled = matrix.repmat(2, 3);
      * // Result: {{1,2,1,2,1,2}, {3,4,3,4,3,4}, {1,2,1,2,1,2}, {3,4,3,4,3,4}}
      * }</pre>
@@ -1982,7 +1982,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * List<Integer> flat = matrix.flatten();
      * // Result: [1, 2, 3, 4, 5, 6]
      * }</pre>
@@ -2018,7 +2018,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{3, 1, 2}, {6, 4, 5}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{3, 1, 2}, {6, 4, 5}});
      * // Sort each row
      * matrix.flatOp(row -> java.util.Arrays.sort(row));
      * // Matrix is now: [[1, 2, 3], [4, 5, 6]]
@@ -2042,8 +2042,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{5, 6}, {7, 8}});
      * Matrix<Integer> stacked = m1.vstack(m2);
      * // Result: {{1, 2}, {3, 4}, {5, 6}, {7, 8}}
      * }</pre>
@@ -2079,8 +2079,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5}, {6}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{5}, {6}});
      * Matrix<Integer> stacked = m1.hstack(m2);
      * // Result: {{1, 2, 5}, {3, 4, 6}}
      * }</pre>
@@ -2112,8 +2112,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{5, 6}, {7, 8}});
      * Matrix<Integer> sum = m1.zipWith(m2, (a, b) -> a + b);
      * // Result: {{6, 8}, {10, 12}}
      * }</pre>
@@ -2138,8 +2138,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Double> m2 = Matrix.of(new Double[][]{{0.5, 1.0}, {1.5, 2.0}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Double> m2 = Matrix.of(new Double[][] {{0.5, 1.0}, {1.5, 2.0}});
      * Matrix<String> result = m1.zipWith(m2, (a, b) -> a + ":" + b, String.class);
      * // Result: {{"1:0.5", "2:1.0"}, {"3:1.5", "4:2.0"}}
      * }</pre>
@@ -2175,9 +2175,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{5, 6}, {7, 8}});
-     * Matrix<Integer> m3 = Matrix.of(new Integer[][]{{9, 10}, {11, 12}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{5, 6}, {7, 8}});
+     * Matrix<Integer> m3 = Matrix.of(new Integer[][] {{9, 10}, {11, 12}});
      * Matrix<Integer> result = m1.zipWith(m2, m3, (a, b, c) -> a + b + c);
      * // Result: {{15, 18}, {21, 24}}
      * }</pre>
@@ -2203,9 +2203,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<String> m2 = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
-     * Matrix<Double> m3 = Matrix.of(new Double[][]{{0.1, 0.2}, {0.3, 0.4}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<String> m2 = Matrix.of(new String[][] {{"a", "b"}, {"c", "d"}});
+     * Matrix<Double> m3 = Matrix.of(new Double[][] {{0.1, 0.2}, {0.3, 0.4}});
      * Matrix<String> result = m1.zipWith(m2, m3, 
      *     (i, s, d) -> i + s + String.format("%.1f", d), String.class);
      * // Result: {{"1a0.1", "2b0.2"}, {"3c0.3", "4d0.4"}}
@@ -2245,7 +2245,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> diagonal = matrix.streamLU2RD();
      * // Stream contains: 1, 5, 9
      * }</pre>
@@ -2301,7 +2301,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> diagonal = matrix.streamRU2LD();
      * // Stream contains: 3, 5, 7
      * }</pre>
@@ -2356,7 +2356,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Stream<Integer> stream = matrix.streamH();
      * // Stream contains: 1, 2, 3, 4
      * }</pre>
@@ -2373,7 +2373,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> row1 = matrix.streamH(1);
      * // Stream contains: 4, 5, 6
      * }</pre>
@@ -2392,7 +2392,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Stream<Integer> rows = matrix.streamH(1, 3);
      * // Stream contains: 3, 4, 5, 6
      * }</pre>
@@ -2483,7 +2483,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Stream<Integer> stream = matrix.streamV();
      * // Stream contains: 1, 3, 2, 4
      * }</pre>
@@ -2501,7 +2501,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Integer> col1 = matrix.streamV(1);
      * // Stream contains: 2, 5, 8
      * }</pre>
@@ -2521,7 +2521,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Stream<Integer> cols = matrix.streamV(1, 3);
      * // Stream contains: 2, 5, 3, 6
      * }</pre>
@@ -2613,7 +2613,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Stream<Stream<Integer>> rows = matrix.streamR();
      * // Outer stream contains 3 inner streams, each with row elements
      * }</pre>
@@ -2630,7 +2630,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
      * Stream<Stream<Integer>> rows = matrix.streamR(1, 3);
      * // Outer stream contains 2 inner streams for rows 1 and 2
      * }</pre>
@@ -2688,7 +2688,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Stream<Stream<Integer>> columns = matrix.streamC();
      * // Outer stream contains 3 inner streams, each with column elements
      * }</pre>
@@ -2707,7 +2707,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * Stream<Stream<Integer>> columns = matrix.streamC(1, 3);
      * // Outer stream contains 2 inner streams for columns 1 and 2
      * }</pre>
@@ -2812,7 +2812,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * matrix.forEach(element -> System.out.print(element + " "));
      * // Prints: 1 2 3 4
      * }</pre>
@@ -2832,7 +2832,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.forEach(1, 3, 1, 3, element -> System.out.print(element + " "));
      * // Prints: 5 6 8 9 (elements from rows 1-2, columns 1-2)
      * }</pre>
@@ -2875,7 +2875,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("A", "B", "C");
      *
      * Dataset dataset = matrix.toDatasetH(columnNames);
@@ -2925,7 +2925,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * List<String> columnNames = Arrays.asList("Row1", "Row2");
      *
      * Dataset dataset = matrix.toDatasetV(columnNames);
@@ -2964,11 +2964,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * matrix.println();
      * // Output:
-     * // [[1, 2, 3],
-     * //  [4, 5, 6]]
+     * //  [1, 2, 3],
+     * //  [4, 5, 6]
      * }</pre>
      * 
      * @return the formatted string representation of the matrix
@@ -3031,8 +3031,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> m1 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
-     * Matrix<Integer> m2 = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
+     * Matrix<Integer> m2 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * m1.equals(m2); // true
      * }</pre>
      *
@@ -3060,7 +3060,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][]{{1, 2}, {3, 4}});
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * System.out.println(matrix.toString()); // [[1, 2], [3, 4]]
      * }</pre>
      *

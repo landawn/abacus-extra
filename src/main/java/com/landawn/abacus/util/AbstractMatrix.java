@@ -36,7 +36,7 @@ import com.landawn.abacus.util.stream.Stream;
  * 
  * <p>Example usage through concrete implementations:</p>
  * <pre>{@code
- * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+ * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
  * IntMatrix transposed = matrix.transpose();
  * }</pre>
  *
@@ -127,10 +127,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix intMatrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix intMatrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Class<?> type = intMatrix.componentType(); // Returns int.class
      *
-     * Matrix<String> stringMatrix = Matrix.of(new String[][]{{"a", "b"}, {"c", "d"}});
+     * Matrix<String> stringMatrix = Matrix.of(new String[][] {{"a", "b"}, {"c", "d"}});
      * Class<?> strType = stringMatrix.componentType(); // Returns String.class
      * }</pre>
      *
@@ -150,7 +150,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * int[][] array = matrix.array();
      * array[0][0] = 10; // This WILL modify the matrix!
      * // matrix now contains {{10, 2}, {3, 4}}
@@ -177,7 +177,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * matrix.println();
      * // Output:
      * // [1, 2]
@@ -203,7 +203,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix empty2 = IntMatrix.of(new int[0][5]);
      * boolean isEmpty2 = empty2.isEmpty(); // Returns true (0×5)
      *
-     * IntMatrix notEmpty = IntMatrix.of(new int[][]{{1}});
+     * IntMatrix notEmpty = IntMatrix.of(new int[][] {{1}});
      * boolean isEmpty3 = notEmpty.isEmpty(); // Returns false (1×1)
      * }</pre>
      *
@@ -223,7 +223,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix original = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix copy = original.copy();
      * copy.set(0, 0, 10); // Original matrix remains unchanged
      * // original: {{1, 2}, {3, 4}}
@@ -243,7 +243,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
      * IntMatrix subMatrix = matrix.copy(0, 2); // Contains rows 0 and 1
      * // subMatrix: {{1, 2}, {3, 4}}
      *
@@ -267,7 +267,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix subMatrix = matrix.copy(0, 2, 1, 3);
      * // subMatrix: {{2, 3}, {5, 6}} (rows 0-1, columns 1-2)
      *
@@ -302,7 +302,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 4 5 6   =>   8 5 2
      * // 7 8 9        9 6 3
      *
-     * IntMatrix original = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix rotated = original.rotate90(); // 3×2 becomes 2×3
      * }</pre>
      *
@@ -328,7 +328,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 4 5 6   =>   6 5 4
      * // 7 8 9        3 2 1
      *
-     * IntMatrix original = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix rotated = original.rotate180(); // Dimensions remain 2×3
      * }</pre>
      *
@@ -355,7 +355,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 4 5 6   =>   2 5 8
      * // 7 8 9        1 4 7
      *
-     * IntMatrix original = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix rotated = original.rotate270(); // 3×3 becomes 3×3
      * }</pre>
      *
@@ -383,7 +383,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 4 5 6   =>   2 5 8
      * // 7 8 9        3 6 9
      *
-     * IntMatrix original = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix transposed = original.transpose(); // 2×3 becomes 3×2
      * }</pre>
      *
@@ -403,10 +403,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(2); // Becomes [[1, 2], [3, 4], [5, 6]]
      *
-     * IntMatrix matrix2 = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix2 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped2 = matrix2.reshape(4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
@@ -431,7 +431,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
      * IntMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * IntMatrix truncated = matrix.reshape(1, 3); // Becomes [[1, 2, 3]] (remaining elements discarded)
@@ -454,11 +454,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
-     * IntMatrix m2 = IntMatrix.of(new int[][]{{5, 6}, {7, 8}});
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
      * boolean sameShape = m1.isSameShape(m2); // Returns true (both are 2×2)
      *
-     * IntMatrix m3 = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * boolean sameShape2 = m1.isSameShape(m3); // Returns false (2×2 vs 2×3)
      * }</pre>
      *
@@ -487,7 +487,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * //              3 3 4 4
      * //              3 3 4 4
      *
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix repeated = matrix.repelem(2, 2); // 2×2 becomes 4×4
      * }</pre>
      *
@@ -516,7 +516,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * //              1 2 1 2
      * //              3 4 3 4
      *
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix tiled = matrix.repmat(2, 2); // 2×2 becomes 4×4
      * }</pre>
      *
@@ -538,10 +538,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntList flat = matrix.flatten(); // Returns [1, 2, 3, 4]
      *
-     * IntMatrix matrix2 = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix2 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntList flat2 = matrix2.flatten(); // Returns [1, 2, 3, 4, 5, 6]
      * }</pre>
      *
@@ -561,7 +561,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{3, 1, 4}, {1, 5, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{3, 1, 4}, {1, 5, 9}});
      * matrix.flatOp(a -> Arrays.sort(a)); // Sorts all elements
      * // Matrix becomes [[1, 1, 3], [4, 5, 9]] (elements sorted in row-major order)
      *
@@ -674,7 +674,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * matrix.forEach((i, j, m) -> {
      *     int value = m.get(i, j);
      *     System.out.println("Value at (" + i + "," + j + ") is " + value);
@@ -763,7 +763,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> diagonal = matrix.pointsLU2RD(); // Points: (0,0), (1,1), (2,2)
      * List<Point> points = diagonal.toList(); // [(0,0), (1,1), (2,2)]
      * }</pre>
@@ -787,7 +787,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * Stream<Point> antiDiagonal = matrix.pointsRU2LD(); // Points: (0,2), (1,1), (2,0)
      * List<Point> points = antiDiagonal.toList(); // [(0,2), (1,1), (2,0)]
      * }</pre>
@@ -810,7 +810,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Stream<Point> allPoints = matrix.pointsH();
      * // Points in order: (0,0), (0,1), (1,0), (1,1)
      * allPoints.forEach(p -> System.out.println("Point: " + p));
@@ -873,7 +873,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Stream<Point> columnOrder = matrix.pointsV();
      * // Points in order: (0,0), (1,0), (0,1), (1,1)
      * // For a 2×3 matrix, order would be: (0,0), (1,0), (0,1), (1,1), (0,2), (1,2)
@@ -1037,7 +1037,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntStream diagonal = matrix.streamLU2RD(); // Stream of: 1, 5, 9
      * int sum = diagonal.sum(); // 15
      * }</pre>
@@ -1056,7 +1056,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntStream antiDiagonal = matrix.streamRU2LD(); // Stream of: 3, 5, 7
      * int sum = antiDiagonal.sum(); // 15
      * }</pre>
@@ -1074,7 +1074,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntStream elements = matrix.streamH(); // Stream of: 1, 2, 3, 4
      * int sum = elements.sum(); // 10
      * }</pre>
@@ -1089,7 +1089,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntStream row1 = matrix.streamH(1); // Stream of: 4, 5, 6
      * int max = row1.max().orElse(0); // 6
      * }</pre>
@@ -1106,7 +1106,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}, {5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
      * IntStream rows1and2 = matrix.streamH(1, 3); // Stream of: 3, 4, 5, 6
      * long count = rows1and2.count(); // 4
      * }</pre>
@@ -1126,7 +1126,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntStream elements = matrix.streamV(); // Stream of: 1, 3, 2, 4
      * int sum = elements.sum(); // 10
      * }</pre>
@@ -1141,7 +1141,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntStream col1 = matrix.streamV(1); // Stream of: 2, 5
      * int min = col1.min().orElse(0); // 2
      * }</pre>
@@ -1158,7 +1158,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * IntStream cols1and2 = matrix.streamV(1, 3); // Stream of: 2, 5, 3, 6
      * double avg = cols1and2.average().orElse(0); // 4.0
      * }</pre>
@@ -1179,7 +1179,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][]{{1, 2, 3}, {4, 5, 6}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
      * matrix.streamR().forEach(rowStream -> {
      *     int sum = rowStream.sum(); // Sum each row
      *     System.out.println("Row sum: " + sum);
@@ -1222,7 +1222,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][]{{1.0, 2.0}, {3.0, 4.0}});
+     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * matrix.streamC().forEach(colStream -> {
      *     double avg = colStream.average().orElse(0);
      *     System.out.println("Column average: " + avg);
