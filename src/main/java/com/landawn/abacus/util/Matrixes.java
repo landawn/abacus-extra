@@ -82,7 +82,7 @@ public final class Matrixes {
      *
      * <p>The parallel processing setting is thread-local, allowing different threads to have
      * independent parallelization behaviors. This enables fine-grained control over parallel
-     * execution in multi-threaded applications.</p>
+     * execution in multithreaded applications.</p>
      *
      * <p>The returned value indicates how matrix operations should decide whether to use
      * parallel processing:</p>
@@ -169,7 +169,7 @@ public final class Matrixes {
      * Determines whether a matrix operation should be processed using parallel execution
      * based on the element count and current parallel settings.
      *
-     * <p>This method makes the parallelization decision using a multi-factor evaluation:</p>
+     * <p>This method makes the parallelization decision using a multifactor evaluation:</p>
      * <ol>
      * <li><b>Runtime Support:</b> Parallel streams must be available in the runtime environment.
      *     If not supported, always returns {@code false}.</li>

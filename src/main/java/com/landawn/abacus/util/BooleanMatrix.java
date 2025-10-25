@@ -229,17 +229,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the component type of this matrix, which is the primitive boolean class.
-     * This method provides type information about the elements stored in the matrix,
-     * which is useful for reflection-based operations and generic matrix handling.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}});
-     * Class<?> type = matrix.componentType(); // Returns boolean.class
-     * }</pre>
-     *
-     * @return boolean.class representing the primitive boolean type
+     * Returns the component type of the matrix elements, which is always {@code boolean.class}.
+     * 
+     * @return {@code boolean.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -376,7 +368,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalBoolean leftOf(final int i, final int j) {
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
@@ -397,7 +388,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalBoolean rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
@@ -1101,8 +1091,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a copy of a subset of rows from this matrix.
-     * The returned matrix contains only the rows in the specified range [fromRowIndex, toRowIndex).
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

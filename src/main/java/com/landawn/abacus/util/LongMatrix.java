@@ -403,10 +403,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns the component type of this matrix, which is the primitive type long.
-     * This method is used by the framework for type introspection and reflection operations.
-     *
-     * @return {@code long.class}, the primitive long type
+     * Returns the component type of the matrix elements, which is always {@code long.class}.
+     * 
+     * @return {@code long.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1178,9 +1177,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a copy of a range of rows from this matrix.
-     * All columns from the specified rows are included in the copy.
-     * The returned matrix is independent of this matrix.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

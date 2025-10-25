@@ -305,19 +305,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns the component type of the matrix elements.
-     * For FloatMatrix, this always returns {@code float.class}, representing the primitive float type.
-     * This method is useful for reflection and generic type operations.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}});
-     * Class<?> type = matrix.componentType();
-     * assert type == float.class;
-     * assert type.isPrimitive();
-     * }</pre>
-     *
-     * @return {@code float.class}, the Class object representing the primitive float type
+     * Returns the component type of the matrix elements, which is always {@code float.class}.
+     * 
+     * @return {@code float.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -456,7 +446,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalFloat containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalFloat leftOf(final int i, final int j) {
         return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
@@ -476,7 +465,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalFloat containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalFloat rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
@@ -1046,7 +1034,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a copy of a range of rows from the matrix.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

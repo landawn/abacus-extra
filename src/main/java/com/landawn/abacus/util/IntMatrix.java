@@ -444,9 +444,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the component type of the matrix elements, which is int.class.
+     * Returns the component type of the matrix elements, which is always {@code int.class}.
      * 
-     * @return int.class
+     * @return {@code int.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1293,8 +1293,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a copy of a row range from this matrix.
-     * The returned matrix contains only the specified rows and is completely independent
-     * from the original matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

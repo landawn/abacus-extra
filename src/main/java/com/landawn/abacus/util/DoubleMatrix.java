@@ -380,10 +380,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns the component type of the matrix elements.
-     * For DoubleMatrix, this always returns {@code double.class}.
-     *
-     * @return {@code double.class}, the primitive double type
+     * Returns the component type of the matrix elements, which is always {@code double.class}.
+     * 
+     * @return {@code double.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1123,7 +1122,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Top-left 2x2 region is filled: [[1.0, 2.0, 0.0], [3.0, 4.0, 0.0], [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param b the source array to copy values from (may be smaller or larger than the matrix)
+     * @param b the source array to copy values from (maybe smaller or larger than the matrix)
      */
     public void fill(final double[][] b) {
         fill(0, 0, b);
@@ -1179,8 +1178,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a copy of a portion of rows from this matrix.
-     * All columns from the specified rows are included.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

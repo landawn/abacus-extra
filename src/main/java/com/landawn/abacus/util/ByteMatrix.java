@@ -321,9 +321,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the component type of the matrix elements, which is byte.class for ByteMatrix.
-     *
-     * @return byte.class
+     * Returns the component type of the matrix elements, which is always {@code byte.class}.
+     * 
+     * @return {@code byte.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1052,7 +1052,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a copy of a range of rows from this matrix.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

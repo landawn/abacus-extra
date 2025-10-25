@@ -303,9 +303,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns the component type of the matrix elements, which is always short.class.
+     * Returns the component type of the matrix elements, which is always {@code short.class}.
      * 
-     * @return short.class
+     * @return {@code short.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1034,8 +1034,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a copy of a subset of rows from this matrix.
-     * All columns from the specified rows are included in the copy.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

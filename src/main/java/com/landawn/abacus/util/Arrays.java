@@ -50,10 +50,6 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * double[] doubles = Arrays.toDoubleArray(ints); // {1.0, 2.0, 3.0}
  * }</pre>
  *
- * <p><b>Implementation Note:</b> Classes/interfaces implemented in abacus-extra are not for daily use case.
- * It's not going to handle {@code null} scenarios like what handled in abacus-common.
- * It's developer's responsibility to handle {@code null} scenarios.
- *
  * @see Matrix
  * @see Matrixes
  */
@@ -2702,15 +2698,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final boolean[] ai = a[i];
+                        final boolean[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -2800,28 +2796,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final boolean[][] ai = a[i];
+                        final boolean[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final boolean[] aij = ai[j];
+                                final boolean[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -4020,15 +4016,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final char[] ai = a[i];
+                        final char[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -4118,28 +4114,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final char[][] ai = a[i];
+                        final char[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final char[] aij = ai[j];
+                                final char[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -4557,7 +4553,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the byteer input array
+     * @return a new array with length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
@@ -4721,7 +4717,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the byteer input array
+     * @return a new 2D array with outer length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
@@ -4886,7 +4882,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the byteer input array
+     * @return a new 3D array with outer length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
@@ -5225,15 +5221,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final byte[] ai = a[i];
+                        final byte[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -5323,28 +5319,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final byte[][] ai = a[i];
+                        final byte[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final byte[] aij = ai[j];
+                                final byte[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -6458,15 +6454,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final short[] ai = a[i];
+                        final short[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -6556,28 +6552,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final short[][] ai = a[i];
+                        final short[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final short[] aij = ai[j];
+                                final short[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -7742,15 +7738,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final int[] ai = a[i];
+                        final int[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -7840,28 +7836,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final int[][] ai = a[i];
+                        final int[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final int[] aij = ai[j];
+                                final int[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -8983,15 +8979,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final long[] ai = a[i];
+                        final long[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -9081,28 +9077,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final long[][] ai = a[i];
+                        final long[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final long[] aij = ai[j];
+                                final long[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -10222,15 +10218,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final float[] ai = a[i];
+                        final float[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -10320,28 +10316,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final float[][] ai = a[i];
+                        final float[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final float[] aij = ai[j];
+                                final float[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -10801,7 +10797,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter
      * @param valueForNoneB the default value to use when array 'b' is shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new array with length equal to the doubleer input array
+     * @return a new array with length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
@@ -10965,7 +10961,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 2D array with outer length equal to the doubleer input array
+     * @return a new 2D array with outer length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
@@ -11131,7 +11127,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter
      * @param zipFunction the function to apply to corresponding elements
-     * @return a new 3D array with outer length equal to the doubleer input array
+     * @return a new 3D array with outer length equal to the length of the longer input array
      * @throws E if the zip function throws an exception
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
@@ -11470,15 +11466,15 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final double[] ai = a[i];
+                        final double[] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(", ");
                             }
 
-                            sb.append(ai[j]);
+                            sb.append(row[j]);
                         }
 
                         sb.append(']');
@@ -11568,28 +11564,28 @@ public sealed class Arrays permits Arrays.f {
                     } else if (a[i].length == 0) {
                         sb.append("[]");
                     } else {
-                        final double[][] ai = a[i];
+                        final double[][] row = a[i];
                         sb.append('[');
 
-                        for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                        for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
                                 sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                             }
 
-                            if (ai[j] == null) {
+                            if (row[j] == null) {
                                 sb.append("null");
-                            } else if (ai[j].length == 0) {
+                            } else if (row[j].length == 0) {
                                 sb.append("[]");
                             } else {
-                                final double[] aij = ai[j];
+                                final double[] subRow = row[j];
                                 sb.append('[');
 
-                                for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                     if (k > 0) {
                                         sb.append(", ");
                                     }
 
-                                    sb.append(aij[k]);
+                                    sb.append(subRow[k]);
                                 }
 
                                 sb.append(']');
@@ -14972,15 +14968,15 @@ public sealed class Arrays permits Arrays.f {
                         } else if (a[i].length == 0) {
                             sb.append("[]");
                         } else {
-                            final Object[] ai = a[i];
+                            final Object[] row = a[i];
                             sb.append('[');
 
-                            for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                            for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                                 if (j > 0) {
                                     sb.append(", ");
                                 }
 
-                                sb.append(ai[j]);
+                                sb.append(row[j]);
                             }
 
                             sb.append(']');
@@ -16017,28 +16013,28 @@ public sealed class Arrays permits Arrays.f {
                         } else if (a[i].length == 0) {
                             sb.append("[]");
                         } else {
-                            final Object[][] ai = a[i];
+                            final Object[][] row = a[i];
                             sb.append('[');
 
-                            for (int j = 0, rowLen = ai.length; j < rowLen; j++) {
+                            for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                                 if (j > 0) {
                                     sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
                                 }
 
-                                if (ai[j] == null) {
+                                if (row[j] == null) {
                                     sb.append("null");
-                                } else if (ai[j].length == 0) {
+                                } else if (row[j].length == 0) {
                                     sb.append("[]");
                                 } else {
-                                    final Object[] aij = ai[j];
+                                    final Object[] subRow = row[j];
                                     sb.append('[');
 
-                                    for (int k = 0, aijLen = aij.length; k < aijLen; k++) {
+                                    for (int k = 0, subRowLen = subRow.length; k < subRowLen; k++) {
                                         if (k > 0) {
                                             sb.append(", ");
                                         }
 
-                                        sb.append(aij[k]);
+                                        sb.append(subRow[k]);
                                     }
 
                                     sb.append(']');

@@ -1394,8 +1394,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a copy of a row range from this matrix.
-     * The returned matrix contains only the specified rows.
-     * Row indices are inclusive of fromRowIndex and exclusive of toRowIndex.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2967,7 +2966,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * matrix.println();
      * // Output:
-     * //  [1, 2, 3],
+     * //  [1, 2, 3]
      * //  [4, 5, 6]
      * }</pre>
      * 

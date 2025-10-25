@@ -314,12 +314,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the component type of the matrix elements.
-     *
-     * <p>This method is used by generic code that needs to determine the type
-     * of elements stored in the matrix.
-     *
-     * @return {@code char.class}, the primitive char type
+     * Returns the component type of the matrix elements, which is always {@code char.class}.
+     * 
+     * @return {@code char.class}
      */
     @SuppressWarnings("rawtypes")
     @Override
@@ -1093,8 +1090,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a copy of a portion of rows from this matrix.
-     * All columns from the specified rows are included in the copy.
+     * Creates a copy of a row range from this matrix.
+     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
