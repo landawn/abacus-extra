@@ -6973,7 +6973,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][][] arr = {{{1, 2}}, {{3, 4}}};
-     * Arrays.replaceIf(arr, x -&gt; x &lt; 3, 0);
+     * Arrays.replaceIf(arr, x -> x < 3, 0);
      * // arr is now {{{0, 0}}, {{3, 4}}}
      * }</pre>
      *
@@ -8209,7 +8209,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, -2L}, {3L, -4L}};
-     * replaceIf(array, x -&gt; x &lt; 0, 0L);
+     * replaceIf(array, x -> x < 0, 0L);
      * // array is now {{1L, 0L}, {3L, 0L}}
      * }</pre>
      *
@@ -8235,7 +8235,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{-3L, 4L}}};
-     * replaceIf(array, x -&gt; x &lt; 0, 99L);
+     * replaceIf(array, x -> x < 0, 99L);
      * // array is now {{{1L, 2L}}, {{99L, 4L}}}
      * }</pre>
      *
@@ -9418,7 +9418,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
+     * Arrays.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9446,7 +9446,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays.replaceIf(matrix, x -&gt; x &lt;= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f); // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -10659,7 +10659,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1.0, -2.0, 3.0, -4.0};
-     * Arrays.replaceIf(array, x -&gt; x &lt; 0, 0.0);
+     * Arrays.replaceIf(array, x -> x < 0, 0.0);
      * // array is now {1.0, 0.0, 3.0, 0.0}
      * }</pre>
      *

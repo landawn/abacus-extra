@@ -322,14 +322,14 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Returns the median float value in this tuple.
      * For tuples with an even number of elements, returns the lower middle value.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(30.0f, 10.0f, 20.0f);
-     * float median = tuple.median(); // 20.0
+     * float median = tuple.median(); // 20.0f
      *
      * FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-     * float median = tuple.median(); // 2.0
+     * float median = tuple.median(); // 2.0f
      * }</pre> 
      *
      * @return the median float value in this tuple

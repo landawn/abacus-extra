@@ -291,7 +291,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
-     * long min = tuple.min();  // 2
+     * long min = tuple.min();  // 2L
      * }</pre>
      *
      * @return the minimum long value in this tuple
@@ -307,7 +307,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(5L, 2L, 8L);
-     * long max = tuple.max();  // 8
+     * long max = tuple.max();  // 8L
      * }</pre>
      *
      * @return the maximum long value in this tuple
@@ -1260,8 +1260,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long sum = quad.sum();  // 10
-     * long min = quad.min();  // 1
+     * long sum = quad.sum();  // 10L
+     * long min = quad.min();  // 1L
      * LongTuple4 reversed = quad.reverse();  // (4, 3, 2, 1)
      * }</pre>
      */

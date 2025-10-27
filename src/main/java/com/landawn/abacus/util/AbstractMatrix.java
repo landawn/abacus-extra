@@ -302,7 +302,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * // 7 8 9        9 6 3
      *
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntMatrix rotated = original.rotate90(); // 3×2 becomes 2×3
+     * IntMatrix rotated = original.rotate90(); // 3×3 remains 3×3
      * }</pre>
      *
      * @return a new matrix rotated 90 degrees clockwise with dimensions cols × rows

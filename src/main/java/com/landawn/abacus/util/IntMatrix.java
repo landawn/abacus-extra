@@ -85,8 +85,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty int matrix

@@ -70,10 +70,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
      * DoubleMatrix matrix = new DoubleMatrix(data);
-     * // matrix.rows() returns 2, matrix.cols() returns 2
+     * // matrix.rows returns 2, matrix.cols returns 2
      *
      * DoubleMatrix empty = new DoubleMatrix(null);
-     * // empty.rows() returns 0, empty.cols() returns 0
+     * // empty.rows returns 0, empty.cols returns 0
      * }</pre>
      *
      * @param a the 2D double array to wrap, or null for an empty matrix
@@ -88,8 +88,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty double matrix

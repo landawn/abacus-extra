@@ -632,7 +632,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRow(0, c -&gt; Character.toUpperCase(c));
+     * matrix.updateRow(0, c -> Character.toUpperCase(c));
      * // First row is now ['A', 'B']
      * }</pre>
      *
@@ -657,7 +657,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'A', 'B'}, {'C', 'D'}});
-     * matrix.updateColumn(1, c -&gt; Character.toLowerCase(c));
+     * matrix.updateColumn(1, c -> Character.toLowerCase(c));
      * // Second column is now ['b', 'd']
      * // Matrix is now: [['A', 'b'], ['C', 'd']]
      * }</pre>
@@ -739,7 +739,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateLU2RD(c -&gt; Character.toUpperCase(c));
+     * matrix.updateLU2RD(c -> Character.toUpperCase(c));
      * // Diagonal is now ['A', 'D'], matrix: [['A', 'b'], ['c', 'D']]
      * }</pre>
      *
@@ -825,7 +825,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRU2LD(c -&gt; Character.toUpperCase(c));
+     * matrix.updateRU2LD(c -> Character.toUpperCase(c));
      * // Anti-diagonal is now ['B', 'C'], matrix: [['a', 'B'], ['C', 'd']]
      * }</pre>
      *
@@ -851,7 +851,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateAll(c -&gt; Character.toUpperCase(c));
+     * matrix.updateAll(c -> Character.toUpperCase(c));
      * // Matrix is now [['A', 'B'], ['C', 'D']]
      * }</pre>
      *
@@ -900,7 +900,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'e', 'c'}, {'b', 'f', 'd'}});
-     * matrix.replaceIf(c -&gt; c < 'd', 'x'); // Replace all chars less than 'd' with 'x'
+     * matrix.replaceIf(c -> c < 'd', 'x'); // Replace all chars less than 'd' with 'x'
      * // Matrix is now [['x', 'e', 'x'], ['x', 'f', 'd']]
      * }</pre>
      *
@@ -927,7 +927,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
      *                                                 {'g', 'h', 'i'}});
-     * matrix.replaceIf((i, j) -&gt; i == j, 'X'); // Replace main diagonal elements with 'X'
+     * matrix.replaceIf((i, j) -> i == j, 'X'); // Replace main diagonal elements with 'X'
      * // Matrix is now [['X', 'b', 'c'], ['d', 'X', 'f'], ['g', 'h', 'X']]
      * }</pre>
      *
@@ -950,7 +950,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix upper = matrix.map(c -&gt; Character.toUpperCase(c));
+     * CharMatrix upper = matrix.map(c -> Character.toUpperCase(c));
      * // upper is [['A', 'B'], ['C', 'D']], original matrix is unchanged
      * }</pre>
      *
@@ -978,10 +978,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Matrix<String&gt; stringMatrix = matrix.mapToObj(c -&gt; String.valueOf(c), String.class);
+     * Matrix<String> stringMatrix = matrix.mapToObj(c -> String.valueOf(c), String.class);
      * // stringMatrix is [["a", "b"], ["c", "d"]]
      *
-     * Matrix<Integer&gt; codePoints = matrix.mapToObj(c -> (int) c, Integer.class);
+     * Matrix<Integer> codePoints = matrix.mapToObj(c -> (int) c, Integer.class);
      * // codePoints is [[97, 98], [99, 100]]
      * }</pre>
      *
@@ -1707,7 +1707,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.flatOp(row -&gt; java.util.Arrays.sort(row));
+     * matrix.flatOp(row -> java.util.Arrays.sort(row));
      * // Each row is now sorted
      * }</pre>
      *
@@ -2683,9 +2683,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.forEach(ch -&gt; System.out.print(ch + " ")); // Prints: a b c d
+     * matrix.forEach(ch -> System.out.print(ch + " ")); // Prints: a b c d
      *
-     * List<Character&gt; chars = new ArrayList<>();
+     * List<Character> chars = new ArrayList<>();
      * matrix.forEach(chars::add); // Collects all characters
      * }</pre>
      *
@@ -2712,11 +2712,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *                                                 {'g', 'h', 'i'}});
      *
      * // Process only the center 2x2 sub-region
-     * matrix.forEach(1, 3, 1, 3, ch -&gt; System.out.print(ch + " "));
+     * matrix.forEach(1, 3, 1, 3, ch -> System.out.print(ch + " "));
      * // Prints: e f h i
      *
      * // Process first two rows, last two columns
-     * matrix.forEach(0, 2, 1, 3, ch -&gt; System.out.print(ch + " "));
+     * matrix.forEach(0, 2, 1, 3, ch -> System.out.print(ch + " "));
      * // Prints: b c e f
      * }</pre>
      *

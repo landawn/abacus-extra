@@ -77,8 +77,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty float matrix
@@ -118,7 +118,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix matrix = FloatMatrix.create(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * assert matrix.get(1, 0) == 3.0f;
-     * assert matrix.rows() == 2 && matrix.cols() == 2;
+     * assert matrix.rows == 2 && matrix.cols == 2;
      * }</pre>
      *
      * @param a the 2D int array to convert to a float matrix, or null/empty for an empty matrix
@@ -162,8 +162,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.random(5);
      * // Creates a 1x5 matrix with random float values
-     * assert matrix.rows() == 1;
-     * assert matrix.cols() == 5;
+     * assert matrix.rows == 1;
+     * assert matrix.cols == 5;
      * }</pre>
      *
      * @param len the number of columns in the resulting matrix (must be non-negative)
@@ -183,8 +183,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.repeat(3.14f, 5);
      * // Creates a 1x5 matrix where all elements are 3.14f
-     * assert matrix.rows() == 1;
-     * assert matrix.cols() == 5;
+     * assert matrix.rows == 1;
+     * assert matrix.cols == 5;
      * assert matrix.get(0, 0) == 3.14f;
      * assert matrix.get(0, 4) == 3.14f;
      * }</pre>
