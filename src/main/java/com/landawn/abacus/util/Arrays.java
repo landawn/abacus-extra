@@ -220,8 +220,10 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each boolean element to an object using the provided mapper function.
+     * This method transforms a boolean array into an object array by applying the mapper
+     * function to each element.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] flags = {true, false, true};
      * String[] strings = Arrays.mapToObj(flags, b -> b ? "YES" : "NO", String.class);
@@ -230,7 +232,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
-     * @param a the boolean array to map
+     * @param a the boolean array to map (can be null)
      * @param mapper the function that maps each boolean to an object
      * @param targetElementType the class of the target element type
      * @return an object array containing the mapped values, or null if input is null
@@ -659,8 +661,10 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps each int element to an object using the provided mapper function.
+     * This method transforms an int array into an object array by applying the mapper
+     * function to each element.
      *
-     * <p>Example:
+     * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] numbers = {1, 2, 3};
      * String[] strings = Arrays.mapToObj(numbers, i -> "Number: " + i, String.class);
@@ -669,7 +673,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array
      * @param <E> the type of exception that the mapper may throw
-     * @param a the int array to map
+     * @param a the int array to map (can be null)
      * @param mapper the function that maps each int to an object
      * @param targetElementType the class of the target element type
      * @return an object array containing the mapped values, or null if input is null
@@ -1327,10 +1331,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D long array to a 2D int array using the provided mapper function.
-     * Each long element is transformed to an int value.
+     * Each long element is transformed to an int value. This operation is useful for
+     * downcasting or converting long values to integers with custom logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][] matrix = {{100L, 200L}, {300L, 400L}};
+     * int[][] result = Arrays.mapToInt(matrix, l -> (int) (l / 10));
+     * // Result: {{10, 20}, {30, 40}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 2D long array
+     * @param a the input 2D long array (can be null)
      * @param mapper the function to transform each long to int
      * @return a 2D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1353,10 +1365,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D long array to a 3D int array using the provided mapper function.
-     * Each long element is transformed to an int value.
+     * Each long element is transformed to an int value, preserving the 3D structure.
+     * This operation is useful for downcasting or converting long values to integers with custom logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][][] cube = {{{1000L, 2000L}, {3000L, 4000L}}, {{5000L, 6000L}, {7000L, 8000L}}};
+     * int[][][] result = Arrays.mapToInt(cube, l -> (int) (l / 1000));
+     * // Result: {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 3D long array
+     * @param a the input 3D long array (can be null)
      * @param mapper the function to transform each long to int
      * @return a 3D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1379,10 +1399,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 1D long array to a 1D double array using the provided mapper function.
-     * Each long element is transformed to a double value.
+     * Each long element is transformed to a double value. This operation is useful for
+     * converting long values to doubles with custom transformation logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[] values = {100L, 200L, 300L};
+     * double[] result = Arrays.mapToDouble(values, l -> l / 100.0);
+     * // Result: {1.0, 2.0, 3.0}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input long array
+     * @param a the input long array (can be null)
      * @param mapper the function to transform each long to double
      * @return a double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1405,10 +1433,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D long array to a 2D double array using the provided mapper function.
-     * Each long element is transformed to a double value.
+     * Each long element is transformed to a double value. This operation preserves the 2D structure
+     * while converting long values to doubles with custom transformation logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * long[][] matrix = {{1000L, 2000L}, {3000L, 4000L}};
+     * double[][] result = Arrays.mapToDouble(matrix, l -> l / 1000.0);
+     * // Result: {{1.0, 2.0}, {3.0, 4.0}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 2D long array
+     * @param a the input 2D long array (can be null)
      * @param mapper the function to transform each long to double
      * @return a 2D double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1497,10 +1533,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D double array to a 2D int array using the provided mapper function.
-     * Each double element is transformed to an int value.
+     * Each double element is transformed to an int value. This operation preserves the 2D structure
+     * while converting double values to integers with custom transformation logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][] matrix = {{1.5, 2.7}, {3.2, 4.9}};
+     * int[][] result = Arrays.mapToInt(matrix, d -> (int) Math.round(d));
+     * // Result: {{2, 3}, {3, 5}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 2D double array
+     * @param a the input 2D double array (can be null)
      * @param mapper the function to transform each double to int
      * @return a 2D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1523,10 +1567,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D double array to a 3D int array using the provided mapper function.
-     * Each double element is transformed to an int value.
+     * Each double element is transformed to an int value, preserving the 3D structure.
+     * This operation is useful for converting double values to integers with custom rounding or scaling logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][][] cube = {{{1.5, 2.7}, {3.2, 4.9}}, {{5.1, 6.8}, {7.3, 8.6}}};
+     * int[][][] result = Arrays.mapToInt(cube, d -> (int) Math.ceil(d));
+     * // Result: {{{2, 3}, {4, 5}}, {{6, 7}, {8, 9}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 3D double array
+     * @param a the input 3D double array (can be null)
      * @param mapper the function to transform each double to int
      * @return a 3D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1549,10 +1601,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 1D double array to a 1D long array using the provided mapper function.
-     * Each double element is transformed to a long value.
+     * Each double element is transformed to a long value. This operation is useful for
+     * converting double values to long integers with custom rounding or scaling logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[] prices = {19.99, 29.99, 39.99};
+     * long[] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
+     * // Result: {1999, 2999, 3999}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input double array
+     * @param a the input double array (can be null)
      * @param mapper the function to transform each double to long
      * @return a long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1575,10 +1635,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 2D double array to a 2D long array using the provided mapper function.
-     * Each double element is transformed to a long value.
+     * Each double element is transformed to a long value. This operation preserves the 2D structure
+     * while converting double values to long integers with custom transformation logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][] prices = {{19.99, 29.99}, {39.99, 49.99}};
+     * long[][] cents = Arrays.mapToLong(prices, d -> (long) (d * 100));
+     * // Result: {{1999, 2999}, {3999, 4999}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 2D double array
+     * @param a the input 2D double array (can be null)
      * @param mapper the function to transform each double to long
      * @return a 2D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1601,10 +1669,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Maps a 3D double array to a 3D long array using the provided mapper function.
-     * Each double element is transformed to a long value.
+     * Each double element is transformed to a long value, preserving the 3D structure.
+     * This operation is useful for converting double values to long integers with custom scaling or rounding logic.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][][] cube = {{{1.5, 2.7}, {3.2, 4.9}}, {{5.1, 6.8}, {7.3, 8.6}}};
+     * long[][][] result = Arrays.mapToLong(cube, d -> (long) (d * 1000));
+     * // Result: {{{1500, 2700}, {3200, 4900}}, {{5100, 6800}, {7300, 8600}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper
-     * @param a the input 3D double array
+     * @param a the input 3D double array (can be null)
      * @param mapper the function to transform each double to long
      * @return a 3D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
@@ -1654,9 +1730,17 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a 2D boolean array using the provided unary operator.
      * Each element in every sub-array is replaced with the result of applying the operator.
+     * This method modifies the array in-place, preserving the 2D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] matrix = {{true, false}, {false, true}};
+     * Arrays.updateAll(matrix, b -> !b);
+     * // matrix is now: {{false, true}, {true, false}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator
-     * @param a the 2D boolean array to update
+     * @param a the 2D boolean array to update (can be null or empty)
      * @param operator the unary operator to apply to each element
      * @throws E if the operator throws an exception
      */
@@ -1672,10 +1756,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Updates all elements in a 3D boolean array using the provided unary operator.
-     * Each element in every sub-array is replaced with the result of applying the operator.
+     * Each element in every nested sub-array is replaced with the result of applying the operator.
+     * This method modifies the array in-place, preserving the 3D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] cube = {{{true, false}, {false, true}}, {{true, true}, {false, false}}};
+     * Arrays.updateAll(cube, b -> !b);
+     * // cube is now: {{{false, true}, {true, false}}, {{false, false}, {true, true}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator
-     * @param a the 3D boolean array to update
+     * @param a the 3D boolean array to update (can be null or empty)
      * @param operator the unary operator to apply to each element
      * @throws E if the operator throws an exception
      */
@@ -1720,10 +1812,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces all elements in a 2D boolean array that match the predicate with a new value.
-     * Elements that don't match the predicate remain unchanged.
+     * Elements that don't match the predicate remain unchanged. This method modifies the array
+     * in-place, traversing all sub-arrays.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] matrix = {{true, false}, {true, false}};
+     * Arrays.replaceIf(matrix, b -> b == true, false);
+     * // matrix is now: {{false, false}, {false, false}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param a the 2D boolean array to modify
+     * @param a the 2D boolean array to modify (can be null or empty)
      * @param predicate the condition to test each element
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
@@ -1740,10 +1840,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces all elements in a 3D boolean array that match the predicate with a new value.
-     * Elements that don't match the predicate remain unchanged.
+     * Elements that don't match the predicate remain unchanged. This method modifies the array
+     * in-place, traversing all nested sub-arrays.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] cube = {{{true, false}, {true, false}}, {{false, true}, {false, true}}};
+     * Arrays.replaceIf(cube, b -> b == false, true);
+     * // cube is now: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param a the 3D boolean array to modify
+     * @param a the 3D boolean array to modify (can be null or empty)
      * @param predicate the condition to test each element
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
@@ -1870,9 +1978,16 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a 3D boolean array into a 1D boolean array.
-     * All elements from all sub-arrays are combined into a single array.
+     * All elements from all nested sub-arrays are combined into a single array in row-major order.
      *
-     * @param a the 3D boolean array to flatten
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] cube = {{{true, false}, {true}}, {{false, true}}};
+     * boolean[] flattened = Arrays.flatten(cube);
+     * // Result: {true, false, true, false, true}
+     * }</pre>
+     *
+     * @param a the 3D boolean array to flatten (can be null)
      * @return a 1D boolean array containing all elements, or empty array if input is null/empty
      */
     public static boolean[] flatten(final boolean[][][] a) {
@@ -1940,10 +2055,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a 3D boolean array, applies an operation to the flattened array, then sets the values back.
-     * This is useful for operations that need to be applied to all elements regardless of structure.
+     * This is useful for operations that need to be applied to all elements regardless of structure,
+     * such as sorting or bulk modifications. The original 3D structure is preserved.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
+     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr)); // Sorts all elements
+     * // cube's structure is preserved but elements are sorted
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation
-     * @param a the 3D boolean array to operate on
+     * @param a the 3D boolean array to operate on (can be null or empty)
      * @param op the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      */
@@ -4228,9 +4351,17 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a 2D byte array using the provided unary operator.
      * Each element in every sub-array is replaced with the result of applying the operator.
+     * This method modifies the array in-place, preserving the 2D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] matrix = {{1, 2}, {3, 4}};
+     * Arrays.updateAll(matrix, b -> (byte)(b * 2));
+     * // matrix is now: {{2, 4}, {6, 8}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator
-     * @param a the 2D byte array to update
+     * @param a the 2D byte array to update (can be null or empty)
      * @param operator the unary operator to apply to each element
      * @throws E if the operator throws an exception
      */
@@ -4247,9 +4378,17 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a 3D byte array using the provided unary operator.
      * Each element at all levels is replaced with the result of applying the operator.
+     * This method modifies the array in-place, preserving the 3D structure.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] cube = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+     * Arrays.updateAll(cube, b -> (byte)(b + 10));
+     * // cube is now: {{{11, 12}, {13, 14}}, {{15, 16}, {17, 18}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator
-     * @param a the 3D byte array to update
+     * @param a the 3D byte array to update (can be null or empty)
      * @param operator the unary operator to apply to each element
      * @throws E if the operator throws an exception
      */
@@ -4294,10 +4433,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces all elements in a 2D byte array that match the predicate with a new value.
-     * Elements that don't match the predicate remain unchanged.
+     * Elements that don't match the predicate remain unchanged. This method modifies the array
+     * in-place, traversing all sub-arrays.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] matrix = {{1, 2}, {3, 2}};
+     * Arrays.replaceIf(matrix, b -> b == 2, (byte)10);
+     * // matrix is now: {{1, 10}, {3, 10}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param a the 2D byte array to modify
+     * @param a the 2D byte array to modify (can be null or empty)
      * @param predicate the condition to test each element
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
@@ -4314,10 +4461,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces all elements in a 3D byte array that match the predicate with a new value.
-     * Elements that don't match the predicate remain unchanged.
+     * Elements that don't match the predicate remain unchanged. This method modifies the array
+     * in-place, traversing all nested sub-arrays.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] cube = {{{1, 2}, {3, 2}}, {{5, 2}, {7, 8}}};
+     * Arrays.replaceIf(cube, b -> b == 2, (byte)0);
+     * // cube is now: {{{1, 0}, {3, 0}}, {{5, 0}, {7, 8}}}
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param a the 3D byte array to modify
+     * @param a the 3D byte array to modify (can be null or empty)
      * @param predicate the condition to test each element
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
@@ -4371,9 +4526,16 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a 3D byte array into a 1D byte array.
-     * All elements from all sub-arrays are combined into a single array.
+     * All elements from all nested sub-arrays are combined into a single array in row-major order.
      *
-     * @param a the 3D byte array to flatten
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] cube = {{{1, 2}, {3}}, {{4, 5}}};
+     * byte[] flattened = Arrays.flatten(cube);
+     * // Result: {1, 2, 3, 4, 5}
+     * }</pre>
+     *
+     * @param a the 3D byte array to flatten (can be null)
      * @return a 1D byte array containing all elements, or empty array if input is null/empty
      */
     public static byte[] flatten(final byte[][][] a) {
@@ -4442,10 +4604,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Flattens a 3D byte array, applies an operation to the flattened array, then sets the values back.
-     * This is useful for operations that need to be applied to all elements regardless of structure.
+     * This is useful for operations that need to be applied to all elements regardless of structure,
+     * such as sorting or bulk modifications. The original 3D structure is preserved.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
+     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr)); // Sorts all elements
+     * // cube's structure is preserved but elements are sorted
+     * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation
-     * @param a the 3D byte array to operate on
+     * @param a the 3D byte array to operate on (can be null or empty)
      * @param op the operation to apply to the flattened array
      * @throws E if the operation throws an exception
      */
@@ -6300,10 +6470,17 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Calculates the total number of elements in a 3D short array.
-     * Handles null arrays and null sub-arrays at all levels gracefully.
+     * Handles null arrays and null sub-arrays at all levels gracefully by skipping them.
      *
-     * @param a the 3D array to count elements in
-     * @return the total number of elements across all sub-arrays
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[][][] cube = {{{1, 2}, {3, 4, 5}}, null, {{6, 7}}};
+     * long count = Arrays.totalCountOfElements(cube);
+     * // count will be 7 (2 + 3 + 0 + 2)
+     * }</pre>
+     *
+     * @param a the 3D array to count elements in (can be null)
+     * @return the total number of elements across all sub-arrays, or 0 if array is null/empty
      */
     public static long totalCountOfElements(final short[][][] a) {
         long count = 0;
@@ -11681,9 +11858,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 2D array of bytes to a 2D array of booleans.
+     * Each byte value greater than 0 is converted to true, otherwise false.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of bytes to convert.
-     * @return a new 2D boolean array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] bytes = {{1, 0}, {-1, 2}};
+     * boolean[][] bools = Arrays.toBoolean(bytes);
+     * // bools is {{true, false}, {false, true}}
+     * }</pre>
+     *
+     * @param a the 2D array of bytes to convert (can be null)
+     * @return a new 2D boolean array, or null if the input is null
      * @see #toBoolean(byte[])
      */
     @MayReturnNull
@@ -11704,9 +11890,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 3D array of bytes to a 3D array of booleans.
+     * Each byte value greater than 0 is converted to true, otherwise false.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of bytes to convert.
-     * @return a new 3D boolean array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] bytes = {{{1, 0}, {-1}}, {{2, 0}}};
+     * boolean[][][] bools = Arrays.toBoolean(bytes);
+     * // bools is {{{true, false}, {false}}, {{true, false}}}
+     * }</pre>
+     *
+     * @param a the 3D array of bytes to convert (can be null)
+     * @return a new 3D boolean array, or null if the input is null
      * @see #toBoolean(byte[][])
      */
     @MayReturnNull
@@ -11757,9 +11952,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 2D array of integers to a 2D array of booleans.
+     * Each integer value greater than 0 is converted to true, otherwise false.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of integers to convert.
-     * @return a new 2D boolean array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] ints = {{1, 0}, {-1, 5}};
+     * boolean[][] bools = Arrays.toBoolean(ints);
+     * // bools is {{true, false}, {false, true}}
+     * }</pre>
+     *
+     * @param a the 2D array of integers to convert (can be null)
+     * @return a new 2D boolean array, or null if the input is null
      * @see #toBoolean(int[])
      */
     @MayReturnNull
@@ -11780,9 +11984,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 3D array of integers to a 3D array of booleans.
+     * Each integer value greater than 0 is converted to true, otherwise false.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of integers to convert.
-     * @return a new 3D boolean array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][][] ints = {{{1, 0}, {-1}}, {{5, 0}}};
+     * boolean[][][] bools = Arrays.toBoolean(ints);
+     * // bools is {{{true, false}, {false}}, {{true, false}}}
+     * }</pre>
+     *
+     * @param a the 3D array of integers to convert (can be null)
+     * @return a new 3D boolean array, or null if the input is null
      * @see #toBoolean(int[][])
      */
     @MayReturnNull
@@ -11831,10 +12044,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of integers to a 2D array of chars.
+     * Converts a 2D array of integers to a 2D array of chars by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of integers to convert.
-     * @return a new 2D char array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] ints = {{65, 66}, {67, 68}};
+     * char[][] chars = Arrays.toChar(ints);
+     * // chars is {{'A', 'B'}, {'C', 'D'}}
+     * }</pre>
+     *
+     * @param a the 2D array of integers to convert (can be null)
+     * @return a new 2D char array, or null if the input is null
      * @see #toChar(int[])
      */
     @MayReturnNull
@@ -11854,10 +12075,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of integers to a 3D array of chars.
+     * Converts a 3D array of integers to a 3D array of chars by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of integers to convert.
-     * @return a new 3D char array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][][] ints = {{{65, 66}, {67}}, {{68, 69}}};
+     * char[][][] chars = Arrays.toChar(ints);
+     * // chars is {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}}
+     * }</pre>
+     *
+     * @param a the 3D array of integers to convert (can be null)
+     * @return a new 3D char array, or null if the input is null
      * @see #toChar(int[][])
      */
     @MayReturnNull
@@ -11908,9 +12137,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 2D array of booleans to a 2D array of bytes.
+     * True values become 1, false values become 0.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of booleans to convert.
-     * @return a new 2D byte array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] bools = {{true, false}, {true, true}};
+     * byte[][] bytes = Arrays.toByte(bools);
+     * // bytes is {{1, 0}, {1, 1}}
+     * }</pre>
+     *
+     * @param a the 2D array of booleans to convert (can be null)
+     * @return a new 2D byte array, or null if the input is null
      * @see #toByte(boolean[])
      */
     @MayReturnNull
@@ -11931,9 +12169,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 3D array of booleans to a 3D array of bytes.
+     * True values become 1, false values become 0.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of booleans to convert.
-     * @return a new 3D byte array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] bools = {{{true, false}, {true}}, {{false, false}}};
+     * byte[][][] bytes = Arrays.toByte(bools);
+     * // bytes is {{{1, 0}, {1}}, {{0, 0}}}
+     * }</pre>
+     *
+     * @param a the 3D array of booleans to convert (can be null)
+     * @return a new 3D byte array, or null if the input is null
      * @see #toByte(boolean[][])
      */
     @MayReturnNull
@@ -11982,10 +12229,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of shorts.
+     * Converts a 2D array of bytes to a 2D array of shorts by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of bytes to convert.
-     * @return a new 2D short array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] bytes = {{10, 20}, {30, 40}};
+     * short[][] shorts = Arrays.toShort(bytes);
+     * // shorts is {{10, 20}, {30, 40}}
+     * }</pre>
+     *
+     * @param a the 2D array of bytes to convert (can be null)
+     * @return a new 2D short array, or null if the input is null
      * @see #toShort(byte[])
      */
     @MayReturnNull
@@ -12005,10 +12260,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of shorts.
+     * Converts a 3D array of bytes to a 3D array of shorts by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of bytes to convert.
-     * @return a new 3D short array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
+     * short[][][] shorts = Arrays.toShort(bytes);
+     * // shorts is {{{10, 20}, {30}}, {{40, 50}}}
+     * }</pre>
+     *
+     * @param a the 3D array of bytes to convert (can be null)
+     * @return a new 3D short array, or null if the input is null
      * @see #toShort(byte[][])
      */
     @MayReturnNull
@@ -12059,9 +12322,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 2D array of booleans to a 2D array of integers.
+     * True values become 1, false values become 0.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of booleans to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] bools = {{true, false}, {true, true}};
+     * int[][] ints = Arrays.toInt(bools);
+     * // ints is {{1, 0}, {1, 1}}
+     * }</pre>
+     *
+     * @param a the 2D array of booleans to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(boolean[])
      */
     @MayReturnNull
@@ -12082,9 +12354,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Converts a 3D array of booleans to a 3D array of integers.
+     * True values become 1, false values become 0.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of booleans to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][][] bools = {{{true, false}, {true}}, {{false, false}}};
+     * int[][][] ints = Arrays.toInt(bools);
+     * // ints is {{{1, 0}, {1}}, {{0, 0}}}
+     * }</pre>
+     *
+     * @param a the 3D array of booleans to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(boolean[][])
      */
     @MayReturnNull
@@ -12133,10 +12414,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of chars to a 2D array of integers.
+     * Converts a 2D array of chars to a 2D array of integers by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of chars to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[][] chars = {{'A', 'B'}, {'C', 'D'}};
+     * int[][] ints = Arrays.toInt(chars);
+     * // ints is {{65, 66}, {67, 68}}
+     * }</pre>
+     *
+     * @param a the 2D array of chars to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(char[])
      */
     @MayReturnNull
@@ -12156,10 +12445,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of chars to a 3D array of integers.
+     * Converts a 3D array of chars to a 3D array of integers by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of chars to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[][][] chars = {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}};
+     * int[][][] ints = Arrays.toInt(chars);
+     * // ints is {{{65, 66}, {67}}, {{68, 69}}}
+     * }</pre>
+     *
+     * @param a the 3D array of chars to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(char[][])
      */
     @MayReturnNull
@@ -12208,10 +12505,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of integers.
+     * Converts a 2D array of bytes to a 2D array of integers by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of bytes to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] bytes = {{10, 20}, {30, 40}};
+     * int[][] ints = Arrays.toInt(bytes);
+     * // ints is {{10, 20}, {30, 40}}
+     * }</pre>
+     *
+     * @param a the 2D array of bytes to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(byte[])
      */
     @MayReturnNull
@@ -12231,10 +12536,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of integers.
+     * Converts a 3D array of bytes to a 3D array of integers by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of bytes to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
+     * int[][][] ints = Arrays.toInt(bytes);
+     * // ints is {{{10, 20}, {30}}, {{40, 50}}}
+     * }</pre>
+     *
+     * @param a the 3D array of bytes to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(byte[][])
      */
     @MayReturnNull
@@ -12283,10 +12596,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of shorts to a 2D array of integers.
+     * Converts a 2D array of shorts to a 2D array of integers by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of shorts to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[][] shorts = {{100, 200}, {300, 400}};
+     * int[][] ints = Arrays.toInt(shorts);
+     * // ints is {{100, 200}, {300, 400}}
+     * }</pre>
+     *
+     * @param a the 2D array of shorts to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(short[])
      */
     @MayReturnNull
@@ -12306,10 +12627,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of shorts to a 3D array of integers.
+     * Converts a 3D array of shorts to a 3D array of integers by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of shorts to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * short[][][] shorts = {{{100, 200}, {300}}, {{400, 500}}};
+     * int[][][] ints = Arrays.toInt(shorts);
+     * // ints is {{{100, 200}, {300}}, {{400, 500}}}
+     * }</pre>
+     *
+     * @param a the 3D array of shorts to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(short[][])
      */
     @MayReturnNull
@@ -12358,10 +12687,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of floats to a 2D array of integers.
+     * Converts a 2D array of floats to a 2D array of integers by casting (truncating).
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of floats to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * float[][] floats = {{1.1f, 2.9f}, {-3.5f, 4.2f}};
+     * int[][] ints = Arrays.toInt(floats);
+     * // ints is {{1, 2}, {-3, 4}}
+     * }</pre>
+     *
+     * @param a the 2D array of floats to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(float[])
      */
     @MayReturnNull
@@ -12381,10 +12718,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of floats to a 3D array of integers.
+     * Converts a 3D array of floats to a 3D array of integers by casting (truncating).
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of floats to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * float[][][] floats = {{{1.1f, 2.9f}, {3.5f}}, {{-4.2f, 5.8f}}};
+     * int[][][] ints = Arrays.toInt(floats);
+     * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
+     * }</pre>
+     *
+     * @param a the 3D array of floats to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(float[][])
      */
     @MayReturnNull
@@ -12433,10 +12778,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of doubles to a 2D array of integers.
+     * Converts a 2D array of doubles to a 2D array of integers by casting (truncating).
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of doubles to convert.
-     * @return a new 2D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][] doubles = {{1.1, 2.9}, {-3.5, 4.2}};
+     * int[][] ints = Arrays.toInt(doubles);
+     * // ints is {{1, 2}, {-3, 4}}
+     * }</pre>
+     *
+     * @param a the 2D array of doubles to convert (can be null)
+     * @return a new 2D integer array, or null if the input is null
      * @see #toInt(double[])
      */
     @MayReturnNull
@@ -12456,10 +12809,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of doubles to a 3D array of integers.
+     * Converts a 3D array of doubles to a 3D array of integers by casting (truncating).
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of doubles to convert.
-     * @return a new 3D integer array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][][] doubles = {{{1.1, 2.9}, {3.5}}, {{-4.2, 5.8}}};
+     * int[][][] ints = Arrays.toInt(doubles);
+     * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
+     * }</pre>
+     *
+     * @param a the 3D array of doubles to convert (can be null)
+     * @return a new 3D integer array, or null if the input is null
      * @see #toInt(double[][])
      */
     @MayReturnNull
@@ -12508,10 +12869,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of longs.
+     * Converts a 2D array of bytes to a 2D array of longs by casting.
+     * The 2D structure is preserved in the conversion.
      *
-     * @param a the 2D array of bytes to convert.
-     * @return a new 2D long array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][] bytes = {{10, 20}, {30, 40}};
+     * long[][] longs = Arrays.toLong(bytes);
+     * // longs is {{10L, 20L}, {30L, 40L}}
+     * }</pre>
+     *
+     * @param a the 2D array of bytes to convert (can be null)
+     * @return a new 2D long array, or null if the input is null
      * @see #toLong(byte[])
      */
     @MayReturnNull
@@ -12531,10 +12900,18 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of longs.
+     * Converts a 3D array of bytes to a 3D array of longs by casting.
+     * The 3D structure is preserved in the conversion.
      *
-     * @param a the 3D array of bytes to convert.
-     * @return a new 3D long array, or null if the input is null.
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * byte[][][] bytes = {{{10, 20}, {30}}, {{40, 50}}};
+     * long[][][] longs = Arrays.toLong(bytes);
+     * // longs is {{{10L, 20L}, {30L}}, {{40L, 50L}}}
+     * }</pre>
+     *
+     * @param a the 3D array of bytes to convert (can be null)
+     * @return a new 3D long array, or null if the input is null
      * @see #toLong(byte[][])
      */
     @MayReturnNull
@@ -13732,9 +14109,15 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * A placeholder utility class that extends {@code com.landawn.abacus.util.Arrays}.
-     * This class is intended to be a part of a larger utility suite but does not define
-     * any methods of its own. It is marked with {@code SuppressFBWarnings} for its naming convention.
+     * A utility class that extends {@code com.landawn.abacus.util.Arrays} providing additional
+     * mapping methods for object arrays. This class is marked with {@code SuppressFBWarnings} for its naming convention.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * String[] strings = {"1", "2", "3"};
+     * Integer[] ints = Arrays.f.map(strings, Integer::valueOf, Integer.class);
+     * // Result: [1, 2, 3]
+     * }</pre>
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class f extends com.landawn.abacus.util.Arrays { // NOSONAR
@@ -13744,18 +14127,19 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a new type using the provided mapping function.
+         * This is a convenience method for transforming object arrays.
          *
-         * <p>Example:
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] strings = {"1", "2", "3"};
-         * Integer[] ints = Arrays.map(strings, Integer::valueOf, Integer.class);
+         * Integer[] ints = Arrays.f.map(strings, Integer::valueOf, Integer.class);
          * // Result: [1, 2, 3]
          * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <R> the type of elements in the result array
          * @param <E> the type of exception that the mapping function may throw
-         * @param a the input array to map
+         * @param a the input array to map (can be null)
          * @param func the mapping function to apply to each element
          * @param targetElementType the class of the target element type
          * @return a new array containing the mapped elements, or null if input is null
@@ -13780,17 +14164,18 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a boolean value using the provided function.
+         * This is a convenience method for transforming object arrays to boolean arrays.
          *
-         * <p>Example:
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] words = {"hello", "hi", "world"};
-         * boolean[] longWords = Arrays.mapToBoolean(words, s -> s.length() > 3);
+         * boolean[] longWords = Arrays.f.mapToBoolean(words, s -> s.length() > 3);
          * // Result: [true, false, true]
          * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
-         * @param a the input array to map
+         * @param a the input array to map (can be null)
          * @param func the function that maps each element to a boolean
          * @return a boolean array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
@@ -13813,17 +14198,18 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a char value using the provided function.
+         * This is a convenience method for transforming object arrays to char arrays.
          *
-         * <p>Example:
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] words = {"apple", "banana", "cherry"};
-         * char[] firstChars = Arrays.mapToChar(words, s -> s.charAt(0));
+         * char[] firstChars = Arrays.f.mapToChar(words, s -> s.charAt(0));
          * // Result: ['a', 'b', 'c']
          * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
-         * @param a the input array to map
+         * @param a the input array to map (can be null)
          * @param func the function that maps each element to a char
          * @return a char array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
@@ -13846,10 +14232,18 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a byte value using the provided function.
+         * This is a convenience method for transforming object arrays to byte arrays.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * String[] numbers = {"10", "20", "30"};
+         * byte[] bytes = Arrays.f.mapToByte(numbers, Byte::parseByte);
+         * // Result: [10, 20, 30]
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
-         * @param a the input array to map
+         * @param a the input array to map (can be null)
          * @param func the function that maps each element to a byte
          * @return a byte array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
@@ -13872,10 +14266,18 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a short value using the provided function.
+         * This is a convenience method for transforming object arrays to short arrays.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * String[] numbers = {"100", "200", "300"};
+         * short[] shorts = Arrays.f.mapToShort(numbers, Short::parseShort);
+         * // Result: [100, 200, 300]
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
-         * @param a the input array to map
+         * @param a the input array to map (can be null)
          * @param func the function that maps each element to a short
          * @return a short array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception

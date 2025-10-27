@@ -116,6 +116,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Creates a ShortTuple4 containing four short values.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple4 quad = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * }</pre>
+     *
      * @param _1 the first short value
      * @param _2 the second short value
      * @param _3 the third short value
@@ -128,6 +133,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a ShortTuple5 containing five short values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple5 quintuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5);
+     * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value
@@ -143,6 +153,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Creates a ShortTuple6 containing six short values.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple6 sextuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6);
+     * }</pre>
+     *
      * @param _1 the first short value
      * @param _2 the second short value
      * @param _3 the third short value
@@ -157,6 +172,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a ShortTuple7 containing seven short values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple7 septuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5, (short)6, (short)7);
+     * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value

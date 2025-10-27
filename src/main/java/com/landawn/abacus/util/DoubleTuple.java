@@ -183,7 +183,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple8 containing eight double values.
-     * 
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+     * double first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
@@ -203,7 +209,13 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple9 containing nine double values.
-     * 
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+     * double first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value

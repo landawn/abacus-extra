@@ -59,11 +59,24 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Constructs a DoubleMatrix from a 2D double array.
-     * If the input array is null, an empty matrix (0x0) is created.
-     * <p><b>Note:</b> The array is used directly without copying. Modifications to the input array
-     * after construction will affect the matrix, and vice versa.</p>
      *
-     * @param a the 2D double array to wrap as a matrix. Can be null.
+     * <p>The provided array is used directly as the internal storage without copying.
+     * If the input array is null, an empty matrix (0x0) is created instead.
+     *
+     * <p><b>Important:</b> Since the array is not copied, any external modifications
+     * to the array will affect this matrix. For a safe copy, use {@link #of(double[][])} instead.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
+     * DoubleMatrix matrix = new DoubleMatrix(data);
+     * // matrix.rows() returns 2, matrix.cols() returns 2
+     *
+     * DoubleMatrix empty = new DoubleMatrix(null);
+     * // empty.rows() returns 0, empty.cols() returns 0
+     * }</pre>
+     *
+     * @param a the 2D double array to wrap, or null for an empty matrix
      */
     public DoubleMatrix(final double[][] a) {
         super(a == null ? new double[0][0] : a);

@@ -107,6 +107,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a LongTuple4 with four elements.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
+     * }</pre>
+     *
      * @param _1 the first element
      * @param _2 the second element
      * @param _3 the third element
@@ -119,6 +124,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple5 with five elements.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple5 quintuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * }</pre>
      *
      * @param _1 the first element
      * @param _2 the second element
@@ -133,6 +143,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple6 with six elements.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple6 sextuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+     * }</pre>
      *
      * @param _1 the first element
      * @param _2 the second element
@@ -149,6 +164,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a LongTuple7 with seven elements.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple7 septuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+     * }</pre>
+     *
      * @param _1 the first element
      * @param _2 the second element
      * @param _3 the third element
@@ -164,6 +184,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple8 with eight elements.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple8 octuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+     * }</pre>
      *
      * @param _1 the first element
      * @param _2 the second element
@@ -183,6 +208,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a LongTuple9 with nine elements.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongTuple9 nonuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+     * }</pre>
      *
      * @param _1 the first element
      * @param _2 the second element
