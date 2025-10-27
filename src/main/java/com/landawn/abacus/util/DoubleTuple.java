@@ -31,14 +31,20 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *   <li>Statistical operations (min, max, median, sum, average)</li>
  * </ul>
  *
- * <p><b>Constructor:</b> The default constructor is implicitly provided for subclass implementation.
- * External code should use the static factory methods {@link #of(double)} through {@link #of(double, double, double, double, double, double, double, double, double)}
- * to create tuple instances.</p>
- *
  * @param <TP> The specific DoubleTuple subtype for fluent method chaining
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
+
+    /**
+     * Protected constructor for subclass instantiation.
+     * <p>
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link DoubleTuple1#of(double)}, {@link DoubleTuple2#of(double, double)}, etc.,
+     * to create tuple instances.
+     */
+    protected DoubleTuple() {
+    }
 
     protected double[] elements;
 

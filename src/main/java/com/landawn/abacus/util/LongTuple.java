@@ -36,10 +36,6 @@ import com.landawn.abacus.util.stream.LongStream;
  * LongTuple3 reversed = coords.reverse();  // (300, 200, 100)
  * }</pre>
  *
- * <p><b>Constructor:</b></p>
- * The default constructor is package-private and used by subclasses to initialize
- * the tuple hierarchy. Use the static factory methods {@link #of} to create instances.
- *
  * @param <TP> the specific LongTuple type
  * @see LongTuple1
  * @see LongTuple2
@@ -47,6 +43,16 @@ import com.landawn.abacus.util.stream.LongStream;
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple<TP> {
+
+    /**
+     * Protected constructor for subclass instantiation.
+     * <p>
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link LongTuple#of(long)}, {@link LongTuple#of(long, long)}, etc.,
+     * to create tuple instances.
+     */
+    protected LongTuple() {
+    }
 
     protected long[] elements;
 

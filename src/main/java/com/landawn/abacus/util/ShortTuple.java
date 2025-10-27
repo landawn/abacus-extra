@@ -41,10 +41,6 @@ import com.landawn.abacus.util.stream.ShortStream;
  * int sum = tuple.sum(); // 6
  * }</pre>
  *
- * <p><b>Constructor:</b></p>
- * The default constructor is package-private and used by subclasses to initialize
- * the tuple hierarchy. Use the static factory methods {@link #of} to create instances.
- *
  * @param <TP> the specific ShortTuple subtype for method chaining
  * @see ShortTuple1
  * @see ShortTuple2
@@ -52,6 +48,16 @@ import com.landawn.abacus.util.stream.ShortStream;
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTuple<TP> {
+
+    /**
+     * Protected constructor for subclass instantiation.
+     * <p>
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link ShortTuple1#of(short)}, {@link ShortTuple2#of(short, short)}, etc.,
+     * to create tuple instances.
+     */
+    protected ShortTuple() {
+    }
 
     protected short[] elements;
 
