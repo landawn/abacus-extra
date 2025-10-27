@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 import java.math.RoundingMode;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
@@ -235,6 +236,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -271,6 +273,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -307,6 +310,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -342,6 +346,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
@@ -378,6 +383,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -414,6 +420,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -449,6 +456,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
@@ -485,6 +493,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -521,6 +530,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -556,6 +566,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -592,6 +603,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -628,6 +640,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -662,6 +675,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
@@ -698,6 +712,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -734,6 +749,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -769,6 +785,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (a == null) {
@@ -805,6 +822,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -841,6 +859,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -876,6 +895,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -912,6 +932,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -948,6 +969,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D object array containing the mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -983,6 +1005,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an array of type T with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -1018,6 +1041,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D array of type T with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -1053,6 +1077,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D array of type T with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (a == null) {
@@ -1086,6 +1111,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1118,6 +1144,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1150,6 +1177,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1182,6 +1210,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1214,6 +1243,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1246,6 +1276,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1278,6 +1309,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1303,6 +1335,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1328,6 +1361,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1353,6 +1387,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1378,6 +1413,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1410,6 +1446,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D double array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1442,6 +1479,7 @@ public sealed class Arrays permits Arrays.f {
      * @return an int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1467,6 +1505,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1492,6 +1531,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D int array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1517,6 +1557,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1542,6 +1583,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 2D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -1567,6 +1609,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a 3D long array with mapped values, or null if input is null
      * @throws E if the mapper function throws an exception
      */
+    @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (a == null) {
             return null; // NOSONAR
@@ -11620,6 +11663,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of bytes to convert.
      * @return a new boolean array, or null if the input is null.
      */
+    @MayReturnNull
     public static boolean[] toBoolean(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11642,6 +11686,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D boolean array, or null if the input is null.
      * @see #toBoolean(byte[])
      */
+    @MayReturnNull
     public static boolean[][] toBoolean(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11664,6 +11709,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D boolean array, or null if the input is null.
      * @see #toBoolean(byte[][])
      */
+    @MayReturnNull
     public static boolean[][][] toBoolean(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11693,6 +11739,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of integers to convert.
      * @return a new boolean array, or null if the input is null.
      */
+    @MayReturnNull
     public static boolean[] toBoolean(final int[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11715,6 +11762,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D boolean array, or null if the input is null.
      * @see #toBoolean(int[])
      */
+    @MayReturnNull
     public static boolean[][] toBoolean(final int[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11737,6 +11785,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D boolean array, or null if the input is null.
      * @see #toBoolean(int[][])
      */
+    @MayReturnNull
     public static boolean[][][] toBoolean(final int[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11765,6 +11814,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of integers to convert.
      * @return a new char array, or null if the input is null.
      */
+    @MayReturnNull
     public static char[] toChar(final int[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11787,6 +11837,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D char array, or null if the input is null.
      * @see #toChar(int[])
      */
+    @MayReturnNull
     public static char[][] toChar(final int[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11809,6 +11860,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D char array, or null if the input is null.
      * @see #toChar(int[][])
      */
+    @MayReturnNull
     public static char[][][] toChar(final int[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11838,6 +11890,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of booleans to convert.
      * @return a new byte array, or null if the input is null.
      */
+    @MayReturnNull
     public static byte[] toByte(final boolean[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11860,6 +11913,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D byte array, or null if the input is null.
      * @see #toByte(boolean[])
      */
+    @MayReturnNull
     public static byte[][] toByte(final boolean[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11882,6 +11936,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D byte array, or null if the input is null.
      * @see #toByte(boolean[][])
      */
+    @MayReturnNull
     public static byte[][][] toByte(final boolean[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11910,6 +11965,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of bytes to convert.
      * @return a new short array, or null if the input is null.
      */
+    @MayReturnNull
     public static short[] toShort(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11932,6 +11988,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D short array, or null if the input is null.
      * @see #toShort(byte[])
      */
+    @MayReturnNull
     public static short[][] toShort(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11954,6 +12011,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D short array, or null if the input is null.
      * @see #toShort(byte[][])
      */
+    @MayReturnNull
     public static short[][][] toShort(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -11983,6 +12041,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of booleans to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final boolean[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12005,6 +12064,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(boolean[])
      */
+    @MayReturnNull
     public static int[][] toInt(final boolean[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12027,6 +12087,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(boolean[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final boolean[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12055,6 +12116,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of chars to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final char[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12077,6 +12139,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(char[])
      */
+    @MayReturnNull
     public static int[][] toInt(final char[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12099,6 +12162,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(char[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final char[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12127,6 +12191,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of bytes to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12149,6 +12214,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(byte[])
      */
+    @MayReturnNull
     public static int[][] toInt(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12171,6 +12237,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(byte[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12199,6 +12266,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of shorts to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final short[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12221,6 +12289,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(short[])
      */
+    @MayReturnNull
     public static int[][] toInt(final short[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12243,6 +12312,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(short[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final short[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12271,6 +12341,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of floats to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final float[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12293,6 +12364,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(float[])
      */
+    @MayReturnNull
     public static int[][] toInt(final float[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12315,6 +12387,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(float[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final float[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12343,6 +12416,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of doubles to convert.
      * @return a new integer array, or null if the input is null.
      */
+    @MayReturnNull
     public static int[] toInt(final double[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12365,6 +12439,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D integer array, or null if the input is null.
      * @see #toInt(double[])
      */
+    @MayReturnNull
     public static int[][] toInt(final double[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12387,6 +12462,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D integer array, or null if the input is null.
      * @see #toInt(double[][])
      */
+    @MayReturnNull
     public static int[][][] toInt(final double[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12415,6 +12491,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the array of bytes to convert.
      * @return a new long array, or null if the input is null.
      */
+    @MayReturnNull
     public static long[] toLong(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12437,6 +12514,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 2D long array, or null if the input is null.
      * @see #toLong(byte[])
      */
+    @MayReturnNull
     public static long[][] toLong(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12459,6 +12537,7 @@ public sealed class Arrays permits Arrays.f {
      * @return a new 3D long array, or null if the input is null.
      * @see #toLong(byte[][])
      */
+    @MayReturnNull
     public static long[][][] toLong(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12488,6 +12567,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[] toLong(final short[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12517,6 +12597,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][] toLong(final short[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12546,6 +12627,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][][] toLong(final short[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12575,6 +12657,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[] toLong(final int[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12604,6 +12687,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][] toLong(final int[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12633,6 +12717,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][][] toLong(final int[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12662,6 +12747,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[] toLong(final float[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12691,6 +12777,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][] toLong(final float[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12720,6 +12807,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][][] toLong(final float[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12749,6 +12837,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[] toLong(final double[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12778,6 +12867,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][] toLong(final double[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12807,6 +12897,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code double} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static long[][][] toLong(final double[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12836,6 +12927,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[] toFloat(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12865,6 +12957,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][] toFloat(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12894,6 +12987,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][][] toFloat(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12923,6 +13017,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[] toFloat(final short[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12952,6 +13047,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][] toFloat(final short[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -12981,6 +13077,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][][] toFloat(final short[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13010,6 +13107,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[] toFloat(final int[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13039,6 +13137,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][] toFloat(final int[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13068,6 +13167,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][][] toFloat(final int[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13097,6 +13197,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[] toFloat(final long[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13126,6 +13227,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][] toFloat(final long[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13155,6 +13257,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static float[][][] toFloat(final long[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13184,6 +13287,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[] toDouble(final byte[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13213,6 +13317,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][] toDouble(final byte[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13242,6 +13347,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][][] toDouble(final byte[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13271,6 +13377,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[] toDouble(final short[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13300,6 +13407,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][] toDouble(final short[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13329,6 +13437,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][][] toDouble(final short[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13358,6 +13467,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[] toDouble(final int[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13387,6 +13497,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][] toDouble(final int[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13416,6 +13527,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][][] toDouble(final int[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13445,6 +13557,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[] toDouble(final long[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13474,6 +13587,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][] toDouble(final long[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13503,6 +13617,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][][] toDouble(final long[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13532,6 +13647,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[] toDouble(final float[] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13561,6 +13677,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][] toDouble(final float[][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13590,6 +13707,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
      * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
      */
+    @MayReturnNull
     public static double[][][] toDouble(final float[][][] a) {
         if (a == null) {
             return null; // NOSONAR
@@ -13643,6 +13761,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new array containing the mapped elements, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (a == null) {
@@ -13676,6 +13795,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a boolean array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13708,6 +13828,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a char array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13733,6 +13854,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a byte array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13758,6 +13880,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a short array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13790,6 +13913,7 @@ public sealed class Arrays permits Arrays.f {
          * @return an int array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13815,6 +13939,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a long array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13840,6 +13965,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a float array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -13865,6 +13991,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a double array containing the mapped values, or null if input is null
          * @throws E if the mapping function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14126,6 +14253,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with mapped elements, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14157,6 +14285,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional array with transformed elements, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (a == null) {
@@ -14191,6 +14320,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional boolean array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14224,6 +14354,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional char array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14257,6 +14388,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional byte array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14290,6 +14422,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional short array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14323,6 +14456,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional int array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14356,6 +14490,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional long array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14389,6 +14524,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional float array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -14422,6 +14558,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new two-dimensional double array, or null if input is null
          * @throws E if the function throws an exception during mapping
          */
+        @MayReturnNull
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15250,6 +15387,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new array with mapped elements, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15283,6 +15421,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new array with transformed elements, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (a == null) {
@@ -15321,6 +15460,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new boolean array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15357,6 +15497,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new char array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15394,6 +15535,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new byte array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15431,6 +15573,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new short array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15468,6 +15611,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new int array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15505,6 +15649,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new long array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15542,6 +15687,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new float array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR
@@ -15579,6 +15725,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new double array, or null if input is null
          * @throws E if the function throws an exception
          */
+        @MayReturnNull
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null; // NOSONAR

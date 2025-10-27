@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.util;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 
 /**
@@ -156,6 +157,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @return the result of applying the mapper function to this tuple
      * @throws E if the mapper function throws an exception during execution if the mapper is {@code null}
      */
+    @MayReturnNull
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
         return mapper.apply((TP) this);
     }

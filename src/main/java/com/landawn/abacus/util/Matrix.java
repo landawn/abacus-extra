@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Arrays.ff;
 import com.landawn.abacus.util.Sheet.Point;
@@ -352,7 +353,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Gets the element at the specified row and column.
      * Row and column indices are 0-based.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
@@ -365,6 +366,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return the element at position (i, j)
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
+    @MayReturnNull
     public T get(final int i, final int j) {
         return a[i][j];
     }
@@ -384,6 +386,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      * @throws IllegalArgumentException if point is null
      */
+    @MayReturnNull
     public T get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
     }
