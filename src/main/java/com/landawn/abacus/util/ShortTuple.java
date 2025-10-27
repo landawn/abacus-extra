@@ -24,7 +24,7 @@ import com.landawn.abacus.util.stream.ShortStream;
  * Abstract base class for immutable tuples containing primitive short values.
  * This class provides a type-safe way to work with fixed-size collections of short values
  * with compile-time size guarantees.
- * 
+ *
  * <p>ShortTuple and its subclasses offer:
  * <ul>
  *   <li>Immutable storage for 0-9 short values</li>
@@ -33,14 +33,18 @@ import com.landawn.abacus.util.stream.ShortStream;
  *   <li>Functional operations (forEach, stream, map, filter)</li>
  *   <li>Utility methods (reverse, contains, toArray, toList)</li>
  * </ul>
- * 
+ *
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
  * short min = tuple.min(); // 1
  * int sum = tuple.sum(); // 6
  * }</pre>
- * 
+ *
+ * <p><b>Constructor:</b></p>
+ * The default constructor is package-private and used by subclasses to initialize
+ * the tuple hierarchy. Use the static factory methods {@link #of} to create instances.
+ *
  * @param <TP> the specific ShortTuple subtype for method chaining
  * @see ShortTuple1
  * @see ShortTuple2

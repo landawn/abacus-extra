@@ -22,7 +22,7 @@ import com.landawn.abacus.util.stream.FloatStream;
 /**
  * Abstract base class for immutable tuples containing float primitive values.
  * This class provides a type-safe way to work with fixed-size collections of float values.
- * 
+ *
  * <p>FloatTuple and its subclasses offer:</p>
  * <ul>
  *   <li>Type safety for float collections of known size</li>
@@ -30,7 +30,11 @@ import com.landawn.abacus.util.stream.FloatStream;
  *   <li>Convenient factory methods and utilities</li>
  *   <li>Statistical operations (min, max, median, sum, average)</li>
  * </ul>
- * 
+ *
+ * <p><b>Constructor:</b> The default constructor is implicitly provided for subclass implementation.
+ * External code should use the static factory methods {@link #of(float)} through {@link #of(float, float, float, float, float, float, float, float, float)}
+ * to create tuple instances.</p>
+ *
  * @param <TP> The specific FloatTuple subtype for fluent method chaining
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })

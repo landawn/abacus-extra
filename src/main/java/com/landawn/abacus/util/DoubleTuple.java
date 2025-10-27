@@ -22,7 +22,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
 /**
  * Abstract base class for immutable tuples containing double primitive values.
  * This class provides a type-safe way to work with fixed-size collections of double values.
- * 
+ *
  * <p>DoubleTuple and its subclasses offer:</p>
  * <ul>
  *   <li>Type safety for double collections of known size</li>
@@ -30,7 +30,11 @@ import com.landawn.abacus.util.stream.DoubleStream;
  *   <li>Convenient factory methods and utilities</li>
  *   <li>Statistical operations (min, max, median, sum, average)</li>
  * </ul>
- * 
+ *
+ * <p><b>Constructor:</b> The default constructor is implicitly provided for subclass implementation.
+ * External code should use the static factory methods {@link #of(double)} through {@link #of(double, double, double, double, double, double, double, double, double)}
+ * to create tuple instances.</p>
+ *
  * @param <TP> The specific DoubleTuple subtype for fluent method chaining
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })

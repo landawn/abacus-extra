@@ -37,6 +37,13 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected char[] elements;
 
     /**
+     * Constructor for subclasses.
+     * This constructor is protected to prevent direct instantiation of the abstract class.
+     */
+    protected CharTuple() {
+    }
+
+    /**
      * Creates a CharTuple1 containing a single char value.
      * 
      * <p><b>Usage Examples:</b></p>

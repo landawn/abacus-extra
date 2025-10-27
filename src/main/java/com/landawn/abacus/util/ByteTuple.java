@@ -37,6 +37,13 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     protected byte[] elements;
 
     /**
+     * Constructor for subclasses.
+     * This constructor is protected to prevent direct instantiation of the abstract class.
+     */
+    protected ByteTuple() {
+    }
+
+    /**
      * Creates a ByteTuple1 containing a single byte value.
      * 
      * <p><b>Usage Examples:</b></p>

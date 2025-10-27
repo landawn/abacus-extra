@@ -35,6 +35,13 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
     protected boolean[] elements;
 
     /**
+     * Constructor for subclasses.
+     * This constructor is protected to prevent direct instantiation of the abstract class.
+     */
+    protected BooleanTuple() {
+    }
+
+    /**
      * Creates a BooleanTuple1 containing a single boolean value.
      * 
      * <p><b>Usage Examples:</b></p>
