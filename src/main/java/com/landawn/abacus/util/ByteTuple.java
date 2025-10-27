@@ -180,6 +180,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Creates a ByteTuple8 containing eight byte values.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple8 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8);
+     * byte first = tuple._1;
+     * }</pre>
+     *
      * @param _1 the first byte value
      * @param _2 the second byte value
      * @param _3 the third byte value
@@ -198,6 +204,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple9 containing nine byte values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple9 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9);
+     * byte first = tuple._1;
+     * }</pre>
      *
      * @param _1 the first byte value
      * @param _2 the second byte value

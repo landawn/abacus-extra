@@ -14300,8 +14300,10 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to an int value using the provided function.
+         * This method transforms an object array into a primitive int array by applying
+         * the provided function to each element.
          *
-         * <p>Example:
+         * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] numbers = {"10", "20", "30"};
          * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
@@ -14333,6 +14335,15 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a long value using the provided function.
+         * This method transforms an object array into a primitive long array by applying
+         * the provided function to each element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * String[] numbers = {"1000", "2000", "3000"};
+         * long[] longs = Arrays.mapToLong(numbers, Long::parseLong);
+         * // Result: [1000L, 2000L, 3000L]
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
@@ -14359,6 +14370,15 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a float value using the provided function.
+         * This method transforms an object array into a primitive float array by applying
+         * the provided function to each element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * String[] numbers = {"1.5", "2.5", "3.5"};
+         * float[] floats = Arrays.mapToFloat(numbers, Float::parseFloat);
+         * // Result: [1.5f, 2.5f, 3.5f]
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw
@@ -14385,6 +14405,15 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Maps each element of the input array to a double value using the provided function.
+         * This method transforms an object array into a primitive double array by applying
+         * the provided function to each element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * String[] numbers = {"1.5", "2.5", "3.5"};
+         * double[] doubles = Arrays.mapToDouble(numbers, Double::parseDouble);
+         * // Result: [1.5, 2.5, 3.5]
+         * }</pre>
          *
          * @param <T> the type of elements in the input array
          * @param <E> the type of exception that the mapping function may throw

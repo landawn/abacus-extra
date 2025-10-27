@@ -92,6 +92,15 @@ public final class Matrixes {
      * <li>{@link ParallelEnabled#DEFAULT} - Automatically decides based on matrix size (threshold: 8192 elements)</li>
      * </ul>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ParallelEnabled current = Matrixes.getParallelEnabled();
+     * // Check current setting before changing it
+     * if (current == ParallelEnabled.DEFAULT) {
+     *     Matrixes.setParallelEnabled(ParallelEnabled.YES);
+     * }
+     * }</pre>
+     *
      * @return the current {@link ParallelEnabled} setting for this thread, never {@code null}
      * @see #setParallelEnabled(ParallelEnabled)
      * @see ParallelEnabled
@@ -156,6 +165,14 @@ public final class Matrixes {
      * <p>This is a convenience method that delegates to {@link #isParallelable(AbstractMatrix, long)}
      * using the matrix's total element count.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[1000][1000]);
+     * if (Matrixes.isParallelable(matrix)) {
+     *     // Matrix is large enough for parallel processing
+     * }
+     * }</pre>
+     *
      * @param x the matrix to evaluate for parallelization, must not be {@code null}
      * @return {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
      * @see #isParallelable(AbstractMatrix, long)
@@ -184,6 +201,13 @@ public final class Matrixes {
      *     {@code count >= 8192}. This threshold balances the overhead of parallel execution
      *     against the performance benefits for larger datasets.</li>
      * </ol>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[100][100]);
+     * boolean shouldParallelize = Matrixes.isParallelable(matrix, 5000);
+     * // Returns true only if settings allow and count >= 8192
+     * }</pre>
      *
      * @param x the matrix being evaluated (reserved for future extensibility, currently not used in the decision logic)
      * @param count the number of elements to process; typically the total element count or a subset being operated on
@@ -230,6 +254,14 @@ public final class Matrixes {
      * number of rows AND the same number of columns. This method is commonly used to
      * validate inputs for ternary matrix operations.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{9, 10}, {11, 12}});
+     * boolean same = Matrixes.isSameShape(m1, m2, m3); // true
+     * }</pre>
+     *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix to compare, must not be {@code null}
      * @param b the second matrix to compare, must not be {@code null}
@@ -254,6 +286,14 @@ public final class Matrixes {
      * <li>Single matrix: Returns {@code true} (trivially same shape)</li>
      * <li>Multiple matrices: Returns {@code true} only if all have identical dimensions</li>
      * </ul>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3, m4);
+     * if (Matrixes.isSameShape(matrices)) {
+     *     // All matrices have the same dimensions
+     * }
+     * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param xs the collection of matrices to check, may be {@code null} or empty
@@ -423,6 +463,13 @@ public final class Matrixes {
      *     remains sequential</li>
      * </ul>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Process a subregion of a matrix
+     * int[][] result = new int[10][10];
+     * Matrixes.run(2, 5, 3, 8, (i, j) -> result[i][j] = i + j, false);
+     * }</pre>
+     *
      * @param <E> the type of exception that the command might throw
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
      * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
@@ -523,6 +570,13 @@ public final class Matrixes {
      * <li>If rows > columns: Elements are ordered by columns first (column-major order)</li>
      * </ul>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * Stream<String> coords = Matrixes.call(1, 4, 2, 5,
+     *     (i, j) -> i + "," + j, false);
+     * // Generates coordinates for subregion
+     * }</pre>
+     *
      * @param <T> the type of elements in the result stream
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
      * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
@@ -585,6 +639,12 @@ public final class Matrixes {
      * {@link #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)} with the
      * full range of rows and columns (starting from 0).</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntStream sums = Matrixes.callToInt(3, 4, (i, j) -> i + j, false);
+     * // Generates sum of indices for each position
+     * }</pre>
+     *
      * @param rows the number of rows to iterate over, must be non-negative
      * @param cols the number of columns to iterate over, must be non-negative
      * @param cmd the function to apply at each position (i, j), receives row index and column index
@@ -607,6 +667,12 @@ public final class Matrixes {
      *
      * <p>The iteration order is automatically optimized based on the relative sizes of the row
      * and column ranges to improve cache locality and performance.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntStream products = Matrixes.callToInt(1, 4, 2, 5,
+     *     (i, j) -> i * j, false);
+     * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
      * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
@@ -719,6 +785,13 @@ public final class Matrixes {
      *
      * <p>When parallel execution is enabled, the outermost loop is parallelized while inner
      * loops remain sequential for better performance.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * double[][] result = new double[a.rows()][b.cols()];
+     * Matrixes.multiply(a, b, (i, j, k) ->
+     *     result[i][j] += a.get(i, k) * b.get(k, j), true);
+     * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix (left operand), must not be {@code null}
@@ -903,6 +976,14 @@ public final class Matrixes {
      * <p>All three matrices must have identical dimensions (same number of rows and columns).
      * The operation delegates to the {@link ByteMatrix#zipWith} method.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteMatrix m1 = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
+     * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{5, 6}, {7, 8}});
+     * ByteMatrix m3 = ByteMatrix.of(new byte[][] {{10, 20}, {30, 40}});
+     * ByteMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (byte)(a + b + c));
+     * }</pre>
+     *
      * @param <E> the type of exception that the zip function might throw
      * @param a the first matrix, must not be {@code null}
      * @param b the second matrix, must not be {@code null} and must have the same shape as {@code a}
@@ -997,6 +1078,13 @@ public final class Matrixes {
      * {@link #zip(Collection, Throwables.ByteNFunction, boolean, Class)} with
      * {@code shareIntermediateArray = false}.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * Matrix<Double> avg = Matrixes.zip(matrices,
+     *     arr -> Arrays.stream(arr).average().orElse(0.0), Double.class);
+     * }</pre>
+     *
      * @param <R> the type of elements in the result matrix
      * @param <E> the type of exception that the zip function might throw
      * @param c the collection of matrices to combine, must not be {@code null} or empty
@@ -1028,6 +1116,13 @@ public final class Matrixes {
      * <p><b>Warning:</b> When {@code shareIntermediateArray} is {@code true}, the zip function must NOT
      * store references to the array, as it will be mutated for subsequent positions. Only use this
      * optimization if the function immediately processes and discards the array.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * Matrix<String> hex = Matrixes.zip(matrices,
+     *     arr -> Integer.toHexString(arr[0] ^ arr[1] ^ arr[2]), true, String.class);
+     * }</pre>
      *
      * @param <R> the type of elements in the result matrix
      * @param <E> the type of exception that the zip function might throw
@@ -2060,6 +2155,13 @@ public final class Matrixes {
      *
      * <p>All matrices in the collection must have identical dimensions.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * Matrix<BigInteger> sums = Matrixes.zip(matrices,
+     *     arr -> BigInteger.valueOf(Arrays.stream(arr).sum()), true, BigInteger.class);
+     * }</pre>
+     *
      * @param <R> the type of elements in the result matrix
      * @param <E> the type of exception that the zip function might throw
      * @param c the collection of matrices to combine, must not be {@code null} or empty
@@ -2227,6 +2329,15 @@ public final class Matrixes {
      *
      * <p><b>Warning:</b> When {@code shareIntermediateArray} is {@code true}, the zip function must NOT
      * store references to the array.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * DoubleMatrix variance = Matrixes.zipToDouble(matrices, arr -> {
+     *     double mean = Arrays.stream(arr).average().orElse(0);
+     *     return Arrays.stream(arr).mapToDouble(v -> Math.pow(v - mean, 2)).average().orElse(0);
+     * }, true);
+     * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
      * @param c the collection of matrices to combine, must not be {@code null} or empty
