@@ -140,7 +140,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Creates: [["X", "X", "X", "X", "X"]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param element the element to repeat (must not be null)
      * @param len the number of columns
      * @return a 1×len matrix filled with the element
@@ -170,7 +170,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Creates: [[null, null, null]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param element the element to repeat (can be null)
      * @param len the number of columns
      * @param elementClass the class of the element type
@@ -200,7 +200,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Creates: [[42, 42, 42, 42]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param element the element to repeat (must not be null)
      * @param len the number of columns
      * @return a 1×len matrix filled with the element
@@ -228,7 +228,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * //           [null, "B"]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param leftUp2RightDownDiagonal the diagonal values
      * @return a square matrix with the given diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
@@ -253,7 +253,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * //           ["Y", null]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param rightUp2LeftDownDiagonal the anti-diagonal values
      * @return a square matrix with the given anti-diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
@@ -288,7 +288,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * //           [9, null, 3]]
      * }</pre>
      *
-     * @param <T> the type of elements
+     * @param <T> the type of elements in the matrix
      * @param leftUp2RightDownDiagonal the main diagonal values.
      * @param rightUp2LeftDownDiagonal the anti-diagonal values.
      * @return a square matrix with the given diagonal values

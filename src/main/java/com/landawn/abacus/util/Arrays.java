@@ -15991,7 +15991,7 @@ public sealed class Arrays permits Arrays.f {
          * <pre>{@code
          * Integer[][][] a = {{{1}}};
          * Integer[][][] b = {{{10, 20}}};
-         * Integer[][][] c = {{{}, {{100}}};
+         * Integer[][][] c = {{{}}, {{100}}};
          * Integer[][][] result = fff.zip(a, b, c, 0, 0, 0, (x, y, z) -> x + y + z);
          * // result is {{{11, 20}, {100}}}
          * }</pre>

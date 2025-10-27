@@ -1842,8 +1842,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix result = matrix1.zipWith(matrix2, (a, b) -> a * b); // Element-wise multiplication
      * }</pre>
-     * 
-     * @param <E> the type of exception that the function may throw
+     *
+     * @param <E> the type of exception that the zip function may throw
      * @param matrixB the second matrix
      * @param zipFunction the binary operator to apply element-wise
      * @return a new FloatMatrix with the results of the element-wise operation
@@ -1873,7 +1873,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix result = matrix1.zipWith(matrix2, matrix3, (a, b, c) -> a + b + c);
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the zip function may throw
      * @param matrixB the second matrix
      * @param matrixC the third matrix
      * @param zipFunction the ternary operator to apply element-wise

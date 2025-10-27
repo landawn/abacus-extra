@@ -104,7 +104,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * @param <E> the type of exception that may be thrown by the action
      * @param action the consumer action to be performed on this tuple, must not be {@code null}
-     * @throws E if the action throws an exception during execution if the action is {@code null}
+     * @throws E if the action throws an exception during execution
      */
     public <E extends Exception> void accept(final Throwables.Consumer<? super TP, E> action) throws E {
         action.accept((TP) this);
@@ -155,7 +155,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param <E> the type of exception that may be thrown by the mapper
      * @param mapper the mapping function to apply to this tuple, must not be {@code null}
      * @return the result of applying the mapper function to this tuple
-     * @throws E if the mapper function throws an exception during execution if the mapper is {@code null}
+     * @throws E if the mapper function throws an exception during execution
      */
     @MayReturnNull
     public <U, E extends Exception> U map(final Throwables.Function<? super TP, U, E> mapper) throws E {
@@ -207,7 +207,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param predicate the predicate to test this tuple against, must not be {@code null}
      * @return an {@link Optional} containing this tuple if the predicate returns {@code true},
      *         otherwise an empty Optional
-     * @throws E if the predicate test throws an exception during execution if the predicate is {@code null}
+     * @throws E if the predicate test throws an exception during execution
      */
     public <E extends Exception> Optional<TP> filter(final Throwables.Predicate<? super TP, E> predicate) throws E {
         return predicate.test((TP) this) ? Optional.of((TP) this) : Optional.empty();

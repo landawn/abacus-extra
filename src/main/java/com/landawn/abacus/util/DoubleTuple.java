@@ -417,7 +417,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * tuple.forEach(System.out::println); // prints each value
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
+     * @param <E> the type of exception that may be thrown
      * @param consumer the action to perform for each element
      * @throws E if the consumer throws an exception
      */
@@ -861,7 +861,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -880,7 +880,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown
          * @param action the binary action to perform
          * @throws E if the action throws an exception
          */
@@ -898,7 +898,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the binary function to apply
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
@@ -917,7 +917,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5); // present
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
+         * @param <E> the type of exception that may be thrown
          * @param predicate the binary predicate to test
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1082,7 +1082,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -1102,7 +1102,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
          * }</pre>
          *
-         * @param <E> the type of exception that the action may throw
+         * @param <E> the type of exception that may be thrown
          * @param action the ternary action to perform
          * @throws E if the action throws an exception
          */
@@ -1120,7 +1120,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the ternary function to apply
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
@@ -1139,7 +1139,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // present
          * }</pre>
          *
-         * @param <E> the type of exception that the predicate may throw
+         * @param <E> the type of exception that may be thrown
          * @param predicate the ternary predicate to test
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1308,7 +1308,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -1484,7 +1484,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -1666,7 +1666,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -1853,7 +1853,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -2049,7 +2049,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */
@@ -2250,7 +2250,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to perform
          * @throws E if the consumer throws an exception
          */

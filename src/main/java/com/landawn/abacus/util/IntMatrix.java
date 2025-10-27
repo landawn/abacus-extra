@@ -2211,7 +2211,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // max is [[5, 6], [7, 8]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the zip function may throw
      * @param matrixB the second matrix (must have the same dimensions as this matrix)
      * @param zipFunction the binary operator to apply to corresponding elements; receives
      *                    element from this matrix as first argument and element from matrixB
@@ -2259,7 +2259,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // weighted is [[62, 74], [86, 98]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the zip function may throw
      * @param matrixB the second matrix (must have the same dimensions as this matrix)
      * @param matrixC the third matrix (must have the same dimensions as this matrix)
      * @param zipFunction the ternary operator to apply to corresponding elements; receives

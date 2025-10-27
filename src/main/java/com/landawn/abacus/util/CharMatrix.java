@@ -300,7 +300,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Character> boxed = Matrix.of(new Character[][] {{'a', 'b'}, {null, 'c'}});
+     * Matrix<Character&gt; boxed = Matrix.of(new Character[][] {{'a', 'b'}, {null, 'c'}});
      * CharMatrix unboxed = CharMatrix.unbox(boxed);
      * // unboxed contains [['a', 'b'], ['\u0000', 'c']]
      * }</pre>
@@ -475,7 +475,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
+     * Stream<Point&gt; adjacent = matrix.adjacent4Points(0, 0);
      * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
      * }</pre>
      *
@@ -499,7 +499,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
-     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
+     * Stream<Point&gt; adjacent = matrix.adjacent8Points(1, 1);
      * // Returns stream of all 8 surrounding points
      * }</pre>
      *
@@ -632,7 +632,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRow(0, c -> Character.toUpperCase(c));
+     * matrix.updateRow(0, c -&gt; Character.toUpperCase(c));
      * // First row is now ['A', 'B']
      * }</pre>
      *
@@ -657,7 +657,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'A', 'B'}, {'C', 'D'}});
-     * matrix.updateColumn(1, c -> Character.toLowerCase(c));
+     * matrix.updateColumn(1, c -&gt; Character.toLowerCase(c));
      * // Second column is now ['b', 'd']
      * // Matrix is now: [['A', 'b'], ['C', 'd']]
      * }</pre>
@@ -739,7 +739,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateLU2RD(c -> Character.toUpperCase(c));
+     * matrix.updateLU2RD(c -&gt; Character.toUpperCase(c));
      * // Diagonal is now ['A', 'D'], matrix: [['A', 'b'], ['c', 'D']]
      * }</pre>
      *
@@ -825,7 +825,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRU2LD(c -> Character.toUpperCase(c));
+     * matrix.updateRU2LD(c -&gt; Character.toUpperCase(c));
      * // Anti-diagonal is now ['B', 'C'], matrix: [['a', 'B'], ['C', 'd']]
      * }</pre>
      *
@@ -851,7 +851,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateAll(c -> Character.toUpperCase(c));
+     * matrix.updateAll(c -&gt; Character.toUpperCase(c));
      * // Matrix is now [['A', 'B'], ['C', 'D']]
      * }</pre>
      *
@@ -900,7 +900,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'e', 'c'}, {'b', 'f', 'd'}});
-     * matrix.replaceIf(c -> c < 'd', 'x'); // Replace all chars less than 'd' with 'x'
+     * matrix.replaceIf(c -&gt; c < 'd', 'x'); // Replace all chars less than 'd' with 'x'
      * // Matrix is now [['x', 'e', 'x'], ['x', 'f', 'd']]
      * }</pre>
      *
@@ -927,7 +927,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'},
      *                                                 {'d', 'e', 'f'},
      *                                                 {'g', 'h', 'i'}});
-     * matrix.replaceIf((i, j) -> i == j, 'X'); // Replace main diagonal elements with 'X'
+     * matrix.replaceIf((i, j) -&gt; i == j, 'X'); // Replace main diagonal elements with 'X'
      * // Matrix is now [['X', 'b', 'c'], ['d', 'X', 'f'], ['g', 'h', 'X']]
      * }</pre>
      *
@@ -950,7 +950,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix upper = matrix.map(c -> Character.toUpperCase(c));
+     * CharMatrix upper = matrix.map(c -&gt; Character.toUpperCase(c));
      * // upper is [['A', 'B'], ['C', 'D']], original matrix is unchanged
      * }</pre>
      *
@@ -978,10 +978,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Matrix<String> stringMatrix = matrix.mapToObj(c -> String.valueOf(c), String.class);
+     * Matrix<String&gt; stringMatrix = matrix.mapToObj(c -&gt; String.valueOf(c), String.class);
      * // stringMatrix is [["a", "b"], ["c", "d"]]
      *
-     * Matrix<Integer> codePoints = matrix.mapToObj(c -> (int) c, Integer.class);
+     * Matrix<Integer&gt; codePoints = matrix.mapToObj(c -> (int) c, Integer.class);
      * // codePoints is [[97, 98], [99, 100]]
      * }</pre>
      *
@@ -1161,8 +1161,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix truncated = matrix.extend(1, 1); // Truncates to 1x1, result: [['a']]
      * }</pre>
      *
-     * @param newRows the desired number of rows (must be >= 0)
-     * @param newCols the desired number of columns (must be >= 0)
+     * @param newRows the desired number of rows (must be &gt;= 0)
+     * @param newCols the desired number of columns (must be &gt;= 0)
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if newRows or newCols is negative
      */
@@ -1227,10 +1227,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result is 4x4 with original matrix in center and '\u0000' padding
      * }</pre>
      *
-     * @param toUp number of rows to add above (must be >= 0)
-     * @param toDown number of rows to add below (must be >= 0)
-     * @param toLeft number of columns to add to the left (must be >= 0)
-     * @param toRight number of columns to add to the right (must be >= 0)
+     * @param toUp number of rows to add above (must be &gt;= 0)
+     * @param toDown number of rows to add below (must be &gt;= 0)
+     * @param toLeft number of columns to add to the left (must be &gt;= 0)
+     * @param toRight number of columns to add to the right (must be &gt;= 0)
      * @return a new extended CharMatrix
      * @throws IllegalArgumentException if any parameter is negative
      */
@@ -1707,7 +1707,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * matrix.flatOp(row -&gt; java.util.Arrays.sort(row));
      * // Each row is now sorted
      * }</pre>
      *
@@ -1879,7 +1879,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Matrix<Character> boxed = charMatrix.boxed();
+     * Matrix<Character&gt; boxed = charMatrix.boxed();
      * }</pre>
      *
      * @return a new Matrix containing Character objects with the same values and dimensions
@@ -2242,7 +2242,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param rowIndex the index of the row to stream (0-based)
      * @return a CharStream containing all elements from the specified row
-     * @throws IndexOutOfBoundsException if rowIndex is negative or >= number of rows
+     * @throws IndexOutOfBoundsException if rowIndex is negative or &gt;= number of rows
      */
     @Override
     public CharStream streamH(final int rowIndex) {
@@ -2262,7 +2262,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a CharStream containing elements from the specified row range
-     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromRowIndex > toRowIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromRowIndex &gt; toRowIndex
      */
     @Override
     public CharStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -2368,7 +2368,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param columnIndex the index of the column to stream (0-based)
      * @return a CharStream containing all elements from the specified column
-     * @throws IndexOutOfBoundsException if columnIndex is negative or >= number of columns
+     * @throws IndexOutOfBoundsException if columnIndex is negative or &gt;= number of columns
      */
     @Override
     public CharStream streamV(final int columnIndex) {
@@ -2390,7 +2390,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a CharStream containing elements from the specified column range
-     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromColumnIndex > toColumnIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     @Beta
@@ -2473,7 +2473,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<CharStream> rows = matrix.streamR();
+     * Stream<CharStream&gt; rows = matrix.streamR();
      * // First stream contains: 'a', 'b'
      * // Second stream contains: 'c', 'd'
      * }</pre>
@@ -2492,7 +2492,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
-     * Stream<CharStream> rows = matrix.streamR(1, 3);
+     * Stream<CharStream&gt; rows = matrix.streamR(1, 3);
      * // First stream contains: 'c', 'd'
      * // Second stream contains: 'e', 'f'
      * }</pre>
@@ -2500,7 +2500,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a Stream of CharStreams for the specified row range
-     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromRowIndex > toRowIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromRowIndex &gt; toRowIndex
      */
     @Override
     public Stream<CharStream> streamR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -2553,7 +2553,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<CharStream> columns = matrix.streamC();
+     * Stream<CharStream&gt; columns = matrix.streamC();
      * // First stream contains: 'a', 'c'
      * // Second stream contains: 'b', 'd'
      * }</pre>
@@ -2575,7 +2575,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
-     * Stream<CharStream> columns = matrix.streamC(1, 3);
+     * Stream<CharStream&gt; columns = matrix.streamC(1, 3);
      * // First stream contains: 'b', 'e'
      * // Second stream contains: 'c', 'f'
      * }</pre>
@@ -2583,7 +2583,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a Stream of CharStreams for the specified column range
-     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromColumnIndex > toColumnIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     @Beta
@@ -2683,9 +2683,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.forEach(ch -> System.out.print(ch + " ")); // Prints: a b c d
+     * matrix.forEach(ch -&gt; System.out.print(ch + " ")); // Prints: a b c d
      *
-     * List<Character> chars = new ArrayList<>();
+     * List<Character&gt; chars = new ArrayList<>();
      * matrix.forEach(chars::add); // Collects all characters
      * }</pre>
      *
@@ -2712,11 +2712,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *                                                 {'g', 'h', 'i'}});
      *
      * // Process only the center 2x2 sub-region
-     * matrix.forEach(1, 3, 1, 3, ch -> System.out.print(ch + " "));
+     * matrix.forEach(1, 3, 1, 3, ch -&gt; System.out.print(ch + " "));
      * // Prints: e f h i
      *
      * // Process first two rows, last two columns
-     * matrix.forEach(0, 2, 1, 3, ch -> System.out.print(ch + " "));
+     * matrix.forEach(0, 2, 1, 3, ch -&gt; System.out.print(ch + " "));
      * // Prints: b c e f
      * }</pre>
      *

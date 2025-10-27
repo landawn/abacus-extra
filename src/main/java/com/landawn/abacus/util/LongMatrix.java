@@ -1188,7 +1188,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new LongMatrix containing the specified rows with all columns
-     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or fromRowIndex > toRowIndex
+     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or fromRowIndex &gt; toRowIndex
      */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1217,7 +1217,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new LongMatrix containing the specified submatrix
-     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or [0, cols], or if fromRowIndex > toRowIndex or fromColumnIndex > toColumnIndex
+     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or [0, cols], or if fromRowIndex &gt; toRowIndex or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -2762,7 +2762,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to apply to each element in the specified region
-     * @throws IndexOutOfBoundsException if the indices are out of bounds [0, rows] or [0, cols], or if fromRowIndex > toRowIndex or fromColumnIndex > toColumnIndex
+     * @throws IndexOutOfBoundsException if the indices are out of bounds [0, rows] or [0, cols], or if fromRowIndex &gt; toRowIndex or fromColumnIndex &gt; toColumnIndex
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

@@ -425,12 +425,12 @@ public final class Matrixes {
      *
      * @param <E> the type of exception that the command might throw
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
      * @param cmd the command to execute for each position (i, j), receives row index and column index
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
      * @throws E if the command throws an exception during execution
      */
     public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -525,13 +525,13 @@ public final class Matrixes {
      *
      * @param <T> the type of elements in the result stream
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
      * @param cmd the function to apply at each position (i, j), receives row index and column index
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
      */
     @SuppressWarnings("resource")
     public static <T> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -609,13 +609,13 @@ public final class Matrixes {
      * and column ranges to improve cache locality and performance.</p>
      *
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be >= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be >= fromColumnIndex
+     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
      * @param cmd the function to apply at each position (i, j), receives row index and column index
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex < fromRowIndex or toColumnIndex < fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
      */
     @SuppressWarnings("resource")
     public static IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

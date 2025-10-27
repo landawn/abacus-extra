@@ -336,14 +336,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
      * tuple.forEach(b -> System.out.println("Value: " + b));
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
+     * @param <E> the type of exception that may be thrown
      * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
@@ -624,7 +624,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -636,14 +636,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Applies the given action to both elements of this tuple.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple2 tuple = BooleanTuple.of(true, false);
          * tuple.accept((a, b) -> System.out.println(a + " AND " + b)); // prints "true AND false"
          * }</pre>
-         * 
-         * @param <E> the type of exception that the action may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param action the action to be performed on both elements
          * @throws E if the action throws an exception
          */
@@ -653,15 +653,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Applies the given function to both elements of this tuple and returns the result.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple2 tuple = BooleanTuple.of(true, false);
          * boolean result = tuple.map((a, b) -> a && b); // false
          * }</pre>
-         * 
+         *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the mapping function to apply to both elements
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
@@ -673,14 +673,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple2 tuple = BooleanTuple.of(true, false);
          * Optional<BooleanTuple2> result = tuple.filter((a, b) -> a || b); // Optional containing the tuple
          * }</pre>
-         * 
-         * @param <E> the type of exception that the predicate may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param predicate the predicate to test both elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -796,7 +796,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -809,14 +809,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Applies the given action to all three elements of this tuple.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
          * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
          * }</pre>
-         * 
-         * @param <E> the type of exception that the action may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param action the action to be performed on all three elements
          * @throws E if the action throws an exception
          */
@@ -826,15 +826,15 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
 
         /**
          * Applies the given function to all three elements of this tuple and returns the result.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
          * boolean result = tuple.map((a, b, c) -> a && b && c); // false
          * }</pre>
-         * 
+         *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the mapping function to apply to all three elements
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
@@ -846,14 +846,14 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
          * Optional<BooleanTuple3> result = tuple.filter((a, b, c) -> a || c); // Optional containing the tuple
          * }</pre>
-         * 
-         * @param <E> the type of exception that the predicate may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param predicate the predicate to test all three elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -979,7 +979,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1070,7 +1070,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1165,7 +1165,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1265,7 +1265,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1373,7 +1373,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1485,7 +1485,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */

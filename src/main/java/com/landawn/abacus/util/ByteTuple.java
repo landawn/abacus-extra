@@ -407,14 +407,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * tuple.forEach(b -> System.out.println("Value: " + b));
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
+     * @param <E> the type of exception that may be thrown
      * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
@@ -859,7 +859,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -871,14 +871,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given action to both elements of this tuple.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * }</pre>
-         * 
-         * @param <E> the type of exception that the action may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param action the action to be performed on both elements
          * @throws E if the action throws an exception
          */
@@ -888,15 +888,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given function to both elements of this tuple and returns the result.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          * int sum = tuple.map((a, b) -> a + b); // 30
          * }</pre>
-         * 
+         *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the mapping function to apply to both elements
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
@@ -908,14 +908,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
          * Optional<ByteTuple2> result = tuple.filter((a, b) -> a < b); // Optional containing the tuple
          * }</pre>
-         * 
-         * @param <E> the type of exception that the predicate may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param predicate the predicate to test both elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1078,7 +1078,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1091,14 +1091,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given action to all three elements of this tuple.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
          * }</pre>
-         * 
-         * @param <E> the type of exception that the action may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param action the action to be performed on all three elements
          * @throws E if the action throws an exception
          */
@@ -1108,15 +1108,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given function to all three elements of this tuple and returns the result.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          * int sum = tuple.map((a, b, c) -> a + b + c); // 60
          * }</pre>
-         * 
+         *
          * @param <U> the type of the result
-         * @param <E> the type of exception that the mapper may throw
+         * @param <E> the type of exception that may be thrown
          * @param mapper the mapping function to apply to all three elements
          * @return the result of applying the mapping function
          * @throws E if the mapper throws an exception
@@ -1128,14 +1128,14 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given predicate,
          * otherwise returns an empty Optional.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
          * Optional<ByteTuple3> result = tuple.filter((a, b, c) -> a < b && b < c); // Optional containing the tuple
          * }</pre>
-         * 
-         * @param <E> the type of exception that the predicate may throw
+         *
+         * @param <E> the type of exception that may be thrown
          * @param predicate the predicate to test all three elements
          * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1309,7 +1309,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1452,7 +1452,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1599,7 +1599,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1751,7 +1751,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -1909,7 +1909,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */
@@ -2071,7 +2071,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Performs the given action for each element in this tuple.
          *
-         * @param <E> the type of exception that the consumer may throw
+         * @param <E> the type of exception that may be thrown
          * @param consumer the action to be performed for each element
          * @throws E if the consumer throws an exception
          */

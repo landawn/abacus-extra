@@ -369,7 +369,6 @@ public final class ImmutableIntArray implements Immutable {
      *   <li>They have the same length</li>
      *   <li>For every index {@code i}, {@code this.get(i) == other.get(i)}</li>
      * </ul>
-     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
