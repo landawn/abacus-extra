@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.ShortStream;
 
@@ -919,6 +920,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1152,6 +1154,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.ShortTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
