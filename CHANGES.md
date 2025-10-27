@@ -1,3 +1,8 @@
+### 2.25.1
+
+* Improve javadoc and add unit tests
+
+
 ### 2.25.0
 
 * Bug fixes and improvements.
