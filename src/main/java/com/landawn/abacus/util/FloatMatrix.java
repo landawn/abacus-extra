@@ -346,7 +346,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param point the point containing row and column indices (must not be null)
      * @return the float element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds if point is null
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #get(int, int)
      */
     public float get(final Point point) {
@@ -385,7 +385,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param point the point containing row and column indices (must not be null)
      * @param val the new float value to set at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds if point is null
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
      * @see #set(int, int, float)
      */
     public void set(final Point point, final float val) {

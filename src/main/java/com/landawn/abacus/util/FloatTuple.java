@@ -237,11 +237,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Creates a FloatTuple from an array of float values.
      * The size of the returned tuple depends on the array length (0-9).
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] values = {1.0f, 2.0f, 3.0f};
      * FloatTuple3 tuple = FloatTuple.create(values);
+     * // tuple._1 == 1.0f, tuple._2 == 2.0f, tuple._3 == 3.0f
      * }</pre>
      *
      * @param <TP> the specific FloatTuple type to return

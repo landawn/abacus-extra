@@ -1053,7 +1053,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-         * BooleanTuple5 reversed = tuple.reverse(); // (true, false, true, false, true)
+         * BooleanTuple5 reversed = tuple.reverse(); // (true, false, true, false, true) - reversed
          * }</pre>
          *
          * @return a new BooleanTuple5 with the elements in reverse order
@@ -1247,7 +1247,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
-         * BooleanTuple7 reversed = tuple.reverse(); // (true, false, true, false, true, false, true)
+         * BooleanTuple7 reversed = tuple.reverse(); // (true, false, true, false, true, false, true) - reversed
          * }</pre>
          *
          * @return a new BooleanTuple7 with the elements in reverse order
@@ -1467,7 +1467,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
-         * BooleanTuple9 reversed = tuple.reverse(); // (true, false, true, false, true, false, true, false, true)
+         * BooleanTuple9 reversed = tuple.reverse(); // (true, false, true, false, true, false, true, false, true) - reversed
          * }</pre>
          *
          * @return a new BooleanTuple9 with the elements in reverse order

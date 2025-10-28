@@ -237,11 +237,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     /**
      * Creates a DoubleTuple from an array of double values.
      * The size of the returned tuple depends on the array length (0-9).
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] values = {1.0, 2.0, 3.0};
      * DoubleTuple3 tuple = DoubleTuple.create(values);
+     * // tuple._1 == 1.0, tuple._2 == 2.0, tuple._3 == 3.0
      * }</pre>
      *
      * @param <TP> the specific DoubleTuple type to return

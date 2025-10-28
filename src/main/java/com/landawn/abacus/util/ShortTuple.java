@@ -53,7 +53,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * Protected constructor for subclass instantiation.
      * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link ShortTuple1#of(short)}, {@link ShortTuple2#of(short, short)}, etc.,
+     * such as {@link #of(short)}, {@link #of(short, short)}, etc.,
      * to create tuple instances.
      */
     protected ShortTuple() {

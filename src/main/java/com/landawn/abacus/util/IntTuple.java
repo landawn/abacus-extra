@@ -235,11 +235,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Creates an IntTuple from an array of int values.
      * The size of the returned tuple depends on the array length (0-9).
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] values = {1, 2, 3};
      * IntTuple3 tuple = IntTuple.create(values);
+     * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
      * }</pre>
      *
      * @param <TP> the specific IntTuple type to return

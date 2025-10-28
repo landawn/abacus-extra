@@ -1432,12 +1432,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Creates a new matrix that is horizontally flipped (each row reversed).
      * The original matrix is not modified.
-     * 
-     * <p>Example:
-     * <pre>
-     * // [[true, false], [false, true]] becomes [[false, true], [true, false]]
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
      * BooleanMatrix flipped = matrix.flipH();
-     * </pre>
+     * // flipped is {{false, false, true}, {false, true, true}}
+     * }</pre>
      *
      * @return a new BooleanMatrix with horizontally flipped content
      * @see #flipV()
@@ -1453,12 +1454,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Creates a new matrix that is vertically flipped (each column reversed).
      * The original matrix is not modified.
-     * 
-     * <p>Example:
-     * <pre>
-     * // [[true, false], [false, true]] becomes [[false, true], [true, false]]
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
      * BooleanMatrix flipped = matrix.flipV();
-     * </pre>
+     * // flipped is {{true, true, false}, {true, false, false}}
+     * }</pre>
      *
      * @return a new BooleanMatrix with vertically flipped content
      * @see #flipH()
@@ -1476,9 +1478,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
      * BooleanMatrix rotated = matrix.rotate90();
-     * // rotated is {{false, true}, {true, false}}
+     * // rotated is {{true, true}, {true, false}, {false, false}}
      * }</pre>
      *
      * @return a new matrix rotated 90 degrees clockwise
@@ -1509,9 +1511,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
      * BooleanMatrix rotated = matrix.rotate180();
-     * // rotated is {{true, false}, {false, true}}
+     * // rotated is {{false, true, true}, {false, false, true}}
      * }</pre>
      *
      * @return a new matrix rotated 180 degrees
@@ -1533,9 +1535,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, false}, {true, true, false}});
      * BooleanMatrix rotated = matrix.rotate270();
-     * // rotated is {{false, true}, {true, false}}
+     * // rotated is {{false, false}, {false, true}, {true, true}}
      * }</pre>
      *
      * @return a new matrix rotated 270 degrees clockwise

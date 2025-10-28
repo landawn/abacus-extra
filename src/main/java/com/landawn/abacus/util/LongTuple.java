@@ -240,6 +240,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * long[] values = {10L, 20L, 30L};
      * LongTuple3 tuple = LongTuple.create(values);
+     * // tuple._1 == 10L, tuple._2 == 20L, tuple._3 == 30L
      * }</pre>
      *
      * @param <TP> the specific LongTuple type to return

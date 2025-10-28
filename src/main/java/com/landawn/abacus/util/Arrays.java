@@ -997,7 +997,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] doubles = {1.5, 2.5, 3.5};
-     * String[] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
+     * String[] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
      * // Result: {"1.5", "2.5", "3.5"}
      * }</pre>
      *
@@ -1033,7 +1033,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] doubles = {{1.5, 2.5}, {3.5, 4.5}};
-     * String[][] strings = mapToObj(doubles, d -> String.format("%.1f", d), String.class);
+     * String[][] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
      * // Result: {{"1.5", "2.5"}, {"3.5", "4.5"}}
      * }</pre>
      *
@@ -1069,7 +1069,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][][] doubles = {{{1.1, 2.2}}, {{3.3, 4.4}}};
-     * Integer[][][] integers = mapToObj(doubles, d -> (int) d, Integer.class);
+     * Integer[][][] integers = Arrays.mapToObj(doubles, d -> (int) d, Integer.class);
      * // Result: {{{1, 2}}, {{3, 4}}}
      * }</pre>
      *
@@ -1105,7 +1105,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] ints = {1, 2, 3};
-     * long[] longs = mapToLong(ints, i -> i * 1000000000L);
+     * long[] longs = Arrays.mapToLong(ints, i -> i * 1000000000L);
      * // Result: {1000000000L, 2000000000L, 3000000000L}
      * }</pre>
      *
@@ -1204,7 +1204,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] ints = {1, 2, 3};
-     * double[] doubles = mapToDouble(ints, i -> i / 2.0);
+     * double[] doubles = Arrays.mapToDouble(ints, i -> i / 2.0);
      * // Result: {0.5, 1.0, 1.5}
      * }</pre>
      *
@@ -1303,7 +1303,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] longs = {1000L, 2000L, 3000L};
-     * int[] ints = mapToInt(longs, l -> (int)(l / 1000));
+     * int[] ints = Arrays.mapToInt(longs, l -> (int)(l / 1000));
      * // Result: {1, 2, 3}
      * }</pre>
      *
@@ -1505,7 +1505,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] doubles = {1.7, 2.3, 3.9};
-     * int[] ints = mapToInt(doubles, d -> (int) Math.round(d));
+     * int[] ints = Arrays.mapToInt(doubles, d -> (int) Math.round(d));
      * // Result: {2, 2, 4}
      * }</pre>
      *
@@ -1708,7 +1708,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true};
-     * updateAll(arr, b -> !b);
+     * Arrays.updateAll(arr, b -> !b);
      * // arr is now: {false, true, false}
      * }</pre>
      *
@@ -1788,7 +1788,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false};
-     * replaceIf(arr, b -> b == true, false);
+     * Arrays.replaceIf(arr, b -> b, false);
      * // arr is now: {false, false, false, false}
      * }</pre>
      *
@@ -1818,7 +1818,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] matrix = {{true, false}, {true, false}};
-     * Arrays.replaceIf(matrix, b -> b == true, false);
+     * Arrays.replaceIf(matrix, b -> b, false);
      * // matrix is now: {{false, false}, {false, false}}
      * }</pre>
      *
@@ -1873,7 +1873,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false, true};
-     * boolean[][] reshaped = reshape(arr, 2);
+     * boolean[][] reshaped = Arrays.reshape(arr, 2);
      * // Result: {{true, false}, {true, false}, {true}}
      * }</pre>
      *
@@ -1907,7 +1907,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false, true, false};
-     * boolean[][][] reshaped = reshape(arr, 2, 2);
+     * boolean[][][] reshaped = Arrays.reshape(arr, 2, 2);
      * // Result: {{{true, false}, {true, false}}, {{true, false}}}
      * }</pre>
      *
@@ -1946,7 +1946,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {true}, {false, true}};
-     * boolean[] flattened = flatten(arr);
+     * boolean[] flattened = Arrays.flatten(arr);
      * // Result: {true, false, true, false, true}
      * }</pre>
      *
@@ -4494,7 +4494,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{1, 2}, {3}, {4, 5}};
-     * byte[] flattened = flatten(arr);
+     * byte[] flattened = Arrays.flatten(arr);
      * // Result: {1, 2, 3, 4, 5}
      * }</pre>
      *
@@ -4649,7 +4649,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 4, 5};
-     * byte[][] reshaped = reshape(arr, 2);
+     * byte[][] reshaped = Arrays.reshape(arr, 2);
      * // Result: {{1, 2}, {3, 4}, {5}}
      * }</pre>
      *
@@ -4683,7 +4683,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 4, 5, 6};
-     * byte[][][] reshaped = reshape(arr, 2, 2);
+     * byte[][][] reshaped = Arrays.reshape(arr, 2, 2);
      * // Result: {{{1, 2}, {3, 4}}, {{5, 6}}}
      * }</pre>
      *
@@ -5736,7 +5736,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * short[][] reshaped = reshape(array, 2); // returns {{1, 2}, {3, 4}, {5}}
+     * short[][] reshaped = Arrays.reshape(array, 2); // returns {{1, 2}, {3, 4}, {5}}
      * }</pre>
      *
      * @param a the array to reshape.
@@ -5769,7 +5769,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5, 6, 7, 8};
-     * short[][][] reshaped = reshape(array, 2, 2); // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
+     * short[][][] reshaped = Arrays.reshape(array, 2, 2); // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
      * }</pre>
      *
      * @param a the array to reshape.
@@ -5808,7 +5808,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4, 5}};
-     * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array); // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
@@ -5845,7 +5845,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
-     * short[] flat = flatten(array); // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array); // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
@@ -8262,7 +8262,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7};
-     * long[][] reshaped = reshape(array, 3);
+     * long[][] reshaped = Arrays.reshape(array, 3);
      * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
@@ -8296,7 +8296,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-     * long[][][] reshaped = reshape(array, 2, 2);
+     * long[][][] reshaped = Arrays.reshape(array, 2, 2);
      * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
      * }</pre>
      *
@@ -8334,7 +8334,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] array = {{1L, 2L}, {3L, 4L, 5L}};
-     * long[] flattened = flatten(array);
+     * long[] flattened = Arrays.flatten(array);
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *
@@ -8370,7 +8370,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] array = {{{1L, 2L}}, {{3L, 4L}, {5L}}};
-     * long[] flattened = flatten(array);
+     * long[] flattened = Arrays.flatten(array);
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *

@@ -316,7 +316,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median byte value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * For tuples with an even number of elements, returns the lower middle value when sorted.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
