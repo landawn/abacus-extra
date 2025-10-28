@@ -39,7 +39,6 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int y = point.y; // 20
  * int value = point.v; // 100
  * }</pre>
- *
  */
 @com.landawn.abacus.annotation.Immutable
 public final class Points {
@@ -108,7 +107,7 @@ public final class Points {
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new ByteBytePoint instance
+             * @return a new ByteBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static ByteBytePoint of(final byte x, final byte y, final byte v) {
                 return new ByteBytePoint(x, y, v);
@@ -199,7 +198,7 @@ public final class Points {
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new ByteIntPoint instance
+             * @return a new ByteIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static ByteIntPoint of(final byte x, final byte y, final int v) {
                 return new ByteIntPoint(x, y, v);
@@ -290,7 +289,7 @@ public final class Points {
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new ByteLongPoint instance
+             * @return a new ByteLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static ByteLongPoint of(final byte x, final byte y, final long v) {
                 return new ByteLongPoint(x, y, v);
@@ -381,7 +380,7 @@ public final class Points {
              * @param x the x-coordinate
              * @param y the y-coordinate
              * @param v the value associated with this point
-             * @return a new ByteDoublePoint instance
+             * @return a new ByteDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static ByteDoublePoint of(final byte x, final byte y, final double v) {
                 return new ByteDoublePoint(x, y, v);
@@ -479,7 +478,7 @@ public final class Points {
              * @param x the x-coordinate as a byte
              * @param y the y-coordinate as a byte
              * @param v the value to associate with this point
-             * @return a new ByteObjPoint instance with the specified coordinates and value
+             * @return a new ByteObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T v) {
                 return new ByteObjPoint<>(x, y, v);
@@ -572,7 +571,7 @@ public final class Points {
              * @param x the x-coordinate as an int
              * @param y the y-coordinate as an int
              * @param v the value associated with this point as a byte
-             * @return a new IntBytePoint instance with the specified coordinates and value
+             * @return a new IntBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntBytePoint of(final int x, final int y, final byte v) {
                 return new IntBytePoint(x, y, v);
@@ -665,7 +664,7 @@ public final class Points {
              * @param x the x-coordinate as an int
              * @param y the y-coordinate as an int
              * @param v the value associated with this point as an int
-             * @return a new IntIntPoint instance with the specified coordinates and value
+             * @return a new IntIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntIntPoint of(final int x, final int y, final int v) {
                 return new IntIntPoint(x, y, v);
@@ -758,7 +757,7 @@ public final class Points {
              * @param x the x-coordinate as an int
              * @param y the y-coordinate as an int
              * @param v the value associated with this point as a long
-             * @return a new IntLongPoint instance with the specified coordinates and value
+             * @return a new IntLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntLongPoint of(final int x, final int y, final long v) {
                 return new IntLongPoint(x, y, v);
@@ -851,7 +850,7 @@ public final class Points {
              * @param x the x-coordinate as an int
              * @param y the y-coordinate as an int
              * @param v the value associated with this point as a double
-             * @return a new IntDoublePoint instance with the specified coordinates and value
+             * @return a new IntDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntDoublePoint of(final int x, final int y, final double v) {
                 return new IntDoublePoint(x, y, v);
@@ -949,7 +948,7 @@ public final class Points {
              * @param x the x-coordinate as an int
              * @param y the y-coordinate as an int
              * @param v the value to associate with this point
-             * @return a new IntObjPoint instance with the specified coordinates and value
+             * @return a new IntObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> IntObjPoint<T> of(final int x, final int y, final T v) {
                 return new IntObjPoint<>(x, y, v);
@@ -1042,7 +1041,7 @@ public final class Points {
              * @param x the x-coordinate as a long
              * @param y the y-coordinate as a long
              * @param v the value associated with this point as a byte
-             * @return a new LongBytePoint instance with the specified coordinates and value
+             * @return a new LongBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongBytePoint of(final long x, final long y, final byte v) {
                 return new LongBytePoint(x, y, v);
@@ -1135,7 +1134,7 @@ public final class Points {
              * @param x the x-coordinate as a long
              * @param y the y-coordinate as a long
              * @param v the value associated with this point as an int
-             * @return a new LongIntPoint instance with the specified coordinates and value
+             * @return a new LongIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongIntPoint of(final long x, final long y, final int v) {
                 return new LongIntPoint(x, y, v);
@@ -1228,7 +1227,7 @@ public final class Points {
              * @param x the x-coordinate as a long
              * @param y the y-coordinate as a long
              * @param v the value associated with this point as a long
-             * @return a new LongLongPoint instance with the specified coordinates and value
+             * @return a new LongLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongLongPoint of(final long x, final long y, final long v) {
                 return new LongLongPoint(x, y, v);
@@ -1321,7 +1320,7 @@ public final class Points {
              * @param x the x-coordinate as a long
              * @param y the y-coordinate as a long
              * @param v the value associated with this point as a double
-             * @return a new LongDoublePoint instance with the specified coordinates and value
+             * @return a new LongDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongDoublePoint of(final long x, final long y, final double v) {
                 return new LongDoublePoint(x, y, v);
@@ -1419,7 +1418,7 @@ public final class Points {
              * @param x the x-coordinate as a long
              * @param y the y-coordinate as a long
              * @param v the value to associate with this point
-             * @return a new LongObjPoint instance with the specified coordinates and value
+             * @return a new LongObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> LongObjPoint<T> of(final long x, final long y, final T v) {
                 return new LongObjPoint<>(x, y, v);
@@ -1512,7 +1511,7 @@ public final class Points {
              * @param x the x-coordinate as a double
              * @param y the y-coordinate as a double
              * @param v the value associated with this point as a byte
-             * @return a new DoubleBytePoint instance with the specified coordinates and value
+             * @return a new DoubleBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleBytePoint of(final double x, final double y, final byte v) {
                 return new DoubleBytePoint(x, y, v);
@@ -1605,7 +1604,7 @@ public final class Points {
              * @param x the x-coordinate as a double
              * @param y the y-coordinate as a double
              * @param v the value associated with this point as an int
-             * @return a new DoubleIntPoint instance with the specified coordinates and value
+             * @return a new DoubleIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleIntPoint of(final double x, final double y, final int v) {
                 return new DoubleIntPoint(x, y, v);
@@ -1698,7 +1697,7 @@ public final class Points {
              * @param x the x-coordinate as a double
              * @param y the y-coordinate as a double
              * @param v the value associated with this point as a long
-             * @return a new DoubleLongPoint instance with the specified coordinates and value
+             * @return a new DoubleLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleLongPoint of(final double x, final double y, final long v) {
                 return new DoubleLongPoint(x, y, v);
@@ -1791,7 +1790,7 @@ public final class Points {
              * @param x the x-coordinate as a double
              * @param y the y-coordinate as a double
              * @param v the value associated with this point as a double
-             * @return a new DoubleDoublePoint instance with the specified coordinates and value
+             * @return a new DoubleDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleDoublePoint of(final double x, final double y, final double v) {
                 return new DoubleDoublePoint(x, y, v);
@@ -1889,7 +1888,7 @@ public final class Points {
              * @param x the x-coordinate as a double
              * @param y the y-coordinate as a double
              * @param v the value to associate with this point
-             * @return a new DoubleObjPoint instance with the specified coordinates and value
+             * @return a new DoubleObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> DoubleObjPoint<T> of(final double x, final double y, final T v) {
                 return new DoubleObjPoint<>(x, y, v);
