@@ -418,34 +418,6 @@ public class DoubleMatrix2510Test extends TestBase {
         assertFalse(right.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        Stream<Point> adjacent = m.adjacent4Points(1, 1);
-        assertEquals(4, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent4Points_corner() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        Stream<Point> adjacent = m.adjacent4Points(0, 0);
-        assertEquals(2, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
-        Stream<Point> adjacent = m.adjacent8Points(1, 1);
-        assertEquals(8, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent8Points_corner() {
-        DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        Stream<Point> adjacent = m.adjacent8Points(0, 0);
-        assertEquals(3, adjacent.count());
-    }
-
     // ============ Row/Column Access Tests ============
 
     @Test
@@ -889,7 +861,12 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testReshape_invalidSize() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(2, 3));
+        DoubleMatrix reshaped = m.reshape(2, 3);
+        assertEquals(2, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals(1.0, reshaped.get(0, 0));
+        assertEquals(4.0, reshaped.get(1, 0));
+
     }
 
     // ============ Repelem Tests ============

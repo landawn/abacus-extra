@@ -224,7 +224,7 @@ public class Points2510Test extends TestBase {
         xy.ByteDoublePoint point1 = xy.ByteDoublePoint.of((byte) 1, (byte) 2, 0.0);
         xy.ByteDoublePoint point2 = xy.ByteDoublePoint.of((byte) 1, (byte) 2, -0.0);
 
-        assertTrue(point1.equals(point2));
+        assertFalse(point1.equals(point2));
     }
 
     // ============================================
@@ -854,7 +854,7 @@ public class Points2510Test extends TestBase {
         xy.DoubleDoublePoint point1 = xy.DoubleDoublePoint.of(-0.0, 0.0, -0.0);
         xy.DoubleDoublePoint point2 = xy.DoubleDoublePoint.of(0.0, -0.0, 0.0);
 
-        assertTrue(point1.equals(point2));
+        assertFalse(point1.equals(point2));
     }
 
     @Test

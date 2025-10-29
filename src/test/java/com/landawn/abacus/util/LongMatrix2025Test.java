@@ -443,53 +443,6 @@ public class LongMatrix2025Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points_centerElement() {
-        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        List<Point> points = m.adjacent4Points(1, 1).toList();
-        assertEquals(4, points.size());
-        assertNotNull(points.get(0)); // up
-        assertNotNull(points.get(1)); // right
-        assertNotNull(points.get(2)); // down
-        assertNotNull(points.get(3)); // left
-    }
-
-    @Test
-    public void testAdjacent4Points_cornerElement() {
-        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        List<Point> points = m.adjacent4Points(0, 0).toList();
-        assertEquals(4, points.size());
-        assertEquals(null, points.get(0)); // up (out of bounds)
-        assertNotNull(points.get(1)); // right
-        assertNotNull(points.get(2)); // down
-        assertEquals(null, points.get(3)); // left (out of bounds)
-    }
-
-    @Test
-    public void testAdjacent8Points_centerElement() {
-        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } });
-        List<Point> points = m.adjacent8Points(1, 1).toList();
-        assertEquals(8, points.size());
-        // All should be non-null for center element
-        for (Point p : points) {
-            assertNotNull(p);
-        }
-    }
-
-    @Test
-    public void testAdjacent8Points_cornerElement() {
-        LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        List<Point> points = m.adjacent8Points(0, 0).toList();
-        assertEquals(8, points.size());
-        assertEquals(null, points.get(0)); // left-up
-        assertEquals(null, points.get(1)); // up
-        assertEquals(null, points.get(2)); // right-up
-        assertNotNull(points.get(3)); // right
-        assertNotNull(points.get(4)); // right-down
-        assertNotNull(points.get(5)); // down
-        assertEquals(null, points.get(6)); // left-down
-        assertEquals(null, points.get(7)); // left
-    }
 
     // ============ Row/Column Operations Tests ============
 

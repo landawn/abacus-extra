@@ -6,12 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -348,53 +346,6 @@ public class Matrix2510Test extends TestBase {
         assertFalse(right.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points_centerPosition() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        Stream<Point> adjacent = m.adjacent4Points(1, 1);
-        List<Point> points = adjacent.filter(p -> p != null).toList();
-        assertEquals(4, points.size());
-    }
-
-    @Test
-    public void testAdjacent4Points_corner() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Point> adjacent = m.adjacent4Points(0, 0);
-        long nonNullCount = adjacent.filter(p -> p != null).count();
-        assertEquals(2, nonNullCount);
-    }
-
-    @Test
-    public void testAdjacent4Points_edge() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        Stream<Point> adjacent = m.adjacent4Points(0, 1);
-        long nonNullCount = adjacent.filter(p -> p != null).count();
-        assertEquals(3, nonNullCount);
-    }
-
-    @Test
-    public void testAdjacent8Points_centerPosition() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        Stream<Point> adjacent = m.adjacent8Points(1, 1);
-        long nonNullCount = adjacent.filter(p -> p != null).count();
-        assertEquals(8, nonNullCount);
-    }
-
-    @Test
-    public void testAdjacent8Points_corner() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
-        Stream<Point> adjacent = m.adjacent8Points(0, 0);
-        long nonNullCount = adjacent.filter(p -> p != null).count();
-        assertEquals(3, nonNullCount);
-    }
-
-    @Test
-    public void testAdjacent8Points_edge() {
-        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        Stream<Point> adjacent = m.adjacent8Points(0, 1);
-        long nonNullCount = adjacent.filter(p -> p != null).count();
-        assertEquals(5, nonNullCount);
-    }
 
     // ============ Row and Column Access ============
 
@@ -618,8 +569,8 @@ public class Matrix2510Test extends TestBase {
         m.updateAll((i, j) -> i * 10 + j);
         assertEquals(0, m.get(0, 0));
         assertEquals(1, m.get(0, 1));
-        assertEquals(20, m.get(1, 0));
-        assertEquals(21, m.get(1, 1));
+        assertEquals(10, m.get(1, 0));
+        assertEquals(11, m.get(1, 1));
     }
 
     @Test
@@ -1284,8 +1235,8 @@ public class Matrix2510Test extends TestBase {
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 100, 200 } });
         Matrix<String> result = m1.zipWith(m2, m3, (a, b, c) -> "" + a + b + c, String.class);
 
-        assertEquals("1:10:100", result.get(0, 0));
-        assertEquals("2:20:200", result.get(0, 1));
+        assertEquals("110100", result.get(0, 0));
+        assertEquals("220200", result.get(0, 1));
     }
 
     // ============ Stream Methods ============

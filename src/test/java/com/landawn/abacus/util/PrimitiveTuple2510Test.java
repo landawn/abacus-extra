@@ -27,12 +27,12 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.landawn.abacus.TestBase;
-import com.landawn.abacus.util.FloatTuple.FloatTuple1;
-import com.landawn.abacus.util.FloatTuple.FloatTuple2;
-import com.landawn.abacus.util.FloatTuple.FloatTuple3;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple1;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple2;
 import com.landawn.abacus.util.DoubleTuple.DoubleTuple3;
+import com.landawn.abacus.util.FloatTuple.FloatTuple1;
+import com.landawn.abacus.util.FloatTuple.FloatTuple2;
+import com.landawn.abacus.util.FloatTuple.FloatTuple3;
 import com.landawn.abacus.util.u.Optional;
 
 /**

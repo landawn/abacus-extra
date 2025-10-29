@@ -272,34 +272,6 @@ public class LongMatrixTest extends TestBase {
     }
 
     @Test
-    public void testAdjacent4Points() {
-        long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } };
-        LongMatrix matrix = LongMatrix.of(a);
-
-        List<Point> points = matrix.adjacent4Points(1, 1).toList();
-        Assertions.assertEquals(4, points.size());
-        Assertions.assertTrue(points.contains(Point.of(0, 1))); // up
-        Assertions.assertTrue(points.contains(Point.of(1, 2))); // right
-        Assertions.assertTrue(points.contains(Point.of(2, 1))); // down
-        Assertions.assertTrue(points.contains(Point.of(1, 0))); // left
-
-        List<Point> cornerPoints = matrix.adjacent4Points(0, 0).toList();
-        Assertions.assertEquals(2, cornerPoints.stream().filter(p -> p != null).count());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L }, { 7L, 8L, 9L } };
-        LongMatrix matrix = LongMatrix.of(a);
-
-        List<Point> points = matrix.adjacent8Points(1, 1).toList();
-        Assertions.assertEquals(8, points.size());
-
-        List<Point> cornerPoints = matrix.adjacent8Points(0, 0).toList();
-        Assertions.assertEquals(3, cornerPoints.stream().filter(p -> p != null).count());
-    }
-
-    @Test
     public void testRow() {
         long[][] a = { { 1L, 2L, 3L }, { 4L, 5L, 6L } };
         LongMatrix matrix = LongMatrix.of(a);

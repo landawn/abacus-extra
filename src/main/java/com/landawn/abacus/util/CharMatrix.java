@@ -255,8 +255,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.diagonal(new char[] {'a', 'b'}, new char[] {'x', 'y'});
-     * // Creates 2x2 matrix with both diagonals set
+     * CharMatrix matrix = CharMatrix.diagonal(new char[] {'a', 'b', 'c'}, new char[] {'x', 'y', 'z'});
+     * // Creates 3x3 matrix with both diagonals set
+     * // Resulting matrix: 
+     * //   {'a', '\u0000', 'x'},
+     * //   {'\u0000', 'b', '\u0000'},
+     * //   {'z', '\u0000', 'c'}
+     *
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of main diagonal elements
@@ -469,59 +474,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a stream of points adjacent to the specified position (up, down, left, right).
-     * Only includes points within matrix bounds.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<Point&gt; adjacent = matrix.adjacent4Points(0, 0);
-     * // Returns stream of Point.of(0, 1) and Point.of(1, 0)
-     * }</pre>
-     *
-     * @param i the row index
-     * @param j the column index
-     * @return a stream of adjacent points (maximum 4)
-     */
-    public Stream<Point> adjacent4Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        return Stream.of(up, right, down, left);
-    }
-
-    /**
-     * Returns a stream of points adjacent to the specified position including diagonals.
-     * Only includes points within matrix bounds.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}, {'g', 'h', 'i'}});
-     * Stream<Point&gt; adjacent = matrix.adjacent8Points(1, 1);
-     * // Returns stream of all 8 surrounding points
-     * }</pre>
-     *
-     * @param i the row index
-     * @param j the column index
-     * @return a stream of adjacent points including diagonals (maximum 8)
-     */
-    public Stream<Point> adjacent8Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
-        final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
-        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(i + 1, j + 1) : null;
-        final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
-
-        return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
-    }
-
-    /**
      * Returns the specified row as an array.
      *
      * <p><b>Important:</b> This method returns the internal array directly, not a copy.
@@ -689,7 +641,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a new char array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public char[] getLU2RD() {
+    public char[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final char[] res = new char[rows];

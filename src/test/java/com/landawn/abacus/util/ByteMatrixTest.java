@@ -262,33 +262,6 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertFalse(empty.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-        ByteMatrix matrix = ByteMatrix.of(a);
-
-        List<Point> points = matrix.adjacent4Points(1, 1).toList();
-        Assertions.assertEquals(4, points.size());
-        Assertions.assertTrue(points.contains(Point.of(0, 1))); // up
-        Assertions.assertTrue(points.contains(Point.of(1, 2))); // right
-        Assertions.assertTrue(points.contains(Point.of(2, 1))); // down
-        Assertions.assertTrue(points.contains(Point.of(1, 0))); // left
-
-        List<Point> cornerPoints = matrix.adjacent4Points(0, 0).toList();
-        Assertions.assertEquals(2, cornerPoints.stream().filter(p -> p != null).count());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-        ByteMatrix matrix = ByteMatrix.of(a);
-
-        List<Point> points = matrix.adjacent8Points(1, 1).toList();
-        Assertions.assertEquals(8, points.size());
-
-        List<Point> cornerPoints = matrix.adjacent8Points(0, 0).toList();
-        Assertions.assertEquals(3, cornerPoints.stream().filter(p -> p != null).count());
-    }
 
     @Test
     public void testRow() {

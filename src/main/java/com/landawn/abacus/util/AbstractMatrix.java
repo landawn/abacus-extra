@@ -14,6 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.stream.IntStream;
@@ -751,6 +754,113 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
                 }
             }
         }
+    }
+
+    /**
+     * Returns a stream of points adjacent to the specified position in the four cardinal directions
+     * (up, down, left, right). Only includes points within matrix bounds, filtering out null values
+     * for positions at the matrix edges.
+     *
+     * <p>This method is useful for grid traversal algorithms, pathfinding, and neighbor analysis
+     * where only orthogonal (non-diagonal) adjacency is considered. Points are returned in the
+     * order: up, right, down, left.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * Stream<Point&gt; adjacent = matrix.adjacent4Points(0, 0);
+     * // Returns stream of Point.of(0, 1) and Point.of(1, 0) - only right and down exist
+     *
+     * // Center position has all 4 neighbors
+     * BooleanMatrix larger = BooleanMatrix.of(new boolean[3][3]);
+     * Stream<Point&gt; centerAdj = larger.adjacent4Points(1, 1);
+     * // Returns all 4 adjacent points: (0,1), (1,2), (2,1), (1,0)
+     * }</pre>
+     *
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
+     */
+    public Stream<Point> adjacent4Points(final int i, final int j) {
+        final List<Point> points = new ArrayList<>(4);
+
+        if (i > 0) {
+            points.add(Point.of(i - 1, j)); // up
+        }
+        if (j < cols - 1) {
+            points.add(Point.of(i, j + 1)); // right
+        }
+        if (i < rows - 1) {
+            points.add(Point.of(i + 1, j)); // down
+        }
+        if (j > 0) {
+            points.add(Point.of(i, j - 1)); // left
+        }
+
+        return Stream.of(points);
+    }
+
+    /**
+     * Returns a stream of all 8 points adjacent to the specified position, including both
+     * cardinal directions (up, down, left, right) and diagonal directions. Only includes
+     * points within matrix bounds, filtering out null values for positions at the matrix edges.
+     *
+     * <p>This method is useful for algorithms requiring full 8-way adjacency, such as
+     * certain pathfinding algorithms, cellular automaton simulations (like Conway's Game of Life),
+     * or flood fill operations. Points are returned clockwise starting from the top-left:
+     * leftUp, up, rightUp, right, rightDown, down, leftDown, left.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}, {true, false, true}});
+     * Stream<Point&gt; adjacent = matrix.adjacent8Points(1, 1);
+     * // Returns stream of all 8 surrounding points for the center position
+     *
+     * // Corner position has only 3 neighbors
+     * Stream<Point&gt; corner = matrix.adjacent8Points(0, 0).skipNulls();
+     * // Returns 3 points: (0,1), (1,1), (1,0)
+     * }</pre>
+     *
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
+     */
+    public Stream<Point> adjacent8Points(final int i, final int j) {
+        final List<Point> points = new ArrayList<>(8);
+
+        if (i > 0 && j > 0) {
+            points.add(Point.of(i - 1, j - 1)); // leftUp
+        }
+
+        if (i > 0) {
+            points.add(Point.of(i - 1, j)); // up
+        }
+
+        if (i > 0 && j < cols - 1) {
+            points.add(Point.of(i - 1, j + 1)); // rightUp
+        }
+
+        if (j < cols - 1) {
+            points.add(Point.of(i, j + 1)); // right
+        }
+
+        if (i < rows - 1 && j < cols - 1) {
+            points.add(Point.of(i + 1, j + 1)); // rightDown
+        }
+
+        if (i < rows - 1) {
+            points.add(Point.of(i + 1, j)); // down
+        }
+
+        if (i < rows - 1 && j > 0) {
+            points.add(Point.of(i + 1, j - 1)); // leftDown
+        }
+
+        if (j > 0) {
+            points.add(Point.of(i, j - 1)); // left
+        }
+
+        return Stream.of(points);
     }
 
     /**

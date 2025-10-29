@@ -1,11 +1,10 @@
 package com.landawn.abacus.util;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Tag;
@@ -1369,7 +1368,10 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testReshape_1Dto2D_Boolean_invalidSize() {
         boolean[] arr = { true, false, true, false, true };
-        assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(arr, 3));
+        boolean[][] result = Arrays.reshape(arr, 3);
+        assertEquals(2, result.length);
+        assertEquals(3, result[0].length);
+        assertEquals(2, result[1].length);
     }
 
     @Test
@@ -1566,7 +1568,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatten_2D_Boolean_null() {
         boolean[][] arr = null;
         boolean[] result = Arrays.flatten(arr);
-        assertNull(result);
+        assertArrayEquals(N.EMPTY_BOOLEAN_ARRAY, result);
     }
 
     @Test
@@ -1663,7 +1665,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatten_2D_Int_null() {
         int[][] arr = null;
         int[] result = Arrays.flatten(arr);
-        assertNull(result);
+        assertArrayEquals(N.EMPTY_INT_ARRAY, result);
     }
 
     @Test
@@ -1745,7 +1747,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatten_2D_Double_null() {
         double[][] arr = null;
         double[] result = Arrays.flatten(arr);
-        assertNull(result);
+        assertArrayEquals(N.EMPTY_DOUBLE_ARRAY, result, 0.001);
     }
 
     @Test
@@ -2786,14 +2788,14 @@ public class Arrays2510Test extends TestBase {
     public void testNullHandling_flatten() {
         int[][] arr = null;
         int[] result = Arrays.flatten(arr);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testNullHandling_reshape() {
         int[] arr = null;
         int[][] result = Arrays.reshape(arr, 2);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test

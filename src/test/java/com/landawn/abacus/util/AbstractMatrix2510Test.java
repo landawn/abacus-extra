@@ -837,6 +837,94 @@ public class AbstractMatrix2510Test extends TestBase {
         assertEquals(28, sum.get()); // 5 + 6 + 8 + 9
     }
 
+    // ============ Adjacent Points Tests ============
+
+    @Test
+    public void testAdjacent4Points_center() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[3][3]);
+        List<Point> points = m.adjacent4Points(1, 1).toList();
+        assertEquals(4, points.size());
+        assertTrue(points.contains(Point.of(0, 1)));
+        assertTrue(points.contains(Point.of(1, 2)));
+        assertTrue(points.contains(Point.of(2, 1)));
+        assertTrue(points.contains(Point.of(1, 0)));
+    }
+
+    @Test
+    public void testAdjacent4Points_corner() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[2][2]);
+        List<Point> points = m.adjacent4Points(0, 0).toList();
+        assertEquals(2, points.size());
+        assertTrue(points.contains(Point.of(0, 1)));
+        assertTrue(points.contains(Point.of(1, 0)));
+    }
+
+    @Test
+    public void testAdjacent8Points_center() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[3][3]);
+        List<Point> points = m.adjacent8Points(1, 1).toList();
+        assertEquals(8, points.size());
+        assertTrue(points.contains(Point.of(0, 0)));
+        assertTrue(points.contains(Point.of(0, 1)));
+        assertTrue(points.contains(Point.of(0, 2)));
+        assertTrue(points.contains(Point.of(1, 0)));
+        assertTrue(points.contains(Point.of(1, 2)));
+        assertTrue(points.contains(Point.of(2, 0)));
+        assertTrue(points.contains(Point.of(2, 1)));
+        assertTrue(points.contains(Point.of(2, 2)));
+    }
+
+    @Test
+    public void testAdjacent8Points_corner() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[2][2]);
+        List<Point> points = m.adjacent8Points(0, 0).toList();
+        assertEquals(3, points.size());
+        assertTrue(points.contains(Point.of(0, 1)));
+        assertTrue(points.contains(Point.of(1, 0)));
+        assertTrue(points.contains(Point.of(1, 1)));
+    }
+
+    @Test
+    public void testAdjacent4Points_centerElement() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
+        List<Point> points = m.adjacent4Points(1, 1).toList();
+        assertEquals(4, points.size());
+        assertNotNull(points.get(0)); // up
+        assertNotNull(points.get(1)); // right
+        assertNotNull(points.get(2)); // down
+        assertNotNull(points.get(3)); // left
+    }
+
+    @Test
+    public void testAdjacent4Points_cornerElement() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        List<Point> points = m.adjacent4Points(0, 0).toList();
+        assertEquals(2, points.size());
+        assertNotNull(points.get(0)); // right
+        assertNotNull(points.get(1)); // down
+    }
+
+    @Test
+    public void testAdjacent8Points_centerElement() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
+        List<Point> points = m.adjacent8Points(1, 1).toList();
+        assertEquals(8, points.size());
+        // All should be non-null for center element
+        for (Point p : points) {
+            assertNotNull(p);
+        }
+    }
+
+    @Test
+    public void testAdjacent8Points_cornerElement() {
+        BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
+        List<Point> points = m.adjacent8Points(0, 0).toList();
+        assertEquals(3, points.size());
+        assertNotNull(points.get(0)); // right
+        assertNotNull(points.get(1)); // right-down
+        assertNotNull(points.get(2)); // down
+    }
+
     // ============ Point Stream Tests ============
 
     @Test

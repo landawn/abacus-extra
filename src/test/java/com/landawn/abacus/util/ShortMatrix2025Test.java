@@ -356,54 +356,6 @@ public class ShortMatrix2025Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points_centerElement() {
-        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = m.adjacent4Points(1, 1).toList();
-        assertEquals(4, points.size());
-        assertNotNull(points.get(0)); // up
-        assertNotNull(points.get(1)); // right
-        assertNotNull(points.get(2)); // down
-        assertNotNull(points.get(3)); // left
-    }
-
-    @Test
-    public void testAdjacent4Points_cornerElement() {
-        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.adjacent4Points(0, 0).toList();
-        assertEquals(4, points.size());
-        assertEquals(null, points.get(0)); // up (out of bounds)
-        assertNotNull(points.get(1)); // right
-        assertNotNull(points.get(2)); // down
-        assertEquals(null, points.get(3)); // left (out of bounds)
-    }
-
-    @Test
-    public void testAdjacent8Points_centerElement() {
-        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        List<Point> points = m.adjacent8Points(1, 1).toList();
-        assertEquals(8, points.size());
-        // All should be non-null for center element
-        for (Point p : points) {
-            assertNotNull(p);
-        }
-    }
-
-    @Test
-    public void testAdjacent8Points_cornerElement() {
-        ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        List<Point> points = m.adjacent8Points(0, 0).toList();
-        assertEquals(8, points.size());
-        assertEquals(null, points.get(0)); // left-up
-        assertEquals(null, points.get(1)); // up
-        assertEquals(null, points.get(2)); // right-up
-        assertNotNull(points.get(3)); // right
-        assertNotNull(points.get(4)); // right-down
-        assertNotNull(points.get(5)); // down
-        assertEquals(null, points.get(6)); // left-down
-        assertEquals(null, points.get(7)); // left
-    }
-
     // ============ Row/Column Operations Tests ============
 
     @Test
@@ -2037,23 +1989,6 @@ public class ShortMatrix2025Test extends TestBase {
         ShortMatrix empty = ShortMatrix.empty();
         // Can't test adjacent points on empty matrix as there are no valid indices
         assertTrue(empty.isEmpty());
-    }
-
-    @Test
-    public void testAdjacentPoints_singleElement() {
-        ShortMatrix m = ShortMatrix.of(new short[][] { { 1 } });
-        List<Point> points4 = m.adjacent4Points(0, 0).toList();
-        assertEquals(4, points4.size());
-        // All should be null for single element matrix
-        for (Point p : points4) {
-            assertEquals(null, p);
-        }
-
-        List<Point> points8 = m.adjacent8Points(0, 0).toList();
-        assertEquals(8, points8.size());
-        for (Point p : points8) {
-            assertEquals(null, p);
-        }
     }
 
     @Test

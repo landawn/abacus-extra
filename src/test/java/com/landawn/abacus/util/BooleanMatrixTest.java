@@ -193,23 +193,6 @@ public class BooleanMatrixTest extends TestBase {
         assertTrue(matrix.rightOf(0, 1).isEmpty());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        boolean[][] arr = { { true, false, true }, { false, true, false }, { true, false, true } };
-        BooleanMatrix matrix = BooleanMatrix.of(arr);
-
-        List<Point> points = matrix.adjacent4Points(1, 1).toList();
-        assertEquals(4, points.size());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        boolean[][] arr = { { true, false, true }, { false, true, false }, { true, false, true } };
-        BooleanMatrix matrix = BooleanMatrix.of(arr);
-
-        List<Point> points = matrix.adjacent8Points(1, 1).toList();
-        assertEquals(8, points.size());
-    }
 
     @Test
     public void testRow() {

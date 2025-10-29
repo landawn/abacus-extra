@@ -1951,7 +1951,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 2D boolean array to flatten.
-     * @return a 1D boolean array containing all elements, or empty array if input is {@code null}/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static boolean[] flatten(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -1988,7 +1988,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 3D boolean array to flatten (can be {@code null}).
-     * @return a 1D boolean array containing all elements, or empty array if input is {@code null}/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static boolean[] flatten(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -2649,6 +2649,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final boolean[] element : a) {
@@ -2673,6 +2677,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final boolean[][] element : a) {
@@ -3256,7 +3264,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The 2D character array to flatten.
-     * @return A new 1D character array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3293,7 +3301,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The 3D character array to flatten.
-     * @return A new 1D character array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -3967,6 +3975,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final char[] element : a) {
@@ -3991,6 +4003,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final char[][] element : a) {
@@ -4499,7 +4515,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 2D byte array to flatten.
-     * @return a 1D byte array containing all elements, or empty array if input is {@code null}/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -4536,7 +4552,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 3D byte array to flatten (can be {@code null}).
-     * @return a 1D byte array containing all elements, or empty array if input is {@code null}/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
@@ -5220,6 +5236,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of all elements across all sub-arrays.
      */
     public static long totalCountOfElements(final byte[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final byte[] element : a) {
@@ -5243,6 +5263,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of all elements across all sub-arrays.
      */
     public static long totalCountOfElements(final byte[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final byte[][] element : a) {
@@ -5812,7 +5836,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a one-dimensional array containing all elements.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -5849,7 +5873,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a one-dimensional array containing all elements.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
@@ -6459,6 +6483,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final short[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final short[] element : a) {
@@ -6483,6 +6511,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total number of elements across all sub-arrays, or 0 if array is {@code null}/empty.
      */
     public static long totalCountOfElements(final short[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final short[][] element : a) {
@@ -7087,7 +7119,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 2D array to flatten.
-     * @return a new 1D array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -7127,7 +7159,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 3D array to flatten.
-     * @return a new 1D array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -7743,6 +7775,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total count of integer elements.
      */
     public static long totalCountOfElements(final int[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final int[] element : a) {
@@ -7767,6 +7803,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total count of integer elements.
      */
     public static long totalCountOfElements(final int[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final int[][] element : a) {
@@ -8339,7 +8379,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The 2D array to flatten.
-     * @return A new 1D long array containing all elements from the input.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -8375,7 +8415,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The 3D array to flatten.
-     * @return A new 1D long array containing all elements from the input.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -8985,6 +9025,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total count of long elements.
      */
     public static long totalCountOfElements(final long[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final long[] element : a) {
@@ -9008,6 +9052,10 @@ public sealed class Arrays permits Arrays.f {
      * @return The total count of long elements.
      */
     public static long totalCountOfElements(final long[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final long[][] element : a) {
@@ -9576,7 +9624,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 2D array to flatten.
-     * @return a new 1D array containing all elements from the 2D array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -9613,7 +9661,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 3D array to flatten.
-     * @return a new 1D array containing all elements from the 3D array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -10226,6 +10274,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final float[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final float[] element : a) {
@@ -10249,6 +10301,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final float[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final float[][] element : a) {
@@ -10820,7 +10876,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 2D array to flatten.
-     * @return a new 1D array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -10857,7 +10913,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the 3D array to flatten.
-     * @return a new 1D array containing all elements from the input array.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -11472,6 +11528,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final double[][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final double[] element : a) {
@@ -11495,6 +11555,10 @@ public sealed class Arrays permits Arrays.f {
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final double[][][] a) {
+        if (N.isEmpty(a)) {
+            return 0;
+        }
+
         long count = 0;
 
         for (final double[][] element : a) {
@@ -14603,8 +14667,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the component type of the array elements.
          * @param a the two-dimensional array to flatten. Must not be null.
          * @return a new one-dimensional array containing all elements from the input array.
+         * @throws IllegalArgumentException if the input array is null.
          */
-        public static <T> T[] flatten(final T[][] a) {
+        public static <T> T[] flatten(final T[][] a) throws IllegalArgumentException {
+            N.checkArgNotNull(a, "The input array must not be null");
+
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
             final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType();
@@ -15431,6 +15498,7 @@ public sealed class Arrays permits Arrays.f {
             if (N.isEmpty(a)) {
                 return 0;
             }
+
             long count = 0;
 
             for (final Object[] element : a) {
@@ -15724,8 +15792,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the component type of the array elements.
          * @param a the three-dimensional array to flatten. Must not be null.
          * @return a new one-dimensional array containing all elements in order.
+         * @throws IllegalArgumentException if the input array is null.
          */
-        public static <T> T[] flatten(final T[][][] a) {
+        public static <T> T[] flatten(final T[][][] a) throws IllegalArgumentException {
+            N.checkArgNotNull(a, "The input array must not be null");
+
             final int count = Numbers.toIntExact(totalCountOfElements(a));
 
             final Class<T> componentType = (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType();
@@ -16527,6 +16598,7 @@ public sealed class Arrays permits Arrays.f {
             if (N.isEmpty(a)) {
                 return 0;
             }
+
             long count = 0;
 
             for (final Object[][] element : a) {

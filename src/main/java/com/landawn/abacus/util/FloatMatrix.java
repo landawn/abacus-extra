@@ -248,10 +248,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.diagonal(new float[] {1.0f, 4.0f}, new float[] {2.0f, 3.0f});
-     * // Creates 2x2 matrix:
-     * // [[1.0, 2.0],
-     * //  [3.0, 4.0]]
+     * FloatMatrix matrix = FloatMatrix.diagonal(new float[] { 1.0, 2.0, 3.0 }, new float[] { 4.0, 5.0, 6.0 });
+     * // Creates 3x3 matrix with both diagonals set
+     * // Resulting matrix: 
+     * //   {1.0, 0, 4.0},
+     * //   {0, 2.0, 0},
+     * //   {6.0, 0, 3.0}
+     *
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
@@ -471,67 +474,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a stream of points adjacent to the specified position in 4 cardinal directions: up, down, left, right.
-     * Only includes points within matrix bounds. Null points (for out-of-bounds directions) are filtered out.
-     * The order of points is: up, right, down, left.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
-     * // Returns stream containing Point.of(0, 1) and Point.of(1, 0)
-     * // (right and down neighbors, as up and left are out of bounds)
-     * long count = adjacent.count(); // count == 2
-     * }</pre>
-     *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of adjacent points (0 to 4 points, depending on position)
-     */
-    public Stream<Point> adjacent4Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        return Stream.of(up, right, down, left);
-    }
-
-    /**
-     * Returns a stream of points adjacent to the specified position in 8 directions including diagonals.
-     * Only includes points within matrix bounds. Null points (for out-of-bounds directions) are filtered out.
-     * The order of points is: left-up, up, right-up, right, right-down, down, left-down, left.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}, {7.0f, 8.0f, 9.0f}});
-     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
-     * // Returns stream of all 8 surrounding points (center position has all 8 neighbors)
-     * long count = adjacent.count(); // count == 8
-     *
-     * Stream<Point> corner = matrix.adjacent8Points(0, 0);
-     * long cornerCount = corner.count(); // cornerCount == 3 (only right, down, and right-down)
-     * }</pre>
-     *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of adjacent points including diagonals (0 to 8 points, depending on position)
-     */
-    public Stream<Point> adjacent8Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
-        final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
-        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(i + 1, j + 1) : null;
-        final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
-
-        return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
-    }
-
-    /**
      * Returns the specified row as an array.
      *
      * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
@@ -689,7 +631,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new float array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public float[] getLU2RD() {
+    public float[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final float[] res = new float[rows];

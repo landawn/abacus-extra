@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -273,34 +272,6 @@ public class FloatMatrixTest extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        List<Sheet.Point> points = matrix.adjacent4Points(1, 1).toList();
-        assertEquals(4, points.size());
-
-        // Corner case
-        List<Sheet.Point> cornerPoints = matrix.adjacent4Points(0, 0).toList();
-        assertEquals(4, cornerPoints.size());
-        assertNull(cornerPoints.get(0)); // up
-        assertNotNull(cornerPoints.get(1)); // right
-        assertNotNull(cornerPoints.get(2)); // down
-        assertNull(cornerPoints.get(3)); // left
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        List<Sheet.Point> points = matrix.adjacent8Points(1, 1).toList();
-        assertEquals(8, points.size());
-
-        // Corner case
-        List<Sheet.Point> cornerPoints = matrix.adjacent8Points(0, 0).toList();
-        assertEquals(8, cornerPoints.size());
-        // Check some null values for corner
-        assertNull(cornerPoints.get(0)); // left-up
-        assertNull(cornerPoints.get(1)); // up
-        assertNull(cornerPoints.get(2)); // right-up
-        assertNotNull(cornerPoints.get(3)); // right
-    }
 
     @Test
     public void testRow() {

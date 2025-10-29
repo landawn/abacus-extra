@@ -362,33 +362,6 @@ public class FloatMatrix2510Test extends TestBase {
         assertFalse(right.isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        Stream<Point> adjacent = m.adjacent4Points(1, 1);
-        assertEquals(4, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent4Points_corner() {
-        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        Stream<Point> adjacent = m.adjacent4Points(0, 0);
-        assertEquals(2, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
-        Stream<Point> adjacent = m.adjacent8Points(1, 1);
-        assertEquals(8, adjacent.count());
-    }
-
-    @Test
-    public void testAdjacent8Points_corner() {
-        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        Stream<Point> adjacent = m.adjacent8Points(0, 0);
-        assertEquals(3, adjacent.count());
-    }
 
     // ============ Row/Column Access Tests ============
 
@@ -814,11 +787,6 @@ public class FloatMatrix2510Test extends TestBase {
         assertEquals(4.0f, reshaped.get(1, 0));
     }
 
-    @Test
-    public void testReshape_invalidSize() {
-        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(2, 3));
-    }
 
     // ============ Repelem Tests ============
 

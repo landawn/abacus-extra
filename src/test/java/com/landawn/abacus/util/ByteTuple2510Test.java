@@ -403,7 +403,7 @@ public class ByteTuple2510Test extends TestBase {
     public void testTuple2_accept() {
         ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
         List<Integer> results = new ArrayList<>();
-        tuple.accept((a, b) -> results.add((int) (a + b)));
+        tuple.accept((a, b) -> results.add(a + b));
         assertEquals(1, results.size());
         assertEquals(30, results.get(0));
     }
@@ -522,7 +522,7 @@ public class ByteTuple2510Test extends TestBase {
     public void testTuple3_accept() {
         ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         List<Integer> results = new ArrayList<>();
-        tuple.accept((a, b, c) -> results.add((int) (a + b + c)));
+        tuple.accept((a, b, c) -> results.add(a + b + c));
         assertEquals(1, results.size());
         assertEquals(60, results.get(0));
     }

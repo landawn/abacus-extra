@@ -228,23 +228,6 @@ public class DoubleMatrixTest extends TestBase {
         assertTrue(matrix.rightOf(0, 1).isEmpty());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
-        DoubleMatrix matrix = DoubleMatrix.of(arr);
-
-        List<Point> points = matrix.adjacent4Points(1, 1).toList();
-        assertEquals(4, points.size());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } };
-        DoubleMatrix matrix = DoubleMatrix.of(arr);
-
-        List<Point> points = matrix.adjacent8Points(1, 1).toList();
-        assertEquals(8, points.size());
-    }
 
     @Test
     public void testRow() {

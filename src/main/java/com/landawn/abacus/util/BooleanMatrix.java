@@ -169,8 +169,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[] {true, true}, new boolean[] {false, false});
-     * // Creates 2x2 matrix with both diagonals set
+     * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[] {true, true, true}, new boolean[] {false, false, false});
+     * // Creates 3x3 matrix with both diagonals set
+     * // Resulting matrix: 
+     * //   {true, false, false},
+     * //   {false, true, false},
+     * //   {false, false, true}
+     *
      * }</pre>
      *
      * @param leftUp2RightDownDiagonal the array of main diagonal elements
@@ -394,79 +399,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns a stream of points adjacent to the specified position in the four cardinal directions
-     * (up, down, left, right). Only includes points within matrix bounds, filtering out null values
-     * for positions at the matrix edges.
-     *
-     * <p>This method is useful for grid traversal algorithms, pathfinding, and neighbor analysis
-     * where only orthogonal (non-diagonal) adjacency is considered. Points are returned in the
-     * order: up, right, down, left.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Point&gt; adjacent = matrix.adjacent4Points(0, 0);
-     * // Returns stream of Point.of(0, 1) and Point.of(1, 0) - only right and down exist
-     *
-     * // Center position has all 4 neighbors
-     * BooleanMatrix larger = BooleanMatrix.of(new boolean[3][3]);
-     * Stream<Point&gt; centerAdj = larger.adjacent4Points(1, 1);
-     * // Returns all 4 adjacent points: (0,1), (1,2), (2,1), (1,0)
-     * }</pre>
-     *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
-     */
-    public Stream<Point> adjacent4Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        return Stream.of(up, right, down, left);
-    }
-
-    /**
-     * Returns a stream of all 8 points adjacent to the specified position, including both
-     * cardinal directions (up, down, left, right) and diagonal directions. Only includes
-     * points within matrix bounds, filtering out null values for positions at the matrix edges.
-     *
-     * <p>This method is useful for algorithms requiring full 8-way adjacency, such as
-     * certain pathfinding algorithms, cellular automaton simulations (like Conway's Game of Life),
-     * or flood fill operations. Points are returned clockwise starting from the top-left:
-     * leftUp, up, rightUp, right, rightDown, down, leftDown, left.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}, {true, false, true}});
-     * Stream<Point&gt; adjacent = matrix.adjacent8Points(1, 1);
-     * // Returns stream of all 8 surrounding points for the center position
-     *
-     * // Corner position has only 3 neighbors
-     * Stream<Point&gt; corner = matrix.adjacent8Points(0, 0);
-     * // Returns 3 points: (0,1), (1,1), (1,0)
-     * }</pre>
-     *
-     * @param i the row index (0-based)
-     * @param j the column index (0-based)
-     * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
-     */
-    public Stream<Point> adjacent8Points(final int i, final int j) {
-        final Point up = i == 0 ? null : Point.of(i - 1, j);
-        final Point right = j == cols - 1 ? null : Point.of(i, j + 1);
-        final Point down = i == rows - 1 ? null : Point.of(i + 1, j);
-        final Point left = j == 0 ? null : Point.of(i, j - 1);
-
-        final Point leftUp = i > 0 && j > 0 ? Point.of(i - 1, j - 1) : null;
-        final Point rightUp = i > 0 && j < cols - 1 ? Point.of(i - 1, j + 1) : null;
-        final Point rightDown = i < rows - 1 && j < cols - 1 ? Point.of(i + 1, j + 1) : null;
-        final Point leftDown = i < rows - 1 && j > 0 ? Point.of(i + 1, j - 1) : null;
-
-        return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
-    }
-
-    /**
      * Returns the specified row as a boolean array.
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
@@ -643,7 +575,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new boolean array containing the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public boolean[] getLU2RD() {
+    public boolean[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final boolean[] res = new boolean[rows];

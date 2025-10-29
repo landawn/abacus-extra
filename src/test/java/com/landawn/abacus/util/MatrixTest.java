@@ -3,7 +3,6 @@ package com.landawn.abacus.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -264,27 +263,6 @@ public class MatrixTest extends TestBase {
         Assertions.assertFalse(matrix.rightOf(0, 1).isPresent());
     }
 
-    @Test
-    public void testAdjacent4Points() {
-        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-
-        List<Sheet.Point> points = matrix.adjacent4Points(1, 1).filter(p -> p != null).collect(Collectors.toList());
-        Assertions.assertEquals(4, points.size());
-
-        List<Sheet.Point> cornerPoints = matrix.adjacent4Points(0, 0).filter(p -> p != null).collect(Collectors.toList());
-        Assertions.assertEquals(2, cornerPoints.size());
-    }
-
-    @Test
-    public void testAdjacent8Points() {
-        Matrix<Integer> matrix = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-
-        List<Sheet.Point> points = matrix.adjacent8Points(1, 1).filter(p -> p != null).collect(Collectors.toList());
-        Assertions.assertEquals(8, points.size());
-
-        List<Sheet.Point> cornerPoints = matrix.adjacent8Points(0, 0).filter(p -> p != null).collect(Collectors.toList());
-        Assertions.assertEquals(3, cornerPoints.size());
-    }
 
     @Test
     public void testRow() {
