@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for short matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is internally represented as a 2D short array (short[][]) and supports various
+ * <p>The matrix is internally represented as a two-dimensional short array (short[][]) and supports various
  * operations including arithmetic operations, matrix transformations (transpose, rotate, flip),
  * and element-wise operations.</p>
  * 
@@ -62,10 +62,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
     /**
-     * Constructs a ShortMatrix from a 2D short array. If the input array is null,
+     * Constructs a ShortMatrix from a two-dimensional short array. If the input array is null,
      * an empty matrix (0x0) is created.
      * 
-     * @param a the 2D short array to wrap in this matrix. The array is used directly
+     * @param a the two-dimensional short array to wrap in this matrix. The array is used directly
      *          without copying, so modifications to the array will affect the matrix.
      */
     public ShortMatrix(final short[][] a) {
@@ -78,8 +78,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty short matrix
@@ -89,7 +89,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a ShortMatrix from a 2D short array.
+     * Creates a ShortMatrix from a two-dimensional short array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -97,7 +97,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // matrix.get(0, 1) returns 2
      * }</pre>
      *
-     * @param a the 2D short array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional short array to create the matrix from, or null/empty for an empty matrix
      * @return a new ShortMatrix containing the provided data, or an empty ShortMatrix if input is null or empty
      */
     public static ShortMatrix of(final short[]... a) {
@@ -392,17 +392,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the element above the specified position, if it exists.
+     * This method provides safe access to the element directly above the given position
+     * without throwing an exception when at the top edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * OptionalShort value = matrix.upOf(1, 0); // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.upOf(0, 0); // Returns OptionalShort.empty()
+     * OptionalShort empty = matrix.upOf(0, 0); // Returns OptionalShort.empty() - no row above
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element above, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalShort containing the element at position (i-1, j), or empty if i == 0
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalShort upOf(final int i, final int j) {
         return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
@@ -410,17 +413,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the element below the specified position, if it exists.
+     * This method provides safe access to the element directly below the given position
+     * without throwing an exception when at the bottom edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * OptionalShort value = matrix.downOf(0, 0); // Returns OptionalShort.of((short)3)
-     * OptionalShort empty = matrix.downOf(1, 0); // Returns OptionalShort.empty()
+     * OptionalShort empty = matrix.downOf(1, 0); // Returns OptionalShort.empty() - no row below
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element below, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalShort containing the element at position (i+1, j), or empty if i == rows-1
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalShort downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
@@ -428,17 +434,19 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the element to the left of the specified position, if it exists.
+     * This method provides safe access to the element directly to the left of the given position
+     * without throwing an exception when at the leftmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * OptionalShort value = matrix.leftOf(0, 1); // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.leftOf(0, 0); // Returns OptionalShort.empty()
+     * OptionalShort empty = matrix.leftOf(0, 0); // Returns OptionalShort.empty() - no column to the left
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the left, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalShort containing the element at position (i, j-1), or empty if j == 0
      */
     public OptionalShort leftOf(final int i, final int j) {
         return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
@@ -446,36 +454,43 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the element to the right of the specified position, if it exists.
+     * This method provides safe access to the element directly to the right of the given position
+     * without throwing an exception when at the rightmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * OptionalShort value = matrix.rightOf(0, 0); // Returns OptionalShort.of((short)2)
-     * OptionalShort empty = matrix.rightOf(0, 1); // Returns OptionalShort.empty()
+     * OptionalShort empty = matrix.rightOf(0, 1); // Returns OptionalShort.empty() - no column to the right
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the right, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalShort containing the element at position (i, j+1), or empty if j == cols-1
      */
     public OptionalShort rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
     }
 
     /**
-     * Returns the specified row as an array.
-     * <p><b>Note:</b> The returned array is the internal representation - modifications to it will affect the matrix.
-     * If you need an independent copy, clone the returned array.</p>
+     * Returns the specified row as a short array.
+     *
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
+     * Modifications to the returned array will affect the matrix. If you need an independent
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
      * short[] firstRow = matrix.row(0); // Returns [1, 2, 3]
+     *
+     * // Direct modification affects the matrix
+     * firstRow[0] = 10; // matrix now has 10 at position (0,0)
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the internal array representing the specified row
-     * @throws IllegalArgumentException if rowIndex is negative or &gt;= number of rows
+     * @return the specified row array (direct reference to internal storage)
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public short[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -484,18 +499,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a new array containing the values from the specified column.
-     * Unlike {@link #row(int)}, this method returns a new independent array.
+     * Returns a copy of the specified column as a new short array.
+     *
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * columns are not stored contiguously in memory. Modifications to the returned array
+     * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
      * short[] firstColumn = matrix.column(0); // Returns [1, 4]
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstColumn[0] = 10; // matrix still has 1 at position (0,0)
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
      * @return a new array containing the values from the specified column
-     * @throws IllegalArgumentException if columnIndex is negative or &gt;= number of columns
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public short[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -510,8 +531,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Replaces all values in the specified row with values from the given array.
-     * The array must have exactly the same length as the number of columns in the matrix.
+     * Sets the values of the specified row.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -521,8 +541,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to set; must have length equal to number of columns
-     * @throws IllegalArgumentException if row length does not match the number of columns
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final short[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -531,8 +550,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Replaces all values in the specified column with values from the given array.
-     * The array must have exactly the same length as the number of rows in the matrix.
+     * Sets the values of the specified column.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -542,8 +560,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to set; must have length equal to number of rows
-     * @throws IllegalArgumentException if column length does not match the number of rows
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final short[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -917,7 +934,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Fills the matrix with values from another 2D array, starting at position (0, 0).
+     * Fills the matrix with values from another two-dimensional array, starting at position (0, 0).
      * The source array can be smaller than this matrix; only the overlapping region is copied.
      * If the source array is larger, only the portion that fits is copied. The matrix is modified in-place.
      *
@@ -928,14 +945,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Result: [[1, 2, 0], [3, 4, 0]]
      * }</pre>
      *
-     * @param b the 2D array to copy values from
+     * @param b the two-dimensional array to copy values from
      */
     public void fill(final short[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a region of the matrix with values from another 2D array, starting at the specified position.
+     * Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
      * The source array can extend beyond this matrix's bounds; only the overlapping region is copied.
      * The matrix is modified in-place. Elements outside the matrix bounds are ignored.
      *
@@ -1601,7 +1618,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Applies an operation to each row array of the underlying 2D array.
+     * Applies an operation to each row array of the underlying two-dimensional array.
      * This method iterates through each row and passes the internal row array (not a copy) to the operation.
      * Any modifications made to the row arrays by the operation will directly affect the matrix.
      *
@@ -2710,7 +2727,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2751,7 +2768,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

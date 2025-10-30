@@ -19,11 +19,11 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
- * Utility class containing point classes for 2D coordinate systems.
+ * Utility class containing point classes for two-dimensional coordinate systems.
  * This class provides immutable point implementations with value storage for various coordinate
  * types and use cases in geometric computations, matrix operations, and spatial data structures.
  *
- * <p>The Points class contains the {@code xy} nested static class that provides 2D coordinate
+ * <p>The Points class contains the {@code xy} nested static class that provides two-dimensional coordinate
  * point implementations with associated values.</p>
  *
  * <p>The {@code xy} class provides point implementations for different primitive types
@@ -33,7 +33,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  *
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
- * // Create a 2D integer point with value
+ * // Create a two-dimensional integer point with value
  * Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(10, 20, 100);
  * int x = point.x; // 10
  * int y = point.y; // 20
@@ -62,7 +62,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with byte coordinates and a byte value.
+         * Represents an immutable two-dimensional point with byte coordinates and a byte value.
          * This class is optimized for memory-constrained scenarios where coordinates
          * and values fit within the byte range (-128 to 127).
          *
@@ -155,7 +155,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with byte coordinates and an integer value.
+         * Represents an immutable two-dimensional point with byte coordinates and an integer value.
          * This class is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full integer range.
          *
@@ -187,12 +187,14 @@ public final class Points {
             }
 
             /**
-             * Creates a ByteIntPoint with the specified coordinates and value.
+             * Creates a new ByteIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteIntPoint point = ByteIntPoint.of((byte)10, (byte)20, 100);
-             * // point.x == 10, point.y == 20, point.v == 100
+             * byte x = point.x; // 10
+             * byte y = point.y; // 20
+             * int value = point.v; // 100
              * }</pre>
              *
              * @param x the x-coordinate
@@ -246,7 +248,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with byte coordinates and a long value.
+         * Represents an immutable two-dimensional point with byte coordinates and a long value.
          * This class is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires the full long integer range.
          *
@@ -278,12 +280,14 @@ public final class Points {
             }
 
             /**
-             * Creates a ByteLongPoint with the specified coordinates and value.
+             * Creates a new ByteLongPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteLongPoint point = ByteLongPoint.of((byte)10, (byte)20, 100L);
-             * // point.x == 10, point.y == 20, point.v == 100L
+             * byte x = point.x; // 10
+             * byte y = point.y; // 20
+             * long value = point.v; // 100L
              * }</pre>
              *
              * @param x the x-coordinate
@@ -337,7 +341,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with byte coordinates and a double-precision floating-point value.
+         * Represents an immutable two-dimensional point with byte coordinates and a double-precision floating-point value.
          * This class is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value requires floating-point precision.
          *
@@ -369,12 +373,14 @@ public final class Points {
             }
 
             /**
-             * Creates a ByteDoublePoint with the specified coordinates and value.
+             * Creates a new ByteDoublePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteDoublePoint point = ByteDoublePoint.of((byte)10, (byte)20, 100.5);
-             * // point.x == 10, point.y == 20, point.v == 100.5
+             * byte x = point.x; // 10
+             * byte y = point.y; // 20
+             * double value = point.v; // 100.5
              * }</pre>
              *
              * @param x the x-coordinate
@@ -428,7 +434,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with byte coordinates and a generic object value.
+         * Represents an immutable two-dimensional point with byte coordinates and a generic object value.
          * This class is useful when coordinates are constrained to byte range (-128 to 127)
          * but the associated value can be any object type.
          *
@@ -463,8 +469,6 @@ public final class Points {
 
             /**
              * Creates a new ByteObjPoint with the specified coordinates and value.
-             * This factory method is used to create point instances with byte coordinates
-             * and a generic object value, useful for attaching arbitrary data to grid positions.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -475,9 +479,9 @@ public final class Points {
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate as a byte
-             * @param y the y-coordinate as a byte
-             * @param v the value to associate with this point
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new ByteObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> ByteObjPoint<T> of(final byte x, final byte y, final T v) {
@@ -526,7 +530,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with integer coordinates and a byte value.
+         * Represents an immutable two-dimensional point with integer coordinates and a byte value.
          * This class is useful when coordinates require the full integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
@@ -558,19 +562,19 @@ public final class Points {
             }
 
             /**
-             * Creates an IntBytePoint with the specified integer coordinates and byte value.
-             * This factory method is used to create point instances optimized for scenarios
-             * where coordinates require the full integer range but values are constrained to bytes.
+             * Creates a new IntBytePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntBytePoint point = IntBytePoint.of(100, 200, (byte)50);
-             * // point.x == 100, point.y == 200, point.v == 50
+             * int x = point.x; // 100
+             * int y = point.y; // 200
+             * byte value = point.v; // 50
              * }</pre>
              *
-             * @param x the x-coordinate as an int
-             * @param y the y-coordinate as an int
-             * @param v the value associated with this point as a byte
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new IntBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntBytePoint of(final int x, final int y, final byte v) {
@@ -619,7 +623,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with integer coordinates and an integer value.
+         * Represents an immutable two-dimensional point with integer coordinates and an integer value.
          * This class is the most commonly used point type for general-purpose integer-based
          * coordinate systems and grid operations.
          *
@@ -651,19 +655,19 @@ public final class Points {
             }
 
             /**
-             * Creates an IntIntPoint with the specified integer coordinates and integer value.
-             * This is the most commonly used factory method for general-purpose integer-based
-             * coordinate systems and grid operations.
+             * Creates a new IntIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntIntPoint point = IntIntPoint.of(100, 200, 300);
-             * // point.x == 100, point.y == 200, point.v == 300
+             * int x = point.x; // 100
+             * int y = point.y; // 200
+             * int value = point.v; // 300
              * }</pre>
              *
-             * @param x the x-coordinate as an int
-             * @param y the y-coordinate as an int
-             * @param v the value associated with this point as an int
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new IntIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntIntPoint of(final int x, final int y, final int v) {
@@ -712,7 +716,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with integer coordinates and a long value.
+         * Represents an immutable two-dimensional point with integer coordinates and a long value.
          * This class is useful when coordinates fit within the integer range
          * but the associated value requires the full long integer range.
          *
@@ -744,19 +748,19 @@ public final class Points {
             }
 
             /**
-             * Creates an IntLongPoint with the specified integer coordinates and long value.
-             * This factory method is useful when coordinates fit within the integer range
-             * but the associated value requires the full long integer range.
+             * Creates a new IntLongPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntLongPoint point = IntLongPoint.of(100, 200, 1000000L);
-             * // point.x == 100, point.y == 200, point.v == 1000000L
+             * int x = point.x; // 100
+             * int y = point.y; // 200
+             * long value = point.v; // 1000000L
              * }</pre>
              *
-             * @param x the x-coordinate as an int
-             * @param y the y-coordinate as an int
-             * @param v the value associated with this point as a long
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new IntLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntLongPoint of(final int x, final int y, final long v) {
@@ -805,7 +809,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with integer coordinates and a double-precision floating-point value.
+         * Represents an immutable two-dimensional point with integer coordinates and a double-precision floating-point value.
          * This class is useful when coordinates fit within the integer range
          * but the associated value requires floating-point precision.
          *
@@ -837,19 +841,19 @@ public final class Points {
             }
 
             /**
-             * Creates an IntDoublePoint with the specified integer coordinates and double value.
-             * This factory method is useful when coordinates fit within the integer range
-             * but the associated value requires floating-point precision.
+             * Creates a new IntDoublePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntDoublePoint point = IntDoublePoint.of(100, 200, 3.14159);
-             * // point.x == 100, point.y == 200, point.v == 3.14159
+             * int x = point.x; // 100
+             * int y = point.y; // 200
+             * double value = point.v; // 3.14159
              * }</pre>
              *
-             * @param x the x-coordinate as an int
-             * @param y the y-coordinate as an int
-             * @param v the value associated with this point as a double
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new IntDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static IntDoublePoint of(final int x, final int y, final double v) {
@@ -898,7 +902,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with integer coordinates and a generic object value.
+         * Represents an immutable two-dimensional point with integer coordinates and a generic object value.
          * This class is useful when coordinates fit within the integer range
          * but the associated value can be any object type.
          *
@@ -933,8 +937,6 @@ public final class Points {
 
             /**
              * Creates a new IntObjPoint with the specified coordinates and value.
-             * This factory method is used to create point instances with integer coordinates
-             * and a generic object value, useful for attaching arbitrary data to grid positions.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -945,9 +947,9 @@ public final class Points {
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate as an int
-             * @param y the y-coordinate as an int
-             * @param v the value to associate with this point
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new IntObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> IntObjPoint<T> of(final int x, final int y, final T v) {
@@ -996,7 +998,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with long integer coordinates and a byte value.
+         * Represents an immutable two-dimensional point with long integer coordinates and a byte value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
@@ -1028,19 +1030,19 @@ public final class Points {
             }
 
             /**
-             * Creates a LongBytePoint with the specified long coordinates and byte value.
-             * This factory method is useful when coordinates require the full long integer range
-             * but the associated value is constrained to byte range (-128 to 127).
+             * Creates a new LongBytePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongBytePoint point = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * // point.x == 1000L, point.y == 2000L, point.v == 50
+             * long x = point.x; // 1000L
+             * long y = point.y; // 2000L
+             * byte value = point.v; // 50
              * }</pre>
              *
-             * @param x the x-coordinate as a long
-             * @param y the y-coordinate as a long
-             * @param v the value associated with this point as a byte
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new LongBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongBytePoint of(final long x, final long y, final byte v) {
@@ -1089,7 +1091,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with long integer coordinates and an integer value.
+         * Represents an immutable two-dimensional point with long integer coordinates and an integer value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value fits within the integer range.
          *
@@ -1121,19 +1123,19 @@ public final class Points {
             }
 
             /**
-             * Creates a LongIntPoint with the specified long coordinates and integer value.
-             * This factory method is useful when coordinates require the full long integer range
-             * but the associated value fits within the integer range.
+             * Creates a new LongIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongIntPoint point = LongIntPoint.of(1000L, 2000L, 500);
-             * // point.x == 1000L, point.y == 2000L, point.v == 500
+             * long x = point.x; // 1000L
+             * long y = point.y; // 2000L
+             * int value = point.v; // 500
              * }</pre>
              *
-             * @param x the x-coordinate as a long
-             * @param y the y-coordinate as a long
-             * @param v the value associated with this point as an int
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new LongIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongIntPoint of(final long x, final long y, final int v) {
@@ -1182,7 +1184,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with long integer coordinates and a long value.
+         * Represents an immutable two-dimensional point with long integer coordinates and a long value.
          * This class is useful for large-scale coordinate systems where both coordinates
          * and values require the full long integer range.
          *
@@ -1214,19 +1216,19 @@ public final class Points {
             }
 
             /**
-             * Creates a LongLongPoint with the specified long coordinates and long value.
-             * This factory method is useful for large-scale coordinate systems where both coordinates
-             * and values require the full long integer range.
+             * Creates a new LongLongPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongLongPoint point = LongLongPoint.of(1000L, 2000L, 3000L);
-             * // point.x == 1000L, point.y == 2000L, point.v == 3000L
+             * long x = point.x; // 1000L
+             * long y = point.y; // 2000L
+             * long value = point.v; // 3000L
              * }</pre>
              *
-             * @param x the x-coordinate as a long
-             * @param y the y-coordinate as a long
-             * @param v the value associated with this point as a long
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new LongLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongLongPoint of(final long x, final long y, final long v) {
@@ -1275,7 +1277,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with long integer coordinates and a double-precision floating-point value.
+         * Represents an immutable two-dimensional point with long integer coordinates and a double-precision floating-point value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value requires floating-point precision.
          *
@@ -1307,19 +1309,19 @@ public final class Points {
             }
 
             /**
-             * Creates a LongDoublePoint with the specified long coordinates and double value.
-             * This factory method is useful when coordinates require the full long integer range
-             * but the associated value requires floating-point precision.
+             * Creates a new LongDoublePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongDoublePoint point = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * // point.x == 1000L, point.y == 2000L, point.v == 99.99
+             * long x = point.x; // 1000L
+             * long y = point.y; // 2000L
+             * double value = point.v; // 99.99
              * }</pre>
              *
-             * @param x the x-coordinate as a long
-             * @param y the y-coordinate as a long
-             * @param v the value associated with this point as a double
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new LongDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static LongDoublePoint of(final long x, final long y, final double v) {
@@ -1368,7 +1370,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with long integer coordinates and a generic object value.
+         * Represents an immutable two-dimensional point with long integer coordinates and a generic object value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value can be any object type.
          *
@@ -1403,21 +1405,19 @@ public final class Points {
 
             /**
              * Creates a new LongObjPoint with the specified coordinates and value.
-             * This factory method is used to create point instances with long coordinates
-             * and a generic object value, useful for attaching arbitrary data to large grid positions.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongObjPoint<String> point = LongObjPoint.of(1000L, 2000L, "marker");
-             * long x = point.x; // 1000
-             * long y = point.y; // 2000
+             * long x = point.x; // 1000L
+             * long y = point.y; // 2000L
              * String value = point.v; // "marker"
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate as a long
-             * @param y the y-coordinate as a long
-             * @param v the value to associate with this point
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new LongObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> LongObjPoint<T> of(final long x, final long y, final T v) {
@@ -1466,7 +1466,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with double-precision floating-point coordinates and a byte value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a byte value.
          * This class is useful when coordinates require floating-point precision
          * but the associated value is constrained to byte range (-128 to 127).
          *
@@ -1498,19 +1498,19 @@ public final class Points {
             }
 
             /**
-             * Creates a DoubleBytePoint with the specified double-precision coordinates and byte value.
-             * This factory method is useful when coordinates require floating-point precision
-             * but the associated value is constrained to byte range (-128 to 127).
+             * Creates a new DoubleBytePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)100);
-             * // point.x == 10.5, point.y == 20.3, point.v == 100
+             * double x = point.x; // 10.5
+             * double y = point.y; // 20.3
+             * byte value = point.v; // 100
              * }</pre>
              *
-             * @param x the x-coordinate as a double
-             * @param y the y-coordinate as a double
-             * @param v the value associated with this point as a byte
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new DoubleBytePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleBytePoint of(final double x, final double y, final byte v) {
@@ -1559,7 +1559,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with double-precision floating-point coordinates and an integer value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and an integer value.
          * This class is useful when coordinates require floating-point precision
          * but the associated value fits within the integer range.
          *
@@ -1591,19 +1591,19 @@ public final class Points {
             }
 
             /**
-             * Creates a DoubleIntPoint with the specified double-precision coordinates and integer value.
-             * This factory method is useful when coordinates require floating-point precision
-             * but the associated value fits within the integer range.
+             * Creates a new DoubleIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 500);
-             * // point.x == 10.5, point.y == 20.3, point.v == 500
+             * double x = point.x; // 10.5
+             * double y = point.y; // 20.3
+             * int value = point.v; // 500
              * }</pre>
              *
-             * @param x the x-coordinate as a double
-             * @param y the y-coordinate as a double
-             * @param v the value associated with this point as an int
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new DoubleIntPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleIntPoint of(final double x, final double y, final int v) {
@@ -1652,7 +1652,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with double-precision floating-point coordinates and a long value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a long value.
          * This class is useful when coordinates require floating-point precision
          * but the associated value requires the full long integer range.
          *
@@ -1684,19 +1684,19 @@ public final class Points {
             }
 
             /**
-             * Creates a DoubleLongPoint with the specified double-precision coordinates and long value.
-             * This factory method is useful when coordinates require floating-point precision
-             * but the associated value requires the full long integer range.
+             * Creates a new DoubleLongPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleLongPoint point = DoubleLongPoint.of(10.5, 20.3, 1000000L);
-             * // point.x == 10.5, point.y == 20.3, point.v == 1000000L
+             * double x = point.x; // 10.5
+             * double y = point.y; // 20.3
+             * long value = point.v; // 1000000L
              * }</pre>
              *
-             * @param x the x-coordinate as a double
-             * @param y the y-coordinate as a double
-             * @param v the value associated with this point as a long
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new DoubleLongPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleLongPoint of(final double x, final double y, final long v) {
@@ -1745,7 +1745,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with double-precision floating-point coordinates and a double value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a double value.
          * This class is useful for high-precision floating-point coordinate systems and scientific computations
          * where both coordinates and values require double precision.
          *
@@ -1777,19 +1777,19 @@ public final class Points {
             }
 
             /**
-             * Creates a DoubleDoublePoint with the specified double-precision coordinates and double value.
-             * This factory method is useful for high-precision floating-point coordinate systems and scientific
-             * computations where both coordinates and values require double precision.
+             * Creates a new DoubleDoublePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleDoublePoint point = DoubleDoublePoint.of(10.5, 20.3, 3.14159);
-             * // point.x == 10.5, point.y == 20.3, point.v == 3.14159
+             * double x = point.x; // 10.5
+             * double y = point.y; // 20.3
+             * double value = point.v; // 3.14159
              * }</pre>
              *
-             * @param x the x-coordinate as a double
-             * @param y the y-coordinate as a double
-             * @param v the value associated with this point as a double
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new DoubleDoublePoint instance with the specified coordinates and value; never {@code null}.
              */
             public static DoubleDoublePoint of(final double x, final double y, final double v) {
@@ -1838,7 +1838,7 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable 2D point with double-precision floating-point coordinates and a generic object value.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a generic object value.
          * This class is useful when coordinates require floating-point precision
          * but the associated value can be any object type.
          *
@@ -1873,8 +1873,6 @@ public final class Points {
 
             /**
              * Creates a new DoubleObjPoint with the specified coordinates and value.
-             * This factory method is used to create point instances with double-precision coordinates
-             * and a generic object value, useful for attaching arbitrary data to floating-point positions.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
@@ -1885,9 +1883,9 @@ public final class Points {
              * }</pre>
              *
              * @param <T> the type of the value associated with this point
-             * @param x the x-coordinate as a double
-             * @param y the y-coordinate as a double
-             * @param v the value to associate with this point
+             * @param x the x-coordinate
+             * @param y the y-coordinate
+             * @param v the value associated with this point
              * @return a new DoubleObjPoint instance with the specified coordinates and value; never {@code null}.
              */
             public static <T> DoubleObjPoint<T> of(final double x, final double y, final T v) {

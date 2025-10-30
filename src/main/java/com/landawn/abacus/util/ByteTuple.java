@@ -195,7 +195,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh byte value
      * @param _8 the eighth byte value
      * @return a new ByteTuple8 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
     @Deprecated
     public static ByteTuple8 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8) {
@@ -221,7 +221,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
      * @return a new ByteTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
      */
     @Deprecated
     public static ByteTuple9 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8,
@@ -320,11 +320,11 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte median = tuple.median(); // 20
+     * ByteTuple3 tuple3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
+     * byte median = tuple3.median(); // 20
      *
-     * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte median = tuple.median(); // 20
+     * ByteTuple4 tuple4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte median2 = tuple4.median(); // 20
      * }</pre>
      *
      * @return the median byte value in this tuple
@@ -1806,8 +1806,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte eighth = tuple._8; // 80
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
+    @Deprecated
     public static final class ByteTuple8 extends ByteTuple<ByteTuple8> {
 
         /** The first byte value stored in this tuple. */
@@ -1965,8 +1966,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte ninth = tuple._9; // 90
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
      */
+    @Deprecated
     public static final class ByteTuple9 extends ByteTuple<ByteTuple9> {
 
         /** The first byte value stored in this tuple. */

@@ -1319,26 +1319,67 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+        }
+
+        /**
+         * Returns the minimum value among the four elements.
+         *
+         * @return the minimum of _1, _2, _3, and _4
+         */
         @Override
         public long min() {
             return N.min(_1, _2, _3, _4);
         }
 
+        /**
+         * Returns the maximum value among the four elements.
+         *
+         * @return the maximum of _1, _2, _3, and _4
+         */
         @Override
         public long max() {
             return N.max(_1, _2, _3, _4);
         }
 
+        /**
+         * Returns the median value of the four elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) long value
+         */
         @Override
         public long median() {
             return N.median(_1, _2, _3, _4);
         }
 
+        /**
+         * Returns the sum of the four elements.
+         *
+         * @return _1 + _2 + _3 + _4
+         */
         @Override
         public long sum() {
             return N.sum(_1, _2, _3, _4);
         }
 
+        /**
+         * Returns the average of the four elements.
+         *
+         * @return (_1 + _2 + _3 + _4) / 4.0
+         */
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4);
@@ -1425,26 +1466,67 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+        }
+
+        /**
+         * Returns the minimum value among the five elements.
+         *
+         * @return the minimum of _1, _2, _3, _4, and _5
+         */
         @Override
         public long min() {
             return N.min(_1, _2, _3, _4, _5);
         }
 
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the maximum of _1, _2, _3, _4, and _5
+         */
         @Override
         public long max() {
             return N.max(_1, _2, _3, _4, _5);
         }
 
+        /**
+         * Returns the median value of the five elements.
+         *
+         * @return the middle value when sorted
+         */
         @Override
         public long median() {
             return N.median(_1, _2, _3, _4, _5);
         }
 
+        /**
+         * Returns the sum of the five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5
+         */
         @Override
         public long sum() {
             return N.sum(_1, _2, _3, _4, _5);
         }
 
+        /**
+         * Returns the average of the five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
+         */
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5);
@@ -1533,26 +1615,69 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+        }
+
+        /**
+         * Returns the minimum value among the six elements.
+         *
+         * @return the minimum of _1, _2, _3, _4, _5, and _6
+         */
         @Override
         public long min() {
             return N.min(_1, _2, _3, _4, _5, _6);
         }
 
+        /**
+         * Returns the maximum value among the six elements.
+         *
+         * @return the maximum of _1, _2, _3, _4, _5, and _6
+         */
         @Override
         public long max() {
             return N.max(_1, _2, _3, _4, _5, _6);
         }
 
+        /**
+         * Returns the median value of the six elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) long value
+         */
         @Override
         public long median() {
             return N.median(_1, _2, _3, _4, _5, _6);
         }
 
+        /**
+         * Returns the sum of the six elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6
+         */
         @Override
         public long sum() {
             return N.sum(_1, _2, _3, _4, _5, _6);
         }
 
+        /**
+         * Returns the average of the six elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
+         */
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6);
@@ -1645,26 +1770,69 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
                     || _7 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+        }
+
+        /**
+         * Returns the minimum value among the seven elements.
+         *
+         * @return the minimum of _1, _2, _3, _4, _5, _6, and _7
+         */
         @Override
         public long min() {
             return N.min(_1, _2, _3, _4, _5, _6, _7);
         }
 
+        /**
+         * Returns the maximum value among the seven elements.
+         *
+         * @return the maximum of _1, _2, _3, _4, _5, _6, and _7
+         */
         @Override
         public long max() {
             return N.max(_1, _2, _3, _4, _5, _6, _7);
         }
 
+        /**
+         * Returns the median value of the seven elements.
+         *
+         * @return the middle value when sorted
+         */
         @Override
         public long median() {
             return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
+        /**
+         * Returns the sum of the seven elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7
+         */
         @Override
         public long sum() {
             return N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
+        /**
+         * Returns the average of the seven elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
+         */
         @Override
         public double average() {
             return N.average(_1, _2, _3, _4, _5, _6, _7);
@@ -1694,7 +1862,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * double avg = octuple.average();  // 4.5
      * }</pre>
      *
-     * @deprecated For tuples with 8 or more elements, consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static final class LongTuple8 extends LongTuple<LongTuple8> {
@@ -1763,6 +1931,76 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
                     || _7 == valueToFind || _8 == valueToFind;
         }
 
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+        }
+
+        /**
+         * Returns the minimum value among the eight elements.
+         *
+         * @return the minimum of all eight elements
+         */
+        @Override
+        public long min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the eight elements.
+         *
+         * @return the maximum of all eight elements
+         */
+        @Override
+        public long max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the eight elements.
+         * For tuples with an even number of elements, returns the lower middle value.
+         *
+         * @return the median (lower middle) long value
+         */
+        @Override
+        public long median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of the eight elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8
+         */
+        @Override
+        public long sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of the eight elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
+        }
+
         @Override
         protected long[] elements() {
             if (elements == null) {
@@ -1787,7 +2025,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * long median = nonuple.median();  // 5
      * }</pre>
      *
-     * @deprecated For tuples with 9 or more elements, consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static final class LongTuple9 extends LongTuple<LongTuple9> {
@@ -1857,6 +2095,76 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         public boolean contains(final long valueToFind) {
             return _1 == valueToFind || _2 == valueToFind || _3 == valueToFind || _4 == valueToFind || _5 == valueToFind || _6 == valueToFind
                     || _7 == valueToFind || _8 == valueToFind || _9 == valueToFind;
+        }
+
+        /**
+         * Performs the given action for each element in this tuple.
+         *
+         * @param <E> the type of exception that may be thrown
+         * @param consumer the action to perform on each element
+         * @throws E if the consumer throws an exception
+         */
+        @Override
+        public <E extends Exception> void forEach(final Throwables.LongConsumer<E> consumer) throws E {
+            consumer.accept(_1);
+            consumer.accept(_2);
+            consumer.accept(_3);
+            consumer.accept(_4);
+            consumer.accept(_5);
+            consumer.accept(_6);
+            consumer.accept(_7);
+            consumer.accept(_8);
+            consumer.accept(_9);
+        }
+
+        /**
+         * Returns the minimum value among the nine elements.
+         *
+         * @return the minimum of all nine elements
+         */
+        @Override
+        public long min() {
+            return N.min(elements());
+        }
+
+        /**
+         * Returns the maximum value among the nine elements.
+         *
+         * @return the maximum of all nine elements
+         */
+        @Override
+        public long max() {
+            return N.max(elements());
+        }
+
+        /**
+         * Returns the median value of the nine elements.
+         *
+         * @return the middle value when sorted
+         */
+        @Override
+        public long median() {
+            return N.median(elements());
+        }
+
+        /**
+         * Returns the sum of the nine elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9
+         */
+        @Override
+        public long sum() {
+            return N.sum(elements());
+        }
+
+        /**
+         * Returns the average of the nine elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
+         */
+        @Override
+        public double average() {
+            return N.average(elements());
         }
 
         @Override

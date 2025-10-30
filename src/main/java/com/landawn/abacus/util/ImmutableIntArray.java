@@ -136,7 +136,7 @@ public final class ImmutableIntArray implements Immutable {
      * int last = array.get(array.length - 1); // returns 20
      * }</pre>
      *
-     * @param index the zero-based index of the element to retrieve (must be &gt;= 0 and &lt; length)
+     * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length})
      * @return the int element at the specified index
      * @throws ArrayIndexOutOfBoundsException if the index is negative or greater than or equal to {@code length}
      */
@@ -169,7 +169,7 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(sum[0]); // prints: 15
      * }</pre>
      *
-     * @param <E> the type of exception that the action may throw
+     * @param <E> the type of exception that the action may throw.
      * @param action the action to be performed for each element (must not be {@code null})
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
@@ -205,11 +205,11 @@ public final class ImmutableIntArray implements Immutable {
      * // Index 2: 30
      *
      * // Create a map of index to value
-     * Map<Integer, Integer> map = new HashMap<>();
+     * java.util.Map<Integer, Integer> map = new java.util.HashMap<>();
      * array.forEachIndexed((index, value) -> map.put(index, value));
      * }</pre>
      *
-     * @param <E> the type of exception that the action may throw
+     * @param <E> the type of exception that the action may throw.
      * @param action the action to be performed for each element, receiving the index (first parameter)
      *               and value (second parameter) as primitive ints (must not be {@code null})
      * @throws IllegalArgumentException if {@code action} is {@code null}
@@ -285,8 +285,8 @@ public final class ImmutableIntArray implements Immutable {
      * // empty is an empty array with length 0
      * }</pre>
      *
-     * @param fromIndex the starting index (inclusive) of the range to copy (must be &gt;= 0)
-     * @param toIndex the ending index (exclusive) of the range to copy (must be &lt;= length)
+     * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
+     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length})
      * @return a new ImmutableIntArray containing a copy of the elements in the specified range
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
      *                                   or {@code fromIndex > toIndex}
@@ -318,15 +318,15 @@ public final class ImmutableIntArray implements Immutable {
      *
      * // Can modify the returned array
      * mutableCopy[0] = 99;
-     * System.out.println(Arrays.toString(mutableCopy)); // prints: [99, 30, 40]
+     * System.out.println(java.util.Arrays.toString(mutableCopy)); // prints: [99, 30, 40]
      * System.out.println(array.get(1)); // still prints: 20 (original unchanged)
      *
      * // Get all elements as a mutable array
      * int[] allElements = array.copyToArray(0, array.length);
      * }</pre>
      *
-     * @param fromIndex the starting index (inclusive) of the range to copy (must be &gt;= 0)
-     * @param toIndex the ending index (exclusive) of the range to copy (must be &lt;= length)
+     * @param fromIndex the starting index (inclusive) of the range to copy (must be {@code >= 0})
+     * @param toIndex the ending index (exclusive) of the range to copy (must be {@code <= length})
      * @return a new mutable int array containing the specified range of elements
      * @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > length},
      *                                   or {@code fromIndex > toIndex}

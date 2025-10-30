@@ -2250,7 +2250,7 @@ public class Arrays2510Test extends TestBase {
     }
 
     // ============================================
-    // Tests for zip methods - 2D arrays
+    // Tests for zip methods - two-dimensional arrays
     // ============================================
 
     @Test
@@ -2274,7 +2274,7 @@ public class Arrays2510Test extends TestBase {
     }
 
     // ============================================
-    // Tests for zip methods - 3D arrays
+    // Tests for zip methods - three-dimensional arrays
     // ============================================
 
     @Test

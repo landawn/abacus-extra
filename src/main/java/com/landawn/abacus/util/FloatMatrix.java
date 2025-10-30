@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for float matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is stored internally as a 2D float array (float[][]) and provides
+ * <p>The matrix is stored internally as a two-dimensional float array (float[][]) and provides
  * methods for element access, manipulation, and various matrix operations such as
  * transpose, rotation, multiplication, and more.</p>
  * 
@@ -51,7 +51,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
 
     /**
-     * Constructs a FloatMatrix from a 2D float array.
+     * Constructs a FloatMatrix from a two-dimensional float array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
      * <p><b>Important:</b> The array is used directly without copying. Modifications to the input array
@@ -65,7 +65,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Modifying data[0][0] will also modify matrix.get(0, 0)
      * }</pre>
      *
-     * @param a the 2D float array to wrap as a matrix. Can be null, which creates an empty matrix.
+     * @param a the two-dimensional float array to wrap as a matrix. Can be null, which creates an empty matrix.
      */
     public FloatMatrix(final float[][] a) {
         super(a == null ? new float[0][0] : a);
@@ -88,7 +88,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a FloatMatrix from a 2D float array.
+     * Creates a FloatMatrix from a two-dimensional float array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -96,7 +96,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // matrix.get(0, 1) returns 2.0f
      * }</pre>
      *
-     * @param a the 2D float array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional float array to create the matrix from, or null/empty for an empty matrix
      * @return a new FloatMatrix containing the provided data, or an empty FloatMatrix if input is null or empty
      */
     public static FloatMatrix of(final float[]... a) {
@@ -104,7 +104,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a FloatMatrix from a 2D int array by converting int values to float.
+     * Creates a FloatMatrix from a two-dimensional int array by converting int values to float.
      * Each int value is converted to its equivalent float representation.
      *
      * <p><b>Requirements:</b></p>
@@ -121,7 +121,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * assert matrix.rows == 2 && matrix.cols == 2;
      * }</pre>
      *
-     * @param a the 2D int array to convert to a float matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional int array to convert to a float matrix, or null/empty for an empty matrix
      * @return a new FloatMatrix with converted values, or an empty FloatMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -539,10 +539,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * assert matrix.get(0, 2) == 9.0f;
      * }</pre>
      *
-     * @param rowIndex the index of the row to set (0-based, must be in range [0, rows))
+     * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to copy into the row; must have length equal to the number of columns
      * @throws IllegalArgumentException if row.length != cols
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds if row is null
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds or row is null
      */
     public void setRow(final int rowIndex, final float[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -562,9 +562,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * assert matrix.get(1, 0) == 8.0f;
      * }</pre>
      *
-     * @param columnIndex the index of the column to set (0-based, must be in range [0, cols))
+     * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to copy into the column; must have length equal to the number of rows
-     * @throws IllegalArgumentException if column.length != rows or columnIndex is out of bounds if column is null
+     * @throws IllegalArgumentException if column.length != rows
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
      */
     public void setColumn(final int columnIndex, final float[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -912,7 +913,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Fills the matrix with values from another 2D array, starting from the top-left corner.
+     * Fills the matrix with values from another two-dimensional array, starting from the top-left corner.
      * If the source array is larger than the matrix, only the fitting portion is copied.
      * If the source array is smaller, only the available values are copied.
      *
@@ -922,14 +923,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * matrix.fill(data); // Fills from position (0,0)
      * }</pre>
      *
-     * @param b the 2D array to copy values from
+     * @param b the two-dimensional array to copy values from
      */
     public void fill(final float[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a portion of the matrix with values from another 2D array.
+     * Fills a portion of the matrix with values from another two-dimensional array.
      * The filling starts at the specified position and copies as much as will fit.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -978,13 +979,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Creates a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows and is completely independent from the original matrix.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix subset = matrix.copy(1, 3); // Copies rows 1 and 2 (exclusive end)
      * }</pre>
-     * 
-     * @param fromRowIndex the starting row index (inclusive)
+     *
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new FloatMatrix containing the specified rows
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -1004,15 +1005,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Creates a copy of a submatrix defined by row and column ranges.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix submatrix = matrix.copy(0, 2, 1, 3); // Copies rows 0-1, columns 1-2
      * }</pre>
-     * 
-     * @param fromRowIndex the starting row index (inclusive)
+     *
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new FloatMatrix containing the specified submatrix
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -1967,13 +1968,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of elements from a single row.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatStream rowStream = matrix.streamH(0); // Stream of first row
      * }</pre>
-     * 
-     * @param rowIndex the index of the row to stream
+     *
+     * @param rowIndex the row index (0-based)
      * @return a FloatStream of elements from the specified row
      */
     @Override
@@ -1983,13 +1984,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of elements from a range of rows in row-major order.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatStream stream = matrix.streamH(1, 3); // Stream rows 1 and 2
      * }</pre>
-     * 
-     * @param fromRowIndex the starting row index (inclusive)
+     *
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a FloatStream of elements from the specified row range
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -2086,13 +2087,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of elements from a single column.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatStream colStream = matrix.streamV(0); // Stream of first column
      * }</pre>
-     * 
-     * @param columnIndex the index of the column to stream
+     *
+     * @param columnIndex the column index (0-based)
      * @return a FloatStream of elements from the specified column
      */
     @Override
@@ -2102,13 +2103,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of elements from a range of columns in column-major order.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatStream stream = matrix.streamV(1, 3); // Stream columns 1 and 2
      * }</pre>
-     * 
-     * @param fromColumnIndex the starting column index (inclusive)
+     *
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a FloatStream of elements from the specified column range
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -2206,13 +2207,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of FloatStream for a range of rows.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<FloatStream> rowStreams = matrix.streamR(1, 3); // Stream rows 1 and 2
      * }</pre>
-     * 
-     * @param fromRowIndex the starting row index (inclusive)
+     *
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a Stream of FloatStream for the specified row range
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -2279,13 +2280,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of FloatStream for a range of columns.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<FloatStream> colStreams = matrix.streamC(1, 3); // Stream columns 1 and 2
      * }</pre>
-     * 
-     * @param fromColumnIndex the starting column index (inclusive)
+     *
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a Stream of FloatStream for the specified column range
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -2398,16 +2399,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Applies a consumer function to elements in a specified submatrix region.
      * The operation may be performed in parallel for large regions.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * matrix.forEach(0, 2, 0, 2, value -> System.out.println(value)); // Process 2x2 submatrix
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the action may throw
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @param action the action to perform on each element
      * @throws IndexOutOfBoundsException if indices are out of bounds
@@ -2488,7 +2489,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2529,7 +2530,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -326,7 +326,7 @@ public class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[] {}, result);
         }
 
-        // Test cases for 2D boolean array zip methods
+        // Test cases for two-dimensional boolean array zip methods
 
         @Test
         public void testZip2D_TwoArrays_SameStructure() throws Exception {
@@ -473,7 +473,7 @@ public class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[][] { { true, true, false }, { true } }, result);
         }
 
-        // Test cases for 3D boolean array zip methods
+        // Test cases for three-dimensional boolean array zip methods
 
         @Test
         public void testZip3D_TwoArrays_SameStructure() throws Exception {
@@ -1311,7 +1311,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][], long[][], LongBiFunction)
         @Test
         public void testZip2DArrays() throws Exception {
-            // Test with normal 2D arrays
+            // Test with normal two-dimensional arrays
             long[][] a = { { 1, 2 }, { 3, 4, 5 } };
             long[][] b = { { 5, 6, 7 }, { 8, 9 } };
             long[][] result = Arrays.zip(a, b, (x, y) -> x + y);
@@ -1333,7 +1333,7 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testZip2DArraysWithNull() throws Exception {
-            // Test with null 2D arrays
+            // Test with null two-dimensional arrays
             long[][] result = Arrays.zip((long[][]) null, (long[][]) null, (x, y) -> x + y);
             Assertions.assertEquals(0, result.length);
 
@@ -1358,7 +1358,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][], long[][], long, long, LongBiFunction)
         @Test
         public void testZip2DArraysWithDefaults() throws Exception {
-            // Test with 2D arrays of different lengths using defaults
+            // Test with two-dimensional arrays of different lengths using defaults
             long[][] a = { { 1, 2 }, { 3, 4, 5 } };
             long[][] b = { { 5, 6, 7 }, { 8, 9 }, { 10 } };
             long[][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
@@ -1385,7 +1385,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][], long[][], long[][], LongTriFunction)
         @Test
         public void testZipThree2DArrays() throws Exception {
-            // Test with normal 2D arrays
+            // Test with normal two-dimensional arrays
             long[][] a = { { 1, 2 }, { 3, 4, 5 } };
             long[][] b = { { 5, 6, 7 }, { 8, 9 } };
             long[][] c = { { 10, 11 }, { 12, 13, 14 } };
@@ -1409,7 +1409,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][], long[][], long[][], long, long, long, LongTriFunction)
         @Test
         public void testZipThree2DArraysWithDefaults() throws Exception {
-            // Test with 2D arrays of different lengths using defaults
+            // Test with two-dimensional arrays of different lengths using defaults
             long[][] a = { { 1, 2 }, { 3, 4, 5 } };
             long[][] b = { { 5, 6, 7 }, { 8, 9 }, { 10 } };
             long[][] c = { { 10, 11 } };
@@ -1423,7 +1423,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][][], long[][][], LongBiFunction)
         @Test
         public void testZip3DArrays() throws Exception {
-            // Test with normal 3D arrays
+            // Test with normal three-dimensional arrays
             long[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
             long[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } } };
             long[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
@@ -1446,7 +1446,7 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testZip3DArraysWithNull() throws Exception {
-            // Test with null 3D arrays
+            // Test with null three-dimensional arrays
             long[][][] result = Arrays.zip((long[][][]) null, (long[][][]) null, (x, y) -> x + y);
             Assertions.assertEquals(0, result.length);
         }
@@ -1454,7 +1454,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][][], long[][][], long, long, LongBiFunction)
         @Test
         public void testZip3DArraysWithDefaults() throws Exception {
-            // Test with 3D arrays of different lengths using defaults
+            // Test with three-dimensional arrays of different lengths using defaults
             long[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } };
             long[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } }, { { 90 } } };
             long[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
@@ -1472,7 +1472,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][][], long[][][], long[][][], LongTriFunction)
         @Test
         public void testZipThree3DArrays() throws Exception {
-            // Test with normal 3D arrays
+            // Test with normal three-dimensional arrays
             long[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
             long[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } } };
             long[][][] c = { { { 100, 200 }, { 300, 400 } }, { { 500, 600 }, { 700, 800 } } };
@@ -1498,7 +1498,7 @@ public class ArraysTest extends TestBase {
         // Test zip(long[][][], long[][][], long[][][], long, long, long, LongTriFunction)
         @Test
         public void testZipThree3DArraysWithDefaults() throws Exception {
-            // Test with 3D arrays of different lengths using defaults
+            // Test with three-dimensional arrays of different lengths using defaults
             long[][][] a = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 } } };
             long[][][] b = { { { 10, 20 }, { 30, 40 } }, { { 50, 60 }, { 70, 80 } }, { { 90 } } };
             long[][][] c = { { { 100, 200 } } };
@@ -2130,19 +2130,19 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToLong_Int2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             int[][] input = { { 1, 2 }, { 3, 4 }, { 5 } };
             long[][] result = Arrays.mapToLong(input, (int i) -> i * 100L);
             Assertions.assertArrayEquals(new long[] { 100L, 200L }, result[0]);
             Assertions.assertArrayEquals(new long[] { 300L, 400L }, result[1]);
             Assertions.assertArrayEquals(new long[] { 500L }, result[2]);
 
-            // Test with empty 2D array
+            // Test with empty two-dimensional array
             int[][] emptyInput = {};
             long[][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 100L);
             Assertions.assertEquals(0, emptyResult.length);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             int[][] nullInput = null;
             long[][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 100L);
             Assertions.assertNull(nullResult);
@@ -2157,19 +2157,19 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToLong_Int3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             int[][][] input = { { { 1, 2 }, { 3 } }, { { 4, 5, 6 } } };
             long[][][] result = Arrays.mapToLong(input, (int i) -> i * 10L);
             Assertions.assertArrayEquals(new long[] { 10L, 20L }, result[0][0]);
             Assertions.assertArrayEquals(new long[] { 30L }, result[0][1]);
             Assertions.assertArrayEquals(new long[] { 40L, 50L, 60L }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             int[][][] nullInput = null;
             long[][][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 10L);
             Assertions.assertNull(nullResult);
 
-            // Test with empty 3D array
+            // Test with empty three-dimensional array
             int[][][] emptyInput = {};
             long[][][] emptyResult = Arrays.mapToLong(emptyInput, (int i) -> i * 10L);
             Assertions.assertEquals(0, emptyResult.length);
@@ -2203,13 +2203,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToDouble_Int2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             int[][] input = { { 1, 2 }, { 3, 4 } };
             double[][] result = Arrays.mapToDouble(input, (int i) -> i * 0.5);
             Assertions.assertArrayEquals(new double[] { 0.5, 1.0 }, result[0]);
             Assertions.assertArrayEquals(new double[] { 1.5, 2.0 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             int[][] nullInput = null;
             double[][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.5);
             Assertions.assertNull(nullResult);
@@ -2217,14 +2217,14 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToDouble_Int3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             int[][][] input = { { { 1, 2 } }, { { 3, 4 }, { 5, 6 } } };
             double[][][] result = Arrays.mapToDouble(input, (int i) -> i * 0.1);
             Assertions.assertArrayEquals(new double[] { 0.1, 0.2 }, result[0][0], 0.000001);
             Assertions.assertArrayEquals(new double[] { 0.3, 0.4 }, result[1][0], 0.000001);
             Assertions.assertArrayEquals(new double[] { 0.5, 0.6 }, result[1][1], 0.000001);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             int[][][] nullInput = null;
             double[][][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.1);
             Assertions.assertNull(nullResult);
@@ -2258,13 +2258,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToInt_Long2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             long[][] input = { { 100L, 200L }, { 300L } };
             int[][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 100));
             Assertions.assertArrayEquals(new int[] { 1, 2 }, result[0]);
             Assertions.assertArrayEquals(new int[] { 3 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             long[][] nullInput = null;
             int[][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 100));
             Assertions.assertNull(nullResult);
@@ -2272,12 +2272,12 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToInt_Long3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             long[][][] input = { { { 1000L, 2000L } } };
             int[][][] result = Arrays.mapToInt(input, (long l) -> (int) (l / 1000));
             Assertions.assertArrayEquals(new int[] { 1, 2 }, result[0][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             long[][][] nullInput = null;
             int[][][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 1000));
             Assertions.assertNull(nullResult);
@@ -2304,13 +2304,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToDouble_Long2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             long[][] input = { { 10L, 20L }, { 30L } };
             double[][] result = Arrays.mapToDouble(input, (long l) -> l * 0.1);
             Assertions.assertArrayEquals(new double[] { 1.0, 2.0 }, result[0]);
             Assertions.assertArrayEquals(new double[] { 3.0 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             long[][] nullInput = null;
             double[][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.1);
             Assertions.assertNull(nullResult);
@@ -2318,13 +2318,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToDouble_Long3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             long[][][] input = { { { 100L, 200L } }, { { 300L } } };
             double[][][] result = Arrays.mapToDouble(input, (long l) -> l * 0.01d);
             Assertions.assertArrayEquals(new double[] { 1.0, 2.0 }, result[0][0]);
             Assertions.assertArrayEquals(new double[] { 3.0 }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             long[][][] nullInput = null;
             double[][][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.01d);
             Assertions.assertNull(nullResult);
@@ -2361,13 +2361,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToInt_Double2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             double[][] input = { { 1.5, 2.5 }, { 3.5 } };
             int[][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
             Assertions.assertArrayEquals(new int[] { 2, 3 }, result[0]);
             Assertions.assertArrayEquals(new int[] { 4 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             double[][] nullInput = null;
             int[][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
             Assertions.assertNull(nullResult);
@@ -2375,13 +2375,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToInt_Double3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             double[][][] input = { { { 1.1, 2.9 } }, { { 3.5 } } };
             int[][][] result = Arrays.mapToInt(input, (double d) -> (int) Math.round(d));
             Assertions.assertArrayEquals(new int[] { 1, 3 }, result[0][0]);
             Assertions.assertArrayEquals(new int[] { 4 }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             double[][][] nullInput = null;
             int[][][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
             Assertions.assertNull(nullResult);
@@ -2413,13 +2413,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToLong_Double2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             double[][] input = { { 1.1, 2.2 }, { 3.3 } };
             long[][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
             Assertions.assertArrayEquals(new long[] { 1L, 2L }, result[0]);
             Assertions.assertArrayEquals(new long[] { 3L }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             double[][] nullInput = null;
             long[][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
             Assertions.assertNull(nullResult);
@@ -2427,13 +2427,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToLong_Double3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             double[][][] input = { { { 10.5, 20.5 } }, { { 30.5 } } };
             long[][][] result = Arrays.mapToLong(input, (double d) -> Math.round(d));
             Assertions.assertArrayEquals(new long[] { 11L, 21L }, result[0][0]);
             Assertions.assertArrayEquals(new long[] { 31L }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             double[][][] nullInput = null;
             long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
             Assertions.assertNull(nullResult);
@@ -2465,13 +2465,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToChar_Object2DArray() {
-            // Test with String 2D array
+            // Test with String two-dimensional array
             String[][] input = { { "Apple", "Banana" }, { "Cherry" } };
             char[][] result = ff.mapToChar(input, s -> s.charAt(0));
             Assertions.assertArrayEquals(new char[] { 'A', 'B' }, result[0]);
             Assertions.assertArrayEquals(new char[] { 'C' }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             String[][] nullInput = null;
             char[][] nullResult = ff.mapToChar(nullInput, s -> s.charAt(0));
             Assertions.assertNull(nullResult);
@@ -2479,13 +2479,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToChar_Object3DArray() {
-            // Test with String 3D array
+            // Test with String three-dimensional array
             String[][][] input = { { { "Dog", "Elephant" } }, { { "Fox" } } };
             char[][][] result = fff.mapToChar(input, s -> s.charAt(0));
             Assertions.assertArrayEquals(new char[] { 'D', 'E' }, result[0][0]);
             Assertions.assertArrayEquals(new char[] { 'F' }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             String[][][] nullInput = null;
             char[][][] nullResult = fff.mapToChar(nullInput, s -> s.charAt(0));
             Assertions.assertNull(nullResult);
@@ -2517,13 +2517,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToByte_Object2DArray() {
-            // Test with Integer 2D array
+            // Test with Integer two-dimensional array
             Integer[][] input = { { 10, 20 }, { 30 } };
             byte[][] result = ff.mapToByte(input, i -> i.byteValue());
             Assertions.assertArrayEquals(new byte[] { 10, 20 }, result[0]);
             Assertions.assertArrayEquals(new byte[] { 30 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             Integer[][] nullInput = null;
             byte[][] nullResult = ff.mapToByte(nullInput, i -> i.byteValue());
             Assertions.assertNull(nullResult);
@@ -2531,13 +2531,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToByte_Object3DArray() {
-            // Test with Integer 3D array
+            // Test with Integer three-dimensional array
             Integer[][][] input = { { { 1, 2 } }, { { 3 } } };
             byte[][][] result = fff.mapToByte(input, i -> i.byteValue());
             Assertions.assertArrayEquals(new byte[] { 1, 2 }, result[0][0]);
             Assertions.assertArrayEquals(new byte[] { 3 }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             Integer[][][] nullInput = null;
             byte[][][] nullResult = fff.mapToByte(nullInput, i -> i.byteValue());
             Assertions.assertNull(nullResult);
@@ -2569,13 +2569,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToShort_Object2DArray() {
-            // Test with Integer 2D array
+            // Test with Integer two-dimensional array
             Integer[][] input = { { 1000, 2000 }, { 3000 } };
             short[][] result = ff.mapToShort(input, i -> i.shortValue());
             Assertions.assertArrayEquals(new short[] { 1000, 2000 }, result[0]);
             Assertions.assertArrayEquals(new short[] { 3000 }, result[1]);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             Integer[][] nullInput = null;
             short[][] nullResult = ff.mapToShort(nullInput, i -> i.shortValue());
             Assertions.assertNull(nullResult);
@@ -2583,13 +2583,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testMapToShort_Object3DArray() {
-            // Test with Integer 3D array
+            // Test with Integer three-dimensional array
             Integer[][][] input = { { { 100, 200 } }, { { 300 } } };
             short[][][] result = fff.mapToShort(input, i -> i.shortValue());
             Assertions.assertArrayEquals(new short[] { 100, 200 }, result[0][0]);
             Assertions.assertArrayEquals(new short[] { 300 }, result[1][0]);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             Integer[][][] nullInput = null;
             short[][][] nullResult = fff.mapToShort(nullInput, i -> i.shortValue());
             Assertions.assertNull(nullResult);
@@ -2683,12 +2683,12 @@ public class ArraysTest extends TestBase {
             int[][] a = { { 1, 2 }, { 3, 4 } };
             int[][] b = { { 10, 20 }, { 30, 40 } };
 
-            // 2D addition
+            // two-dimensional addition
             int[][] addResult = Arrays.zip(a, b, (x, y) -> x + y);
             Assertions.assertArrayEquals(new int[] { 11, 22 }, addResult[0]);
             Assertions.assertArrayEquals(new int[] { 33, 44 }, addResult[1]);
 
-            // 2D multiplication
+            // two-dimensional multiplication
             int[][] mulResult = Arrays.zip(a, b, (x, y) -> x * y);
             Assertions.assertArrayEquals(new int[] { 10, 40 }, mulResult[0]);
             Assertions.assertArrayEquals(new int[] { 90, 160 }, mulResult[1]);
@@ -2699,12 +2699,12 @@ public class ArraysTest extends TestBase {
             int[][][] a = { { { 1, 2 } }, { { 3, 4 } } };
             int[][][] b = { { { 10, 20 } }, { { 30, 40 } } };
 
-            // 3D addition
+            // three-dimensional addition
             int[][][] addResult = Arrays.zip(a, b, (x, y) -> x + y);
             Assertions.assertArrayEquals(new int[] { 11, 22 }, addResult[0][0]);
             Assertions.assertArrayEquals(new int[] { 33, 44 }, addResult[1][0]);
 
-            // 3D subtraction
+            // three-dimensional subtraction
             int[][][] subResult = Arrays.zip(a, b, (x, y) -> y - x);
             Assertions.assertArrayEquals(new int[] { 9, 18 }, subResult[0][0]);
             Assertions.assertArrayEquals(new int[] { 27, 36 }, subResult[1][0]);
@@ -2925,12 +2925,12 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_Object2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             Object[][] arr = { { "A", "B" }, { "C", "D" } };
             String result = Arrays.println(arr);
             Assertions.assertNotNull(result);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             Object[][] nullArr = null;
             String nullResult = Arrays.println(nullArr);
             Assertions.assertNotNull(nullResult);
@@ -2938,12 +2938,12 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testPrintln_Object3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             Object[][][] arr = { { { "A", "B" } }, { { "C", "D" } } };
             String result = Arrays.println(arr);
             Assertions.assertNotNull(result);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             Object[][][] nullArr = null;
             String nullResult = Arrays.println(nullArr);
             Assertions.assertNotNull(nullResult);
@@ -2975,13 +2975,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testUpdateAll_Boolean2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             boolean[][] arr = { { true, false }, { false, true } };
             Arrays.updateAll(arr, b -> !b);
             Assertions.assertArrayEquals(new boolean[] { false, true }, arr[0]);
             Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1]);
 
-            // Test with empty 2D array
+            // Test with empty two-dimensional array
             boolean[][] emptyArr = {};
             Arrays.updateAll(emptyArr, b -> !b);
             Assertions.assertEquals(0, emptyArr.length);
@@ -2995,14 +2995,14 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testUpdateAll_Boolean3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
             Arrays.updateAll(arr, b -> !b);
             Assertions.assertArrayEquals(new boolean[] { false, true }, arr[0][0]);
             Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1][0]);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1][1]);
 
-            // Test with empty 3D array
+            // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
             Arrays.updateAll(emptyArr, b -> !b);
             Assertions.assertEquals(0, emptyArr.length);
@@ -3034,13 +3034,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testReplaceIf_Boolean2DArray() {
-            // Test with normal 2D array
+            // Test with normal two-dimensional array
             boolean[][] arr = { { true, false }, { true, true } };
             Arrays.replaceIf(arr, b -> b, false);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[0]);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1]);
 
-            // Test with empty 2D array
+            // Test with empty two-dimensional array
             boolean[][] emptyArr = {};
             Arrays.replaceIf(emptyArr, b -> b, false);
             Assertions.assertEquals(0, emptyArr.length);
@@ -3048,13 +3048,13 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testReplaceIf_Boolean3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true } } };
             Arrays.replaceIf(arr, b -> !b, true);
             Assertions.assertArrayEquals(new boolean[] { true, true }, arr[0][0]);
             Assertions.assertArrayEquals(new boolean[] { true, true }, arr[1][0]);
 
-            // Test with empty 3D array
+            // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
             Arrays.replaceIf(emptyArr, b -> b, false);
             Assertions.assertEquals(0, emptyArr.length);
@@ -3175,12 +3175,12 @@ public class ArraysTest extends TestBase {
             boolean[] flattened = Arrays.flatten(arr);
             Assertions.assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
 
-            // Test with empty 2D array
+            // Test with empty two-dimensional array
             boolean[][] emptyArr = {};
             boolean[] emptyFlattened = Arrays.flatten(emptyArr);
             Assertions.assertArrayEquals(new boolean[] {}, emptyFlattened);
 
-            // Test with null 2D array
+            // Test with null two-dimensional array
             boolean[][] nullArr = null;
             boolean[] nullFlattened = Arrays.flatten(nullArr);
             Assertions.assertArrayEquals(new boolean[] {}, nullFlattened);
@@ -3203,12 +3203,12 @@ public class ArraysTest extends TestBase {
             boolean[] flattened = Arrays.flatten(arr);
             Assertions.assertArrayEquals(new boolean[] { true, false, true, false, true }, flattened);
 
-            // Test with empty 3D array
+            // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
             boolean[] emptyFlattened = Arrays.flatten(emptyArr);
             Assertions.assertArrayEquals(new boolean[] {}, emptyFlattened);
 
-            // Test with null 3D array
+            // Test with null three-dimensional array
             boolean[][][] nullArr = null;
             boolean[] nullFlattened = Arrays.flatten(nullArr);
             Assertions.assertArrayEquals(new boolean[] {}, nullFlattened);
@@ -3268,7 +3268,7 @@ public class ArraysTest extends TestBase {
 
         @Test
         public void testFlatOp_Boolean3DArray() {
-            // Test with normal 3D array
+            // Test with normal three-dimensional array
             boolean[][][] arr = { { { true, false } }, { { false, true }, { true, true } } };
             Arrays.flatOp(arr, flatArr -> {
                 // Reverse all values
@@ -3280,7 +3280,7 @@ public class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new boolean[] { true, false }, arr[1][0]);
             Assertions.assertArrayEquals(new boolean[] { false, false }, arr[1][1]);
 
-            // Test with empty 3D array
+            // Test with empty three-dimensional array
             boolean[][][] emptyArr = {};
             Arrays.flatOp(emptyArr, flatArr -> {
                 // Should not be called

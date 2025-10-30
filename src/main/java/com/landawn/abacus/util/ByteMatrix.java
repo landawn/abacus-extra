@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for byte matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is stored as a 2D byte array and supports various operations such as:
+ * <p>The matrix is stored as a two-dimensional byte array and supports various operations such as:
  * <ul>
  * <li>Element access and modification</li>
  * <li>Matrix arithmetic (add, subtract, multiply)</li>
@@ -63,7 +63,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
     /**
-     * Constructs a ByteMatrix from a 2D byte array.
+     * Constructs a ByteMatrix from a two-dimensional byte array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
      * <p><b>Important:</b> The input array is used directly without defensive copying.
@@ -77,7 +77,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * data[0][0] = 99;  // This will also modify the matrix
      * }</pre>
      *
-     * @param a the 2D byte array to wrap as a matrix. If null, an empty matrix is created.
+     * @param a the two-dimensional byte array to wrap as a matrix. If null, an empty matrix is created.
      */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
@@ -89,8 +89,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty byte matrix
@@ -100,7 +100,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a ByteMatrix from a 2D byte array.
+     * Creates a ByteMatrix from a two-dimensional byte array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -109,7 +109,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // matrix.get(1, 2) returns 6
      * }</pre>
      *
-     * @param a the 2D byte array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional byte array to create the matrix from, or null/empty for an empty matrix
      * @return a new ByteMatrix containing the provided data, or an empty ByteMatrix if input is null or empty
      */
     public static ByteMatrix of(final byte[]... a) {
@@ -356,15 +356,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // byte value = matrix.get(point); // Returns element at point
+     * Point point = Point.of(0, 1);
+     * byte value = matrix.get(point); // Returns 2
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -392,15 +393,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Sets the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // matrix.set(point, 9); // Sets element at point
+     * Point point = Point.of(0, 1);
+     * matrix.set(point, (byte) 9); // Sets element at point to 9
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -481,22 +483,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns the specified row as an array.
+     * Returns the specified row as a byte array.
      *
-     * <p><b>Important:</b> This method returns the actual internal array for the row, not a copy.
-     * Modifications to the returned array will affect the matrix. If you need an independent copy,
-     * use {@code row(rowIndex).clone()} instead.</p>
+     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * Modifications to the returned array will affect the matrix. If you need an independent
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
      * byte[] firstRow = matrix.row(0); // Returns [1, 2, 3]
-     * firstRow[0] = 99; // This will modify the matrix as well
+     *
+     * // Direct modification affects the matrix
+     * firstRow[0] = 99; // matrix now has 99 at position (0,0)
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the specified row array (not a copy)
-     * @throws IllegalArgumentException if rowIndex is out of bounds (rowIndex &lt; 0 or rowIndex &gt;= rows)
+     * @return the specified row array (direct reference to internal storage)
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public byte[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -505,20 +509,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a copy of the specified column as an array.
-     * Unlike {@link #row(int)}, this method always returns a new array copy,
-     * so modifications to the returned array will not affect the matrix.
+     * Returns a copy of the specified column as a new byte array.
+     *
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * columns are not stored contiguously. Modifications to the returned array
+     * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
      * byte[] firstColumn = matrix.column(0); // Returns [1, 4]
-     * firstColumn[0] = 99; // This does NOT modify the matrix
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstColumn[0] = 99; // matrix still has 1 at position (0,0)
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a new array containing a copy of the specified column
-     * @throws IllegalArgumentException if columnIndex is out of bounds (columnIndex &lt; 0 or columnIndex &gt;= cols)
+     * @return a new array containing the values from the specified column
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public byte[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -933,7 +941,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fills this matrix with values from another 2D byte array, starting from position [0,0].
+     * Fills this matrix with values from another two-dimensional byte array, starting from position [0,0].
      * Only the overlapping region is filled. If the source array is smaller than this matrix,
      * only the overlapping portion is modified. If the source array is larger, only the portion
      * that fits within this matrix is copied.
@@ -953,7 +961,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fills a portion of this matrix with values from another 2D byte array.
+     * Fills a portion of this matrix with values from another two-dimensional byte array.
      * The filling starts at the specified position and copies as many values as possible
      * without exceeding the bounds of either array.
      * 
@@ -1621,7 +1629,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a list containing all matrix elements in row-major order.
-     * This effectively converts the 2D matrix into a 1D list.
+     * This effectively converts the two-dimensional matrix into a one-dimensional list.
      *
      * <p>Elements are extracted row by row from left to right, starting from the first row.
      * This is useful for bulk operations or when you need all matrix values as a flat collection.
@@ -2817,7 +2825,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns a hash code value for this matrix based on its contents.
-     * The hash code is computed using a deep hash of the internal 2D array,
+     * The hash code is computed using a deep hash of the internal two-dimensional array,
      * ensuring that matrices with identical dimensions and element values
      * produce the same hash code.
      *
@@ -2877,7 +2885,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Returns a string representation of this matrix in a compact 2D array format.
+     * Returns a string representation of this matrix in a compact two-dimensional array format.
      * The output shows all matrix elements with rows enclosed in brackets and
      * elements separated by commas and spaces.
      *
@@ -2893,7 +2901,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * System.out.println(empty.toString()); // Output: []
      * }</pre>
      *
-     * @return a string representation of this matrix in 2D array format
+     * @return a string representation of this matrix in two-dimensional array format
      * @see #println()
      */
     @Override

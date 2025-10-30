@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for int matrix manipulation including mathematical operations, transformations,
  * element access, and streaming capabilities.
  *
- * <p>The matrix is stored internally as a 2D int array (int[][]) and provides
+ * <p>The matrix is stored internally as a two-dimensional int array (int[][]) and provides
  * methods for element access, manipulation, and various matrix operations such as
  * transpose, rotation, multiplication, diagonal operations, and more.</p>
  *
@@ -70,10 +70,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
     /**
-     * Constructs an IntMatrix from a 2D int array.
+     * Constructs an IntMatrix from a two-dimensional int array.
      * If the input array is null, an empty matrix (0x0) is created.
      * 
-     * @param a the 2D int array to wrap in a matrix. Can be null.
+     * @param a the two-dimensional int array to wrap in a matrix. Can be null.
      */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);
@@ -96,7 +96,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a 2D int array.
+     * Creates an IntMatrix from a two-dimensional int array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -104,7 +104,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix.get(0, 1) returns 2
      * }</pre>
      *
-     * @param a the 2D int array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional int array to create the matrix from, or null/empty for an empty matrix
      * @return a new IntMatrix containing the provided data, or an empty IntMatrix if input is null or empty
      */
     public static IntMatrix of(final int[]... a) {
@@ -112,7 +112,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a 2D char array by converting char values to int (using their ASCII/Unicode values).
+     * Creates an IntMatrix from a two-dimensional char array by converting char values to int (using their ASCII/Unicode values).
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -123,7 +123,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix.get(0, 0) returns 65
      * }</pre>
      *
-     * @param a the 2D char array to convert to an int matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional char array to convert to an int matrix, or null/empty for an empty matrix
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -157,7 +157,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a 2D byte array by converting byte values to int.
+     * Creates an IntMatrix from a two-dimensional byte array by converting byte values to int.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -168,7 +168,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix.get(1, 0) returns 3
      * }</pre>
      *
-     * @param a the 2D byte array to convert to an int matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional byte array to convert to an int matrix, or null/empty for an empty matrix
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -202,7 +202,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates an IntMatrix from a 2D short array by converting short values to int.
+     * Creates an IntMatrix from a two-dimensional short array by converting short values to int.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -213,7 +213,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // matrix.get(1, 1) returns 4
      * }</pre>
      *
-     * @param a the 2D short array to convert to an int matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional short array to convert to an int matrix, or null/empty for an empty matrix
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -533,23 +533,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the element above the specified position, if it exists.
-     *
-     * <p>This method provides safe access to the upper neighbor of a cell without
-     * requiring explicit bounds checking. If the specified position is in the top row
-     * (i == 0), an empty Optional is returned.</p>
+     * This method provides safe access to the element directly above the given position
+     * without throwing an exception when at the top edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * OptionalInt value = matrix.upOf(1, 0); // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.upOf(0, 0); // Returns OptionalInt.empty()
+     * OptionalInt empty = matrix.upOf(0, 0); // Returns OptionalInt.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element above (at position [i-1, j]),
-     *         or {@code OptionalInt.empty()} if i is 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalInt containing the element at position (i-1, j), or empty if i == 0
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalInt upOf(final int i, final int j) {
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
@@ -557,23 +554,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the element below the specified position, if it exists.
-     *
-     * <p>This method provides safe access to the lower neighbor of a cell without
-     * requiring explicit bounds checking. If the specified position is in the bottom row
-     * (i == rows - 1), an empty Optional is returned.</p>
+     * This method provides safe access to the element directly below the given position
+     * without throwing an exception when at the bottom edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * OptionalInt value = matrix.downOf(0, 0); // Returns OptionalInt.of(3)
-     * OptionalInt empty = matrix.downOf(1, 0); // Returns OptionalInt.empty()
+     * OptionalInt empty = matrix.downOf(1, 0); // Returns OptionalInt.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element below (at position [i+1, j]),
-     *         or {@code OptionalInt.empty()} if i is in the last row
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalInt containing the element at position (i+1, j), or empty if i == rows-1
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
@@ -581,23 +575,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the element to the left of the specified position, if it exists.
-     *
-     * <p>This method provides safe access to the left neighbor of a cell without
-     * requiring explicit bounds checking. If the specified position is in the leftmost
-     * column (j == 0), an empty Optional is returned.</p>
+     * This method provides safe access to the element directly to the left of the given position
+     * without throwing an exception when at the leftmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * OptionalInt value = matrix.leftOf(0, 1); // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.leftOf(0, 0); // Returns OptionalInt.empty()
+     * OptionalInt empty = matrix.leftOf(0, 0); // Returns OptionalInt.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element to the left (at position [i, j-1]),
-     *         or {@code OptionalInt.empty()} if j is 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalInt containing the element at position (i, j-1), or empty if j == 0
      */
     public OptionalInt leftOf(final int i, final int j) {
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
@@ -605,45 +595,42 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the element to the right of the specified position, if it exists.
-     *
-     * <p>This method provides safe access to the right neighbor of a cell without
-     * requiring explicit bounds checking. If the specified position is in the rightmost
-     * column (j == cols - 1), an empty Optional is returned.</p>
+     * This method provides safe access to the element directly to the right of the given position
+     * without throwing an exception when at the rightmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * OptionalInt value = matrix.rightOf(0, 0); // Returns OptionalInt.of(2)
-     * OptionalInt empty = matrix.rightOf(0, 1); // Returns OptionalInt.empty()
+     * OptionalInt empty = matrix.rightOf(0, 1); // Returns OptionalInt.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element to the right (at position [i, j+1]),
-     *         or {@code OptionalInt.empty()} if j is in the last column
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalInt containing the element at position (i, j+1), or empty if j == cols-1
      */
     public OptionalInt rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
     }
 
     /**
-     * Returns a reference to the specified row as an array.
+     * Returns the specified row as an int array.
      *
-     * <p><b>Important:</b> This method returns the actual internal row array, not a copy.
-     * Any modifications to the returned array will directly affect the matrix. For a safe
-     * copy that won't affect the original matrix, use {@code matrix.row(i).clone()}.</p>
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
+     * Modifications to the returned array will affect the matrix. If you need an independent
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] firstRow = matrix.row(0); // Returns reference to [1, 2, 3]
-     * firstRow[0] = 10; // This modifies the matrix!
-     * // matrix is now [[10, 2, 3], [4, 5, 6]]
+     * int[] firstRow = matrix.row(0); // Returns [1, 2, 3]
+     *
+     * // Direct modification affects the matrix
+     * firstRow[0] = 10; // matrix now has 10 at position (0,0)
      * }</pre>
      *
-     * @param rowIndex the index of the row to retrieve (0-based, must be in range [0, rows))
-     * @return a reference to the specified row array
+     * @param rowIndex the index of the row to retrieve (0-based)
+     * @return the specified row array (direct reference to internal storage)
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public int[] row(final int rowIndex) throws IllegalArgumentException {
@@ -653,21 +640,23 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of the specified column as an array.
+     * Returns a copy of the specified column as a new int array.
      *
-     * <p>Unlike {@link #row(int)}, this method always returns a new array copy because
-     * columns are not stored contiguously in the internal 2D array representation.
-     * Modifications to the returned array will not affect the matrix.</p>
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * columns are not stored contiguously in memory. Modifications to the returned array
+     * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * int[] firstColumn = matrix.column(0); // Returns new array [1, 4]
-     * firstColumn[0] = 10; // Does not modify the matrix
+     * int[] firstColumn = matrix.column(0); // Returns [1, 4]
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstColumn[0] = 10; // matrix still has 1 at position (0,0)
      * }</pre>
      *
-     * @param columnIndex the index of the column to retrieve (0-based, must be in range [0, cols))
-     * @return a new array containing a copy of the specified column
+     * @param columnIndex the index of the column to retrieve (0-based)
+     * @return a new array containing the values from the specified column
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public int[] column(final int columnIndex) throws IllegalArgumentException {
@@ -1165,7 +1154,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fills the matrix with values from another 2D array, starting from the top-left corner.
+     * Fills the matrix with values from another two-dimensional array, starting from the top-left corner.
      * If the source array is larger than the matrix, only the fitting portion is copied.
      * If the source array is smaller, only the available values are copied.
      *
@@ -1176,14 +1165,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * matrix.fill(patch); // Fills from (0,0): [[1, 2, 0], [3, 4, 0]]
      * }</pre>
      *
-     * @param b the 2D array to copy values from
+     * @param b the two-dimensional array to copy values from
      */
     public void fill(final int[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a portion of the matrix with values from another 2D array.
+     * Fills a portion of the matrix with values from another two-dimensional array.
      * The filling starts at the specified position and copies as much as will fit.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2994,7 +2983,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -3035,7 +3024,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

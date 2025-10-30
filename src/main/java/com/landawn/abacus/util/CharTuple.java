@@ -195,8 +195,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh char value
      * @param _8 the eighth char value
      * @return a new CharTuple8 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
      */
     @Deprecated
     public static CharTuple8 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8) {
@@ -222,8 +221,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth char value
      * @param _9 the ninth char value
      * @return a new CharTuple9 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
-     *             for better readability and maintainability when dealing with many values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
     @Deprecated
     public static CharTuple9 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8,
@@ -322,11 +320,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-     * char median = tuple.median(); // 'M'
+     * CharTuple3 tuple3 = CharTuple.of('Z', 'A', 'M');
+     * char median = tuple3.median(); // 'M'
      *
-     * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-     * char median = tuple.median(); // 'B'
+     * CharTuple4 tuple4 = CharTuple.of('A', 'B', 'C', 'D');
+     * char median2 = tuple4.median(); // 'B'
      * }</pre>
      *
      * @return the median char value in this tuple
@@ -1571,7 +1569,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * A CharTuple containing exactly eight char elements.
      * Provides direct access to elements through public final fields.
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
      */
+    @Deprecated
     public static final class CharTuple8 extends CharTuple<CharTuple8> {
 
         /** The first char value stored in this tuple. */
@@ -1670,7 +1671,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * A CharTuple containing exactly nine char elements.
      * Provides direct access to elements through public final fields.
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
+    @Deprecated
     public static final class CharTuple9 extends CharTuple<CharTuple9> {
 
         /** The first char value stored in this tuple. */

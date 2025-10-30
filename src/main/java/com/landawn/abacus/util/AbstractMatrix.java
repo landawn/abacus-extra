@@ -535,7 +535,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Elements are taken in row-major order (row by row from left to right).
      * The returned list is a new instance containing all matrix elements.
      *
-     * <p>The flattening operation converts a 2D matrix structure into a 1D sequence,
+     * <p>The flattening operation converts a two-dimensional matrix structure into a one-dimensional sequence,
      * which is useful for operations that work on linear data structures.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -803,7 +803,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a stream of all 8 points adjacent to the specified position, including both
      * cardinal directions (up, down, left, right) and diagonal directions. Only includes
-     * points within matrix bounds, filtering out null values for positions at the matrix edges.
+     * points within matrix bounds.
      *
      * <p>This method is useful for algorithms requiring full 8-way adjacency, such as
      * certain pathfinding algorithms, cellular automaton simulations (like Conway's Game of Life),
@@ -813,11 +813,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false, true}, {false, true, false}, {true, false, true}});
-     * Stream<Point&gt; adjacent = matrix.adjacent8Points(1, 1);
+     * Stream<Point> adjacent = matrix.adjacent8Points(1, 1);
      * // Returns stream of all 8 surrounding points for the center position
      *
      * // Corner position has only 3 neighbors
-     * Stream<Point&gt; corner = matrix.adjacent8Points(0, 0).skipNulls();
+     * Stream<Point> corner = matrix.adjacent8Points(0, 0);
      * // Returns 3 points: (0,1), (1,1), (1,0)
      * }</pre>
      *

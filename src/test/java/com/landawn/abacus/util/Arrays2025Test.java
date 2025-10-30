@@ -723,7 +723,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for mapToObj 2D arrays
+    // Tests for mapToObj two-dimensional arrays
     // ============================================
 
     @Test
@@ -812,7 +812,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for mapToObj 3D arrays
+    // Tests for mapToObj three-dimensional arrays
     // ============================================
 
     @Test
@@ -1151,7 +1151,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 2D array mapping
+    // Tests for two-dimensional array mapping
     // ============================================
 
     @Test
@@ -1186,7 +1186,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 3D array mapping
+    // Tests for three-dimensional array mapping
     // ============================================
 
     @Test
@@ -1217,7 +1217,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 2D updateAll methods
+    // Tests for two-dimensional updateAll methods
     // ============================================
 
     @Test
@@ -1243,7 +1243,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 3D updateAll methods
+    // Tests for three-dimensional updateAll methods
     // ============================================
 
     @Test
@@ -1265,7 +1265,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 2D replaceIf methods
+    // Tests for two-dimensional replaceIf methods
     // ============================================
 
     @Test
@@ -1291,7 +1291,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for 3D replaceIf methods
+    // Tests for three-dimensional replaceIf methods
     // ============================================
 
     @Test
@@ -2820,7 +2820,7 @@ public class Arrays2025Test extends TestBase {
     }
 
     // ============================================
-    // Tests for zip methods - 2D and 3D arrays
+    // Tests for zip methods - two-dimensional and three-dimensional arrays
     // ============================================
 
     @Test

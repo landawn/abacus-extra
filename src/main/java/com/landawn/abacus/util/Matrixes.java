@@ -175,6 +175,7 @@ public final class Matrixes {
      *
      * @param x the matrix to evaluate for parallelization, must not be {@code null}
      * @return {@code true} if parallel processing should be used for this matrix; {@code false} for sequential processing
+     * @throws IllegalArgumentException if {@code x} is {@code null}
      * @see #isParallelable(AbstractMatrix, long)
      * @see #setParallelEnabled(ParallelEnabled)
      */
@@ -242,6 +243,7 @@ public final class Matrixes {
      * @param a the first matrix to compare, must not be {@code null}
      * @param b the second matrix to compare, must not be {@code null}
      * @return {@code true} if both matrices have the same number of rows and columns; {@code false} otherwise
+     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b) {
         return a.rows == b.rows && a.cols == b.cols;
@@ -267,6 +269,7 @@ public final class Matrixes {
      * @param b the second matrix to compare, must not be {@code null}
      * @param c the third matrix to compare, must not be {@code null}
      * @return {@code true} if all three matrices have the same number of rows and columns; {@code false} otherwise
+     * @throws IllegalArgumentException if {@code a}, {@code b}, or {@code c} is {@code null}
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b, final X c) {
         return a.rows == b.rows && a.rows == c.rows && a.cols == b.cols && a.cols == c.cols;
@@ -289,7 +292,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3, m4);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3, m4);
      * if (Matrixes.isSameShape(matrices)) {
      *     // All matrices have the same dimensions
      * }
@@ -325,7 +328,7 @@ public final class Matrixes {
     /**
      * Creates a new two-dimensional array with the specified dimensions and element type.
      *
-     * <p>This utility method constructs a properly typed 2D array at runtime, handling the
+     * <p>This utility method constructs a properly typed two-dimensional array at runtime, handling the
      * complexity of creating generic arrays in Java. The method automatically wraps primitive
      * types to their corresponding wrapper classes (e.g., {@code int} becomes {@code Integer}).</p>
      *
@@ -346,10 +349,11 @@ public final class Matrixes {
      * }</pre>
      *
      * @param <T> the element type of the array
-     * @param rows the number of rows in the 2D array, must be non-negative
+     * @param rows the number of rows in the two-dimensional array, must be non-negative
      * @param cols the number of columns in each row, must be non-negative
-     * @param targetElementType the class of the element type; primitive types will be auto-wrapped
-     * @return a new 2D array of type {@code T[][]} with the specified dimensions, never {@code null}
+     * @param targetElementType the class of the element type; primitive types will be auto-wrapped, must not be {@code null}
+     * @return a new two-dimensional array of type {@code T[][]} with the specified dimensions, never {@code null}
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} is negative, or if {@code targetElementType} is {@code null}
      */
     public static <T> T[][] newArray(final int rows, final int cols, final Class<T> targetElementType) {
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
@@ -438,8 +442,9 @@ public final class Matrixes {
      * @param <E> the type of exception that the command might throw
      * @param rows the number of rows to iterate over, must be non-negative
      * @param cols the number of columns to iterate over, must be non-negative
-     * @param cmd the command to execute for each position (i, j), receives row index and column index
+     * @param cmd the command to execute for each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} is negative, or if {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
      * @see #run(int, int, int, int, Throwables.IntBiConsumer, boolean)
      */
@@ -472,12 +477,13 @@ public final class Matrixes {
      *
      * @param <E> the type of exception that the command might throw
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be greater than or equal to fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
-     * @param cmd the command to execute for each position (i, j), receives row index and column index
+     * @param toColumnIndex the ending column index (exclusive), must be greater than or equal to fromColumnIndex
+     * @param cmd the command to execute for each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      * @throws E if the command throws an exception during execution
      */
     public static <E extends Exception> void run(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -545,9 +551,10 @@ public final class Matrixes {
      * @param <T> the type of elements in the result stream
      * @param rows the number of rows to iterate over, must be non-negative
      * @param cols the number of columns to iterate over, must be non-negative
-     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} is negative, or if {@code cmd} is {@code null}
      * @see #call(int, int, int, int, Throwables.IntBiFunction, boolean)
      */
     public static <T> Stream<T> call(final int rows, final int cols, final Throwables.IntBiFunction<? extends T, ? extends Exception> cmd,
@@ -566,8 +573,8 @@ public final class Matrixes {
      *
      * <p>The order of elements in the stream depends on whether there are more rows or columns:</p>
      * <ul>
-     * <li>If rows ≤ columns: Elements are ordered by rows first (row-major order)</li>
-     * <li>If rows > columns: Elements are ordered by columns first (column-major order)</li>
+     * <li>If rows is less than or equal to columns: Elements are ordered by rows first (row-major order)</li>
+     * <li>If rows is greater than columns: Elements are ordered by columns first (column-major order)</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -579,13 +586,14 @@ public final class Matrixes {
      *
      * @param <T> the type of elements in the result stream
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be greater than or equal to fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
-     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param toColumnIndex the ending column index (exclusive), must be greater than or equal to fromColumnIndex
+     * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return a {@link Stream} of results from applying the function at each position, never {@code null}
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      */
     @SuppressWarnings("resource")
     public static <T> Stream<T> call(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -647,9 +655,10 @@ public final class Matrixes {
      *
      * @param rows the number of rows to iterate over, must be non-negative
      * @param cols the number of columns to iterate over, must be non-negative
-     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
+     * @throws IllegalArgumentException if {@code rows} or {@code cols} is negative, or if {@code cmd} is {@code null}
      * @see #callToInt(int, int, int, int, Throwables.IntBinaryOperator, boolean)
      */
     public static IntStream callToInt(final int rows, final int cols, final Throwables.IntBinaryOperator<? extends Exception> cmd, final boolean inParallel) {
@@ -675,13 +684,14 @@ public final class Matrixes {
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive), must be non-negative
-     * @param toRowIndex the ending row index (exclusive), must be &gt;= fromRowIndex
+     * @param toRowIndex the ending row index (exclusive), must be greater than or equal to fromRowIndex
      * @param fromColumnIndex the starting column index (inclusive), must be non-negative
-     * @param toColumnIndex the ending column index (exclusive), must be &gt;= fromColumnIndex
-     * @param cmd the function to apply at each position (i, j), receives row index and column index
+     * @param toColumnIndex the ending column index (exclusive), must be greater than or equal to fromColumnIndex
+     * @param cmd the function to apply at each position (i, j), receives row index and column index, must not be {@code null}
      * @param inParallel {@code true} to execute in parallel; {@code false} for sequential execution
      * @return an {@link IntStream} of results from applying the function at each position, never {@code null}
-     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex &lt; fromRowIndex or toColumnIndex &lt; fromColumnIndex
+     * @throws IndexOutOfBoundsException if any index is negative or if toRowIndex is less than fromRowIndex or toColumnIndex is less than fromColumnIndex
+     * @throws IllegalArgumentException if {@code cmd} is {@code null}
      */
     @SuppressWarnings("resource")
     public static IntStream callToInt(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -758,8 +768,8 @@ public final class Matrixes {
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix (left operand), must not be {@code null}
      * @param b the second matrix (right operand), must not be {@code null}
-     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication
-     * @throws IllegalArgumentException if matrix dimensions are incompatible ({@code a.cols != b.rows})
+     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
+     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.cols != b.rows}), or if {@code cmd} is {@code null}
      * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer, boolean)
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd)
@@ -796,9 +806,9 @@ public final class Matrixes {
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix (left operand), must not be {@code null}
      * @param b the second matrix (right operand), must not be {@code null}
-     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication
+     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
      * @param inParallel {@code true} to force parallel execution; {@code false} for sequential execution
-     * @throws IllegalArgumentException if matrix dimensions are incompatible ({@code a.cols != b.rows})
+     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.cols != b.rows}), or if {@code cmd} is {@code null}
      * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
@@ -1019,7 +1029,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise maximum across all matrices
      * ByteMatrix max = Matrixes.zip(matrices, (a, b) -> (byte)Math.max(a, b));
@@ -1080,9 +1090,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      * Matrix<Double> avg = Matrixes.zip(matrices,
-     *     arr -> Arrays.stream(arr).average().orElse(0.0), Double.class);
+     *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0), Double.class);
      * }</pre>
      *
      * @param <R> the type of elements in the result matrix
@@ -2157,9 +2167,9 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
-     * Matrix<BigInteger> sums = Matrixes.zip(matrices,
-     *     arr -> BigInteger.valueOf(Arrays.stream(arr).sum()), true, BigInteger.class);
+     * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
+     * Matrix<java.math.BigInteger> sums = Matrixes.zip(matrices,
+     *     arr -> java.math.BigInteger.valueOf(java.util.Arrays.stream(arr).sum()), true, java.math.BigInteger.class);
      * }</pre>
      *
      * @param <R> the type of elements in the result matrix
@@ -2834,13 +2844,13 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<Matrix<Integer>> matrices = Arrays.asList(m1, m2, m3);
+     * List<Matrix<Integer>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find the most common value at each position
      * Matrix<Integer> mode = Matrixes.zip(matrices, arr -> {
-     *     Map<Integer, Long> freq = Arrays.stream(arr)
-     *         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-     *     return freq.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+     *     java.util.Map<Integer, Long> freq = java.util.Arrays.stream(arr)
+     *         .collect(java.util.stream.Collectors.groupingBy(java.util.function.Function.identity(), java.util.stream.Collectors.counting()));
+     *     return freq.entrySet().stream().max(java.util.Map.Entry.comparingByValue()).map(java.util.Map.Entry::getKey).orElse(null);
      * }, Integer.class);
      * }</pre>
      *

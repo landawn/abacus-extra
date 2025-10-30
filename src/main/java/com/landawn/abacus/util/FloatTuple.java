@@ -536,10 +536,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Throws NoSuchElementException as there is no minimum value in an empty tuple.
+         * Returns the minimum value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return never returns
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
          */
         @Override
         public float min() {
@@ -547,10 +548,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Throws NoSuchElementException as there is no maximum value in an empty tuple.
+         * Returns the maximum value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return never returns
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
          */
         @Override
         public float max() {
@@ -558,10 +560,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Throws NoSuchElementException as there is no median value in an empty tuple.
+         * Returns the median value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return never returns
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
          */
         @Override
         public float median() {
@@ -569,7 +572,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all elements in this tuple, which is 0 for an empty tuple.
+         * Returns the sum of all elements in this tuple.
+         * For an empty tuple, the sum is 0.
          *
          * @return 0
          */
@@ -579,10 +583,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Throws NoSuchElementException as there is no average for an empty tuple.
+         * Returns the average of all elements in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return never returns
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as there are no elements
          */
         @Override
         public double average() {
@@ -590,9 +595,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns this tuple as reversing an empty tuple yields the same empty tuple.
+         * Returns a reversed version of this tuple.
+         * For an empty tuple, returns the same instance.
          *
-         * @return this FloatTuple0 instance
+         * @return this instance
          */
         @Override
         public FloatTuple0 reverse() {
@@ -600,10 +606,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Always returns false as an empty tuple contains no elements.
+         * Checks whether this tuple contains the specified value.
+         * Since this tuple is empty, this method always returns false.
          *
          * @param valueToFind the value to search for
-         * @return {@code false} always
+         * @return false always, as there are no elements
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1383,7 +1390,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly five float values.
-     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, {@code _4}, and {@code _5}.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
      */
     public static final class FloatTuple5 extends FloatTuple<FloatTuple5> {
 

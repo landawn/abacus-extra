@@ -68,9 +68,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D object array to the console and returns the string.
+     * Prints a string representation of a one-dimensional object array to the console and returns the string.
      *
-     * <p>This method formats a 1D object array as a readable string representation with standard
+     * <p>This method formats a one-dimensional object array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -100,10 +100,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D object array to print (can be {@code null}).
+     * @param a the one-dimensional object array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(Object[][]) for 2D array printing
-     * @see #println(Object[][][]) for 3D array printing
+     * @see #println(Object[][]) for two-dimensional array printing
+     * @see #println(Object[][][]) for three-dimensional array printing
      */
     public static String println(final Object[] a) {
         if (a == null) {
@@ -116,9 +116,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D object array to the console and returns the string.
+     * Prints a string representation of a two-dimensional object array to the console and returns the string.
      *
-     * <p>This method formats a 2D object array as a readable string representation with proper
+     * <p>This method formats a two-dimensional object array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -155,20 +155,20 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D object array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(Object[]) for 1D array printing
-     * @see #println(Object[][][]) for 3D array printing
+     * @param a the two-dimensional object array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(Object[]) for one-dimensional array printing
+     * @see #println(Object[][][]) for three-dimensional array printing
      */
     public static String println(final Object[][] a) {
         return ff.println(a);
     }
 
     /**
-     * Prints a string representation of a 3D object array to the console and returns the string.
+     * Prints a string representation of a three-dimensional object array to the console and returns the string.
      *
-     * <p>This method formats a 3D object array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional object array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -177,10 +177,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -207,12 +207,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D object array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(Object[]) for 1D array printing
-     * @see #println(Object[][]) for 2D array printing
+     * @param a the three-dimensional object array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(Object[]) for one-dimensional array printing
+     * @see #println(Object[][]) for two-dimensional array printing
      */
     public static String println(final Object[][][] a) {
         return fff.println(a);
@@ -256,9 +256,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each boolean element in a 2D array to an object using the provided mapper function.
+     * Maps each boolean element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every element across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -269,10 +269,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D boolean array to map.
+     * @param a the two-dimensional boolean array to map.
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -293,9 +293,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each boolean element in a 3D array to an object using the provided mapper function.
+     * Maps each boolean element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every element across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -306,10 +306,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D boolean array to map.
+     * @param a the three-dimensional boolean array to map.
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -366,9 +366,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each char element in a 2D array to an object using the provided mapper function.
+     * Maps each char element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every character across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -379,10 +379,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D char array to map.
+     * @param a the two-dimensional char array to map.
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -403,9 +403,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each char element in a 3D array to an object using the provided mapper function.
+     * Maps each char element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every character across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -416,10 +416,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D char array to map.
+     * @param a the three-dimensional char array to map.
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -476,9 +476,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each byte element in a 2D array to an object using the provided mapper function.
+     * Maps each byte element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every byte across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -489,10 +489,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D byte array to map.
+     * @param a the two-dimensional byte array to map.
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -513,9 +513,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each byte element in a 3D array to an object using the provided mapper function.
+     * Maps each byte element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every byte across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -526,10 +526,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D byte array to map.
+     * @param a the three-dimensional byte array to map.
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -586,9 +586,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each short element in a 2D array to an object using the provided mapper function.
+     * Maps each short element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every short value across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -599,10 +599,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D short array to map.
+     * @param a the two-dimensional short array to map.
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -623,9 +623,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each short element in a 3D array to an object using the provided mapper function.
+     * Maps each short element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every short value across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -636,10 +636,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D short array to map.
+     * @param a the three-dimensional short array to map.
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -697,9 +697,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each int element in a 2D array to an object using the provided mapper function.
+     * Maps each int element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every integer across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -710,10 +710,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D int array to map.
+     * @param a the two-dimensional int array to map.
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -734,9 +734,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each int element in a 3D array to an object using the provided mapper function.
+     * Maps each int element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every integer across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -747,10 +747,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D int array to map.
+     * @param a the three-dimensional int array to map.
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -807,9 +807,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each long element in a 2D array to an object using the provided mapper function.
+     * Maps each long element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every long value across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -820,10 +820,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D long array to map.
+     * @param a the two-dimensional long array to map.
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -844,23 +844,23 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each long element in a 3D array to an object using the provided mapper function.
+     * Maps each long element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every long value across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][][] cube = {{{1L, 2L}, {3L, 4L}}, {{5L, 6L}, {7L, 8L}}};
-     * BigInteger[][][] result = Arrays.mapToObj(cube, l -> BigInteger.valueOf(l), BigInteger.class);
-     * // Converts each long to BigInteger while maintaining 3D structure
+     * java.math.BigInteger[][][] result = Arrays.mapToObj(cube, l -> java.math.BigInteger.valueOf(l), java.math.BigInteger.class);
+     * // Converts each long to BigInteger while maintaining three-dimensional structure
      * }</pre>
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D long array to map.
+     * @param a the three-dimensional long array to map.
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -917,9 +917,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each float element in a 2D array to an object using the provided mapper function.
+     * Maps each float element in a two-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every float value across all sub-arrays, maintaining
-     * the 2D structure of the original array.
+     * the two-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -930,10 +930,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 2D float array to map.
+     * @param a the two-dimensional float array to map.
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 2D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -954,9 +954,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps each float element in a 3D array to an object using the provided mapper function.
+     * Maps each float element in a three-dimensional array to an object using the provided mapper function.
      * This method applies the mapper function to every float value across all levels of nested sub-arrays,
-     * preserving the 3D structure of the original array.
+     * preserving the three-dimensional structure of the original array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -967,10 +967,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the 3D float array to map.
+     * @param a the three-dimensional float array to map.
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
-     * @return a 3D object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1027,7 +1027,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D double array to a 2D object array using the provided mapper function.
+     * Maps a two-dimensional double array to a two-dimensional object array using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1039,10 +1039,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D double array.
+     * @param a the input two-dimensional double array.
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a 2D array of type T with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional array of type T with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1063,7 +1063,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D double array to a 3D object array using the provided mapper function.
+     * Maps a three-dimensional double array to a three-dimensional object array using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1075,10 +1075,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D double array.
+     * @param a the input three-dimensional double array.
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a 3D array of type T with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional array of type T with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1099,7 +1099,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D int array to a 1D long array using the provided mapper function.
+     * Maps a one-dimensional int array to a one-dimensional long array using the provided mapper function.
      * Each int element is transformed to a long value.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1132,8 +1132,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D int array to a 2D long array using the provided mapper function.
-     * Each int element is transformed to a long value, preserving the 2D structure.
+     * Maps a two-dimensional int array to a two-dimensional long array using the provided mapper function.
+     * Each int element is transformed to a long value, preserving the two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1143,9 +1143,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D int array.
+     * @param a the input two-dimensional int array.
      * @param mapper the function to transform each int to long.
-     * @return a 2D long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional long array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1165,8 +1165,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D int array to a 3D long array using the provided mapper function.
-     * Each int element is transformed to a long value, preserving the 3D structure.
+     * Maps a three-dimensional int array to a three-dimensional long array using the provided mapper function.
+     * Each int element is transformed to a long value, preserving the three-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1176,9 +1176,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D int array.
+     * @param a the input three-dimensional int array.
      * @param mapper the function to transform each int to long.
-     * @return a 3D long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional long array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1198,7 +1198,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D int array to a 1D double array using the provided mapper function.
+     * Maps a one-dimensional int array to a one-dimensional double array using the provided mapper function.
      * Each int element is transformed to a double value.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1231,8 +1231,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D int array to a 2D double array using the provided mapper function.
-     * Each int element is transformed to a double value, preserving the 2D structure.
+     * Maps a two-dimensional int array to a two-dimensional double array using the provided mapper function.
+     * Each int element is transformed to a double value, preserving the two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1242,9 +1242,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D int array.
+     * @param a the input two-dimensional int array.
      * @param mapper the function to transform each int to double.
-     * @return a 2D double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional double array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1264,8 +1264,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D int array to a 3D double array using the provided mapper function.
-     * Each int element is transformed to a double value, preserving the 3D structure.
+     * Maps a three-dimensional int array to a three-dimensional double array using the provided mapper function.
+     * Each int element is transformed to a double value, preserving the three-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1275,9 +1275,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D int array.
+     * @param a the input three-dimensional int array.
      * @param mapper the function to transform each int to double.
-     * @return a 3D double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional double array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1297,7 +1297,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D long array to a 1D int array using the provided mapper function.
+     * Maps a one-dimensional long array to a one-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1330,7 +1330,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D long array to a 2D int array using the provided mapper function.
+     * Maps a two-dimensional long array to a two-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value. This operation is useful for
      * downcasting or converting long values to integers with custom logic.
      *
@@ -1342,9 +1342,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D long array (can be {@code null}).
+     * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int.
-     * @return a 2D int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional int array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1364,8 +1364,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D long array to a 3D int array using the provided mapper function.
-     * Each long element is transformed to an int value, preserving the 3D structure.
+     * Maps a three-dimensional long array to a three-dimensional int array using the provided mapper function.
+     * Each long element is transformed to an int value, preserving the three-dimensional structure.
      * This operation is useful for downcasting or converting long values to integers with custom logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1376,9 +1376,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D long array (can be {@code null}).
+     * @param a the input three-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int.
-     * @return a 3D int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional int array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1398,7 +1398,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D long array to a 1D double array using the provided mapper function.
+     * Maps a one-dimensional long array to a one-dimensional double array using the provided mapper function.
      * Each long element is transformed to a double value. This operation is useful for
      * converting long values to doubles with custom transformation logic.
      *
@@ -1432,8 +1432,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D long array to a 2D double array using the provided mapper function.
-     * Each long element is transformed to a double value. This operation preserves the 2D structure
+     * Maps a two-dimensional long array to a two-dimensional double array using the provided mapper function.
+     * Each long element is transformed to a double value. This operation preserves the two-dimensional structure
      * while converting long values to doubles with custom transformation logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1444,9 +1444,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D long array (can be {@code null}).
+     * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to double.
-     * @return a 2D double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional double array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1466,8 +1466,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D long array to a 3D double array using the provided mapper function.
-     * Each long element is transformed to a double value, preserving the 3D structure.
+     * Maps a three-dimensional long array to a three-dimensional double array using the provided mapper function.
+     * Each long element is transformed to a double value, preserving the three-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1477,9 +1477,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D long array.
+     * @param a the input three-dimensional long array.
      * @param mapper the function to transform each long to double.
-     * @return a 3D double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional double array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1499,7 +1499,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D double array to a 1D int array using the provided mapper function.
+     * Maps a one-dimensional double array to a one-dimensional int array using the provided mapper function.
      * Each double element is transformed to an int value.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1532,8 +1532,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D double array to a 2D int array using the provided mapper function.
-     * Each double element is transformed to an int value. This operation preserves the 2D structure
+     * Maps a two-dimensional double array to a two-dimensional int array using the provided mapper function.
+     * Each double element is transformed to an int value. This operation preserves the two-dimensional structure
      * while converting double values to integers with custom transformation logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1544,9 +1544,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D double array (can be {@code null}).
+     * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int.
-     * @return a 2D int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional int array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1566,8 +1566,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D double array to a 3D int array using the provided mapper function.
-     * Each double element is transformed to an int value, preserving the 3D structure.
+     * Maps a three-dimensional double array to a three-dimensional int array using the provided mapper function.
+     * Each double element is transformed to an int value, preserving the three-dimensional structure.
      * This operation is useful for converting double values to integers with custom rounding or scaling logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1578,9 +1578,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D double array (can be {@code null}).
+     * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int.
-     * @return a 3D int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional int array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1600,7 +1600,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 1D double array to a 1D long array using the provided mapper function.
+     * Maps a one-dimensional double array to a one-dimensional long array using the provided mapper function.
      * Each double element is transformed to a long value. This operation is useful for
      * converting double values to long integers with custom rounding or scaling logic.
      *
@@ -1634,8 +1634,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 2D double array to a 2D long array using the provided mapper function.
-     * Each double element is transformed to a long value. This operation preserves the 2D structure
+     * Maps a two-dimensional double array to a two-dimensional long array using the provided mapper function.
+     * Each double element is transformed to a long value. This operation preserves the two-dimensional structure
      * while converting double values to long integers with custom transformation logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1646,9 +1646,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 2D double array (can be {@code null}).
+     * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long.
-     * @return a 2D long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional long array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1668,8 +1668,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a 3D double array to a 3D long array using the provided mapper function.
-     * Each double element is transformed to a long value, preserving the 3D structure.
+     * Maps a three-dimensional double array to a three-dimensional long array using the provided mapper function.
+     * Each double element is transformed to a long value, preserving the three-dimensional structure.
      * This operation is useful for converting double values to long integers with custom scaling or rounding logic.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1680,9 +1680,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input 3D double array (can be {@code null}).
+     * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long.
-     * @return a 3D long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional long array with mapped values, or {@code null} if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     @MayReturnNull
@@ -1713,7 +1713,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the boolean array to update.
+     * @param a the boolean array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -1728,9 +1728,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a 2D boolean array using the provided unary operator.
+     * Updates all elements in a two-dimensional boolean array using the provided unary operator.
      * Each element in every sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the 2D structure.
+     * This method modifies the array in-place, preserving the two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1740,7 +1740,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 2D boolean array to update (can be {@code null} or empty).
+     * @param a the two-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -1755,9 +1755,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a 3D boolean array using the provided unary operator.
+     * Updates all elements in a three-dimensional boolean array using the provided unary operator.
      * Each element in every nested sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the 3D structure.
+     * This method modifies the array in-place, preserving the three-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1767,7 +1767,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 3D boolean array to update (can be {@code null} or empty).
+     * @param a the three-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -1793,7 +1793,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the boolean array to modify.
+     * @param a the boolean array to modify (can be {@code null}).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -1811,7 +1811,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces all elements in a 2D boolean array that match the predicate with a new value.
+     * Replaces all elements in a two-dimensional boolean array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged. This method modifies the array
      * in-place, traversing all sub-arrays.
      *
@@ -1823,7 +1823,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 2D boolean array to modify (can be {@code null} or empty).
+     * @param a the two-dimensional boolean array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -1839,7 +1839,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces all elements in a 3D boolean array that match the predicate with a new value.
+     * Replaces all elements in a three-dimensional boolean array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged. This method modifies the array
      * in-place, traversing all nested sub-arrays.
      *
@@ -1851,7 +1851,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 3D boolean array to modify (can be {@code null} or empty).
+     * @param a the three-dimensional boolean array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -1940,7 +1940,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D boolean array into a 1D boolean array.
+     * Flattens a two-dimensional boolean array into a one-dimensional boolean array.
      * All elements from all sub-arrays are combined into a single array.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1950,7 +1950,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {true, false, true, false, true}
      * }</pre>
      *
-     * @param a the 2D boolean array to flatten.
+     * @param a the two-dimensional boolean array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static boolean[] flatten(final boolean[][] a) {
@@ -1977,7 +1977,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D boolean array into a 1D boolean array.
+     * Flattens a three-dimensional boolean array into a one-dimensional boolean array.
      * All elements from all nested sub-arrays are combined into a single array in row-major order.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1987,7 +1987,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {true, false, true, false, true}
      * }</pre>
      *
-     * @param a the 3D boolean array to flatten (can be {@code null}).
+     * @param a the three-dimensional boolean array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static boolean[] flatten(final boolean[][][] a) {
@@ -2020,7 +2020,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D boolean array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a two-dimensional boolean array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2030,7 +2030,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 2D boolean array to operate on.
+     * @param a the two-dimensional boolean array to operate on.
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -2054,9 +2054,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D boolean array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a three-dimensional boolean array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure,
-     * such as sorting or bulk modifications. The original 3D structure is preserved.
+     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2066,7 +2066,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 3D boolean array to operate on (can be {@code null} or empty).
+     * @param a the three-dimensional boolean array to operate on (can be {@code null} or empty).
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -2272,13 +2272,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D boolean arrays using the provided zip function.
+     * Combines elements from two two-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays (rows), stopping when the
      * shorter outer array is exhausted. Each pair of corresponding sub-arrays is zipped
-     * using the standard 1D array zip logic.
+     * using the standard one-dimensional array zip logic.
      * 
      * <p>This method is useful for matrix-like operations where you want to combine
-     * corresponding rows from two 2D arrays.</p>
+     * corresponding rows from two two-dimensional arrays.</p>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2289,10 +2289,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
@@ -2311,7 +2311,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D boolean arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels. This provides complete control
      * over how mismatched array dimensions are handled.
      * 
@@ -2328,12 +2328,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longer input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
@@ -2363,11 +2363,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D boolean arrays using the provided zip function.
+     * Combines elements from three two-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays (rows) from all three input arrays,
      * stopping when the shortest outer array is exhausted.
      * 
-     * <p>This method extends the 2D zip concept to three arrays, useful for combining
+     * <p>This method extends the two-dimensional zip concept to three arrays, useful for combining
      * data from three different sources row by row.</p>
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2380,11 +2380,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
@@ -2404,8 +2404,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D boolean arrays using the provided zip function, with default values
-     * for missing elements at both the outer and inner array levels. This is the most flexible 2D zip
+     * Combines elements from three two-dimensional boolean arrays using the provided zip function, with default values
+     * for missing elements at both the outer and inner array levels. This is the most flexible two-dimensional zip
      * operation, handling any combination of array dimension mismatches.
      * 
      * <p>The result has an outer array length equal to the longest input outer array. Missing sub-arrays
@@ -2421,14 +2421,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
@@ -2456,11 +2456,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D boolean arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, which in turn zip their
-     * corresponding 1D sub-arrays. The operation stops when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional boolean arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, which in turn zip their
+     * corresponding one-dimensional sub-arrays. The operation stops when the shorter outer array is exhausted.
      * 
-     * <p>This method is useful for combining 3D data structures like cubes or time-series of matrices,
+     * <p>This method is useful for combining three-dimensional data structures like cubes or time-series of matrices,
      * where you want to perform element-wise operations on corresponding positions.</p>
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2472,10 +2472,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Throwables.BooleanBinaryOperator<E> zipFunction)
@@ -2494,9 +2494,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D boolean arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional boolean arrays using the provided zip function, with default values
      * for missing elements at all array levels. This handles dimension mismatches at every level of
-     * the 3D structure.
+     * the three-dimensional structure.
      * 
      * <p>The result has an outer array length equal to the longest input outer array. Missing 2D
      * sub-arrays are handled by treating them as null and using default values throughout.</p>
@@ -2510,12 +2510,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longer input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
@@ -2545,11 +2545,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D boolean arrays using the provided zip function.
+     * Combines elements from three three-dimensional boolean arrays using the provided zip function.
      * Applies the zip operation recursively through all three dimensions, combining corresponding
      * elements from all three arrays at the deepest level.
      * 
-     * <p>This method is suitable for combining three 3D data structures where you need to perform
+     * <p>This method is suitable for combining three three-dimensional data structures where you need to perform
      * operations on corresponding elements across all three sources.</p>
      * 
      * <p><b>Usage Examples:</b></p>
@@ -2562,11 +2562,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
@@ -2586,8 +2586,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D boolean arrays using the provided zip function, with default values
-     * for missing elements at all array levels. This is the most comprehensive 3D zip operation,
+     * Combines elements from three three-dimensional boolean arrays using the provided zip function, with default values
+     * for missing elements at all array levels. This is the most comprehensive three-dimensional zip operation,
      * handling any combination of dimension mismatches across all three arrays.
      * 
      * <p>The result has an outer array length equal to the longest input outer array. Default values
@@ -2603,14 +2603,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
@@ -2635,7 +2635,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total count of elements in a 2D boolean array.
+     * Calculates the total count of elements in a two-dimensional boolean array.
      * Counts all elements across all sub-arrays, handling null sub-arrays gracefully.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2645,7 +2645,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 6
      * }</pre>
      *
-     * @param a the 2D boolean array.
+     * @param a the two-dimensional boolean array.
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][] a) {
@@ -2663,7 +2663,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total count of elements in a 3D boolean array.
+     * Calculates the total count of elements in a three-dimensional boolean array.
      * Counts all elements across all sub-arrays at all levels, handling null arrays gracefully.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2673,7 +2673,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 6
      * }</pre>
      *
-     * @param a the 3D boolean array.
+     * @param a the three-dimensional boolean array.
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final boolean[][][] a) {
@@ -2701,7 +2701,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length among all sub-arrays in a 2D boolean array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional boolean array.
      * Returns 0 if the input array is null or empty.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2711,7 +2711,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 1
      * }</pre>
      *
-     * @param a the 2D boolean array.
+     * @param a the two-dimensional boolean array.
      * @return the minimum length of sub-arrays, or 0 if array is empty.
      */
     public static int minSubArrayLen(final boolean[][] a) {
@@ -2729,7 +2729,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length among all sub-arrays in a 2D boolean array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional boolean array.
      * Returns 0 if the input array is null or empty.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2739,7 +2739,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: 3
      * }</pre>
      *
-     * @param a the 2D boolean array.
+     * @param a the two-dimensional boolean array.
      * @return the maximum length of sub-arrays, or 0 if array is empty.
      */
     public static int maxSubArrayLen(final boolean[][] a) {
@@ -2757,9 +2757,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D boolean array to the console and returns the string.
+     * Prints a string representation of a one-dimensional boolean array to the console and returns the string.
      *
-     * <p>This method formats a 1D boolean array as a readable string representation with standard
+     * <p>This method formats a one-dimensional boolean array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -2789,10 +2789,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D boolean array to print (can be {@code null}).
+     * @param a the one-dimensional boolean array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(boolean[][]) for 2D array printing
-     * @see #println(boolean[][][]) for 3D array printing
+     * @see #println(boolean[][]) for two-dimensional array printing
+     * @see #println(boolean[][][]) for three-dimensional array printing
      */
     public static String println(final boolean[] a) {
         if (a == null) {
@@ -2805,9 +2805,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D boolean array to the console and returns the string.
+     * Prints a string representation of a two-dimensional boolean array to the console and returns the string.
      *
-     * <p>This method formats a 2D boolean array as a readable string representation with proper
+     * <p>This method formats a two-dimensional boolean array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -2844,10 +2844,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D boolean array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(boolean[]) for 1D array printing
-     * @see #println(boolean[][][]) for 3D array printing
+     * @param a the two-dimensional boolean array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(boolean[]) for one-dimensional array printing
+     * @see #println(boolean[][][]) for three-dimensional array printing
      */
     public static String println(final boolean[][] a) {
         if (a == null) {
@@ -2898,10 +2898,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D boolean array to the console and returns the string.
+     * Prints a string representation of a three-dimensional boolean array to the console and returns the string.
      *
-     * <p>This method formats a 3D boolean array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional boolean array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -2910,10 +2910,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2940,12 +2940,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D boolean array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(boolean[]) for 1D array printing
-     * @see #println(boolean[][]) for 2D array printing
+     * @param a the three-dimensional boolean array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(boolean[]) for one-dimensional array printing
+     * @see #println(boolean[][]) for two-dimensional array printing
      */
     public static String println(final boolean[][][] a) {
         if (a == null) {
@@ -3041,7 +3041,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively updates every element in the 2D character array by applying a given operator.
+     * Recursively updates every element in the two-dimensional character array by applying a given operator.
      * The method iterates through each sub-array and applies the operator to every character.
      * The operation is performed in-place.
      *
@@ -3053,7 +3053,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The 2D character array to update. The update is performed in-place.
+     * @param a The two-dimensional character array to update. The update is performed in-place.
      * @param operator The unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -3068,7 +3068,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively updates every element in the 3D character array by applying a given operator.
+     * Recursively updates every element in the three-dimensional character array by applying a given operator.
      * It traverses the nested structure and applies the operator to each character.
      * The operation is performed in-place.
      *
@@ -3080,7 +3080,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The 3D character array to update. The update is performed in-place.
+     * @param a The three-dimensional character array to update. The update is performed in-place.
      * @param operator The unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -3124,7 +3124,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively replaces each element of a 2D character array with a new value if the
+     * Recursively replaces each element of a two-dimensional character array with a new value if the
      * element satisfies the given predicate. The operation is performed in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3135,7 +3135,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The 2D character array to modify.
+     * @param a The two-dimensional character array to modify.
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -3151,7 +3151,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Recursively replaces each element of a 3D character array with a new value if the
+     * Recursively replaces each element of a three-dimensional character array with a new value if the
      * element satisfies the given predicate. The operation is performed in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3162,7 +3162,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The 3D character array to modify.
+     * @param a The three-dimensional character array to modify.
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -3178,7 +3178,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D character array into a 2D character array with a specified number of columns.
+     * Reshapes a one-dimensional character array into a two-dimensional character array with a specified number of columns.
      * If the length of the input array is not a multiple of {@code cols}, the last sub-array
      * will be shorter.
      *
@@ -3189,9 +3189,9 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{'a', 'b'}, {'c', 'd'}, {'e'}}
      * }</pre>
      *
-     * @param a The 1D character array to reshape.
-     * @param cols The number of columns in the new 2D array.
-     * @return A new 2D character array.
+     * @param a The one-dimensional character array to reshape.
+     * @param cols The number of columns in the new two-dimensional array.
+     * @return A new two-dimensional character array.
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static char[][] reshape(final char[] a, final int cols) throws IllegalArgumentException {
@@ -3213,7 +3213,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D character array into a 3D character array with specified dimensions.
+     * Reshapes a one-dimensional character array into a three-dimensional character array with specified dimensions.
      * If the input array's length is not a perfect multiple of {@code rows * cols},
      * the last sub-arrays may be shorter.
      *
@@ -3224,10 +3224,10 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{{'a', 'b'}, {'c', 'd'}}, {{'e', 'f'}, {'g'}}}
      * }</pre>
      *
-     * @param a The 1D character array to reshape.
-     * @param rows The number of rows in each 2D sub-array.
-     * @param cols The number of columns in each 2D sub-array.
-     * @return A new 3D character array.
+     * @param a The one-dimensional character array to reshape.
+     * @param rows The number of rows in each two-dimensional sub-array.
+     * @param cols The number of columns in each two-dimensional sub-array.
+     * @return A new three-dimensional character array.
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static char[][][] reshape(final char[] a, final int rows, final int cols) throws IllegalArgumentException {
@@ -3253,7 +3253,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D character array into a new 1D character array by concatenating
+     * Flattens a two-dimensional character array into a new one-dimensional character array by concatenating
      * all its sub-arrays. Null or empty sub-arrays are skipped.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3263,7 +3263,7 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {'a', 'b', 'c'}
      * }</pre>
      *
-     * @param a The 2D character array to flatten.
+     * @param a The two-dimensional character array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static char[] flatten(final char[][] a) {
@@ -3290,7 +3290,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D character array into a new 1D character array by concatenating
+     * Flattens a three-dimensional character array into a new one-dimensional character array by concatenating
      * all its innermost sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3300,7 +3300,7 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {'a', 'b', 'c', 'd'}
      * }</pre>
      *
-     * @param a The 3D character array to flatten.
+     * @param a The three-dimensional character array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static char[] flatten(final char[][][] a) {
@@ -3333,10 +3333,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array, performs a specified operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 2D array.
-     * This allows for applying 1D array operations (like sorting) across a 2D structure.
-     * The operation is performed in-place on the original 2D array.
+     * Flattens a two-dimensional array, performs a specified operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original two-dimensional array.
+     * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
+     * The operation is performed in-place on the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3346,7 +3346,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
-     * @param a The 2D character array to operate on.
+     * @param a The two-dimensional character array to operate on.
      * @param op The consumer operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -3370,10 +3370,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array, performs a specified operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 3D array.
-     * This is useful for applying 1D array operations across a 3D structure.
-     * The operation is performed in-place on the original 3D array.
+     * Flattens a three-dimensional array, performs a specified operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original three-dimensional array.
+     * This is useful for applying one-dimensional array operations across a three-dimensional structure.
+     * The operation is performed in-place on the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3383,7 +3383,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
-     * @param a The 3D character array to operate on.
+     * @param a The three-dimensional character array to operate on.
      * @param op The consumer operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -3594,10 +3594,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D char arrays using the provided zip function.
+     * Combines elements from two two-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>This method processes 2D arrays by applying the zip operation to each pair of
+     * <p>This method processes two-dimensional arrays by applying the zip operation to each pair of
      * corresponding inner arrays. The outer array length of the result equals the length
      * of the shorter outer array. Each inner array is processed independently using the
      * single-array zip operation.</p>
@@ -3611,10 +3611,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
@@ -3632,10 +3632,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D char arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional char arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>This method handles 2D arrays of different sizes by using default values for missing
+     * <p>This method handles two-dimensional arrays of different sizes by using default values for missing
      * elements. The outer array length of the result equals the length of the longer outer array.
      * When processing inner arrays, default values are used for any missing elements within
      * those arrays as well.</p>
@@ -3649,12 +3649,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longer input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
@@ -3684,10 +3684,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D char arrays using the provided zip function.
+     * Combines elements from three two-dimensional char arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>This method processes three 2D arrays simultaneously by applying the tri-function
+     * <p>This method processes three two-dimensional arrays simultaneously by applying the tri-function
      * to corresponding elements within each triplet of inner arrays. The outer array length
      * of the result is determined by the shortest outer array among the three inputs.</p>
      * 
@@ -3701,11 +3701,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final Throwables.CharTernaryOperator<E> zipFunction)
@@ -3725,10 +3725,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D char arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional char arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
-     * <p>This method provides complete processing of three 2D arrays regardless of size differences.
+     * <p>This method provides complete processing of three two-dimensional arrays regardless of size differences.
      * The result has an outer array length equal to the longest outer array among the inputs.
      * Default values are used whenever an array or sub-array is shorter than the others,
      * ensuring all positions in the result array are filled.</p>
@@ -3743,14 +3743,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
@@ -3778,12 +3778,12 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D char arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional char arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
-     * <p>This method processes 3D arrays by recursively applying the zip operation to each
+     * <p>This method processes three-dimensional arrays by recursively applying the zip operation to each
      * level of the array hierarchy. The outermost array length of the result equals the
-     * length of the shorter outermost array. Each 2D sub-array is processed using the 2D
+     * length of the shorter outermost array. Each two-dimensional sub-array is processed using the 2D
      * array zip operation.</p>
      * 
      * <p><b>Usage Examples:</b></p>
@@ -3795,10 +3795,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBinaryOperator<E> zipFunction) throws E {
@@ -3816,10 +3816,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D char arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional char arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>This method handles 3D arrays of different sizes by using default values for missing
+     * <p>This method handles three-dimensional arrays of different sizes by using default values for missing
      * elements at any level of the array hierarchy. The outermost array length of the result
      * equals the length of the longer outermost array. Default values are propagated through
      * all levels of array processing.</p>
@@ -3833,12 +3833,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longer input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
@@ -3868,13 +3868,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D char arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional char arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
-     * <p>This method processes three 3D arrays simultaneously by applying the tri-function
+     * <p>This method processes three three-dimensional arrays simultaneously by applying the tri-function
      * through all levels of the array hierarchy. The outermost array length of the result
      * is determined by the shortest outermost array among the three inputs. Each triplet
-     * of 2D sub-arrays is processed using the 2D array tri-zip operation.</p>
+     * of two-dimensional sub-arrays is processed using the two-dimensional array tri-zip operation.</p>
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3886,11 +3886,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
@@ -3910,10 +3910,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D char arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional char arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
-     * <p>This method provides the most comprehensive zip operation for 3D arrays, handling
+     * <p>This method provides the most comprehensive zip operation for three-dimensional arrays, handling
      * size differences at every level of the array hierarchy. The result has an outermost
      * array length equal to the longest outermost array among the three inputs. Default
      * values are used whenever any array or sub-array is shorter than the others, ensuring
@@ -3929,14 +3929,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
@@ -3961,7 +3961,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of characters in a 2D character array.
+     * Calculates the total number of characters in a two-dimensional character array.
      * It safely handles null sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3971,7 +3971,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 3
      * }</pre>
      *
-     * @param a The 2D character array to count.
+     * @param a The two-dimensional character array to count.
      * @return The total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][] a) {
@@ -3989,7 +3989,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of characters in a 3D character array.
+     * Calculates the total number of characters in a three-dimensional character array.
      * It safely handles null or empty sub-arrays at any level.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3999,7 +3999,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 4
      * }</pre>
      *
-     * @param a The 3D character array to count.
+     * @param a The three-dimensional character array to count.
      * @return The total number of character elements in the array.
      */
     public static long totalCountOfElements(final char[][][] a) {
@@ -4027,7 +4027,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length among all sub-arrays in a 2D character array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional character array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4037,7 +4037,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen is 0
      * }</pre>
      *
-     * @param a The 2D character array to inspect.
+     * @param a The two-dimensional character array to inspect.
      * @return The minimum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int minSubArrayLen(final char[][] a) {
@@ -4055,7 +4055,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length among all sub-arrays in a 2D character array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional character array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4065,7 +4065,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen is 4
      * }</pre>
      *
-     * @param a The 2D character array to inspect.
+     * @param a The two-dimensional character array to inspect.
      * @return The maximum length of any sub-array. Returns 0 if the input array is empty or null.
      */
     public static int maxSubArrayLen(final char[][] a) {
@@ -4083,9 +4083,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D character array to the console and returns the string.
+     * Prints a string representation of a one-dimensional character array to the console and returns the string.
      *
-     * <p>This method formats a 1D character array as a readable string representation with standard
+     * <p>This method formats a one-dimensional character array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -4115,10 +4115,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D character array to print (can be {@code null}).
+     * @param a the one-dimensional character array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(char[][]) for 2D array printing
-     * @see #println(char[][][]) for 3D array printing
+     * @see #println(char[][]) for two-dimensional array printing
+     * @see #println(char[][][]) for three-dimensional array printing
      */
     public static String println(final char[] a) {
         if (a == null) {
@@ -4131,9 +4131,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D character array to the console and returns the string.
+     * Prints a string representation of a two-dimensional character array to the console and returns the string.
      *
-     * <p>This method formats a 2D character array as a readable string representation with proper
+     * <p>This method formats a two-dimensional character array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -4170,10 +4170,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D character array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(char[]) for 1D array printing
-     * @see #println(char[][][]) for 3D array printing
+     * @param a the two-dimensional character array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(char[]) for one-dimensional array printing
+     * @see #println(char[][][]) for three-dimensional array printing
      */
     public static String println(final char[][] a) {
         if (a == null) {
@@ -4224,10 +4224,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D character array to the console and returns the string.
+     * Prints a string representation of a three-dimensional character array to the console and returns the string.
      *
-     * <p>This method formats a 3D character array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional character array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -4236,10 +4236,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -4266,12 +4266,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D character array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(char[]) for 1D array printing
-     * @see #println(char[][]) for 2D array printing
+     * @param a the three-dimensional character array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(char[]) for one-dimensional array printing
+     * @see #println(char[][]) for two-dimensional array printing
      */
     public static String println(final char[][][] a) {
         if (a == null) {
@@ -4350,7 +4350,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the byte array to update.
+     * @param a the byte array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -4365,9 +4365,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a 2D byte array using the provided unary operator.
+     * Updates all elements in a two-dimensional byte array using the provided unary operator.
      * Each element in every sub-array is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the 2D structure.
+     * This method modifies the array in-place, preserving the two-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4377,7 +4377,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 2D byte array to update (can be {@code null} or empty).
+     * @param a the two-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -4392,9 +4392,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements in a 3D byte array using the provided unary operator.
+     * Updates all elements in a three-dimensional byte array using the provided unary operator.
      * Each element at all levels is replaced with the result of applying the operator.
-     * This method modifies the array in-place, preserving the 3D structure.
+     * This method modifies the array in-place, preserving the three-dimensional structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4404,7 +4404,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 3D byte array to update (can be {@code null} or empty).
+     * @param a the three-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -4430,7 +4430,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the byte array to modify.
+     * @param a the byte array to modify (can be {@code null}).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -4448,7 +4448,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces all elements in a 2D byte array that match the predicate with a new value.
+     * Replaces all elements in a two-dimensional byte array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged. This method modifies the array
      * in-place, traversing all sub-arrays.
      *
@@ -4460,7 +4460,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 2D byte array to modify (can be {@code null} or empty).
+     * @param a the two-dimensional byte array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -4476,7 +4476,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces all elements in a 3D byte array that match the predicate with a new value.
+     * Replaces all elements in a three-dimensional byte array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged. This method modifies the array
      * in-place, traversing all nested sub-arrays.
      *
@@ -4488,7 +4488,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 3D byte array to modify (can be {@code null} or empty).
+     * @param a the three-dimensional byte array to modify (can be {@code null} or empty).
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -4504,7 +4504,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D byte array into a 1D byte array.
+     * Flattens a two-dimensional byte array into a one-dimensional byte array.
      * All elements from all sub-arrays are combined into a single array.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4514,7 +4514,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {1, 2, 3, 4, 5}
      * }</pre>
      *
-     * @param a the 2D byte array to flatten.
+     * @param a the two-dimensional byte array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static byte[] flatten(final byte[][] a) {
@@ -4541,7 +4541,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D byte array into a 1D byte array.
+     * Flattens a three-dimensional byte array into a one-dimensional byte array.
      * All elements from all nested sub-arrays are combined into a single array in row-major order.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4551,7 +4551,7 @@ public sealed class Arrays permits Arrays.f {
      * // Result: {1, 2, 3, 4, 5}
      * }</pre>
      *
-     * @param a the 3D byte array to flatten (can be {@code null}).
+     * @param a the three-dimensional byte array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static byte[] flatten(final byte[][][] a) {
@@ -4584,7 +4584,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D byte array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a two-dimensional byte array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4595,7 +4595,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 2D byte array to operate on.
+     * @param a the two-dimensional byte array to operate on.
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -4619,9 +4619,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D byte array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a three-dimensional byte array, applies an operation to the flattened array, then sets the values back.
      * This is useful for operations that need to be applied to all elements regardless of structure,
-     * such as sorting or bulk modifications. The original 3D structure is preserved.
+     * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4631,7 +4631,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 3D byte array to operate on (can be {@code null} or empty).
+     * @param a the three-dimensional byte array to operate on (can be {@code null} or empty).
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -4896,7 +4896,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D byte arrays using the provided zip function.
+     * Combines elements from two two-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -4908,10 +4908,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
@@ -4929,7 +4929,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D byte arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional byte arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -4941,12 +4941,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the length of the longer input array.
+     * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
@@ -4976,7 +4976,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D byte arrays using the provided zip function.
+     * Combines elements from three two-dimensional byte arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -4989,11 +4989,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final Throwables.ByteTernaryOperator<E> zipFunction)
@@ -5013,7 +5013,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D byte arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional byte arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -5026,14 +5026,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
@@ -5061,8 +5061,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D byte arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional byte arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5073,10 +5073,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
@@ -5094,7 +5094,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D byte arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional byte arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -5106,12 +5106,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the length of the longer input array.
+     * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
@@ -5141,8 +5141,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D byte arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional byte arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5154,11 +5154,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
@@ -5178,7 +5178,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D byte arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional byte arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -5191,14 +5191,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
@@ -5343,9 +5343,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D byte array to the console and returns the string.
+     * Prints a string representation of a one-dimensional byte array to the console and returns the string.
      *
-     * <p>This method formats a 1D byte array as a readable string representation with standard
+     * <p>This method formats a one-dimensional byte array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -5375,10 +5375,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D byte array to print (can be {@code null}).
+     * @param a the one-dimensional byte array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(byte[][]) for 2D array printing
-     * @see #println(byte[][][]) for 3D array printing
+     * @see #println(byte[][]) for two-dimensional array printing
+     * @see #println(byte[][][]) for three-dimensional array printing
      */
     public static String println(final byte[] a) {
         if (a == null) {
@@ -5391,9 +5391,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D byte array to the console and returns the string.
+     * Prints a string representation of a two-dimensional byte array to the console and returns the string.
      *
-     * <p>This method formats a 2D byte array as a readable string representation with proper
+     * <p>This method formats a two-dimensional byte array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -5430,10 +5430,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D byte array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(byte[]) for 1D array printing
-     * @see #println(byte[][][]) for 3D array printing
+     * @param a the two-dimensional byte array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(byte[]) for one-dimensional array printing
+     * @see #println(byte[][][]) for three-dimensional array printing
      */
     public static String println(final byte[][] a) {
         if (a == null) {
@@ -5484,10 +5484,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D byte array to the console and returns the string.
+     * Prints a string representation of a three-dimensional byte array to the console and returns the string.
      *
-     * <p>This method formats a 3D byte array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional byte array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -5496,10 +5496,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -5526,12 +5526,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D byte array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(byte[]) for 1D array printing
-     * @see #println(byte[][]) for 2D array printing
+     * @param a the three-dimensional byte array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(byte[]) for one-dimensional array printing
+     * @see #println(byte[][]) for two-dimensional array printing
      */
     public static String println(final byte[][][] a) {
         if (a == null) {
@@ -5609,7 +5609,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
-     * @param a the array to update.
+     * @param a the array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -5634,7 +5634,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
-     * @param a the two-dimensional array to update.
+     * @param a the two-dimensional array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -5659,7 +5659,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
-     * @param a the three-dimensional array to update.
+     * @param a the three-dimensional array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -5684,7 +5684,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
-     * @param a the array to modify.
+     * @param a the array to modify (can be {@code null}).
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -5712,7 +5712,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
-     * @param a the two-dimensional array to modify.
+     * @param a the two-dimensional array to modify (can be {@code null}).
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -5738,7 +5738,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
-     * @param a the three-dimensional array to modify.
+     * @param a the three-dimensional array to modify (can be {@code null}).
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -5797,7 +5797,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array to reshape.
-     * @param rows the number of rows in each 2D block.
+     * @param rows the number of rows in each two-dimensional block.
      * @param cols the number of columns in each row.
      * @return a three-dimensional array with the specified dimensions.
      * @throws IllegalArgumentException if rows or cols is less than 1.
@@ -6141,7 +6141,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D short arrays using the provided zip function.
+     * Combines elements from two two-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6153,10 +6153,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
@@ -6174,7 +6174,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D short arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional short arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6186,12 +6186,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the shorter input array.
+     * @return a new two-dimensional array with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
@@ -6221,7 +6221,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D short arrays using the provided zip function.
+     * Combines elements from three two-dimensional short arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6234,11 +6234,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
@@ -6258,7 +6258,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D short arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional short arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6271,14 +6271,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
@@ -6306,8 +6306,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D short arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional short arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -6318,10 +6318,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBinaryOperator<E> zipFunction)
@@ -6340,7 +6340,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D short arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional short arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6352,12 +6352,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the shorter input array.
+     * @return a new three-dimensional array with outer length equal to the shorter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
@@ -6387,8 +6387,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D short arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional short arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -6400,11 +6400,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
@@ -6424,7 +6424,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D short arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional short arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -6437,14 +6437,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
@@ -6469,7 +6469,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a 2D short array.
+     * Calculates the total number of elements in a two-dimensional short array.
      * Handles null arrays and null sub-arrays gracefully.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6479,7 +6479,7 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 9 (3 + 2 + 0 + 4)
      * }</pre>
      *
-     * @param a the 2D array to count elements in.
+     * @param a the two-dimensional array to count elements in.
      * @return the total number of elements across all sub-arrays.
      */
     public static long totalCountOfElements(final short[][] a) {
@@ -6497,7 +6497,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a 3D short array.
+     * Calculates the total number of elements in a three-dimensional short array.
      * Handles null arrays and null sub-arrays at all levels gracefully by skipping them.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6507,7 +6507,7 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 7 (2 + 3 + 0 + 2)
      * }</pre>
      *
-     * @param a the 3D array to count elements in (can be {@code null}).
+     * @param a the three-dimensional array to count elements in (can be {@code null}).
      * @return the total number of elements across all sub-arrays, or 0 if array is {@code null}/empty.
      */
     public static long totalCountOfElements(final short[][][] a) {
@@ -6535,7 +6535,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length among all sub-arrays in a 2D short array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional short array.
      * Returns 0 if the array is null or contains only null sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6545,7 +6545,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 2
      * }</pre>
      *
-     * @param a the 2D array to examine.
+     * @param a the two-dimensional array to examine.
      * @return the minimum length of any sub-array, or 0 if array is {@code null}.
      */
     public static int minSubArrayLen(final short[][] a) {
@@ -6563,7 +6563,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length among all sub-arrays in a 2D short array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional short array.
      * Returns 0 if the array is null or empty.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6573,7 +6573,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 4
      * }</pre>
      *
-     * @param a the 2D array to examine.
+     * @param a the two-dimensional array to examine.
      * @return the maximum length of any sub-array, or 0 if array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final short[][] a) {
@@ -6591,9 +6591,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D short array to the console and returns the string.
+     * Prints a string representation of a one-dimensional short array to the console and returns the string.
      *
-     * <p>This method formats a 1D short array as a readable string representation with standard
+     * <p>This method formats a one-dimensional short array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -6623,10 +6623,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D short array to print (can be {@code null}).
+     * @param a the one-dimensional short array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(short[][]) for 2D array printing
-     * @see #println(short[][][]) for 3D array printing
+     * @see #println(short[][]) for two-dimensional array printing
+     * @see #println(short[][][]) for three-dimensional array printing
      */
     public static String println(final short[] a) {
         if (a == null) {
@@ -6639,9 +6639,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D short array to the console and returns the string.
+     * Prints a string representation of a two-dimensional short array to the console and returns the string.
      *
-     * <p>This method formats a 2D short array as a readable string representation with proper
+     * <p>This method formats a two-dimensional short array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -6678,10 +6678,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D short array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(short[]) for 1D array printing
-     * @see #println(short[][][]) for 3D array printing
+     * @param a the two-dimensional short array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(short[]) for one-dimensional array printing
+     * @see #println(short[][][]) for three-dimensional array printing
      */
     public static String println(final short[][] a) {
         if (a == null) {
@@ -6732,10 +6732,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D short array to the console and returns the string.
+     * Prints a string representation of a three-dimensional short array to the console and returns the string.
      *
-     * <p>This method formats a 3D short array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional short array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -6744,10 +6744,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -6774,12 +6774,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D short array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(short[]) for 1D array printing
-     * @see #println(short[][]) for 2D array printing
+     * @param a the three-dimensional short array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(short[]) for one-dimensional array printing
+     * @see #println(short[][]) for two-dimensional array printing
      */
     public static String println(final short[][][] a) {
         if (a == null) {
@@ -6876,9 +6876,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements of the given 2D array by applying the specified unary operator.
+     * Updates all elements of the given two-dimensional array by applying the specified unary operator.
      *
-     * <p>This method modifies the original 2D array by applying the operator function to each element
+     * <p>This method modifies the original two-dimensional array by applying the operator function to each element
      * in all sub-arrays. The operator can throw a checked exception of type E.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
@@ -6890,7 +6890,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
-     * @param a the 2D array to be modified.
+     * @param a the two-dimensional array to be modified.
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -6905,9 +6905,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates all elements of the given 3D array by applying the specified unary operator.
+     * Updates all elements of the given three-dimensional array by applying the specified unary operator.
      *
-     * <p>This method modifies the original 3D array by applying the operator function to each element
+     * <p>This method modifies the original three-dimensional array by applying the operator function to each element
      * in all nested arrays. The operator can throw a checked exception of type E.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
@@ -6919,7 +6919,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
-     * @param a the 3D array to be modified.
+     * @param a the three-dimensional array to be modified.
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -6966,9 +6966,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces elements in the 2D array that match the given predicate with the specified new value.
+     * Replaces elements in the two-dimensional array that match the given predicate with the specified new value.
      *
-     * <p>This method modifies the original 2D array by testing each element in all sub-arrays
+     * <p>This method modifies the original two-dimensional array by testing each element in all sub-arrays
      * with the predicate and replacing matching elements with the new value.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
@@ -6980,7 +6980,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
-     * @param a the 2D array to be modified.
+     * @param a the two-dimensional array to be modified.
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -6996,9 +6996,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces elements in the 3D array that match the given predicate with the specified new value.
+     * Replaces elements in the three-dimensional array that match the given predicate with the specified new value.
      *
-     * <p>This method modifies the original 3D array by testing each element in all nested arrays
+     * <p>This method modifies the original three-dimensional array by testing each element in all nested arrays
      * with the predicate and replacing matching elements with the new value.
      * If the array is null or empty, the method returns without performing any operation.</p>
      *
@@ -7010,7 +7010,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
-     * @param a the 3D array to be modified.
+     * @param a the three-dimensional array to be modified.
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -7026,11 +7026,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D array into a 2D array with the specified number of columns.
+     * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
      *
-     * <p>This method creates a new 2D array by dividing the input array into rows of the specified
+     * <p>This method creates a new two-dimensional array by dividing the input array into rows of the specified
      * column count. The last row may contain fewer elements if the array length is not evenly
-     * divisible by the column count. If the input array is null or empty, returns an empty 2D array.</p>
+     * divisible by the column count. If the input array is null or empty, returns an empty two-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7039,9 +7039,9 @@ public sealed class Arrays permits Arrays.f {
      * // result is {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
+     * @param a the one-dimensional array to reshape.
      * @param cols the number of columns in each row.
-     * @return a new 2D array containing the reshaped data.
+     * @return a new two-dimensional array containing the reshaped data.
      * @throws IllegalArgumentException if cols is less than 1.
      */
     public static int[][] reshape(final int[] a, final int cols) throws IllegalArgumentException {
@@ -7063,11 +7063,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D array into a 3D array with the specified dimensions.
+     * Reshapes a one-dimensional array into a three-dimensional array with the specified dimensions.
      *
-     * <p>This method creates a new 3D array by dividing the input array first into matrices
+     * <p>This method creates a new three-dimensional array by dividing the input array first into matrices
      * of the specified row and column counts. Each matrix may be incomplete if the array length
-     * is not evenly divisible by rows × cols. If the input array is null or empty, returns an empty 3D array.</p>
+     * is not evenly divisible by rows × cols. If the input array is null or empty, returns an empty three-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7076,10 +7076,10 @@ public sealed class Arrays permits Arrays.f {
      * // result is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
-     * @param rows the number of rows in each 2D matrix.
+     * @param a the one-dimensional array to reshape.
+     * @param rows the number of rows in each two-dimensional matrix.
      * @param cols the number of columns in each row.
-     * @return a new 3D array containing the reshaped data.
+     * @return a new three-dimensional array containing the reshaped data.
      * @throws IllegalArgumentException if rows or cols is less than 1.
      */
     public static int[][][] reshape(final int[] a, final int rows, final int cols) throws IllegalArgumentException {
@@ -7105,9 +7105,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array into a 1D array.
+     * Flattens a two-dimensional array into a one-dimensional array.
      *
-     * <p>This method creates a new 1D array containing all elements from the 2D array
+     * <p>This method creates a new one-dimensional array containing all elements from the two-dimensional array
      * in row-major order. Empty sub-arrays are skipped. If the input array is null or empty,
      * returns an empty array.</p>
      *
@@ -7118,7 +7118,7 @@ public sealed class Arrays permits Arrays.f {
      * // result is {1, 2, 3, 4, 5, 6, 7, 8}
      * }</pre>
      *
-     * @param a the 2D array to flatten.
+     * @param a the two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static int[] flatten(final int[][] a) {
@@ -7145,9 +7145,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array into a 1D array.
+     * Flattens a three-dimensional array into a one-dimensional array.
      *
-     * <p>This method creates a new 1D array containing all elements from the 3D array
+     * <p>This method creates a new one-dimensional array containing all elements from the three-dimensional array
      * in depth-first order. Empty sub-arrays at any level are skipped. If the input array
      * is null or empty, returns an empty array.</p>
      *
@@ -7158,7 +7158,7 @@ public sealed class Arrays permits Arrays.f {
      * // result is {1, 2, 3, 4, 5, 6}
      * }</pre>
      *
-     * @param a the 3D array to flatten.
+     * @param a the three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static int[] flatten(final int[][][] a) {
@@ -7191,11 +7191,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array, applies the given operation, and updates the original array with the results.
+     * Flattens a two-dimensional array, applies the given operation, and updates the original array with the results.
      *
-     * <p>This method provides a convenient way to apply operations that work on 1D arrays to 2D arrays.
+     * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to two-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
-     * are copied back to the original 2D array structure.</p>
+     * are copied back to the original two-dimensional array structure.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7205,7 +7205,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the 2D array to process.
+     * @param a the two-dimensional array to process.
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -7229,11 +7229,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array, applies the given operation, and updates the original array with the results.
+     * Flattens a three-dimensional array, applies the given operation, and updates the original array with the results.
      *
-     * <p>This method provides a convenient way to apply operations that work on 1D arrays to 3D arrays.
+     * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to three-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
-     * are copied back to the original 3D array structure.</p>
+     * are copied back to the original three-dimensional array structure.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7243,7 +7243,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw.
-     * @param a the 3D array to process.
+     * @param a the three-dimensional array to process.
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -7434,7 +7434,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D int arrays using the provided zip function.
+     * Combines elements from two two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7446,10 +7446,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
@@ -7467,7 +7467,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D int arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7479,12 +7479,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the inter input array.
+     * @return a new two-dimensional array with outer length equal to the inter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
@@ -7514,7 +7514,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D int arrays using the provided zip function.
+     * Combines elements from three two-dimensional int arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7527,11 +7527,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTernaryOperator<E> zipFunction)
@@ -7551,7 +7551,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D int arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional int arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7564,14 +7564,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
@@ -7599,8 +7599,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D int arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional int arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7611,10 +7611,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBinaryOperator<E> zipFunction) throws E {
@@ -7632,7 +7632,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D int arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7644,12 +7644,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the inter input array.
+     * @return a new three-dimensional array with outer length equal to the inter input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
@@ -7679,8 +7679,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D int arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional int arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7692,11 +7692,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
@@ -7716,7 +7716,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D int arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional int arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -7729,14 +7729,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
@@ -7761,7 +7761,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of integer elements in a 2D array.
+     * Calculates the total number of integer elements in a two-dimensional array.
      * It handles null or empty sub-arrays gracefully.
      *
      * <p><b>Usage Examples:</b></p>
@@ -7771,7 +7771,7 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 5
      * }</pre>
      *
-     * @param a The 2D integer array.
+     * @param a The two-dimensional integer array.
      * @return The total count of integer elements.
      */
     public static long totalCountOfElements(final int[][] a) {
@@ -7789,7 +7789,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of integer elements in a 3D array.
+     * Calculates the total number of integer elements in a three-dimensional array.
      * It safely handles null or empty sub-arrays at any depth.
      *
      * <p><b>Usage Examples:</b></p>
@@ -7799,7 +7799,7 @@ public sealed class Arrays permits Arrays.f {
      * // count will be 6
      * }</pre>
      *
-     * @param a The 3D integer array.
+     * @param a The three-dimensional integer array.
      * @return The total count of integer elements.
      */
     public static long totalCountOfElements(final int[][][] a) {
@@ -7827,7 +7827,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length among all sub-arrays in a 2D integer array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional integer array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -7837,7 +7837,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 0
      * }</pre>
      *
-     * @param a The 2D integer array.
+     * @param a The two-dimensional integer array.
      * @return The minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int minSubArrayLen(final int[][] a) {
@@ -7855,7 +7855,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length among all sub-arrays in a 2D integer array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional integer array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -7865,7 +7865,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 3
      * }</pre>
      *
-     * @param a The 2D integer array.
+     * @param a The two-dimensional integer array.
      * @return The maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final int[][] a) {
@@ -7883,9 +7883,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D integer array to the console and returns the string.
+     * Prints a string representation of a one-dimensional integer array to the console and returns the string.
      *
-     * <p>This method formats a 1D integer array as a readable string representation with standard
+     * <p>This method formats a one-dimensional integer array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -7915,10 +7915,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D integer array to print (can be {@code null}).
+     * @param a the one-dimensional integer array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(int[][]) for 2D array printing
-     * @see #println(int[][][]) for 3D array printing
+     * @see #println(int[][]) for two-dimensional array printing
+     * @see #println(int[][][]) for three-dimensional array printing
      */
     public static String println(final int[] a) {
         if (a == null) {
@@ -7931,9 +7931,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D integer array to the console and returns the string.
+     * Prints a string representation of a two-dimensional integer array to the console and returns the string.
      * 
-     * <p>This method formats a 2D integer array as a readable string representation with proper
+     * <p>This method formats a two-dimensional integer array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      * 
@@ -7970,10 +7970,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      * 
-     * @param a the 2D integer array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(int[]) for 1D array printing
-     * @see #println(int[][][]) for 3D array printing
+     * @param a the two-dimensional integer array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(int[]) for one-dimensional array printing
+     * @see #println(int[][][]) for three-dimensional array printing
      */
     public static String println(final int[][] a) {
         if (a == null) {
@@ -8024,10 +8024,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D integer array to the console and returns the string.
+     * Prints a string representation of a three-dimensional integer array to the console and returns the string.
      *
-     * <p>This method formats a 3D integer array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional integer array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -8036,10 +8036,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -8066,12 +8066,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D integer array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(int[]) for 1D array printing
-     * @see #println(int[][]) for 2D array printing
+     * @param a the three-dimensional integer array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(int[]) for one-dimensional array printing
+     * @see #println(int[][]) for two-dimensional array printing
      */
     public static String println(final int[][][] a) {
         if (a == null) {
@@ -8166,7 +8166,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 2D long array in-place by applying a unary operator.
+     * Updates each element of the specified two-dimensional long array in-place by applying a unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8176,7 +8176,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The 2D array to be modified. The modification happens in-place.
+     * @param a The two-dimensional array to be modified. The modification happens in-place.
      * @param operator The unary operator to apply to each element.
      * @throws E If the {@code operator} throws an exception.
      */
@@ -8191,7 +8191,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 3D long array in-place by applying a unary operator.
+     * Updates each element of the specified three-dimensional long array in-place by applying a unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8201,7 +8201,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The 3D array to be modified. The modification happens in-place.
+     * @param a The three-dimensional array to be modified. The modification happens in-place.
      * @param operator The unary operator to apply to each element.
      * @throws E If the {@code operator} throws an exception.
      */
@@ -8244,7 +8244,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of a 2D long array with a new value if it satisfies a given predicate.
+     * Replaces each element of a two-dimensional long array with a new value if it satisfies a given predicate.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8254,7 +8254,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The 2D array to be modified.
+     * @param a The two-dimensional array to be modified.
      * @param predicate The condition to test for each element.
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
@@ -8270,7 +8270,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of a 3D long array with a new value if it satisfies a given predicate.
+     * Replaces each element of a three-dimensional long array with a new value if it satisfies a given predicate.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8280,7 +8280,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The 3D array to be modified.
+     * @param a The three-dimensional array to be modified.
      * @param predicate The condition to test for each element.
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
@@ -8296,7 +8296,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D long array into a 2D long array with a specified number of columns.
+     * Reshapes a one-dimensional long array into a two-dimensional long array with a specified number of columns.
      * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -8306,9 +8306,9 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
-     * @param a The 1D array to reshape.
-     * @param cols The number of columns in the resulting 2D array.
-     * @return A new 2D long array.
+     * @param a The one-dimensional array to reshape.
+     * @param cols The number of columns in the resulting two-dimensional array.
+     * @return A new two-dimensional long array.
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static long[][] reshape(final long[] a, final int cols) throws IllegalArgumentException {
@@ -8330,7 +8330,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D long array into a 3D long array with a specified number of rows and columns.
+     * Reshapes a one-dimensional long array into a three-dimensional long array with a specified number of rows and columns.
      * The last sub-arrays may be shorter if the total element count is not perfectly divisible.
      *
      * <p><b>Usage Examples:</b></p>
@@ -8340,10 +8340,10 @@ public sealed class Arrays permits Arrays.f {
      * // reshaped is {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}, {{9}}}
      * }</pre>
      *
-     * @param a The 1D array to reshape.
-     * @param rows The number of rows in each 2D sub-array.
-     * @param cols The number of columns in each 2D sub-array.
-     * @return A new 3D long array.
+     * @param a The one-dimensional array to reshape.
+     * @param rows The number of rows in each two-dimensional sub-array.
+     * @param cols The number of columns in each two-dimensional sub-array.
+     * @return A new three-dimensional long array.
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static long[][][] reshape(final long[] a, final int rows, final int cols) throws IllegalArgumentException {
@@ -8369,7 +8369,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D long array into a 1D long array by concatenating its rows.
+     * Flattens a two-dimensional long array into a one-dimensional long array by concatenating its rows.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8378,7 +8378,7 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *
-     * @param a The 2D array to flatten.
+     * @param a The two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static long[] flatten(final long[][] a) {
@@ -8405,7 +8405,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D long array into a 1D long array by concatenating its elements in order.
+     * Flattens a three-dimensional long array into a one-dimensional long array by concatenating its elements in order.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8414,7 +8414,7 @@ public sealed class Arrays permits Arrays.f {
      * // flattened is {1L, 2L, 3L, 4L, 5L}
      * }</pre>
      *
-     * @param a The 3D array to flatten.
+     * @param a The three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static long[] flatten(final long[][][] a) {
@@ -8447,8 +8447,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array, performs an in-place operation on the resulting 1D array, and then
-     * copies the modified elements back into the original 2D array.
+     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then
+     * copies the modified elements back into the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8458,8 +8458,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
-     * @param a The 2D array to operate on.
-     * @param op The consumer to accept the flattened 1D array for modification.
+     * @param a The two-dimensional array to operate on.
+     * @param op The consumer to accept the flattened one-dimensional array for modification.
      * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
@@ -8482,8 +8482,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array, performs an in-place operation on the resulting 1D array, and then
-     * copies the modified elements back into the original 3D array.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then
+     * copies the modified elements back into the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8493,8 +8493,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operation may throw.
-     * @param a The 3D array to operate on.
-     * @param op The consumer to accept the flattened 1D array for modification.
+     * @param a The three-dimensional array to operate on.
+     * @param op The consumer to accept the flattened one-dimensional array for modification.
      * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
@@ -8685,7 +8685,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D long arrays using the provided zip function.
+     * Combines elements from two two-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8697,10 +8697,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
@@ -8718,7 +8718,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D long arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional long arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8730,12 +8730,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longer input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB,
@@ -8765,7 +8765,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D long arrays using the provided zip function.
+     * Combines elements from three two-dimensional long arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8778,11 +8778,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final Throwables.LongTernaryOperator<E> zipFunction)
@@ -8802,7 +8802,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D long arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional long arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8815,14 +8815,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
@@ -8850,8 +8850,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D long arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional long arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8862,10 +8862,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBinaryOperator<E> zipFunction) throws E {
@@ -8883,7 +8883,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D long arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional long arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8895,12 +8895,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longer input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
@@ -8930,8 +8930,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D long arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional long arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8943,11 +8943,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
@@ -8967,7 +8967,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D long arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional long arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -8980,14 +8980,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA,
@@ -9012,7 +9012,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of long elements in a 2D array, handling null sub-arrays.
+     * Calculates the total number of long elements in a two-dimensional array, handling null sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9021,7 +9021,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 5
      * }</pre>
      *
-     * @param a The 2D array to inspect.
+     * @param a The two-dimensional array to inspect.
      * @return The total count of long elements.
      */
     public static long totalCountOfElements(final long[][] a) {
@@ -9039,7 +9039,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of long elements in a 3D array, handling null sub-arrays.
+     * Calculates the total number of long elements in a three-dimensional array, handling null sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9048,7 +9048,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 6
      * }</pre>
      *
-     * @param a The 3D array to inspect.
+     * @param a The three-dimensional array to inspect.
      * @return The total count of long elements.
      */
     public static long totalCountOfElements(final long[][][] a) {
@@ -9076,7 +9076,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length among all sub-arrays in a 2D long array.
+     * Finds the minimum length among all sub-arrays in a two-dimensional long array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9086,7 +9086,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen will be 0
      * }</pre>
      *
-     * @param a The 2D long array.
+     * @param a The two-dimensional long array.
      * @return The minimum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int minSubArrayLen(final long[][] a) {
@@ -9104,7 +9104,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length among all sub-arrays in a 2D long array.
+     * Finds the maximum length among all sub-arrays in a two-dimensional long array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9114,7 +9114,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen will be 3
      * }</pre>
      *
-     * @param a The 2D long array.
+     * @param a The two-dimensional long array.
      * @return The maximum length of a sub-array, or 0 if the input array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final long[][] a) {
@@ -9132,9 +9132,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D long array to the console and returns the string.
+     * Prints a string representation of a one-dimensional long array to the console and returns the string.
      *
-     * <p>This method formats a 1D long array as a readable string representation with standard
+     * <p>This method formats a one-dimensional long array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -9164,10 +9164,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D long array to print (can be {@code null}).
+     * @param a the one-dimensional long array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(long[][]) for 2D array printing
-     * @see #println(long[][][]) for 3D array printing
+     * @see #println(long[][]) for two-dimensional array printing
+     * @see #println(long[][][]) for three-dimensional array printing
      */
     public static String println(final long[] a) {
         if (a == null) {
@@ -9180,9 +9180,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D long array to the console and returns the string.
+     * Prints a string representation of a two-dimensional long array to the console and returns the string.
      *
-     * <p>This method formats a 2D long array as a readable string representation with proper
+     * <p>This method formats a two-dimensional long array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -9219,10 +9219,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D long array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(long[]) for 1D array printing
-     * @see #println(long[][][]) for 3D array printing
+     * @param a the two-dimensional long array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(long[]) for one-dimensional array printing
+     * @see #println(long[][][]) for three-dimensional array printing
      */
     public static String println(final long[][] a) {
         if (a == null) {
@@ -9273,10 +9273,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D long array to the console and returns the string.
+     * Prints a string representation of a three-dimensional long array to the console and returns the string.
      *
-     * <p>This method formats a 3D long array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional long array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -9285,10 +9285,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -9315,12 +9315,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D long array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(long[]) for 1D array printing
-     * @see #println(long[][]) for 2D array printing
+     * @param a the three-dimensional long array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(long[]) for one-dimensional array printing
+     * @see #println(long[][]) for two-dimensional array printing
      */
     public static String println(final long[][][] a) {
         if (a == null) {
@@ -9397,7 +9397,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
-     * @param a the array to be updated. If null or empty, the method returns immediately.
+     * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -9412,7 +9412,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 2D float array in-place by applying a given unary operator.
+     * Updates each element of the specified two-dimensional float array in-place by applying a given unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9421,7 +9421,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
-     * @param a the 2D array to be updated. If null or empty, the method returns immediately.
+     * @param a the two-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -9436,7 +9436,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 3D float array in-place by applying a given unary operator.
+     * Updates each element of the specified three-dimensional float array in-place by applying a given unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9445,7 +9445,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
-     * @param a the 3D array to be updated. If null or empty, the method returns immediately.
+     * @param a the three-dimensional array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -9488,7 +9488,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of a 2D float array with the specified new value if it satisfies the given predicate.
+     * Replaces each element of a two-dimensional float array with the specified new value if it satisfies the given predicate.
      * The modification is done in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9498,7 +9498,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
-     * @param a the 2D array to be modified.
+     * @param a the two-dimensional array to be modified.
      * @param predicate the condition to test for each element.
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -9514,7 +9514,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of a 3D float array with the specified new value if it satisfies the given predicate.
+     * Replaces each element of a three-dimensional float array with the specified new value if it satisfies the given predicate.
      * The modification is done in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9524,7 +9524,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
-     * @param a the 3D array to be modified.
+     * @param a the three-dimensional array to be modified.
      * @param predicate the condition to test for each element.
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -9540,8 +9540,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D float array into a 2D float array with the specified number of columns.
-     * The last row of the resulting 2D array may have fewer elements if the length of the
+     * Reshapes a one-dimensional float array into a two-dimensional float array with the specified number of columns.
+     * The last row of the resulting two-dimensional array may have fewer elements if the length of the
      * input array is not a multiple of {@code cols}.
      *
      * <p><b>Usage Examples:</b></p>
@@ -9550,9 +9550,9 @@ public sealed class Arrays permits Arrays.f {
      * float[][] matrix = Arrays.reshape(array, 3); // returns {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
-     * @param cols the number of columns in the new 2D array.
-     * @return a new 2D array containing the elements of the input array.
+     * @param a the one-dimensional array to reshape.
+     * @param cols the number of columns in the new two-dimensional array.
+     * @return a new two-dimensional array containing the elements of the input array.
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static float[][] reshape(final float[] a, final int cols) throws IllegalArgumentException {
@@ -9574,7 +9574,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D float array into a 3D float array with the specified number of rows and columns.
+     * Reshapes a one-dimensional float array into a three-dimensional float array with the specified number of rows and columns.
      * The last sub-array may be smaller if the total number of elements is not a multiple
      * of {@code rows * cols}.
      *
@@ -9584,10 +9584,10 @@ public sealed class Arrays permits Arrays.f {
      * float[][][] cube = Arrays.reshape(array, 2, 2); // returns {{{1,2},{3,4}},{{5,6},{7}}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
-     * @param rows the number of rows in each 2D sub-array.
-     * @param cols the number of columns in each 2D sub-array.
-     * @return a new 3D array containing the elements of the input array.
+     * @param a the one-dimensional array to reshape.
+     * @param rows the number of rows in each two-dimensional sub-array.
+     * @param cols the number of columns in each two-dimensional sub-array.
+     * @return a new three-dimensional array containing the elements of the input array.
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static float[][][] reshape(final float[] a, final int rows, final int cols) throws IllegalArgumentException {
@@ -9613,7 +9613,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D float array into a new 1D float array.
+     * Flattens a two-dimensional float array into a new one-dimensional float array.
      * This method concatenates all sub-arrays into a single array.
      * Null or empty sub-arrays are skipped.
      *
@@ -9623,7 +9623,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] array = Arrays.flatten(matrix); // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * }</pre>
      *
-     * @param a the 2D array to flatten.
+     * @param a the two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static float[] flatten(final float[][] a) {
@@ -9650,7 +9650,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D float array into a new 1D float array.
+     * Flattens a three-dimensional float array into a new one-dimensional float array.
      * This method concatenates all innermost sub-arrays into a single array.
      * Null or empty sub-arrays at any level are skipped.
      *
@@ -9660,7 +9660,7 @@ public sealed class Arrays permits Arrays.f {
      * float[] array = Arrays.flatten(cube); // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * }</pre>
      *
-     * @param a the 3D array to flatten.
+     * @param a the three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static float[] flatten(final float[][][] a) {
@@ -9693,8 +9693,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array, performs a specified operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 2D array in-place.
+     * Flattens a two-dimensional array, performs a specified operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original two-dimensional array in-place.
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
@@ -9705,7 +9705,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
-     * @param a the 2D array to operate on.
+     * @param a the two-dimensional array to operate on.
      * @param op the operation to perform on the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -9729,8 +9729,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array, performs a specified operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 3D array in-place.
+     * Flattens a three-dimensional array, performs a specified operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original three-dimensional array in-place.
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
@@ -9741,7 +9741,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
-     * @param a the 3D array to operate on.
+     * @param a the three-dimensional array to operate on.
      * @param op the operation to perform on the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -9933,7 +9933,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D float arrays using the provided zip function.
+     * Combines elements from two two-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -9945,10 +9945,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
@@ -9966,7 +9966,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D float arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional float arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -9978,12 +9978,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the floater input array.
+     * @return a new two-dimensional array with outer length equal to the floater input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
@@ -10013,7 +10013,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D float arrays using the provided zip function.
+     * Combines elements from three two-dimensional float arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -10026,11 +10026,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
@@ -10050,7 +10050,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D float arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional float arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -10063,14 +10063,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
@@ -10098,8 +10098,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D float arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional float arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10110,10 +10110,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBinaryOperator<E> zipFunction)
@@ -10132,7 +10132,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D float arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional float arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -10144,12 +10144,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the floater input array.
+     * @return a new three-dimensional array with outer length equal to the floater input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
@@ -10179,8 +10179,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D float arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional float arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10192,11 +10192,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
@@ -10216,7 +10216,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D float arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional float arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -10229,14 +10229,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
@@ -10261,7 +10261,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a 2D float array.
+     * Calculates the total number of elements in a two-dimensional float array.
      * This method sums the lengths of all sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10270,7 +10270,7 @@ public sealed class Arrays permits Arrays.f {
      * long count = Arrays.totalCountOfElements(matrix); // count is 3
      * }</pre>
      *
-     * @param a the 2D array to count elements in.
+     * @param a the two-dimensional array to count elements in.
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final float[][] a) {
@@ -10288,7 +10288,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of elements in a 3D float array.
+     * Calculates the total number of elements in a three-dimensional float array.
      * This method recursively sums the lengths of all innermost sub-arrays.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10297,7 +10297,7 @@ public sealed class Arrays permits Arrays.f {
      * long count = Arrays.totalCountOfElements(cube); // count is 3
      * }</pre>
      *
-     * @param a the 3D array to count elements in.
+     * @param a the three-dimensional array to count elements in.
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final float[][][] a) {
@@ -10325,7 +10325,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length of any sub-array within a 2D float array.
+     * Finds the minimum length of any sub-array within a two-dimensional float array.
      * Returns 0 for null or empty input array, or if a sub-array is null.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10334,7 +10334,7 @@ public sealed class Arrays permits Arrays.f {
      * int minLen = Arrays.minSubArrayLen(matrix); // minLen is 0
      * }</pre>
      *
-     * @param a the 2D array to inspect.
+     * @param a the two-dimensional array to inspect.
      * @return the minimum sub-array length found.
      */
     public static int minSubArrayLen(final float[][] a) {
@@ -10352,7 +10352,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length of any sub-array within a 2D float array.
+     * Finds the maximum length of any sub-array within a two-dimensional float array.
      * Returns 0 for null or empty input array. A null sub-array has a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10361,7 +10361,7 @@ public sealed class Arrays permits Arrays.f {
      * int maxLen = Arrays.maxSubArrayLen(matrix); // maxLen is 3
      * }</pre>
      *
-     * @param a the 2D array to inspect.
+     * @param a the two-dimensional array to inspect.
      * @return the maximum sub-array length found.
      */
     public static int maxSubArrayLen(final float[][] a) {
@@ -10379,9 +10379,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D float array to the console and returns the string.
+     * Prints a string representation of a one-dimensional float array to the console and returns the string.
      *
-     * <p>This method formats a 1D float array as a readable string representation with standard
+     * <p>This method formats a one-dimensional float array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -10411,10 +10411,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D float array to print (can be {@code null}).
+     * @param a the one-dimensional float array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(float[][]) for 2D array printing
-     * @see #println(float[][][]) for 3D array printing
+     * @see #println(float[][]) for two-dimensional array printing
+     * @see #println(float[][][]) for three-dimensional array printing
      */
     public static String println(final float[] a) {
         if (a == null) {
@@ -10427,9 +10427,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D float array to the console and returns the string.
+     * Prints a string representation of a two-dimensional float array to the console and returns the string.
      *
-     * <p>This method formats a 2D float array as a readable string representation with proper
+     * <p>This method formats a two-dimensional float array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -10466,10 +10466,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D float array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(float[]) for 1D array printing
-     * @see #println(float[][][]) for 3D array printing
+     * @param a the two-dimensional float array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(float[]) for one-dimensional array printing
+     * @see #println(float[][][]) for three-dimensional array printing
      */
     public static String println(final float[][] a) {
         if (a == null) {
@@ -10520,10 +10520,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D float array to the console and returns the string.
+     * Prints a string representation of a three-dimensional float array to the console and returns the string.
      *
-     * <p>This method formats a 3D float array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional float array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -10532,10 +10532,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -10562,12 +10562,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D float array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(float[]) for 1D array printing
-     * @see #println(float[][]) for 2D array printing
+     * @param a the three-dimensional float array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(float[]) for one-dimensional array printing
+     * @see #println(float[][]) for two-dimensional array printing
      */
     public static String println(final float[][][] a) {
         if (a == null) {
@@ -10660,7 +10660,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 2D array in-place by applying a unary operator.
+     * Updates each element of the specified two-dimensional array in-place by applying a unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10670,7 +10670,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 2D array to be updated.
+     * @param a the two-dimensional array to be updated.
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -10685,7 +10685,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified 3D array in-place by applying a unary operator.
+     * Updates each element of the specified three-dimensional array in-place by applying a unary operator.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10695,7 +10695,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the 3D array to be updated.
+     * @param a the three-dimensional array to be updated.
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -10738,7 +10738,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of the 2D array with the specified new value if it satisfies the given predicate.
+     * Replaces each element of the two-dimensional array with the specified new value if it satisfies the given predicate.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10748,7 +10748,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 2D array to be modified.
+     * @param a the two-dimensional array to be modified.
      * @param predicate a predicate to apply to each element to determine if it should be replaced.
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
@@ -10764,7 +10764,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Replaces each element of the 3D array with the specified new value if it satisfies the given predicate.
+     * Replaces each element of the three-dimensional array with the specified new value if it satisfies the given predicate.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10774,7 +10774,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the 3D array to be modified.
+     * @param a the three-dimensional array to be modified.
      * @param predicate a predicate to apply to each element to determine if it should be replaced.
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
@@ -10790,7 +10790,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D array into a 2D array with the specified number of columns.
+     * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
      * The number of rows is determined by dividing the total number of elements by the number of columns.
      * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
      *
@@ -10801,9 +10801,9 @@ public sealed class Arrays permits Arrays.f {
      * // matrix is now {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
-     * @param cols the number of columns in the new 2D array.
-     * @return a new 2D array.
+     * @param a the one-dimensional array to reshape.
+     * @param cols the number of columns in the new two-dimensional array.
+     * @return a new two-dimensional array.
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static double[][] reshape(final double[] a, final int cols) throws IllegalArgumentException {
@@ -10825,7 +10825,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Reshapes a 1D array into a 3D array with the specified number of rows and columns.
+     * Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.
      * The dimensions of the resulting array are determined based on the total element count.
      * The last sub-arrays may be shorter if the total count is not a multiple of {@code rows * cols}.
      *
@@ -10836,10 +10836,10 @@ public sealed class Arrays permits Arrays.f {
      * // cube is now {{{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10}}}
      * }</pre>
      *
-     * @param a the 1D array to reshape.
-     * @param rows the number of rows in each 2D slice.
-     * @param cols the number of columns in each 2D slice.
-     * @return a new 3D array.
+     * @param a the one-dimensional array to reshape.
+     * @param rows the number of rows in each two-dimensional slice.
+     * @param cols the number of columns in each two-dimensional slice.
+     * @return a new three-dimensional array.
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static double[][][] reshape(final double[] a, final int rows, final int cols) throws IllegalArgumentException {
@@ -10865,7 +10865,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array into a 1D array by concatenating its rows.
+     * Flattens a two-dimensional array into a one-dimensional array by concatenating its rows.
      * Null or empty sub-arrays are skipped.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10875,7 +10875,7 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {1.0, 2.0, 3.0, 4.0}
      * }</pre>
      *
-     * @param a the 2D array to flatten.
+     * @param a the two-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static double[] flatten(final double[][] a) {
@@ -10902,7 +10902,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array into a 1D array by concatenating its elements in order.
+     * Flattens a three-dimensional array into a one-dimensional array by concatenating its elements in order.
      * Null or empty sub-arrays are skipped.
      *
      * <p><b>Usage Examples:</b></p>
@@ -10912,7 +10912,7 @@ public sealed class Arrays permits Arrays.f {
      * // array is now {1.0, 2.0, 3.0, 4.0}
      * }</pre>
      *
-     * @param a the 3D array to flatten.
+     * @param a the three-dimensional array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
      */
     public static double[] flatten(final double[][][] a) {
@@ -10945,10 +10945,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 2D array, performs an operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 2D array.
-     * This allows for operations like sorting across the entire 2D array.
-     * The modification happens in-place on the original 2D array.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original two-dimensional array.
+     * This allows for operations like sorting across the entire two-dimensional array.
+     * The modification happens in-place on the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10958,7 +10958,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 2D array to operate on.
+     * @param a the two-dimensional array to operate on.
      * @param op the operation to perform on the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -10982,10 +10982,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a 3D array, performs an operation on the resulting 1D array,
-     * and then copies the modified elements back into the original 3D array.
-     * This allows for operations like sorting across the entire 3D array.
-     * The modification happens in-place on the original 3D array.
+     * Flattens a three-dimensional array, performs an operation on the resulting one-dimensional array,
+     * and then copies the modified elements back into the original three-dimensional array.
+     * This allows for operations like sorting across the entire three-dimensional array.
+     * The modification happens in-place on the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -10995,7 +10995,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
-     * @param a the 3D array to operate on.
+     * @param a the three-dimensional array to operate on.
      * @param op the operation to perform on the flattened array.
      * @throws E if the operation throws an exception.
      */
@@ -11187,7 +11187,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D double arrays using the provided zip function.
+     * Combines elements from two two-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11199,10 +11199,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 2D array containing the results of zipping corresponding sub-arrays.
+     * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
@@ -11220,7 +11220,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 2D double arrays using the provided zip function, with default values
+     * Combines elements from two two-dimensional double arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11232,12 +11232,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the length of the longer input array.
+     * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
@@ -11267,7 +11267,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D double arrays using the provided zip function.
+     * Combines elements from three two-dimensional double arrays using the provided zip function.
      * Applies the zip operation to corresponding sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11280,11 +11280,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 2D array containing the results with outer length equal to the shortest input array.
+     * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
@@ -11304,7 +11304,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 2D double arrays using the provided zip function, with default values
+     * Combines elements from three two-dimensional double arrays using the provided zip function, with default values
      * for missing elements at both the outer and inner array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11317,14 +11317,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 2D array (can be {@code null}, treated as empty).
-     * @param b the second 2D array (can be {@code null}, treated as empty).
-     * @param c the third 2D array (can be {@code null}, treated as empty).
+     * @param a the first two-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second two-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 2D array with outer length equal to the longest input array.
+     * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
@@ -11352,8 +11352,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D double arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shorter outer array is exhausted.
+     * Combines elements from two three-dimensional double arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shorter outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11364,10 +11364,10 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements in sub-arrays.
-     * @return a new 3D array containing the results of zipping corresponding 2D sub-arrays.
+     * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBinaryOperator<E> zipFunction)
@@ -11386,7 +11386,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from two 3D double arrays using the provided zip function, with default values
+     * Combines elements from two three-dimensional double arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11398,12 +11398,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the length of the longer input array.
+     * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
@@ -11433,8 +11433,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D double arrays using the provided zip function.
-     * Applies the zip operation to corresponding 2D sub-arrays, stopping when the shortest outer array is exhausted.
+     * Combines elements from three three-dimensional double arrays using the provided zip function.
+     * Applies the zip operation to corresponding two-dimensional sub-arrays, stopping when the shortest outer array is exhausted.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11446,11 +11446,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param zipFunction the function to apply to corresponding elements from all three arrays.
-     * @return a new 3D array containing the results with outer length equal to the shortest input array.
+     * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
@@ -11470,7 +11470,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Combines elements from three 3D double arrays using the provided zip function, with default values
+     * Combines elements from three three-dimensional double arrays using the provided zip function, with default values
      * for missing elements at all array levels.
      * 
      * <p><b>Usage Examples:</b></p>
@@ -11483,14 +11483,14 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      * 
      * @param <E> the type of exception that the zip function may throw.
-     * @param a the first 3D array (can be {@code null}, treated as empty).
-     * @param b the second 3D array (can be {@code null}, treated as empty).
-     * @param c the third 3D array (can be {@code null}, treated as empty).
+     * @param a the first three-dimensional array (can be {@code null}, treated as empty).
+     * @param b the second three-dimensional array (can be {@code null}, treated as empty).
+     * @param c the third three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new 3D array with outer length equal to the longest input array.
+     * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
@@ -11515,7 +11515,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of double elements in a jagged 2D array.
+     * Calculates the total number of double elements in a jagged two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11524,7 +11524,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 5
      * }</pre>
      *
-     * @param a the 2D array.
+     * @param a the two-dimensional array.
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final double[][] a) {
@@ -11542,7 +11542,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Calculates the total number of double elements in a jagged 3D array.
+     * Calculates the total number of double elements in a jagged three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11551,7 +11551,7 @@ public sealed class Arrays permits Arrays.f {
      * // count is 4
      * }</pre>
      *
-     * @param a the 3D array.
+     * @param a the three-dimensional array.
      * @return the total count of elements.
      */
     public static long totalCountOfElements(final double[][][] a) {
@@ -11579,7 +11579,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the minimum length of any sub-array in a 2D array.
+     * Finds the minimum length of any sub-array in a two-dimensional array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -11589,7 +11589,7 @@ public sealed class Arrays permits Arrays.f {
      * // minLen is 0
      * }</pre>
      *
-     * @param a the 2D array.
+     * @param a the two-dimensional array.
      * @return the minimum sub-array length, or 0 if the input array is {@code null} or empty.
      */
     public static int minSubArrayLen(final double[][] a) {
@@ -11607,7 +11607,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Finds the maximum length of any sub-array in a 2D array.
+     * Finds the maximum length of any sub-array in a two-dimensional array.
      * A null sub-array is considered to have a length of 0.
      *
      * <p><b>Usage Examples:</b></p>
@@ -11617,7 +11617,7 @@ public sealed class Arrays permits Arrays.f {
      * // maxLen is 3
      * }</pre>
      *
-     * @param a the 2D array.
+     * @param a the two-dimensional array.
      * @return the maximum sub-array length, or 0 if the input array is {@code null} or empty.
      */
     public static int maxSubArrayLen(final double[][] a) {
@@ -11635,9 +11635,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 1D double array to the console and returns the string.
+     * Prints a string representation of a one-dimensional double array to the console and returns the string.
      *
-     * <p>This method formats a 1D double array as a readable string representation with standard
+     * <p>This method formats a one-dimensional double array as a readable string representation with standard
      * bracket notation. The method handles null arrays and empty arrays gracefully, providing
      * appropriate string representations for each case.</p>
      *
@@ -11667,10 +11667,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 1D double array to print (can be {@code null}).
+     * @param a the one-dimensional double array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
-     * @see #println(double[][]) for 2D array printing
-     * @see #println(double[][][]) for 3D array printing
+     * @see #println(double[][]) for two-dimensional array printing
+     * @see #println(double[][][]) for three-dimensional array printing
      */
     public static String println(final double[] a) {
         if (a == null) {
@@ -11683,9 +11683,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 2D double array to the console and returns the string.
+     * Prints a string representation of a two-dimensional double array to the console and returns the string.
      *
-     * <p>This method formats a 2D double array as a readable string representation with proper
+     * <p>This method formats a two-dimensional double array as a readable string representation with proper
      * nested bracket notation. Each sub-array is displayed on its own line for better readability.
      * The method handles null arrays, empty arrays, null sub-arrays, and empty sub-arrays gracefully.</p>
      *
@@ -11722,10 +11722,10 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
-     * @param a the 2D double array to print (can be {@code null}).
-     * @return the string representation of the 2D array that was printed to console.
-     * @see #println(double[]) for 1D array printing
-     * @see #println(double[][][]) for 3D array printing
+     * @param a the two-dimensional double array to print (can be {@code null}).
+     * @return the string representation of the two-dimensional array that was printed to console.
+     * @see #println(double[]) for one-dimensional array printing
+     * @see #println(double[][][]) for three-dimensional array printing
      */
     public static String println(final double[][] a) {
         if (a == null) {
@@ -11776,10 +11776,10 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Prints a string representation of a 3D double array to the console and returns the string.
+     * Prints a string representation of a three-dimensional double array to the console and returns the string.
      *
-     * <p>This method formats a 3D double array as a readable string representation with proper
-     * nested bracket notation. Each 2D sub-array and its inner 1D arrays are displayed with
+     * <p>This method formats a three-dimensional double array as a readable string representation with proper
+     * nested bracket notation. Each two-dimensional sub-array and its inner one-dimensional arrays are displayed with
      * appropriate line separators and indentation for better readability. The method handles
      * null arrays, empty arrays, null sub-arrays at any level, and empty sub-arrays gracefully.</p>
      *
@@ -11788,10 +11788,10 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null array: "null"</li>
      *   <li>Empty array: "[]"</li>
      *   <li>Non-empty array: "[[[element1, element2]], [[element3, element4]]]" (with line separators and indentation)</li>
-     *   <li>Null 2D sub-array: "null" within the outer brackets</li>
-     *   <li>Empty 2D sub-array: "[]" within the outer brackets</li>
-     *   <li>Null 1D sub-array: "null" within the 2D sub-array brackets</li>
-     *   <li>Empty 1D sub-array: "[]" within the 2D sub-array brackets</li>
+     *   <li>Null two-dimensional sub-array: "null" within the outer brackets</li>
+     *   <li>Empty two-dimensional sub-array: "[]" within the outer brackets</li>
+     *   <li>Null one-dimensional sub-array: "null" within the two-dimensional sub-array brackets</li>
+     *   <li>Empty one-dimensional sub-array: "[]" within the two-dimensional sub-array brackets</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -11818,12 +11818,12 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use. The formatting includes proper indentation
-     * with two spaces for nested levels to enhance readability of complex 3D structures.</p>
+     * with two spaces for nested levels to enhance readability of complex three-dimensional structures.</p>
      *
-     * @param a the 3D double array to print (can be {@code null}).
-     * @return the string representation of the 3D array that was printed to console.
-     * @see #println(double[]) for 1D array printing
-     * @see #println(double[][]) for 2D array printing
+     * @param a the three-dimensional double array to print (can be {@code null}).
+     * @return the string representation of the three-dimensional array that was printed to console.
+     * @see #println(double[]) for one-dimensional array printing
+     * @see #println(double[][]) for two-dimensional array printing
      */
     public static String println(final double[][][] a) {
         if (a == null) {
@@ -11921,9 +11921,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of booleans.
+     * Converts a two-dimensional array of bytes to a two-dimensional array of booleans.
      * Each byte value greater than 0 is converted to true, otherwise false.
-     * The 2D structure is preserved in the conversion.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11932,8 +11932,8 @@ public sealed class Arrays permits Arrays.f {
      * // bools is {{true, false}, {false, true}}
      * }</pre>
      *
-     * @param a the 2D array of bytes to convert (can be {@code null}).
-     * @return a new 2D boolean array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new two-dimensional boolean array, or {@code null} if the input is {@code null}.
      * @see #toBoolean(byte[])
      */
     @MayReturnNull
@@ -11953,9 +11953,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of booleans.
+     * Converts a three-dimensional array of bytes to a three-dimensional array of booleans.
      * Each byte value greater than 0 is converted to true, otherwise false.
-     * The 3D structure is preserved in the conversion.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11964,8 +11964,8 @@ public sealed class Arrays permits Arrays.f {
      * // bools is {{{true, false}, {false}}, {{true, false}}}
      * }</pre>
      *
-     * @param a the 3D array of bytes to convert (can be {@code null}).
-     * @return a new 3D boolean array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new three-dimensional boolean array, or {@code null} if the input is {@code null}.
      * @see #toBoolean(byte[][])
      */
     @MayReturnNull
@@ -12015,9 +12015,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of integers to a 2D array of booleans.
+     * Converts a two-dimensional array of integers to a two-dimensional array of booleans.
      * Each integer value greater than 0 is converted to true, otherwise false.
-     * The 2D structure is preserved in the conversion.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12026,8 +12026,8 @@ public sealed class Arrays permits Arrays.f {
      * // bools is {{true, false}, {false, true}}
      * }</pre>
      *
-     * @param a the 2D array of integers to convert (can be {@code null}).
-     * @return a new 2D boolean array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of integers to convert (can be {@code null}).
+     * @return a new two-dimensional boolean array, or {@code null} if the input is {@code null}.
      * @see #toBoolean(int[])
      */
     @MayReturnNull
@@ -12047,9 +12047,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of integers to a 3D array of booleans.
+     * Converts a three-dimensional array of integers to a three-dimensional array of booleans.
      * Each integer value greater than 0 is converted to true, otherwise false.
-     * The 3D structure is preserved in the conversion.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12058,8 +12058,8 @@ public sealed class Arrays permits Arrays.f {
      * // bools is {{{true, false}, {false}}, {{true, false}}}
      * }</pre>
      *
-     * @param a the 3D array of integers to convert (can be {@code null}).
-     * @return a new 3D boolean array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of integers to convert (can be {@code null}).
+     * @return a new three-dimensional boolean array, or {@code null} if the input is {@code null}.
      * @see #toBoolean(int[][])
      */
     @MayReturnNull
@@ -12108,8 +12108,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of integers to a 2D array of chars by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of integers to a two-dimensional array of chars by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12118,8 +12118,8 @@ public sealed class Arrays permits Arrays.f {
      * // chars is {{'A', 'B'}, {'C', 'D'}}
      * }</pre>
      *
-     * @param a the 2D array of integers to convert (can be {@code null}).
-     * @return a new 2D char array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of integers to convert (can be {@code null}).
+     * @return a new two-dimensional char array, or {@code null} if the input is {@code null}.
      * @see #toChar(int[])
      */
     @MayReturnNull
@@ -12139,8 +12139,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of integers to a 3D array of chars by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of integers to a three-dimensional array of chars by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12149,8 +12149,8 @@ public sealed class Arrays permits Arrays.f {
      * // chars is {{{'A', 'B'}, {'C'}}, {{'D', 'E'}}}
      * }</pre>
      *
-     * @param a the 3D array of integers to convert (can be {@code null}).
-     * @return a new 3D char array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of integers to convert (can be {@code null}).
+     * @return a new three-dimensional char array, or {@code null} if the input is {@code null}.
      * @see #toChar(int[][])
      */
     @MayReturnNull
@@ -12200,9 +12200,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of booleans to a 2D array of bytes.
+     * Converts a two-dimensional array of booleans to a two-dimensional array of bytes.
      * True values become 1, false values become 0.
-     * The 2D structure is preserved in the conversion.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12211,8 +12211,8 @@ public sealed class Arrays permits Arrays.f {
      * // bytes is {{1, 0}, {1, 1}}
      * }</pre>
      *
-     * @param a the 2D array of booleans to convert (can be {@code null}).
-     * @return a new 2D byte array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of booleans to convert (can be {@code null}).
+     * @return a new two-dimensional byte array, or {@code null} if the input is {@code null}.
      * @see #toByte(boolean[])
      */
     @MayReturnNull
@@ -12232,9 +12232,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of booleans to a 3D array of bytes.
+     * Converts a three-dimensional array of booleans to a three-dimensional array of bytes.
      * True values become 1, false values become 0.
-     * The 3D structure is preserved in the conversion.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12243,8 +12243,8 @@ public sealed class Arrays permits Arrays.f {
      * // bytes is {{{1, 0}, {1}}, {{0, 0}}}
      * }</pre>
      *
-     * @param a the 3D array of booleans to convert (can be {@code null}).
-     * @return a new 3D byte array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of booleans to convert (can be {@code null}).
+     * @return a new three-dimensional byte array, or {@code null} if the input is {@code null}.
      * @see #toByte(boolean[][])
      */
     @MayReturnNull
@@ -12293,8 +12293,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of shorts by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of bytes to a two-dimensional array of shorts by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12303,8 +12303,8 @@ public sealed class Arrays permits Arrays.f {
      * // shorts is {{10, 20}, {30, 40}}
      * }</pre>
      *
-     * @param a the 2D array of bytes to convert (can be {@code null}).
-     * @return a new 2D short array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new two-dimensional short array, or {@code null} if the input is {@code null}.
      * @see #toShort(byte[])
      */
     @MayReturnNull
@@ -12324,8 +12324,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of shorts by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of bytes to a three-dimensional array of shorts by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12334,8 +12334,8 @@ public sealed class Arrays permits Arrays.f {
      * // shorts is {{{10, 20}, {30}}, {{40, 50}}}
      * }</pre>
      *
-     * @param a the 3D array of bytes to convert (can be {@code null}).
-     * @return a new 3D short array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new three-dimensional short array, or {@code null} if the input is {@code null}.
      * @see #toShort(byte[][])
      */
     @MayReturnNull
@@ -12385,9 +12385,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of booleans to a 2D array of integers.
+     * Converts a two-dimensional array of booleans to a two-dimensional array of integers.
      * True values become 1, false values become 0.
-     * The 2D structure is preserved in the conversion.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12396,8 +12396,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{1, 0}, {1, 1}}
      * }</pre>
      *
-     * @param a the 2D array of booleans to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of booleans to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(boolean[])
      */
     @MayReturnNull
@@ -12417,9 +12417,9 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of booleans to a 3D array of integers.
+     * Converts a three-dimensional array of booleans to a three-dimensional array of integers.
      * True values become 1, false values become 0.
-     * The 3D structure is preserved in the conversion.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12428,8 +12428,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{1, 0}, {1}}, {{0, 0}}}
      * }</pre>
      *
-     * @param a the 3D array of booleans to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of booleans to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(boolean[][])
      */
     @MayReturnNull
@@ -12478,8 +12478,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of chars to a 2D array of integers by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of chars to a two-dimensional array of integers by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12488,8 +12488,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{65, 66}, {67, 68}}
      * }</pre>
      *
-     * @param a the 2D array of chars to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of chars to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(char[])
      */
     @MayReturnNull
@@ -12509,8 +12509,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of chars to a 3D array of integers by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of chars to a three-dimensional array of integers by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12519,8 +12519,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{65, 66}, {67}}, {{68, 69}}}
      * }</pre>
      *
-     * @param a the 3D array of chars to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of chars to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(char[][])
      */
     @MayReturnNull
@@ -12569,8 +12569,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of integers by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of bytes to a two-dimensional array of integers by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12579,8 +12579,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{10, 20}, {30, 40}}
      * }</pre>
      *
-     * @param a the 2D array of bytes to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(byte[])
      */
     @MayReturnNull
@@ -12600,8 +12600,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of integers by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of bytes to a three-dimensional array of integers by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12610,8 +12610,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{10, 20}, {30}}, {{40, 50}}}
      * }</pre>
      *
-     * @param a the 3D array of bytes to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(byte[][])
      */
     @MayReturnNull
@@ -12660,8 +12660,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of shorts to a 2D array of integers by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of shorts to a two-dimensional array of integers by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12670,8 +12670,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{100, 200}, {300, 400}}
      * }</pre>
      *
-     * @param a the 2D array of shorts to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of shorts to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(short[])
      */
     @MayReturnNull
@@ -12691,8 +12691,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of shorts to a 3D array of integers by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of shorts to a three-dimensional array of integers by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12701,8 +12701,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{100, 200}, {300}}, {{400, 500}}}
      * }</pre>
      *
-     * @param a the 3D array of shorts to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of shorts to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(short[][])
      */
     @MayReturnNull
@@ -12751,8 +12751,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of floats to a 2D array of integers by casting (truncating).
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of floats to a two-dimensional array of integers by casting (truncating).
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12761,8 +12761,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{1, 2}, {-3, 4}}
      * }</pre>
      *
-     * @param a the 2D array of floats to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of floats to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(float[])
      */
     @MayReturnNull
@@ -12782,8 +12782,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of floats to a 3D array of integers by casting (truncating).
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of floats to a three-dimensional array of integers by casting (truncating).
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12792,8 +12792,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
      * }</pre>
      *
-     * @param a the 3D array of floats to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of floats to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(float[][])
      */
     @MayReturnNull
@@ -12842,8 +12842,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of doubles to a 2D array of integers by casting (truncating).
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of doubles to a two-dimensional array of integers by casting (truncating).
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12852,8 +12852,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{1, 2}, {-3, 4}}
      * }</pre>
      *
-     * @param a the 2D array of doubles to convert (can be {@code null}).
-     * @return a new 2D integer array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of doubles to convert (can be {@code null}).
+     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(double[])
      */
     @MayReturnNull
@@ -12873,8 +12873,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of doubles to a 3D array of integers by casting (truncating).
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of doubles to a three-dimensional array of integers by casting (truncating).
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12883,8 +12883,8 @@ public sealed class Arrays permits Arrays.f {
      * // ints is {{{1, 2}, {3}}, {{-4, 5}}}
      * }</pre>
      *
-     * @param a the 3D array of doubles to convert (can be {@code null}).
-     * @return a new 3D integer array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of doubles to convert (can be {@code null}).
+     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
      * @see #toInt(double[][])
      */
     @MayReturnNull
@@ -12933,8 +12933,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 2D array of bytes to a 2D array of longs by casting.
-     * The 2D structure is preserved in the conversion.
+     * Converts a two-dimensional array of bytes to a two-dimensional array of longs by casting.
+     * The two-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12943,8 +12943,8 @@ public sealed class Arrays permits Arrays.f {
      * // longs is {{10L, 20L}, {30L, 40L}}
      * }</pre>
      *
-     * @param a the 2D array of bytes to convert (can be {@code null}).
-     * @return a new 2D long array, or {@code null} if the input is {@code null}.
+     * @param a the two-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new two-dimensional long array, or {@code null} if the input is {@code null}.
      * @see #toLong(byte[])
      */
     @MayReturnNull
@@ -12964,8 +12964,8 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Converts a 3D array of bytes to a 3D array of longs by casting.
-     * The 3D structure is preserved in the conversion.
+     * Converts a three-dimensional array of bytes to a three-dimensional array of longs by casting.
+     * The three-dimensional structure is preserved in the conversion.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -12974,8 +12974,8 @@ public sealed class Arrays permits Arrays.f {
      * // longs is {{{10L, 20L}, {30L}}, {{40L, 50L}}}
      * }</pre>
      *
-     * @param a the 3D array of bytes to convert (can be {@code null}).
-     * @return a new 3D long array, or {@code null} if the input is {@code null}.
+     * @param a the three-dimensional array of bytes to convert (can be {@code null}).
+     * @return a new three-dimensional long array, or {@code null} if the input is {@code null}.
      * @see #toLong(byte[][])
      */
     @MayReturnNull
@@ -14112,7 +14112,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * float[][] source = {{1.1f, 2.2f}, {3.3f, 4.4f}};
      * double[][] result = Arrays.toDouble(source);
-     * // result is a 2D double array with converted values.
+     * // result is a two-dimensional double array with converted values.
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
@@ -14142,7 +14142,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * float[][][] source = {{{1.1f, 2.2f}}, {{3.3f, 4.4f}}};
      * double[][][] result = Arrays.toDouble(source);
-     * // result is a 3D double array with converted values.
+     * // result is a three-dimensional double array with converted values.
      * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
@@ -14505,7 +14505,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * A utility class providing functional-style operations on two-dimensional arrays.
-     * This class offers a comprehensive set of methods for manipulating 2D arrays including
+     * This class offers a comprehensive set of methods for manipulating two-dimensional arrays including
      * updating, replacing, reshaping, flattening, mapping, and zipping operations.
      * 
      * <p>All methods in this class are static and the class cannot be instantiated.
@@ -14538,21 +14538,21 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Updates all elements in a two-dimensional array by applying the specified operator to each element.
          * The operation is performed in-place, modifying the original array.
-         * 
+         *
          * <p>This method iterates through each element of the nested arrays and replaces it with
          * the result of applying the operator. Null sub-arrays and empty sub-arrays are safely skipped.</p>
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[][] array = {{"hello", "world"}, {"foo", "bar"}};
          * ff.updateAll(array, str -> str.toUpperCase());
          * // array is now {{"HELLO", "WORLD"}, {"FOO", "BAR"}}
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
-         * @param a the two-dimensional array to update. If null or empty, no operation is performed.
-         * @param operator the unary operator to apply to each element. Must not be null.
+         * @param a the two-dimensional array to update (can be {@code null}).
+         * @param operator the unary operator to apply to each element.
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -14574,22 +14574,22 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Replaces all elements in a two-dimensional array that match the specified predicate with a new value.
          * The replacement is performed in-place, modifying the original array.
-         * 
+         *
          * <p>This method is useful for conditional replacement operations, such as replacing null values
          * or elements matching certain criteria.</p>
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][] array = {{1, null, 3}, {null, 5, 6}};
          * ff.replaceIf(array, val -> val == null, 0);
          * // array is now {{1, 0, 3}, {0, 5, 6}}
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
-         * @param a the two-dimensional array to modify. If null or empty, no operation is performed.
-         * @param predicate the condition to test each element against. Must not be null.
-         * @param newValue the value to replace matching elements with.
+         * @param a the two-dimensional array to modify (can be {@code null}).
+         * @param predicate the condition to test each element against.
+         * @param newValue the value to replace matching elements with (can be {@code null}).
          * @throws E if the {@code predicate} throws an exception during testing.
          */
         public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
@@ -14613,23 +14613,23 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
          * The resulting array will have rows of equal length (except possibly the last row).
-         * 
+         *
          * <p>The number of rows is calculated automatically based on the array length and column count.
          * If the array length is not evenly divisible by the column count, the last row will contain
          * fewer elements than specified columns.</p>
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[] array = {1, 2, 3, 4, 5, 6, 7};
          * Integer[][] reshaped = ff.reshape(array, 3);
          * // reshaped is {{1, 2, 3}, {4, 5, 6}, {7}}
          * }</pre>
-         * 
+         *
          * @param <T> the component type of the array.
-         * @param a the one-dimensional array to reshape. Must not be null.
-         * @param cols the number of columns in each row. Must be positive.
+         * @param a the one-dimensional array to reshape.
+         * @param cols the number of columns in each row.
          * @return a new two-dimensional array with the specified column structure.
-         * @throws IllegalArgumentException if cols is not positive (cols ≤ 0).
+         * @throws IllegalArgumentException if {@code cols} is not positive ({@code cols <= 0}).
          */
         public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
             checkMForReshape(cols);
@@ -14653,21 +14653,21 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Flattens a two-dimensional array into a one-dimensional array by concatenating all sub-arrays.
          * This method handles jagged arrays (arrays with rows of different lengths) correctly.
-         * 
+         *
          * <p>Elements are concatenated in row-major order. Null or empty sub-arrays are safely skipped
          * without adding any elements to the result.</p>
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][] array = {{1, 2}, {3, 4, 5}, {6}};
          * Integer[] flattened = ff.flatten(array);
          * // flattened is {1, 2, 3, 4, 5, 6}
          * }</pre>
-         * 
+         *
          * @param <T> the component type of the array elements.
-         * @param a the two-dimensional array to flatten. Must not be null.
+         * @param a the two-dimensional array to flatten.
          * @return a new one-dimensional array containing all elements from the input array.
-         * @throws IllegalArgumentException if the input array is null.
+         * @throws IllegalArgumentException if the input array is {@code null}.
          */
         public static <T> T[] flatten(final T[][] a) throws IllegalArgumentException {
             N.checkArgNotNull(a, "The input array must not be null");
@@ -14694,21 +14694,21 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Performs an operation on a flattened view of a two-dimensional array, then copies the
          * modified elements back to the original array structure.
-         * 
+         *
          * <p>This method is particularly useful for operations that need to work on all elements
-         * as a single sequence, such as sorting all elements across the entire 2D array.</p>
-         * 
+         * as a single sequence, such as sorting all elements across the entire two-dimensional array.</p>
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][] array = {{3, 1, 4}, {1, 5, 9}};
          * ff.flatOp(array, arr -> java.util.Arrays.sort(arr));
          * // array is now {{1, 1, 3}, {4, 5, 9}}
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
-         * @param a the two-dimensional array to operate on. The operation modifies this array in-place.
-         * @param op the consumer that operates on the flattened array. Must not be null.
+         * @param a the two-dimensional array to operate on (can be {@code null}). The operation modifies this array in-place.
+         * @param op the consumer that operates on the flattened array.
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void flatOp(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
@@ -14733,21 +14733,21 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Maps each element of a two-dimensional array to a new value using the provided function.
          * The mapping preserves the structure of the original array.
-         * 
+         *
          * <p>This method creates a new array with the same dimensions as the input array,
          * where each element is the result of applying the function to the corresponding input element.</p>
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * Integer[][] array = {{1, 2}, {3, 4}};
          * Integer[][] doubled = ff.map(array, x -> x * 2);
          * // doubled is {{2, 4}, {6, 8}}
          * }</pre>
-         * 
+         *
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the unary operator to apply to each element. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the unary operator to apply to each element.
          * @return a new two-dimensional array with mapped elements, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14777,9 +14777,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to transform each element. Must not be null.
-         * @param targetElementType the class of the target element type. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to transform each element.
+         * @param targetElementType the class of the target element type.
          * @return a new two-dimensional array with transformed elements, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14813,8 +14813,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the predicate function to test each element. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the predicate function to test each element.
          * @return a new two-dimensional boolean array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14847,8 +14847,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to extract a char from each element. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to extract a char from each element.
          * @return a new two-dimensional char array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14881,8 +14881,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to a byte. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to a byte.
          * @return a new two-dimensional byte array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14915,8 +14915,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to a short. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to a short.
          * @return a new two-dimensional short array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14949,8 +14949,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to an int. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to an int.
          * @return a new two-dimensional int array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14983,8 +14983,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to a long. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to a long.
          * @return a new two-dimensional long array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15017,8 +15017,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to a float. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to a float.
          * @return a new two-dimensional float array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15051,8 +15051,8 @@ public sealed class Arrays permits Arrays.f {
          * 
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array. If null, returns {@code null}.
-         * @param func the function to convert each element to a double. Must not be null.
+         * @param a the source two-dimensional array (can be {@code null}).
+         * @param func the function to convert each element to a double.
          * @return a new two-dimensional double array, or {@code null} if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15073,7 +15073,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines corresponding elements from two 2D arrays using a binary function.
+         * Combines corresponding elements from two two-dimensional arrays using a binary function.
          * The result has dimensions equal to the minimum dimensions of the input arrays.
          * 
          * <p>This method pairs elements at the same positions and applies the zip function.
@@ -15090,10 +15090,10 @@ public sealed class Arrays permits Arrays.f {
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the zip function.
-         * @param a the first 2D array. Must not be null.
-         * @param b the second 2D array. Must not be null.
-         * @param zipFunction the function to combine paired elements. Must not be null.
-         * @return a new 2D array containing the combined elements.
+         * @param a the first two-dimensional array.
+         * @param b the second two-dimensional array.
+         * @param zipFunction the function to combine paired elements.
+         * @return a new two-dimensional array containing the combined elements.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
@@ -15102,7 +15102,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines corresponding elements from two 2D arrays into a new array of a specified type.
+         * Combines corresponding elements from two two-dimensional arrays into a new array of a specified type.
          * This method allows the result type to differ from the input types.
          * 
          * <p><b>Usage Examples:</b></p>
@@ -15117,11 +15117,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <R> the element type of the result array.
          * @param <E> the type of exception that may be thrown by the zip function.
-         * @param a the first 2D array. Must not be null.
-         * @param b the second 2D array. Must not be null.
-         * @param zipFunction the function to combine paired elements. Must not be null.
-         * @param targetElementType the class of the result element type. Must not be null.
-         * @return a new 2D array of the specified type containing combined elements.
+         * @param a the first two-dimensional array.
+         * @param b the second two-dimensional array.
+         * @param zipFunction the function to combine paired elements.
+         * @param targetElementType the class of the result element type.
+         * @return a new two-dimensional array of the specified type containing combined elements.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b,
@@ -15148,7 +15148,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines elements from two 2D arrays with default values for missing elements.
+         * Combines elements from two two-dimensional arrays with default values for missing elements.
          * The result has dimensions equal to the maximum dimensions of the input arrays.
          * 
          * <p>When one array is shorter than the other, the default values are used
@@ -15165,12 +15165,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <A> the element type of the first array and the result.
          * @param <B> the element type of the second array.
          * @param <E> the type of exception that may be thrown by the zip function.
-         * @param a the first 2D array. can be {@code null}.
-         * @param b the second 2D array. can be {@code null}.
+         * @param a the first two-dimensional array. can be {@code null}.
+         * @param b the second two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value used when first array has no element at a position.
          * @param valueForNoneB default value used when second array has no element at a position.
-         * @param zipFunction the function to combine elements. Must not be null.
-         * @return a new 2D array with combined elements using defaults where needed.
+         * @param zipFunction the function to combine elements.
+         * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
@@ -15179,7 +15179,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines elements from two 2D arrays into a result array of a specified type,
+         * Combines elements from two two-dimensional arrays into a result array of a specified type,
          * using default values for missing elements.
          * 
          * <p>This is the most flexible zip operation, allowing different input and output types
@@ -15197,13 +15197,13 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <R> the element type of the result array.
          * @param <E> the type of exception that may be thrown by the zip function.
-         * @param a the first 2D array. can be {@code null}.
-         * @param b the second 2D array. can be {@code null}.
+         * @param a the first two-dimensional array. can be {@code null}.
+         * @param b the second two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
-         * @param zipFunction the function to combine elements. Must not be null.
-         * @param targetElementType the class of the result element type. Must not be null.
-         * @return a new 2D array of the specified type with combined elements.
+         * @param zipFunction the function to combine elements.
+         * @param targetElementType the class of the result element type.
+         * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
@@ -15232,7 +15232,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines corresponding elements from three 2D arrays using a tri-function.
+         * Combines corresponding elements from three two-dimensional arrays using a tri-function.
          * The result has dimensions equal to the minimum dimensions of all input arrays.
          * 
          * <p><b>Usage Examples:</b></p>
@@ -15248,11 +15248,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <E> the type of exception that may be thrown.
-         * @param a the first 2D array. Must not be null.
-         * @param b the second 2D array. Must not be null.
-         * @param c the third 2D array. Must not be null.
-         * @param zipFunction the function to combine three elements. Must not be null.
-         * @return a new 2D array containing the combined elements.
+         * @param a the first two-dimensional array.
+         * @param b the second two-dimensional array.
+         * @param c the third two-dimensional array.
+         * @param zipFunction the function to combine three elements.
+         * @return a new two-dimensional array containing the combined elements.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -15261,7 +15261,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines elements from three 2D arrays into a new array of a specified type.
+         * Combines elements from three two-dimensional arrays into a new array of a specified type.
          * This method allows flexible type transformation when combining three arrays.
          * 
          * <p><b>Usage Examples:</b></p>
@@ -15278,12 +15278,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <C> the element type of the third array.
          * @param <R> the element type of the result array.
          * @param <E> the type of exception that may be thrown.
-         * @param a the first 2D array. Must not be null.
-         * @param b the second 2D array. Must not be null.
-         * @param c the third 2D array. Must not be null.
-         * @param zipFunction the function to combine three elements. Must not be null.
-         * @param targetElementType the class of the result element type. Must not be null.
-         * @return a new 2D array of the specified type.
+         * @param a the first two-dimensional array.
+         * @param b the second two-dimensional array.
+         * @param c the third two-dimensional array.
+         * @param zipFunction the function to combine three elements.
+         * @param targetElementType the class of the result element type.
+         * @return a new two-dimensional array of the specified type.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c,
@@ -15312,7 +15312,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines elements from three 2D arrays with default values for missing elements.
+         * Combines elements from three two-dimensional arrays with default values for missing elements.
          * The result has dimensions equal to the maximum dimensions of all input arrays.
          * 
          * <p><b>Usage Examples:</b></p>
@@ -15328,14 +15328,14 @@ public sealed class Arrays permits Arrays.f {
          * @param <B> the element type of the second array.
          * @param <C> the element type of the third array.
          * @param <E> the type of exception that may be thrown.
-         * @param a the first 2D array. can be {@code null}.
-         * @param b the second 2D array. can be {@code null}.
-         * @param c the third 2D array. can be {@code null}.
+         * @param a the first two-dimensional array. can be {@code null}.
+         * @param b the second two-dimensional array. can be {@code null}.
+         * @param c the third two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
          * @param valueForNoneC default value for the third array.
-         * @param zipFunction the function to combine three elements. Must not be null.
-         * @return a new 2D array with combined elements using defaults where needed.
+         * @param zipFunction the function to combine three elements.
+         * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
@@ -15344,7 +15344,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * Combines elements from three 2D arrays into a result array of a specified type,
+         * Combines elements from three two-dimensional arrays into a result array of a specified type,
          * using default values for missing elements. This is the most flexible three-array zip operation.
          * 
          * <p><b>Usage Examples:</b></p>
@@ -15362,15 +15362,15 @@ public sealed class Arrays permits Arrays.f {
          * @param <C> the element type of the third array.
          * @param <R> the element type of the result array.
          * @param <E> the type of exception that may be thrown.
-         * @param a the first 2D array. can be {@code null}.
-         * @param b the second 2D array. can be {@code null}.
-         * @param c the third 2D array. can be {@code null}.
+         * @param a the first two-dimensional array. can be {@code null}.
+         * @param b the second two-dimensional array. can be {@code null}.
+         * @param c the third two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
          * @param valueForNoneC default value for the third array.
-         * @param zipFunction the function to combine three elements. Must not be null.
-         * @param targetElementType the class of the result element type. Must not be null.
-         * @return a new 2D array of the specified type with combined elements.
+         * @param zipFunction the function to combine three elements.
+         * @param targetElementType the class of the result element type.
+         * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
@@ -15398,7 +15398,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * A private helper method to zip elements of two 1D arrays into a result array.
+         * A private helper method to zip elements of two one-dimensional arrays into a result array.
          * @param a first array.
          * @param b second array.
          * @param valueForNoneA default value for first array.
@@ -15439,7 +15439,7 @@ public sealed class Arrays permits Arrays.f {
         }
 
         /**
-         * A private helper method to zip elements of three 1D arrays into a result array.
+         * A private helper method to zip elements of three one-dimensional arrays into a result array.
          *
          * @param <A> type of first array element.
          * @param <B> type of second array element.
@@ -15632,7 +15632,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * A utility class providing functional-style operations on three-dimensional arrays.
-     * This class offers a comprehensive set of methods for manipulating 3D arrays including
+     * This class offers a comprehensive set of methods for manipulating three-dimensional arrays including
      * updating, replacing, reshaping, flattening, mapping, and zipping operations.
      * 
      * <p>The class follows a functional programming paradigm, allowing for declarative
@@ -15668,7 +15668,7 @@ public sealed class Arrays permits Arrays.f {
          * Updates all elements in a three-dimensional array by applying the specified unary operator
          * to each element. The operation modifies the array in-place, meaning the original array
          * is changed rather than creating a new array.
-         * 
+         *
          * <p>The operator is applied to every non-null element in the array, traversing through
          * all three dimensions. Null elements at any level are skipped.</p>
          *
@@ -15681,8 +15681,8 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
-         * @param a the three-dimensional array to update. Must not be null but can be empty.
-         * @param operator the unary operator to apply to each element. Must not be null.
+         * @param a the three-dimensional array to update (can be {@code null}).
+         * @param operator the unary operator to apply to each element.
          * @throws E if the {@code operator} throws an exception during execution.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -15699,7 +15699,7 @@ public sealed class Arrays permits Arrays.f {
          * Replaces all elements in a three-dimensional array that satisfy the given predicate
          * with the specified new value. The replacement is performed in-place, modifying the
          * original array rather than creating a new one.
-         * 
+         *
          * <p>This method is useful for conditional bulk updates, such as replacing all null
          * values, replacing values that meet certain criteria, or normalizing data.</p>
          *
@@ -15712,9 +15712,9 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
-         * @param a the three-dimensional array to modify. Must not be null but can be empty.
+         * @param a the three-dimensional array to modify (can be {@code null}).
          * @param predicate the condition to test for each element. Elements that match will be replaced.
-         * @param newValue the value to replace matching elements with. can be {@code null}.
+         * @param newValue the value to replace matching elements with (can be {@code null}).
          * @throws E if the {@code predicate} throws an exception during evaluation.
          */
         public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
@@ -15729,10 +15729,10 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Reshapes a one-dimensional array into a three-dimensional array with the specified
-         * dimensions. The method distributes elements from the input array into a 3D structure
-         * where each 2D slice has the specified number of rows and columns.
+         * dimensions. The method distributes elements from the input array into a three-dimensional structure
+         * where each two-dimensional slice has the specified number of rows and columns.
          * 
-         * <p>The reshaping process fills the 3D array in order, creating new 2D slices as needed.
+         * <p>The reshaping process fills the three-dimensional array in order, creating new two-dimensional slices as needed.
          * If the total number of elements doesn't evenly divide into the specified dimensions,
          * the last slices may be partially filled.</p>
          *
@@ -15744,9 +15744,9 @@ public sealed class Arrays permits Arrays.f {
          * }</pre>
          *
          * @param <T> the type of elements in the array.
-         * @param a the one-dimensional array to reshape. Must not be null.
-         * @param rows the number of rows for each 2D slice. Must be positive.
-         * @param cols the number of columns for each 2D slice. Must be positive.
+         * @param a the one-dimensional array to reshape.
+         * @param rows the number of rows for each two-dimensional slice. Must be positive.
+         * @param cols the number of columns for each two-dimensional slice. Must be positive.
          * @return a new three-dimensional array containing all elements from the input.
          * @throws IllegalArgumentException if rows or cols are not positive numbers.
          */
@@ -15790,7 +15790,7 @@ public sealed class Arrays permits Arrays.f {
          * }</pre>
          *
          * @param <T> the component type of the array elements.
-         * @param a the three-dimensional array to flatten. Must not be null.
+         * @param a the three-dimensional array to flatten.
          * @return a new one-dimensional array containing all elements in order.
          * @throws IllegalArgumentException if the input array is null.
          */
@@ -15824,11 +15824,11 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Flattens a three-dimensional array, applies an operation to the flattened result,
-         * then copies the modified elements back into the original 3D structure. This method
+         * then copies the modified elements back into the original three-dimensional structure. This method
          * is particularly useful for operations that are easier to perform on a linear array,
-         * such as sorting all elements regardless of their position in the 3D structure.
+         * such as sorting all elements regardless of their position in the three-dimensional structure.
          * 
-         * <p>The operation preserves the original shape of the 3D array while allowing
+         * <p>The operation preserves the original shape of the three-dimensional array while allowing
          * transformations that work on the entire dataset as a single unit.</p>
          *
          * <p><b>Usage Examples:</b></p>
@@ -16624,7 +16624,7 @@ public sealed class Arrays permits Arrays.f {
          * and line breaks to clearly show the three-dimensional structure.
          * 
          * <p>This method is primarily intended for debugging and development purposes
-         * to visualize the contents and structure of 3D arrays. Each 2D slice is
+         * to visualize the contents and structure of three-dimensional arrays. Each two-dimensional slice is
          * separated by line breaks for clarity.</p>
          *
          * <p><b>Usage Examples:</b></p>

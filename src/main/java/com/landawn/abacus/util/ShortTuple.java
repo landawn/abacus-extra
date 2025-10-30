@@ -193,9 +193,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a ShortTuple8 containing eight short values.
-     * 
-     * <p>Note: For tuples with 8 or more elements, consider using a custom class
-     * with meaningful property names for better code readability.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
+     *                                    (short)5, (short)6, (short)7, (short)8);
+     * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value
@@ -206,7 +209,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh short value
      * @param _8 the eighth short value
      * @return a new ShortTuple8 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static ShortTuple8 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7,
@@ -216,9 +219,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a ShortTuple9 containing nine short values.
-     * 
-     * <p>Note: For tuples with 9 elements, consider using a custom class
-     * with meaningful property names for better code readability and maintainability.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
+     *                                    (short)6, (short)7, (short)8, (short)9);
+     * }</pre>
      *
      * @param _1 the first short value
      * @param _2 the second short value
@@ -230,7 +236,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _8 the eighth short value
      * @param _9 the ninth short value
      * @return a new ShortTuple9 containing the specified values
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
@@ -1839,18 +1845,15 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly eight short values.
      * The values are accessible through the public final fields {@code _1} through {@code _8}.
-     * 
-     * <p>Note: For tuples with 8 or more elements, consider using a custom class
-     * with meaningful property names for better code readability.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, 
+     * ShortTuple8 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4,
      *                                    (short)5, (short)6, (short)7, (short)8);
      * boolean contains5 = tuple.contains((short)5); // true
      * }</pre>
-     * 
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static final class ShortTuple8 extends ShortTuple<ShortTuple8> {
@@ -2002,18 +2005,15 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * A tuple containing exactly nine short values.
      * The values are accessible through the public final fields {@code _1} through {@code _9}.
-     * 
-     * <p>Note: For tuples with 9 elements, consider using a custom class
-     * with meaningful property names for better code readability and maintainability.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple9 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4, (short)5,
      *                                    (short)6, (short)7, (short)8, (short)9);
      * double avg = tuple.average(); // 5.0
      * }</pre>
-     * 
-     * @deprecated you should consider using {@code class SomeClass { final T1 propName1, final T2 propName2...}}
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
     public static final class ShortTuple9 extends ShortTuple<ShortTuple9> {

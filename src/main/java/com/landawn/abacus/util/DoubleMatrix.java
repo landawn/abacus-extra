@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for double matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is backed by a 2D double array and provides methods for:
+ * <p>The matrix is backed by a two-dimensional double array and provides methods for:
  * <ul>
  *   <li>Basic matrix operations (add, subtract, multiply)</li>
  *   <li>Transformations (transpose, rotate, flip)</li>
@@ -58,7 +58,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     static final DoubleMatrix EMPTY_DOUBLE_MATRIX = new DoubleMatrix(new double[0][0]);
 
     /**
-     * Constructs a DoubleMatrix from a 2D double array.
+     * Constructs a DoubleMatrix from a two-dimensional double array.
      *
      * <p>The provided array is used directly as the internal storage without copying.
      * If the input array is null, an empty matrix (0x0) is created instead.
@@ -76,7 +76,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // empty.rows returns 0, empty.cols returns 0
      * }</pre>
      *
-     * @param a the 2D double array to wrap, or null for an empty matrix
+     * @param a the two-dimensional double array to wrap, or null for an empty matrix
      */
     public DoubleMatrix(final double[][] a) {
         super(a == null ? new double[0][0] : a);
@@ -99,7 +99,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a DoubleMatrix from a 2D double array.
+     * Creates a DoubleMatrix from a two-dimensional double array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -107,7 +107,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix.get(1, 1) returns 4.0
      * }</pre>
      *
-     * @param a the 2D double array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional double array to create the matrix from, or null/empty for an empty matrix
      * @return a new DoubleMatrix containing the provided data, or an empty DoubleMatrix if input is null or empty
      */
     public static DoubleMatrix of(final double[]... a) {
@@ -115,7 +115,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a DoubleMatrix from a 2D int array by converting int values to double.
+     * Creates a DoubleMatrix from a two-dimensional int array by converting int values to double.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -126,7 +126,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix.get(0, 1) returns 2.0
      * }</pre>
      *
-     * @param a the 2D int array to convert to a double matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional int array to convert to a double matrix, or null/empty for an empty matrix
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -160,7 +160,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a DoubleMatrix from a 2D long array by converting long values to double.
+     * Creates a DoubleMatrix from a two-dimensional long array by converting long values to double.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -171,7 +171,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix.get(1, 0) returns 3.0
      * }</pre>
      *
-     * @param a the 2D long array to convert to a double matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional long array to convert to a double matrix, or null/empty for an empty matrix
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -205,7 +205,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a DoubleMatrix from a 2D float array by converting float values to double.
+     * Creates a DoubleMatrix from a two-dimensional float array by converting float values to double.
      *
      * <p>All rows must have the same length as the first row (rectangular array required).</p>
      *
@@ -216,7 +216,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix.get(1, 1) returns 4.0
      * }</pre>
      *
-     * @param a the 2D float array to convert to a double matrix, or null/empty for an empty matrix
+     * @param a the two-dimensional float array to convert to a double matrix, or null/empty for an empty matrix
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
@@ -480,17 +480,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns the element above the specified position, if it exists.
+     * If the specified position is in the first row (i == 0), returns an empty Optional.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * OptionalDouble value = matrix.upOf(1, 0); // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.upOf(0, 0); // Returns OptionalDouble.empty()
+     * OptionalDouble empty = matrix.upOf(0, 0); // Returns OptionalDouble.empty() (no row above)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element above, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalDouble containing the element at position (i-1, j), or empty if i == 0
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalDouble upOf(final int i, final int j) {
         return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
@@ -498,17 +500,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns the element below the specified position, if it exists.
+     * If the specified position is in the last row, returns an empty Optional.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * OptionalDouble value = matrix.downOf(0, 0); // Returns OptionalDouble.of(3.0)
-     * OptionalDouble empty = matrix.downOf(1, 0); // Returns OptionalDouble.empty()
+     * OptionalDouble empty = matrix.downOf(1, 0); // Returns OptionalDouble.empty() (no row below)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element below, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalDouble containing the element at position (i+1, j), or empty if i == rows-1
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalDouble downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
@@ -516,17 +520,18 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns the element to the left of the specified position, if it exists.
+     * If the specified position is in the first column (j == 0), returns an empty Optional.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * OptionalDouble value = matrix.leftOf(0, 1); // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.leftOf(0, 0); // Returns OptionalDouble.empty()
+     * OptionalDouble empty = matrix.leftOf(0, 0); // Returns OptionalDouble.empty() (no column to left)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the left, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalDouble containing the element at position (i, j-1), or empty if j == 0
      */
     public OptionalDouble leftOf(final int i, final int j) {
         return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
@@ -534,17 +539,18 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns the element to the right of the specified position, if it exists.
+     * If the specified position is in the last column, returns an empty Optional.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * OptionalDouble value = matrix.rightOf(0, 0); // Returns OptionalDouble.of(2.0)
-     * OptionalDouble empty = matrix.rightOf(0, 1); // Returns OptionalDouble.empty()
+     * OptionalDouble empty = matrix.rightOf(0, 1); // Returns OptionalDouble.empty() (no column to right)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the right, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalDouble containing the element at position (i, j+1), or empty if j == cols-1
      */
     public OptionalDouble rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
@@ -602,17 +608,21 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the values of the specified row.
+     * Sets the values of the specified row by copying from the provided array.
+     * All elements in the row are replaced with values from the provided array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
      * matrix.setRow(0, new double[] {7.0, 8.0, 9.0}); // First row is now [7.0, 8.0, 9.0]
+     * assert matrix.get(0, 0) == 7.0;
+     * assert matrix.get(0, 2) == 9.0;
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set; must have length equal to number of columns
-     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
+     * @param row the array of values to copy into the row; must have length equal to the number of columns
+     * @throws IllegalArgumentException if row.length != cols
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds or row is null
      */
     public void setRow(final int rowIndex, final double[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -621,17 +631,21 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the values of the specified column.
+     * Sets the values of the specified column by copying from the provided array.
+     * All elements in the column are replaced with values from the provided array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
      * matrix.setColumn(0, new double[] {7.0, 8.0}); // First column is now [7.0, 8.0]
+     * assert matrix.get(0, 0) == 7.0;
+     * assert matrix.get(1, 0) == 8.0;
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set; must have length equal to number of rows
-     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @param column the array of values to copy into the column; must have length equal to the number of rows
+     * @throws IllegalArgumentException if column.length != rows
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
      */
     public void setColumn(final int columnIndex, final double[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -642,21 +656,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies the specified function to update all elements in the specified row in-place.
-     * Each element in the row is transformed by the function, and the row is modified with the returned values.
-     * This operation modifies the matrix directly.
+     * Updates all elements in a row by applying the specified function to each element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.updateRow(0, d -&gt; d * 2); // Row 0 becomes [2.0, 4.0]
+     * matrix.updateRow(0, x -> x * 2); // Doubles all values in the first row
+     * matrix.updateRow(1, x -> x + 10); // Adds 10 to all values in the second row
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param rowIndex the row index to update (0-based, must be within bounds)
-     * @param func the function to apply to each element in the row; must not be null
+     * @param <E> the type of exception that the function may throw
+     * @param rowIndex the index of the row to update (0-based)
+     * @param func the function to apply to each element in the row
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if rowIndex is out of bounds
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -665,21 +677,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies the specified function to update all elements in the specified column in-place.
-     * Each element in the column is transformed by the function, and the column is modified with the returned values.
-     * This operation modifies the matrix directly.
+     * Updates all elements in a column by applying the specified function to each element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 4.0}, {9.0, 16.0}});
-     * matrix.updateColumn(1, d -&gt; Math.sqrt(d)); // Column 1 becomes [2.0, 4.0]
+     * matrix.updateColumn(0, x -> x + 1); // Adds 1 to all values in the first column
+     * matrix.updateColumn(2, x -> Math.abs(x)); // Takes absolute value of all values in third column
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param columnIndex the column index to update (0-based, must be within bounds)
-     * @param func the function to apply to each element in the column; must not be null
+     * @param <E> the type of exception that the function may throw
+     * @param columnIndex the index of the column to update (0-based)
+     * @param func the function to apply to each element in the column
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      * @throws E if the function throws an exception
-     * @throws IllegalArgumentException if columnIndex is out of bounds
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -1070,7 +1080,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fills the matrix with values from the specified 2D array in-place, starting from position (0,0).
+     * Fills the matrix with values from the specified two-dimensional array in-place, starting from position (0,0).
      * Values are copied up to the minimum of the matrix size and the source array size. If the source
      * array is smaller than the matrix, only the overlapping region is filled. If the source array is
      * larger, only the portion that fits is copied.
@@ -1089,7 +1099,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fills a portion of the matrix with values from the specified 2D array in-place, starting from a specified position.
+     * Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
      * Values are copied starting from the specified row and column indices. If the source array extends
      * beyond the matrix bounds from the starting position, only the portion that fits is copied.
      *
@@ -1167,18 +1177,22 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Creates a copy of a rectangular region from this matrix.
-     * 
+     * The returned matrix contains only the specified rows and columns and is completely
+     * independent from the original matrix.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix sub = matrix.copy(0, 2, 1, 3); // Copy rows 0-1, columns 1-2
      * }</pre>
      *
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
-     * @return a new DoubleMatrix containing the specified region
-     * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @return a new DoubleMatrix containing the specified region with dimensions
+     *         (toRowIndex - fromRowIndex) × (toColumnIndex - fromColumnIndex)
+     * @throws IndexOutOfBoundsException if any index is out of bounds or if fromRowIndex &gt; toRowIndex
+     *                                   or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex)
@@ -1726,7 +1740,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Applies an operation to each row array of the underlying 2D array in-place.
+     * Applies an operation to each row array of the underlying two-dimensional array in-place.
      * The operation receives a reference to each row as a double array and can modify it directly.
      *
      * <p><b>Note:</b> This provides direct access to the internal row arrays, so modifications
@@ -2693,7 +2707,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2734,7 +2748,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -31,7 +31,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for char matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is backed by a 2D char array and provides methods for:
+ * <p>The matrix is backed by a two-dimensional char array and provides methods for:
  * <ul>
  *   <li>Basic matrix operations (add, subtract, multiply)</li>
  *   <li>Transformations (transpose, rotate, flip)</li>
@@ -56,25 +56,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     static final CharMatrix EMPTY_CHAR_MATRIX = new CharMatrix(new char[0][0]);
 
     /**
-     * Constructs a CharMatrix from a 2D char array.
+     * Constructs a new CharMatrix with the specified two-dimensional char array.
+     * If the input array is null, an empty matrix (0x0) is created.
      *
-     * <p>The provided array is used directly as the internal storage without copying.
-     * If the input array is null, an empty matrix (0x0) is created instead.
+     * <p><b>Important:</b> The input array is used directly without defensive copying.
+     * This means modifications to the input array after construction will affect the matrix,
+     * and vice versa. For independent matrices, create a copy of the array before passing it.
      *
-     * <p><b>Important:</b> Since the array is not copied, any external modifications
-     * to the array will affect this matrix. For a safe copy, use {@link #of(char[][])} instead.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * char[][] data = {{'a', 'b'}, {'c', 'd'}};
-     * CharMatrix matrix = new CharMatrix(data);
-     * // matrix.rows() returns 2, matrix.cols() returns 2
-     *
-     * CharMatrix empty = new CharMatrix(null);
-     * // empty.rows() returns 0, empty.cols() returns 0
-     * }</pre>
-     *
-     * @param a the 2D char array to wrap, or null for an empty matrix
+     * @param a the two-dimensional char array to initialize the matrix with, or null for an empty matrix
      */
     public CharMatrix(final char[][] a) {
         super(a == null ? new char[0][0] : a);
@@ -86,8 +75,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty char matrix
@@ -97,7 +86,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a CharMatrix from a 2D char array.
+     * Creates a CharMatrix from a two-dimensional char array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -105,7 +94,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // matrix.get(1, 0) returns 'c'
      * }</pre>
      *
-     * @param a the 2D char array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional char array to create the matrix from, or null/empty for an empty matrix
      * @return a new CharMatrix containing the provided data, or an empty CharMatrix if input is null or empty
      */
     public static CharMatrix of(final char[]... a) {
@@ -349,15 +338,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * // Assuming you have a Point implementation
-     * // char value = matrix.get(point); // Returns element at point
+     * Point point = Point.of(0, 1);
+     * char value = matrix.get(point); // Returns 'b'
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -385,15 +375,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Sets the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * // Assuming you have a Point implementation
-     * // matrix.set(point, 'x'); // Sets element at point
+     * Point point = Point.of(0, 1);
+     * matrix.set(point, 'x'); // Sets element at point to 'x'
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -474,21 +465,24 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the specified row as an array.
+     * Returns the specified row as a char array.
      *
-     * <p><b>Important:</b> This method returns the internal array directly, not a copy.
-     * Modifications to the returned array will affect the matrix.
+     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * Modifications to the returned array will affect the matrix. If you need an independent
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * char[] firstRow = matrix.row(0); // Returns ['a', 'b', 'c']
-     * firstRow[0] = 'x'; // This modifies the matrix!
+     *
+     * // Direct modification affects the matrix
+     * firstRow[0] = 'x'; // matrix now has 'x' at position (0,0)
      * }</pre>
      *
      * @param rowIndex the index of the row to retrieve (0-based)
-     * @return the internal array of the specified row
-     * @throws IllegalArgumentException if rowIndex is negative or &gt;= number of rows
+     * @return the specified row array (direct reference to internal storage)
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public char[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -497,22 +491,24 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a copy of the specified column as an array.
+     * Returns a copy of the specified column as a new char array.
      *
-     * <p>Unlike {@link #row(int)}, this method returns a new array containing
-     * a copy of the column data. Modifications to the returned array will not
-     * affect the matrix.
+     * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
+     * columns are not stored contiguously. Modifications to the returned array
+     * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * char[] firstColumn = matrix.column(0); // Returns ['a', 'd']
-     * firstColumn[0] = 'x'; // This does NOT modify the matrix
+     *
+     * // Modification does NOT affect the matrix (it's a copy)
+     * firstColumn[0] = 'x'; // matrix still has 'a' at position (0,0)
      * }</pre>
      *
      * @param columnIndex the index of the column to retrieve (0-based)
-     * @return a new array containing a copy of the specified column
-     * @throws IllegalArgumentException if columnIndex is negative or &gt;= number of columns
+     * @return a new array containing the values from the specified column
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public char[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -975,7 +971,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fills the matrix with values from the specified 2D array, starting from position (0,0).
+     * Fills the matrix with values from the specified two-dimensional array, starting from position (0,0).
      * If the source array is larger than the matrix, only the fitting portion is copied.
      * If the source array is smaller, only the available values are copied.
      *
@@ -993,7 +989,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fills a portion of the matrix with values from the specified 2D array.
+     * Fills a portion of the matrix with values from the specified two-dimensional array.
      * Values are copied starting from the specified position. If the source array
      * extends beyond the matrix bounds, only the fitting portion is copied.
      *
@@ -1619,7 +1615,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns a CharList containing all matrix elements in row-major order.
      *
-     * <p>This method converts the 2D matrix into a 1D list by reading elements
+     * <p>This method converts the two-dimensional matrix into a one-dimensional list by reading elements
      * row by row from left to right, top to bottom.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2758,7 +2754,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2799,7 +2795,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

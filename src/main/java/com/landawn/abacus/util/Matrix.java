@@ -106,7 +106,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a Matrix from a 2D array.
+     * Creates a Matrix from a two-dimensional array.
      *
      * <p><b>Important:</b> The matrix maintains a reference to the provided array,
      * not a copy. Modifications to the original array will affect the matrix,
@@ -121,7 +121,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param a the 2D array to create the matrix from (must not be null)
+     * @param a the two-dimensional array to create the matrix from (must not be null)
      * @return a new Matrix containing the provided data
      * @throws IllegalArgumentException if the array is null or if rows have different lengths (non-rectangular array)
      */
@@ -430,88 +430,78 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the element above the specified position.
-     * Returns empty if the position is in the first row.
-     * This method is useful for algorithms that need to check adjacent elements.
+     * Returns the element directly above the specified position, if it exists.
+     * If the specified position is in the first row (i == 0), returns an empty Nullable.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Nullable<T> above = matrix.upOf(1, 2);
-     * if (above.isPresent()) {
-     *     T value = above.get(); // Element at (0, 2)
-     * }
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * Nullable<String> value = matrix.upOf(1, 0); // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.upOf(0, 0); // Returns Nullable.empty() (no row above)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return a Nullable containing the element above, or empty if none exists
-     * @throws ArrayIndexOutOfBoundsException if the original position is out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a Nullable containing the element at position (i-1, j), or empty if i == 0
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public Nullable<T> upOf(final int i, final int j) {
         return i == 0 ? Nullable.empty() : Nullable.of(a[i - 1][j]);
     }
 
     /**
-     * Gets the element below the specified position.
-     * Returns empty if the position is in the last row.
-     * This method is useful for algorithms that need to check adjacent elements.
+     * Returns the element directly below the specified position, if it exists.
+     * If the specified position is in the last row, returns an empty Nullable.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Nullable<T> below = matrix.downOf(0, 1);
-     * if (below.isPresent()) {
-     *     T value = below.get(); // Element at (1, 1)
-     * }
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * Nullable<String> value = matrix.downOf(0, 0); // Returns Nullable.of("C")
+     * Nullable<String> empty = matrix.downOf(1, 0); // Returns Nullable.empty() (no row below)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return a Nullable containing the element below, or empty if none exists
-     * @throws ArrayIndexOutOfBoundsException if the original position is out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a Nullable containing the element at position (i+1, j), or empty if i == rows-1
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public Nullable<T> downOf(final int i, final int j) {
         return i == rows - 1 ? Nullable.empty() : Nullable.of(a[i + 1][j]);
     }
 
     /**
-     * Gets the element to the left of the specified position.
-     * Returns empty if the position is in the first column.
-     * This method is useful for algorithms that need to check adjacent elements.
+     * Returns the element directly to the left of the specified position, if it exists.
+     * If the specified position is in the first column (j == 0), returns an empty Nullable.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Nullable<T> left = matrix.leftOf(1, 2);
-     * if (left.isPresent()) {
-     *     T value = left.get(); // Element at (1, 1)
-     * }
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * Nullable<String> value = matrix.leftOf(0, 1); // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.leftOf(0, 0); // Returns Nullable.empty() (no column to left)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return a Nullable containing the element to the left, or empty if none exists
-     * @throws ArrayIndexOutOfBoundsException if the original position is out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a Nullable containing the element at position (i, j-1), or empty if j == 0
      */
     public Nullable<T> leftOf(final int i, final int j) {
         return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
     }
 
     /**
-     * Gets the element to the right of the specified position.
-     * Returns empty if the position is in the last column.
-     * This method is useful for algorithms that need to check adjacent elements.
+     * Returns the element directly to the right of the specified position, if it exists.
+     * If the specified position is in the last column, returns an empty Nullable.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Nullable<T> right = matrix.rightOf(1, 0);
-     * if (right.isPresent()) {
-     *     T value = right.get(); // Element at (1, 1)
-     * }
+     * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * Nullable<String> value = matrix.rightOf(0, 0); // Returns Nullable.of("B")
+     * Nullable<String> empty = matrix.rightOf(0, 1); // Returns Nullable.empty() (no column to right)
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return a Nullable containing the element to the right, or empty if none exists
-     * @throws ArrayIndexOutOfBoundsException if the original position is out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return a Nullable containing the element at position (i, j+1), or empty if j == cols-1
      */
     public Nullable<T> rightOf(final int i, final int j) {
         return j == cols - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
@@ -1260,7 +1250,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Fills the matrix with values from another 2D array.
+     * Fills the matrix with values from another two-dimensional array.
      * Copies as much data as will fit, starting from the top-left corner (position 0,0).
      * If the source array is larger than this matrix, extra data is ignored.
      * If the source array is smaller than this matrix, the remaining cells are unchanged.
@@ -1272,14 +1262,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.fill(data); // Copy from top-left
      * }</pre>
      *
-     * @param b the source 2D array to copy values from (must not be null)
+     * @param b the source two-dimensional array to copy values from (must not be null)
      */
     public void fill(final T[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills the matrix with values from another 2D array starting at the specified position.
+     * Fills the matrix with values from another two-dimensional array starting at the specified position.
      * Copies as much data as will fit from the starting position.
      * If the source data extends beyond the matrix bounds, it is truncated.
      * The matrix is modified in-place.
@@ -1292,7 +1282,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index (0-based, must be between 0 and rows inclusive)
      * @param fromColumnIndex the starting column index (0-based, must be between 0 and cols inclusive)
-     * @param b the source 2D array to copy values from (must not be null)
+     * @param b the source two-dimensional array to copy values from (must not be null)
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
@@ -2948,7 +2938,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2991,7 +2981,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

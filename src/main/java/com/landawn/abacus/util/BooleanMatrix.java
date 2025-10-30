@@ -29,7 +29,7 @@ import com.landawn.abacus.util.stream.Stream;
  * methods for boolean matrix manipulation including mathematical operations, transformations,
  * and element access.
  * 
- * <p>The matrix is internally represented as a 2D boolean array (boolean[][]) and supports
+ * <p>The matrix is internally represented as a two-dimensional boolean array (boolean[][]) and supports
  * various operations such as:
  * <ul>
  *   <li>Element access and modification</li>
@@ -54,10 +54,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     static final BooleanMatrix EMPTY_BOOLEAN_MATRIX = new BooleanMatrix(new boolean[0][0]);
 
     /**
-     * Constructs a new BooleanMatrix with the specified 2D boolean array.
+     * Constructs a new BooleanMatrix with the specified two-dimensional boolean array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
-     * @param a the 2D boolean array to initialize the matrix with, or null for an empty matrix
+     * <p><b>Important:</b> The input array is used directly without defensive copying.
+     * This means modifications to the input array after construction will affect the matrix,
+     * and vice versa. For independent matrices, create a copy of the array before passing it.
+     *
+     * @param a the two-dimensional boolean array to initialize the matrix with, or null for an empty matrix
      */
     public BooleanMatrix(final boolean[][] a) {
         super(a == null ? new boolean[0][0] : a);
@@ -69,8 +73,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.empty();
-     * // matrix.rows() returns 0
-     * // matrix.columns() returns 0
+     * // matrix.rows returns 0
+     * // matrix.cols returns 0
      * }</pre>
      *
      * @return an empty boolean matrix
@@ -80,7 +84,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a BooleanMatrix from a 2D boolean array.
+     * Creates a BooleanMatrix from a two-dimensional boolean array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -88,7 +92,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // matrix.get(0, 1) returns false
      * }</pre>
      *
-     * @param a the 2D boolean array to create the matrix from, or null/empty for an empty matrix
+     * @param a the two-dimensional boolean array to create the matrix from, or null/empty for an empty matrix
      * @return a new BooleanMatrix containing the provided data, or an empty BooleanMatrix if input is null or empty
      */
     public static BooleanMatrix of(final boolean[]... a) {
@@ -264,15 +268,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * // Assuming you have a Point implementation
-     * // boolean value = matrix.get(point); // Returns element at point
+     * Point point = Point.of(0, 1);
+     * boolean value = matrix.get(point); // Returns false
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @return the element at the specified point
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -300,15 +305,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Sets the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * // Assuming you have a Point implementation
-     * // matrix.set(point, true); // Sets element at point
+     * Point point = Point.of(1, 0);
+     * matrix.set(point, true); // Sets element at point to true
      * }</pre>
      *
-     * @param point the point containing row and column indices
+     * @param point the point containing row and column indices (0-based)
      * @param val the value to set
      * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
      */
@@ -401,7 +407,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns the specified row as a boolean array.
      *
-     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
@@ -428,7 +434,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Returns a copy of the specified column as a new boolean array.
      *
      * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
-     * columns are not stored contiguously in memory. Modifications to the returned array
+     * columns are not stored contiguously. Modifications to the returned array
      * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -956,7 +962,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Fills the matrix with values from the provided 2D array, starting from position (0, 0).
+     * Fills the matrix with values from the provided two-dimensional array, starting from position (0, 0).
      * The copy continues for the size of the input array or until the matrix boundaries are reached.
      *
      * <p><b>Usage Examples:</b></p>
@@ -966,14 +972,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Top-left 2x2 region is now true, rest remains false
      * }</pre>
      *
-     * @param b the 2D boolean array to copy values from; must not be null
+     * @param b the two-dimensional boolean array to copy values from; must not be null
      */
     public void fill(final boolean[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a portion of the matrix with values from the provided 2D array.
+     * Fills a portion of the matrix with values from the provided two-dimensional array.
      * Copying starts at the specified position and continues for the size of the input array
      * or until the matrix boundaries are reached. If the input array extends beyond the matrix
      * boundaries, only the overlapping portion is copied.
@@ -1701,15 +1707,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flattens the underlying 2D array into a 1D array, applies an operation to it, then reconstructs
-     * the 2D structure. This is useful for operations that need a flat view of all matrix elements.
+     * Flattens the underlying two-dimensional array into a one-dimensional array, applies an operation to it, then reconstructs
+     * the two-dimensional structure. This is useful for operations that need a flat view of all matrix elements.
      *
      * <p><b>IMPORTANT:</b> The operation receives the actual flattened internal array. Modifications made
      * by the operation will be reflected back into the matrix structure after the operation completes.
      *
      * <p>This method is particularly useful for bulk operations that work more efficiently on
      * a flat array representation, such as sorting all elements, applying array-level transformations,
-     * or interfacing with APIs that expect 1D arrays.
+     * or interfacing with APIs that expect one-dimensional arrays.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1824,9 +1830,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <pre>{@code
      * BooleanMatrix primitive = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Matrix<Boolean&gt; boxed = primitive.boxed();
-     * 
+     *
      * // Now you can use methods that work with generic types
-     * Stream<Boolean&gt; stream = boxed.stream();
+     * Stream<Boolean> stream = boxed.streamH();
      * boxed.set(0, 0, null); // Can use null values
      * }</pre>
      *
@@ -2802,7 +2808,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns a hash code value for this matrix.
-     * The hash code is computed based on the deep contents of the internal 2D array.
+     * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
      *
@@ -2843,7 +2849,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns a string representation of this matrix.
-     * The format consists of matrix elements in a 2D array format with rows enclosed in brackets.
+     * The format consists of matrix elements in a two-dimensional array format with rows enclosed in brackets.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

@@ -104,8 +104,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double first = tuple._1;
+     * DoubleTuple4 quad = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double sum = quad.sum(); // 10.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -124,7 +124,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
-     * double first = tuple._1;
+     * double median = tuple.median(); // 3.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -144,7 +144,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-     * double first = tuple._1;
+     * double average = tuple.average(); // 3.5
      * }</pre>
      *
      * @param _1 the first double value
@@ -165,7 +165,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-     * double first = tuple._1;
+     * double max = tuple.max(); // 7.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -187,7 +187,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-     * double first = tuple._1;
+     * double min = tuple.min(); // 1.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -213,7 +213,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-     * double first = tuple._1;
+     * double sum = tuple.sum(); // 45.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -1222,7 +1222,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly four double values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      */
     public static final class DoubleTuple4 extends DoubleTuple<DoubleTuple4> {
 
@@ -1278,9 +1278,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the four elements.
-         * For a tuple with an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower middle value.
          *
-         * @return the median (lower middle) value when sorted
+         * @return the median double value
          */
         @Override
         public double median() {
@@ -1395,7 +1395,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly five double values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _5}.
      */
     public static final class DoubleTuple5 extends DoubleTuple<DoubleTuple5> {
 
@@ -1573,7 +1573,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly six double values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _6}.
      */
     public static final class DoubleTuple6 extends DoubleTuple<DoubleTuple6> {
 
@@ -1635,9 +1635,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the six elements.
-         * For a tuple with an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower middle value.
          *
-         * @return the median (lower middle) value when sorted
+         * @return the median double value
          */
         @Override
         public double median() {
@@ -1758,7 +1758,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly seven double values.
-     * Provides direct access to elements via public final fields.
+     * Provides direct access to elements via public final fields {@code _1} through {@code _7}.
      */
     public static final class DoubleTuple7 extends DoubleTuple<DoubleTuple7> {
 
@@ -1947,8 +1947,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly eight double values.
-     * Provides direct access to elements via public final fields.
-     * 
+     * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
+     *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated
@@ -2018,9 +2018,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the eight elements.
-         * For a tuple with an even number of elements, returns the lower middle value.
+         * For an even number of elements, returns the lower middle value.
          *
-         * @return the median (lower middle) value when sorted
+         * @return the median double value
          */
         @Override
         public double median() {
@@ -2145,8 +2145,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly nine double values.
-     * Provides direct access to elements via public final fields.
-     * 
+     * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
+     *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
      */
     @Deprecated

@@ -328,7 +328,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * int median = tuple.median(); // 2
      *
      * IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-     * int median = tuple.median(); // 2
+     * int median2 = tuple.median(); // 2
      * }</pre>
      *
      * @return the median int value in this tuple
