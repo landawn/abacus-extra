@@ -70,10 +70,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
     /**
-     * Constructs an IntMatrix from a two-dimensional int array.
+     * Constructs a IntMatrix from a two-dimensional int array.
      * If the input array is null, an empty matrix (0x0) is created.
-     * 
-     * @param a the two-dimensional int array to wrap in a matrix. Can be null.
+     *
+     * <p><b>Important:</b> The input array is used directly without defensive copying.
+     * This means modifications to the input array after construction will affect the matrix,
+     * and vice versa. For independent matrices, create a copy of the array before passing it.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * int[][] data = {{1, 2, 3}, {4, 5, 6}};
+     * IntMatrix matrix = new IntMatrix(data);
+     * data[0][0] = 99;  // This will also modify the matrix
+     * }</pre>
+     *
+     * @param a the two-dimensional int array to wrap as a matrix. If null, an empty matrix is created.
      */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);

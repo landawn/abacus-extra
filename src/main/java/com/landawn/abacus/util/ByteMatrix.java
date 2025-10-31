@@ -74,7 +74,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <pre>{@code
      * byte[][] data = {{1, 2, 3}, {4, 5, 6}};
      * ByteMatrix matrix = new ByteMatrix(data);
-     * data[0][0] = 99;  // This will also modify the matrix
+     * data[0][0] = (byte) 99;  // This will also modify the matrix
      * }</pre>
      *
      * @param a the two-dimensional byte array to wrap as a matrix. If null, an empty matrix is created.
