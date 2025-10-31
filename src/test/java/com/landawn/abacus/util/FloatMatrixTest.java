@@ -272,7 +272,6 @@ public class FloatMatrixTest extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     @Test
     public void testRow() {
         float[] row0 = matrix.row(0);

@@ -17,8 +17,11 @@ import com.landawn.abacus.util.u.OptionalFloat;
 import com.landawn.abacus.util.stream.FloatStream;
 import com.landawn.abacus.util.stream.Stream;
 
-@Tag("2510")
-public class FloatMatrix2510Test extends TestBase {
+/**
+ * Comprehensive unit tests for FloatMatrix class covering all public methods.
+ */
+@Tag("2511")
+public class FloatMatrix2511Test extends TestBase {
 
     // ============ Constructor Tests ============
 
@@ -56,6 +59,15 @@ public class FloatMatrix2510Test extends TestBase {
         assertEquals(42.5f, m.get(0, 0));
     }
 
+    @Test
+    public void testConstructor_withLargerMatrix() {
+        float[][] arr = { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } };
+        FloatMatrix m = new FloatMatrix(arr);
+        assertEquals(3, m.rows);
+        assertEquals(3, m.cols);
+        assertEquals(5.0f, m.get(1, 1));
+    }
+
     // ============ Factory Method Tests ============
 
     @Test
@@ -86,6 +98,13 @@ public class FloatMatrix2510Test extends TestBase {
     public void testOf_withEmptyArray() {
         FloatMatrix m = FloatMatrix.of(new float[0][0]);
         assertTrue(m.isEmpty());
+    }
+
+    @Test
+    public void testOf_withEmptyRows() {
+        FloatMatrix m = FloatMatrix.of(new float[3][0]);
+        assertEquals(3, m.rows);
+        assertEquals(0, m.cols);
     }
 
     @Test
@@ -146,6 +165,13 @@ public class FloatMatrix2510Test extends TestBase {
     }
 
     @Test
+    public void testRandom_withLargeLength() {
+        FloatMatrix m = FloatMatrix.random(100);
+        assertEquals(1, m.rows);
+        assertEquals(100, m.cols);
+    }
+
+    @Test
     public void testRepeat() {
         FloatMatrix m = FloatMatrix.repeat(3.14f, 5);
         assertEquals(1, m.rows);
@@ -163,6 +189,14 @@ public class FloatMatrix2510Test extends TestBase {
     }
 
     @Test
+    public void testRepeat_withNegativeValue() {
+        FloatMatrix m = FloatMatrix.repeat(-5.5f, 3);
+        assertEquals(1, m.rows);
+        assertEquals(3, m.cols);
+        assertEquals(-5.5f, m.get(0, 0));
+    }
+
+    @Test
     public void testDiagonalLU2RD() {
         FloatMatrix m = FloatMatrix.diagonalLU2RD(new float[] { 1.0f, 2.0f, 3.0f });
         assertEquals(3, m.rows);
@@ -177,6 +211,12 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDiagonalLU2RD_withNull() {
         FloatMatrix m = FloatMatrix.diagonalLU2RD(null);
+        assertTrue(m.isEmpty());
+    }
+
+    @Test
+    public void testDiagonalLU2RD_withEmptyArray() {
+        FloatMatrix m = FloatMatrix.diagonalLU2RD(new float[0]);
         assertTrue(m.isEmpty());
     }
 
@@ -241,6 +281,14 @@ public class FloatMatrix2510Test extends TestBase {
     }
 
     @Test
+    public void testDiagonal_singleElement() {
+        FloatMatrix m = FloatMatrix.diagonal(new float[] { 5.0f }, new float[] { 7.0f });
+        assertEquals(1, m.rows);
+        assertEquals(1, m.cols);
+        assertEquals(5.0f, m.get(0, 0)); // Main diagonal takes precedence
+    }
+
+    @Test
     public void testUnbox() {
         Matrix<Float> boxed = Matrix.of(new Float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix m = FloatMatrix.unbox(boxed);
@@ -298,6 +346,13 @@ public class FloatMatrix2510Test extends TestBase {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         m.set(Point.of(0, 1), 9.0f);
         assertEquals(9.0f, m.get(0, 1));
+    }
+
+    @Test
+    public void testSet_negativeValue() {
+        FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
+        m.set(0, 0, -99.9f);
+        assertEquals(-99.9f, m.get(0, 0));
     }
 
     // ============ Neighbor Tests ============

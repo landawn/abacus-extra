@@ -256,7 +256,6 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertFalse(empty.isPresent());
     }
 
-
     @Test
     public void testRow() {
         char[][] a = { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } };

@@ -496,7 +496,7 @@ public class Points2510Test extends TestBase {
 
     @Test
     public void testIntObjPoint_ArrayValue() {
-        int[] array = {1, 2, 3};
+        int[] array = { 1, 2, 3 };
         xy.IntObjPoint<int[]> point = xy.IntObjPoint.of(5, 10, array);
 
         assertEquals(5, point.x);

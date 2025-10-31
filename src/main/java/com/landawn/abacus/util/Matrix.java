@@ -711,11 +711,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param diagonal the new diagonal values (must not be null and must have at least {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != cols)
-     * @throws IllegalArgumentException if diagonal array has fewer elements than the matrix dimension
+     * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
     public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR

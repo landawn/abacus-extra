@@ -391,7 +391,6 @@ public class LongMatrix2510Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     // ============ Row/Column Operations Tests ============
 
     @Test
@@ -1119,7 +1118,6 @@ public class LongMatrix2510Test extends TestBase {
         assertEquals(19L, result.get(1, 0));
         assertEquals(28L, result.get(1, 1));
     }
-
 
     // ============ Conversion Tests ============
 

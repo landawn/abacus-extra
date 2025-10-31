@@ -459,7 +459,6 @@ public class IntMatrix2510Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     // ============ Row/Column Operations Tests ============
 
     @Test
@@ -1187,7 +1186,6 @@ public class IntMatrix2510Test extends TestBase {
         assertEquals(19, result.get(1, 0));
         assertEquals(28, result.get(1, 1));
     }
-
 
     // ============ Conversion Tests ============
 

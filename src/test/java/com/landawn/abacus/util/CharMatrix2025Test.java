@@ -1475,12 +1475,7 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRotateTransposeAndConvertTallMatrix() {
         // Create a tall matrix (rows > cols) - 4 rows × 2 cols
-        CharMatrix m = CharMatrix.of(new char[][] {
-            { 'a', 'b' },
-            { 'c', 'd' },
-            { 'e', 'f' },
-            { 'g', 'h' }
-        });
+        CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' }, { 'e', 'f' }, { 'g', 'h' } });
 
         // Test rotate90() with tall matrix
         CharMatrix rotated90 = m.rotate90();
@@ -1529,13 +1524,11 @@ public class CharMatrix2025Test extends TestBase {
         int largeSize = 50000;
         CharMatrix m = CharMatrix.of(new char[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
-            () -> m.repelem(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
         assertTrue(ex1.getMessage().contains("too many rows"));
 
         CharMatrix m2 = CharMatrix.of(new char[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
-            () -> m2.repelem(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
         assertTrue(ex2.getMessage().contains("too many columns"));
     }
 
@@ -1544,13 +1537,11 @@ public class CharMatrix2025Test extends TestBase {
         int largeSize = 50000;
         CharMatrix m = CharMatrix.of(new char[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
-            () -> m.repmat(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
         assertTrue(ex1.getMessage().contains("too many rows"));
 
         CharMatrix m2 = CharMatrix.of(new char[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
-            () -> m2.repmat(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
         assertTrue(ex2.getMessage().contains("too many columns"));
     }
 }

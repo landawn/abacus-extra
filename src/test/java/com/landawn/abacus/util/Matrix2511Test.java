@@ -6,9 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Tag;
@@ -21,20 +23,31 @@ import com.landawn.abacus.util.stream.Stream;
 
 /**
  * Comprehensive unit tests for Matrix class covering all public methods.
+ * Tests with various object types including String, Integer, Double, and BigDecimal.
  */
-@Tag("2510")
-public class Matrix2510Test extends TestBase {
+@Tag("2511")
+public class Matrix2511Test extends TestBase {
 
     // ============ Constructor Tests ============
 
     @Test
-    public void testConstructor_withValidArray() {
+    public void testConstructor_withValidStringArray() {
         String[][] arr = { { "A", "B" }, { "C", "D" } };
         Matrix<String> m = new Matrix<>(arr);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals("A", m.get(0, 0));
         assertEquals("D", m.get(1, 1));
+    }
+
+    @Test
+    public void testConstructor_withValidIntegerArray() {
+        Integer[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
+        Matrix<Integer> m = new Matrix<>(arr);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        assertEquals(1, m.get(0, 0));
+        assertEquals(6, m.get(1, 2));
     }
 
     @Test
@@ -62,15 +75,35 @@ public class Matrix2510Test extends TestBase {
         assertEquals("B", m.get(0, 1));
     }
 
+    @Test
+    public void testConstructor_withBigDecimal() {
+        BigDecimal[][] arr = { { BigDecimal.ONE, BigDecimal.TEN }, { BigDecimal.ZERO, new BigDecimal("3.14") } };
+        Matrix<BigDecimal> m = new Matrix<>(arr);
+        assertEquals(2, m.rows);
+        assertEquals(2, m.cols);
+        assertEquals(BigDecimal.ONE, m.get(0, 0));
+        assertEquals(new BigDecimal("3.14"), m.get(1, 1));
+    }
+
     // ============ Factory Method Tests - of() ============
 
     @Test
-    public void testOf_withValidArray() {
+    public void testOf_withValidStringArray() {
         String[][] arr = { { "A", "B" }, { "C", "D" } };
         Matrix<String> m = Matrix.of(arr);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals("A", m.get(0, 0));
+    }
+
+    @Test
+    public void testOf_withValidDoubleArray() {
+        Double[][] arr = { { 1.5, 2.5 }, { 3.5, 4.5 } };
+        Matrix<Double> m = Matrix.of(arr);
+        assertEquals(2, m.rows);
+        assertEquals(2, m.cols);
+        assertEquals(1.5, m.get(0, 0));
+        assertEquals(4.5, m.get(1, 1));
     }
 
     @Test
@@ -82,7 +115,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Factory Method Tests - repeat() ============
 
     @Test
-    public void testRepeat_deprecated() {
+    public void testRepeat_deprecated_withString() {
         Matrix<String> m = Matrix.repeat("X", 5);
         assertEquals(1, m.rows);
         assertEquals(5, m.cols);
@@ -97,12 +130,22 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRepeat_withElementClass() {
-        Matrix<Double> m = Matrix.repeat(3.14, 4, Double.class);
+    public void testRepeat_withElementClass_string() {
+        Matrix<String> m = Matrix.repeat("Hello", 3, String.class);
+        assertEquals(1, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 3; i++) {
+            assertEquals("Hello", m.get(0, i));
+        }
+    }
+
+    @Test
+    public void testRepeat_withElementClass_integer() {
+        Matrix<Integer> m = Matrix.repeat(999, 4, Integer.class);
         assertEquals(1, m.rows);
         assertEquals(4, m.cols);
         for (int i = 0; i < 4; i++) {
-            assertEquals(3.14, m.get(0, i));
+            assertEquals(999, m.get(0, i));
         }
     }
 
@@ -124,7 +167,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRepeatNonNull() {
+    public void testRepeatNonNull_withString() {
         Matrix<String> m = Matrix.repeatNonNull("A", 3);
         assertEquals(1, m.rows);
         assertEquals(3, m.cols);
@@ -138,10 +181,19 @@ public class Matrix2510Test extends TestBase {
         assertThrows(IllegalArgumentException.class, () -> Matrix.repeatNonNull(null, 5));
     }
 
+    @Test
+    public void testRepeatNonNull_withInteger() {
+        Matrix<Integer> m = Matrix.repeatNonNull(777, 2);
+        assertEquals(1, m.rows);
+        assertEquals(2, m.cols);
+        assertEquals(777, m.get(0, 0));
+        assertEquals(777, m.get(0, 1));
+    }
+
     // ============ Factory Method Tests - diagonal ============
 
     @Test
-    public void testDiagonalLU2RD() {
+    public void testDiagonalLU2RD_integers() {
         Integer[] diag = { 1, 2, 3 };
         Matrix<Integer> m = Matrix.diagonalLU2RD(diag);
         assertEquals(3, m.rows);
@@ -154,6 +206,18 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testDiagonalLU2RD_strings() {
+        String[] diag = { "A", "B", "C" };
+        Matrix<String> m = Matrix.diagonalLU2RD(diag);
+        assertEquals(3, m.rows);
+        assertEquals(3, m.cols);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("B", m.get(1, 1));
+        assertEquals("C", m.get(2, 2));
+        assertNull(m.get(0, 1));
+    }
+
+    @Test
     public void testDiagonalLU2RD_emptyArray() {
         Matrix<String> m = Matrix.diagonalLU2RD(new String[0]);
         assertEquals(0, m.rows);
@@ -161,7 +225,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testDiagonalRU2LD() {
+    public void testDiagonalRU2LD_integers() {
         Integer[] diag = { 1, 2, 3 };
         Matrix<Integer> m = Matrix.diagonalRU2LD(diag);
         assertEquals(3, m.rows);
@@ -181,21 +245,30 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testDiagonal_bothDiagonals() {
+    public void testDiagonal_bothDiagonals_integers() {
         Integer[] lu2rd = { 1, 2, 3 };
         Integer[] ru2ld = { 7, 8, 9 };
         Matrix<Integer> m = Matrix.diagonal(lu2rd, ru2ld);
         assertEquals(3, m.rows);
         assertEquals(3, m.cols);
-        // LU2RD diagonal
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 2));
-        // RU2LD diagonal
         assertEquals(7, m.get(0, 2));
         assertEquals(9, m.get(2, 0));
-        // LU2RD takes precedence at center
-        assertEquals(2, m.get(1, 1));
+    }
+
+    @Test
+    public void testDiagonal_bothDiagonals_strings() {
+        String[] lu2rd = { "A", "B" };
+        String[] ru2ld = { "X", "Y" };
+        Matrix<String> m = Matrix.diagonal(lu2rd, ru2ld);
+        assertEquals(2, m.rows);
+        assertEquals(2, m.cols);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("B", m.get(1, 1));
+        assertEquals("X", m.get(0, 1));
+        assertEquals("Y", m.get(1, 0));
     }
 
     @Test
@@ -233,7 +306,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Basic Access Methods ============
 
     @Test
-    public void testComponentType() {
+    public void testComponentType_string() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" } });
         assertEquals(String.class, m.componentType());
     }
@@ -242,6 +315,12 @@ public class Matrix2510Test extends TestBase {
     public void testComponentType_integer() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 } });
         assertEquals(Integer.class, m.componentType());
+    }
+
+    @Test
+    public void testComponentType_bigDecimal() {
+        Matrix<BigDecimal> m = Matrix.of(new BigDecimal[][] { { BigDecimal.ONE, BigDecimal.TEN } });
+        assertEquals(BigDecimal.class, m.componentType());
     }
 
     @Test
@@ -258,6 +337,13 @@ public class Matrix2510Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Point p = Point.of(1, 0);
         assertEquals("C", m.get(p));
+    }
+
+    @Test
+    public void testGet_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 10, 20 }, { 30, 40 } });
+        assertEquals(10, m.get(0, 0));
+        assertEquals(40, m.get(1, 1));
     }
 
     @Test
@@ -282,6 +368,13 @@ public class Matrix2510Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.set(0, 0, null);
         assertNull(m.get(0, 0));
+    }
+
+    @Test
+    public void testSet_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.set(0, 1, 99);
+        assertEquals(99, m.get(0, 1));
     }
 
     // ============ Adjacent Element Methods ============
@@ -346,6 +439,15 @@ public class Matrix2510Test extends TestBase {
         assertFalse(right.isPresent());
     }
 
+    @Test
+    public void testAdjacentMethods_withIntegers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        assertEquals(5, m.upOf(2, 1).get());
+        assertEquals(5, m.downOf(0, 1).get());
+        assertEquals(5, m.leftOf(1, 2).get());
+        assertEquals(5, m.rightOf(1, 0).get());
+    }
+
     // ============ Row and Column Access ============
 
     @Test
@@ -360,6 +462,13 @@ public class Matrix2510Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         String[] row = m.row(1);
         assertArrayEquals(new String[] { "C", "D" }, row);
+    }
+
+    @Test
+    public void testRow_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        Integer[] row = m.row(1);
+        assertArrayEquals(new Integer[] { 4, 5, 6 }, row);
     }
 
     @Test
@@ -384,6 +493,13 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testColumn_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        Integer[] col = m.column(1);
+        assertArrayEquals(new Integer[] { 2, 4, 6 }, col);
+    }
+
+    @Test
     public void testColumn_invalidIndex() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" } });
         assertThrows(IllegalArgumentException.class, () -> m.column(-1));
@@ -399,6 +515,13 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testSetRow_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.setRow(1, new Integer[] { 10, 20 });
+        assertArrayEquals(new Integer[] { 10, 20 }, m.row(1));
+    }
+
+    @Test
     public void testSetRow_wrongLength() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         assertThrows(IllegalArgumentException.class, () -> m.setRow(0, new String[] { "X" }));
@@ -411,6 +534,13 @@ public class Matrix2510Test extends TestBase {
         m.setColumn(0, new String[] { "X", "Y" });
         assertArrayEquals(new String[] { "X", "Y" }, m.column(0));
         assertArrayEquals(new String[] { "B", "D" }, m.column(1));
+    }
+
+    @Test
+    public void testSetColumn_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.setColumn(0, new Integer[] { 100, 200 });
+        assertArrayEquals(new Integer[] { 100, 200 }, m.column(0));
     }
 
     @Test
@@ -430,6 +560,15 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testUpdateRow_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.updateRow(1, x -> x * 10);
+        assertEquals(1, m.get(0, 0));
+        assertEquals(30, m.get(1, 0));
+        assertEquals(40, m.get(1, 1));
+    }
+
+    @Test
     public void testUpdateColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
         m.updateColumn(0, String::toUpperCase);
@@ -438,13 +577,29 @@ public class Matrix2510Test extends TestBase {
         assertEquals("C", m.get(1, 0));
     }
 
+    @Test
+    public void testUpdateColumn_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.updateColumn(1, x -> x + 100);
+        assertEquals(1, m.get(0, 0));
+        assertEquals(102, m.get(0, 1));
+        assertEquals(104, m.get(1, 1));
+    }
+
     // ============ Diagonal Methods ============
 
     @Test
-    public void testGetLU2RD() {
+    public void testGetLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         Integer[] diag = m.getLU2RD();
         assertArrayEquals(new Integer[] { 1, 5, 9 }, diag);
+    }
+
+    @Test
+    public void testGetLU2RD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[] diag = m.getLU2RD();
+        assertArrayEquals(new String[] { "A", "D" }, diag);
     }
 
     @Test
@@ -454,12 +609,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testSetLU2RD() {
+    public void testSetLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         m.setLU2RD(new Integer[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 0));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 2));
+    }
+
+    @Test
+    public void testSetLU2RD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.setLU2RD(new String[] { "X", "Y" });
+        assertEquals("X", m.get(0, 0));
+        assertEquals("Y", m.get(1, 1));
     }
 
     @Test
@@ -475,7 +638,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testUpdateLU2RD() {
+    public void testUpdateLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         m.updateLU2RD(x -> x * 2);
         assertEquals(2, m.get(0, 0));
@@ -485,16 +648,32 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testUpdateLU2RD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
+        m.updateLU2RD(String::toUpperCase);
+        assertEquals("A", m.get(0, 0));
+        assertEquals("D", m.get(1, 1));
+        assertEquals("b", m.get(0, 1)); // Non-diagonal unchanged
+    }
+
+    @Test
     public void testUpdateLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         assertThrows(IllegalStateException.class, () -> m.updateLU2RD(x -> x * 2));
     }
 
     @Test
-    public void testGetRU2LD() {
+    public void testGetRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         Integer[] diag = m.getRU2LD();
         assertArrayEquals(new Integer[] { 3, 5, 7 }, diag);
+    }
+
+    @Test
+    public void testGetRU2LD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[] diag = m.getRU2LD();
+        assertArrayEquals(new String[] { "B", "C" }, diag);
     }
 
     @Test
@@ -504,12 +683,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testSetRU2LD() {
+    public void testSetRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         m.setRU2LD(new Integer[] { 10, 20, 30 });
         assertEquals(10, m.get(0, 2));
         assertEquals(20, m.get(1, 1));
         assertEquals(30, m.get(2, 0));
+    }
+
+    @Test
+    public void testSetRU2LD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        m.setRU2LD(new String[] { "X", "Y" });
+        assertEquals("X", m.get(0, 1));
+        assertEquals("Y", m.get(1, 0));
     }
 
     @Test
@@ -525,13 +712,22 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testUpdateRU2LD() {
+    public void testUpdateRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         m.updateRU2LD(x -> x * 2);
         assertEquals(6, m.get(0, 2));
         assertEquals(10, m.get(1, 1));
         assertEquals(14, m.get(2, 0));
         assertEquals(2, m.get(0, 1)); // Non-diagonal unchanged
+    }
+
+    @Test
+    public void testUpdateRU2LD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
+        m.updateRU2LD(String::toUpperCase);
+        assertEquals("B", m.get(0, 1));
+        assertEquals("C", m.get(1, 0));
+        assertEquals("a", m.get(0, 0)); // Non-diagonal unchanged
     }
 
     @Test
@@ -543,13 +739,23 @@ public class Matrix2510Test extends TestBase {
     // ============ Update and Replace Methods ============
 
     @Test
-    public void testUpdateAll_unaryOperator() {
+    public void testUpdateAll_unaryOperator_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
         m.updateAll(x -> x.toUpperCase());
         assertEquals("A", m.get(0, 0));
         assertEquals("B", m.get(0, 1));
         assertEquals("C", m.get(1, 0));
         assertEquals("D", m.get(1, 1));
+    }
+
+    @Test
+    public void testUpdateAll_unaryOperator_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.updateAll(x -> x * 10);
+        assertEquals(10, m.get(0, 0));
+        assertEquals(20, m.get(0, 1));
+        assertEquals(30, m.get(1, 0));
+        assertEquals(40, m.get(1, 1));
     }
 
     @Test
@@ -563,7 +769,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testUpdateAll_biFunction() {
+    public void testUpdateAll_biFunction_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 0, 1 }, { 2, 3 } });
         m.updateAll((i, j) -> i * 10 + j);
         assertEquals(0, m.get(0, 0));
@@ -573,7 +779,17 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReplaceIf_valuePredicate() {
+    public void testUpdateAll_biFunction_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
+        m.updateAll((i, j) -> "" + i + j);
+        assertEquals("00", m.get(0, 0));
+        assertEquals("01", m.get(0, 1));
+        assertEquals("10", m.get(1, 0));
+        assertEquals("11", m.get(1, 1));
+    }
+
+    @Test
+    public void testReplaceIf_valuePredicate_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, -2, 3 }, { -4, 5, -6 } });
         m.replaceIf(x -> x < 0, 0);
         assertEquals(1, m.get(0, 0));
@@ -582,6 +798,16 @@ public class Matrix2510Test extends TestBase {
         assertEquals(0, m.get(1, 0));
         assertEquals(5, m.get(1, 1));
         assertEquals(0, m.get(1, 2));
+    }
+
+    @Test
+    public void testReplaceIf_valuePredicate_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "short", "verylongstring" }, { "ok", "toolong" } });
+        m.replaceIf(x -> x.length() > 5, "TOO_LONG");
+        assertEquals("short", m.get(0, 0));
+        assertEquals("TOO_LONG", m.get(0, 1));
+        assertEquals("ok", m.get(1, 0));
+        assertEquals("TOO_LONG", m.get(1, 1));
     }
 
     @Test
@@ -595,7 +821,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReplaceIf_positionPredicate() {
+    public void testReplaceIf_positionPredicate_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         m.replaceIf((i, j) -> i == j, 0); // Replace diagonal
         assertEquals(0, m.get(0, 0));
@@ -605,21 +831,21 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReplaceIf_positionPredicate_upperTriangle() {
-        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.replaceIf((i, j) -> i < j, 0);
-        assertEquals(1, m.get(0, 0));
-        assertEquals(0, m.get(0, 1));
-        assertEquals(0, m.get(0, 2));
-        assertEquals(4, m.get(1, 0));
-        assertEquals(5, m.get(1, 1));
-        assertEquals(0, m.get(1, 2));
+    public void testReplaceIf_positionPredicate_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
+        m.replaceIf((i, j) -> i < j, "X"); // Replace upper triangle
+        assertEquals("A", m.get(0, 0));
+        assertEquals("X", m.get(0, 1));
+        assertEquals("X", m.get(0, 2));
+        assertEquals("D", m.get(1, 0));
+        assertEquals("E", m.get(1, 1));
+        assertEquals("X", m.get(1, 2));
     }
 
     // ============ Map Methods ============
 
     @Test
-    public void testMap_sameType() {
+    public void testMap_sameType_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
         Matrix<String> mapped = m.map(String::toUpperCase);
         assertEquals("A", mapped.get(0, 0));
@@ -629,7 +855,17 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testMap_differentType() {
+    public void testMap_sameType_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> mapped = m.map(x -> x * 2);
+        assertEquals(2, mapped.get(0, 0));
+        assertEquals(4, mapped.get(0, 1));
+        assertEquals(6, mapped.get(1, 0));
+        assertEquals(8, mapped.get(1, 1));
+    }
+
+    @Test
+    public void testMap_differentType_stringToInteger() {
         Matrix<String> m = Matrix.of(new String[][] { { "ab", "abc" }, { "a", "abcd" } });
         Matrix<Integer> lengths = m.map(String::length, Integer.class);
         assertEquals(2, lengths.get(0, 0));
@@ -639,11 +875,41 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testMapToBoolean() {
+    public void testMap_differentType_integerToString() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 22 }, { 333, 4444 } });
+        Matrix<String> strings = m.map(String::valueOf, String.class);
+        assertEquals("1", strings.get(0, 0));
+        assertEquals("22", strings.get(0, 1));
+        assertEquals("333", strings.get(1, 0));
+        assertEquals("4444", strings.get(1, 1));
+    }
+
+    @Test
+    public void testMap_differentType_integerToDouble() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Double> doubles = m.map(x -> x * 1.5, Double.class);
+        assertEquals(1.5, doubles.get(0, 0));
+        assertEquals(3.0, doubles.get(0, 1));
+        assertEquals(4.5, doubles.get(1, 0));
+        assertEquals(6.0, doubles.get(1, 1));
+    }
+
+    @Test
+    public void testMapToBoolean_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { -1, 2 }, { 3, -4 } });
         BooleanMatrix result = m.mapToBoolean(x -> x > 0);
         assertFalse(result.get(0, 0));
         assertTrue(result.get(0, 1));
+        assertTrue(result.get(1, 0));
+        assertFalse(result.get(1, 1));
+    }
+
+    @Test
+    public void testMapToBoolean_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "hello", "hi" }, { "greetings", "hey" } });
+        BooleanMatrix result = m.mapToBoolean(x -> x.length() > 3);
+        assertTrue(result.get(0, 0));
+        assertFalse(result.get(0, 1));
         assertTrue(result.get(1, 0));
         assertFalse(result.get(1, 1));
     }
@@ -679,13 +945,23 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testMapToInt() {
+    public void testMapToInt_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "ab", "abc" }, { "a", "abcd" } });
         IntMatrix result = m.mapToInt(String::length);
         assertEquals(2, result.get(0, 0));
         assertEquals(3, result.get(0, 1));
         assertEquals(1, result.get(1, 0));
         assertEquals(4, result.get(1, 1));
+    }
+
+    @Test
+    public void testMapToInt_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        IntMatrix result = m.mapToInt(x -> x * 10);
+        assertEquals(10, result.get(0, 0));
+        assertEquals(20, result.get(0, 1));
+        assertEquals(30, result.get(1, 0));
+        assertEquals(40, result.get(1, 1));
     }
 
     @Test
@@ -709,7 +985,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testMapToDouble() {
+    public void testMapToDouble_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         DoubleMatrix result = m.mapToDouble(Integer::doubleValue);
         assertEquals(1.0, result.get(0, 0), 0.001);
@@ -718,16 +994,36 @@ public class Matrix2510Test extends TestBase {
         assertEquals(4.0, result.get(1, 1), 0.001);
     }
 
+    @Test
+    public void testMapToDouble_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "1.5", "2.5" }, { "3.5", "4.5" } });
+        DoubleMatrix result = m.mapToDouble(Double::parseDouble);
+        assertEquals(1.5, result.get(0, 0), 0.001);
+        assertEquals(2.5, result.get(0, 1), 0.001);
+        assertEquals(3.5, result.get(1, 0), 0.001);
+        assertEquals(4.5, result.get(1, 1), 0.001);
+    }
+
     // ============ Fill Methods ============
 
     @Test
-    public void testFill_singleValue() {
+    public void testFill_singleValue_string() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.fill("X");
         assertEquals("X", m.get(0, 0));
         assertEquals("X", m.get(0, 1));
         assertEquals("X", m.get(1, 0));
         assertEquals("X", m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_singleValue_integer() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.fill(99);
+        assertEquals(99, m.get(0, 0));
+        assertEquals(99, m.get(0, 1));
+        assertEquals(99, m.get(1, 0));
+        assertEquals(99, m.get(1, 1));
     }
 
     @Test
@@ -741,7 +1037,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testFill_array() {
+    public void testFill_array_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         String[][] newData = { { "X", "Y" }, { "Z", "W" } };
         m.fill(newData);
@@ -749,6 +1045,17 @@ public class Matrix2510Test extends TestBase {
         assertEquals("Y", m.get(0, 1));
         assertEquals("Z", m.get(1, 0));
         assertEquals("W", m.get(1, 1));
+    }
+
+    @Test
+    public void testFill_array_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Integer[][] newData = { { 10, 20 }, { 30, 40 } };
+        m.fill(newData);
+        assertEquals(10, m.get(0, 0));
+        assertEquals(20, m.get(0, 1));
+        assertEquals(30, m.get(1, 0));
+        assertEquals(40, m.get(1, 1));
     }
 
     @Test
@@ -786,7 +1093,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Copy Methods ============
 
     @Test
-    public void testCopy() {
+    public void testCopy_strings() {
         Matrix<String> original = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> copy = original.copy();
 
@@ -795,10 +1102,24 @@ public class Matrix2510Test extends TestBase {
         assertEquals("A", copy.get(0, 0));
         assertEquals("D", copy.get(1, 1));
 
-        // Verify independence
         copy.set(0, 0, "X");
         assertEquals("A", original.get(0, 0));
         assertEquals("X", copy.get(0, 0));
+    }
+
+    @Test
+    public void testCopy_integers() {
+        Matrix<Integer> original = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> copy = original.copy();
+
+        assertEquals(2, copy.rows);
+        assertEquals(2, copy.cols);
+        assertEquals(1, copy.get(0, 0));
+        assertEquals(4, copy.get(1, 1));
+
+        copy.set(0, 0, 99);
+        assertEquals(1, original.get(0, 0));
+        assertEquals(99, copy.get(0, 0));
     }
 
     @Test
@@ -820,6 +1141,17 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testCopy_rowRange_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
+        Matrix<Integer> subset = m.copy(0, 2);
+
+        assertEquals(2, subset.rows);
+        assertEquals(2, subset.cols);
+        assertEquals(1, subset.get(0, 0));
+        assertEquals(4, subset.get(1, 1));
+    }
+
+    @Test
     public void testCopy_rowRange_singleRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
         Matrix<String> subset = m.copy(1, 2);
@@ -830,7 +1162,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testCopy_fullRange() {
+    public void testCopy_fullRange_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
         Matrix<String> submatrix = m.copy(0, 2, 1, 3);
 
@@ -840,6 +1172,19 @@ public class Matrix2510Test extends TestBase {
         assertEquals("C", submatrix.get(0, 1));
         assertEquals("E", submatrix.get(1, 0));
         assertEquals("F", submatrix.get(1, 1));
+    }
+
+    @Test
+    public void testCopy_fullRange_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
+        Matrix<Integer> submatrix = m.copy(1, 3, 1, 3);
+
+        assertEquals(2, submatrix.rows);
+        assertEquals(2, submatrix.cols);
+        assertEquals(5, submatrix.get(0, 0));
+        assertEquals(6, submatrix.get(0, 1));
+        assertEquals(8, submatrix.get(1, 0));
+        assertEquals(9, submatrix.get(1, 1));
     }
 
     @Test
@@ -855,7 +1200,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Extend Methods ============
 
     @Test
-    public void testExtend_larger() {
+    public void testExtend_larger_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> extended = m.extend(3, 3);
 
@@ -868,7 +1213,19 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testExtend_larger_withDefault() {
+    public void testExtend_larger_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> extended = m.extend(3, 3);
+
+        assertEquals(3, extended.rows);
+        assertEquals(3, extended.cols);
+        assertEquals("A", extended.get(0, 0));
+        assertEquals("D", extended.get(1, 1));
+        assertNull(extended.get(2, 2));
+    }
+
+    @Test
+    public void testExtend_larger_withDefault_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> extended = m.extend(3, 3, 0);
 
@@ -878,6 +1235,19 @@ public class Matrix2510Test extends TestBase {
         assertEquals(4, extended.get(1, 1));
         assertEquals(0, extended.get(2, 2));
         assertEquals(0, extended.get(0, 2));
+    }
+
+    @Test
+    public void testExtend_larger_withDefault_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> extended = m.extend(3, 3, "X");
+
+        assertEquals(3, extended.rows);
+        assertEquals(3, extended.cols);
+        assertEquals("A", extended.get(0, 0));
+        assertEquals("D", extended.get(1, 1));
+        assertEquals("X", extended.get(2, 2));
+        assertEquals("X", extended.get(0, 2));
     }
 
     @Test
@@ -892,7 +1262,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testExtend_directionBased() {
+    public void testExtend_directionBased_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> extended = m.extend(1, 1, 1, 1);
 
@@ -915,10 +1285,22 @@ public class Matrix2510Test extends TestBase {
         assertEquals(4, extended.get(2, 2)); // Original bottom-right
     }
 
+    @Test
+    public void testExtend_directionBased_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A" } });
+        Matrix<String> extended = m.extend(1, 1, 1, 1, "X");
+
+        assertEquals(3, extended.rows);
+        assertEquals(3, extended.cols);
+        assertEquals("X", extended.get(0, 0));
+        assertEquals("A", extended.get(1, 1));
+        assertEquals("X", extended.get(2, 2));
+    }
+
     // ============ Transformation Methods ============
 
     @Test
-    public void testReverseH() {
+    public void testReverseH_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         m.reverseH();
         assertEquals("C", m.get(0, 0));
@@ -928,7 +1310,17 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReverseV() {
+    public void testReverseH_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.reverseH();
+        assertEquals(2, m.get(0, 0));
+        assertEquals(1, m.get(0, 1));
+        assertEquals(4, m.get(1, 0));
+        assertEquals(3, m.get(1, 1));
+    }
+
+    @Test
+    public void testReverseV_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
         m.reverseV();
         assertEquals("E", m.get(0, 0));
@@ -938,7 +1330,17 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testFlipH() {
+    public void testReverseV_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        m.reverseV();
+        assertEquals(3, m.get(0, 0));
+        assertEquals(4, m.get(0, 1));
+        assertEquals(1, m.get(1, 0));
+        assertEquals(2, m.get(1, 1));
+    }
+
+    @Test
+    public void testFlipH_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         Matrix<String> flipped = m.flipH();
 
@@ -946,12 +1348,21 @@ public class Matrix2510Test extends TestBase {
         assertEquals("B", flipped.get(0, 1));
         assertEquals("A", flipped.get(0, 2));
         assertEquals("F", flipped.get(1, 0));
-        // Original unchanged
-        assertEquals("A", m.get(0, 0));
+        assertEquals("A", m.get(0, 0)); // Original unchanged
     }
 
     @Test
-    public void testFlipV() {
+    public void testFlipH_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> flipped = m.flipH();
+
+        assertEquals(2, flipped.get(0, 0));
+        assertEquals(1, flipped.get(0, 1));
+        assertEquals(1, m.get(0, 0)); // Original unchanged
+    }
+
+    @Test
+    public void testFlipV_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
         Matrix<String> flipped = m.flipV();
 
@@ -959,12 +1370,20 @@ public class Matrix2510Test extends TestBase {
         assertEquals("F", flipped.get(0, 1));
         assertEquals("C", flipped.get(1, 0));
         assertEquals("A", flipped.get(2, 0));
-        // Original unchanged
-        assertEquals("A", m.get(0, 0));
+        assertEquals("A", m.get(0, 0)); // Original unchanged
     }
 
     @Test
-    public void testRotate90() {
+    public void testFlipV_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> flipped = m.flipV();
+
+        assertEquals(3, flipped.get(0, 0));
+        assertEquals(1, m.get(0, 0)); // Original unchanged
+    }
+
+    @Test
+    public void testRotate90_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         Matrix<String> rotated = m.rotate90();
 
@@ -977,7 +1396,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRotate180() {
+    public void testRotate90_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> rotated = m.rotate90();
+
+        assertEquals(2, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(3, rotated.get(0, 0));
+        assertEquals(1, rotated.get(0, 1));
+        assertEquals(4, rotated.get(1, 0));
+        assertEquals(2, rotated.get(1, 1));
+    }
+
+    @Test
+    public void testRotate180_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         Matrix<String> rotated = m.rotate180();
 
@@ -990,7 +1422,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRotate270() {
+    public void testRotate180_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> rotated = m.rotate180();
+
+        assertEquals(2, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(4, rotated.get(0, 0));
+        assertEquals(3, rotated.get(0, 1));
+        assertEquals(2, rotated.get(1, 0));
+        assertEquals(1, rotated.get(1, 1));
+    }
+
+    @Test
+    public void testRotate270_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         Matrix<String> rotated = m.rotate270();
 
@@ -1003,7 +1448,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testTranspose() {
+    public void testRotate270_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> rotated = m.rotate270();
+
+        assertEquals(2, rotated.rows);
+        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.get(0, 0));
+        assertEquals(4, rotated.get(0, 1));
+        assertEquals(1, rotated.get(1, 0));
+        assertEquals(3, rotated.get(1, 1));
+    }
+
+    @Test
+    public void testTranspose_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
         Matrix<String> transposed = m.transpose();
 
@@ -1015,6 +1473,21 @@ public class Matrix2510Test extends TestBase {
         assertEquals("E", transposed.get(1, 1));
         assertEquals("C", transposed.get(2, 0));
         assertEquals("F", transposed.get(2, 1));
+    }
+
+    @Test
+    public void testTranspose_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        Matrix<Integer> transposed = m.transpose();
+
+        assertEquals(3, transposed.rows);
+        assertEquals(2, transposed.cols);
+        assertEquals(1, transposed.get(0, 0));
+        assertEquals(4, transposed.get(0, 1));
+        assertEquals(2, transposed.get(1, 0));
+        assertEquals(5, transposed.get(1, 1));
+        assertEquals(3, transposed.get(2, 0));
+        assertEquals(6, transposed.get(2, 1));
     }
 
     @Test
@@ -1033,7 +1506,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Reshape and Repeat Methods ============
 
     @Test
-    public void testReshape_singleParam() {
+    public void testReshape_singleParam_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         Matrix<Integer> reshaped = m.reshape(2);
 
@@ -1046,7 +1519,19 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testReshape_twoParams() {
+    public void testReshape_singleParam_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
+        Matrix<String> reshaped = m.reshape(3);
+
+        assertEquals(2, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals("A", reshaped.get(0, 0));
+        assertEquals("C", reshaped.get(0, 2));
+        assertEquals("F", reshaped.get(1, 2));
+    }
+
+    @Test
+    public void testReshape_twoParams_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         Matrix<Integer> reshaped = m.reshape(3, 2);
 
@@ -1056,6 +1541,17 @@ public class Matrix2510Test extends TestBase {
         assertEquals(2, reshaped.get(0, 1));
         assertEquals(3, reshaped.get(1, 0));
         assertEquals(6, reshaped.get(2, 1));
+    }
+
+    @Test
+    public void testReshape_twoParams_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
+        Matrix<String> reshaped = m.reshape(2, 3);
+
+        assertEquals(2, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals("A", reshaped.get(0, 0));
+        assertEquals("F", reshaped.get(1, 2));
     }
 
     @Test
@@ -1073,7 +1569,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRepelem() {
+    public void testRepelem_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> repeated = m.repelem(2, 2);
 
@@ -1088,6 +1584,19 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testRepelem_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> repeated = m.repelem(2, 3);
+
+        assertEquals(4, repeated.rows);
+        assertEquals(6, repeated.cols);
+        assertEquals(1, repeated.get(0, 0));
+        assertEquals(1, repeated.get(0, 1));
+        assertEquals(1, repeated.get(1, 2));
+        assertEquals(4, repeated.get(3, 5));
+    }
+
+    @Test
     public void testRepelem_invalidArgs() {
         Matrix<String> m = Matrix.of(new String[][] { { "A" } });
         assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
@@ -1095,7 +1604,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testRepmat() {
+    public void testRepmat_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> repeated = m.repmat(2, 2);
 
@@ -1109,6 +1618,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testRepmat_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> repeated = m.repmat(3, 2);
+
+        assertEquals(6, repeated.rows);
+        assertEquals(4, repeated.cols);
+        assertEquals(1, repeated.get(0, 0));
+        assertEquals(2, repeated.get(0, 1));
+        assertEquals(1, repeated.get(0, 2)); // Tiled horizontally
+        assertEquals(1, repeated.get(2, 0)); // Tiled vertically
+        assertEquals(4, repeated.get(5, 3));
+    }
+
+    @Test
     public void testRepmat_invalidArgs() {
         Matrix<String> m = Matrix.of(new String[][] { { "A" } });
         assertThrows(IllegalArgumentException.class, () -> m.repmat(0, 1));
@@ -1118,7 +1641,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Flatten and Stream Methods ============
 
     @Test
-    public void testFlatten() {
+    public void testFlatten_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         List<String> flat = m.flatten();
 
@@ -1130,6 +1653,18 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testFlatten_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        List<Integer> flat = m.flatten();
+
+        assertEquals(4, flat.size());
+        assertEquals(1, flat.get(0));
+        assertEquals(2, flat.get(1));
+        assertEquals(3, flat.get(2));
+        assertEquals(4, flat.get(3));
+    }
+
+    @Test
     public void testFlatten_emptyMatrix() {
         Matrix<String> m = Matrix.of(new String[0][0]);
         List<String> flat = m.flatten();
@@ -1137,7 +1672,20 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testFlatOp() {
+    public void testFlatOp_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        List<String> captured = new java.util.ArrayList<>();
+        m.flatOp(arr -> {
+            for (String val : arr) {
+                captured.add(val);
+            }
+        });
+        assertEquals(4, captured.size());
+        assertEquals("A", captured.get(0));
+    }
+
+    @Test
+    public void testFlatOp_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 3, 1 }, { 4, 2 } });
         List<Integer> captured = new java.util.ArrayList<>();
         m.flatOp(arr -> {
@@ -1151,7 +1699,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Stack and Zip Methods ============
 
     @Test
-    public void testVstack() {
+    public void testVstack_strings() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "C", "D" } });
         Matrix<String> stacked = m1.vstack(m2);
@@ -1165,6 +1713,18 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testVstack_integers() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2, 3 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 4, 5, 6 } });
+        Matrix<Integer> stacked = m1.vstack(m2);
+
+        assertEquals(2, stacked.rows);
+        assertEquals(3, stacked.cols);
+        assertEquals(1, stacked.get(0, 0));
+        assertEquals(6, stacked.get(1, 2));
+    }
+
+    @Test
     public void testVstack_differentColCount() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "C" } });
@@ -1172,7 +1732,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testHstack() {
+    public void testHstack_strings() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A" }, { "B" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "C" }, { "D" } });
         Matrix<String> stacked = m1.hstack(m2);
@@ -1186,6 +1746,18 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testHstack_integers() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1 }, { 2 }, { 3 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 4 }, { 5 }, { 6 } });
+        Matrix<Integer> stacked = m1.hstack(m2);
+
+        assertEquals(3, stacked.rows);
+        assertEquals(2, stacked.cols);
+        assertEquals(1, stacked.get(0, 0));
+        assertEquals(6, stacked.get(2, 1));
+    }
+
+    @Test
     public void testHstack_differentRowCount() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A" }, { "B" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "C" } });
@@ -1193,7 +1765,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testZipWith_twoMatrices_sameType() {
+    public void testZipWith_twoMatrices_sameType_integers() {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 10, 20 }, { 30, 40 } });
         Matrix<Integer> result = m1.zipWith(m2, (a, b) -> a + b);
@@ -1202,6 +1774,18 @@ public class Matrix2510Test extends TestBase {
         assertEquals(22, result.get(0, 1));
         assertEquals(33, result.get(1, 0));
         assertEquals(44, result.get(1, 1));
+    }
+
+    @Test
+    public void testZipWith_twoMatrices_sameType_strings() {
+        Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> m2 = Matrix.of(new String[][] { { "1", "2" }, { "3", "4" } });
+        Matrix<String> result = m1.zipWith(m2, (a, b) -> a + b);
+
+        assertEquals("A1", result.get(0, 0));
+        assertEquals("B2", result.get(0, 1));
+        assertEquals("C3", result.get(1, 0));
+        assertEquals("D4", result.get(1, 1));
     }
 
     @Test
@@ -1217,7 +1801,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testZipWith_threeMatrices_sameType() {
+    public void testZipWith_threeMatrices_sameType_integers() {
         Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 } });
         Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 10, 20 } });
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 100, 200 } });
@@ -1241,7 +1825,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Stream Methods ============
 
     @Test
-    public void testStreamLU2RD() {
+    public void testStreamLU2RD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<Integer> diagonal = m.streamLU2RD().toList();
 
@@ -1252,13 +1836,23 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testStreamLU2RD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        List<String> diagonal = m.streamLU2RD().toList();
+
+        assertEquals(2, diagonal.size());
+        assertEquals("A", diagonal.get(0));
+        assertEquals("D", diagonal.get(1));
+    }
+
+    @Test
     public void testStreamLU2RD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         assertThrows(IllegalStateException.class, () -> m.streamLU2RD().toList());
     }
 
     @Test
-    public void testStreamRU2LD() {
+    public void testStreamRU2LD_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<Integer> diagonal = m.streamRU2LD().toList();
 
@@ -1269,13 +1863,23 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
+    public void testStreamRU2LD_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        List<String> diagonal = m.streamRU2LD().toList();
+
+        assertEquals(2, diagonal.size());
+        assertEquals("B", diagonal.get(0));
+        assertEquals("C", diagonal.get(1));
+    }
+
+    @Test
     public void testStreamRU2LD_nonSquare() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         assertThrows(IllegalStateException.class, () -> m.streamRU2LD().toList());
     }
 
     @Test
-    public void testStreamH() {
+    public void testStreamH_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         List<String> elements = m.streamH().toList();
 
@@ -1284,6 +1888,16 @@ public class Matrix2510Test extends TestBase {
         assertEquals("B", elements.get(1));
         assertEquals("C", elements.get(2));
         assertEquals("D", elements.get(3));
+    }
+
+    @Test
+    public void testStreamH_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<Integer> elements = m.streamH().toList();
+
+        assertEquals(6, elements.size());
+        assertEquals(1, elements.get(0));
+        assertEquals(6, elements.get(5));
     }
 
     @Test
@@ -1310,7 +1924,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testStreamV() {
+    public void testStreamV_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         List<String> elements = m.streamV().toList();
 
@@ -1319,6 +1933,17 @@ public class Matrix2510Test extends TestBase {
         assertEquals("C", elements.get(1));
         assertEquals("B", elements.get(2));
         assertEquals("D", elements.get(3));
+    }
+
+    @Test
+    public void testStreamV_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<Integer> elements = m.streamV().toList();
+
+        assertEquals(6, elements.size());
+        assertEquals(1, elements.get(0));
+        assertEquals(4, elements.get(1));
+        assertEquals(2, elements.get(2));
     }
 
     @Test
@@ -1344,7 +1969,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testStreamR() {
+    public void testStreamR_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         List<List<String>> rows = m.streamR().map(Stream::toList).toList();
 
@@ -1354,6 +1979,17 @@ public class Matrix2510Test extends TestBase {
         assertEquals("B", rows.get(0).get(1));
         assertEquals("C", rows.get(1).get(0));
         assertEquals("D", rows.get(1).get(1));
+    }
+
+    @Test
+    public void testStreamR_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<List<Integer>> rows = m.streamR().map(Stream::toList).toList();
+
+        assertEquals(2, rows.size());
+        assertEquals(3, rows.get(0).size());
+        assertEquals(1, rows.get(0).get(0));
+        assertEquals(6, rows.get(1).get(2));
     }
 
     @Test
@@ -1367,7 +2003,7 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testStreamC() {
+    public void testStreamC_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         List<List<String>> cols = m.streamC().map(Stream::toList).toList();
 
@@ -1377,6 +2013,17 @@ public class Matrix2510Test extends TestBase {
         assertEquals("C", cols.get(0).get(1));
         assertEquals("B", cols.get(1).get(0));
         assertEquals("D", cols.get(1).get(1));
+    }
+
+    @Test
+    public void testStreamC_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
+        List<List<Integer>> cols = m.streamC().map(Stream::toList).toList();
+
+        assertEquals(3, cols.size());
+        assertEquals(2, cols.get(0).size());
+        assertEquals(1, cols.get(0).get(0));
+        assertEquals(6, cols.get(2).get(1));
     }
 
     @Test
@@ -1392,7 +2039,7 @@ public class Matrix2510Test extends TestBase {
     // ============ Println and toString ============
 
     @Test
-    public void testPrintln() {
+    public void testPrintln_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         String output = m.println();
         assertNotNull(output);
@@ -1401,7 +2048,16 @@ public class Matrix2510Test extends TestBase {
     }
 
     @Test
-    public void testToString() {
+    public void testPrintln_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        String output = m.println();
+        assertNotNull(output);
+        assertTrue(output.contains("1"));
+        assertTrue(output.contains("4"));
+    }
+
+    @Test
+    public void testToString_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         String str = m.toString();
         assertNotNull(str);
@@ -1409,19 +2065,42 @@ public class Matrix2510Test extends TestBase {
         assertTrue(str.contains("D"));
     }
 
+    @Test
+    public void testToString_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        String str = m.toString();
+        assertNotNull(str);
+        assertTrue(str.contains("1"));
+        assertTrue(str.contains("4"));
+    }
+
     // ============ Hashcode and Equals ============
 
     @Test
-    public void testHashCode() {
+    public void testHashCode_strings() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         assertEquals(m1.hashCode(), m2.hashCode());
     }
 
     @Test
-    public void testEquals_same() {
+    public void testHashCode_integers() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        assertEquals(m1.hashCode(), m2.hashCode());
+    }
+
+    @Test
+    public void testEquals_same_strings() {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        assertEquals(m1, m2);
+    }
+
+    @Test
+    public void testEquals_same_integers() {
+        Matrix<Integer> m1 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Matrix<Integer> m2 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
         assertEquals(m1, m2);
     }
 
@@ -1430,5 +2109,141 @@ public class Matrix2510Test extends TestBase {
         Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         Matrix<String> m2 = Matrix.of(new String[][] { { "A", "B" }, { "C", "X" } });
         assertNotSame(m1, m2);
+    }
+
+    // ============ Inherited Methods Tests ============
+
+    @Test
+    public void testIsEmpty() {
+        Matrix<String> empty = Matrix.of(new String[0][0]);
+        assertTrue(empty.isEmpty());
+        Matrix<String> notEmpty = Matrix.of(new String[][] { { "A" } });
+        assertFalse(notEmpty.isEmpty());
+    }
+
+    @Test
+    public void testIsSameShape() {
+        Matrix<String> m1 = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Matrix<String> m2 = Matrix.of(new String[][] { { "X", "Y" }, { "Z", "W" } });
+        Matrix<String> m3 = Matrix.of(new String[][] { { "A", "B", "C" } });
+        assertTrue(m1.isSameShape(m2));
+        assertFalse(m1.isSameShape(m3));
+    }
+
+    @Test
+    public void testArray_strings() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        String[][] array = m.array();
+        assertArrayEquals(new String[] { "A", "B" }, array[0]);
+        assertArrayEquals(new String[] { "C", "D" }, array[1]);
+    }
+
+    @Test
+    public void testArray_integers() {
+        Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        Integer[][] array = m.array();
+        assertArrayEquals(new Integer[] { 1, 2 }, array[0]);
+        assertArrayEquals(new Integer[] { 3, 4 }, array[1]);
+    }
+
+    @Test
+    public void testPointsLU2RD() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsLU2RD();
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testPointsRU2LD() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsRU2LD();
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testPointsH() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsH();
+        assertEquals(4, points.count());
+    }
+
+    @Test
+    public void testPointsH_withRow() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsH(1);
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testPointsH_withRange() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" }, { "E", "F" } });
+        Stream<Point> points = m.pointsH(1, 3);
+        assertEquals(4, points.count());
+    }
+
+    @Test
+    public void testPointsV() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsV();
+        assertEquals(4, points.count());
+    }
+
+    @Test
+    public void testPointsV_withColumn() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Point> points = m.pointsV(1);
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testPointsV_withRange() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
+        Stream<Point> points = m.pointsV(1, 3);
+        assertEquals(4, points.count());
+    }
+
+    @Test
+    public void testPointsR() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Stream<Point>> points = m.pointsR();
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testPointsC() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        Stream<Stream<Point>> points = m.pointsC();
+        assertEquals(2, points.count());
+    }
+
+    @Test
+    public void testForEach_biConsumer() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        final int[] count = { 0 };
+        m.forEach((i, j) -> count[0]++);
+        assertEquals(4, count[0]);
+    }
+
+    @Test
+    public void testForEach_biObjConsumer() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        final int[] count = { 0 };
+        m.forEach((i, j, matrix) -> count[0]++);
+        assertEquals(4, count[0]);
+    }
+
+    @Test
+    public void testAccept() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        final boolean[] called = { false };
+        m.accept(matrix -> called[0] = true);
+        assertTrue(called[0]);
+    }
+
+    @Test
+    public void testApply() {
+        Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
+        int result = m.apply(matrix -> matrix.rows * matrix.cols);
+        assertEquals(4, result);
     }
 }

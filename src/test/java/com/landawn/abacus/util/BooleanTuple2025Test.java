@@ -886,26 +886,32 @@ public class BooleanTuple2025Test extends TestBase {
     }
 
     @Test
-    public void testBooleanTuple2_accept_biConsumer() {{
-        BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-        List<Integer> count = new ArrayList<>();
-        tuple.accept((a, b) -> count.add(1));
-        assertEquals(1, count.size());
-    }}
+    public void testBooleanTuple2_accept_biConsumer() {
+        {
+            BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
+            List<Integer> count = new ArrayList<>();
+            tuple.accept((a, b) -> count.add(1));
+            assertEquals(1, count.size());
+        }
+    }
 
     @Test
-    public void testBooleanTuple2_map_biFunction() {{
-        BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-        String result = tuple.map((a, b) -> "test");
-        assertNotNull(result);
-    }}
+    public void testBooleanTuple2_map_biFunction() {
+        {
+            BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
+            String result = tuple.map((a, b) -> "test");
+            assertNotNull(result);
+        }
+    }
 
     @Test
-    public void testBooleanTuple2_filter_biPredicate() {{
-        BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
-        assertTrue(tuple.filter((a, b) -> true).isPresent());
-        assertFalse(tuple.filter((a, b) -> false).isPresent());
-    }}
+    public void testBooleanTuple2_filter_biPredicate() {
+        {
+            BooleanTuple.BooleanTuple2 tuple = BooleanTuple.of(true, false);
+            assertTrue(tuple.filter((a, b) -> true).isPresent());
+            assertFalse(tuple.filter((a, b) -> false).isPresent());
+        }
+    }
 
     // ============ BooleanTuple3 Nested Class Tests ============
 
@@ -958,26 +964,32 @@ public class BooleanTuple2025Test extends TestBase {
     }
 
     @Test
-    public void testBooleanTuple3_accept_triConsumer() {{
-        BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        List<Integer> count = new ArrayList<>();
-        tuple.accept((a, b, c) -> count.add(1));
-        assertEquals(1, count.size());
-    }}
+    public void testBooleanTuple3_accept_triConsumer() {
+        {
+            BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            List<Integer> count = new ArrayList<>();
+            tuple.accept((a, b, c) -> count.add(1));
+            assertEquals(1, count.size());
+        }
+    }
 
     @Test
-    public void testBooleanTuple3_map_triFunction() {{
-        BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        String result = tuple.map((a, b, c) -> "test");
-        assertNotNull(result);
-    }}
+    public void testBooleanTuple3_map_triFunction() {
+        {
+            BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            String result = tuple.map((a, b, c) -> "test");
+            assertNotNull(result);
+        }
+    }
 
     @Test
-    public void testBooleanTuple3_filter_triPredicate() {{
-        BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        assertTrue(tuple.filter((a, b, c) -> true).isPresent());
-        assertFalse(tuple.filter((a, b, c) -> false).isPresent());
-    }}
+    public void testBooleanTuple3_filter_triPredicate() {
+        {
+            BooleanTuple.BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+            assertTrue(tuple.filter((a, b, c) -> true).isPresent());
+            assertFalse(tuple.filter((a, b, c) -> false).isPresent());
+        }
+    }
 
     // ============ BooleanTuple4 Nested Class Tests ============
 

@@ -417,7 +417,6 @@ public class DoubleMatrix2025Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     // ============ Row/Column Operations Tests ============
 
     @Test

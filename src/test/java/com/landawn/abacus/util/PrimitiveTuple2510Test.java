@@ -196,9 +196,8 @@ public class PrimitiveTuple2510Test extends TestBase {
     @Test
     public void testFilterWithComplexPredicate() {
         DoubleTuple3 tuple = DoubleTuple.of(45.5, -122.6, 100.0);
-        Optional<DoubleTuple3> result = tuple.filter(t ->
-            t._1 >= -90 && t._1 <= 90 &&  // valid latitude
-            t._2 >= -180 && t._2 <= 180   // valid longitude
+        Optional<DoubleTuple3> result = tuple.filter(t -> t._1 >= -90 && t._1 <= 90 && // valid latitude
+                t._2 >= -180 && t._2 <= 180 // valid longitude
         );
 
         assertTrue(result.isPresent());
@@ -208,9 +207,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testFilterChaining() {
         FloatTuple3 tuple = FloatTuple.of(10.0f, 20.0f, 30.0f);
 
-        Optional<Float> result = tuple
-            .filter(t -> t._1 + t._2 + t._3 > 50)
-            .map(t -> t._1 + t._2 + t._3);
+        Optional<Float> result = tuple.filter(t -> t._1 + t._2 + t._3 > 50).map(t -> t._1 + t._2 + t._3);
 
         assertTrue(result.isPresent());
         assertEquals(60.0f, result.get(), 0.001f);
@@ -220,9 +217,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testFilterChainingWithEmpty() {
         FloatTuple3 tuple = FloatTuple.of(10.0f, 20.0f, 30.0f);
 
-        Optional<Float> result = tuple
-            .filter(t -> t._1 + t._2 + t._3 > 100)
-            .map(t -> t._1 + t._2 + t._3);
+        Optional<Float> result = tuple.filter(t -> t._1 + t._2 + t._3 > 100).map(t -> t._1 + t._2 + t._3);
 
         assertFalse(result.isPresent());
     }
@@ -245,15 +240,13 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testFilterRangeValidation() {
         DoubleTuple2 coords = DoubleTuple.of(45.5, -122.6);
 
-        Optional<DoubleTuple2> validCoords = coords.filter(t ->
-            t._1 >= -90 && t._1 <= 90 &&  // valid latitude
-            t._2 >= -180 && t._2 <= 180   // valid longitude
+        Optional<DoubleTuple2> validCoords = coords.filter(t -> t._1 >= -90 && t._1 <= 90 && // valid latitude
+                t._2 >= -180 && t._2 <= 180 // valid longitude
         );
 
         assertTrue(validCoords.isPresent());
 
-        Optional<DoubleTuple2> invalidCoords = coords.filter(t ->
-            t._1 >= 0 && t._1 <= 45  // restricted latitude
+        Optional<DoubleTuple2> invalidCoords = coords.filter(t -> t._1 >= 0 && t._1 <= 45 // restricted latitude
         );
 
         assertFalse(invalidCoords.isPresent());
@@ -273,10 +266,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testToOptionalWithChaining() {
         DoubleTuple3 tuple = DoubleTuple.of(10.0, 20.0, 30.0);
 
-        String result = tuple.toOptional()
-            .filter(t -> t._1 > 0)
-            .map(t -> "Sum: " + (t._1 + t._2 + t._3))
-            .orElse("Invalid");
+        String result = tuple.toOptional().filter(t -> t._1 > 0).map(t -> "Sum: " + (t._1 + t._2 + t._3)).orElse("Invalid");
 
         assertEquals("Sum: 60.0", result);
     }
@@ -300,9 +290,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testToOptionalWithOrElse() {
         DoubleTuple1 tuple = DoubleTuple.of(42.0);
 
-        DoubleTuple1 result = tuple.toOptional()
-            .filter(t -> t._1 > 100)
-            .orElse(DoubleTuple.of(0.0));
+        DoubleTuple1 result = tuple.toOptional().filter(t -> t._1 > 100).orElse(DoubleTuple.of(0.0));
 
         assertEquals(0.0, result._1, 0.001);
     }
@@ -328,9 +316,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testFilterThenMapThenAccept() {
         DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
 
-        Optional<String> result = tuple
-            .filter(t -> t._1 + t._2 + t._3 > 5)
-            .map(t -> "Sum is: " + (t._1 + t._2 + t._3));
+        Optional<String> result = tuple.filter(t -> t._1 + t._2 + t._3 > 5).map(t -> "Sum is: " + (t._1 + t._2 + t._3));
 
         result.ifPresent(s -> assertEquals("Sum is: 6.0", s));
         assertTrue(result.isPresent());
@@ -341,9 +327,9 @@ public class PrimitiveTuple2510Test extends TestBase {
         FloatTuple3 coords = FloatTuple.of(10.0f, 20.0f, 30.0f);
 
         String description = coords.toOptional()
-            .filter(t -> t._1 > 0 && t._2 > 0 && t._3 > 0)
-            .map(t -> String.format("Coordinates: (%.1f, %.1f, %.1f)", t._1, t._2, t._3))
-            .orElse("Invalid coordinates");
+                .filter(t -> t._1 > 0 && t._2 > 0 && t._3 > 0)
+                .map(t -> String.format("Coordinates: (%.1f, %.1f, %.1f)", t._1, t._2, t._3))
+                .orElse("Invalid coordinates");
 
         assertEquals("Coordinates: (10.0, 20.0, 30.0)", description);
     }
@@ -409,10 +395,7 @@ public class PrimitiveTuple2510Test extends TestBase {
     public void testMultipleFiltersInSequence() {
         FloatTuple3 tuple = FloatTuple.of(10.0f, 20.0f, 30.0f);
 
-        Optional<FloatTuple3> result = tuple
-            .filter(t -> t._1 > 0)
-            .filter(t -> t._2 > 15)
-            .filter(t -> t._3 > 25);
+        Optional<FloatTuple3> result = tuple.filter(t -> t._1 > 0).filter(t -> t._2 > 15).filter(t -> t._3 > 25);
 
         assertTrue(result.isPresent());
         assertEquals(tuple, result.get());

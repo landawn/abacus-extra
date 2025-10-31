@@ -347,7 +347,6 @@ public class Matrix2025Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     // ============ Row/Column Operations Tests ============
 
     @Test

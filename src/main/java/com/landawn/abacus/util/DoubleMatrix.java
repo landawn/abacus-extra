@@ -742,11 +742,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param diagonal the new values for the main diagonal; must have length &gt;= rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length &lt; rows
+     * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
     public void setLU2RD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR

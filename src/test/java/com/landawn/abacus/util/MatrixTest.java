@@ -263,7 +263,6 @@ public class MatrixTest extends TestBase {
         Assertions.assertFalse(matrix.rightOf(0, 1).isPresent());
     }
 
-
     @Test
     public void testRow() {
         Integer[][] data = { { 1, 2, 3 }, { 4, 5, 6 } };

@@ -356,7 +356,6 @@ public class ByteMatrix2025Test extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     // ============ Row/Column Operations Tests ============
 
     @Test
@@ -1481,13 +1480,7 @@ public class ByteMatrix2025Test extends TestBase {
     @Test
     public void testRotateTransposeAndConvertTallMatrix() {
         // Create a tall matrix (rows > cols) - 5 rows × 3 cols
-        ByteMatrix m = ByteMatrix.of(new byte[][] {
-            { 1, 2, 3 },
-            { 4, 5, 6 },
-            { 7, 8, 9 },
-            { 10, 11, 12 },
-            { 13, 14, 15 }
-        });
+        ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 }, { 13, 14, 15 } });
 
         // Test rotate90() with tall matrix
         ByteMatrix rotated90 = m.rotate90();
@@ -1513,7 +1506,7 @@ public class ByteMatrix2025Test extends TestBase {
         Matrix<Byte> boxed = m.boxed();
         assertEquals(5, boxed.rows);
         assertEquals(3, boxed.cols);
-        assertEquals(Byte.valueOf((byte)1), boxed.get(0, 0));
+        assertEquals(Byte.valueOf((byte) 1), boxed.get(0, 0));
 
         // Test toLongMatrix() with tall matrix
         LongMatrix longMat = m.toLongMatrix();
@@ -1540,13 +1533,11 @@ public class ByteMatrix2025Test extends TestBase {
         int largeSize = 50000;
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
-            () -> m.repelem(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
         assertTrue(ex1.getMessage().contains("too many rows"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
-            () -> m2.repelem(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
         assertTrue(ex2.getMessage().contains("too many columns"));
     }
 
@@ -1555,13 +1546,11 @@ public class ByteMatrix2025Test extends TestBase {
         int largeSize = 50000;
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
-        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
-            () -> m.repmat(50000, 1));
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
         assertTrue(ex1.getMessage().contains("too many rows"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
-        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
-            () -> m2.repmat(1, 50000));
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
         assertTrue(ex2.getMessage().contains("too many columns"));
     }
 }

@@ -228,7 +228,6 @@ public class DoubleMatrixTest extends TestBase {
         assertTrue(matrix.rightOf(0, 1).isEmpty());
     }
 
-
     @Test
     public void testRow() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };

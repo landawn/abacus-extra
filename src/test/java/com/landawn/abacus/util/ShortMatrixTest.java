@@ -302,7 +302,6 @@ public class ShortMatrixTest extends TestBase {
         assertFalse(empty.isPresent());
     }
 
-
     @Test
     public void testRow() {
         short[] row0 = matrix.row(0);

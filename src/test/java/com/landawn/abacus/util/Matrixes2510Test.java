@@ -386,21 +386,24 @@ public class Matrixes2510Test extends TestBase {
     @Test
     public void testRun_intBiConsumer_withRange_invalidRowRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(5, 3, 0, 2, (i, j) -> {}, false);
+            Matrixes.run(5, 3, 0, 2, (i, j) -> {
+            }, false);
         });
     }
 
     @Test
     public void testRun_intBiConsumer_withRange_invalidColRange() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(0, 2, 5, 3, (i, j) -> {}, false);
+            Matrixes.run(0, 2, 5, 3, (i, j) -> {
+            }, false);
         });
     }
 
     @Test
     public void testRun_intBiConsumer_withRange_negativeIndex() {
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            Matrixes.run(-1, 2, 0, 2, (i, j) -> {}, false);
+            Matrixes.run(-1, 2, 0, 2, (i, j) -> {
+            }, false);
         });
     }
 
@@ -507,7 +510,8 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } }); // 3x1
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrixes.multiply(m1, m2, (i, j, k) -> {});
+            Matrixes.multiply(m1, m2, (i, j, k) -> {
+            });
         });
     }
 
@@ -534,7 +538,8 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix m2 = IntMatrix.of(new int[][] { { 3 } });
         assertThrows(IllegalArgumentException.class, () -> {
-            Matrixes.multiply(m1, m2, (i, j, k) -> {}, false);
+            Matrixes.multiply(m1, m2, (i, j, k) -> {
+            }, false);
         });
     }
 

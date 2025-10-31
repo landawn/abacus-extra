@@ -193,7 +193,6 @@ public class BooleanMatrixTest extends TestBase {
         assertTrue(matrix.rightOf(0, 1).isEmpty());
     }
 
-
     @Test
     public void testRow() {
         boolean[][] arr = { { true, false }, { false, true } };
