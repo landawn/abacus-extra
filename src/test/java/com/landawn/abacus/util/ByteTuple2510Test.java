@@ -244,7 +244,7 @@ public class ByteTuple2510Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         ByteTuple<?> tuple = ByteTuple.create(new byte[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     // ============ ByteTuple1 Tests ============
@@ -332,7 +332,7 @@ public class ByteTuple2510Test extends TestBase {
     @Test
     public void testTuple1_toString() {
         ByteTuple1 tuple = ByteTuple.of((byte) 10);
-        assertEquals("[10]", tuple.toString());
+        assertEquals("(10)", tuple.toString());
     }
 
     // ============ ByteTuple2 Tests ============
@@ -451,7 +451,7 @@ public class ByteTuple2510Test extends TestBase {
     @Test
     public void testTuple2_toString() {
         ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-        assertEquals("[10, 20]", tuple.toString());
+        assertEquals("(10, 20)", tuple.toString());
     }
 
     // ============ ByteTuple3 Tests ============
@@ -569,7 +569,7 @@ public class ByteTuple2510Test extends TestBase {
     @Test
     public void testTuple3_toString() {
         ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-        assertEquals("[10, 20, 30]", tuple.toString());
+        assertEquals("(10, 20, 30)", tuple.toString());
     }
 
     // ============ ByteTuple4-9 Basic Tests ============

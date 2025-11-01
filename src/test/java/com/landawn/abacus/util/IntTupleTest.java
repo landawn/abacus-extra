@@ -349,16 +349,16 @@ public class IntTupleTest extends TestBase {
     @Test
     public void testToString() {
         IntTuple.IntTuple0 empty = IntTuple.create(new int[0]);
-        assertEquals("[]", empty.toString());
+        assertEquals("()", empty.toString());
 
         IntTuple.IntTuple1 single = IntTuple.of(10);
-        assertEquals("[10]", single.toString());
+        assertEquals("(10)", single.toString());
 
         IntTuple.IntTuple2 pair = IntTuple.of(10, 20);
-        assertEquals("[10, 20]", pair.toString());
+        assertEquals("(10, 20)", pair.toString());
 
         IntTuple.IntTuple3 triple = IntTuple.of(10, 20, 30);
-        assertEquals("[10, 20, 30]", triple.toString());
+        assertEquals("(10, 20, 30)", triple.toString());
     }
 
     @Test

@@ -708,31 +708,31 @@ public class BooleanTuple2511Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         BooleanTuple0 tuple = BooleanTuple.create(new boolean[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testTuple1_toString() {
         BooleanTuple1 tuple = BooleanTuple.of(true);
-        assertEquals("[true]", tuple.toString());
+        assertEquals("(true)", tuple.toString());
     }
 
     @Test
     public void testTuple1_toString_false() {
         BooleanTuple1 tuple = BooleanTuple.of(false);
-        assertEquals("[false]", tuple.toString());
+        assertEquals("(false)", tuple.toString());
     }
 
     @Test
     public void testTuple2_toString() {
         BooleanTuple2 tuple = BooleanTuple.of(true, false);
-        assertEquals("[true, false]", tuple.toString());
+        assertEquals("(true, false)", tuple.toString());
     }
 
     @Test
     public void testTuple3_toString() {
         BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        assertEquals("[true, false, true]", tuple.toString());
+        assertEquals("(true, false, true)", tuple.toString());
     }
 
     // ============ Arity Tests ============

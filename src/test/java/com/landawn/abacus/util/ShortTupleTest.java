@@ -349,16 +349,16 @@ public class ShortTupleTest extends TestBase {
     @Test
     public void testToString() {
         ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
-        assertEquals("[]", empty.toString());
+        assertEquals("()", empty.toString());
 
         ShortTuple.ShortTuple1 single = ShortTuple.of((short) 5);
-        assertEquals("[5]", single.toString());
+        assertEquals("(5)", single.toString());
 
         ShortTuple.ShortTuple2 pair = ShortTuple.of((short) 5, (short) 10);
-        assertEquals("[5, 10]", pair.toString());
+        assertEquals("(5, 10)", pair.toString());
 
         ShortTuple.ShortTuple3 triple = ShortTuple.of((short) 5, (short) 10, (short) 15);
-        assertEquals("[5, 10, 15]", triple.toString());
+        assertEquals("(5, 10, 15)", triple.toString());
     }
 
     @Test

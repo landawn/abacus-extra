@@ -491,10 +491,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a string representation of this tuple.
-     * The string representation consists of the tuple elements enclosed in square brackets
+     * The string representation consists of the tuple elements enclosed in parentheses
      * and separated by commas and spaces.
-     * 
-     * <p>Example: {@code [A, B, C]}</p>
+     *
+     * <p>Example: {@code (A, B, C)}</p>
      *
      * @return a string representation of this tuple
      */
@@ -612,11 +612,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "[]"
+         * @return "()"
          */
         @Override
         public String toString() {
-            return "[]";
+            return "()";
         }
 
         @Override
@@ -759,11 +759,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "[element]"
+         * @return a string representation in the format "(element)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + "]";
+            return "(" + _1 + ")";
         }
 
         @Override
@@ -976,11 +976,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "[element1, element2]"
+         * @return a string representation in the format "(element1, element2)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + "]";
+            return "(" + _1 + ", " + _2 + ")";
         }
 
         @Override
@@ -1196,11 +1196,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "[element1, element2, element3]"
+         * @return a string representation in the format "(element1, element2, element3)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
         @Override

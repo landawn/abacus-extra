@@ -401,10 +401,10 @@ public class ShortTuple2511Test extends TestBase {
 
     @Test
     public void testToString() {
-        assertEquals("[42]", ShortTuple.of((short) 42).toString());
-        assertEquals("[10, 20]", ShortTuple.of((short) 10, (short) 20).toString());
-        assertEquals("[1, 2, 3]", ShortTuple.of((short) 1, (short) 2, (short) 3).toString());
-        assertEquals("[]", ShortTuple.create(null).toString());
+        assertEquals("(42)", ShortTuple.of((short) 42).toString());
+        assertEquals("(10, 20)", ShortTuple.of((short) 10, (short) 20).toString());
+        assertEquals("(1, 2, 3)", ShortTuple.of((short) 1, (short) 2, (short) 3).toString());
+        assertEquals("()", ShortTuple.create(null).toString());
     }
 
     // ====== ShortTuple2 Specific Tests ======

@@ -591,7 +591,7 @@ public class FloatTuple2511Test extends TestBase {
     public void testToString_emptyTuple() {
         FloatTuple<?> tuple = FloatTuple.create(new float[0]);
         String str = tuple.toString();
-        assertEquals("[]", str);
+        assertEquals("()", str);
     }
 
     // ============ PrimitiveTuple Base Class Methods Tests ============

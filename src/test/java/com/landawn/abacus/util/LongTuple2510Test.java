@@ -546,19 +546,19 @@ public class LongTuple2510Test extends TestBase {
     @Test
     public void testToString_tuple1() {
         LongTuple1 tuple = LongTuple.of(42L);
-        assertEquals("[42]", tuple.toString());
+        assertEquals("(42)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple2() {
         LongTuple2 tuple = LongTuple.of(10L, 20L);
-        assertEquals("[10, 20]", tuple.toString());
+        assertEquals("(10, 20)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple3() {
         LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-        assertEquals("[1, 2, 3]", tuple.toString());
+        assertEquals("(1, 2, 3)", tuple.toString());
     }
 
     @Test
@@ -819,13 +819,13 @@ public class LongTuple2510Test extends TestBase {
     @Test
     public void testToString_tuple4() {
         LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-        assertEquals("[1, 2, 3, 4]", tuple.toString());
+        assertEquals("(1, 2, 3, 4)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple5() {
         LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-        assertEquals("[1, 2, 3, 4, 5]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5)", tuple.toString());
     }
 
     @Test

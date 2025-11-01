@@ -494,7 +494,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a string representation of this tuple.
-     * The format is [element1, element2, ...].
+     * The format is (element1, element2, ...).
      *
      * @return a string representation of this tuple
      */
@@ -572,7 +572,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         @Override
         public String toString() {
-            return "[]";
+            return "()";
         }
 
         @Override
@@ -710,11 +710,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a string representation of this tuple.
          *
-         * @return "[value]" where value is _1
+         * @return "(value)" where value is _1
          */
         @Override
         public String toString() {
-            return "[" + _1 + "]";
+            return "(" + _1 + ")";
         }
 
         @Override
@@ -927,11 +927,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a string representation of this tuple.
          *
-         * @return "[_1, _2]"
+         * @return "(_1, _2)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + "]";
+            return "(" + _1 + ", " + _2 + ")";
         }
 
         @Override
@@ -1147,11 +1147,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         /**
          * Returns a string representation of this tuple.
          *
-         * @return "[_1, _2, _3]"
+         * @return "(_1, _2, _3)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
         @Override
@@ -1320,13 +1320,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4]"
+         * @return a string representation in the format "(_1, _2, _3, _4)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
         @Override
@@ -1498,13 +1498,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
         @Override
@@ -1681,13 +1681,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
         @Override
@@ -1868,13 +1868,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
         @Override
@@ -2064,13 +2064,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7, _8] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
         @Override
@@ -2263,13 +2263,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7, _8, _9] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8, _9) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
         @Override

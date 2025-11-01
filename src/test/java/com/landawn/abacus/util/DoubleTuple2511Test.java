@@ -587,7 +587,7 @@ public class DoubleTuple2511Test extends TestBase {
     public void testToString_emptyTuple() {
         DoubleTuple<?> tuple = DoubleTuple.create(new double[0]);
         String str = tuple.toString();
-        assertEquals("[]", str);
+        assertEquals("()", str);
     }
 
     // ============ PrimitiveTuple Base Class Methods Tests ============

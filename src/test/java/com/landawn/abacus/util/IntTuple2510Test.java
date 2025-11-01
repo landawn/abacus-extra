@@ -574,19 +574,19 @@ public class IntTuple2510Test extends TestBase {
     @Test
     public void testToString_tuple1() {
         IntTuple1 tuple = IntTuple.of(42);
-        assertEquals("[42]", tuple.toString());
+        assertEquals("(42)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple2() {
         IntTuple2 tuple = IntTuple.of(1, 2);
-        assertEquals("[1, 2]", tuple.toString());
+        assertEquals("(1, 2)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple3() {
         IntTuple3 tuple = IntTuple.of(1, 2, 3);
-        assertEquals("[1, 2, 3]", tuple.toString());
+        assertEquals("(1, 2, 3)", tuple.toString());
     }
 
     @Test
@@ -699,7 +699,7 @@ public class IntTuple2510Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         IntTuple<?> tuple = IntTuple.create(null);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

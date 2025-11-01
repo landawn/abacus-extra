@@ -560,19 +560,19 @@ public class ShortTuple2510Test extends TestBase {
     @Test
     public void testToString_tuple1() {
         ShortTuple1 tuple = ShortTuple.of((short) 1);
-        assertEquals("[1]", tuple.toString());
+        assertEquals("(1)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple2() {
         ShortTuple2 tuple = ShortTuple.of((short) 1, (short) 2);
-        assertEquals("[1, 2]", tuple.toString());
+        assertEquals("(1, 2)", tuple.toString());
     }
 
     @Test
     public void testToString_tuple3() {
         ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-        assertEquals("[1, 2, 3]", tuple.toString());
+        assertEquals("(1, 2, 3)", tuple.toString());
     }
 
     @Test
@@ -685,7 +685,7 @@ public class ShortTuple2510Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         ShortTuple<?> tuple = ShortTuple.create(null);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

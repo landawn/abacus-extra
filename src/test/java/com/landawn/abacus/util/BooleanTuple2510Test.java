@@ -281,7 +281,7 @@ public class BooleanTuple2510Test extends TestBase {
     @Test
     public void testTuple1_toString() {
         BooleanTuple1 tuple = BooleanTuple.of(true);
-        assertEquals("[true]", tuple.toString());
+        assertEquals("(true)", tuple.toString());
     }
 
     // ============ BooleanTuple2 Tests ============
@@ -385,7 +385,7 @@ public class BooleanTuple2510Test extends TestBase {
     @Test
     public void testTuple2_toString() {
         BooleanTuple2 tuple = BooleanTuple.of(true, false);
-        assertEquals("[true, false]", tuple.toString());
+        assertEquals("(true, false)", tuple.toString());
     }
 
     // ============ BooleanTuple3 Tests ============
@@ -471,7 +471,7 @@ public class BooleanTuple2510Test extends TestBase {
     @Test
     public void testTuple3_toString() {
         BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-        assertEquals("[true, false, true]", tuple.toString());
+        assertEquals("(true, false, true)", tuple.toString());
     }
 
     // ============ BooleanTuple4 Tests ============

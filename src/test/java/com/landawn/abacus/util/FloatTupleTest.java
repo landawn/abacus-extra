@@ -351,16 +351,16 @@ public class FloatTupleTest extends TestBase {
     @Test
     public void testToString() {
         FloatTuple.FloatTuple0 empty = FloatTuple.create(new float[0]);
-        assertEquals("[]", empty.toString());
+        assertEquals("()", empty.toString());
 
         FloatTuple.FloatTuple1 single = FloatTuple.of(1.5f);
-        assertEquals("[1.5]", single.toString());
+        assertEquals("(1.5)", single.toString());
 
         FloatTuple.FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-        assertEquals("[1.5, 2.5]", pair.toString());
+        assertEquals("(1.5, 2.5)", pair.toString());
 
         FloatTuple.FloatTuple3 triple = FloatTuple.of(1.5f, 2.5f, 3.5f);
-        assertEquals("[1.5, 2.5, 3.5]", triple.toString());
+        assertEquals("(1.5, 2.5, 3.5)", triple.toString());
     }
 
     @Test

@@ -352,13 +352,13 @@ public class LongTupleTest extends TestBase {
         assertEquals("[]", empty.toString());
 
         LongTuple.LongTuple1 single = LongTuple.of(100L);
-        assertEquals("[100]", single.toString());
+        assertEquals("(100)", single.toString());
 
         LongTuple.LongTuple2 pair = LongTuple.of(100L, 200L);
-        assertEquals("[100, 200]", pair.toString());
+        assertEquals("(100, 200)", pair.toString());
 
         LongTuple.LongTuple3 triple = LongTuple.of(100L, 200L, 300L);
-        assertEquals("[100, 200, 300]", triple.toString());
+        assertEquals("(100, 200, 300)", triple.toString());
     }
 
     @Test

@@ -346,16 +346,16 @@ public class ByteTupleTest extends TestBase {
     @Test
     public void testToString() {
         ByteTuple.ByteTuple0 empty = ByteTuple.create(new byte[0]);
-        assertEquals("[]", empty.toString());
+        assertEquals("()", empty.toString());
 
         ByteTuple.ByteTuple1 single = ByteTuple.of((byte) 10);
-        assertEquals("[10]", single.toString());
+        assertEquals("(10)", single.toString());
 
         ByteTuple.ByteTuple2 pair = ByteTuple.of((byte) 10, (byte) 20);
-        assertEquals("[10, 20]", pair.toString());
+        assertEquals("(10, 20)", pair.toString());
 
         ByteTuple.ByteTuple3 triple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-        assertEquals("[10, 20, 30]", triple.toString());
+        assertEquals("(10, 20, 30)", triple.toString());
     }
 
     @Test

@@ -244,7 +244,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         CharTuple<?> tuple = CharTuple.create(new char[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     // ============ CharTuple1 Tests ============
@@ -332,7 +332,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple1_toString() {
         CharTuple1 tuple = CharTuple.of('A');
-        assertEquals("[A]", tuple.toString());
+        assertEquals("(A)", tuple.toString());
     }
 
     // ============ CharTuple2 Tests ============
@@ -451,7 +451,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple2_toString() {
         CharTuple2 tuple = CharTuple.of('A', 'B');
-        assertEquals("[A, B]", tuple.toString());
+        assertEquals("(A, B)", tuple.toString());
     }
 
     // ============ CharTuple3 Tests ============
@@ -569,7 +569,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple3_toString() {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-        assertEquals("[A, B, C]", tuple.toString());
+        assertEquals("(A, B, C)", tuple.toString());
     }
 
     // ============ CharTuple4-9 Basic Tests ============

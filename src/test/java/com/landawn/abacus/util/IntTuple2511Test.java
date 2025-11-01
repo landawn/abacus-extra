@@ -678,19 +678,19 @@ public class IntTuple2511Test extends TestBase {
     @Test
     public void testToString_empty() {
         IntTuple0 tuple = IntTuple.create(new int[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testToString_single() {
         IntTuple1 tuple = IntTuple.of(42);
-        assertEquals("[42]", tuple.toString());
+        assertEquals("(42)", tuple.toString());
     }
 
     @Test
     public void testToString_multiple() {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
-        assertEquals("[10, 20, 30]", tuple.toString());
+        assertEquals("(10, 20, 30)", tuple.toString());
     }
 
     // ============ Arity Tests ============

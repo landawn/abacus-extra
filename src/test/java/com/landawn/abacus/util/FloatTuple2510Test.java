@@ -606,25 +606,25 @@ public class FloatTuple2510Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testToStringTuple1() {
         FloatTuple1 tuple = FloatTuple.of(42.0f);
-        assertEquals("[42.0]", tuple.toString());
+        assertEquals("(42.0)", tuple.toString());
     }
 
     @Test
     public void testToStringTuple2() {
         FloatTuple2 tuple = FloatTuple.of(1.0f, 2.0f);
-        assertEquals("[1.0, 2.0]", tuple.toString());
+        assertEquals("(1.0, 2.0)", tuple.toString());
     }
 
     @Test
     public void testToStringTuple3() {
         FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-        assertEquals("[1.0, 2.0, 3.0]", tuple.toString());
+        assertEquals("(1.0, 2.0, 3.0)", tuple.toString());
     }
 
     // FloatTuple2 special methods

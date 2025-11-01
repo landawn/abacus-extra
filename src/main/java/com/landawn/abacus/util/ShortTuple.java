@@ -506,12 +506,12 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     /**
      * Returns a string representation of this tuple.
      * The string representation consists of the tuple elements
-     * enclosed in square brackets and separated by commas.
-     * 
+     * enclosed in parentheses and separated by commas.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
-     * String str = tuple.toString(); // "[1, 2, 3]"
+     * String str = tuple.toString(); // "(1, 2, 3)"
      * }</pre>
      *
      * @return a string representation of this tuple
@@ -640,11 +640,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "[]"
+         * @return "()"
          */
         @Override
         public String toString() {
-            return "[]";
+            return "()";
         }
 
         @Override
@@ -793,11 +793,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "[value]"
+         * @return a string in the format "(value)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + "]";
+            return "(" + _1 + ")";
         }
 
         @Override
@@ -1024,11 +1024,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "[_1, _2]"
+         * @return a string in the format "(_1, _2)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + "]";
+            return "(" + _1 + ", " + _2 + ")";
         }
 
         @Override
@@ -1258,11 +1258,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string in the format "[_1, _2, _3]"
+         * @return a string in the format "(_1, _2, _3)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
         @Override
@@ -1437,13 +1437,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4]"
+         * @return a string representation in the format "(_1, _2, _3, _4)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
         @Override
@@ -1622,13 +1622,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
         @Override
@@ -1811,13 +1811,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
         @Override
@@ -2005,13 +2005,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
         @Override
@@ -2208,13 +2208,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7, _8] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
         @Override
@@ -2416,13 +2416,13 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
-         * The format is [_1, _2, _3, _4, _5, _6, _7, _8, _9] where each element is displayed in order.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8, _9) where each element is displayed in order.
          *
-         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
          */
         @Override
         public String toString() {
-            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
         @Override

@@ -577,19 +577,19 @@ public class IntTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         IntTuple<IntTuple0> tuple = IntTuple.create(new int[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testToStringTuple1() {
         IntTuple1 tuple = IntTuple.of(42);
-        assertEquals("[42]", tuple.toString());
+        assertEquals("(42)", tuple.toString());
     }
 
     @Test
     public void testToStringTuple3() {
         IntTuple3 tuple = IntTuple.of(1, 2, 3);
-        assertEquals("[1, 2, 3]", tuple.toString());
+        assertEquals("(1, 2, 3)", tuple.toString());
     }
 
     // Tuple2 special methods - accept
@@ -754,7 +754,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4]", tuple.toString());
+        assertEquals("(1, 2, 3, 4)", tuple.toString());
     }
 
     @Test
@@ -792,7 +792,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4, 5]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5)", tuple.toString());
     }
 
     @Test
@@ -831,7 +831,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4, 5, 6]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5, 6)", tuple.toString());
     }
 
     @Test
@@ -871,7 +871,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4, 5, 6, 7]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5, 6, 7)", tuple.toString());
     }
 
     @Test
@@ -912,7 +912,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5, 6, 7, 8)", tuple.toString());
     }
 
     @Test
@@ -954,7 +954,7 @@ public class IntTuple2025Test extends TestBase {
         assertNotEquals(tuple, tuple3);
 
         // Test toString
-        assertEquals("[1, 2, 3, 4, 5, 6, 7, 8, 9]", tuple.toString());
+        assertEquals("(1, 2, 3, 4, 5, 6, 7, 8, 9)", tuple.toString());
     }
 
     // Test create methods for sizes 2, 4-8

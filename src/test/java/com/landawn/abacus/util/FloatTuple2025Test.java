@@ -504,7 +504,7 @@ public class FloatTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         FloatTuple<FloatTuple0> tuple = FloatTuple.create(new float[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

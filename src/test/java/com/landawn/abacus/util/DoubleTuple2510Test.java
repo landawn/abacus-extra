@@ -606,25 +606,25 @@ public class DoubleTuple2510Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         DoubleTuple<DoubleTuple0> tuple = DoubleTuple.create(new double[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testToStringTuple1() {
         DoubleTuple1 tuple = DoubleTuple.of(42.0);
-        assertEquals("[42.0]", tuple.toString());
+        assertEquals("(42.0)", tuple.toString());
     }
 
     @Test
     public void testToStringTuple2() {
         DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
-        assertEquals("[1.0, 2.0]", tuple.toString());
+        assertEquals("(1.0, 2.0)", tuple.toString());
     }
 
     @Test
     public void testToStringTuple3() {
         DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-        assertEquals("[1.0, 2.0, 3.0]", tuple.toString());
+        assertEquals("(1.0, 2.0, 3.0)", tuple.toString());
     }
 
     // DoubleTuple2 special methods

@@ -818,25 +818,25 @@ public class ByteTuple2511Test extends TestBase {
     @Test
     public void testTuple0_toString() {
         ByteTuple0 tuple = ByteTuple.create(new byte[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testTuple1_toString() {
         ByteTuple1 tuple = ByteTuple.of((byte) 10);
-        assertEquals("[10]", tuple.toString());
+        assertEquals("(10)", tuple.toString());
     }
 
     @Test
     public void testTuple2_toString() {
         ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-        assertEquals("[10, 20]", tuple.toString());
+        assertEquals("(10, 20)", tuple.toString());
     }
 
     @Test
     public void testTuple3_toString() {
         ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-        assertEquals("[10, 20, 30]", tuple.toString());
+        assertEquals("(10, 20, 30)", tuple.toString());
     }
 
     // ============ Arity Tests ============

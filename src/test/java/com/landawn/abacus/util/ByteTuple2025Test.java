@@ -504,7 +504,7 @@ public class ByteTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         ByteTuple<ByteTuple0> tuple = ByteTuple.create(new byte[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

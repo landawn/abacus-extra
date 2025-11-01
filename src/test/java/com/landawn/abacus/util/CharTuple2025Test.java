@@ -504,7 +504,7 @@ public class CharTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         CharTuple<CharTuple0> tuple = CharTuple.create(new char[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

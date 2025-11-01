@@ -505,7 +505,7 @@ public class ShortTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         ShortTuple<ShortTuple0> tuple = ShortTuple.create(new short[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

@@ -407,7 +407,7 @@ public class BooleanTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         BooleanTuple<BooleanTuple0> tuple = BooleanTuple.create(new boolean[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

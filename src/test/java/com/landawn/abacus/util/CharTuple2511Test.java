@@ -606,19 +606,19 @@ public class CharTuple2511Test extends TestBase {
     @Test
     public void testToString_empty() {
         CharTuple0 tuple = CharTuple.create(new char[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test
     public void testToString_single() {
         CharTuple1 tuple = CharTuple.of('A');
-        assertEquals("[A]", tuple.toString());
+        assertEquals("(A)", tuple.toString());
     }
 
     @Test
     public void testToString_multiple() {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-        assertEquals("[A, B, C]", tuple.toString());
+        assertEquals("(A, B, C)", tuple.toString());
     }
 
     // ============ Arity Tests ============
