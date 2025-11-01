@@ -14520,7 +14520,6 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null-safe operations throughout</li>
      * </ul>
      * 
-     * @author Haiyang Li
      * @since 1.0
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")

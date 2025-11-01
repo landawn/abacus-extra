@@ -23,40 +23,334 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
- * Abstract base class for all matrix implementations in the Abacus library.
- * This class provides the common structure and operations for working with two-dimensional arrays
- * of various primitive types and objects.
- * 
- * <p>The class uses a sealed hierarchy to ensure type safety and provides common functionality such as:</p>
+ * A comprehensive abstract base class providing the foundational architecture for all matrix implementations
+ * in the Abacus library. This sealed class establishes a type-safe hierarchy for working with two-dimensional
+ * arrays of various primitive types and objects, offering a unified API for matrix operations while maintaining
+ * optimal performance through type-specific implementations.
+ *
+ * <p>The {@code AbstractMatrix} serves as the cornerstone of a sophisticated matrix computation framework,
+ * providing essential operations for scientific computing, data analysis, and mathematical modeling scenarios.
+ * It employs advanced generic typing to ensure compile-time type safety while enabling runtime polymorphism
+ * across different primitive and object types, making it suitable for high-performance numerical computations.</p>
+ *
+ * <p><b>Key Features and Capabilities:</b>
  * <ul>
- *   <li>Matrix dimensions (rows, columns, count)</li>
- *   <li>Stream-based access patterns (horizontal, vertical, diagonal)</li>
- *   <li>Matrix transformations (transpose, rotate, reshape)</li>
- *   <li>Element-wise operations</li>
+ *   <li><b>Type-Safe Matrix Operations:</b> Compile-time type checking for all matrix operations</li>
+ *   <li><b>Primitive Specialization:</b> Optimized implementations for all Java primitive types</li>
+ *   <li><b>Stream Integration:</b> Comprehensive stream-based access patterns for functional programming</li>
+ *   <li><b>Memory Efficiency:</b> Optimal memory layout with minimal boxing overhead for primitives</li>
+ *   <li><b>Mathematical Operations:</b> Full suite of linear algebra and matrix manipulation operations</li>
+ *   <li><b>Dimensional Flexibility:</b> Support for matrices of arbitrary dimensions with dynamic resizing</li>
+ *   <li><b>Performance Optimized:</b> Specialized algorithms for different matrix types and operations</li>
+ *   <li><b>Immutable Operations:</b> Operations return new matrix instances preserving original data</li>
  * </ul>
- * 
- * <p>Convention: {@code R} = Row, {@code C} = Column, {@code H} = Horizontal, {@code V} = Vertical.</p>
- * 
- * <p>Example usage through concrete implementations:</p>
+ *
+ * <p><b>Design Philosophy:</b>
+ * <ul>
+ *   <li><b>Type Safety First:</b> Sealed hierarchy prevents incorrect type usage and enables pattern matching</li>
+ *   <li><b>Performance Critical:</b> Primitive specialization eliminates boxing overhead in numerical computations</li>
+ *   <li><b>Functional Paradigm:</b> Stream-based operations enable elegant functional programming patterns</li>
+ *   <li><b>Memory Conscious:</b> Efficient internal representation minimizing memory footprint</li>
+ *   <li><b>API Consistency:</b> Uniform interface across all matrix types for predictable behavior</li>
+ * </ul>
+ *
+ * <p><b>Generic Type Parameters:</b>
+ * <table border="1" style="border-collapse: collapse;">
+ *   <caption><b>Generic Type Parameter Definitions</b></caption>
+ *   <tr style="background-color: #f2f2f2;">
+ *     <th>Parameter</th>
+ *     <th>Description</th>
+ *     <th>Example Types</th>
+ *     <th>Usage</th>
+ *   </tr>
+ *   <tr>
+ *     <td>A</td>
+ *     <td>Array type for internal storage</td>
+ *     <td>int[], double[], String[]</td>
+ *     <td>Row storage and data access</td>
+ *   </tr>
+ *   <tr>
+ *     <td>PL</td>
+ *     <td>Primitive list type for collections</td>
+ *     <td>IntList, DoubleList, List&lt;T&gt;</td>
+ *     <td>Flattened matrix operations</td>
+ *   </tr>
+ *   <tr>
+ *     <td>ES</td>
+ *     <td>Element stream type</td>
+ *     <td>IntStream, DoubleStream, Stream&lt;T&gt;</td>
+ *     <td>Element-wise streaming operations</td>
+ *   </tr>
+ *   <tr>
+ *     <td>RS</td>
+ *     <td>Row/column stream type</td>
+ *     <td>Stream&lt;int[]&gt;, Stream&lt;double[]&gt;</td>
+ *     <td>Row and column streaming</td>
+ *   </tr>
+ *   <tr>
+ *     <td>X</td>
+ *     <td>Self-referencing concrete type</td>
+ *     <td>IntMatrix, DoubleMatrix, Matrix&lt;T&gt;</td>
+ *     <td>Fluent API and method chaining</td>
+ *   </tr>
+ * </table>
+ *
+ * <p><b>Permitted Matrix Implementations:</b>
+ * <ul>
+ *   <li><b>{@code BooleanMatrix}:</b> Specialized matrix for boolean values with logical operations</li>
+ *   <li><b>{@code CharMatrix}:</b> Character matrix for text processing and manipulation</li>
+ *   <li><b>{@code ByteMatrix}:</b> 8-bit integer matrix for compact numerical storage</li>
+ *   <li><b>{@code ShortMatrix}:</b> 16-bit integer matrix for medium-range numerical operations</li>
+ *   <li><b>{@code IntMatrix}:</b> 32-bit integer matrix for general integer computations</li>
+ *   <li><b>{@code LongMatrix}:</b> 64-bit integer matrix for large integer calculations</li>
+ *   <li><b>{@code FloatMatrix}:</b> 32-bit floating-point matrix for precision-conscious operations</li>
+ *   <li><b>{@code DoubleMatrix}:</b> 64-bit floating-point matrix for high-precision computations</li>
+ *   <li><b>{@code Matrix&lt;T&gt;}:</b> Generic object matrix for complex data structures</li>
+ * </ul>
+ *
+ * <p><b>Core Matrix Operations Categories:</b>
+ * <ul>
+ *   <li><b>Dimensional Operations:</b> {@code rows()}, {@code cols()}, {@code count()}, {@code isEmpty()}</li>
+ *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code getRow()}, {@code getColumn()}</li>
+ *   <li><b>Stream Operations:</b> {@code stream()}, {@code streamH()}, {@code streamV()}, {@code streamD()}</li>
+ *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
+ *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
+ *   <li><b>Utility Operations:</b> {@code copy()}, {@code clone()}, {@code toArray()}, {@code toString()}</li>
+ * </ul>
+ *
+ * <p><b>Common Usage Patterns:</b>
  * <pre>{@code
- * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
- * IntMatrix transposed = matrix.transpose();
+ * // Creating matrices from arrays
+ * IntMatrix intMatrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
+ * DoubleMatrix doubleMatrix = DoubleMatrix.of(new double[][] {{1.1, 2.2}, {3.3, 4.4}});
+ * Matrix<String> stringMatrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+ *
+ * // Basic matrix operations
+ * IntMatrix transposed = intMatrix.transpose();  // 3x2 matrix from 2x3
+ * IntMatrix rotated = intMatrix.rotate90();      // 90-degree rotation
+ * IntMatrix flipped = intMatrix.flipH();         // Horizontal flip
+ *
+ * // Stream-based processing
+ * intMatrix.stream()                             // Stream all elements
+ *     .filter(x -> x > 0)
+ *     .sum();
+ *
+ * intMatrix.streamV()                           // Stream by columns
+ *     .mapToObj(Arrays::toString)
+ *     .forEach(System.out::println);
+ *
+ * // Mathematical operations (type-specific)
+ * IntMatrix result = intMatrix.add(5);          // Add scalar to all elements
+ * IntMatrix sum = intMatrix.add(otherMatrix);   // Element-wise addition
  * }</pre>
  *
- * @param <A> the array type (e.g., int[], double[], Object[])
- * @param <PL> the primitive list type for flattened operations
- * @param <ES> the element stream type
- * @param <RS> the row/column stream type
- * @param <X> the concrete matrix type (self-type)
+ * <p><b>Advanced Stream Processing Examples:</b>
+ * <pre>{@code
+ * // Complex stream operations with multiple access patterns
+ * public class MatrixAnalytics {
+ *     public static double calculateRowVariance(DoubleMatrix matrix, int rowIndex) {
+ *         double[] row = matrix.getRow(rowIndex);
+ *         double mean = DoubleStream.of(row).average().orElse(0.0);
+ *         return DoubleStream.of(row)
+ *             .map(x -> Math.pow(x - mean, 2))
+ *             .average()
+ *             .orElse(0.0);
+ *     }
+ *
+ *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
+ *         IntMatrix result = IntMatrix.zeros(matrix.rows(), matrix.cols());
+ *         
+ *         for (int i = 1; i < matrix.rows() - 1; i++) {
+ *             for (int j = 1; j < matrix.cols() - 1; j++) {
+ *                 int current = matrix.get(i, j);
+ *                 boolean isMaxima = matrix.streamAroundPoint(i, j, 1)
+ *                     .allMatch(neighbor -> current >= neighbor);
+ *                 if (isMaxima) {
+ *                     result.set(i, j, 1);
+ *                 }
+ *             }
+ *         }
+ *         return result;
+ *     }
+ *
+ *     public static <T> Matrix<T> applyConvolution(Matrix<T> input, Matrix<Double> kernel,
+ *                                                 BinaryOperator<T> combiner) {
+ *         Matrix<T> result = Matrix.zeros(input.rows(), input.cols(), input.elementType());
+ *         
+ *         input.streamWithIndices()
+ *             .parallel()
+ *             .forEach(entry -> {
+ *                 T convolutionResult = computeConvolution(input, kernel, 
+ *                     entry.rowIndex(), entry.colIndex(), combiner);
+ *                 result.set(entry.rowIndex(), entry.colIndex(), convolutionResult);
+ *             });
+ *         
+ *         return result;
+ *     }
+ * }
+ * }</pre>
+ *
+ * <p><b>Naming Conventions and Terminology:</b>
+ * <ul>
+ *   <li><b>R:</b> Row-related operations and dimensions</li>
+ *   <li><b>C:</b> Column-related operations and dimensions</li>
+ *   <li><b>H:</b> Horizontal operations (row-wise processing)</li>
+ *   <li><b>V:</b> Vertical operations (column-wise processing)</li>
+ *   <li><b>D:</b> Diagonal operations (diagonal traversal)</li>
+ *   <li><b>Stream Methods:</b> {@code stream*()} methods for functional programming patterns</li>
+ *   <li><b>Transformation Methods:</b> Return new matrix instances preserving immutability</li>
+ * </ul>
+ *
+ * <p><b>Memory and Performance Characteristics:</b>
+ * <ul>
+ *   <li><b>Storage Efficiency:</b> Primitive arrays eliminate boxing overhead for numerical types</li>
+ *   <li><b>Cache Locality:</b> Row-major storage order optimizes CPU cache usage patterns</li>
+ *   <li><b>Parallel Processing:</b> Stream operations support parallel execution for large matrices</li>
+ *   <li><b>Memory Layout:</b> Contiguous memory allocation for optimal performance</li>
+ *   <li><b>Lazy Evaluation:</b> Stream operations use lazy evaluation where applicable</li>
+ *   <li><b>Copy-on-Write:</b> Immutable operations create new instances efficiently</li>
+ * </ul>
+ *
+ * <p><b>Thread Safety and Concurrency:</b>
+ * <ul>
+ *   <li><b>Immutable Operations:</b> All transformation operations return new instances</li>
+ *   <li><b>Thread-Safe Reads:</b> Multiple threads can safely read from the same matrix</li>
+ *   <li><b>Parallel Streams:</b> Built-in support for parallel stream processing</li>
+ *   <li><b>Concurrent Access:</b> Read operations are inherently thread-safe</li>
+ *   <li><b>Modification Safety:</b> Mutating operations should be externally synchronized</li>
+ * </ul>
+ *
+ * <p><b>Integration with Mathematical Libraries:</b>
+ * <ul>
+ *   <li><b>Linear Algebra:</b> Foundation for BLAS-like operations and matrix decompositions</li>
+ *   <li><b>Statistical Computing:</b> Support for statistical analysis and data science operations</li>
+ *   <li><b>Machine Learning:</b> Optimized for feature matrices and mathematical modeling</li>
+ *   <li><b>Scientific Computing:</b> High-performance numerical computations and simulations</li>
+ *   <li><b>Image Processing:</b> Efficient representation for pixel data and convolution operations</li>
+ * </ul>
+ *
+ * <p><b>Type System and Pattern Matching:</b>
+ * <ul>
+ *   <li><b>Sealed Hierarchy:</b> Enables exhaustive pattern matching in switch expressions</li>
+ *   <li><b>Type Inference:</b> Generic parameters enable better type inference in client code</li>
+ *   <li><b>Variance:</b> Careful variance design for safe type relationships</li>
+ *   <li><b>Self-Types:</b> X parameter enables fluent API patterns and method chaining</li>
+ * </ul>
+ *
+ * <p><b>Common Anti-Patterns to Avoid:</b>
+ * <ul>
+ *   <li>Attempting to extend AbstractMatrix directly (sealed class prevents this)</li>
+ *   <li>Using Object matrices when primitive matrices would be more efficient</li>
+ *   <li>Ignoring the immutable nature of transformation operations</li>
+ *   <li>Not leveraging stream operations for complex matrix processing</li>
+ *   <li>Manual index iteration instead of using provided access methods</li>
+ *   <li>Synchronizing on matrix instances for thread safety (use external synchronization)</li>
+ * </ul>
+ *
+ * <p><b>Best Practices and Recommendations:</b>
+ * <ul>
+ *   <li>Choose the most specific matrix type for your data (e.g., IntMatrix vs Matrix&lt;Integer&gt;)</li>
+ *   <li>Leverage stream operations for complex transformations and analysis</li>
+ *   <li>Use parallel streams for large matrices and CPU-intensive operations</li>
+ *   <li>Prefer immutable operations to maintain data integrity</li>
+ *   <li>Cache frequently accessed matrix views and transformations</li>
+ *   <li>Consider memory usage when working with very large matrices</li>
+ *   <li>Use appropriate numerical precision for your computational requirements</li>
+ * </ul>
+ *
+ * <p><b>Example: Scientific Computing Application</b>
+ * <pre>{@code
+ * public class LinearAlgebraOperations {
+ *     
+ *     // Matrix multiplication implementation
+ *     public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
+ *         if (a.cols() != b.rows()) {
+ *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
+ *         }
+ *         
+ *         DoubleMatrix result = DoubleMatrix.zeros(a.rows(), b.cols());
+ *         
+ *         IntStream.range(0, a.rows()).parallel().forEach(i -> {
+ *             IntStream.range(0, b.cols()).forEach(j -> {
+ *                 double sum = IntStream.range(0, a.cols())
+ *                     .mapToDouble(k -> a.get(i, k) * b.get(k, j))
+ *                     .sum();
+ *                 result.set(i, j, sum);
+ *             });
+ *         });
+ *         
+ *         return result;
+ *     }
+ *     
+ *     // Statistical analysis
+ *     public static double[] computeColumnStatistics(DoubleMatrix matrix) {
+ *         return matrix.streamV()
+ *             .mapToDouble(column -> DoubleStream.of(column)
+ *                 .filter(x -> !Double.isNaN(x))
+ *                 .average()
+ *                 .orElse(0.0))
+ *             .toArray();
+ *     }
+ *     
+ *     // Image processing convolution
+ *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
+ *         IntMatrix result = IntMatrix.zeros(image.rows(), image.cols());
+ *         int filterSize = filter.rows();
+ *         int offset = filterSize / 2;
+ *         
+ *         IntStream.range(offset, image.rows() - offset).parallel().forEach(i -> {
+ *             IntStream.range(offset, image.cols() - offset).forEach(j -> {
+ *                 double sum = 0.0;
+ *                 for (int fi = 0; fi < filterSize; fi++) {
+ *                     for (int fj = 0; fj < filterSize; fj++) {
+ *                         sum += image.get(i - offset + fi, j - offset + fj) * 
+ *                                filter.get(fi, fj);
+ *                     }
+ *                 }
+ *                 result.set(i, j, (int) Math.round(sum));
+ *             });
+ *         });
+ *         
+ *         return result;
+ *     }
+ * }
+ * }</pre>
+ *
+ * <p><b>Debugging and Profiling Considerations:</b>
+ * <ul>
+ *   <li><b>Matrix Visualization:</b> Built-in toString() methods for debugging matrix content</li>
+ *   <li><b>Performance Monitoring:</b> Stream operations can be profiled for optimization</li>
+ *   <li><b>Memory Analysis:</b> Monitor heap usage for large matrix operations</li>
+ *   <li><b>Parallel Debugging:</b> Be aware of parallel stream debugging challenges</li>
+ * </ul>
+ *
+ * <p><b>Comparison with Alternative Matrix Libraries:</b>
+ * <ul>
+ *   <li><b>vs. Apache Commons Math:</b> More specialized type system vs. general mathematical library</li>
+ *   <li><b>vs. EJML:</b> Functional programming support vs. pure performance focus</li>
+ *   <li><b>vs. ND4J:</b> Java-native vs. native library integration with GPU support</li>
+ *   <li><b>vs. JAMA:</b> Modern Java features vs. legacy compatibility</li>
+ * </ul>
+ *
+ * @param <A> the array type used for internal row storage (e.g., {@code int[]}, {@code double[]}, {@code Object[]})
+ * @param <PL> the primitive list type for flattened matrix operations (e.g., {@code IntList}, {@code DoubleList}, {@code List<T>})
+ * @param <ES> the element stream type for streaming individual matrix elements (e.g., {@code IntStream}, {@code DoubleStream}, {@code Stream<T>})
+ * @param <RS> the row/column stream type for streaming matrix rows or columns (e.g., {@code Stream<int[]>}, {@code Stream<double[]>})
+ * @param <X> the concrete matrix implementation type for fluent API support and method chaining
+ *
  * @see BooleanMatrix
+ * @see CharMatrix
  * @see ByteMatrix
  * @see ShortMatrix
  * @see IntMatrix
  * @see LongMatrix
  * @see FloatMatrix
  * @see DoubleMatrix
- * @see CharMatrix
  * @see Matrix
+ * @see com.landawn.abacus.util.stream.Stream
+ * @see com.landawn.abacus.util.stream.IntStream
+ * @see com.landawn.abacus.util.Arrays
+ * @see <a href="https://en.wikipedia.org/wiki/Matrix_(mathematics)">Mathematical Matrix Theory</a>
  */
 public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>>
         permits BooleanMatrix, CharMatrix, ByteMatrix, ShortMatrix, DoubleMatrix, FloatMatrix, IntMatrix, LongMatrix, Matrix {
