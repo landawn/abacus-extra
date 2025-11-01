@@ -521,6 +521,20 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array of elements in this tuple.
+     * <p>
+     * This method is used internally by the tuple implementation to access the
+     * underlying array of short values. The returned array is lazily initialized
+     * on first access and cached for subsequent calls.
+     * </p>
+     * <p>
+     * Subclasses must implement this method to provide access to their elements.
+     * Modifications to the returned array will affect the tuple's internal state.
+     * </p>
+     *
+     * @return the array of short elements stored in this tuple
+     */
     protected abstract short[] elements();
 
     /**
@@ -1390,6 +1404,48 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_4);
         }
 
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all four elements.
+         *
+         * @return a hash code based on all four elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * _1 + _2) + _3)) + _4;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple4 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple4 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple4 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + "]";
+        }
+
         @Override
         protected short[] elements() {
             if (elements == null) {
@@ -1531,6 +1587,48 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all five elements.
+         *
+         * @return a hash code based on all five elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple5 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple5 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple5 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4, _5]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + "]";
         }
 
         @Override
@@ -1678,6 +1776,48 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_4);
             consumer.accept(_5);
             consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all six elements.
+         *
+         * @return a hash code based on all six elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple6 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple6 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple6 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + "]";
         }
 
         @Override
@@ -1830,6 +1970,48 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_5);
             consumer.accept(_6);
             consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all seven elements.
+         *
+         * @return a hash code based on all seven elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple7 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple7 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple7 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + "]";
         }
 
         @Override
@@ -1990,6 +2172,49 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_6);
             consumer.accept(_7);
             consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all eight elements.
+         *
+         * @return a hash code based on all eight elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple8 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple8 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple8 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7, _8] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + "]";
         }
 
         @Override
@@ -2155,6 +2380,49 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
             consumer.accept(_7);
             consumer.accept(_8);
             consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all nine elements.
+         *
+         * @return a hash code based on all nine elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ShortTuple9 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ShortTuple9 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ShortTuple9 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8 && _9 == other._9;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7, _8, _9] where each element is displayed in order.
+         *
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         */
+        @Override
+        public String toString() {
+            return "[" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + "]";
         }
 
         @Override

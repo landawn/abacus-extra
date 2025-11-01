@@ -1215,7 +1215,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly four char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
 
@@ -1251,6 +1251,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new CharTuple4 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
+         * CharTuple4 reversed = tuple.reverse(); // ('D', 'C', 'B', 'A')
+         * }</pre>
          *
          * @return a new CharTuple4 with the elements in reverse order
          */
@@ -1297,7 +1303,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly five char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -1336,6 +1342,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new CharTuple5 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
+         * CharTuple5 reversed = tuple.reverse(); // ('E', 'D', 'C', 'B', 'A')
+         * }</pre>
          *
          * @return a new CharTuple5 with the elements in reverse order
          */
@@ -1383,7 +1395,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly six char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -1425,6 +1437,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new CharTuple6 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
+         * CharTuple6 reversed = tuple.reverse(); // ('F', 'E', 'D', 'C', 'B', 'A')
+         * }</pre>
          *
          * @return a new CharTuple6 with the elements in reverse order
          */
@@ -1473,7 +1491,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly seven char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 
@@ -1518,6 +1536,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new CharTuple7 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
+         * CharTuple7 reversed = tuple.reverse(); // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * }</pre>
          *
          * @return a new CharTuple7 with the elements in reverse order
          */
@@ -1568,7 +1592,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly eight char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
      */
@@ -1620,6 +1644,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new CharTuple8 with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+         * CharTuple8 reversed = tuple.reverse(); // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * }</pre>
+         *
          * @return a new CharTuple8 with the elements in reverse order
          */
         @Override
@@ -1670,7 +1700,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly nine char elements.
-     * Provides direct access to elements through public final fields.
+     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
@@ -1724,6 +1754,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new CharTuple9 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
+         * CharTuple9 reversed = tuple.reverse(); // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * }</pre>
          *
          * @return a new CharTuple9 with the elements in reverse order
          */

@@ -1307,6 +1307,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new ByteTuple4 with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+         * ByteTuple4 reversed = tuple.reverse(); // (40, 30, 20, 10)
+         * }</pre>
+         *
          * @return a new ByteTuple4 with the elements in reverse order
          */
         @Override
@@ -1449,6 +1455,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new ByteTuple5 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
+         * ByteTuple5 reversed = tuple.reverse(); // (50, 40, 30, 20, 10)
+         * }</pre>
          *
          * @return a new ByteTuple5 with the elements in reverse order
          */
@@ -1596,6 +1608,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new ByteTuple6 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
+         * ByteTuple6 reversed = tuple.reverse(); // (60, 50, 40, 30, 20, 10)
+         * }</pre>
          *
          * @return a new ByteTuple6 with the elements in reverse order
          */
@@ -1747,6 +1765,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new ByteTuple7 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+         * ByteTuple7 reversed = tuple.reverse(); // (70, 60, 50, 40, 30, 20, 10)
+         * }</pre>
          *
          * @return a new ByteTuple7 with the elements in reverse order
          */
@@ -1906,6 +1930,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new ByteTuple8 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+         * ByteTuple8 reversed = tuple.reverse(); // (80, 70, 60, 50, 40, 30, 20, 10)
+         * }</pre>
          *
          * @return a new ByteTuple8 with the elements in reverse order
          */
@@ -2069,6 +2099,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns a new ByteTuple9 with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+         * ByteTuple9 reversed = tuple.reverse(); // (90, 80, 70, 60, 50, 40, 30, 20, 10)
+         * }</pre>
          *
          * @return a new ByteTuple9 with the elements in reverse order
          */

@@ -1306,6 +1306,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+         * FloatTuple4 reversed = tuple.reverse(); // (4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
+         *
          * @return a new FloatTuple4 with (_4, _3, _2, _1)
          */
         @Override
@@ -1479,6 +1485,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+         * FloatTuple5 reversed = tuple.reverse(); // (5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
          *
          * @return a new FloatTuple5 with (_5, _4, _3, _2, _1)
          */
@@ -1660,6 +1672,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+         * FloatTuple6 reversed = tuple.reverse(); // (6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
          *
          * @return a new FloatTuple6 with (_6, _5, _4, _3, _2, _1)
          */
@@ -1846,6 +1864,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
+         * FloatTuple7 reversed = tuple.reverse(); // (7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
          *
          * @return a new FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -2041,6 +2065,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
+         * FloatTuple8 reversed = tuple.reverse(); // (8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
          *
          * @return a new FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
@@ -2241,6 +2271,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
+         * FloatTuple9 reversed = tuple.reverse(); // (9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * }</pre>
          *
          * @return a new FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */

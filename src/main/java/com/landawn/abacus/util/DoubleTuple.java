@@ -1310,6 +1310,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+         * DoubleTuple4 reversed = tuple.reverse(); // (4.0, 3.0, 2.0, 1.0)
+         * }</pre>
+         *
          * @return a new DoubleTuple4 with (_4, _3, _2, _1)
          */
         @Override
@@ -1484,6 +1490,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple5 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0);
+         * DoubleTuple5 reversed = tuple.reverse(); // (5.0, 4.0, 3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple5 with (_5, _4, _3, _2, _1)
          */
@@ -1666,6 +1678,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+         * DoubleTuple6 reversed = tuple.reverse(); // (6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple6 with (_6, _5, _4, _3, _2, _1)
          */
@@ -1853,6 +1871,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
+         * DoubleTuple7 reversed = tuple.reverse(); // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple7 with (_7, _6, _5, _4, _3, _2, _1)
          */
@@ -2049,6 +2073,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
+         * DoubleTuple8 reversed = tuple.reverse(); // (8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
          */
@@ -2250,6 +2280,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+         * DoubleTuple9 reversed = tuple.reverse(); // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)
          */

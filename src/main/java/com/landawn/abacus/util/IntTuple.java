@@ -504,10 +504,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the internal array of elements.
-     * Subclasses must implement this to provide access to their elements.
+     * Returns the internal array of elements in this tuple.
+     * <p>
+     * This method is used internally by the tuple implementation to access the
+     * underlying array of int values. The returned array is lazily initialized
+     * on first access and cached for subsequent calls.
+     * </p>
+     * <p>
+     * Subclasses must implement this method to provide access to their elements.
+     * Modifications to the returned array will affect the tuple's internal state.
+     * </p>
      *
-     * @return the array of int elements
+     * @return the array of int elements stored in this tuple
      */
     protected abstract int[] elements();
 
@@ -1280,9 +1288,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all four elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all four elements.
          *
-         * @return the hash code
+         * @return a hash code based on all four elements
          */
         @Override
         public int hashCode() {
@@ -1291,9 +1301,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple4 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple4 with equal elements
+         * @return {@code true} if obj is an IntTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1308,8 +1320,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4]"
+         * @return a string representation in the format "[_1, _2, _3, _4]"
          */
         @Override
         public String toString() {
@@ -1453,9 +1466,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all five elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all five elements.
          *
-         * @return the hash code
+         * @return a hash code based on all five elements
          */
         @Override
         public int hashCode() {
@@ -1464,9 +1479,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple5 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple5 with equal elements
+         * @return {@code true} if obj is an IntTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1481,8 +1498,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4, _5]"
+         * @return a string representation in the format "[_1, _2, _3, _4, _5]"
          */
         @Override
         public String toString() {
@@ -1631,9 +1649,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all six elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all six elements.
          *
-         * @return the hash code
+         * @return a hash code based on all six elements
          */
         @Override
         public int hashCode() {
@@ -1642,9 +1662,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple6 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple6 with equal elements
+         * @return {@code true} if obj is an IntTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1659,8 +1681,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4, _5, _6]"
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6]"
          */
         @Override
         public String toString() {
@@ -1813,9 +1836,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all seven elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all seven elements.
          *
-         * @return the hash code
+         * @return a hash code based on all seven elements
          */
         @Override
         public int hashCode() {
@@ -1824,9 +1849,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple7 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple7 with equal elements
+         * @return {@code true} if obj is an IntTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1841,8 +1868,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4, _5, _6, _7]"
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7]"
          */
         @Override
         public String toString() {
@@ -2003,9 +2031,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all eight elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all eight elements.
          *
-         * @return the hash code
+         * @return a hash code based on all eight elements
          */
         @Override
         public int hashCode() {
@@ -2014,9 +2044,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple8 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple8 with equal elements
+         * @return {@code true} if obj is an IntTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2032,8 +2064,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7, _8] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4, _5, _6, _7, _8]"
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8]"
          */
         @Override
         public String toString() {
@@ -2197,9 +2230,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns a hash code for this tuple based on all nine elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all nine elements.
          *
-         * @return the hash code
+         * @return a hash code based on all nine elements
          */
         @Override
         public int hashCode() {
@@ -2208,9 +2243,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both IntTuple9 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is an IntTuple9 with equal elements
+         * @return {@code true} if obj is an IntTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2226,8 +2263,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
         /**
          * Returns a string representation of this tuple.
+         * The format is [_1, _2, _3, _4, _5, _6, _7, _8, _9] where each element is displayed in order.
          *
-         * @return "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
+         * @return a string representation in the format "[_1, _2, _3, _4, _5, _6, _7, _8, _9]"
          */
         @Override
         public String toString() {
