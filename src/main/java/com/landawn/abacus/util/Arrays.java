@@ -16,7 +16,6 @@ package com.landawn.abacus.util;
 import java.math.RoundingMode;
 
 import com.landawn.abacus.annotation.Beta;
-import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
 
 /**
@@ -424,10 +423,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -461,10 +459,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to map.
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -498,10 +495,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array to map.
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -534,10 +530,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the char array to map.
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (N.isEmpty(a)) {
@@ -571,10 +566,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional char array to map.
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -608,10 +602,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional char array to map.
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -644,10 +637,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the byte array to map.
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (N.isEmpty(a)) {
@@ -681,10 +673,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional byte array to map.
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -718,10 +709,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to map.
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -754,10 +744,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the short array to map.
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -791,10 +780,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional short array to map.
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -828,10 +816,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional short array to map.
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -865,10 +852,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (N.isEmpty(a)) {
@@ -902,10 +888,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional int array to map.
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -939,10 +924,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional int array to map.
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -975,10 +959,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the long array to map.
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
         if (N.isEmpty(a)) {
@@ -1012,10 +995,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional long array to map.
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1049,10 +1031,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional long array to map.
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1085,10 +1066,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the float array to map.
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
-     * @return an object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1122,10 +1102,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional float array to map.
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1159,10 +1138,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional float array to map.
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional object array containing the mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1195,10 +1173,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input double array.
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return an array of type T with mapped values, or {@code null} if input is {@code null}.
+     * @return an array of type T with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1231,10 +1208,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input two-dimensional double array.
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional array of type T with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional array of type T with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1267,10 +1243,9 @@ public sealed class Arrays permits Arrays.f {
      * @param a the input three-dimensional double array.
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional array of type T with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional array of type T with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
         if (N.isEmpty(a)) {
@@ -1301,10 +1276,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input int array.
      * @param mapper the function to transform each int to long.
-     * @return a long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -1334,10 +1308,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional int array.
      * @param mapper the function to transform each int to long.
-     * @return a two-dimensional long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -1367,10 +1340,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional int array.
      * @param mapper the function to transform each int to long.
-     * @return a three-dimensional long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -1400,10 +1372,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input int array.
      * @param mapper the function to transform each int to double.
-     * @return a double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -1433,10 +1404,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional int array.
      * @param mapper the function to transform each int to double.
-     * @return a two-dimensional double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -1466,10 +1436,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional int array.
      * @param mapper the function to transform each int to double.
-     * @return a three-dimensional double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -1499,10 +1468,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input long array.
      * @param mapper the function to transform each long to int.
-     * @return an int array with mapped values, or {@code null} if input is {@code null}.
+     * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -1533,10 +1501,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int.
-     * @return a two-dimensional int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -1567,10 +1534,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to int.
-     * @return a three-dimensional int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -1601,10 +1567,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input long array (can be {@code null}).
      * @param mapper the function to transform each long to double.
-     * @return a double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -1635,10 +1600,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to double.
-     * @return a two-dimensional double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -1668,10 +1632,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional long array.
      * @param mapper the function to transform each long to double.
-     * @return a three-dimensional double array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -1701,10 +1664,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input double array.
      * @param mapper the function to transform each double to int.
-     * @return an int array with mapped values, or {@code null} if input is {@code null}.
+     * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -1735,10 +1697,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int.
-     * @return a two-dimensional int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -1769,10 +1730,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to int.
-     * @return a three-dimensional int array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -1803,10 +1763,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input double array (can be {@code null}).
      * @param mapper the function to transform each double to long.
-     * @return a long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -1837,10 +1796,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long.
-     * @return a two-dimensional long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -1871,10 +1829,9 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double to long.
-     * @return a three-dimensional long array with mapped values, or {@code null} if input is {@code null}.
+     * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
-    @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -12091,9 +12048,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert.
-     * @return a new boolean array, or {@code null} if the input is {@code null}.
+     * @return a new boolean array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static boolean[] toBoolean(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BOOLEAN_ARRAY;
@@ -12122,10 +12078,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new two-dimensional boolean array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional boolean array, or an empty array if the input is {@code null}.
      * @see #toBoolean(byte[])
      */
-    @MayReturnNull
     public static boolean[][] toBoolean(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new boolean[0][];
@@ -12154,10 +12109,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new three-dimensional boolean array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional boolean array, or an empty array if the input is {@code null}.
      * @see #toBoolean(byte[][])
      */
-    @MayReturnNull
     public static boolean[][][] toBoolean(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new boolean[0][][];
@@ -12185,9 +12139,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of integers to convert.
-     * @return a new boolean array, or {@code null} if the input is {@code null}.
+     * @return a new boolean array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static boolean[] toBoolean(final int[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BOOLEAN_ARRAY;
@@ -12216,10 +12169,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert (can be {@code null}).
-     * @return a new two-dimensional boolean array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional boolean array, or an empty array if the input is {@code null}.
      * @see #toBoolean(int[])
      */
-    @MayReturnNull
     public static boolean[][] toBoolean(final int[][] a) {
         if (N.isEmpty(a)) {
             return new boolean[0][];
@@ -12248,10 +12200,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert (can be {@code null}).
-     * @return a new three-dimensional boolean array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional boolean array, or an empty array if the input is {@code null}.
      * @see #toBoolean(int[][])
      */
-    @MayReturnNull
     public static boolean[][][] toBoolean(final int[][][] a) {
         if (N.isEmpty(a)) {
             return new boolean[0][][];
@@ -12278,9 +12229,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of integers to convert.
-     * @return a new char array, or {@code null} if the input is {@code null}.
+     * @return a new char array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static char[] toChar(final int[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_CHAR_ARRAY;
@@ -12308,10 +12258,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of integers to convert (can be {@code null}).
-     * @return a new two-dimensional char array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional char array, or an empty array if the input is {@code null}.
      * @see #toChar(int[])
      */
-    @MayReturnNull
     public static char[][] toChar(final int[][] a) {
         if (N.isEmpty(a)) {
             return new char[0][];
@@ -12339,10 +12288,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of integers to convert (can be {@code null}).
-     * @return a new three-dimensional char array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional char array, or an empty array if the input is {@code null}.
      * @see #toChar(int[][])
      */
-    @MayReturnNull
     public static char[][][] toChar(final int[][][] a) {
         if (N.isEmpty(a)) {
             return new char[0][][];
@@ -12370,9 +12318,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of booleans to convert.
-     * @return a new byte array, or {@code null} if the input is {@code null}.
+     * @return a new byte array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static byte[] toByte(final boolean[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_BYTE_ARRAY;
@@ -12401,10 +12348,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert (can be {@code null}).
-     * @return a new two-dimensional byte array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional byte array, or an empty array if the input is {@code null}.
      * @see #toByte(boolean[])
      */
-    @MayReturnNull
     public static byte[][] toByte(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return new byte[0][];
@@ -12433,10 +12379,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of booleans to convert (can be {@code null}).
-     * @return a new three-dimensional byte array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional byte array, or an empty array if the input is {@code null}.
      * @see #toByte(boolean[][])
      */
-    @MayReturnNull
     public static byte[][][] toByte(final boolean[][][] a) {
         if (N.isEmpty(a)) {
             return new byte[0][][];
@@ -12463,9 +12408,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert.
-     * @return a new short array, or {@code null} if the input is {@code null}.
+     * @return a new short array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static short[] toShort(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_SHORT_ARRAY;
@@ -12493,10 +12437,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new two-dimensional short array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional short array, or an empty array if the input is {@code null}.
      * @see #toShort(byte[])
      */
-    @MayReturnNull
     public static short[][] toShort(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new short[0][];
@@ -12524,10 +12467,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new three-dimensional short array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional short array, or an empty array if the input is {@code null}.
      * @see #toShort(byte[][])
      */
-    @MayReturnNull
     public static short[][][] toShort(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new short[0][][];
@@ -12555,9 +12497,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of booleans to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final boolean[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -12586,10 +12527,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of booleans to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(boolean[])
      */
-    @MayReturnNull
     public static int[][] toInt(final boolean[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -12618,10 +12558,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of booleans to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(boolean[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final boolean[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -12648,9 +12587,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of chars to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final char[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -12678,10 +12616,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of chars to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(char[])
      */
-    @MayReturnNull
     public static int[][] toInt(final char[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -12709,10 +12646,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of chars to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(char[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final char[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -12739,9 +12675,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -12769,10 +12704,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(byte[])
      */
-    @MayReturnNull
     public static int[][] toInt(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -12800,10 +12734,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(byte[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -12830,9 +12763,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of shorts to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final short[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -12860,10 +12792,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of shorts to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(short[])
      */
-    @MayReturnNull
     public static int[][] toInt(final short[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -12891,10 +12822,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of shorts to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(short[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final short[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -12921,9 +12851,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of floats to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final float[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -12951,10 +12880,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of floats to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(float[])
      */
-    @MayReturnNull
     public static int[][] toInt(final float[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -12982,10 +12910,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of floats to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(float[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final float[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -13012,9 +12939,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of doubles to convert.
-     * @return a new integer array, or {@code null} if the input is {@code null}.
+     * @return a new integer array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static int[] toInt(final double[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_INT_ARRAY;
@@ -13042,10 +12968,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of doubles to convert (can be {@code null}).
-     * @return a new two-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(double[])
      */
-    @MayReturnNull
     public static int[][] toInt(final double[][] a) {
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -13073,10 +12998,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of doubles to convert (can be {@code null}).
-     * @return a new three-dimensional integer array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional integer array, or an empty array if the input is {@code null}.
      * @see #toInt(double[][])
      */
-    @MayReturnNull
     public static int[][][] toInt(final double[][][] a) {
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -13103,9 +13027,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array of bytes to convert.
-     * @return a new long array, or {@code null} if the input is {@code null}.
+     * @return a new long array, or an empty array if the input is {@code null}.
      */
-    @MayReturnNull
     public static long[] toLong(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -13133,10 +13056,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new two-dimensional long array, or {@code null} if the input is {@code null}.
+     * @return a new two-dimensional long array, or an empty array if the input is {@code null}.
      * @see #toLong(byte[])
      */
-    @MayReturnNull
     public static long[][] toLong(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -13164,10 +13086,9 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array of bytes to convert (can be {@code null}).
-     * @return a new three-dimensional long array, or {@code null} if the input is {@code null}.
+     * @return a new three-dimensional long array, or an empty array if the input is {@code null}.
      * @see #toLong(byte[][])
      */
-    @MayReturnNull
     public static long[][][] toLong(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -13195,9 +13116,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[] toLong(final short[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -13225,9 +13145,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][] toLong(final short[][] a) {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -13255,9 +13174,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][][] toLong(final short[][][] a) {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -13285,9 +13203,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[] toLong(final int[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -13315,9 +13232,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][] toLong(final int[][] a) {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -13345,9 +13261,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][][] toLong(final int[][][] a) {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -13375,9 +13290,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[] toLong(final float[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -13405,9 +13319,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][] toLong(final float[][] a) {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -13435,9 +13348,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][][] toLong(final float[][][] a) {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -13465,9 +13377,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code double} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[] toLong(final double[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_LONG_ARRAY;
@@ -13495,9 +13406,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code double} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][] toLong(final double[][] a) {
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -13525,9 +13435,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code double} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code long} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code long} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static long[][][] toLong(final double[][][] a) {
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -13555,9 +13464,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[] toFloat(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
@@ -13585,9 +13493,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][] toFloat(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new float[0][];
@@ -13615,9 +13522,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][][] toFloat(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new float[0][][];
@@ -13645,9 +13551,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[] toFloat(final short[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
@@ -13675,9 +13580,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][] toFloat(final short[][] a) {
         if (N.isEmpty(a)) {
             return new float[0][];
@@ -13705,9 +13609,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][][] toFloat(final short[][][] a) {
         if (N.isEmpty(a)) {
             return new float[0][][];
@@ -13735,9 +13638,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[] toFloat(final int[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
@@ -13765,9 +13667,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][] toFloat(final int[][] a) {
         if (N.isEmpty(a)) {
             return new float[0][];
@@ -13795,9 +13696,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][][] toFloat(final int[][][] a) {
         if (N.isEmpty(a)) {
             return new float[0][][];
@@ -13825,9 +13725,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[] toFloat(final long[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_FLOAT_ARRAY;
@@ -13855,9 +13754,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][] toFloat(final long[][] a) {
         if (N.isEmpty(a)) {
             return new float[0][];
@@ -13885,9 +13783,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code float} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code float} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static float[][][] toFloat(final long[][][] a) {
         if (N.isEmpty(a)) {
             return new float[0][][];
@@ -13915,9 +13812,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[] toDouble(final byte[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -13945,9 +13841,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][] toDouble(final byte[][] a) {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -13975,9 +13870,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code byte} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][][] toDouble(final byte[][][] a) {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14005,9 +13899,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[] toDouble(final short[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -14035,9 +13928,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][] toDouble(final short[][] a) {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -14065,9 +13957,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code short} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][][] toDouble(final short[][][] a) {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14095,9 +13986,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[] toDouble(final int[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -14125,9 +14015,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][] toDouble(final int[][] a) {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -14155,9 +14044,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code int} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][][] toDouble(final int[][][] a) {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14185,9 +14073,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[] toDouble(final long[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -14215,9 +14102,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][] toDouble(final long[][] a) {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -14245,9 +14131,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code long} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][][] toDouble(final long[][][] a) {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14275,9 +14160,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new one-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new one-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[] toDouble(final float[] a) {
         if (N.isEmpty(a)) {
             return N.EMPTY_DOUBLE_ARRAY;
@@ -14305,9 +14189,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new two-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new two-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][] toDouble(final float[][] a) {
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -14335,9 +14218,8 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional {@code float} array to convert. Can be {@code null}.
-     * @return a new three-dimensional {@code double} array, or {@code null} if the input was {@code null}.
+     * @return a new three-dimensional {@code double} array, or an empty array if the input was {@code null}.
      */
-    @MayReturnNull
     public static double[][][] toDouble(final float[][][] a) {
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14395,10 +14277,9 @@ public sealed class Arrays permits Arrays.f {
          * @param a the input array to map (can be {@code null}).
          * @param func the mapping function to apply to each element.
          * @param targetElementType the class of the target element type.
-         * @return a new array containing the mapped elements, or {@code null} if input is {@code null}.
+         * @return a new array containing the mapped elements, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
@@ -14430,10 +14311,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
          * @param func the function that maps each element to a boolean.
-         * @return a boolean array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a boolean array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BOOLEAN_ARRAY;
@@ -14464,10 +14344,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
          * @param func the function that maps each element to a char.
-         * @return a char array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a char array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_CHAR_ARRAY;
@@ -14498,10 +14377,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
          * @param func the function that maps each element to a byte.
-         * @return a byte array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a byte array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BYTE_ARRAY;
@@ -14532,10 +14410,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
          * @param func the function that maps each element to a short.
-         * @return a short array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a short array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_SHORT_ARRAY;
@@ -14567,10 +14444,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
          * @param func the function that maps each element to an int.
-         * @return an int array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return an int array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_INT_ARRAY;
@@ -14602,10 +14478,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
          * @param func the function that maps each element to a long.
-         * @return a long array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a long array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_LONG_ARRAY;
@@ -14637,10 +14512,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
          * @param func the function that maps each element to a float.
-         * @return a float array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a float array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_FLOAT_ARRAY;
@@ -14672,10 +14546,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
          * @param func the function that maps each element to a double.
-         * @return a double array containing the mapped values, or {@code null} if input is {@code null}.
+         * @return a double array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_DOUBLE_ARRAY;
@@ -14936,10 +14809,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the unary operator to apply to each element.
-         * @return a new two-dimensional array with mapped elements, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional array with mapped elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType());
         }
@@ -14964,10 +14836,9 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to transform each element.
          * @param targetElementType the class of the target element type.
-         * @return a new two-dimensional array with transformed elements, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
@@ -14999,10 +14870,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the predicate function to test each element.
-         * @return a new two-dimensional boolean array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new boolean[0][];
@@ -15033,10 +14903,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to extract a char from each element.
-         * @return a new two-dimensional char array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new char[0][];
@@ -15067,10 +14936,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to a byte.
-         * @return a new two-dimensional byte array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new byte[0][];
@@ -15101,10 +14969,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to a short.
-         * @return a new two-dimensional short array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new short[0][];
@@ -15135,10 +15002,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to an int.
-         * @return a new two-dimensional int array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new int[0][];
@@ -15169,10 +15035,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to a long.
-         * @return a new two-dimensional long array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new long[0][];
@@ -15203,10 +15068,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to a float.
-         * @return a new two-dimensional float array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new float[0][];
@@ -15237,10 +15101,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
          * @param func the function to convert each element to a double.
-         * @return a new two-dimensional double array, or {@code null} if input is {@code null}.
+         * @return a new two-dimensional double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        @MayReturnNull
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new double[0][];
@@ -16070,10 +15933,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the unary operator to apply to each element.
-         * @return a new array with mapped elements, or {@code null} if input is {@code null}.
+         * @return a new array with mapped elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
@@ -16100,10 +15962,9 @@ public sealed class Arrays permits Arrays.f {
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to transform each element.
          * @param targetElementType the class of the result array's element type.
-         * @return a new array with transformed elements, or {@code null} if input is {@code null}.
+         * @return a new array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
@@ -16139,10 +16000,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the predicate function to test each element.
-         * @return a new boolean array, or {@code null} if input is {@code null}.
+         * @return a new boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new boolean[0][][];
@@ -16176,10 +16036,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to extract a char from each element.
-         * @return a new char array, or {@code null} if input is {@code null}.
+         * @return a new char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new char[0][][];
@@ -16214,10 +16073,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to byte.
-         * @return a new byte array, or {@code null} if input is {@code null}.
+         * @return a new byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new byte[0][][];
@@ -16252,10 +16110,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to short.
-         * @return a new short array, or {@code null} if input is {@code null}.
+         * @return a new short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new short[0][][];
@@ -16290,10 +16147,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to int.
-         * @return a new int array, or {@code null} if input is {@code null}.
+         * @return a new int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new int[0][][];
@@ -16328,10 +16184,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to long.
-         * @return a new long array, or {@code null} if input is {@code null}.
+         * @return a new long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new long[0][][];
@@ -16366,10 +16221,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to float.
-         * @return a new float array, or {@code null} if input is {@code null}.
+         * @return a new float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new float[0][][];
@@ -16404,10 +16258,9 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
          * @param func the function to convert each element to double.
-         * @return a new double array, or {@code null} if input is {@code null}.
+         * @return a new double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        @MayReturnNull
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (N.isEmpty(a)) {
                 return new double[0][][];
