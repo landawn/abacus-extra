@@ -430,8 +430,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -467,8 +467,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -504,8 +504,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -540,8 +540,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -577,8 +577,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -614,8 +614,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -650,8 +650,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -687,8 +687,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -724,8 +724,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -760,8 +760,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -797,8 +797,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -834,8 +834,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -871,8 +871,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -908,8 +908,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -945,8 +945,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -981,8 +981,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
             throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -1018,8 +1018,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1055,8 +1055,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1091,8 +1091,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -1128,8 +1128,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1165,8 +1165,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1201,8 +1201,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(targetElementType, 0);
         }
 
         final int len = N.len(a);
@@ -1237,8 +1237,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1273,8 +1273,8 @@ public sealed class Arrays permits Arrays.f {
     @MayReturnNull
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
         }
 
         final int len = N.len(a);
@@ -1306,8 +1306,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1339,8 +1339,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -1372,8 +1372,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -1405,8 +1405,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final int[] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1438,8 +1438,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final int[][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -1471,8 +1471,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final int[][][] a, final Throwables.IntToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -1504,8 +1504,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final long[] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1538,8 +1538,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final long[][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -1572,8 +1572,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final long[][][] a, final Throwables.LongToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -1606,8 +1606,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[] mapToDouble(final long[] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1640,8 +1640,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[][] mapToDouble(final long[][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -1673,8 +1673,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> double[][][] mapToDouble(final long[][][] a, final Throwables.LongToDoubleFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -1706,8 +1706,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[] mapToInt(final double[] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1740,8 +1740,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[][] mapToInt(final double[][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -1774,8 +1774,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> int[][][] mapToInt(final double[][][] a, final Throwables.DoubleToIntFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -1808,8 +1808,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[] mapToLong(final double[] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -1842,8 +1842,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[][] mapToLong(final double[][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -1876,8 +1876,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static <E extends Exception> long[][][] mapToLong(final double[][][] a, final Throwables.DoubleToLongFunction<E> mapper) throws E {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -2075,7 +2075,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new boolean[0][0];
+            return new boolean[0][];
         }
 
         final int len = a.length;
@@ -2110,7 +2110,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new boolean[0][0][0];
+            return new boolean[0][][];
         }
 
         final int len = a.length;
@@ -3387,7 +3387,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new char[0][0];
+            return new char[0][];
         }
 
         final int len = a.length;
@@ -3423,7 +3423,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new char[0][0][0];
+            return new char[0][][];
         }
 
         final int len = a.length;
@@ -4867,7 +4867,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new byte[0][0];
+            return new byte[0][];
         }
 
         final int len = a.length;
@@ -4902,7 +4902,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new byte[0][0][0];
+            return new byte[0][][];
         }
 
         final int len = a.length;
@@ -5961,7 +5961,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new short[0][0];
+            return new short[0][];
         }
 
         final int len = a.length;
@@ -5995,7 +5995,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new short[0][0][0];
+            return new short[0][][];
         }
 
         final int len = a.length;
@@ -6738,7 +6738,7 @@ public sealed class Arrays permits Arrays.f {
      * @return the minimum length of any sub-array, or 0 if array is {@code null}.
      */
     public static int minSubArrayLen(final short[][] a) {
-        if (a == null) {
+        if (N.isEmpty(a)) {
             return 0;
         }
 
@@ -7237,7 +7237,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new int[0][0];
+            return new int[0][];
         }
 
         final int len = a.length;
@@ -7275,7 +7275,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new int[0][0][0];
+            return new int[0][][];
         }
 
         final int len = a.length;
@@ -8504,7 +8504,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new long[0][0];
+            return new long[0][];
         }
 
         final int len = a.length;
@@ -8539,7 +8539,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new long[0][0][0];
+            return new long[0][][];
         }
 
         final int len = a.length;
@@ -9748,7 +9748,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new float[0][0];
+            return new float[0][];
         }
 
         final int len = a.length;
@@ -9783,7 +9783,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new float[0][0][0];
+            return new float[0][][];
         }
 
         final int len = a.length;
@@ -10999,7 +10999,7 @@ public sealed class Arrays permits Arrays.f {
         checkMForReshape(cols);
 
         if (N.isEmpty(a)) {
-            return new double[0][0];
+            return new double[0][];
         }
 
         final int len = a.length;
@@ -11035,7 +11035,7 @@ public sealed class Arrays permits Arrays.f {
         checkMAndLForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
-            return new double[0][0][0];
+            return new double[0][][];
         }
 
         final int len = a.length;
@@ -12095,8 +12095,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[] toBoolean(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_BOOLEAN_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12127,8 +12127,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[][] toBoolean(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new boolean[0][];
         }
 
         final int len = N.len(a);
@@ -12159,8 +12159,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[][][] toBoolean(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new boolean[0][][];
         }
 
         final int len = N.len(a);
@@ -12189,8 +12189,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[] toBoolean(final int[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_BOOLEAN_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12221,8 +12221,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[][] toBoolean(final int[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new boolean[0][];
         }
 
         final int len = N.len(a);
@@ -12253,8 +12253,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static boolean[][][] toBoolean(final int[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new boolean[0][][];
         }
 
         final int len = N.len(a);
@@ -12282,8 +12282,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static char[] toChar(final int[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_CHAR_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12313,8 +12313,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static char[][] toChar(final int[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new char[0][];
         }
 
         final int len = N.len(a);
@@ -12344,8 +12344,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static char[][][] toChar(final int[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new char[0][][];
         }
 
         final int len = N.len(a);
@@ -12374,8 +12374,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static byte[] toByte(final boolean[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_BYTE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12406,8 +12406,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static byte[][] toByte(final boolean[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new byte[0][];
         }
 
         final int len = N.len(a);
@@ -12438,8 +12438,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static byte[][][] toByte(final boolean[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new byte[0][][];
         }
 
         final int len = N.len(a);
@@ -12467,8 +12467,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static short[] toShort(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_SHORT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12498,8 +12498,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static short[][] toShort(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new short[0][];
         }
 
         final int len = N.len(a);
@@ -12529,8 +12529,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static short[][][] toShort(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new short[0][][];
         }
 
         final int len = N.len(a);
@@ -12559,8 +12559,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final boolean[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12591,8 +12591,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final boolean[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -12623,8 +12623,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final boolean[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -12652,8 +12652,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final char[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12683,8 +12683,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final char[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -12714,8 +12714,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final char[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -12743,8 +12743,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12774,8 +12774,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -12805,8 +12805,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -12834,8 +12834,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final short[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12865,8 +12865,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final short[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -12896,8 +12896,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final short[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -12925,8 +12925,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final float[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -12956,8 +12956,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final float[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -12987,8 +12987,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final float[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -13016,8 +13016,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[] toInt(final double[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_INT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13047,8 +13047,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][] toInt(final double[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][];
         }
 
         final int len = N.len(a);
@@ -13078,8 +13078,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static int[][][] toInt(final double[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new int[0][][];
         }
 
         final int len = N.len(a);
@@ -13107,8 +13107,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[] toLong(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13138,8 +13138,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][] toLong(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -13169,8 +13169,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][][] toLong(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -13199,8 +13199,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[] toLong(final short[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13229,8 +13229,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][] toLong(final short[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -13259,8 +13259,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][][] toLong(final short[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -13289,8 +13289,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[] toLong(final int[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13319,8 +13319,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][] toLong(final int[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -13349,8 +13349,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][][] toLong(final int[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -13379,8 +13379,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[] toLong(final float[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13409,8 +13409,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][] toLong(final float[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -13439,8 +13439,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][][] toLong(final float[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -13469,8 +13469,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[] toLong(final double[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_LONG_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13499,8 +13499,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][] toLong(final double[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][];
         }
 
         final int len = N.len(a);
@@ -13529,8 +13529,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static long[][][] toLong(final double[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new long[0][][];
         }
 
         final int len = N.len(a);
@@ -13559,8 +13559,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[] toFloat(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_FLOAT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13589,8 +13589,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][] toFloat(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][];
         }
 
         final int len = N.len(a);
@@ -13619,8 +13619,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][][] toFloat(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][][];
         }
 
         final int len = N.len(a);
@@ -13649,8 +13649,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[] toFloat(final short[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_FLOAT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13679,8 +13679,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][] toFloat(final short[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][];
         }
 
         final int len = N.len(a);
@@ -13709,8 +13709,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][][] toFloat(final short[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][][];
         }
 
         final int len = N.len(a);
@@ -13739,8 +13739,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[] toFloat(final int[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_FLOAT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13769,8 +13769,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][] toFloat(final int[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][];
         }
 
         final int len = N.len(a);
@@ -13799,8 +13799,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][][] toFloat(final int[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][][];
         }
 
         final int len = N.len(a);
@@ -13829,8 +13829,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[] toFloat(final long[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_FLOAT_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13859,8 +13859,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][] toFloat(final long[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][];
         }
 
         final int len = N.len(a);
@@ -13889,8 +13889,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static float[][][] toFloat(final long[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new float[0][][];
         }
 
         final int len = N.len(a);
@@ -13919,8 +13919,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[] toDouble(final byte[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -13949,8 +13949,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][] toDouble(final byte[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -13979,8 +13979,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][][] toDouble(final byte[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -14009,8 +14009,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[] toDouble(final short[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -14039,8 +14039,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][] toDouble(final short[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -14069,8 +14069,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][][] toDouble(final short[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -14099,8 +14099,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[] toDouble(final int[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -14129,8 +14129,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][] toDouble(final int[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -14159,8 +14159,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][][] toDouble(final int[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -14189,8 +14189,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[] toDouble(final long[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -14219,8 +14219,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][] toDouble(final long[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -14249,8 +14249,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][][] toDouble(final long[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -14279,8 +14279,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[] toDouble(final float[] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return N.EMPTY_DOUBLE_ARRAY;
         }
 
         final int len = N.len(a);
@@ -14309,8 +14309,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][] toDouble(final float[][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][];
         }
 
         final int len = N.len(a);
@@ -14339,8 +14339,8 @@ public sealed class Arrays permits Arrays.f {
      */
     @MayReturnNull
     public static double[][][] toDouble(final float[][][] a) {
-        if (a == null) {
-            return null; // NOSONAR
+        if (N.isEmpty(a)) {
+            return new double[0][][];
         }
 
         final int len = N.len(a);
@@ -14401,8 +14401,8 @@ public sealed class Arrays permits Arrays.f {
         @MayReturnNull
         public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.newArray(targetElementType, 0);
             }
 
             final int len = N.len(a);
@@ -14435,8 +14435,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_BOOLEAN_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14469,8 +14469,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_CHAR_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14503,8 +14503,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_BYTE_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14537,8 +14537,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_SHORT_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14572,8 +14572,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_INT_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14607,8 +14607,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_LONG_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14642,8 +14642,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_FLOAT_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14677,8 +14677,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.EMPTY_DOUBLE_ARRAY;
             }
 
             final int len = N.len(a);
@@ -14823,7 +14823,7 @@ public sealed class Arrays permits Arrays.f {
             checkMForReshape(cols);
 
             //        if (N.isEmpty(a)) {
-            //            return new T[0][0];
+            //            return new T[0][];
             //        }
 
             final int len = a.length;
@@ -14941,10 +14941,6 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
-            }
-
             return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType());
         }
 
@@ -14974,8 +14970,8 @@ public sealed class Arrays permits Arrays.f {
         @MayReturnNull
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
             }
 
             final int len = N.len(a);
@@ -15008,8 +15004,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new boolean[0][];
             }
 
             final int len = N.len(a);
@@ -15042,8 +15038,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new char[0][];
             }
 
             final int len = N.len(a);
@@ -15076,8 +15072,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new byte[0][];
             }
 
             final int len = N.len(a);
@@ -15110,8 +15106,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new short[0][];
             }
 
             final int len = N.len(a);
@@ -15144,8 +15140,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new int[0][];
             }
 
             final int len = N.len(a);
@@ -15178,8 +15174,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new long[0][];
             }
 
             final int len = N.len(a);
@@ -15212,8 +15208,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new float[0][];
             }
 
             final int len = N.len(a);
@@ -15246,8 +15242,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new double[0][];
             }
 
             final int len = N.len(a);
@@ -15942,7 +15938,7 @@ public sealed class Arrays permits Arrays.f {
             N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive numbers: rows = %s, cols = %s", rows, cols);
 
             //        if (N.isEmpty(a)) {
-            //            return new T[0][0][0];
+            //            return new T[0][][];
             //        }
 
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
@@ -16079,10 +16075,6 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
-            }
-
             return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
@@ -16114,8 +16106,8 @@ public sealed class Arrays permits Arrays.f {
         @MayReturnNull
         public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
             }
 
             final int len = N.len(a);
@@ -16152,8 +16144,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new boolean[0][][];
             }
 
             final int len = N.len(a);
@@ -16189,8 +16181,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new char[0][][];
             }
 
             final int len = N.len(a);
@@ -16227,8 +16219,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new byte[0][][];
             }
 
             final int len = N.len(a);
@@ -16265,8 +16257,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new short[0][][];
             }
 
             final int len = N.len(a);
@@ -16303,8 +16295,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new int[0][][];
             }
 
             final int len = N.len(a);
@@ -16341,8 +16333,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new long[0][][];
             }
 
             final int len = N.len(a);
@@ -16379,8 +16371,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new float[0][][];
             }
 
             final int len = N.len(a);
@@ -16417,8 +16409,8 @@ public sealed class Arrays permits Arrays.f {
          */
         @MayReturnNull
         public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
-            if (a == null) {
-                return null; // NOSONAR
+            if (N.isEmpty(a)) {
+                return new double[0][][];
             }
 
             final int len = N.len(a);
