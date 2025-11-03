@@ -456,7 +456,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * float sum = tuple.stream().sum(); // 6.0f
+     * double sum = tuple.stream().sum(); // 6.0
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements

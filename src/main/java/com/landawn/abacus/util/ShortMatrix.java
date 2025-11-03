@@ -62,7 +62,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
     /**
-     * Constructs a ShortMatrix from a two-dimensional int array.
+     * Constructs a ShortMatrix from a two-dimensional short array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
      * <p><b>Important:</b> The input array is used directly without defensive copying.
