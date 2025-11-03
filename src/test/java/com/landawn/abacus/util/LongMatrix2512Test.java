@@ -445,7 +445,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new long[] { 1L, 2L }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new long[] { 1L, 2L }));
     }
 
     @Test
@@ -464,7 +464,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_setColumn_invalidColumnIndex() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalArgumentException.class, () -> m.setColumn(5, new long[] { 1L }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(5, new long[] { 1L }));
     }
 
     @Test
@@ -675,9 +675,14 @@ public class LongMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_fill_withOffset_invalidBounds() {
+    public void test_fill_withOffset_arrayLargerThanMatrix() {
+        // Test that fill() gracefully handles source arrays larger than the target matrix
+        // by copying only what fits (as documented in the javadoc)
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(IllegalArgumentException.class, () -> m.fill(0, 0, new long[][] { { 1L, 2L, 3L } }));
+        m.fill(0, 0, new long[][] { { 9L, 8L, 7L } }); // Source array has 3 elements, matrix has 2
+        // Should copy only the first 2 elements that fit
+        assertEquals(9L, m.get(0, 0));
+        assertEquals(8L, m.get(0, 1));
     }
 
     // ============ Copy Tests ============
@@ -887,9 +892,24 @@ public class LongMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_reshape_invalidSize() {
+    public void test_reshape_expandWithZeroFill() {
+        // Test that reshape() can expand to larger dimensions, filling new cells with zeros
+        // as documented in the javadoc
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(3, 3));
+        LongMatrix reshaped = m.reshape(3, 3); // Expand from 2x2 (4 elements) to 3x3 (9 elements)
+        assertEquals(3, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        // Verify original elements are preserved
+        assertEquals(1L, reshaped.get(0, 0));
+        assertEquals(2L, reshaped.get(0, 1));
+        assertEquals(3L, reshaped.get(0, 2));
+        assertEquals(4L, reshaped.get(1, 0));
+        // Verify new cells are filled with zeros
+        assertEquals(0L, reshaped.get(1, 1));
+        assertEquals(0L, reshaped.get(1, 2));
+        assertEquals(0L, reshaped.get(2, 0));
+        assertEquals(0L, reshaped.get(2, 1));
+        assertEquals(0L, reshaped.get(2, 2));
     }
 
     // ============ Repelem Test ============

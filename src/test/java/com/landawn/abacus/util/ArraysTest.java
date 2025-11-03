@@ -1567,7 +1567,7 @@ public class ArraysTest extends TestBase {
         public void testMap_NullArray() throws Exception {
             String[] input = null;
             Integer[] result = f.map(input, Integer::valueOf, Integer.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1605,7 +1605,7 @@ public class ArraysTest extends TestBase {
         public void testMapToBoolean_NullArray() throws Exception {
             String[] input = null;
             boolean[] result = f.mapToBoolean(input, s -> true);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1628,7 +1628,7 @@ public class ArraysTest extends TestBase {
         public void testMapToChar_NullArray() throws Exception {
             String[] input = null;
             char[] result = f.mapToChar(input, s -> 'a');
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1651,7 +1651,7 @@ public class ArraysTest extends TestBase {
         public void testMapToByte_NullArray() throws Exception {
             String[] input = null;
             byte[] result = f.mapToByte(input, s -> (byte) 0);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1674,7 +1674,7 @@ public class ArraysTest extends TestBase {
         public void testMapToShort_NullArray() throws Exception {
             String[] input = null;
             short[] result = f.mapToShort(input, s -> (short) 0);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1697,7 +1697,7 @@ public class ArraysTest extends TestBase {
         public void testMapToInt_NullArray() throws Exception {
             String[] input = null;
             int[] result = f.mapToInt(input, s -> 0);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1720,7 +1720,7 @@ public class ArraysTest extends TestBase {
         public void testMapToLong_NullArray() throws Exception {
             String[] input = null;
             long[] result = f.mapToLong(input, s -> 0L);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1743,7 +1743,7 @@ public class ArraysTest extends TestBase {
         public void testMapToFloat_NullArray() throws Exception {
             String[] input = null;
             float[] result = f.mapToFloat(input, s -> 0.0f);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1766,7 +1766,7 @@ public class ArraysTest extends TestBase {
         public void testMapToDouble_NullArray() throws Exception {
             String[] input = null;
             double[] result = f.mapToDouble(input, s -> 0.0);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1789,7 +1789,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_BooleanArray_Null() throws Exception {
             boolean[] input = null;
             String[] result = Arrays.mapToObj(input, b -> b ? "YES" : "NO", String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1812,7 +1812,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_Boolean2DArray_Null() throws Exception {
             boolean[][] input = null;
             String[][] result = Arrays.mapToObj(input, b -> b ? "T" : "F", String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1827,7 +1827,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_Boolean3DArray_Null() throws Exception {
             boolean[][][] input = null;
             String[][][] result = Arrays.mapToObj(input, b -> b ? "1" : "0", String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1842,7 +1842,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_CharArray_Null() throws Exception {
             char[] input = null;
             String[] result = Arrays.mapToObj(input, c -> String.valueOf(c), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1876,7 +1876,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_ByteArray_Null() throws Exception {
             byte[] input = null;
             String[] result = Arrays.mapToObj(input, b -> String.valueOf(b), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1907,7 +1907,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_ShortArray_Null() throws Exception {
             short[] input = null;
             String[] result = Arrays.mapToObj(input, s -> String.valueOf(s), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1938,7 +1938,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_IntArray_Null() throws Exception {
             int[] input = null;
             String[] result = Arrays.mapToObj(input, i -> String.valueOf(i), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -1969,7 +1969,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_LongArray_Null() throws Exception {
             long[] input = null;
             String[] result = Arrays.mapToObj(input, l -> String.valueOf(l), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -2000,7 +2000,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_FloatArray_Null() throws Exception {
             float[] input = null;
             String[] result = Arrays.mapToObj(input, f -> String.valueOf(f), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -2031,7 +2031,7 @@ public class ArraysTest extends TestBase {
         public void testMapToObj_DoubleArray_Null() throws Exception {
             double[] input = null;
             String[] result = Arrays.mapToObj(input, d -> String.valueOf(d), String.class);
-            Assertions.assertNull(result);
+            Assertions.assertEquals(0, result.length);
         }
 
         @Test
@@ -2103,7 +2103,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             int[] nullInput = null;
             long[] nullResult = Arrays.mapToLong(nullInput, i -> i * 1000L);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with single element
             int[] singleInput = { 42 };
@@ -2145,7 +2145,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             int[][] nullInput = null;
             long[][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 100L);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with jagged array containing empty arrays
             int[][] jaggedInput = { { 1, 2 }, {}, { 3 } };
@@ -2167,7 +2167,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             int[][][] nullInput = null;
             long[][][] nullResult = Arrays.mapToLong(nullInput, (int i) -> i * 10L);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with empty three-dimensional array
             int[][][] emptyInput = {};
@@ -2191,7 +2191,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             int[] nullInput = null;
             double[] nullResult = Arrays.mapToDouble(nullInput, i -> i / 2.0);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with mathematical operations
             int[] mathInput = { 10, 20, 30 };
@@ -2212,7 +2212,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             int[][] nullInput = null;
             double[][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.5);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2227,7 +2227,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             int[][][] nullInput = null;
             double[][][] nullResult = Arrays.mapToDouble(nullInput, (int i) -> i * 0.1);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for mapToInt methods with long arrays
@@ -2246,7 +2246,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             long[] nullInput = null;
             int[] nullResult = Arrays.mapToInt(nullInput, l -> (int) (l / 1000));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with overflow scenario
             long[] overflowInput = { Long.MAX_VALUE, 0L, Long.MIN_VALUE };
@@ -2267,7 +2267,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             long[][] nullInput = null;
             int[][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 100));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2280,7 +2280,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             long[][][] nullInput = null;
             int[][][] nullResult = Arrays.mapToInt(nullInput, (long l) -> (int) (l / 1000));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for mapToDouble methods with long arrays
@@ -2299,7 +2299,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             long[] nullInput = null;
             double[] nullResult = Arrays.mapToDouble(nullInput, l -> l * 0.5);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2313,7 +2313,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             long[][] nullInput = null;
             double[][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.1);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2327,7 +2327,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             long[][][] nullInput = null;
             double[][][] nullResult = Arrays.mapToDouble(nullInput, (long l) -> l * 0.01d);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for mapToInt methods with double arrays
@@ -2351,7 +2351,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             double[] nullInput = null;
             int[] nullResult = Arrays.mapToInt(nullInput, d -> (int) d);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with negative values
             double[] negativeInput = { 1.7, 2.3, 3.9 };
@@ -2370,7 +2370,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             double[][] nullInput = null;
             int[][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2384,7 +2384,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             double[][][] nullInput = null;
             int[][][] nullResult = Arrays.mapToInt(nullInput, (double d) -> (int) d);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for mapToLong methods with double arrays
@@ -2403,7 +2403,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             double[] nullInput = null;
             long[] nullResult = Arrays.mapToLong(nullInput, d -> Math.round(d));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with large values
             double[] largeInput = { 1e10, 2e10, 3e10 };
@@ -2422,7 +2422,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             double[][] nullInput = null;
             long[][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2436,7 +2436,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             double[][][] nullInput = null;
             long[][][] nullResult = Arrays.mapToLong(nullInput, (double d) -> Math.round(d));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for f.mapToChar methods
@@ -2455,7 +2455,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             String[] nullInput = null;
             char[] nullResult = f.mapToChar(nullInput, s -> s.charAt(0));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with Integer array to char
             Integer[] intInput = { 65, 66, 67 }; // ASCII values for A, B, C
@@ -2474,7 +2474,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             String[][] nullInput = null;
             char[][] nullResult = ff.mapToChar(nullInput, s -> s.charAt(0));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2488,7 +2488,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             String[][][] nullInput = null;
             char[][][] nullResult = fff.mapToChar(nullInput, s -> s.charAt(0));
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for f.mapToByte methods
@@ -2507,7 +2507,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             Integer[] nullInput = null;
             byte[] nullResult = f.mapToByte(nullInput, i -> i.byteValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with String array containing numbers
             String[] strInput = { "1", "2", "3" };
@@ -2526,7 +2526,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             Integer[][] nullInput = null;
             byte[][] nullResult = ff.mapToByte(nullInput, i -> i.byteValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2540,7 +2540,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             Integer[][][] nullInput = null;
             byte[][][] nullResult = fff.mapToByte(nullInput, i -> i.byteValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for f.mapToShort methods
@@ -2559,7 +2559,7 @@ public class ArraysTest extends TestBase {
             // Test with null array
             Integer[] nullInput = null;
             short[] nullResult = f.mapToShort(nullInput, i -> i.shortValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with String array containing numbers
             String[] strInput = { "1000", "2000", "3000" };
@@ -2578,7 +2578,7 @@ public class ArraysTest extends TestBase {
             // Test with null two-dimensional array
             Integer[][] nullInput = null;
             short[][] nullResult = ff.mapToShort(nullInput, i -> i.shortValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         @Test
@@ -2592,7 +2592,7 @@ public class ArraysTest extends TestBase {
             // Test with null three-dimensional array
             Integer[][][] nullInput = null;
             short[][][] nullResult = fff.mapToShort(nullInput, i -> i.shortValue());
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
         }
 
         // Tests for zip methods with mathematical operations
@@ -3543,13 +3543,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             Integer[][] nullArray = null;
-            Assertions.assertNull(ff.map(nullArray, x -> x * 2));
+            Assertions.assertThrows(NullPointerException.class, () -> ff.map(nullArray, x -> x * 2));
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
             Integer[][] mapped = ff.map(arrayWithNulls, x -> x + 10);
             Assertions.assertArrayEquals(new Integer[] { 11, 12 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new Integer[] { 13, 14 }, mapped[2]);
 
             // Test String transformation
@@ -3569,13 +3569,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.map(nullArray, Integer::parseInt, Integer.class));
+            Assertions.assertEquals(0, ff.map(nullArray, Integer::parseInt, Integer.class).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
             Integer[][] mapped = ff.map(arrayWithNulls, Integer::parseInt, Integer.class);
             Assertions.assertArrayEquals(new Integer[] { 1, 2 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new Integer[] { 3, 4 }, mapped[2]);
 
             // Test Integer to String conversion
@@ -3595,13 +3595,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             Integer[][] nullArray = null;
-            Assertions.assertNull(ff.mapToBoolean(nullArray, x -> x % 2 == 0));
+            Assertions.assertEquals(0, ff.mapToBoolean(nullArray, x -> x % 2 == 0).length);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
             boolean[][] mapped = ff.mapToBoolean(arrayWithNulls, x -> x > 2);
             Assertions.assertArrayEquals(new boolean[] { false, false }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new boolean[] { true, true }, mapped[2]);
 
             // Test String predicate
@@ -3621,13 +3621,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.mapToChar(nullArray, s -> s.charAt(0)));
+            Assertions.assertEquals(0, ff.mapToChar(nullArray, s -> s.charAt(0)).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "abc", "def" }, null, { "ghi", "jkl" } };
             char[][] mapped = ff.mapToChar(arrayWithNulls, s -> s.charAt(1));
             Assertions.assertArrayEquals(new char[] { 'b', 'e' }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new char[] { 'h', 'k' }, mapped[2]);
 
             // Test Integer to char
@@ -3647,13 +3647,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             Integer[][] nullArray = null;
-            Assertions.assertNull(ff.mapToByte(nullArray, Integer::byteValue));
+            Assertions.assertEquals(0, ff.mapToByte(nullArray, Integer::byteValue).length);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
             byte[][] mapped = ff.mapToByte(arrayWithNulls, Integer::byteValue);
             Assertions.assertArrayEquals(new byte[] { 1, 2 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new byte[] { 3, 4 }, mapped[2]);
 
             // Test String to byte (parsing)
@@ -3673,13 +3673,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             Integer[][] nullArray = null;
-            Assertions.assertNull(ff.mapToShort(nullArray, Integer::shortValue));
+            Assertions.assertEquals(0, ff.mapToShort(nullArray, Integer::shortValue).length);
 
             // Test with null sub-arrays
             Integer[][] arrayWithNulls = { { 10, 20 }, null, { 30, 40 } };
             short[][] mapped = ff.mapToShort(arrayWithNulls, Integer::shortValue);
             Assertions.assertArrayEquals(new short[] { 10, 20 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new short[] { 30, 40 }, mapped[2]);
 
             // Test String to short
@@ -3699,13 +3699,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.mapToInt(nullArray, Integer::parseInt));
+            Assertions.assertEquals(0, ff.mapToInt(nullArray, Integer::parseInt).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "1", "2" }, null, { "3", "4" } };
             int[][] mapped = ff.mapToInt(arrayWithNulls, Integer::parseInt);
             Assertions.assertArrayEquals(new int[] { 1, 2 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new int[] { 3, 4 }, mapped[2]);
 
             // Test String length to int
@@ -3725,13 +3725,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.mapToLong(nullArray, Long::parseLong));
+            Assertions.assertEquals(0, ff.mapToLong(nullArray, Long::parseLong).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "100", "200" }, null, { "300", "400" } };
             long[][] mapped = ff.mapToLong(arrayWithNulls, Long::parseLong);
             Assertions.assertArrayEquals(new long[] { 100L, 200L }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new long[] { 300L, 400L }, mapped[2]);
 
             // Test Integer to long
@@ -3751,13 +3751,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.mapToFloat(nullArray, Float::parseFloat));
+            Assertions.assertEquals(0, ff.mapToFloat(nullArray, Float::parseFloat).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "1.1", "2.2" }, null, { "3.3", "4.4" } };
             float[][] mapped = ff.mapToFloat(arrayWithNulls, Float::parseFloat);
             Assertions.assertArrayEquals(new float[] { 1.1f, 2.2f }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new float[] { 3.3f, 4.4f }, mapped[2]);
 
             // Test Integer to float
@@ -3777,13 +3777,13 @@ public class ArraysTest extends TestBase {
 
             // Test null array
             String[][] nullArray = null;
-            Assertions.assertNull(ff.mapToDouble(nullArray, Double::parseDouble));
+            Assertions.assertEquals(0, ff.mapToDouble(nullArray, Double::parseDouble).length);
 
             // Test with null sub-arrays
             String[][] arrayWithNulls = { { "1.1", "2.2" }, null, { "3.3", "4.4" } };
             double[][] mapped = ff.mapToDouble(arrayWithNulls, Double::parseDouble);
             Assertions.assertArrayEquals(new double[] { 1.1, 2.2 }, mapped[0]);
-            Assertions.assertNull(mapped[1]);
+            Assertions.assertEquals(0, mapped[1].length);
             Assertions.assertArrayEquals(new double[] { 3.3, 4.4 }, mapped[2]);
 
             // Test Integer to double
@@ -4242,15 +4242,14 @@ public class ArraysTest extends TestBase {
             Assertions.assertEquals(8, doubled[1][0][1]);
 
             // Test with null input
-            Integer[][][] nullResult = fff.map(null, n -> n * 2);
-            Assertions.assertNull(nullResult);
+            Assertions.assertThrows(NullPointerException.class, () -> fff.map((Integer[][][]) null, n -> n * 2));
 
             // Test with null sub-arrays
             Integer[][][] mixedArr = { { { 1, 2 } }, null, { { 3, 4 } } };
             Integer[][][] mappedMixed = fff.map(mixedArr, n -> n + 10);
             Assertions.assertEquals(11, mappedMixed[0][0][0]);
             Assertions.assertEquals(12, mappedMixed[0][0][1]);
-            Assertions.assertNull(mappedMixed[1]);
+            Assertions.assertEquals(0, mappedMixed[1].length);
             Assertions.assertEquals(13, mappedMixed[2][0][0]);
             Assertions.assertEquals(14, mappedMixed[2][0][1]);
 
@@ -4275,7 +4274,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             Integer[][][] nullResult = fff.map((String[][][]) null, Integer::parseInt, Integer.class);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test Integer to String conversion
             Integer[][][] nums = { { { 100, 200 } }, { { 300, 400 } } };
@@ -4290,7 +4289,7 @@ public class ArraysTest extends TestBase {
             String[][][] mixedStrs = fff.map(mixedNums, n -> n == null ? "NULL" : n.toString(), String.class);
             Assertions.assertEquals("1", mixedStrs[0][0][0]);
             Assertions.assertEquals("NULL", mixedStrs[0][0][1]);
-            Assertions.assertNull(mixedStrs[1]);
+            Assertions.assertEquals(0, mixedStrs[1].length);
             Assertions.assertEquals("NULL", mixedStrs[2][0][0]);
             Assertions.assertEquals("2", mixedStrs[2][0][1]);
         }
@@ -4309,7 +4308,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             boolean[][][] nullResult = fff.mapToBoolean(null, n -> true);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test String length check
             String[][][] strings = { { { "a", "ab", "abc" } }, { { "abcd", "abcde" } } };
@@ -4333,7 +4332,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             char[][][] nullResult = fff.mapToChar(null, s -> 'x');
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with Integer to char conversion
             Integer[][][] numbers = { { { 65, 66 } }, { { 67, 68 } } };
@@ -4356,7 +4355,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             byte[][][] nullResult = fff.mapToByte(null, n -> (byte) 0);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test String length to byte
             String[][][] strings = { { { "a", "ab" } }, { { "abc", "abcd" } } };
@@ -4379,7 +4378,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             short[][][] nullResult = fff.mapToShort(null, n -> (short) 0);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test with larger numbers
             Integer[][][] largeNumbers = { { { 1000, 2000 } }, { { 3000, 4000 } } };
@@ -4402,7 +4401,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             int[][][] nullResult = fff.mapToInt(null, s -> 0);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test Double to int conversion
             Double[][][] doubles = { { { 1.5, 2.7 } }, { { 3.1, 4.9 } } };
@@ -4423,7 +4422,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             long[][][] nullResult = fff.mapToLong(null, s -> 0L);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test Integer to long conversion
             Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };
@@ -4446,7 +4445,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             float[][][] nullResult = fff.mapToFloat(null, s -> 0.0f);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test Integer to float conversion
             Integer[][][] numbers = { { { 10, 20 } }, { { 30, 40 } } };
@@ -4468,7 +4467,7 @@ public class ArraysTest extends TestBase {
 
             // Test null input
             double[][][] nullResult = fff.mapToDouble(null, s -> 0.0);
-            Assertions.assertNull(nullResult);
+            Assertions.assertEquals(0, nullResult.length);
 
             // Test Integer to double conversion
             Integer[][][] numbers = { { { 100, 200 } }, { { 300, 400 } } };

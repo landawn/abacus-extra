@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -693,12 +692,15 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_rotate90_rotatesClockwise() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
+        m.println();
         ShortMatrix rotated = m.rotate90();
+        rotated.println();
         assertEquals(2, rotated.rows);
         assertEquals(2, rotated.cols);
         assertEquals(3, rotated.get(0, 0));
-        assertEquals(4, rotated.get(0, 1));
-        assertEquals(1, rotated.get(1, 0));
+        assertEquals(1, rotated.get(0, 1));
+        assertEquals(4, rotated.get(1, 0));
+        assertEquals(2, rotated.get(1, 1));
     }
 
     @Test
@@ -716,10 +718,13 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_rotate270_rotatesCounterClockwise() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
+        m.println();
         ShortMatrix rotated = m.rotate270();
+        rotated.println();
         assertEquals(2, rotated.get(0, 0));
-        assertEquals(1, rotated.get(0, 1));
-        assertEquals(4, rotated.get(1, 0));
+        assertEquals(4, rotated.get(0, 1));
+        assertEquals(1, rotated.get(1, 0));
+        assertEquals(3, rotated.get(1, 1));
     }
 
     // ============ Transpose Test ============
@@ -750,9 +755,15 @@ public class ShortMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_reshape_incompatibleSize_throwsException() {
+    public void test_reshape_incompatibleSize_fillsWithZeros() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(2, 2));
+        ShortMatrix reshaped = m.reshape(2, 2);
+        assertEquals(2, reshaped.rows);
+        assertEquals(2, reshaped.cols);
+        assertEquals(1, reshaped.get(0, 0));
+        assertEquals(2, reshaped.get(0, 1));
+        assertEquals(3, reshaped.get(1, 0));
+        assertEquals(0, reshaped.get(1, 1)); // filled with zero
     }
 
     // ============ Repelem Test ============

@@ -773,8 +773,10 @@ public class CharMatrix2512Test extends TestBase {
         CharMatrix m1 = CharMatrix.of(new char[][] { { '\2', '\3' }, { '\4', '\5' } });
         CharMatrix m2 = CharMatrix.of(new char[][] { { '\2', '\2' }, { '\2', '\2' } });
         CharMatrix result = m1.multiply(m2);
-        assertEquals('\4', result.get(0, 0));
-        assertEquals('\6', result.get(0, 1));
+        assertEquals('\12', result.get(0, 0)); // 2*2 + 3*2 = 10
+        assertEquals('\12', result.get(0, 1)); // 2*2 + 3*2 = 10
+        assertEquals('\22', result.get(1, 0)); // 4*2 + 5*2 = 18
+        assertEquals('\22', result.get(1, 1)); // 4*2 + 5*2 = 18
     }
 
     // ============ Conversion Tests ============

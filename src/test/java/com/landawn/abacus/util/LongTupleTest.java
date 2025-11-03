@@ -349,7 +349,7 @@ public class LongTupleTest extends TestBase {
     @Test
     public void testToString() {
         LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
-        assertEquals("[]", empty.toString());
+        assertEquals("()", empty.toString());
 
         LongTuple.LongTuple1 single = LongTuple.of(100L);
         assertEquals("(100)", single.toString());

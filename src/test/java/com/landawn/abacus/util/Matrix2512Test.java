@@ -755,8 +755,9 @@ public class Matrix2512Test extends TestBase {
         assertEquals(2, rotated.rows);
         assertEquals(2, rotated.cols);
         assertEquals("c", rotated.get(0, 0));
-        assertEquals("d", rotated.get(0, 1));
-        assertEquals("a", rotated.get(1, 0));
+        assertEquals("a", rotated.get(0, 1));
+        assertEquals("d", rotated.get(1, 0));
+        assertEquals("b", rotated.get(1, 1));
     }
 
     @Test
@@ -776,8 +777,9 @@ public class Matrix2512Test extends TestBase {
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> rotated = m.rotate270();
         assertEquals("b", rotated.get(0, 0));
-        assertEquals("a", rotated.get(0, 1));
-        assertEquals("d", rotated.get(1, 0));
+        assertEquals("d", rotated.get(0, 1));
+        assertEquals("a", rotated.get(1, 0));
+        assertEquals("c", rotated.get(1, 1));
     }
 
     // ============ Transpose Test ============
@@ -808,9 +810,15 @@ public class Matrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_reshape_incompatibleSize_throwsException() {
+    public void test_reshape_incompatibleSize_fillsWithNull() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b", "c" } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(2, 2));
+        Matrix<String> reshaped = m.reshape(2, 2);
+        assertEquals(2, reshaped.rows);
+        assertEquals(2, reshaped.cols);
+        assertEquals("a", reshaped.get(0, 0));
+        assertEquals("b", reshaped.get(0, 1));
+        assertEquals("c", reshaped.get(1, 0));
+        assertNull(reshaped.get(1, 1)); // Not enough elements, should be null
     }
 
     // ============ Repelem Test ============

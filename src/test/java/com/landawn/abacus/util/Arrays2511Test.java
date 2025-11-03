@@ -92,7 +92,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_boolean_1D_null() {
         boolean[] arr = null;
         String[] result = Arrays.mapToObj(arr, b -> b ? "YES" : "NO", String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_boolean_2D_null() {
         boolean[][] arr = null;
         String[][] result = Arrays.mapToObj(arr, b -> b ? "T" : "F", String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -130,7 +130,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_boolean_3D_null() {
         boolean[][][] arr = null;
         Integer[][][] result = Arrays.mapToObj(arr, b -> b ? 1 : 0, Integer.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_char_1D_null() {
         char[] arr = null;
         String[] result = Arrays.mapToObj(arr, c -> String.valueOf(c).toUpperCase(), String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_byte_1D_null() {
         byte[] arr = null;
         String[] result = Arrays.mapToObj(arr, b -> String.format("%02X", b), String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -221,7 +221,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_int_1D_null() {
         int[] arr = null;
         String[] result = Arrays.mapToObj(arr, i -> "num:" + i, String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -254,7 +254,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_long_1D_null() {
         long[] arr = null;
         String[] result = Arrays.mapToObj(arr, l -> "L" + l, String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -285,7 +285,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToObj_double_1D_null() {
         double[] arr = null;
         String[] result = Arrays.mapToObj(arr, d -> String.format("%.2f", d), String.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -317,7 +317,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToLong_int_1D_null() {
         int[] arr = null;
         long[] result = Arrays.mapToLong(arr, i -> i * 2L);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -350,7 +350,7 @@ public class Arrays2511Test extends TestBase {
     public void testMapToDouble_int_1D_null() {
         int[] arr = null;
         double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -787,7 +787,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_map_null() {
         String[] arr = null;
         Integer[] result = Arrays.f.map(arr, Integer::valueOf, Integer.class);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -801,7 +801,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToBoolean_null() {
         String[] arr = null;
         boolean[] result = Arrays.f.mapToBoolean(arr, s -> s.length() > 3);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -815,7 +815,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToChar_null() {
         String[] arr = null;
         char[] result = Arrays.f.mapToChar(arr, s -> s.charAt(0));
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -829,7 +829,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToByte_null() {
         String[] arr = null;
         byte[] result = Arrays.f.mapToByte(arr, s -> (byte) s.length());
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -843,7 +843,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToShort_null() {
         String[] arr = null;
         short[] result = Arrays.f.mapToShort(arr, s -> (short) s.length());
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -857,7 +857,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToInt_null() {
         String[] arr = null;
         int[] result = Arrays.f.mapToInt(arr, String::length);
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -871,7 +871,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToLong_null() {
         String[] arr = null;
         long[] result = Arrays.f.mapToLong(arr, s -> (long) s.length());
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -885,7 +885,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToFloat_null() {
         String[] arr = null;
         float[] result = Arrays.f.mapToFloat(arr, s -> (float) s.length());
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test
@@ -899,7 +899,7 @@ public class Arrays2511Test extends TestBase {
     public void testF_mapToDouble_null() {
         String[] arr = null;
         double[] result = Arrays.f.mapToDouble(arr, s -> (double) s.length());
-        assertNull(result);
+        assertEquals(0, result.length);
     }
 
     @Test

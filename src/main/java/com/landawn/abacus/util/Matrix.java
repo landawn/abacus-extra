@@ -1751,15 +1751,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read row-by-row from the original matrix and placed
      * row-by-row into the new shape. The total number of elements may change.
-     * If the new dimensions require more elements than available, the remaining
-     * cells are left as null. If the new dimensions require fewer elements,
-     * extra elements from the original matrix are discarded.
+     * If the new shape has fewer total elements, extra elements from the
+     * original matrix are truncated. If the new shape has more total elements,
+     * the additional positions are filled with {@code null}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
+     *
+     * // Reshape to same number of elements (6 -> 6)
      * Matrix<Integer> reshaped = matrix.reshape(3, 2);
      * // Result: {{1, 2}, {3, 4}, {5, 6}}
+     *
+     * // Reshape to more elements (6 -> 8) - null-filling
+     * Matrix<Integer> extended = matrix.reshape(2, 4);
+     * // Result: {{1, 2, 3, 4}, {5, 6, null, null}}
+     *
+     * // Reshape to fewer elements (6 -> 4) - truncation
+     * Matrix<Integer> truncated = matrix.reshape(2, 2);
+     * // Result: {{1, 2}, {3, 4}}
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix (must be non-negative)

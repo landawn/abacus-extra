@@ -1376,70 +1376,70 @@ public class Arrays2025Test extends TestBase {
     public void testMapToObj_NullBooleanArray() {
         boolean[] a = null;
         String[] result = Arrays.mapToObj(a, b -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullCharArray() {
         char[] a = null;
         String[] result = Arrays.mapToObj(a, c -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullByteArray() {
         byte[] a = null;
         String[] result = Arrays.mapToObj(a, b -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullShortArray() {
         short[] a = null;
         String[] result = Arrays.mapToObj(a, s -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullIntArray() {
         int[] a = null;
         String[] result = Arrays.mapToObj(a, i -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullLongArray() {
         long[] a = null;
         String[] result = Arrays.mapToObj(a, l -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullFloatArray() {
         float[] a = null;
         String[] result = Arrays.mapToObj(a, f -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_NullDoubleArray() {
         double[] a = null;
         String[] result = Arrays.mapToObj(a, d -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_Null2DIntArray() {
         int[][] a = null;
         String[][] result = Arrays.mapToObj(a, i -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     @Test
     public void testMapToObj_Null3DIntArray() {
         int[][][] a = null;
         String[][][] result = Arrays.mapToObj(a, i -> "X", String.class);
-        assertEquals(null, result);
+        assertEquals(0, result.length);
     }
 
     // ============================================

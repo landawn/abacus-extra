@@ -1483,24 +1483,22 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Reshapes the matrix to the specified dimensions.
+     * Reshapes the matrix to new dimensions while preserving element order.
      * Elements are read in row-major order from the original matrix and placed into the new shape.
-     * If the new shape requires more elements than available, the remaining positions are filled with zeros.
-     * If the new shape requires fewer elements, only the first {@code newRows * newCols} elements are used.
+     *
+     * <p>If the new shape has fewer total elements than the original, excess elements are truncated.
+     * If the new shape has more total elements, the additional positions are filled with zeros.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix reshaped = matrix.reshape(3, 2);
-     * // Result: [[1, 2],
-     * //          [3, 4],
-     * //          [5, 6]]
+     * ShortMatrix reshaped = matrix.reshape(3, 2); // Becomes [[1, 2], [3, 4], [5, 6]]
+     * ShortMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix
      * @param newCols the number of columns in the reshaped matrix
-     * @return a new matrix with the specified dimensions containing elements in row-major order
-     * @see IntMatrix#reshape(int, int)
+     * @return a new ShortMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override

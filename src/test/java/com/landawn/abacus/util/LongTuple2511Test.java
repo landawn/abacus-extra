@@ -403,7 +403,7 @@ public class LongTuple2511Test extends TestBase {
         assertEquals("(42)", LongTuple.of(42L).toString());
         assertEquals("(10, 20)", LongTuple.of(10L, 20L).toString());
         assertEquals("(1, 2, 3)", LongTuple.of(1L, 2L, 3L).toString());
-        assertEquals("[]", LongTuple.create(null).toString());
+        assertEquals("()", LongTuple.create(null).toString());
     }
 
     // ====== LongTuple2 Specific Tests ======

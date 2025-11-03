@@ -693,7 +693,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to set; must have length equal to number of columns
-     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
+     * @throws IllegalArgumentException if row.length != cols
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds or row is null
      */
     public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -712,7 +713,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to set; must have length equal to number of rows
-     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws IllegalArgumentException if column.length != rows
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");

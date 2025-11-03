@@ -396,7 +396,7 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new float[] { 1.0f, 2.0f }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new float[] { 1.0f, 2.0f }));
     }
 
     @Test
@@ -415,7 +415,7 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_setColumn_invalidColumnIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.setColumn(5, new float[] { 1.0f }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(5, new float[] { 1.0f }));
     }
 
     @Test
@@ -606,9 +606,12 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_fill_withOffset_invalidBounds() {
+    public void test_fill_withOffset_oversizedArray() {
+        // According to javadoc, fill() copies what fits - does not throw when source array is larger
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.fill(0, 0, new float[][] { { 1.0f, 2.0f, 3.0f } }));
+        m.fill(0, 0, new float[][] { { 9.0f, 8.0f, 7.0f } }); // Third element should be ignored
+        assertEquals(9.0f, m.get(0, 0), 0.0f);
+        assertEquals(8.0f, m.get(0, 1), 0.0f); // Only copies what fits
     }
 
     // ============ Copy Tests ============
@@ -818,9 +821,23 @@ public class FloatMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_reshape_invalidSize() {
+    public void test_reshape_differentSize() {
+        // According to javadoc, reshape allows different sizes - excess elements truncated, missing filled with zeros
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(3, 3));
+        FloatMatrix reshaped = m.reshape(3, 3); // 4 elements reshaped to 9 positions
+        assertEquals(3, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        // Original elements
+        assertEquals(1.0f, reshaped.get(0, 0), 0.0f);
+        assertEquals(2.0f, reshaped.get(0, 1), 0.0f);
+        assertEquals(3.0f, reshaped.get(0, 2), 0.0f);
+        assertEquals(4.0f, reshaped.get(1, 0), 0.0f);
+        // Remaining positions filled with zeros
+        assertEquals(0.0f, reshaped.get(1, 1), 0.0f);
+        assertEquals(0.0f, reshaped.get(1, 2), 0.0f);
+        assertEquals(0.0f, reshaped.get(2, 0), 0.0f);
+        assertEquals(0.0f, reshaped.get(2, 1), 0.0f);
+        assertEquals(0.0f, reshaped.get(2, 2), 0.0f);
     }
 
     // ============ Repelem Test ============

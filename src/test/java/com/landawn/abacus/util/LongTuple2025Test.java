@@ -504,7 +504,7 @@ public class LongTuple2025Test extends TestBase {
     @Test
     public void testToStringTuple0() {
         LongTuple<LongTuple0> tuple = LongTuple.create(new long[0]);
-        assertEquals("[]", tuple.toString());
+        assertEquals("()", tuple.toString());
     }
 
     @Test

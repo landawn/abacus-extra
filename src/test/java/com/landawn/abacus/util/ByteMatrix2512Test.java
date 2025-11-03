@@ -773,10 +773,10 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 2, 3 }, { 4, 5 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix result = m1.multiply(m2);
-        assertEquals(2, result.get(0, 0));
-        assertEquals(6, result.get(0, 1));
-        assertEquals(12, result.get(1, 0));
-        assertEquals(20, result.get(1, 1));
+        assertEquals(11, result.get(0, 0)); // 2*1 + 3*3 = 11
+        assertEquals(16, result.get(0, 1)); // 2*2 + 3*4 = 16
+        assertEquals(19, result.get(1, 0)); // 4*1 + 5*3 = 19
+        assertEquals(28, result.get(1, 1)); // 4*2 + 5*4 = 28
     }
 
     // ============ Conversion Tests ============

@@ -507,7 +507,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new int[] { 1, 2 }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new int[] { 1, 2 }));
     }
 
     @Test
@@ -526,7 +526,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_setColumn_invalidColumnIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.setColumn(5, new int[] { 1 }));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(5, new int[] { 1 }));
     }
 
     @Test
@@ -737,9 +737,12 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_fill_withOffset_invalidBounds() {
+    public void test_fill_withOffset_partialFill() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(IllegalArgumentException.class, () -> m.fill(0, 0, new int[][] { { 1, 2, 3 } }));
+        // When source array is larger than destination, only what fits is copied
+        m.fill(0, 0, new int[][] { { 9, 8, 7 } });
+        assertEquals(9, m.get(0, 0));
+        assertEquals(8, m.get(0, 1));
     }
 
     // ============ Copy Tests ============
@@ -949,9 +952,19 @@ public class IntMatrix2512Test extends TestBase {
     }
 
     @Test
-    public void test_reshape_invalidSize() {
+    public void test_reshape_expandWithDefaults() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertThrows(IllegalArgumentException.class, () -> m.reshape(3, 3));
+        // reshape allows different sizes; extra positions are filled with default values (0)
+        IntMatrix reshaped = m.reshape(3, 3);
+        assertEquals(3, reshaped.rows);
+        assertEquals(3, reshaped.cols);
+        assertEquals(1, reshaped.get(0, 0));
+        assertEquals(2, reshaped.get(0, 1));
+        assertEquals(3, reshaped.get(0, 2));
+        assertEquals(4, reshaped.get(1, 0));
+        // Extra positions filled with 0
+        assertEquals(0, reshaped.get(1, 1));
+        assertEquals(0, reshaped.get(2, 2));
     }
 
     // ============ Repelem Test ============

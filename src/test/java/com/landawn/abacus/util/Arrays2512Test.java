@@ -558,7 +558,11 @@ public class Arrays2512Test extends TestBase {
     @Test
     public void test_reshape_booleanArrayInvalidCols() {
         boolean[] arr = {true, false, true};
-        assertThrows(IllegalArgumentException.class, () -> Arrays.reshape(arr, 2));
+        // The reshape method allows non-evenly divisible arrays using CEILING rounding
+        boolean[][] result = Arrays.reshape(arr, 2);
+        assertEquals(2, result.length); // 2 rows with cols=2 each (last row has 1 element)
+        assertArrayEquals(new boolean[]{true, false}, result[0]);
+        assertArrayEquals(new boolean[]{true}, result[1]);
     }
 
     // ============================================
@@ -570,8 +574,12 @@ public class Arrays2512Test extends TestBase {
         boolean[] arr = {true, false, true, false, true, false};
         boolean[][][] result = Arrays.reshape(arr, 2, 3);
 
-        assertEquals(2, result.length);
-        assertEquals(3, result[0][0].length);
+        // With 6 elements and rows=2, cols=3 (2*3=6 per block), we get 1 block
+        assertEquals(1, result.length);
+        assertEquals(2, result[0].length); // 2 rows in the block
+        assertEquals(3, result[0][0].length); // 3 columns per row
+        assertArrayEquals(new boolean[]{true, false, true}, result[0][0]);
+        assertArrayEquals(new boolean[]{false, true, false}, result[0][1]);
     }
 
     @Test
