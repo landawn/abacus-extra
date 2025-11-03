@@ -1072,44 +1072,58 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a resized copy of this matrix with the specified dimensions.
-     * If the new dimensions are smaller, the matrix is truncated from the bottom and right.
-     * If larger, new cells are filled with zero (the default short value).
-     * The original matrix is not modified.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells are filled with {@code 0}.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated.
+     * If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix extended = matrix.extend(3, 3); // Returns [[1, 2, 0], [3, 4, 0], [0, 0, 0]]
+     * ShortMatrix extended = matrix.extend(3, 3);
+     * // Result: [[1, 2, 0],
+     * //          [3, 4, 0],
+     * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the resulting matrix (must be non-negative)
-     * @param newCols the number of columns in the resulting matrix (must be non-negative)
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
      * @return a new ShortMatrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newCols is negative
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
     public ShortMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, SHORT_0);
     }
 
     /**
-     * Creates a resized copy of this matrix with the specified dimensions.
-     * If the new dimensions are smaller, the matrix is truncated from the bottom and right.
-     * If larger, new cells are filled with the specified default value.
-     * The original matrix is not modified.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells created during extension are filled with the specified default value.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
+     * from the top-left corner. If larger, the existing content is preserved in the top-left
+     * corner and new cells are filled with the specified default value. This method provides
+     * more control over the fill value compared to {@link #extend(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix extended = matrix.extend(3, 3, (short)9);
-     * // Returns [[1, 2, 9], [3, 4, 9], [9, 9, 9]]
+     * ShortMatrix extended = matrix.extend(3, 4, (short) 9); // Extend to 3x4, fill new cells with 9
+     * // Result: [[1, 2, 9, 9],
+     * //          [3, 4, 9, 9],
+     * //          [9, 9, 9, 9]]
+     *
+     * // Truncate to smaller size
+     * ShortMatrix truncated = matrix.extend(1, 1, (short) 0); // Keep only top-left element
+     * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the resulting matrix (must be non-negative)
-     * @param newCols the number of columns in the resulting matrix (must be non-negative)
-     * @param defaultValueForNewCell the value to fill new cells with
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param defaultValueForNewCell the short value to fill new cells with during extension
      * @return a new ShortMatrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newCols is negative, or if dimensions would cause overflow
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public ShortMatrix extend(final int newRows, final int newCols, final short defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -1143,50 +1157,70 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates an extended copy of this matrix by adding rows and columns in all directions.
-     * New cells are filled with zero (the default short value).
-     * 
+     * Creates a new matrix by extending this matrix in all four directions.
+     * New cells are filled with {@code 0}.
+     *
+     * <p>This method adds padding around the existing matrix, with the original content
+     * positioned according to the specified padding amounts.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
+     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}});
      * ShortMatrix extended = matrix.extend(1, 1, 1, 1);
-     * // Returns [[0, 0, 0, 0],
+     * // Result: [[0, 0, 0, 0],
      * //          [0, 1, 2, 0],
-     * //          [0, 3, 4, 0],
      * //          [0, 0, 0, 0]]
      * }</pre>
-     * 
-     * @param toUp number of rows to add above
-     * @param toDown number of rows to add below
-     * @param toLeft number of columns to add to the left
-     * @param toRight number of columns to add to the right
-     * @return a new ShortMatrix with the extended dimensions
+     *
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @return a new extended ShortMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @throws IllegalArgumentException if any parameter is negative
      */
     public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, SHORT_0);
     }
 
     /**
-     * Creates an extended copy of this matrix by adding rows and columns in all directions.
-     * New cells are filled with the specified default value.
-     * 
+     * Creates a new matrix by extending this matrix in all four directions with padding.
+     * New cells created during extension are filled with the specified default value.
+     *
+     * <p>This method adds padding around the existing matrix in all four directions
+     * (up, down, left, right). The original matrix content is positioned according to
+     * the padding amounts specified. This is particularly useful for operations like
+     * border padding in image processing or creating margins around data.
+     *
+     * <p>The resulting matrix has dimensions:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     * </ul>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix extended = matrix.extend(1, 1, 1, 1, (short)9);
-     * // Returns [[9, 9, 9, 9],
-     * //          [9, 1, 2, 9],
-     * //          [9, 3, 4, 9],
-     * //          [9, 9, 9, 9]]
+     * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}});
+     * ShortMatrix padded = matrix.extend(1, 1, 2, 2, (short) 9);
+     * // Result: [[9, 9, 9, 9, 9, 9],
+     * //          [9, 9, 1, 2, 9, 9],
+     * //          [9, 9, 9, 9, 9, 9]]
+     *
+     * // Add border of 0 values
+     * ShortMatrix bordered = matrix.extend(1, 1, 1, 1, (short) 0);
+     * // Result: [[0, 0, 0, 0],
+     * //          [0, 1, 2, 0],
+     * //          [0, 0, 0, 0]]
      * }</pre>
-     * 
-     * @param toUp number of rows to add above
-     * @param toDown number of rows to add below
-     * @param toLeft number of columns to add to the left
-     * @param toRight number of columns to add to the right
-     * @param defaultValueForNewCell the value to fill new cells with
-     * @return a new ShortMatrix with the extended dimensions
-     * @throws IllegalArgumentException if any extension parameter is negative
+     *
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @param defaultValueForNewCell the short value to fill all new cells with
+     * @return a new extended ShortMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @throws IllegalArgumentException if any padding parameter is negative,
+     *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
     public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final short defaultValueForNewCell)
             throws IllegalArgumentException {

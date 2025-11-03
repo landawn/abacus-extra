@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,8 +17,6 @@ import org.junit.jupiter.api.Test;
 import com.landawn.abacus.TestBase;
 import com.landawn.abacus.util.Sheet.Point;
 import com.landawn.abacus.util.u.OptionalFloat;
-import com.landawn.abacus.util.stream.FloatStream;
-import com.landawn.abacus.util.stream.Stream;
 
 @Tag("2512")
 public class FloatMatrix2512Test extends TestBase {
@@ -679,7 +676,9 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_extend_smaller() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
-        assertThrows(IllegalArgumentException.class, () -> m.extend(1, 2));
+        FloatMatrix result = m.extend(1, 2);
+        assertEquals(1, result.rows);
+        assertEquals(2, result.cols);
     }
 
     @Test

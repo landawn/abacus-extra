@@ -1292,44 +1292,58 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extends or truncates this matrix to the specified dimensions, filling new cells with 0.
-     * If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If the new dimensions are larger, new cells are filled with the default value (0).
-     * Creates a new matrix; the original matrix is not modified.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells are filled with {@code 0}.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated.
+     * If larger, the existing content is preserved in the top-left corner and new cells are filled with 0.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix extended = matrix.extend(3, 3);
-     * // extended is: [[1, 2, 0], [3, 4, 0], [0, 0, 0]]
+     * // Result: [[1, 2, 0],
+     * //          [3, 4, 0],
+     * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix (must be non-negative)
-     * @param newCols the number of columns in the new matrix (must be non-negative)
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
      * @return a new IntMatrix with the specified dimensions
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
     public IntMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
     /**
-     * Extends or truncates this matrix to the specified dimensions, filling new cells with the specified value.
-     * If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If the new dimensions are larger, new cells are filled with the specified default value.
-     * Creates a new matrix; the original matrix is not modified.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells created during extension are filled with the specified default value.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
+     * from the top-left corner. If larger, the existing content is preserved in the top-left
+     * corner and new cells are filled with the specified default value. This method provides
+     * more control over the fill value compared to {@link #extend(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix extended = matrix.extend(3, 3, -1);
-     * // extended is: [[1, 2, -1], [3, 4, -1], [-1, -1, -1]]
+     * IntMatrix extended = matrix.extend(3, 4, 9); // Extend to 3x4, fill new cells with 9
+     * // Result: [[1, 2, 9, 9],
+     * //          [3, 4, 9, 9],
+     * //          [9, 9, 9, 9]]
+     *
+     * // Truncate to smaller size
+     * IntMatrix truncated = matrix.extend(1, 1, 0); // Keep only top-left element
+     * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix (must be non-negative)
-     * @param newCols the number of columns in the new matrix (must be non-negative)
-     * @param defaultValueForNewCell the value to use for any new cells
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param defaultValueForNewCell the int value to fill new cells with during extension
      * @return a new IntMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public IntMatrix extend(final int newRows, final int newCols, final int defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -1363,52 +1377,70 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extends this matrix in all four directions by the specified amounts, filling new cells with 0.
-     * The original matrix content is positioned in the center of the extended matrix.
-     * Creates a new matrix; the original matrix is not modified.
+     * Creates a new matrix by extending this matrix in all four directions.
+     * New cells are filled with {@code 0}.
+     *
+     * <p>This method adds padding around the existing matrix, with the original content
+     * positioned according to the specified padding amounts.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}});
      * IntMatrix extended = matrix.extend(1, 1, 1, 1);
      * // Result: [[0, 0, 0, 0],
      * //          [0, 1, 2, 0],
-     * //          [0, 3, 4, 0],
      * //          [0, 0, 0, 0]]
      * }</pre>
      *
-     * @param toUp number of rows to add above (must be non-negative)
-     * @param toDown number of rows to add below (must be non-negative)
-     * @param toLeft number of columns to add to the left (must be non-negative)
-     * @param toRight number of columns to add to the right (must be non-negative)
-     * @return a new IntMatrix with extended dimensions
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @return a new extended IntMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @throws IllegalArgumentException if any parameter is negative
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
     /**
-     * Extends this matrix in all four directions by the specified amounts, filling new cells with the specified value.
-     * The original matrix content is positioned in the center of the extended matrix.
-     * Creates a new matrix; the original matrix is not modified.
+     * Creates a new matrix by extending this matrix in all four directions with padding.
+     * New cells created during extension are filled with the specified default value.
+     *
+     * <p>This method adds padding around the existing matrix in all four directions
+     * (up, down, left, right). The original matrix content is positioned according to
+     * the padding amounts specified. This is particularly useful for operations like
+     * border padding in image processing or creating margins around data.
+     *
+     * <p>The resulting matrix has dimensions:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntMatrix extended = matrix.extend(1, 1, 1, 1, -1);
-     * // Result: [[-1, -1, -1, -1],
-     * //          [-1,  1,  2, -1],
-     * //          [-1,  3,  4, -1],
-     * //          [-1, -1, -1, -1]]
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}});
+     * IntMatrix padded = matrix.extend(1, 1, 2, 2, 9);
+     * // Result: [[9, 9, 9, 9, 9, 9],
+     * //          [9, 9, 1, 2, 9, 9],
+     * //          [9, 9, 9, 9, 9, 9]]
+     *
+     * // Add border of 0 values
+     * IntMatrix bordered = matrix.extend(1, 1, 1, 1, 0);
+     * // Result: [[0, 0, 0, 0],
+     * //          [0, 1, 2, 0],
+     * //          [0, 0, 0, 0]]
      * }</pre>
      *
-     * @param toUp number of rows to add above (must be non-negative)
-     * @param toDown number of rows to add below (must be non-negative)
-     * @param toLeft number of columns to add to the left (must be non-negative)
-     * @param toRight number of columns to add to the right (must be non-negative)
-     * @param defaultValueForNewCell the value to use for new cells
-     * @return a new IntMatrix with extended dimensions
-     * @throws IllegalArgumentException if any extension parameter is negative
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @param defaultValueForNewCell the int value to fill all new cells with
+     * @return a new extended IntMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @throws IllegalArgumentException if any padding parameter is negative,
+     *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final int defaultValueForNewCell)
             throws IllegalArgumentException {

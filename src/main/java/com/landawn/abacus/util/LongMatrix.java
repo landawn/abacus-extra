@@ -1195,44 +1195,58 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates an extended or truncated matrix with the specified dimensions.
-     * If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If larger, new elements are filled with 0 (the default value for long primitives).
-     * This is equivalent to calling {@link #extend(int, int, long)} with defaultValueForNewCell = 0.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells are filled with {@code 0L}.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated.
+     * If larger, the existing content is preserved in the top-left corner and new cells are filled with 0L.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix extended = matrix.extend(3, 4);
-     * // Result: [[1, 2, 0, 0],
-     * //          [3, 4, 0, 0],
-     * //          [0, 0, 0, 0]]
+     * LongMatrix extended = matrix.extend(3, 3);
+     * // Result: [[1, 2, 0],
+     * //          [3, 4, 0],
+     * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the resulting matrix, must be non-negative
-     * @param newCols the number of columns in the resulting matrix, must be non-negative
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
      * @return a new LongMatrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newCols is negative
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
     public LongMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
     /**
-     * Creates an extended or truncated matrix with the specified dimensions and default value for new cells.
-     * If the new dimensions are smaller than the current dimensions, the matrix is truncated.
-     * If larger, new elements are filled with the specified default value.
+     * Creates a new matrix by extending or truncating this matrix to the specified dimensions.
+     * New cells created during extension are filled with the specified default value.
+     *
+     * <p>If the new dimensions are smaller than the current dimensions, the matrix is truncated
+     * from the top-left corner. If larger, the existing content is preserved in the top-left
+     * corner and new cells are filled with the specified default value. This method provides
+     * more control over the fill value compared to {@link #extend(int, int)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix extended = matrix.extend(5, 5, -1L); // Extends to 5x5, filling new cells with -1
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
+     * LongMatrix extended = matrix.extend(3, 4, 9L); // Extend to 3x4, fill new cells with 9
+     * // Result: [[1, 2, 9, 9],
+     * //          [3, 4, 9, 9],
+     * //          [9, 9, 9, 9]]
+     *
+     * // Truncate to smaller size
+     * LongMatrix truncated = matrix.extend(1, 1, 0L); // Keep only top-left element
+     * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the resulting matrix, must be non-negative
-     * @param newCols the number of columns in the resulting matrix, must be non-negative
-     * @param defaultValueForNewCell the value to fill new cells with (only used when extending, not when truncating)
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param defaultValueForNewCell the long value to fill new cells with during extension
      * @return a new LongMatrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newCols is negative, or if the total size would exceed Integer.MAX_VALUE
+     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public LongMatrix extend(final int newRows, final int newCols, final long defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -1266,26 +1280,26 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates an extended matrix by adding rows/columns in all four directions around this matrix.
-     * New elements are filled with 0 (the default value for long primitives).
-     * This method is useful for adding padding/borders around an existing matrix.
-     * This is equivalent to calling {@link #extend(int, int, int, int, long)} with defaultValueForNewCell = 0.
+     * Creates a new matrix by extending this matrix in all four directions.
+     * New cells are filled with {@code 0L}.
+     *
+     * <p>This method adds padding around the existing matrix, with the original content
+     * positioned according to the specified padding amounts.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}});
      * LongMatrix extended = matrix.extend(1, 1, 1, 1);
      * // Result: [[0, 0, 0, 0],
      * //          [0, 1, 2, 0],
-     * //          [0, 3, 4, 0],
      * //          [0, 0, 0, 0]]
      * }</pre>
      *
-     * @param toUp number of rows to add at the top, must be non-negative
-     * @param toDown number of rows to add at the bottom, must be non-negative
-     * @param toLeft number of columns to add on the left, must be non-negative
-     * @param toRight number of columns to add on the right, must be non-negative
-     * @return a new extended LongMatrix with dimensions (rows + toUp + toDown) × (cols + toLeft + toRight)
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @return a new extended LongMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1293,30 +1307,43 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates an extended matrix by adding rows/columns in all four directions around this matrix with a specified default value.
-     * This method is useful for adding padding/borders around an existing matrix with a custom fill value.
-     * The original matrix content is preserved in the center, with new cells filled using the specified value.
+     * Creates a new matrix by extending this matrix in all four directions with padding.
+     * New cells created during extension are filled with the specified default value.
      *
-     * <p>The resulting matrix dimensions are: (rows + toUp + toDown) × (cols + toLeft + toRight).
-     * The original matrix elements are positioned starting at offset (toUp, toLeft) in the result.
+     * <p>This method adds padding around the existing matrix in all four directions
+     * (up, down, left, right). The original matrix content is positioned according to
+     * the padding amounts specified. This is particularly useful for operations like
+     * border padding in image processing or creating margins around data.
+     *
+     * <p>The resulting matrix has dimensions:
+     * <ul>
+     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix extended = matrix.extend(1, 1, 1, 1, 99L);
-     * // Result: [[99, 99, 99, 99],
-     * //          [99,  1,  2, 99],
-     * //          [99,  3,  4, 99],
-     * //          [99, 99, 99, 99]]
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}});
+     * LongMatrix padded = matrix.extend(1, 1, 2, 2, 9L);
+     * // Result: [[9, 9, 9, 9, 9, 9],
+     * //          [9, 9, 1, 2, 9, 9],
+     * //          [9, 9, 9, 9, 9, 9]]
+     *
+     * // Add border of 0 values
+     * LongMatrix bordered = matrix.extend(1, 1, 1, 1, 0L);
+     * // Result: [[0, 0, 0, 0],
+     * //          [0, 1, 2, 0],
+     * //          [0, 0, 0, 0]]
      * }</pre>
      *
-     * @param toUp number of rows to add at the top, must be non-negative
-     * @param toDown number of rows to add at the bottom, must be non-negative
-     * @param toLeft number of columns to add on the left, must be non-negative
-     * @param toRight number of columns to add on the right, must be non-negative
-     * @param defaultValueForNewCell the value to fill new cells with
-     * @return a new extended LongMatrix with dimensions (rows + toUp + toDown) × (cols + toLeft + toRight)
-     * @throws IllegalArgumentException if any parameter is negative or if the resulting dimensions would exceed Integer.MAX_VALUE
+     * @param toUp number of rows to add above; must be non-negative
+     * @param toDown number of rows to add below; must be non-negative
+     * @param toLeft number of columns to add to the left; must be non-negative
+     * @param toRight number of columns to add to the right; must be non-negative
+     * @param defaultValueForNewCell the long value to fill all new cells with
+     * @return a new extended LongMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @throws IllegalArgumentException if any padding parameter is negative,
+     *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
     public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final long defaultValueForNewCell)
             throws IllegalArgumentException {

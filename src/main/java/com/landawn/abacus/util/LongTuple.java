@@ -640,11 +640,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this empty tuple.
          *
-         * @return "[]"
+         * @return "()"
          */
         @Override
         public String toString() {
-            return "[]";
+            return "()";
         }
 
         @Override

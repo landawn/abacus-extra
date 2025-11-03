@@ -1126,8 +1126,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //          [false, false, false]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix; must be non-negative
-     * @param newCols the number of columns in the new matrix; must be non-negative
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1157,8 +1157,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Result: [[true]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix; must be non-negative
-     * @param newCols the number of columns in the new matrix; must be non-negative
+     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
      * @param defaultValueForNewCell the boolean value to fill new cells with during extension
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
