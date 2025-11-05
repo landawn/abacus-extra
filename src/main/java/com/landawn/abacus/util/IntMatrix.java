@@ -779,10 +779,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the elements on the main diagonal from left-upper to right-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -790,7 +791,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * int[] diagonal = matrix.getLU2RD(); // Returns [1, 5, 9]
      * }</pre>
      *
-     * @return a new int array containing the main diagonal elements
+     * @return a new int array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public int[] getLU2RD() throws IllegalStateException {
@@ -856,11 +857,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -868,7 +870,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * int[] diagonal = matrix.getRU2LD(); // Returns [3, 5, 7]
      * }</pre>
      *
-     * @return a new int array containing the anti-diagonal elements
+     * @return a new int array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public int[] getRU2LD() {

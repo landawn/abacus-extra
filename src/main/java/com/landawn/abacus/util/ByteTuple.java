@@ -21,15 +21,32 @@ import com.landawn.abacus.util.stream.ByteStream;
 
 /**
  * Abstract base class for immutable tuple implementations that hold primitive byte values.
+ * <p>
  * This class provides common functionality for byte-based tuples of various sizes (0 to 9 elements).
- * 
- * <p>ByteTuple is designed to be a lightweight, type-safe container for multiple byte values
+ * ByteTuple is designed to be a lightweight, type-safe container for multiple byte values
  * that can be used as a composite key, return multiple values from a method, or group related
- * byte values together.</p>
- * 
- * <p>All tuple implementations are immutable and thread-safe.</p>
- * 
+ * byte values together. All byte tuple implementations extend this class and are immutable by design.
+ * </p>
+ *
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * ByteTuple1 single = ByteTuple.of((byte) 10);
+ * ByteTuple2 pair = ByteTuple.of((byte) 10, (byte) 20);
+ * ByteTuple3 triple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+ *
+ * // Using statistical operations
+ * byte min = triple.min();     // 10
+ * byte max = triple.max();     // 30
+ * double avg = triple.average(); // 20.0
+ *
+ * // Using functional operations
+ * pair.accept((a, b) -> System.out.println(a + " + " + b));
+ * int sum = triple.map((a, b, c) -> a + b + c);
+ * }</pre>
+ *
  * @param <TP> the specific ByteTuple subtype
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple<TP> {
@@ -38,7 +55,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Constructor for subclasses.
+     * <p>
      * This constructor is protected to prevent direct instantiation of the abstract class.
+     * Subclasses should use this constructor to initialize their instances.
+     * </p>
      */
     protected ByteTuple() {
     }
@@ -231,16 +251,28 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a ByteTuple from an array of byte values.
-     * The size of the returned tuple depends on the length of the input array (0-9 elements).
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty ByteTuple0. For arrays with 1-9 elements, returns
+     * the corresponding ByteTuple1-9 instance.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * byte[] values = {10, 20, 30};
      * ByteTuple3 tuple = ByteTuple.create(values);
+     *
+     * // Empty array returns ByteTuple0
+     * ByteTuple0 empty = ByteTuple.create(new byte[0]);
+     *
+     * // Single element
+     * ByteTuple1 single = ByteTuple.create(new byte[]{(byte) 42});
      * }</pre>
      *
      * @param <TP> the specific ByteTuple subtype to return
-     * @param a the array of byte values (must have length 0-9)
+     * @param a the array of byte values (must have length 0-9), may be {@code null}
      * @return a ByteTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
@@ -284,11 +316,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the minimum byte value in this tuple.
+     * <p>
+     * This method finds and returns the smallest byte value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte min = tuple.min(); // 10
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
+     * byte minPair = pair.min(); // 5
      * }</pre>
      *
      * @return the minimum byte value in this tuple
@@ -300,11 +339,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the maximum byte value in this tuple.
+     * <p>
+     * This method finds and returns the largest byte value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
      * byte max = tuple.max(); // 30
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
+     * byte maxPair = pair.max(); // 15
      * }</pre>
      *
      * @return the maximum byte value in this tuple
@@ -316,15 +362,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median byte value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value when sorted.
+     * <p>
+     * The median is the middle value when all elements are sorted. For tuples with
+     * an odd number of elements, returns the exact middle value. For tuples with an
+     * even number of elements, returns the lower of the two middle values.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Odd number of elements
      * ByteTuple3 tuple3 = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-     * byte median = tuple3.median(); // 20
+     * byte median = tuple3.median(); // 20 (middle value when sorted: 10, 20, 30)
      *
+     * // Even number of elements
      * ByteTuple4 tuple4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte median2 = tuple4.median(); // 20
+     * byte median2 = tuple4.median(); // 20 (lower middle value)
      * }</pre>
      *
      * @return the median byte value in this tuple
@@ -336,12 +388,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the sum of all byte values in this tuple as an integer.
-     * The sum is calculated by adding all byte values, with the result returned as an int to prevent overflow.
+     * <p>
+     * This method calculates the sum by adding all byte values together. The result
+     * is returned as an int to prevent overflow issues that could occur if the sum
+     * exceeds the byte range (-128 to 127).
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * int sum = tuple.sum(); // 60
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 100, (byte) 50);
+     * int pairSum = pair.sum(); // 150 (exceeds byte range, so returned as int)
      * }</pre>
      *
      * @return the sum of all byte values in this tuple as an integer
@@ -352,12 +411,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the average of all byte values in this tuple as a double.
-     * The average is calculated as the arithmetic mean of all elements.
+     * <p>
+     * This method calculates the arithmetic mean of all elements in the tuple.
+     * The result is always returned as a double to preserve precision, even when
+     * the average is a whole number.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * double avg = tuple.average(); // 20.0
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
+     * double avgPair = pair.average(); // 7.5
      * }</pre>
      *
      * @return the average of all byte values in this tuple as a double
@@ -369,11 +435,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged. For example, a tuple (10, 20, 30) becomes
+     * (30, 20, 10) when reversed.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * ByteTuple3 reversed = tuple.reverse(); // (30, 20, 10)
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
+     * ByteTuple2 reversedPair = pair.reverse(); // (15, 5)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -382,12 +456,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Checks if this tuple contains the specified byte value.
+     * <p>
+     * This method performs a linear search through all elements in the tuple to determine
+     * if any element matches the specified value. Returns {@code true} if at least one
+     * element equals the search value, {@code false} otherwise.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * boolean has20 = tuple.contains((byte) 20); // true
      * boolean has40 = tuple.contains((byte) 40); // false
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
+     * boolean has5 = pair.contains((byte) 5);   // true
+     * boolean has15 = pair.contains((byte) 15); // false
      * }</pre>
      *
      * @param valueToFind the byte value to search for
@@ -397,12 +480,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
+     * <p>
+     * Creates and returns a defensive copy of the internal element array. Modifications
+     * to the returned array do not affect the tuple, maintaining immutability. The
+     * returned array has the same length as the tuple's arity.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * byte[] array = tuple.toArray(); // [10, 20, 30]
+     * array[0] = (byte) 99; // Does not modify the tuple
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
+     * byte[] pairArray = pair.toArray(); // [5, 10]
      * }</pre>
      *
      * @return a new byte array containing all tuple elements
@@ -413,11 +504,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new ByteList containing all elements of this tuple.
+     * <p>
+     * Converts this tuple to a mutable {@link ByteList} containing all elements
+     * in their original order. The returned list is a new instance and modifications
+     * to it do not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * ByteList list = tuple.toList();
+     * list.add((byte) 40); // Adds to the list, tuple remains unchanged
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
+     * ByteList pairList = pair.toList(); // [5, 10]
      * }</pre>
      *
      * @return a new ByteList containing all tuple elements
@@ -428,16 +528,29 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Performs the given action for each element in this tuple.
+     * <p>
+     * Iterates through all elements in this tuple in order, executing the provided
+     * consumer action for each element. This method is primarily used for side effects
+     * such as logging, printing, or updating external state. The tuple itself is not
+     * modified as it is immutable.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * tuple.forEach(b -> System.out.println("Value: " + b));
+     * // Prints: Value: 10
+     * //         Value: 20
+     * //         Value: 30
+     *
+     * // Sum values using external accumulator
+     * AtomicInteger sum = new AtomicInteger();
+     * tuple.forEach(b -> sum.addAndGet(b));
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
-     * @param consumer the action to be performed for each element
-     * @throws E if the consumer throws an exception
+     * @param <E> the type of exception that may be thrown by the consumer
+     * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
         for (final byte e : elements()) {
@@ -447,11 +560,21 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a ByteStream of all elements in this tuple.
+     * <p>
+     * Converts this tuple to a sequential {@link ByteStream} for primitive byte values.
+     * This allows using stream operations like filter, map, and statistical operations
+     * on the tuple elements. ByteStream works with primitive bytes directly, avoiding
+     * the boxing overhead that would occur with a regular Stream.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * int sum = tuple.stream().sum(); // 60
+     *
+     * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
+     * byte max = pair.stream().max().orElse((byte) 0); // 10
+     * long count = pair.stream().filter(b -> b > 7).count(); // 1
      * }</pre>
      *
      * @return a ByteStream containing all tuple elements
@@ -462,7 +585,11 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on the contents of the tuple.
+     * <p>
+     * The hash code is computed based on the contents of the tuple using a standard
+     * algorithm that ensures equal tuples have equal hash codes. This implementation
+     * is consistent with {@link #equals(Object)}.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -473,10 +600,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Compares this tuple to the specified object for equality.
-     * Two tuples are equal if they are of the same class and contain the same elements in the same order.
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * <ul>
+     *   <li>They are the same object (reference equality), or</li>
+     *   <li>They are instances of the exact same class, and</li>
+     *   <li>They contain the same byte values in the same order</li>
+     * </ul>
+     * This method is consistent with {@link #hashCode()}.
+     * </p>
      *
      * @param obj the object to be compared for equality with this tuple
-     * @return {@code true} if the specified object is equal to this tuple
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -491,10 +626,20 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a string representation of this tuple.
+     * <p>
      * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces.
+     * and separated by commas and spaces, in the format {@code (element1, element2, ...)}.
+     * This format is consistent across all tuple types and provides a readable representation
+     * of the tuple's contents.
+     * </p>
      *
-     * <p>Example: {@code (10, 20, 30)}</p>
+     * <p><b>Examples:</b></p>
+     * <ul>
+     *   <li>{@code (10, 20, 30)} for a ByteTuple3</li>
+     *   <li>{@code (5, 10)} for a ByteTuple2</li>
+     *   <li>{@code (42)} for a ByteTuple1</li>
+     *   <li>{@code ()} for an empty ByteTuple0</li>
+     * </ul>
      *
      * @return a string representation of this tuple
      */
@@ -507,7 +652,18 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * An empty ByteTuple containing no elements.
-     * This class represents a tuple with arity 0.
+     * <p>
+     * This class represents a tuple with arity 0, serving as a singleton instance
+     * for cases where an empty byte tuple is needed. It is typically returned
+     * by the {@link #create(byte[])} method when a null or empty array is provided.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple0 empty = ByteTuple.create(null);
+     * ByteTuple0 empty2 = ByteTuple.create(new byte[0]);
+     * int size = empty.arity(); // 0
+     * }</pre>
      */
     static final class ByteTuple0 extends ByteTuple<ByteTuple0> {
 
@@ -626,7 +782,19 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly one byte element.
+     * <p>
      * Provides direct access to the element through the public final field {@code _1}.
+     * This is the simplest non-empty tuple type, useful for wrapping a single byte
+     * value in a tuple context.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple1 tuple = ByteTuple.of((byte) 42);
+     * byte value = tuple._1; // 42
+     * byte min = tuple.min(); // 42 (single element)
+     * byte max = tuple.max(); // 42 (single element)
+     * }</pre>
      */
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
 
@@ -777,7 +945,23 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly two byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} and {@code _2}.
+     * This tuple type is commonly used for representing pairs of byte values,
+     * and supports specialized functional operations through {@link #accept}, {@link #map}, and
+     * {@link #filter} methods that work with both elements.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
+     * byte first = tuple._1;  // 10
+     * byte second = tuple._2; // 20
+     *
+     * // Using functional operations
+     * tuple.accept((a, b) -> System.out.println(a + " + " + b));
+     * int sum = tuple.map((a, b) -> a + b); // 30
+     * }</pre>
      */
     public static final class ByteTuple2 extends ByteTuple<ByteTuple2> {
 
@@ -994,7 +1178,24 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly three byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * This tuple type supports specialized functional operations through {@link #accept}, {@link #map}, and
+     * {@link #filter} methods that work with all three elements simultaneously.
+     * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * byte first = tuple._1;  // 10
+     * byte second = tuple._2; // 20
+     * byte third = tuple._3;  // 30
+     *
+     * // Using statistical operations
+     * byte min = tuple.min();     // 10
+     * byte max = tuple.max();     // 30
+     * double avg = tuple.average(); // 20.0
+     * }</pre>
      */
     public static final class ByteTuple3 extends ByteTuple<ByteTuple3> {
 
@@ -1214,13 +1415,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly four byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * This tuple type is useful for grouping four related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
      * byte first = tuple._1;  // 10
      * byte fourth = tuple._4; // 40
+     * byte median = tuple.median(); // 20
      * }</pre>
      */
     public static final class ByteTuple4 extends ByteTuple<ByteTuple4> {
@@ -1360,13 +1565,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly five byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * This tuple type is useful for grouping five related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
      * byte first = tuple._1;  // 10
      * byte fifth = tuple._5;  // 50
+     * int sum = tuple.sum();  // 150
      * }</pre>
      */
     public static final class ByteTuple5 extends ByteTuple<ByteTuple5> {
@@ -1510,13 +1719,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly six byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * This tuple type is useful for grouping six related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
-     * byte first = tuple._1;  // 10
-     * byte sixth = tuple._6;  // 60
+     * byte first = tuple._1;    // 10
+     * byte sixth = tuple._6;    // 60
+     * ByteTuple6 reversed = tuple.reverse(); // (60, 50, 40, 30, 20, 10)
      * }</pre>
      */
     public static final class ByteTuple6 extends ByteTuple<ByteTuple6> {
@@ -1664,13 +1877,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly seven byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * This tuple type is useful for grouping seven related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
      * byte first = tuple._1;   // 10
      * byte seventh = tuple._7; // 70
+     * byte[] array = tuple.toArray(); // [10, 20, 30, 40, 50, 60, 70]
      * }</pre>
      */
     public static final class ByteTuple7 extends ByteTuple<ByteTuple7> {
@@ -1823,13 +2040,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly eight byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * This tuple type is useful for grouping eight related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
      * byte first = tuple._1;  // 10
      * byte eighth = tuple._8; // 80
+     * ByteList list = tuple.toList();
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
@@ -1989,13 +2210,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * A ByteTuple containing exactly nine byte elements.
+     * <p>
      * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * This tuple type is useful for grouping nine related byte values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
      * byte first = tuple._1; // 10
      * byte ninth = tuple._9; // 90
+     * int arity = tuple.arity(); // 9
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values

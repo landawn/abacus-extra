@@ -636,8 +636,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to set; must have length equal to number of columns
-     * @throws IllegalArgumentException if row.length != cols
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds or row is null
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final long[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -656,8 +655,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to set; must have length equal to number of rows
-     * @throws IllegalArgumentException if column.length != rows
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final long[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -1052,12 +1050,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Fills the entire matrix with the specified value.
-     * All elements in the matrix are set to the given value.
+     * Fills all elements of the matrix with the specified value.
+     * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.fill(0L); // Sets all elements to 0
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
+     * matrix.fill(5L); // Result: [[5, 5], [5, 5]]
      * }</pre>
      *
      * @param val the value to fill the matrix with
@@ -1069,40 +1068,39 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Fills the matrix with values from the given two-dimensional array starting at position (0, 0).
-     * Copies as much data as will fit from the source array into this matrix.
-     * If the source array is smaller than this matrix, only the overlapping portion is filled.
-     * If the source array is larger, only the portion that fits is copied.
+     * Fills the matrix with values from another two-dimensional array, starting at position (0, 0).
+     * The source array can be smaller than this matrix; only the overlapping region is copied.
+     * If the source array is larger, only the portion that fits is copied. The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{0, 0, 0}, {0, 0, 0}});
-     * long[][] data = {{1, 2}, {3, 4}};
-     * matrix.fill(data);
-     * // Matrix becomes: [[1, 2, 0], [3, 4, 0]]
+     * matrix.fill(new long[][] {{1, 2}, {3, 4}});
+     * // Result: [[1, 2, 0], [3, 4, 0]]
      * }</pre>
      *
-     * @param b the source array to copy values from
+     * @param b the two-dimensional array to copy values from
      */
     public void fill(final long[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a portion of the matrix with values from the given two-dimensional array starting at the specified position.
-     * Copies as much data as will fit from the source array into this matrix beginning at the specified indices.
-     * If the source array extends beyond the matrix boundaries, only the overlapping portion is copied.
+     * Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
+     * The source array can extend beyond this matrix's bounds; only the overlapping region is copied.
+     * The matrix is modified in-place. Elements outside the matrix bounds are ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * long[][] patch = {{1, 2}, {3, 4}};
-     * matrix.fill(1, 1, patch); // Fills starting at row 1, column 1
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
+     * matrix.fill(1, 1, new long[][] {{1, 2}, {3, 4}});
+     * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index in this matrix (0-based)
-     * @param fromColumnIndex the starting column index in this matrix (0-based)
+     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rows)
+     * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= cols)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions [0, rows] and [0, cols]
+     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; cols
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final long[][] b) throws IllegalArgumentException {
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
@@ -1402,8 +1400,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
      * matrix.reverseH();
-     * // Matrix is now: [[3, 2, 1], [6, 5, 4]]
+     * // matrix is now [[3, 2, 1], [6, 5, 4]]
      * }</pre>
+     *
+     * @see #flipH()
      */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
@@ -1412,15 +1412,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Reverses the order of elements in each column (vertical flip in-place).
-     * This operation modifies the matrix directly. For a non-destructive version, use {@link #flipV()}.
+     * Reverses the order of rows in the matrix (vertical flip in-place).
+     * This operation modifies the matrix directly by reversing the row order. For a non-destructive version, use {@link #flipV()}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}, {5, 6}});
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * matrix.reverseV();
-     * // Matrix is now: [[5, 6], [3, 4], [1, 2]]
+     * // matrix is now [[7, 8, 9], [4, 5, 6], [1, 2, 3]]
      * }</pre>
+     *
+     * @see #flipV()
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
@@ -1436,14 +1438,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a new matrix that is horizontally flipped (each row reversed).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix flipped = matrix.flipH(); // [[1,2,3],[4,5,6]] returns [[3,2,1],[6,5,4]]
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
+     * LongMatrix flipped = matrix.flipH();
+     * // Result: [[3, 2, 1],
+     * //          [6, 5, 4]]
      * }</pre>
-     * 
-     * @return a new horizontally flipped LongMatrix
+     *
+     * @return a new matrix with each row reversed
      * @see #flipV()
+     * @see IntMatrix#flipH()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public LongMatrix flipH() {
         final LongMatrix res = this.copy();
@@ -1454,14 +1461,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Creates a new matrix that is vertically flipped (each column reversed).
      * The original matrix is not modified.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix flipped = matrix.flipV(); // [[1,2],[3,4],[5,6]] returns [[5,6],[3,4],[1,2]]
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
+     * LongMatrix flipped = matrix.flipV();
+     * // Result: [[4, 5, 6],
+     * //          [1, 2, 3]]
      * }</pre>
-     * 
-     * @return a new vertically flipped LongMatrix
+     *
+     * @return a new matrix with rows in reversed order
      * @see #flipH()
+     * @see IntMatrix#flipV()
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public LongMatrix flipV() {
         final LongMatrix res = this.copy();
@@ -1777,20 +1789,21 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flattens the internal two-dimensional array into a one-dimensional array, applies an operation to it, then reshapes it back to the original two-dimensional structure.
-     * This is useful for operations that need to be applied to all elements as a contiguous array,
-     * such as sorting all elements or applying array-wide transformations that work on one-dimensional arrays.
-     * <p><b>Note:</b> The matrix structure (rows and columns) is preserved after the operation completes.</p>
+     * Applies an operation to each row array of the underlying two-dimensional array.
+     * This method iterates through each row and passes the internal row array (not a copy) to the operation.
+     * Any modifications made to the row arrays by the operation will directly affect the matrix.
+     *
+     * <p>This method is useful for performing in-place operations on rows, such as sorting.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{3, 1, 4}, {1, 5, 9}});
-     * matrix.flatOp(arr -> N.sort(arr)); // Sorts all elements in-place
-     * // Matrix structure is maintained but elements are reordered: e.g., [[1, 1, 3], [4, 5, 9]]
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{3, 1, 2}, {6, 4, 5}});
+     * matrix.flatOp(row -> java.util.Arrays.sort(row));
+     * // matrix is now [[1, 2, 3], [4, 5, 6]]
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the operation to apply to the flattened one-dimensional array
+     * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
      * @see Arrays#flatOp(long[][], Throwables.Consumer)
      */

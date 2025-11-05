@@ -37,7 +37,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected char[] elements;
 
     /**
-     * Constructor for subclasses.
+     * Protected constructor for subclasses.
      * This constructor is protected to prevent direct instantiation of the abstract class.
      */
     protected CharTuple() {
@@ -508,8 +508,6 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * An empty CharTuple containing no elements.
      * This class represents a tuple with arity 0.
-     *
-     * <p>This is a singleton class accessed via {@code CharTuple.create(new char[0])}.</p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
 

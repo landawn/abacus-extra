@@ -1320,18 +1320,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a copy of a row range from this matrix.
-     * The returned matrix contains only the specified rows and is completely independent from the original matrix.
+     * The returned matrix contains only the specified rows (with all columns) and is completely
+     * independent from the original matrix.
+     *
+     * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, cols)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<T> topRows = matrix.copy(0, 3); // Copy first 3 rows
-     * Matrix<T> middleRows = matrix.copy(2, 5); // Copy rows 2, 3, 4
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> subMatrix = matrix.copy(0, 2); // Contains rows 0 and 1
+     * // subMatrix: {{1, 2}, {3, 4}}
+     *
+     * Matrix<Integer> lastRow = matrix.copy(2, 3); // Contains only row 2
+     * // lastRow: {{5, 6}}
      * }</pre>
      *
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a new matrix containing the specified rows
-     * @throws IndexOutOfBoundsException if indices are out of bounds or fromRowIndex > toRowIndex
+     * @return a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × cols
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1353,16 +1360,22 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original 4x4 matrix
-     * Matrix<T> subMatrix = matrix.copy(1, 3, 1, 3); // Copy 2x2 center sub-matrix
+     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> subMatrix = matrix.copy(0, 2, 1, 3);
+     * // subMatrix: {{2, 3}, {5, 6}} (rows 0-1, columns 1-2)
+     *
+     * Matrix<Integer> centerElement = matrix.copy(1, 2, 1, 2);
+     * // centerElement: {{5}} (just the center element)
      * }</pre>
      *
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
-     * @return a new matrix containing the specified sub-matrix
-     * @throws IndexOutOfBoundsException if any indices are out of bounds or if fromIndex > toIndex
+     * @return a new matrix containing the specified region with dimensions
+     *         (toRowIndex - fromRowIndex) × (toColumnIndex - fromColumnIndex)
+     * @throws IndexOutOfBoundsException if any index is out of bounds or if fromRowIndex &gt; toRowIndex
+     *                                   or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -1619,7 +1632,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{5, 3, 1}, {6, 4, 2}}
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise
+     * @return a new matrix rotated 90 degrees clockwise with dimensions cols × rows
      */
     @Override
     public Matrix<T> rotate90() {
@@ -1657,7 +1670,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{6, 5, 4}, {3, 2, 1}}
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees
+     * @return a new matrix rotated 180 degrees with the same dimensions (rows × cols)
      */
     @Override
     public Matrix<T> rotate180() {
@@ -1682,7 +1695,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{2, 4, 6}, {1, 3, 5}}
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise
+     * @return a new matrix rotated 270 degrees clockwise with dimensions cols × rows
      */
     @Override
     public Matrix<T> rotate270() {
@@ -1780,7 +1793,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param newRows the number of rows in the reshaped matrix (must be non-negative)
      * @param newCols the number of columns in the reshaped matrix (must be non-negative)
-     * @return a new matrix with the specified shape
+     * @return a new matrix with the specified dimensions (newRows × newCols)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
@@ -1825,11 +1838,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1,1,1,2,2,2}, {1,1,1,2,2,2}, {3,3,3,4,4,4}, {3,3,3,4,4,4}}
      * }</pre>
      *
-     * @param rowRepeats number of times to repeat each element vertically
-     * @param colRepeats number of times to repeat each element horizontally
-     * @return a new matrix with repeated elements
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repelem(int, int)
+     * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
+     * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
+     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
      */
     @Override
     public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
@@ -1877,11 +1890,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1,2,1,2,1,2}, {3,4,3,4,3,4}, {1,2,1,2,1,2}, {3,4,3,4,3,4}}
      * }</pre>
      *
-     * @param rowRepeats number of times to repeat the matrix vertically
-     * @param colRepeats number of times to repeat the matrix horizontally
-     * @return a new matrix with the tiled pattern
-     * @throws IllegalArgumentException if rowRepeats or colRepeats is not positive
-     * @see IntMatrix#repmat(int, int)
+     * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
+     * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
+     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
+     * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
      */
     @Override
     public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
@@ -1928,8 +1941,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: [1, 2, 3, 4, 5, 6]
      * }</pre>
      *
-     * @return a list containing all elements in row-major order
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols > Integer.MAX_VALUE)
+     * @return a new list containing all elements in row-major order with size equal to {@code count}
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
      */
     @Override
     public List<T> flatten() {
