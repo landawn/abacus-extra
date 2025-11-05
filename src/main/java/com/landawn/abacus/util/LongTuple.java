@@ -940,7 +940,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the action may throw
          * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
@@ -958,9 +958,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the function to apply to the two elements
-         * @return the result of applying the mapper
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the bi-function to apply to the two elements
+         * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -969,7 +969,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns an Optional containing this tuple if it satisfies the given bi-predicate.
+         * Returns an Optional containing this tuple if the predicate is satisfied,
+         * or an empty Optional otherwise.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -977,9 +978,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Optional<LongTuple2> result = pair.filter((a, b) -> a < b);  // Optional containing the tuple
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test the two elements
-         * @return an Optional containing this tuple if the predicate is satisfied, empty otherwise
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the bi-predicate to test the two elements
+         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
@@ -1172,7 +1173,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * });
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the action may throw
          * @param action the action to perform on the three elements
          * @throws E if the action throws an exception
          */
@@ -1190,9 +1191,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the function to apply to the three elements
-         * @return the result of applying the mapper
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the tri-function to apply to the three elements
+         * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1201,7 +1202,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns an Optional containing this tuple if it satisfies the given tri-predicate.
+         * Returns an Optional containing this tuple if the predicate is satisfied,
+         * or an empty Optional otherwise.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1209,9 +1211,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Optional<LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);  // Optional containing the tuple
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test the three elements
-         * @return an Optional containing this tuple if the predicate is satisfied, empty otherwise
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the tri-predicate to test the three elements
+         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {

@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
@@ -430,7 +431,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
@@ -874,6 +875,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1094,6 +1096,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.IntTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }

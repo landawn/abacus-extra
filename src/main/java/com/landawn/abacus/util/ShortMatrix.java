@@ -1449,17 +1449,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Returns a new matrix that is the transpose of this matrix.
-     * The transpose swaps rows and columns.
+     * Creates the transpose of this matrix by swapping rows and columns.
+     * The transpose operation converts each row into a column, so element at position (i, j)
+     * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
+     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Original:  Transposed:
+     * // 1 2 3      1 4
+     * // 4 5 6      2 5
+     * //            3 6
+     *
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix transposed = matrix.transpose();
-     * // transposed is {{1, 4}, {2, 5}, {3, 6}}
+     * ShortMatrix transposed = matrix.transpose(); // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix
+     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
      */
     @Override
     public ShortMatrix transpose() {

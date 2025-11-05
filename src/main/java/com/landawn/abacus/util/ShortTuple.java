@@ -441,7 +441,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
@@ -449,7 +449,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param <E> the type of exception that the consumer may throw
-     * @param consumer the action to be performed for each element
+     * @param consumer the action to perform for each element
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> consumer) throws E {
