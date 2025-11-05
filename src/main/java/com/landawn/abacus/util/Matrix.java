@@ -1710,18 +1710,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a new matrix that is the transpose of this matrix.
-     * Rows become columns and columns become rows.
-     * The dimensions are swapped: an m×n matrix becomes n×m.
+     * Creates the transpose of this matrix by swapping rows and columns.
+     * The transpose operation converts each row into a column, so element at position (i, j)
+     * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
+     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Original:  Transposed:
+     * // 1 2 3      1 4
+     * // 4 5 6      2 5
+     * //            3 6
+     *
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Matrix<Integer> transposed = matrix.transpose();
-     * // Result: {{1, 4}, {2, 5}, {3, 6}}
+     * Matrix<Integer> transposed = matrix.transpose(); // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new transposed matrix
+     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
      */
     @Override
     public Matrix<T> transpose() {

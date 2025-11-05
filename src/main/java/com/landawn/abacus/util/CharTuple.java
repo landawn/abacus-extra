@@ -284,14 +284,14 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the minimum char value in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char min = tuple.min(); // 'A'
      * }</pre>
      *
-     * @return the minimum char value
+     * @return the minimum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public char min() {
@@ -300,14 +300,14 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the maximum char value in this tuple.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char max = tuple.max(); // 'Z'
      * }</pre>
      *
-     * @return the maximum char value
+     * @return the maximum char value in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public char max() {
@@ -316,7 +316,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median char value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * For tuples with an even number of elements, returns the lower middle value when sorted.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -335,8 +335,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all char values in this tuple as an int.
-     * The sum is calculated by adding the numeric values of the chars.
+     * Returns the sum of all char values in this tuple as an integer.
+     * The sum is calculated by adding the numeric values of all char elements, with the result returned as an int.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -344,7 +344,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * int sum = tuple.sum(); // 131
      * }</pre>
      *
-     * @return the sum of all char values as an int
+     * @return the sum of all char values in this tuple as an integer
      */
     public int sum() {
         return N.sum(elements());
@@ -352,15 +352,15 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the average of all char values in this tuple as a double.
-     * The average is calculated based on the numeric values of the chars.
-     * 
+     * The average is calculated as the arithmetic mean of the numeric values of all char elements.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'C'); // 'A'=65, 'C'=67
      * double avg = tuple.average(); // 66.0
      * }</pre>
      *
-     * @return the average of all char values
+     * @return the average of all char values in this tuple as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {

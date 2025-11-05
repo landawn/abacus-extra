@@ -335,7 +335,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Returns the sum of all elements in this tuple.
+     * Returns the sum of all byte values in this tuple as an integer.
+     * The sum is calculated by adding all byte values, with the result returned as an int to prevent overflow.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -343,14 +344,15 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int sum = tuple.sum(); // 60
      * }</pre>
      *
-     * @return the sum of all byte values in this tuple
+     * @return the sum of all byte values in this tuple as an integer
      */
     public int sum() {
         return N.sum(elements());
     }
 
     /**
-     * Returns the average of all byte values in this tuple.
+     * Returns the average of all byte values in this tuple as a double.
+     * The average is calculated as the arithmetic mean of all elements.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -358,7 +360,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * double avg = tuple.average(); // 20.0
      * }</pre>
      *
-     * @return the average of all byte values in this tuple
+     * @return the average of all byte values in this tuple as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {

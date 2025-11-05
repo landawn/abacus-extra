@@ -356,7 +356,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the average of all double values in this tuple as a double.
+     * Returns the average of all double values in this tuple.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -364,7 +364,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double avg = tuple.average(); // 2.0
      * }</pre>
      *
-     * @return the average of all double values as a double
+     * @return the average of all double values in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -853,7 +853,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the two elements.
          *
-         * @return (_1 + _2) / 2
+         * @return (_1 + _2) / 2.0
          */
         @Override
         public double average() {
@@ -1074,7 +1074,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the three elements.
          *
-         * @return (_1 + _2 + _3) / 3
+         * @return (_1 + _2 + _3) / 3.0
          */
         @Override
         public double average() {
@@ -1300,7 +1300,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the four elements.
          *
-         * @return (_1 + _2 + _3 + _4) / 4
+         * @return (_1 + _2 + _3 + _4) / 4.0
          */
         @Override
         public double average() {
@@ -1481,7 +1481,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the five elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
          */
         @Override
         public double average() {
@@ -1669,7 +1669,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the six elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6
+         * @return (_1 + _2 + _3 + _4 + _5 + _6) / 6.0
          */
         @Override
         public double average() {
@@ -1862,7 +1862,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the seven elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7) / 7.0
          */
         @Override
         public double average() {
@@ -2064,7 +2064,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the eight elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8) / 8.0
          */
         @Override
         public double average() {
@@ -2271,7 +2271,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns the average of the nine elements.
          *
-         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9
+         * @return (_1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9) / 9.0
          */
         @Override
         public double average() {
