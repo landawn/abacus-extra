@@ -162,11 +162,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.random(5);
      * // Creates a 1x5 matrix with random float values
-     * assert matrix.rows == 1;
-     * assert matrix.cols == 5;
      * }</pre>
      *
-     * @param len the number of columns in the resulting matrix (must be non-negative)
+     * @param len the number of columns (must be non-negative)
      * @return a 1-row matrix filled with random float values
      * @throws IllegalArgumentException if len is negative
      */
@@ -177,20 +175,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Creates a 1-row matrix with all elements set to the specified value.
-     * This is useful for initializing matrices with constant values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.repeat(3.14f, 5);
      * // Creates a 1x5 matrix where all elements are 3.14f
-     * assert matrix.rows == 1;
-     * assert matrix.cols == 5;
-     * assert matrix.get(0, 0) == 3.14f;
-     * assert matrix.get(0, 4) == 3.14f;
      * }</pre>
      *
-     * @param val the value to repeat for all elements
-     * @param len the number of columns in the resulting matrix (must be non-negative)
+     * @param val the value to repeat
+     * @param len the number of columns (must be non-negative)
      * @return a 1-row matrix with all elements set to val
      * @throws IllegalArgumentException if len is negative
      */
@@ -618,10 +611,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the elements on the main diagonal from left-upper to right-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -629,7 +623,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * float[] diagonal = matrix.getLU2RD(); // Returns [1.0f, 5.0f, 9.0f]
      * }</pre>
      *
-     * @return a new float array containing the main diagonal elements
+     * @return a new float array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public float[] getLU2RD() throws IllegalStateException {
@@ -673,18 +667,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
-     * The matrix must be square.
-     * 
+     * Updates the elements on the main diagonal (left-upper to right-down) using the specified function.
+     * The matrix must be square (rows == columns). Each diagonal element is transformed in-place
+     * by applying the function to it. This operation modifies the matrix directly.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateLU2RD(x -> x * x); // Squares all diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.updateLU2RD(f -&gt; f * 10);
+     * // matrix is now [[10.0f, 2.0f], [3.0f, 40.0f]]
      * }</pre>
-     * 
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
+     *
+     * @param <E> the exception type that the function may throw
+     * @param func the function to apply to each diagonal element; must not be null
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.FloatUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -695,11 +692,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -707,7 +705,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * float[] diagonal = matrix.getRU2LD(); // Returns [3.0f, 5.0f, 7.0f]
      * }</pre>
      *
-     * @return a new float array containing the anti-diagonal elements
+     * @return a new float array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public float[] getRU2LD() {
@@ -752,18 +750,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified function.
-     * The matrix must be square.
-     * 
+     * Updates the elements on the anti-diagonal (right-upper to left-down) using the specified function.
+     * The matrix must be square (rows == columns). Each anti-diagonal element is transformed in-place
+     * by applying the function to it. This operation modifies the matrix directly.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateRU2LD(x -> -x); // Negates all anti-diagonal values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.updateRU2LD(f -&gt; f * 10);
+     * // matrix is now [[1.0f, 20.0f], [30.0f, 4.0f]]
      * }</pre>
-     * 
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element
+     *
+     * @param <E> the exception type that the function may throw
+     * @param func the function to apply to each anti-diagonal element; must not be null
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.FloatUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -774,16 +775,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates all elements in the matrix by applying the specified function.
-     * The operation may be performed in parallel for large matrices.
-     * 
+     * Updates all elements in the matrix in-place using the specified function.
+     * Each element is transformed by the function, and the matrix is modified with the returned values.
+     * This operation modifies the matrix directly and may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateAll(x -> x * 2); // Doubles all values in the matrix
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.updateAll(f -&gt; f * 2); // Matrix becomes [[2.0f, 4.0f], [6.0f, 8.0f]]
      * }</pre>
-     * 
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element
+     *
+     * @param <E> the exception type that the function may throw
+     * @param func the function to apply to each element; must not be null
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.FloatUnaryOperator<E> func) throws E {
@@ -792,18 +796,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Updates all elements in the matrix based on their position.
-     * The function receives the row index (i) and column index (j) and returns the new value.
-     * The operation may be performed in parallel for large matrices.
+     * Updates all elements in the matrix in-place based on their position.
+     * The function receives the row and column indices for each element and returns the new value
+     * for that position. This operation modifies the matrix directly and may be performed in parallel
+     * for large matrices to improve performance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateAll((i, j) -> i + j); // Sets element at [i][j] to i + j
-     * matrix.updateAll((i, j) -> i == j ? 1.0f : 0.0f); // Creates identity matrix
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}});
+     * matrix.updateAll((i, j) -&gt; i * 3 + j); // Sets each element to its linear index
+     * // Matrix becomes [[0.0f, 1.0f, 2.0f], [3.0f, 4.0f, 5.0f]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function that takes row and column indices and returns the new value
+     * @param <E> the exception type that the function may throw
+     * @param func the function that takes row index and column index, then returns the new value for that position; must not be null
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Float, E> func) throws E {
@@ -812,15 +818,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Replaces all elements that match the predicate with the specified new value.
-     * 
+     * Replaces all elements that match the predicate with the specified value in-place.
+     * Each element is tested by the predicate, and if it matches, it is replaced with the new value.
+     * This operation modifies the matrix directly and may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.replaceIf(x -> x < 0, 0.0f); // Replaces all negative values with 0
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{-1.0f, 2.0f}, {-3.0f, 4.0f}});
+     * matrix.replaceIf(f -&gt; f &lt; 0, 0.0f); // Replace all negative values with 0
+     * // Matrix becomes [[0.0f, 2.0f], [0.0f, 4.0f]]
      * }</pre>
-     * 
-     * @param <E> the type of exception that the predicate may throw
-     * @param predicate the condition to test each element
+     *
+     * @param <E> the exception type that the predicate may throw
+     * @param predicate the predicate to test each element; must not be null
      * @param newValue the value to replace matching elements with
      * @throws E if the predicate throws an exception
      */
@@ -830,16 +841,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Replaces elements based on their position using a predicate that tests row and column indices.
-     * 
+     * Replaces all elements at positions that match the predicate with the specified value in-place.
+     * The predicate receives the row and column indices for each position and determines whether
+     * the element at that position should be replaced. This operation modifies the matrix directly
+     * and may be performed in parallel for large matrices to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.replaceIf((i, j) -> i == j, 1.0f); // Sets diagonal elements to 1
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.replaceIf((i, j) -&gt; i == j, 0.0f); // Set diagonal elements to 0.0f
+     * // Matrix becomes [[0.0f, 2.0f], [3.0f, 0.0f]]
      * }</pre>
-     * 
-     * @param <E> the type of exception that the predicate may throw
-     * @param predicate the condition that tests row and column indices
-     * @param newValue the value to replace matching elements with
+     *
+     * @param <E> the exception type that the predicate may throw
+     * @param predicate the predicate that takes row and column indices and returns true if the element should be replaced; must not be null
+     * @param newValue the value to replace at matching positions
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final float newValue) throws E {
@@ -848,17 +864,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new FloatMatrix by applying a function to each element.
-     * The operation may be performed in parallel for large matrices.
-     * 
+     * Creates a new FloatMatrix by applying the specified function to each element of this matrix.
+     * The original matrix is not modified. Each element is transformed independently by the function,
+     * and the results are collected into a new matrix with the same dimensions. The operation may be
+     * performed in parallel for large matrices to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix squared = matrix.map(x -> x * x); // Creates new matrix with squared values
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix squared = matrix.map(f -&gt; f * f);
+     * // squared is [[1.0f, 4.0f], [9.0f, 16.0f]], original matrix is unchanged
      * }</pre>
-     * 
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element
-     * @return a new FloatMatrix with transformed values
+     *
+     * @param <E> the exception type that the function may throw
+     * @param func the mapping function to apply to each element; must not be null
+     * @return a new FloatMatrix with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
     public <E extends Exception> FloatMatrix map(final Throwables.FloatUnaryOperator<E> func) throws E {

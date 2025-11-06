@@ -65,18 +65,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * Constructs a ShortMatrix from a two-dimensional short array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
-     * <p><b>Important:</b> The input array is used directly without defensive copying.
-     * This means modifications to the input array after construction will affect the matrix,
-     * and vice versa. For independent matrices, create a copy of the array before passing it.</p>
+     * <p><b>Important:</b> The array is used directly without copying. This means:
+     * <ul>
+     * <li>Modifications to the input array after construction will affect the matrix</li>
+     * <li>Modifications to the matrix will affect the original array</li>
+     * <li>This provides better performance but less encapsulation</li>
+     * </ul>
+     * For a safe copy, use {@link #of(short[][])} or {@link #copy()} after construction.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * short[][] data = {{1, 2, 3}, {4, 5, 6}};
+     * short[][] data = {{1, 2}, {3, 4}};
      * ShortMatrix matrix = new ShortMatrix(data);
-     * data[0][0] = (short) 99;  // This will also modify the matrix
+     * data[0][0] = 99; // This also changes matrix.get(0,0) to 99
+     *
+     * ShortMatrix empty = new ShortMatrix(null); // Creates 0x0 empty matrix
      * }</pre>
      *
-     * @param a the two-dimensional short array to wrap as a matrix. If null, an empty matrix is created.
+     * @param a the two-dimensional short array to wrap as a matrix. Can be null.
      */
     public ShortMatrix(final short[][] a) {
         super(a == null ? new short[0][0] : a);
@@ -115,16 +121,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a 1-row matrix filled with random values.
+     * Creates a 1-row matrix filled with random short values.
+     * Each element is a random short value generated using the default random number generator.
+     * The values can range across the entire short value space (from {@code Short.MIN_VALUE} to {@code Short.MAX_VALUE}).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.random(5);
      * // Creates a 1x5 matrix with random short values
+     * // Each value is in range [Short.MIN_VALUE, Short.MAX_VALUE]
      * }</pre>
      *
-     * @param len the number of columns
+     * @param len the number of columns (must be non-negative)
      * @return a 1-row matrix filled with random short values
+     * @throws IllegalArgumentException if len is negative
      */
     @SuppressWarnings("deprecation")
     public static ShortMatrix random(final int len) {
@@ -133,120 +143,146 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Creates a 1-row matrix with all elements set to the specified value.
+     * This is useful for initializing matrices with a constant value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.repeat((short) 42, 5);
-     * // Creates a 1x5 matrix where all elements are 42
+     * // Creates a 1x5 matrix: [[42, 42, 42, 42, 42]]
+     *
+     * ShortMatrix zeros = ShortMatrix.repeat((short) 0, 10);
+     * // Creates a 1x10 matrix filled with zeros
      * }</pre>
      *
      * @param val the value to repeat
-     * @param len the number of columns
+     * @param len the number of columns (must be non-negative)
      * @return a 1-row matrix with all elements set to val
+     * @throws IllegalArgumentException if len is negative
      */
     public static ShortMatrix repeat(final short val, final int len) {
         return new ShortMatrix(new short[][] { Array.repeat(val, len) });
     }
 
     /**
-     * Creates a 1xN matrix containing a sequence of short values from startInclusive
-     * (inclusive) to endExclusive (exclusive) with a step of 1.
-     * 
+     * Creates a 1-row ShortMatrix with values from startInclusive to endExclusive.
+     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.range((short)1, (short)5); // Creates [[1, 2, 3, 4]]
+     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 5); // Creates [[0, 1, 2, 3, 4]]
+     * ShortMatrix empty = ShortMatrix.range((short) 5, (short) 0);  // Creates an empty matrix
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @return a new 1xN ShortMatrix containing the range of values
+     * @return a new 1×n ShortMatrix where n = max(0, endExclusive - startInclusive)
      */
     public static ShortMatrix range(final short startInclusive, final short endExclusive) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
-     * Creates a 1xN matrix containing a sequence of short values from startInclusive
-     * (inclusive) to endExclusive (exclusive) with the specified step.
-     * 
+     * Creates a 1-row ShortMatrix with values from startInclusive to endExclusive with the specified step.
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.range((short)0, (short)10, (short)2); // Creates [[0, 2, 4, 6, 8]]
+     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 10, (short) 2);  // Creates [[0, 2, 4, 6, 8]]
+     * ShortMatrix desc = ShortMatrix.range((short) 10, (short) 0, (short) -2);   // Creates [[10, 8, 6, 4, 2]]
+     * ShortMatrix empty = ShortMatrix.range((short) 0, (short) 10, (short) -1);  // Creates an empty matrix (step is wrong direction)
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size between consecutive values
-     * @return a new 1xN ShortMatrix containing the range of values
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n ShortMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static ShortMatrix range(final short startInclusive, final short endExclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
-     * Creates a 1xN matrix containing a sequence of short values from startInclusive
-     * to endInclusive (both inclusive) with a step of 1.
-     * 
+     * Creates a 1-row ShortMatrix with values from startInclusive to endInclusive.
+     * This method includes the end value, unlike {@link #range(short, short)}.
+     * If {@code startInclusive > endInclusive}, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.rangeClosed((short)1, (short)4); // Creates [[1, 2, 3, 4]]
+     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 4); // Creates [[0, 1, 2, 3, 4]]
+     * ShortMatrix single = ShortMatrix.rangeClosed((short) 5, (short) 5); // Creates [[5]]
+     * ShortMatrix empty = ShortMatrix.rangeClosed((short) 5, (short) 0);  // Creates an empty matrix
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endInclusive the ending value (inclusive)
-     * @return a new 1xN ShortMatrix containing the range of values
+     * @return a new 1×n ShortMatrix where n = max(0, endInclusive - startInclusive + 1)
      */
     public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
-     * Creates a 1xN matrix containing a sequence of short values from startInclusive
-     * to endInclusive (both inclusive) with the specified step.
-     * 
+     * Creates a 1-row ShortMatrix with values from startInclusive to endInclusive with the specified step.
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * The end value is included only if it is reachable by stepping from start. If the step would not
+     * reach endInclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.rangeClosed((short)1, (short)9, (short)2); // Creates [[1, 3, 5, 7, 9]]
+     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 8, (short) 2);  // Creates [[0, 2, 4, 6, 8]]
+     * ShortMatrix partial = ShortMatrix.rangeClosed((short) 0, (short) 9, (short) 2); // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * ShortMatrix desc = ShortMatrix.rangeClosed((short) 10, (short) 0, (short) -2);  // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
-     * @param endInclusive the ending value (inclusive)
-     * @param by the step size between consecutive values
-     * @return a new 1xN ShortMatrix containing the range of values
+     * @param endInclusive the ending value (inclusive, if reachable by stepping)
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n ShortMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static ShortMatrix rangeClosed(final short startInclusive, final short endInclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements.
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified main diagonal elements (left-upper to right-down).
+     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
+     * of the diagonal array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.diagonalLU2RD(new short[] {1, 2, 3});
-     * // Creates 3x3 matrix with diagonal [1, 2, 3] and zeros elsewhere
+     * // Creates a 3x3 matrix:
+     * // [[1, 0, 0],
+     * //  [0, 2, 0],
+     * //  [0, 0, 3]]
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of diagonal elements
-     * @return a square matrix with the specified main diagonal
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (from top-left to bottom-right)
+     * @return a square n×n matrix with the specified main diagonal, where n is the array length
      */
     public static ShortMatrix diagonalLU2RD(final short[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements.
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
+     * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.diagonalRU2LD(new short[] {1, 2, 3});
-     * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
+     * // Creates a 3x3 matrix:
+     * // [[0, 0, 1],
+     * //  [0, 2, 0],
+     * //  [3, 0, 0]]
      * }</pre>
      *
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified anti-diagonal
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (from top-right to bottom-left)
+     * @return a square n×n matrix with the specified anti-diagonal, where n is the array length
      */
     public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -254,23 +290,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements are set to zero.
+     * All other elements (off both diagonals) are set to zero. If both arrays are provided, they must have the same length.
+     * Either array can be null/empty, in which case only the other diagonal is set.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.diagonal(new short[] { 1, 2, 3 }, new short[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
+     * // Resulting matrix:
      * //   {1, 0, 4},
      * //   {0, 2, 0},
-     * //   {6, 0, 3} 
+     * //   {6, 0, 3}
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified diagonals
-     * @throws IllegalArgumentException if arrays have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (top-left to bottom-right), or null
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (top-right to bottom-left), or null
+     * @return a square n×n matrix with the specified diagonals, where n is the length of the non-null array(s)
+     * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -301,17 +338,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Converts a Matrix of Short objects to a ShortMatrix of primitive shorts.
-     * This method performs unboxing of each Short element to its primitive short value.
-     * 
+     * Converts a boxed {@code Matrix<Short>} to a primitive {@code ShortMatrix}.
+     * This method unboxes all {@code Short} wrapper objects to primitive {@code short} values for more efficient
+     * storage and operations. This is particularly beneficial when working with large matrices, as primitive
+     * arrays have less memory overhead and better cache locality than arrays of wrapper objects.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Short> boxedMatrix = Matrix.of(new Short[][] {{1, 2}, {3, 4}});
      * ShortMatrix primitiveMatrix = ShortMatrix.unbox(boxedMatrix);
+     * // primitiveMatrix now uses primitive short[] arrays internally for better performance
      * }</pre>
-     * 
-     * @param x the Matrix of Short objects to convert
-     * @return a new ShortMatrix containing the unboxed primitive values
+     *
+     * @param x the boxed Short matrix to convert
+     * @return a new ShortMatrix with unboxed primitive values
      */
     public static ShortMatrix unbox(final Matrix<Short> x) {
         return ShortMatrix.of(Array.unbox(x.a));
@@ -1854,13 +1894,18 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Converts this primitive short matrix to a boxed {@code Matrix<Short>}.
-     * Each primitive short value is boxed into a {@code Short} object.
+     * Each primitive short value is boxed into a {@code Short} wrapper object.
+     * This is the inverse operation of {@link #unbox(Matrix)}.
+     *
+     * <p><b>Note:</b> Boxing creates wrapper objects which have additional memory overhead compared to primitives.
+     * Use this method only when you need to work with generic Matrix API or when null values are required.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix primitive = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * Matrix<Short> boxed = primitive.boxed();
-     * // Result: Matrix containing Short objects instead of primitives
+     * // Result: Matrix containing Short wrapper objects instead of primitives
+     * // Can now be used with generic Matrix<T> operations
      * }</pre>
      *
      * @return a new {@code Matrix<Short>} containing boxed values

@@ -20,33 +20,28 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
 /**
- * Abstract base class for immutable tuples containing float primitive values.
- * This class provides a type-safe way to work with fixed-size collections of float values.
+ * Abstract base class for immutable tuple implementations that hold primitive float values.
+ * This class provides common functionality for float-based tuples of various sizes (0 to 9 elements).
  *
- * <p>FloatTuple and its subclasses offer:</p>
- * <ul>
- *   <li>Type safety for float collections of known size</li>
- *   <li>Immutability for thread-safe operations</li>
- *   <li>Convenient factory methods and utilities</li>
- *   <li>Statistical operations (min, max, median, sum, average)</li>
- * </ul>
+ * <p>FloatTuple is designed to be a lightweight, type-safe container for multiple float values
+ * that can be used as a composite key, return multiple values from a method, or group related
+ * float values together.</p>
  *
- * @param <TP> The specific FloatTuple subtype for fluent method chaining
+ * <p>All tuple implementations are immutable and thread-safe.</p>
+ *
+ * @param <TP> the specific FloatTuple subtype
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
 
+    protected float[] elements;
+
     /**
-     * Protected constructor for subclass instantiation.
-     * <p>
-     * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link FloatTuple1#of(float)}, {@link FloatTuple2#of(float, float)}, etc.,
-     * to create tuple instances.
+     * Protected constructor for subclasses.
+     * This constructor is protected to prevent direct instantiation of the abstract class.
      */
     protected FloatTuple() {
     }
-
-    protected float[] elements;
 
     /**
      * Creates a FloatTuple1 containing a single float value.
@@ -199,7 +194,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh float value
      * @param _8 the eighth float value
      * @return a new FloatTuple8 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
     @Deprecated
     public static FloatTuple8 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7,
@@ -226,7 +221,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _8 the eighth float value
      * @param _9 the ninth float value
      * @return a new FloatTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
     @Deprecated
     public static FloatTuple9 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8,
@@ -467,7 +462,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on all elements using {@link N#hashCode(float[])}.
+     * The hash code is computed based on the contents of the tuple.
      *
      * @return a hash code value for this tuple
      */
@@ -477,12 +472,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Compares this tuple to another object for equality.
-     * Two tuples are equal if they are of the same class and contain equal elements
-     * in the same order.
+     * Compares this tuple to the specified object for equality.
+     * Two tuples are equal if they are of the same class and contain the same elements in the same order.
      *
-     * @param obj the object to compare with
-     * @return {@code true} if the objects are equal, {@code false} otherwise
+     * @param obj the object to be compared for equality with this tuple
+     * @return {@code true} if the specified object is equal to this tuple
      */
     @Override
     public boolean equals(final Object obj) {
@@ -497,7 +491,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a string representation of this tuple.
-     * The format is (element1, element2, ...).
+     * The string representation consists of the tuple elements enclosed in parentheses
+     * and separated by commas and spaces.
+     *
+     * <p>Example: {@code (1.0f, 2.0f, 3.0f)}</p>
      *
      * @return a string representation of this tuple
      */
@@ -506,17 +503,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         return N.toString(elements());
     }
 
-    /**
-     * Returns the internal array of elements.
-     * Subclasses must implement this to provide access to their elements.
-     *
-     * @return the array of float elements
-     */
     protected abstract float[] elements();
 
     /**
      * An empty FloatTuple containing no elements.
-     * This class is used as a singleton for efficiency.
+     * This class represents a tuple with arity 0.
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
 
@@ -1965,7 +1956,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * A FloatTuple containing exactly eight float values.
      * Provides direct access to elements via public final fields {@code _1} through {@code _8}.
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
      */
     @Deprecated
     public static final class FloatTuple8 extends FloatTuple<FloatTuple8> {
@@ -2168,7 +2159,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * A FloatTuple containing exactly nine float values.
      * Provides direct access to elements via public final fields {@code _1} through {@code _9}.
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
     @Deprecated
     public static final class FloatTuple9 extends FloatTuple<FloatTuple9> {
