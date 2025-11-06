@@ -788,7 +788,8 @@ public class ByteTuple2512Test extends TestBase {
         ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
         assertThrows(RuntimeException.class, () -> {
             tuple.forEach(b -> {
-                if (b == 20) throw new RuntimeException("test exception");
+                if (b == 20)
+                    throw new RuntimeException("test exception");
             });
         });
     }

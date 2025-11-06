@@ -369,9 +369,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_filter_complexCondition() {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
 
-        Optional<IntTuple3> result = tuple.filter(t ->
-            t._1 < t._2 && t._2 < t._3 && (t._1 + t._2 + t._3) == 60
-        );
+        Optional<IntTuple3> result = tuple.filter(t -> t._1 < t._2 && t._2 < t._3 && (t._1 + t._2 + t._3) == 60);
 
         assertTrue(result.isPresent());
     }
@@ -380,9 +378,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_filter_doubleTuple() {
         DoubleTuple2 tuple = DoubleTuple.of(45.5, -122.6);
 
-        Optional<DoubleTuple2> result = tuple.filter(t ->
-            t._1 >= -90 && t._1 <= 90 && t._2 >= -180 && t._2 <= 180
-        );
+        Optional<DoubleTuple2> result = tuple.filter(t -> t._1 >= -90 && t._1 <= 90 && t._2 >= -180 && t._2 <= 180);
 
         assertTrue(result.isPresent());
     }
@@ -400,9 +396,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_filter_chainWithMap() {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
 
-        String result = tuple.filter(t -> t._1 + t._2 + t._3 > 50)
-                                .map(t -> "Sum is: " + (t._1 + t._2 + t._3))
-                                .orElse("Sum too small");
+        String result = tuple.filter(t -> t._1 + t._2 + t._3 > 50).map(t -> "Sum is: " + (t._1 + t._2 + t._3)).orElse("Sum too small");
 
         assertEquals("Sum is: 60", result);
     }
@@ -411,9 +405,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_filter_chainWithMapNoMatch() {
         IntTuple3 tuple = IntTuple.of(1, 2, 3);
 
-        String result = tuple.filter(t -> t._1 + t._2 + t._3 > 50)
-                                .map(t -> "Sum is: " + (t._1 + t._2 + t._3))
-                                .orElse("Sum too small");
+        String result = tuple.filter(t -> t._1 + t._2 + t._3 > 50).map(t -> "Sum is: " + (t._1 + t._2 + t._3)).orElse("Sum too small");
 
         assertEquals("Sum too small", result);
     }
@@ -474,8 +466,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_toOptional_chainWithFilter() {
         IntTuple2 tuple = IntTuple.of(10, 20);
 
-        Optional<IntTuple2> result = tuple.toOptional()
-                                          .filter(t -> t._1 > 5);
+        Optional<IntTuple2> result = tuple.toOptional().filter(t -> t._1 > 5);
 
         assertTrue(result.isPresent());
     }
@@ -484,9 +475,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_toOptional_chainWithMap() {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
 
-        String result = tuple.toOptional()
-                             .map(t -> "Coordinates: " + t._1 + ", " + t._2 + ", " + t._3)
-                             .orElse("No coordinates");
+        String result = tuple.toOptional().map(t -> "Coordinates: " + t._1 + ", " + t._2 + ", " + t._3).orElse("No coordinates");
 
         assertEquals("Coordinates: 10, 20, 30", result);
     }
@@ -558,9 +547,7 @@ public class PrimitiveTuple2512Test extends TestBase {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
         AtomicInteger result = new AtomicInteger(0);
 
-        tuple.filter(t -> t._1 + t._2 + t._3 > 50)
-             .map(t -> t._1 + t._2 + t._3)
-             .ifPresent(sum -> result.set(sum));
+        tuple.filter(t -> t._1 + t._2 + t._3 > 50).map(t -> t._1 + t._2 + t._3).ifPresent(sum -> result.set(sum));
 
         assertEquals(60, result.get());
     }
@@ -569,10 +556,7 @@ public class PrimitiveTuple2512Test extends TestBase {
     public void test_integration_toOptionalFilterMap() {
         IntTuple2 tuple = IntTuple.of(5, 10);
 
-        String result = tuple.toOptional()
-                             .filter(t -> t._1 > 0)
-                             .map(t -> "Positive: " + t._1)
-                             .orElse("Not positive");
+        String result = tuple.toOptional().filter(t -> t._1 > 0).map(t -> "Positive: " + t._1).orElse("Not positive");
 
         assertEquals("Positive: 5", result);
     }
@@ -585,8 +569,7 @@ public class PrimitiveTuple2512Test extends TestBase {
         Double distance = tuple.map(t -> Math.sqrt(t._1 * t._1 + t._2 * t._2));
 
         // Map again to format
-        String formatted = tuple.map(t -> String.format("Distance from (%d,%d) is %.1f",
-                                                        t._1, t._2, distance));
+        String formatted = tuple.map(t -> String.format("Distance from (%d,%d) is %.1f", t._1, t._2, distance));
 
         assertEquals("Distance from (3,4) is 5.0", formatted);
     }

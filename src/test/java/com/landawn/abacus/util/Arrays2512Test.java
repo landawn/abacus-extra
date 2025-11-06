@@ -40,7 +40,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_objectArray() {
-        Object[] arr = {"a", "b", "c"};
+        Object[] arr = { "a", "b", "c" };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -68,7 +68,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_objectArray2D() {
-        Object[][] arr = {{"a", "b"}, {"c", "d"}};
+        Object[][] arr = { { "a", "b" }, { "c", "d" } };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -86,7 +86,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_objectArray3D() {
-        Object[][][] arr = {{{"a"}}};
+        Object[][][] arr = { { { "a" } } };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -104,7 +104,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_booleanArray() {
-        boolean[] arr = {true, false, true};
+        boolean[] arr = { true, false, true };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -131,7 +131,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {false, true}};
+        boolean[][] arr = { { true, false }, { false, true } };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -149,7 +149,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_println_booleanArray3D() {
-        boolean[][][] arr = {{{true}}};
+        boolean[][][] arr = { { { true } } };
         String result = Arrays.println(arr);
 
         assertNotNull(result);
@@ -167,10 +167,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_booleanArray() {
-        boolean[] arr = {true, false, true};
+        boolean[] arr = { true, false, true };
         String[] result = Arrays.mapToObj(arr, b -> b ? "T" : "F", String.class);
 
-        assertArrayEquals(new String[]{"T", "F", "T"}, result);
+        assertArrayEquals(new String[] { "T", "F", "T" }, result);
     }
 
     @Test
@@ -194,12 +194,12 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {false, true}};
+        boolean[][] arr = { { true, false }, { false, true } };
         String[][] result = Arrays.mapToObj(arr, b -> b ? "T" : "F", String.class);
 
         assertEquals(2, result.length);
-        assertArrayEquals(new String[]{"T", "F"}, result[0]);
-        assertArrayEquals(new String[]{"F", "T"}, result[1]);
+        assertArrayEquals(new String[] { "T", "F" }, result[0]);
+        assertArrayEquals(new String[] { "F", "T" }, result[1]);
     }
 
     @Test
@@ -215,12 +215,12 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_booleanArray3D() {
-        boolean[][][] arr = {{{true, false}}};
+        boolean[][][] arr = { { { true, false } } };
         String[][][] result = Arrays.mapToObj(arr, b -> b ? "T" : "F", String.class);
 
         assertEquals(1, result.length);
         assertEquals(1, result[0].length);
-        assertArrayEquals(new String[]{"T", "F"}, result[0][0]);
+        assertArrayEquals(new String[] { "T", "F" }, result[0][0]);
     }
 
     @Test
@@ -236,10 +236,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_charArray() {
-        char[] arr = {'a', 'b', 'c'};
+        char[] arr = { 'a', 'b', 'c' };
         String[] result = Arrays.mapToObj(arr, c -> String.valueOf(c).toUpperCase(), String.class);
 
-        assertArrayEquals(new String[]{"A", "B", "C"}, result);
+        assertArrayEquals(new String[] { "A", "B", "C" }, result);
     }
 
     @Test
@@ -255,10 +255,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_byteArray() {
-        byte[] arr = {1, 2, 3};
+        byte[] arr = { 1, 2, 3 };
         String[] result = Arrays.mapToObj(arr, b -> "Byte:" + b, String.class);
 
-        assertArrayEquals(new String[]{"Byte:1", "Byte:2", "Byte:3"}, result);
+        assertArrayEquals(new String[] { "Byte:1", "Byte:2", "Byte:3" }, result);
     }
 
     @Test
@@ -274,10 +274,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_shortArray() {
-        short[] arr = {10, 20, 30};
+        short[] arr = { 10, 20, 30 };
         String[] result = Arrays.mapToObj(arr, s -> "Short:" + s, String.class);
 
-        assertArrayEquals(new String[]{"Short:10", "Short:20", "Short:30"}, result);
+        assertArrayEquals(new String[] { "Short:10", "Short:20", "Short:30" }, result);
     }
 
     @Test
@@ -293,10 +293,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_intArray() {
-        int[] arr = {1, 2, 3};
+        int[] arr = { 1, 2, 3 };
         String[] result = Arrays.mapToObj(arr, i -> "Int:" + i, String.class);
 
-        assertArrayEquals(new String[]{"Int:1", "Int:2", "Int:3"}, result);
+        assertArrayEquals(new String[] { "Int:1", "Int:2", "Int:3" }, result);
     }
 
     @Test
@@ -312,10 +312,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_longArray() {
-        long[] arr = {100L, 200L, 300L};
+        long[] arr = { 100L, 200L, 300L };
         String[] result = Arrays.mapToObj(arr, l -> "Long:" + l, String.class);
 
-        assertArrayEquals(new String[]{"Long:100", "Long:200", "Long:300"}, result);
+        assertArrayEquals(new String[] { "Long:100", "Long:200", "Long:300" }, result);
     }
 
     @Test
@@ -331,10 +331,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_floatArray() {
-        float[] arr = {1.1f, 2.2f, 3.3f};
+        float[] arr = { 1.1f, 2.2f, 3.3f };
         String[] result = Arrays.mapToObj(arr, f -> String.format("%.1f", f), String.class);
 
-        assertArrayEquals(new String[]{"1.1", "2.2", "3.3"}, result);
+        assertArrayEquals(new String[] { "1.1", "2.2", "3.3" }, result);
     }
 
     @Test
@@ -350,10 +350,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToObj_doubleArray() {
-        double[] arr = {1.5, 2.5, 3.5};
+        double[] arr = { 1.5, 2.5, 3.5 };
         String[] result = Arrays.mapToObj(arr, d -> String.format("%.1f", d), String.class);
 
-        assertArrayEquals(new String[]{"1.5", "2.5", "3.5"}, result);
+        assertArrayEquals(new String[] { "1.5", "2.5", "3.5" }, result);
     }
 
     @Test
@@ -369,10 +369,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToLong_intArray() {
-        int[] arr = {1, 2, 3};
+        int[] arr = { 1, 2, 3 };
         long[] result = Arrays.mapToLong(arr, i -> i * 1000L);
 
-        assertArrayEquals(new long[]{1000L, 2000L, 3000L}, result);
+        assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, result);
     }
 
     @Test
@@ -396,12 +396,12 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToLong_intArray2D() {
-        int[][] arr = {{1, 2}, {3, 4}};
+        int[][] arr = { { 1, 2 }, { 3, 4 } };
         long[][] result = Arrays.mapToLong(arr, i -> i * 1000L);
 
         assertEquals(2, result.length);
-        assertArrayEquals(new long[]{1000L, 2000L}, result[0]);
-        assertArrayEquals(new long[]{3000L, 4000L}, result[1]);
+        assertArrayEquals(new long[] { 1000L, 2000L }, result[0]);
+        assertArrayEquals(new long[] { 3000L, 4000L }, result[1]);
     }
 
     @Test
@@ -417,10 +417,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToDouble_intArray() {
-        int[] arr = {1, 2, 3};
+        int[] arr = { 1, 2, 3 };
         double[] result = Arrays.mapToDouble(arr, i -> i * 1.5);
 
-        assertArrayEquals(new double[]{1.5, 3.0, 4.5}, result);
+        assertArrayEquals(new double[] { 1.5, 3.0, 4.5 }, result);
     }
 
     @Test
@@ -436,10 +436,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToInt_longArray() {
-        long[] arr = {1000L, 2000L, 3000L};
+        long[] arr = { 1000L, 2000L, 3000L };
         int[] result = Arrays.mapToInt(arr, l -> (int) (l / 1000));
 
-        assertArrayEquals(new int[]{1, 2, 3}, result);
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
     }
 
     @Test
@@ -455,10 +455,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_mapToInt_doubleArray() {
-        double[] arr = {1.9, 2.9, 3.9};
+        double[] arr = { 1.9, 2.9, 3.9 };
         int[] result = Arrays.mapToInt(arr, d -> (int) d);
 
-        assertArrayEquals(new int[]{1, 2, 3}, result);
+        assertArrayEquals(new int[] { 1, 2, 3 }, result);
     }
 
     @Test
@@ -474,10 +474,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_updateAll_booleanArray() {
-        boolean[] arr = {true, false, true};
+        boolean[] arr = { true, false, true };
         Arrays.updateAll(arr, b -> !b);
 
-        assertArrayEquals(new boolean[]{false, true, false}, arr);
+        assertArrayEquals(new boolean[] { false, true, false }, arr);
     }
 
     @Test
@@ -499,11 +499,11 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_updateAll_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {false, true}};
+        boolean[][] arr = { { true, false }, { false, true } };
         Arrays.updateAll(arr, b -> !b);
 
-        assertArrayEquals(new boolean[]{false, true}, arr[0]);
-        assertArrayEquals(new boolean[]{true, false}, arr[1]);
+        assertArrayEquals(new boolean[] { false, true }, arr[0]);
+        assertArrayEquals(new boolean[] { true, false }, arr[1]);
     }
 
     @Test
@@ -517,10 +517,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_replaceIf_booleanArray() {
-        boolean[] arr = {true, false, true, false};
+        boolean[] arr = { true, false, true, false };
         Arrays.replaceIf(arr, b -> b == true, false);
 
-        assertArrayEquals(new boolean[]{false, false, false, false}, arr);
+        assertArrayEquals(new boolean[] { false, false, false, false }, arr);
     }
 
     @Test
@@ -541,12 +541,12 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_reshape_booleanArray() {
-        boolean[] arr = {true, false, true, false};
+        boolean[] arr = { true, false, true, false };
         boolean[][] result = Arrays.reshape(arr, 2);
 
         assertEquals(2, result.length);
-        assertArrayEquals(new boolean[]{true, false}, result[0]);
-        assertArrayEquals(new boolean[]{true, false}, result[1]);
+        assertArrayEquals(new boolean[] { true, false }, result[0]);
+        assertArrayEquals(new boolean[] { true, false }, result[1]);
     }
 
     @Test
@@ -557,12 +557,12 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_reshape_booleanArrayInvalidCols() {
-        boolean[] arr = {true, false, true};
+        boolean[] arr = { true, false, true };
         // The reshape method allows non-evenly divisible arrays using CEILING rounding
         boolean[][] result = Arrays.reshape(arr, 2);
         assertEquals(2, result.length); // 2 rows with cols=2 each (last row has 1 element)
-        assertArrayEquals(new boolean[]{true, false}, result[0]);
-        assertArrayEquals(new boolean[]{true}, result[1]);
+        assertArrayEquals(new boolean[] { true, false }, result[0]);
+        assertArrayEquals(new boolean[] { true }, result[1]);
     }
 
     // ============================================
@@ -571,15 +571,15 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_reshape_booleanArray3D() {
-        boolean[] arr = {true, false, true, false, true, false};
+        boolean[] arr = { true, false, true, false, true, false };
         boolean[][][] result = Arrays.reshape(arr, 2, 3);
 
         // With 6 elements and rows=2, cols=3 (2*3=6 per block), we get 1 block
         assertEquals(1, result.length);
         assertEquals(2, result[0].length); // 2 rows in the block
         assertEquals(3, result[0][0].length); // 3 columns per row
-        assertArrayEquals(new boolean[]{true, false, true}, result[0][0]);
-        assertArrayEquals(new boolean[]{false, true, false}, result[0][1]);
+        assertArrayEquals(new boolean[] { true, false, true }, result[0][0]);
+        assertArrayEquals(new boolean[] { false, true, false }, result[0][1]);
     }
 
     @Test
@@ -594,10 +594,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_flatten_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {true, false}};
+        boolean[][] arr = { { true, false }, { true, false } };
         boolean[] result = Arrays.flatten(arr);
 
-        assertArrayEquals(new boolean[]{true, false, true, false}, result);
+        assertArrayEquals(new boolean[] { true, false, true, false }, result);
     }
 
     @Test
@@ -619,10 +619,10 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_flatten_booleanArray3D() {
-        boolean[][][] arr = {{{true, false}}};
+        boolean[][][] arr = { { { true, false } } };
         boolean[] result = Arrays.flatten(arr);
 
-        assertArrayEquals(new boolean[]{true, false}, result);
+        assertArrayEquals(new boolean[] { true, false }, result);
     }
 
     @Test
@@ -637,8 +637,8 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_flatOp_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {true, false}};
-        int[] count = {0};
+        boolean[][] arr = { { true, false }, { true, false } };
+        int[] count = { 0 };
 
         Arrays.flatOp(arr, subArray -> count[0] += subArray.length);
 
@@ -647,7 +647,8 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_flatOp_booleanArray2DNull() {
-        Arrays.flatOp((boolean[][]) null, subArray -> {});
+        Arrays.flatOp((boolean[][]) null, subArray -> {
+        });
     }
 
     // ============================================
@@ -656,17 +657,17 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_zip_booleanArrays() {
-        boolean[] a = {true, false, true};
-        boolean[] b = {false, false, true};
+        boolean[] a = { true, false, true };
+        boolean[] b = { false, false, true };
         boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
 
-        assertArrayEquals(new boolean[]{false, false, true}, result);
+        assertArrayEquals(new boolean[] { false, false, true }, result);
     }
 
     @Test
     public void test_zip_booleanArraysNull() {
         boolean[] a = null;
-        boolean[] b = {true, false};
+        boolean[] b = { true, false };
         boolean[] result = Arrays.zip(a, b, (x, y) -> x && y);
 
         assertEquals(0, result.length);
@@ -687,8 +688,8 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_zip_booleanArraysWithDefaults() {
-        boolean[] a = {true, false};
-        boolean[] b = {false};
+        boolean[] a = { true, false };
+        boolean[] b = { false };
         boolean[] result = Arrays.zip(a, b, false, true, (x, y) -> x || y);
 
         assertEquals(2, result.length);
@@ -702,7 +703,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_totalCountOfElements_booleanArray2D() {
-        boolean[][] arr = {{true, false}, {true, false, true}};
+        boolean[][] arr = { { true, false }, { true, false, true } };
         long count = Arrays.totalCountOfElements(arr);
 
         assertEquals(5, count);
@@ -727,7 +728,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_totalCountOfElements_booleanArray3D() {
-        boolean[][][] arr = {{{true, false}, {true}}};
+        boolean[][][] arr = { { { true, false }, { true } } };
         long count = Arrays.totalCountOfElements(arr);
 
         assertEquals(3, count);
@@ -745,7 +746,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_minSubArrayLen_booleanArray2D() {
-        boolean[][] arr = {{true, false, true}, {true}};
+        boolean[][] arr = { { true, false, true }, { true } };
         int min = Arrays.minSubArrayLen(arr);
 
         assertEquals(1, min);
@@ -770,7 +771,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_maxSubArrayLen_booleanArray2D() {
-        boolean[][] arr = {{true, false, true}, {true}};
+        boolean[][] arr = { { true, false, true }, { true } };
         int max = Arrays.maxSubArrayLen(arr);
 
         assertEquals(3, max);
@@ -795,50 +796,50 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_updateAll_charArray() {
-        char[] arr = {'a', 'b', 'c'};
+        char[] arr = { 'a', 'b', 'c' };
         Arrays.updateAll(arr, c -> Character.toUpperCase(c));
 
-        assertArrayEquals(new char[]{'A', 'B', 'C'}, arr);
+        assertArrayEquals(new char[] { 'A', 'B', 'C' }, arr);
     }
 
     @Test
     public void test_replaceIf_charArray() {
-        char[] arr = {'a', 'b', 'c', 'a'};
+        char[] arr = { 'a', 'b', 'c', 'a' };
         Arrays.replaceIf(arr, c -> c == 'a', 'x');
 
-        assertArrayEquals(new char[]{'x', 'b', 'c', 'x'}, arr);
+        assertArrayEquals(new char[] { 'x', 'b', 'c', 'x' }, arr);
     }
 
     @Test
     public void test_reshape_charArray() {
-        char[] arr = {'a', 'b', 'c', 'd'};
+        char[] arr = { 'a', 'b', 'c', 'd' };
         char[][] result = Arrays.reshape(arr, 2);
 
         assertEquals(2, result.length);
-        assertArrayEquals(new char[]{'a', 'b'}, result[0]);
-        assertArrayEquals(new char[]{'c', 'd'}, result[1]);
+        assertArrayEquals(new char[] { 'a', 'b' }, result[0]);
+        assertArrayEquals(new char[] { 'c', 'd' }, result[1]);
     }
 
     @Test
     public void test_flatten_charArray2D() {
-        char[][] arr = {{'a', 'b'}, {'c', 'd'}};
+        char[][] arr = { { 'a', 'b' }, { 'c', 'd' } };
         char[] result = Arrays.flatten(arr);
 
-        assertArrayEquals(new char[]{'a', 'b', 'c', 'd'}, result);
+        assertArrayEquals(new char[] { 'a', 'b', 'c', 'd' }, result);
     }
 
     @Test
     public void test_zip_charArrays() {
-        char[] a = {'a', 'b', 'c'};
-        char[] b = {'x', 'y', 'z'};
+        char[] a = { 'a', 'b', 'c' };
+        char[] b = { 'x', 'y', 'z' };
         char[] result = Arrays.zip(a, b, (x, y) -> Character.isLowerCase(x) ? x : y);
 
-        assertArrayEquals(new char[]{'a', 'b', 'c'}, result);
+        assertArrayEquals(new char[] { 'a', 'b', 'c' }, result);
     }
 
     @Test
     public void test_totalCountOfElements_charArray2D() {
-        char[][] arr = {{'a', 'b'}, {'c', 'd', 'e'}};
+        char[][] arr = { { 'a', 'b' }, { 'c', 'd', 'e' } };
         long count = Arrays.totalCountOfElements(arr);
 
         assertEquals(5, count);
@@ -863,7 +864,7 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_integration_reshapeAndFlatten() {
-        boolean[] original = {true, false, true, false, true, false};
+        boolean[] original = { true, false, true, false, true, false };
         boolean[][] reshaped = Arrays.reshape(original, 3);
         boolean[] flattened = Arrays.flatten(reshaped);
 
@@ -872,9 +873,9 @@ public class Arrays2512Test extends TestBase {
 
     @Test
     public void test_integration_mapAndUpdate() {
-        int[] arr = {1, 2, 3};
+        int[] arr = { 1, 2, 3 };
         long[] mapped = Arrays.mapToLong(arr, i -> i * 1000L);
 
-        assertArrayEquals(new long[]{1000L, 2000L, 3000L}, mapped);
+        assertArrayEquals(new long[] { 1000L, 2000L, 3000L }, mapped);
     }
 }

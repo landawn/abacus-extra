@@ -57,7 +57,7 @@ public class Matrixes2512Test extends TestBase {
     @Test
     public void test_isParallelable_withMatrix() {
         IntMatrix largeMatrix = IntMatrix.of(new int[100][100]); // 10000 elements
-        IntMatrix smallMatrix = IntMatrix.of(new int[10][10]);   // 100 elements
+        IntMatrix smallMatrix = IntMatrix.of(new int[10][10]); // 100 elements
 
         // With DEFAULT, large matrix should be parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
@@ -144,21 +144,15 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_isSameShape_withCollection_allSameShape() {
-        List<IntMatrix> matrices = Arrays.asList(
-                IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }),
-                IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
-                IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } })
-        );
+        List<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }), IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
+                IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } }));
         assertTrue(Matrixes.isSameShape(matrices));
     }
 
     @Test
     public void test_isSameShape_withCollection_differentShape() {
-        List<IntMatrix> matrices = Arrays.asList(
-                IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }),
-                IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
-                IntMatrix.of(new int[][] { { 9, 10, 11 } })
-        );
+        List<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }), IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
+                IntMatrix.of(new int[][] { { 9, 10, 11 } }));
         assertFalse(Matrixes.isSameShape(matrices));
     }
 
@@ -170,9 +164,7 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_isSameShape_withCollection_singleElement() {
-        List<IntMatrix> matrices = Arrays.asList(
-                IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } })
-        );
+        List<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }));
         assertTrue(Matrixes.isSameShape(matrices));
     }
 
@@ -322,11 +314,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_byteMatrix_withCollection() {
-        List<ByteMatrix> matrices = Arrays.asList(
-                ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } }),
-                ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } }),
-                ByteMatrix.of(new byte[][] { { 9, 10 }, { 11, 12 } })
-        );
+        List<ByteMatrix> matrices = Arrays.asList(ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } }), ByteMatrix.of(new byte[][] { { 5, 6 }, { 7, 8 } }),
+                ByteMatrix.of(new byte[][] { { 9, 10 }, { 11, 12 } }));
 
         ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) (a + b));
 
@@ -342,9 +331,9 @@ public class Matrixes2512Test extends TestBase {
 
         IntMatrix result = Matrixes.zipToInt(m1, m2, (a, b) -> a * b);
 
-        assertEquals(5, result.get(0, 0));   // 1*5
-        assertEquals(12, result.get(0, 1));  // 2*6
-        assertEquals(32, result.get(1, 1));  // 4*8
+        assertEquals(5, result.get(0, 0)); // 1*5
+        assertEquals(12, result.get(0, 1)); // 2*6
+        assertEquals(32, result.get(1, 1)); // 4*8
     }
 
     // ============ Zip Tests for IntMatrix ============
@@ -364,11 +353,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_intMatrix_withCollection() {
-        List<IntMatrix> matrices = Arrays.asList(
-                IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }),
-                IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
-                IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } })
-        );
+        List<IntMatrix> matrices = Arrays.asList(IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }), IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }),
+                IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } }));
 
         IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
 
@@ -421,10 +407,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_longMatrix_withCollection() {
-        List<LongMatrix> matrices = Arrays.asList(
-                LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } }),
-                LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } })
-        );
+        List<LongMatrix> matrices = Arrays.asList(LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } }),
+                LongMatrix.of(new long[][] { { 5L, 6L }, { 7L, 8L } }));
 
         LongMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
 
@@ -458,10 +442,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_doubleMatrix_withCollection() {
-        List<DoubleMatrix> matrices = Arrays.asList(
-                DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } }),
-                DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } })
-        );
+        List<DoubleMatrix> matrices = Arrays.asList(DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } }),
+                DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } }));
 
         DoubleMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
 
@@ -484,11 +466,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_genericMatrix_withCollection() {
-        List<Matrix<Integer>> matrices = Arrays.asList(
-                Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } }),
-                Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } }),
-                Matrix.of(new Integer[][] { { 9, 10 }, { 11, 12 } })
-        );
+        List<Matrix<Integer>> matrices = Arrays.asList(Matrix.of(new Integer[][] { { 1, 2 }, { 3, 4 } }), Matrix.of(new Integer[][] { { 5, 6 }, { 7, 8 } }),
+                Matrix.of(new Integer[][] { { 9, 10 }, { 11, 12 } }));
 
         Matrix<Integer> result = Matrixes.zip(matrices, (a, b) -> a + b);
 
@@ -498,10 +477,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_zip_genericMatrix_withStrings() {
-        List<Matrix<String>> matrices = Arrays.asList(
-                Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } }),
-                Matrix.of(new String[][] { { "1", "2" }, { "3", "4" } })
-        );
+        List<Matrix<String>> matrices = Arrays.asList(Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } }),
+                Matrix.of(new String[][] { { "1", "2" }, { "3", "4" } }));
 
         Matrix<String> result = Matrixes.zip(matrices, (a, b) -> a + b);
 
@@ -537,8 +514,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_multiply_withDifferentDimensions() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });  // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });  // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         IntMatrix result = IntMatrix.of(new int[1][1]);
 
         Matrixes.multiply(m1, m2, (i, j, k) -> {
@@ -550,12 +527,11 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_multiply_incompatibleDimensions_throwsException() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });       // 1x2
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } });    // 1x3 (incompatible)
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } }); // 1x3 (incompatible)
 
-        assertThrows(IllegalArgumentException.class, () ->
-            Matrixes.multiply(m1, m2, (i, j, k) -> {})
-        );
+        assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(m1, m2, (i, j, k) -> {
+        }));
     }
 
     // ============ CallToInt Tests ============

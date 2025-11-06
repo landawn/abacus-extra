@@ -786,7 +786,8 @@ public class CharTuple2512Test extends TestBase {
         CharTuple2 tuple = CharTuple.of('A', 'B');
         assertThrows(RuntimeException.class, () -> {
             tuple.forEach(c -> {
-                if (c == 'B') throw new RuntimeException("test exception");
+                if (c == 'B')
+                    throw new RuntimeException("test exception");
             });
         });
     }

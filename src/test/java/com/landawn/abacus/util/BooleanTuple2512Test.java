@@ -677,7 +677,8 @@ public class BooleanTuple2512Test extends TestBase {
         BooleanTuple2 tuple = BooleanTuple.of(true, false);
         assertThrows(RuntimeException.class, () -> {
             tuple.forEach(b -> {
-                if (!b) throw new RuntimeException("test exception");
+                if (!b)
+                    throw new RuntimeException("test exception");
             });
         });
     }

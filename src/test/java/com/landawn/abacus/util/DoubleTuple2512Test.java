@@ -810,7 +810,8 @@ public class DoubleTuple2512Test extends TestBase {
         DoubleTuple2 tuple = DoubleTuple.of(1.0, 2.0);
         assertThrows(RuntimeException.class, () -> {
             tuple.forEach(d -> {
-                if (d == 2.0) throw new RuntimeException("test exception");
+                if (d == 2.0)
+                    throw new RuntimeException("test exception");
             });
         });
     }
