@@ -249,7 +249,7 @@ public sealed class Arrays permits Arrays.f {
     static final byte BYTE_0 = (byte) 0;
     static final byte BYTE_1 = (byte) 1;
     static final short SHORT_0 = (short) 0;
-    static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR;
+    static final String ARRAY_PRINT_SEPARATOR = IOUtil.LINE_SEPARATOR_UNIX;
 
     private Arrays() {
         // utility class.
@@ -3121,7 +3121,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -4447,7 +4447,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -5707,7 +5707,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -6955,7 +6955,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -8247,7 +8247,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -9496,7 +9496,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -10743,7 +10743,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -11999,7 +11999,7 @@ public sealed class Arrays permits Arrays.f {
 
                         for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                             if (j > 0) {
-                                sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                             }
 
                             if (row[j] == null) {
@@ -16701,7 +16701,7 @@ public sealed class Arrays permits Arrays.f {
 
                             for (int j = 0, rowLen = row.length; j < rowLen; j++) {
                                 if (j > 0) {
-                                    sb.append(',').append(IOUtil.LINE_SEPARATOR).append("  ");
+                                    sb.append(',').append(IOUtil.LINE_SEPARATOR_UNIX).append("  ");
                                 }
 
                                 if (row[j] == null) {

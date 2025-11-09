@@ -600,15 +600,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
     /**
      * Compares this tuple to the specified object for equality.
+     *
      * <p>
      * Two tuples are considered equal if and only if:
+     * </p>
+     *
      * <ul>
      *   <li>They are the same object (reference equality), or</li>
      *   <li>They are instances of the exact same class, and</li>
      *   <li>They contain the same byte values in the same order</li>
      * </ul>
      * This method is consistent with {@link #hashCode()}.
-     * </p>
      *
      * @param obj the object to be compared for equality with this tuple
      * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
