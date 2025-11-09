@@ -1,3 +1,7 @@
+### 2.26.2
+
+* Improve javadoc and add unit tests
+
 ### 2.25.12
 
 * Improve javadoc and add unit tests
