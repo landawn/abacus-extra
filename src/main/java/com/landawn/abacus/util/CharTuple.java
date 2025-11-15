@@ -21,15 +21,32 @@ import com.landawn.abacus.util.stream.CharStream;
 
 /**
  * Abstract base class for immutable tuple implementations that hold primitive char values.
+ * <p>
  * This class provides common functionality for char-based tuples of various sizes (0 to 9 elements).
- * 
- * <p>CharTuple is designed to be a lightweight, type-safe container for multiple char values
+ * CharTuple is designed to be a lightweight, type-safe container for multiple char values
  * that can be used as a composite key, return multiple values from a method, or group related
- * char values together.</p>
- * 
- * <p>All tuple implementations are immutable and thread-safe.</p>
- * 
+ * char values together. All char tuple implementations extend this class and are immutable by design.
+ * </p>
+ *
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * CharTuple1 single = CharTuple.of('A');
+ * CharTuple2 pair = CharTuple.of('A', 'B');
+ * CharTuple3 triple = CharTuple.of('A', 'B', 'C');
+ *
+ * // Using statistical operations
+ * char min = triple.min();     // 'A'
+ * char max = triple.max();     // 'C'
+ * double avg = triple.average(); // 66.0 (average of ASCII values)
+ *
+ * // Using functional operations
+ * pair.accept((a, b) -> System.out.println(a + " and " + b));
+ * String combined = triple.map((a, b, c) -> "" + a + b + c);
+ * }</pre>
+ *
  * @param <TP> the specific CharTuple subtype
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple<TP> {
@@ -37,8 +54,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     protected char[] elements;
 
     /**
-     * Protected constructor for subclasses.
+     * Constructor for subclasses.
+     * <p>
      * This constructor is protected to prevent direct instantiation of the abstract class.
+     * Subclasses should use this constructor to initialize their instances.
+     * </p>
      */
     protected CharTuple() {
     }
@@ -231,18 +251,30 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Creates a CharTuple from an array of char values.
-     * The size of the returned tuple depends on the length of the input array (0-9 elements).
-     * 
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty CharTuple0. For arrays with 1-9 elements, returns
+     * the corresponding CharTuple1-9 instance.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * char[] values = {'A', 'B', 'C'};
      * CharTuple3 tuple = CharTuple.create(values);
+     *
+     * // Empty array returns CharTuple0
+     * CharTuple0 empty = CharTuple.create(new char[0]);
+     *
+     * // Single element
+     * CharTuple1 single = CharTuple.create(new char[]{'X'});
      * }</pre>
      *
      * @param <TP> the specific CharTuple subtype to return
-     * @param a the array of char values (must contain 0-9 elements)
+     * @param a the array of char values (must have length 0-9), may be {@code null}
      * @return a CharTuple of appropriate size containing the array elements
-     * @throws IllegalArgumentException if the array contains more than 9 elements
+     * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends CharTuple<TP>> TP create(final char[] a) {
         if (a == null || a.length == 0) {
@@ -284,11 +316,18 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the minimum char value in this tuple.
+     * <p>
+     * This method finds and returns the smallest char value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char min = tuple.min(); // 'A'
+     *
+     * CharTuple2 pair = CharTuple.of('B', 'D');
+     * char minPair = pair.min(); // 'B'
      * }</pre>
      *
      * @return the minimum char value in this tuple
@@ -300,11 +339,18 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the maximum char value in this tuple.
+     * <p>
+     * This method finds and returns the largest char value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
      * char max = tuple.max(); // 'Z'
+     *
+     * CharTuple2 pair = CharTuple.of('B', 'D');
+     * char maxPair = pair.max(); // 'D'
      * }</pre>
      *
      * @return the maximum char value in this tuple
@@ -316,15 +362,21 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median char value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value when sorted.
+     * <p>
+     * The median is the middle value when all elements are sorted. For tuples with
+     * an odd number of elements, returns the exact middle value. For tuples with an
+     * even number of elements, returns the lower of the two middle values.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Odd number of elements
      * CharTuple3 tuple3 = CharTuple.of('Z', 'A', 'M');
-     * char median = tuple3.median(); // 'M'
+     * char median = tuple3.median(); // 'M' (middle value when sorted: A, M, Z)
      *
+     * // Even number of elements
      * CharTuple4 tuple4 = CharTuple.of('A', 'B', 'C', 'D');
-     * char median2 = tuple4.median(); // 'B'
+     * char median2 = tuple4.median(); // 'B' (lower middle value)
      * }</pre>
      *
      * @return the median char value in this tuple
@@ -336,12 +388,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the sum of all char values in this tuple as an integer.
-     * The sum is calculated by adding the numeric values of all char elements, with the result returned as an int.
+     * <p>
+     * This method calculates the sum by adding the numeric values of all char elements together.
+     * The result is returned as an int to prevent overflow issues that could occur if the sum
+     * exceeds the char range (0 to 65535).
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple2 tuple = CharTuple.of('A', 'B'); // 'A'=65, 'B'=66
-     * int sum = tuple.sum(); // 131
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
+     * int sum = tuple.sum(); // 198
+     *
+     * CharTuple2 pair = CharTuple.of('X', 'Y'); // 'X'=88, 'Y'=89
+     * int pairSum = pair.sum(); // 177
      * }</pre>
      *
      * @return the sum of all char values in this tuple as an integer
@@ -352,12 +411,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the average of all char values in this tuple as a double.
-     * The average is calculated as the arithmetic mean of the numeric values of all char elements.
+     * <p>
+     * This method calculates the arithmetic mean of the numeric values of all elements in the tuple.
+     * The result is always returned as a double to preserve precision, even when
+     * the average is a whole number.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple2 tuple = CharTuple.of('A', 'C'); // 'A'=65, 'C'=67
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
      * double avg = tuple.average(); // 66.0
+     *
+     * CharTuple2 pair = CharTuple.of('A', 'D'); // 'A'=65, 'D'=68
+     * double avgPair = pair.average(); // 66.5
      * }</pre>
      *
      * @return the average of all char values in this tuple as a double
@@ -369,11 +435,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged. For example, a tuple ('A', 'B', 'C') becomes
+     * ('C', 'B', 'A') when reversed.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * CharTuple3 reversed = tuple.reverse(); // ('C', 'B', 'A')
+     *
+     * CharTuple2 pair = CharTuple.of('X', 'Y');
+     * CharTuple2 reversedPair = pair.reverse(); // ('Y', 'X')
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -382,12 +456,21 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Checks if this tuple contains the specified char value.
+     * <p>
+     * This method performs a linear search through all elements in the tuple to determine
+     * if any element matches the specified value. Returns {@code true} if at least one
+     * element equals the search value, {@code false} otherwise.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * boolean hasB = tuple.contains('B'); // true
      * boolean hasZ = tuple.contains('Z'); // false
+     *
+     * CharTuple2 pair = CharTuple.of('X', 'Y');
+     * boolean hasX = pair.contains('X'); // true
+     * boolean hasA = pair.contains('A'); // false
      * }</pre>
      *
      * @param valueToFind the char value to search for
@@ -397,12 +480,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
+     * <p>
+     * This method creates a defensive copy of the internal array. Modifications to the
+     * returned array will not affect the tuple since tuples are immutable.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * char[] array = tuple.toArray(); // ['A', 'B', 'C']
+     * array[0] = 'X'; // Does not modify the original tuple
+     *
+     * CharTuple0 empty = CharTuple.create(new char[0]);
+     * char[] emptyArray = empty.toArray(); // []
      * }</pre>
      *
      * @return a new char array containing all tuple elements
@@ -413,11 +503,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new CharList containing all elements of this tuple.
+     * <p>
+     * This method converts the tuple into a mutable CharList. The returned list is a new
+     * instance, and modifications to it will not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * CharList list = tuple.toList();
+     * list.add('D'); // Does not affect the original tuple
+     *
+     * CharTuple2 pair = CharTuple.of('X', 'Y');
+     * CharList pairList = pair.toList(); // [X, Y]
      * }</pre>
      *
      * @return a new CharList containing all tuple elements
@@ -428,14 +526,22 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     * <p>
+     * This method iterates through all elements in the tuple in order, applying the specified
+     * consumer action to each element. The action is performed for its side effects only.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * tuple.forEach(ch -> System.out.print(ch + " ")); // prints "A B C "
+     *
+     * CharTuple2 pair = CharTuple.of('X', 'Y');
+     * List<Character> chars = new ArrayList<>();
+     * pair.forEach(chars::add); // adds 'X' and 'Y' to the list
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
+     * @param <E> the type of exception that may be thrown by the consumer
      * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
@@ -447,11 +553,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a CharStream of all elements in this tuple.
+     * <p>
+     * This method creates a sequential CharStream with all elements from the tuple.
+     * The stream provides a functional programming interface for processing the tuple elements
+     * through operations like filter, map, and reduce.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * int sum = tuple.stream().sum(); // 198
+     * int sum = tuple.stream().sum(); // 198 (sum of ASCII values)
+     *
+     * CharTuple2 pair = CharTuple.of('a', 'b');
+     * long count = pair.stream().filter(c -> c > 'a').count(); // 1
      * }</pre>
      *
      * @return a CharStream containing all tuple elements
@@ -462,7 +576,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on the contents of the tuple.
+     * <p>
+     * The hash code is computed based on the contents of the tuple's elements.
+     * Tuples with identical elements in the same order will have the same hash code.
+     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -473,10 +591,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Compares this tuple to the specified object for equality.
-     * Two tuples are equal if they are of the same class and contain the same elements in the same order.
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * </p>
+     * <ul>
+     * <li>They are of the exact same class (e.g., both CharTuple2)</li>
+     * <li>They contain the same elements in the same order</li>
+     * </ul>
+     * <p>
+     * This method adheres to the general contract of {@link Object#equals(Object)}.
+     * </p>
      *
      * @param obj the object to be compared for equality with this tuple
-     * @return {@code true} if the specified object is equal to this tuple
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -491,10 +618,19 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a string representation of this tuple.
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces.
+     * <p>
+     * The string representation consists of the tuple elements enclosed in parentheses "( )"
+     * and separated by commas and spaces. This format provides a clear and readable
+     * representation of the tuple's contents.
+     * </p>
      *
-     * <p>Example: {@code (A, B, C)}</p>
+     * <p><b>Example output:</b></p>
+     * <ul>
+     * <li>{@code (A, B, C)} - for a CharTuple3</li>
+     * <li>{@code (X, Y)} - for a CharTuple2</li>
+     * <li>{@code (A)} - for a CharTuple1</li>
+     * <li>{@code ()} - for an empty CharTuple0</li>
+     * </ul>
      *
      * @return a string representation of this tuple
      */
@@ -507,7 +643,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * An empty CharTuple containing no elements.
-     * This class represents a tuple with arity 0.
+     * <p>
+     * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
+     * with a single shared instance accessed via {@code CharTuple.create(new char[0])} or returned
+     * when creating tuples from null/empty arrays. All statistical operations on CharTuple0 either
+     * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * </p>
      */
     static final class CharTuple0 extends CharTuple<CharTuple0> {
 
@@ -625,7 +766,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly one char element.
-     * Provides direct access to the element through the public final field {@code _1}.
+     * <p>
+     * This class provides direct access to the single element through the public final field {@code _1}.
+     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
+     * or are based on that single element.
+     * </p>
      */
     public static final class CharTuple1 extends CharTuple<CharTuple1> {
 
@@ -776,7 +921,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly two char elements.
-     * Provides direct access to elements through public final fields {@code _1} and {@code _2}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
+     * CharTuple2 offers additional functional methods like {@link #accept(Throwables.CharBiConsumer)},
+     * {@link #map(Throwables.CharBiFunction)}, and {@link #filter(Throwables.CharBiPredicate)} that
+     * operate on both elements simultaneously.
+     * </p>
      */
     public static final class CharTuple2 extends CharTuple<CharTuple2> {
 
@@ -993,7 +1143,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly three char elements.
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * CharTuple3 offers additional functional methods like {@link #accept(Throwables.CharTriConsumer)},
+     * {@link #map(Throwables.CharTriFunction)}, and {@link #filter(Throwables.CharTriPredicate)} that
+     * operate on all three elements simultaneously.
+     * </p>
      */
     public static final class CharTuple3 extends CharTuple<CharTuple3> {
 
@@ -1213,7 +1368,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly four char elements.
-     * Provides direct access to elements through public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
+     * </p>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
 
@@ -1301,7 +1459,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly five char elements.
-     * Provides direct access to elements through public final fields {@code _1} through {@code _5}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1} through {@code _5}.
+     * </p>
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -1393,7 +1554,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly six char elements.
-     * Provides direct access to elements through public final fields {@code _1} through {@code _6}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1} through {@code _6}.
+     * </p>
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -1489,7 +1653,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly seven char elements.
-     * Provides direct access to elements through public final fields {@code _1} through {@code _7}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1} through {@code _7}.
+     * </p>
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 
@@ -1590,9 +1757,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly eight char elements.
-     * Provides direct access to elements through public final fields {@code _1} through {@code _8}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1} through {@code _8}.
+     * </p>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
+     * @deprecated Use a custom class with meaningful property names for better code clarity and maintainability when working with 8 or more values
      */
     @Deprecated
     public static final class CharTuple8 extends CharTuple<CharTuple8> {
@@ -1698,9 +1868,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
     /**
      * A CharTuple containing exactly nine char elements.
-     * Provides direct access to elements through public final fields {@code _1} through {@code _9}.
+     * <p>
+     * This class provides direct access to elements through public final fields
+     * {@code _1} through {@code _9}.
+     * </p>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
+     * @deprecated Use a custom class with meaningful property names for better code clarity and maintainability when working with 9 or more values
      */
     @Deprecated
     public static final class CharTuple9 extends CharTuple<CharTuple9> {

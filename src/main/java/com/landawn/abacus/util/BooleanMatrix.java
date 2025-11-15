@@ -151,17 +151,22 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements.
-     * All other elements are set to false.
+     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * All other elements (off-diagonal) are set to false. The matrix size is n×n where n is the length
+     * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.diagonalRU2LD(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with anti-diagonal [true, false, true] and false elsewhere
+     * // Resulting matrix:
+     * //   {false, false, true},
+     * //   {false, false, false},
+     * //   {true, false, false}
      * }</pre>
      *
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified anti-diagonal
+     * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -169,23 +174,31 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements are set to false.
+     * All other elements (off-diagonal) are set to false. The matrix size is n×n where n is the length
+     * of the diagonal arrays. If only one diagonal is specified (the other is null), only that diagonal
+     * is set with the provided values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.diagonal(new boolean[] {true, true, true}, new boolean[] {false, false, false});
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
+     * // Resulting matrix:
      * //   {true, false, false},
      * //   {false, true, false},
      * //   {false, false, true}
      *
+     * // With both diagonals having values
+     * BooleanMatrix matrix2 = BooleanMatrix.diagonal(new boolean[] {true, false, true}, new boolean[] {true, true, true});
+     * // Resulting matrix:
+     * //   {true, false, true},
+     * //   {false, false, false},
+     * //   {true, false, true}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified diagonals
-     * @throws IllegalArgumentException if arrays have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (left-up to right-down), can be null
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (right-up to left-down), can be null
+     * @return a square matrix with the specified diagonals (n×n where n = diagonal length)
+     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -225,13 +238,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Boolean&gt; boxed = Matrix.of(new Boolean[][] {{true, false}, {null, true}});
+     * Matrix<Boolean> boxed = Matrix.of(new Boolean[][] {{true, false}, {null, true}});
      * BooleanMatrix primitive = BooleanMatrix.unbox(boxed);
      * // null is converted to false: [[true, false], [false, true]]
      * }</pre>
      *
      * @param x the boxed Boolean Matrix to convert; must not be null
      * @return a new BooleanMatrix with primitive boolean values
+     * @see #boxed()
      */
     public static BooleanMatrix unbox(final Matrix<Boolean> x) {
         return BooleanMatrix.of(Array.unbox(x.a));

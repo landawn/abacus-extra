@@ -244,17 +244,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a square matrix from the specified anti-diagonal elements.
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified anti-diagonal elements (right-upper to left-down).
+     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
+     * of the diagonal array. The anti-diagonal runs from top-right to bottom-left.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.diagonalRU2LD(new byte[] {1, 2, 3});
      * // Creates 3x3 matrix with anti-diagonal [1, 2, 3] and zeros elsewhere
+     * // Resulting matrix:
+     * //   {0, 0, 1},
+     * //   {0, 2, 0},
+     * //   {3, 0, 0}
      * }</pre>
      *
      * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified anti-diagonal
+     * @return a square matrix with the specified anti-diagonal (n×n where n = diagonal length)
      */
     public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -262,23 +267,31 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements are set to zero.
+     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
+     * of the diagonal arrays. If only one diagonal is specified (the other is null), only that diagonal
+     * is set with the provided values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix matrix = ByteMatrix.diagonal(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+     * ByteMatrix matrix = ByteMatrix.diagonal(new byte[] {1, 2, 3}, new byte[] {4, 5, 6});
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
+     * // Resulting matrix:
      * //   {1, 0, 4},
      * //   {0, 2, 0},
-     * //   {6, 0, 3} 
-     * 
+     * //   {6, 0, 3}
+     *
+     * // With both diagonals having non-zero values
+     * ByteMatrix matrix2 = ByteMatrix.diagonal(new byte[] {1, 2, 3}, new byte[] {7, 8, 9});
+     * // Resulting matrix:
+     * //   {1, 0, 7},
+     * //   {0, 2, 0},
+     * //   {9, 0, 3}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified diagonals
-     * @throws IllegalArgumentException if arrays have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (left-up to right-down), can be null
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (right-up to left-down), can be null
+     * @return a square matrix with the specified diagonals (n×n where n = diagonal length)
+     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
      */
     public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -309,17 +322,23 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Converts a Matrix of Byte objects to a ByteMatrix by unboxing all values.
-     * Null values in the input matrix will be converted to 0.
-     * 
+     * Converts a boxed Byte Matrix to a primitive ByteMatrix.
+     * Null values in the input matrix are converted to {@code 0}.
+     *
+     * <p>This method performs the opposite operation of {@link #boxed()}, converting
+     * from object-based Byte values to primitive byte values. This conversion
+     * improves memory efficiency and performance when working with large matrices.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Byte> boxed = Matrix.of(new Byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix unboxed = ByteMatrix.unbox(boxed);
+     * Matrix<Byte> boxed = Matrix.of(new Byte[][] {{1, 2}, {null, 4}});
+     * ByteMatrix primitive = ByteMatrix.unbox(boxed);
+     * // null is converted to 0: [[1, 2], [0, 4]]
      * }</pre>
      *
-     * @param x the Matrix of Byte objects to convert
-     * @return a new ByteMatrix containing the unboxed values
+     * @param x the boxed Byte Matrix to convert; must not be null
+     * @return a new ByteMatrix with primitive byte values
+     * @see #boxed()
      */
     public static ByteMatrix unbox(final Matrix<Byte> x) {
         return ByteMatrix.of(Array.unbox(x.a));
@@ -412,17 +431,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the element above the specified position, if it exists.
+     * This method provides safe access to the element directly above the given position
+     * without throwing an exception when at the top edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * OptionalByte value = matrix.upOf(1, 0); // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.upOf(0, 0); // Returns OptionalByte.empty()
+     * OptionalByte empty = matrix.upOf(0, 0); // Returns OptionalByte.empty() - no row above
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element above, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalByte containing the element at position (i-1, j), or empty if i == 0
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalByte upOf(final int i, final int j) {
         return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
@@ -430,17 +452,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the element below the specified position, if it exists.
+     * This method provides safe access to the element directly below the given position
+     * without throwing an exception when at the bottom edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * OptionalByte value = matrix.downOf(0, 0); // Returns OptionalByte.of((byte)3)
-     * OptionalByte empty = matrix.downOf(1, 0); // Returns OptionalByte.empty()
+     * OptionalByte empty = matrix.downOf(1, 0); // Returns OptionalByte.empty() - no row below
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element below, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalByte containing the element at position (i+1, j), or empty if i == rows-1
+     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalByte downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
@@ -448,17 +473,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the element to the left of the specified position, if it exists.
+     * This method provides safe access to the element directly to the left of the given position
+     * without throwing an exception when at the leftmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * OptionalByte value = matrix.leftOf(0, 1); // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.leftOf(0, 0); // Returns OptionalByte.empty()
+     * OptionalByte empty = matrix.leftOf(0, 0); // Returns OptionalByte.empty() - no column to the left
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the left, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalByte containing the element at position (i, j-1), or empty if j == 0
      */
     public OptionalByte leftOf(final int i, final int j) {
         return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
@@ -466,17 +493,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the element to the right of the specified position, if it exists.
+     * This method provides safe access to the element directly to the right of the given position
+     * without throwing an exception when at the rightmost edge of the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * OptionalByte value = matrix.rightOf(0, 0); // Returns OptionalByte.of((byte)2)
-     * OptionalByte empty = matrix.rightOf(0, 1); // Returns OptionalByte.empty()
+     * OptionalByte empty = matrix.rightOf(0, 1); // Returns OptionalByte.empty() - no column to the right
      * }</pre>
      *
-     * @param i the row index
-     * @param j the column index
-     * @return an Optional containing the element to the right, or empty if out of bounds
+     * @param i the row index (0-based)
+     * @param j the column index (0-based)
+     * @return an OptionalByte containing the element at position (i, j+1), or empty if j == cols-1
      */
     public OptionalByte rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);

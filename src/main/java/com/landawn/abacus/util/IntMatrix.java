@@ -490,17 +490,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // int value = matrix.get(point); // Returns element at point
+     * Point point = Point.of(0, 1);
+     * int value = matrix.get(point); // Returns 2
      * }</pre>
      *
-     * @param point the point containing row and column indices
-     * @return the element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the int element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #get(int, int)
      */
     public int get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
@@ -525,18 +527,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the element at the specified point.
+     * Sets the element at the specified point to the given value.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // matrix.set(point, 9); // Sets element at point
+     * Point point = Point.of(0, 1);
+     * matrix.set(point, 9);
+     * assert matrix.get(point) == 9;
      * }</pre>
      *
-     * @param point the point containing row and column indices
-     * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new int value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #set(int, int, int)
      */
     public void set(final Point point, final int val) {
         a[point.rowIndex()][point.columnIndex()] = val;
