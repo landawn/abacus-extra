@@ -61,6 +61,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * This means modifications to the input array after construction will affect the matrix,
      * and vice versa. For independent matrices, create a copy of the array before passing it.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * boolean[][] data = {{true, false, true}, {false, true, false}};
+     * BooleanMatrix matrix = new BooleanMatrix(data);
+     * data[0][0] = false;  // This will also modify the matrix
+     * }</pre>
+     *
      * @param a the two-dimensional boolean array to initialize the matrix with, or null for an empty matrix
      */
     public BooleanMatrix(final boolean[][] a) {
@@ -610,10 +617,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * The diagonal array length must exactly match the number of rows; extra elements will not be ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -626,7 +633,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Diagonal is now all false
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
