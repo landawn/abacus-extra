@@ -23,13 +23,15 @@ import com.landawn.abacus.util.stream.FloatStream;
  * Abstract base class for immutable tuple implementations that hold primitive float values.
  * This class provides common functionality for float-based tuples of various sizes (0 to 9 elements).
  *
- * <p>FloatTuple is designed to be a lightweight, type-safe container for multiple float values
- * that can be used as a composite key, return multiple values from a method, or group related
- * float values together.</p>
+ * <p>FloatTuple and its subclasses offer:</p>
+ * <ul>
+ *   <li>Type safety for float collections of known size</li>
+ *   <li>Immutability for thread-safe operations</li>
+ *   <li>Convenient factory methods and utilities</li>
+ *   <li>Statistical operations (min, max, median, sum, average)</li>
+ * </ul>
  *
- * <p>All tuple implementations are immutable and thread-safe.</p>
- *
- * @param <TP> the specific FloatTuple subtype
+ * @param <TP> the specific FloatTuple subtype for fluent method chaining
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
@@ -37,15 +39,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     protected float[] elements;
 
     /**
-     * Protected constructor for subclasses.
-     * This constructor is protected to prevent direct instantiation of the abstract class.
+     * Protected constructor for subclass instantiation.
+     * <p>
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link FloatTuple1#of(float)}, {@link FloatTuple2#of(float, float)}, etc.,
+     * to create tuple instances.
      */
     protected FloatTuple() {
     }
 
     /**
      * Creates a FloatTuple1 containing a single float value.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple1 single = FloatTuple.of(3.14f);
@@ -61,7 +66,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple2 containing two float values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
@@ -78,7 +83,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple3 containing three float values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
@@ -381,7 +386,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Checks if this tuple contains the specified float value.
-     * Uses {@link N#equals(float, float)} for comparison to handle NaN and precision.
+     * <p>
+     * Uses {@link N#equals(float, float)} for comparison to handle NaN and precision issues.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -435,7 +442,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * tuple.forEach(System.out::println); // prints each value
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
+     * @param <E> the type of exception that the consumer may throw
      * @param consumer the action to perform for each element
      * @throws E if the consumer throws an exception
      */
@@ -451,7 +458,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * double sum = tuple.stream().sum(); // 6.0
+     * float sum = tuple.stream().sum(); // 6.0f
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements
@@ -462,7 +469,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on the contents of the tuple.
+     * The hash code is computed based on all elements.
      *
      * @return a hash code value for this tuple
      */
@@ -472,11 +479,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Compares this tuple to the specified object for equality.
-     * Two tuples are equal if they are of the same class and contain the same elements in the same order.
+     * Compares this tuple to another object for equality.
+     * Two tuples are equal if they are of the same class and contain equal elements
+     * in the same order.
      *
-     * @param obj the object to be compared for equality with this tuple
-     * @return {@code true} if the specified object is equal to this tuple
+     * @param obj the object to compare with
+     * @return {@code true} if the objects are equal, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -491,10 +499,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a string representation of this tuple.
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces.
-     *
-     * <p>Example: {@code (1.0f, 2.0f, 3.0f)}</p>
+     * The format is (element1, element2, ...).
      *
      * @return a string representation of this tuple
      */
@@ -503,11 +508,25 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array of elements in this tuple.
+     * <p>
+     * This method is used internally by the tuple implementation to access the
+     * underlying array of float values. The returned array is lazily initialized
+     * on first access and cached for subsequent calls.
+     * </p>
+     * <p>
+     * Subclasses must implement this method to provide access to their elements.
+     * Modifications to the returned array will affect the tuple's internal state.
+     * </p>
+     *
+     * @return the array of float elements stored in this tuple
+     */
     protected abstract float[] elements();
 
     /**
      * An empty FloatTuple containing no elements.
-     * This class represents a tuple with arity 0.
+     * This class is used as a singleton for efficiency.
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
 
@@ -516,103 +535,46 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         FloatTuple0() {
         }
 
-        /**
-         * Returns the number of elements in this tuple, which is always 0.
-         *
-         * @return 0
-         */
         @Override
         public int arity() {
             return 0;
         }
 
-        /**
-         * Returns the minimum value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
-         */
         @Override
         public float min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
-        /**
-         * Returns the maximum value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
-         */
         @Override
         public float max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
-        /**
-         * Returns the median value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
-         */
         @Override
         public float median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
-        /**
-         * Returns the sum of all elements in this tuple.
-         * For an empty tuple, the sum is 0.
-         *
-         * @return 0
-         */
         @Override
         public float sum() {
             return 0;
         }
 
-        /**
-         * Returns the average of all elements in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
-         *
-         * @return never returns normally
-         * @throws NoSuchElementException always, as there are no elements
-         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
-        /**
-         * Returns a reversed version of this tuple.
-         * For an empty tuple, returns the same instance.
-         *
-         * @return this instance
-         */
         @Override
         public FloatTuple0 reverse() {
             return this;
         }
 
-        /**
-         * Checks whether this tuple contains the specified value.
-         * Since this tuple is empty, this method always returns false.
-         *
-         * @param valueToFind the value to search for
-         * @return false always, as there are no elements
-         */
         @Override
         public boolean contains(final float valueToFind) {
             return false;
         }
 
-        /**
-         * Returns a string representation of this empty tuple.
-         *
-         * @return "()"
-         */
         @Override
         public String toString() {
             return "()";
@@ -886,7 +848,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given binary action on the two elements.
+         * Performs the given bi-consumer on the two elements.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -894,8 +856,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the binary action to perform
+         * @param <E> the type of exception that the action may throw
+         * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.FloatBiConsumer<E> action) throws E {
@@ -903,7 +865,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Applies the given binary function to the two elements and returns the result.
+         * Applies the given bi-function to the two elements and returns the result.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -912,8 +874,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the binary function to apply
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
@@ -931,8 +893,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5); // present
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the binary predicate to test
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the bi-predicate to test the two elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -1106,7 +1068,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given ternary action on the three elements.
+         * Performs the given tri-consumer on the three elements.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1114,8 +1076,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the ternary action to perform
+         * @param <E> the type of exception that the action may throw
+         * @param action the tri-consumer to perform on the three elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.FloatTriConsumer<E> action) throws E {
@@ -1123,7 +1085,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Applies the given ternary function to the three elements and returns the result.
+         * Applies the given tri-function to the three elements and returns the result.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1132,8 +1094,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the ternary function to apply
+         * @param <E> the type of exception that the mapper may throw
+         * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
@@ -1151,8 +1113,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5); // present
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the ternary predicate to test
+         * @param <E> the type of exception that the predicate may throw
+         * @param predicate the tri-predicate to test the three elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -1337,9 +1299,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all four elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all four elements.
          *
-         * @return the hash code
+         * @return a hash code based on all four elements
          */
         @Override
         public int hashCode() {
@@ -1350,9 +1314,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple4 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple4 with equal elements
+         * @return {@code true} if obj is a FloatTuple4 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1367,8 +1333,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4)"
+         * @return a string representation in the format "(_1, _2, _3, _4)"
          */
         @Override
         public String toString() {
@@ -1519,9 +1486,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all five elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all five elements.
          *
-         * @return the hash code
+         * @return a hash code based on all five elements
          */
         @Override
         public int hashCode() {
@@ -1533,9 +1502,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple5 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple5 with equal elements
+         * @return {@code true} if obj is a FloatTuple5 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1550,8 +1521,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4, _5) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4, _5)"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5)"
          */
         @Override
         public String toString() {
@@ -1707,9 +1679,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all six elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all six elements.
          *
-         * @return the hash code
+         * @return a hash code based on all six elements
          */
         @Override
         public int hashCode() {
@@ -1722,9 +1696,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple6 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple6 with equal elements
+         * @return {@code true} if obj is a FloatTuple6 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1740,8 +1716,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4, _5, _6) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4, _5, _6)"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6)"
          */
         @Override
         public String toString() {
@@ -1900,9 +1877,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all seven elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all seven elements.
          *
-         * @return the hash code
+         * @return a hash code based on all seven elements
          */
         @Override
         public int hashCode() {
@@ -1916,9 +1895,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple7 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple7 with equal elements
+         * @return {@code true} if obj is a FloatTuple7 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1934,8 +1915,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4, _5, _6, _7) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4, _5, _6, _7)"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7)"
          */
         @Override
         public String toString() {
@@ -2102,9 +2084,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all eight elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all eight elements.
          *
-         * @return the hash code
+         * @return a hash code based on all eight elements
          */
         @Override
         public int hashCode() {
@@ -2119,9 +2103,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple8 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple8 with equal elements
+         * @return {@code true} if obj is a FloatTuple8 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2137,8 +2123,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4, _5, _6, _7, _8)"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8)"
          */
         @Override
         public String toString() {
@@ -2309,9 +2296,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all nine elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all nine elements.
          *
-         * @return the hash code
+         * @return a hash code based on all nine elements
          */
         @Override
         public int hashCode() {
@@ -2327,9 +2316,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple9 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple9 with equal elements
+         * @return {@code true} if obj is a FloatTuple9 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -2345,8 +2336,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3, _4, _5, _6, _7, _8, _9) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
+         * @return a string representation in the format "(_1, _2, _3, _4, _5, _6, _7, _8, _9)"
          */
         @Override
         public String toString() {

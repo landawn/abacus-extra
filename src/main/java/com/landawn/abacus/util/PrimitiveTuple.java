@@ -79,7 +79,8 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * <p>
      * The action parameter accepts the specific tuple type (TP), allowing type-safe
-     * access to all tuple fields within the consumer lambda.
+     * access to all tuple fields within the consumer lambda. This method is useful for
+     * debugging, logging, or triggering external operations based on tuple contents.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -122,12 +123,15 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * <p>
      * The mapper function has type-safe access to all fields of the specific tuple type (TP),
-     * enabling direct access to tuple elements like {@code t._1}, {@code t._2}, etc.
+     * enabling direct access to tuple elements like {@code t._1}, {@code t._2}, etc. The
+     * returned value can be of any type, including primitives (via boxing), objects, or complex
+     * data structures.
      * </p>
      *
      * <p>
      * This method does not modify the tuple itself (tuples are immutable), but creates a
-     * new value based on the tuple's contents.
+     * new value based on the tuple's contents. The result may be {@code null} if the mapper
+     * returns null (use {@link #toOptional()} to handle nullable results safely).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -155,7 +159,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * @param <U> the type of the result produced by the mapping function
      * @param <E> the type of exception that may be thrown by the mapper
      * @param mapper the mapping function to apply to this tuple, must not be {@code null}
-     * @return the result of applying the mapper function to this tuple
+     * @return the result of applying the mapper function to this tuple, which may be {@code null}
      * @throws E if the mapper function throws an exception during execution
      */
     @MayReturnNull
@@ -175,7 +179,9 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * <p>
      * This is particularly useful in functional pipelines where you want to process tuples only
-     * when certain conditions are met, enabling clean and expressive filtering logic.
+     * when certain conditions are met, enabling clean and expressive filtering logic. The returned
+     * Optional can be chained with other operations like {@code map()}, {@code flatMap()}, or
+     * {@code ifPresent()}.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -225,7 +231,8 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      *
      * <p>
      * This method is equivalent to {@code Optional.of(this)} and provides a fluent way to
-     * start an Optional-based processing chain directly from the tuple.
+     * start an Optional-based processing chain directly from the tuple. It allows seamless
+     * integration with the Optional API for filtering, mapping, and other functional operations.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

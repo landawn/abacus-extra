@@ -522,11 +522,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     protected abstract long[] elements();
 
     /**
-     * An empty LongTuple with no elements.
-     * <p>
-     * This class represents an empty tuple and provides appropriate behavior for operations
-     * on empty collections (throwing exceptions for operations requiring elements).
-     * </p>
+     * An empty tuple containing no elements.
+     * This class is used to represent a tuple with zero elements
+     * and is returned by {@link #create(long[])} when passed a null or empty array.
      */
     static final class LongTuple0 extends LongTuple<LongTuple0> {
 
@@ -536,7 +534,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 0).
+         * Returns the number of elements in this tuple, which is always 0.
          *
          * @return 0
          */
@@ -547,10 +545,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the minimum value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return nothing (always throws exception)
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no minimum value
          */
         @Override
         public long min() {
@@ -559,10 +556,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return nothing (always throws exception)
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no maximum value
          */
         @Override
         public long max() {
@@ -571,10 +567,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
          *
-         * @return nothing (always throws exception)
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no median value
          */
         @Override
         public long median() {
@@ -582,8 +577,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of all elements in this tuple.
-         * Since this tuple is empty, the sum is 0.
+         * Returns the sum of all values in this tuple.
+         * For an empty tuple, the sum is 0.
          *
          * @return 0
          */
@@ -593,11 +588,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average of all elements in this tuple.
-         * Since this tuple is empty, this method always throws an exception.
+         * Returns the average of all values in this tuple.
          *
-         * @return nothing (always throws exception)
-         * @throws NoSuchElementException always, because the tuple is empty
+         * @return never returns normally
+         * @throws NoSuchElementException always, as an empty tuple has no average value
          */
         @Override
         public double average() {
@@ -605,10 +599,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order.
-         * Since this tuple is empty, returns the same empty tuple.
+         * Returns a tuple with the elements in reverse order.
+         * For an empty tuple, returns itself as there are no elements to reverse.
          *
-         * @return this empty tuple instance
+         * @return this empty tuple
          */
         @Override
         public LongTuple0 reverse() {
@@ -617,10 +611,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Checks if this tuple contains the specified value.
-         * Since this tuple is empty, always returns {@code false}.
+         * An empty tuple contains no values.
          *
          * @param valueToFind the value to search for
-         * @return {@code false} always
+         * @return {@code false} always, as the tuple is empty
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -644,20 +638,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly one element.
-     * <p>
-     * This class provides optimized implementations for single-element operations.
-     * </p>
+     * A tuple containing exactly one long value.
+     * The value is accessible through the public final field {@code _1}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple1 single = LongTuple.of(42L);
-     * long value = single._1;  // 42
+     * long value = single._1; // 42
      * }</pre>
      */
     public static final class LongTuple1 extends LongTuple<LongTuple1> {
 
-        /** The single element of this tuple. */
+        /** The single long value stored in this tuple. */
         public final long _1;
 
         LongTuple1() {
@@ -669,7 +661,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 1).
+         * Returns the number of elements in this tuple, which is always 1.
          *
          * @return 1
          */
@@ -679,7 +671,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the minimum value (which is the only element).
+         * Returns the minimum value in this tuple.
+         * For a single-element tuple, this is the element itself.
          *
          * @return the single element value
          */
@@ -689,7 +682,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the maximum value (which is the only element).
+         * Returns the maximum value in this tuple.
+         * For a single-element tuple, this is the element itself.
          *
          * @return the single element value
          */
@@ -699,7 +693,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the median value (which is the only element).
+         * Returns the median value in this tuple.
+         * For a single-element tuple, this is the element itself.
          *
          * @return the single element value
          */
@@ -709,7 +704,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum (which is the only element).
+         * Returns the sum of all values in this tuple.
+         * For a single-element tuple, this is the element itself.
          *
          * @return the single element value
          */
@@ -719,7 +715,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average (which is the only element).
+         * Returns the average of all values in this tuple.
+         * For a single-element tuple, this is the element itself.
          *
          * @return the single element value as a double
          */
@@ -729,9 +726,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns a new tuple with the elements in reverse order (which is the same tuple for single element).
+         * Returns a new tuple with the elements in reverse order.
+         * For a single-element tuple, returns a new tuple with the same value.
          *
-         * @return a new LongTuple1 with the same element
+         * @return a new LongTuple1 with the same value
          */
         @Override
         public LongTuple1 reverse() {
@@ -742,7 +740,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if the value equals the single element, {@code false} otherwise
+         * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -760,10 +758,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
+         * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple1 with the same element value
+         * @return {@code true} if the object is a LongTuple1 with the same value
          */
         @Override
         public boolean equals(final Object obj) {
@@ -779,7 +777,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "(element)"
+         * @return a string in the format "(value)"
          */
         @Override
         public String toString() {
@@ -797,11 +795,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly two elements.
-     * <p>
-     * This class provides specialized methods for two-element operations, including
-     * bi-consumer and bi-function support.
-     * </p>
+     * A tuple containing exactly two long values.
+     * The values are accessible through the public final fields {@code _1} and {@code _2}.
+     *
+     * <p>This class provides additional functional methods for working with pairs:
+     * <ul>
+     *   <li>{@link #accept(Throwables.LongBiConsumer)} - consume both values</li>
+     *   <li>{@link #map(Throwables.LongBiFunction)} - transform the pair to a single value</li>
+     *   <li>{@link #filter(Throwables.LongBiPredicate)} - conditionally wrap in Optional</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -812,9 +814,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      */
     public static final class LongTuple2 extends LongTuple<LongTuple2> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
 
         LongTuple2() {
@@ -827,7 +829,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 2).
+         * Returns the number of elements in this tuple, which is always 2.
          *
          * @return 2
          */
@@ -839,7 +841,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the two elements.
          *
-         * @return the minimum of _1 and _2
+         * @return the smaller of _1 and _2
          */
         @Override
         public long min() {
@@ -849,7 +851,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum value among the two elements.
          *
-         * @return the maximum of _1 and _2
+         * @return the larger of _1 and _2
          */
         @Override
         public long max() {
@@ -870,7 +872,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of the two elements.
          *
-         * @return _1 + _2
+         * @return _1 + _2 as a long
          */
         @Override
         public long sum() {
@@ -880,7 +882,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of the two elements.
          *
-         * @return (_1 + _2) / 2.0
+         * @return (_1 + _2) / 2.0 as a double
          */
         @Override
         public double average() {
@@ -890,7 +892,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple2 with (_2, _1)
+         * @return a new LongTuple2 with values (_2, _1)
          */
         @Override
         public LongTuple2 reverse() {
@@ -898,10 +900,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if either element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if either element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals _1 or _2
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -909,9 +911,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws E if the consumer throws an exception
          */
@@ -944,13 +946,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 3L);
-         * long remainder = pair.map((a, b) -> a % b);  // 1
+         * long remainder = pair.map((a, b) -> a % b); // 1
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper to _1 and _2
+         * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -980,7 +982,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return a hash code based on both elements
+         * @return 31 * _1 + _2
          */
         @Override
         public int hashCode() {
@@ -988,10 +990,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
+         * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple2 with the same element values
+         * @return {@code true} if the object is a LongTuple2 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1007,7 +1009,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "(_1, _2)"
+         * @return a string in the format "(_1, _2)"
          */
         @Override
         public String toString() {
@@ -1025,11 +1027,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly three elements.
-     * <p>
-     * This class provides specialized methods for three-element operations, including
-     * tri-consumer and tri-function support.
-     * </p>
+     * A tuple containing exactly three long values.
+     * The values are accessible through the public final fields {@code _1}, {@code _2}, and {@code _3}.
+     *
+     * <p>This class provides additional functional methods for working with triples:
+     * <ul>
+     *   <li>{@link #accept(Throwables.LongTriConsumer)} - consume all three values</li>
+     *   <li>{@link #map(Throwables.LongTriFunction)} - transform the triple to a single value</li>
+     *   <li>{@link #filter(Throwables.LongTriPredicate)} - conditionally wrap in Optional</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1040,11 +1046,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      */
     public static final class LongTuple3 extends LongTuple<LongTuple3> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
 
         LongTuple3() {
@@ -1058,7 +1064,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 3).
+         * Returns the number of elements in this tuple, which is always 3.
          *
          * @return 3
          */
@@ -1070,7 +1076,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the three elements.
          *
-         * @return the minimum of _1, _2, and _3
+         * @return the smallest of _1, _2, and _3
          */
         @Override
         public long min() {
@@ -1080,7 +1086,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum value among the three elements.
          *
-         * @return the maximum of _1, _2, and _3
+         * @return the largest of _1, _2, and _3
          */
         @Override
         public long max() {
@@ -1090,7 +1096,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the median value of the three elements.
          *
-         * @return the median value
+         * @return the middle long value when sorted
          */
         @Override
         public long median() {
@@ -1098,9 +1104,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of the three elements.
+         * Returns the sum of all three elements.
          *
-         * @return _1 + _2 + _3
+         * @return _1 + _2 + _3 as a long
          */
         @Override
         public long sum() {
@@ -1108,9 +1114,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average of the three elements.
+         * Returns the average of all three elements.
          *
-         * @return (_1 + _2 + _3) / 3.0
+         * @return (_1 + _2 + _3) / 3.0 as a double
          */
         @Override
         public double average() {
@@ -1120,7 +1126,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple3 with (_3, _2, _1)
+         * @return a new LongTuple3 with values (_3, _2, _1)
          */
         @Override
         public LongTuple3 reverse() {
@@ -1128,10 +1134,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if any element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals _1, _2, or _3
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1139,9 +1145,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws E if the consumer throws an exception
          */
@@ -1177,13 +1183,13 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
-         * long volume = triple.map((l, w, h) -> l * w * h);  // 24
+         * long volume = triple.map((l, w, h) -> l * w * h); // 24
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper to _1, _2, and _3
+         * @return the result of applying the mapper function
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1213,7 +1219,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return a hash code based on all three elements
+         * @return (31 * (31 * _1 + _2)) + _3
          */
         @Override
         public int hashCode() {
@@ -1221,10 +1227,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Compares this tuple to another object for equality.
+         * Compares this tuple to the specified object for equality.
          *
          * @param obj the object to compare with
-         * @return {@code true} if the object is a LongTuple3 with the same element values
+         * @return {@code true} if the object is a LongTuple3 with the same values
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1240,7 +1246,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a string representation of this tuple.
          *
-         * @return a string representation in the format "(_1, _2, _3)"
+         * @return a string in the format "(_1, _2, _3)"
          */
         @Override
         public String toString() {
@@ -1258,29 +1264,26 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly four elements.
-     * <p>
-     * This class provides storage for four long values with optimized implementations
-     * for common operations like min, max, sum, and average.
-     * </p>
+     * A tuple containing exactly four long values.
+     * The values are accessible through the public final fields {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long sum = quad.sum();  // 10L
-     * long min = quad.min();  // 1L
-     * LongTuple4 reversed = quad.reverse();  // (4, 3, 2, 1)
+     * long sum = quad.sum(); // 10L
+     * long min = quad.min(); // 1L
+     * LongTuple4 reversed = quad.reverse(); // (4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
 
         LongTuple4() {
@@ -1295,7 +1298,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 4).
+         * Returns the number of elements in this tuple, which is always 4.
          *
          * @return 4
          */
@@ -1307,7 +1310,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple4 with elements in order (_4, _3, _2, _1)
+         * @return a new LongTuple4 with values (_4, _3, _2, _1)
          */
         @Override
         public LongTuple4 reverse() {
@@ -1315,10 +1318,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if any element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals any of the four elements
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1326,9 +1329,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws E if the consumer throws an exception
          */
@@ -1343,7 +1346,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum value among the four elements.
          *
-         * @return the minimum of _1, _2, _3, and _4
+         * @return the smallest of _1, _2, _3, and _4
          */
         @Override
         public long min() {
@@ -1353,7 +1356,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum value among the four elements.
          *
-         * @return the maximum of _1, _2, _3, and _4
+         * @return the largest of _1, _2, _3, and _4
          */
         @Override
         public long max() {
@@ -1372,9 +1375,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the sum of the four elements.
+         * Returns the sum of all four elements.
          *
-         * @return _1 + _2 + _3 + _4
+         * @return _1 + _2 + _3 + _4 as a long
          */
         @Override
         public long sum() {
@@ -1382,9 +1385,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the average of the four elements.
+         * Returns the average of all four elements.
          *
-         * @return (_1 + _2 + _3 + _4) / 4.0
+         * @return (_1 + _2 + _3 + _4) / 4.0 as a double
          */
         @Override
         public double average() {
@@ -1444,31 +1447,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly five elements.
-     * <p>
-     * This class provides storage for five long values with optimized implementations
-     * for common operations like min, max, sum, average, and median.
-     * </p>
+     * A tuple containing exactly five long values.
+     * The values are accessible through the public final fields {@code _1} through {@code _5}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple5 quintuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * double avg = quintuple.average();  // 3.0
-     * long median = quintuple.median();  // 3
-     * LongTuple5 reversed = quintuple.reverse();  // (5, 4, 3, 2, 1)
+     * LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * double avg = tuple.average(); // 3.0
+     * long median = tuple.median(); // 3
+     * LongTuple5 reversed = tuple.reverse(); // (5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple5 extends LongTuple<LongTuple5> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
-        /** The fifth element of this tuple. */
+        /** The fifth long value in this tuple. */
         public final long _5;
 
         LongTuple5() {
@@ -1484,7 +1484,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns the number of elements in this tuple (always 5).
+         * Returns the number of elements in this tuple, which is always 5.
          *
          * @return 5
          */
@@ -1494,9 +1494,60 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
+         * Returns the minimum value among the five elements.
+         *
+         * @return the smallest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public long min() {
+            return N.min(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the maximum value among the five elements.
+         *
+         * @return the largest of _1, _2, _3, _4, and _5
+         */
+        @Override
+        public long max() {
+            return N.max(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the median value of the five elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
+         *
+         * @return the median long value
+         */
+        @Override
+        public long median() {
+            return N.median(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the sum of all five elements.
+         *
+         * @return _1 + _2 + _3 + _4 + _5 as a long
+         */
+        @Override
+        public long sum() {
+            return N.sum(_1, _2, _3, _4, _5);
+        }
+
+        /**
+         * Returns the average of all five elements.
+         *
+         * @return (_1 + _2 + _3 + _4 + _5) / 5.0 as a double
+         */
+        @Override
+        public double average() {
+            return N.average(_1, _2, _3, _4, _5);
+        }
+
+        /**
          * Returns a new tuple with the elements in reverse order.
          *
-         * @return a new LongTuple5 with elements in order (_5, _4, _3, _2, _1)
+         * @return a new LongTuple5 with values (_5, _4, _3, _2, _1)
          */
         @Override
         public LongTuple5 reverse() {
@@ -1504,10 +1555,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Checks if this tuple contains the specified value.
+         * Checks if any element equals the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if any element equals the value, {@code false} otherwise
+         * @return {@code true} if valueToFind equals any of the five elements
          */
         @Override
         public boolean contains(final long valueToFind) {
@@ -1515,9 +1566,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given action for each element in this tuple.
+         * Performs the given action for each element in order.
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that the consumer may throw
          * @param consumer the action to perform on each element
          * @throws E if the consumer throws an exception
          */
@@ -1528,56 +1579,6 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
-        }
-
-        /**
-         * Returns the minimum value among the five elements.
-         *
-         * @return the minimum of _1, _2, _3, _4, and _5
-         */
-        @Override
-        public long min() {
-            return N.min(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the maximum value among the five elements.
-         *
-         * @return the maximum of _1, _2, _3, _4, and _5
-         */
-        @Override
-        public long max() {
-            return N.max(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the median value of the five elements.
-         *
-         * @return the middle value when sorted
-         */
-        @Override
-        public long median() {
-            return N.median(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the sum of the five elements.
-         *
-         * @return _1 + _2 + _3 + _4 + _5
-         */
-        @Override
-        public long sum() {
-            return N.sum(_1, _2, _3, _4, _5);
-        }
-
-        /**
-         * Returns the average of the five elements.
-         *
-         * @return (_1 + _2 + _3 + _4 + _5) / 5.0
-         */
-        @Override
-        public double average() {
-            return N.average(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1633,32 +1634,29 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly six elements.
-     * <p>
-     * This class provides storage for six long values with optimized implementations
-     * for common operations like min, max, sum, average, and median.
-     * </p>
+     * A tuple containing exactly six long values.
+     * The values are accessible through the public final fields {@code _1} through {@code _6}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple6 sextuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-     * long sum = sextuple.sum();  // 21
-     * double avg = sextuple.average();  // 3.5
+     * LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
+     * long sum = tuple.sum(); // 21
+     * double avg = tuple.average(); // 3.5
      * }</pre>
      */
     public static final class LongTuple6 extends LongTuple<LongTuple6> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
-        /** The fifth element of this tuple. */
+        /** The fifth long value in this tuple. */
         public final long _5;
-        /** The sixth element of this tuple. */
+        /** The sixth long value in this tuple. */
         public final long _6;
 
         LongTuple6() {
@@ -1826,34 +1824,32 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly seven elements.
-     * <p>
-     * This class provides storage for seven long values with optimized implementations
-     * for common operations like min, max, sum, average, and median.
-     * </p>
+     * A tuple containing exactly seven long values.
+     * The values are accessible through the public final fields {@code _1} through {@code _7}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple7 septuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * long sum = septuple.sum();  // 28
-     * long median = septuple.median();  // 4
+     * LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
+     * long sum = tuple.sum(); // 28
+     * long median = tuple.median(); // 4
+     * LongTuple7 reversed = tuple.reverse(); // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple7 extends LongTuple<LongTuple7> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
-        /** The fifth element of this tuple. */
+        /** The fifth long value in this tuple. */
         public final long _5;
-        /** The sixth element of this tuple. */
+        /** The sixth long value in this tuple. */
         public final long _6;
-        /** The seventh element of this tuple. */
+        /** The seventh long value in this tuple. */
         public final long _7;
 
         LongTuple7() {
@@ -2023,17 +2019,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly eight elements.
-     * <p>
-     * This class provides storage for eight long values with optimized implementations
-     * for common operations like min, max, sum, average, and median.
-     * </p>
+     * A tuple containing exactly eight long values.
+     * The values are accessible through the public final fields {@code _1} through {@code _8}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple8 octuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-     * long sum = octuple.sum();  // 36
-     * double avg = octuple.average();  // 4.5
+     * LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
+     * long sum = tuple.sum(); // 36
+     * double avg = tuple.average(); // 4.5
+     * boolean contains5 = tuple.contains(5L); // true
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
@@ -2041,21 +2035,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     @Deprecated
     public static final class LongTuple8 extends LongTuple<LongTuple8> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
-        /** The fifth element of this tuple. */
+        /** The fifth long value in this tuple. */
         public final long _5;
-        /** The sixth element of this tuple. */
+        /** The sixth long value in this tuple. */
         public final long _6;
-        /** The seventh element of this tuple. */
+        /** The seventh long value in this tuple. */
         public final long _7;
-        /** The eighth element of this tuple. */
+        /** The eighth long value in this tuple. */
         public final long _8;
 
         LongTuple8() {
@@ -2229,17 +2223,15 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * A LongTuple containing exactly nine elements.
-     * <p>
-     * This class provides storage for nine long values with optimized implementations
-     * for common operations like min, max, sum, average, and median.
-     * </p>
+     * A tuple containing exactly nine long values.
+     * The values are accessible through the public final fields {@code _1} through {@code _9}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongTuple9 nonuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-     * long sum = nonuple.sum();  // 45
-     * long median = nonuple.median();  // 5
+     * LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
+     * long sum = tuple.sum(); // 45
+     * long median = tuple.median(); // 5
+     * double avg = tuple.average(); // 5.0
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity
@@ -2247,23 +2239,23 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     @Deprecated
     public static final class LongTuple9 extends LongTuple<LongTuple9> {
 
-        /** The first element of this tuple. */
+        /** The first long value in this tuple. */
         public final long _1;
-        /** The second element of this tuple. */
+        /** The second long value in this tuple. */
         public final long _2;
-        /** The third element of this tuple. */
+        /** The third long value in this tuple. */
         public final long _3;
-        /** The fourth element of this tuple. */
+        /** The fourth long value in this tuple. */
         public final long _4;
-        /** The fifth element of this tuple. */
+        /** The fifth long value in this tuple. */
         public final long _5;
-        /** The sixth element of this tuple. */
+        /** The sixth long value in this tuple. */
         public final long _6;
-        /** The seventh element of this tuple. */
+        /** The seventh long value in this tuple. */
         public final long _7;
-        /** The eighth element of this tuple. */
+        /** The eighth long value in this tuple. */
         public final long _8;
-        /** The ninth element of this tuple. */
+        /** The ninth long value in this tuple. */
         public final long _9;
 
         LongTuple9() {

@@ -350,6 +350,19 @@ public final class ImmutableIntArray implements Immutable {
      * if two ImmutableIntArray instances are equal according to {@link #equals(Object)},
      * then calling this method on each will produce the same integer result.</p>
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ImmutableIntArray array1 = ImmutableIntArray.of(new int[] {1, 2, 3});
+     * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
+     *
+     * int hash1 = array1.hashCode();
+     * int hash2 = array2.hashCode();
+     * System.out.println(hash1 == hash2); // prints: true (equal arrays have same hash)
+     *
+     * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
+     * System.out.println(hash1 == array3.hashCode()); // prints: false (different arrays)
+     * }</pre>
+     *
      * @return a hash code value for this ImmutableIntArray based on its contents
      */
     @Override

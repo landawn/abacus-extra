@@ -288,10 +288,14 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Note:</b> This method both prints to the console via {@code Arrays.println()} and returns
      * the formatted string for potential further use.</p>
      *
+     * <p><b>Performance:</b> This method delegates to {@code N.println()} and {@code N.toString()}
+     * for the actual formatting and printing operations.</p>
+     *
      * @param a the one-dimensional object array to print (can be {@code null}).
      * @return the string representation of the array that was printed to console.
      * @see #println(Object[][]) for two-dimensional array printing
      * @see #println(Object[][][]) for three-dimensional array printing
+     * @see N#println(Object) for the underlying print implementation
      */
     public static String println(final Object[] a) {
         if (a == null) {
@@ -418,6 +422,9 @@ public sealed class Arrays permits Arrays.f {
      * // Result: ["YES", "NO", "YES"]
      * }</pre>
      *
+     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
+     * and type safety throughout the transformation process.</p>
+     *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the boolean array to map (can be {@code null}).
@@ -425,6 +432,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -2098,6 +2107,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the two-dimensional boolean array to flatten.
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
+     * @see #flatOp(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
     public static boolean[] flatten(final boolean[][] a) {
         if (N.isEmpty(a)) {
@@ -2135,6 +2146,8 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null}).
      * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @see #flatten(boolean[][]) for flattening two-dimensional arrays
+     * @see #flatOp(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
      */
     public static boolean[] flatten(final boolean[][][] a) {
         if (N.isEmpty(a)) {
@@ -2179,6 +2192,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to operate on.
      * @param op the operation to apply to the flattened array.
      * @throws E if the operation throws an exception.
+     * @see #flatten(boolean[][]) for just flattening without applying operations
+     * @see #flatOp(boolean[][][], Throwables.Consumer) for three-dimensional arrays
      */
     public static <E extends Exception> void flatOp(final boolean[][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
         if (N.isEmpty(a)) {

@@ -64,13 +64,22 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * If the input array is null, an empty matrix (0x0) is created instead.
      *
      * <p><b>Important:</b> Since the array is not copied, any external modifications
-     * to the array will affect this matrix. For a safe copy, use {@link #of(double[][])} instead.
+     * to the array will affect this matrix. To avoid this issue, use {@link #copy()} method
+     * on the created matrix to obtain a deep copy, or manually copy the array before passing it.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
      * DoubleMatrix matrix = new DoubleMatrix(data);
      * // matrix.rows returns 2, matrix.cols returns 2
+     * // Modifications to data will affect matrix
+     *
+     * // For a safe independent copy:
+     * double[][] safeCopy = new double[data.length][];
+     * for (int i = 0; i < data.length; i++) {
+     *     safeCopy[i] = data[i].clone();
+     * }
+     * DoubleMatrix safeMat = new DoubleMatrix(safeCopy);
      *
      * DoubleMatrix empty = new DoubleMatrix(null);
      * // empty.rows returns 0, empty.cols returns 0
@@ -383,7 +392,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Double&gt; boxed = Matrix.of(new Double[][] {{1.0, 2.0}, {3.0, null}});
+     * Matrix<Double> boxed = Matrix.of(new Double[][] {{1.0, 2.0}, {3.0, null}});
      * DoubleMatrix primitive = DoubleMatrix.unbox(boxed);
      * // primitive is [[1.0, 2.0], [3.0, 0.0]]
      * }</pre>
@@ -750,10 +759,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * The diagonal array length must exactly match the number of rows.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -762,7 +771,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Diagonal is now [9.0, 8.0]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length == rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -1055,7 +1064,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.6, 2.4}, {3.7, 4.2}});
-     * LongMatrix rounded = matrix.mapToLong(d -&gt; Math.round(d));
+     * LongMatrix rounded = matrix.mapToLong(d -> Math.round(d));
      * // rounded is [[2L, 2L], [4L, 4L]]
      * }</pre>
      *
@@ -1082,7 +1091,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.23, 4.56}, {7.89, 0.12}});
-     * Matrix<String&gt; stringMatrix = matrix.mapToObj(d -&gt; String.format("%.2f", d), String.class);
+     * Matrix<String> stringMatrix = matrix.mapToObj(d -> String.format("%.2f", d), String.class);
      * // stringMatrix is [["1.23", "4.56"], ["7.89", "0.12"]]
      * }</pre>
      *
@@ -1090,7 +1099,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param <E> the exception type that the function may throw
      * @param func the mapping function that converts each double element to type T; must not be null
      * @param targetElementType the class object representing the target element type (used for array creation); must not be null
-     * @return a new Matrix&lt;T&gt; with the mapped values (same dimensions as the original)
+     * @return a new Matrix<T> with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
@@ -1267,8 +1276,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * //          [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1298,8 +1307,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Result: [[1.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the double value to fill new cells with during extension
      * @return a new DoubleMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
@@ -1844,7 +1853,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{3.0, 1.0, 2.0}, {6.0, 4.0, 5.0}});
-     * matrix.flatOp(row -&gt; java.util.Arrays.sort(row)); // Sort each row in-place
+     * matrix.flatOp(row -> java.util.Arrays.sort(row)); // Sort each row in-place
      * // Matrix becomes [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
      * }</pre>
      *

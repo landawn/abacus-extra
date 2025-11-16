@@ -461,7 +461,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the component type of the matrix elements, which is always {@code int.class}.
-     * 
+     * This method is useful for reflection-based code that needs to determine the element type.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * Class componentType = matrix.componentType();
+     * // componentType is int.class
+     * assert componentType == int.class;
+     * }</pre>
+     *
      * @return {@code int.class}
      */
     @SuppressWarnings("rawtypes")
@@ -701,7 +710,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if row.length != cols
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds or row is null
      */
-    public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException {
+    public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -721,7 +730,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if column.length != rows
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
      */
-    public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException {
+    public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -814,10 +823,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * length equal to the number of rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * If the diagonal array is longer than needed, extra elements are ignored.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -826,7 +835,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length == rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -897,7 +906,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * If the diagonal array is longer than needed, extra elements are ignored.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1752,8 +1761,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix extended = matrix.reshape(2, 4); // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix (must be positive)
-     * @param newCols the number of columns in the reshaped matrix (must be positive)
+     * @param newRows the number of rows in the reshaped matrix (must be non-negative)
+     * @param newCols the number of columns in the reshaped matrix (must be non-negative)
      * @return a new IntMatrix with the specified dimensions
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
@@ -3041,6 +3050,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * IntMatrix matrix2 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * // Same content yields same hash code
+     * int hash1 = matrix1.hashCode();
+     * int hash2 = matrix2.hashCode();
+     * assert hash1 == hash2;
+     * }</pre>
      *
      * @return a hash code value for this matrix
      */

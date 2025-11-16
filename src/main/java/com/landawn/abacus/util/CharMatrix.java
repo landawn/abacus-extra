@@ -362,9 +362,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * char value = matrix.get(point); // Returns 'b'
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @return the element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the char element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #get(int, int)
      */
     public char get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
@@ -389,19 +390,21 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the element at the specified point.
+     * Sets the element at the specified point to the given value.
      * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
      * Point point = Point.of(0, 1);
-     * matrix.set(point, 'x'); // Sets element at point to 'x'
+     * matrix.set(point, 'x');
+     * assert matrix.get(point) == 'x';
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new char value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #set(int, int, char)
      */
     public void set(final Point point, final char val) {
         a[point.rowIndex()][point.columnIndex()] = val;
@@ -492,7 +495,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the specified row as a char array.
      *
-     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
@@ -519,7 +522,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Returns a copy of the specified column as a new char array.
      *
      * <p>Unlike {@link #row(int)}, this method always returns a new array copy since
-     * columns are not stored contiguously. Modifications to the returned array
+     * columns are not stored contiguously in memory. Modifications to the returned array
      * will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -548,7 +551,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the values of the specified row by copying from the provided array.
+     * Sets the values of the specified row.
      *
      * <p>The values from the source array are copied into the matrix row.
      * The source array must have exactly the same length as the number of columns in the matrix.
@@ -560,9 +563,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to copy; must have length equal to number of columns
-     * @throws IllegalArgumentException if row length does not match the number of columns
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is negative or &gt;= number of rows
+     * @param row the array of values to set; must have length equal to number of columns
+     * @throws IllegalArgumentException if row.length != cols
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
     public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -571,7 +574,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the values of the specified column by copying from the provided array.
+     * Sets the values of the specified column.
      *
      * <p>The values from the source array are copied into the matrix column.
      * The source array must have exactly the same length as the number of rows in the matrix.
@@ -584,9 +587,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to copy; must have length equal to number of rows
-     * @throws IllegalArgumentException if column length does not match the number of rows
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is negative or &gt;= number of columns
+     * @param column the array of values to set; must have length equal to number of rows
+     * @throws IllegalArgumentException if column.length != rows
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds or column is null
      */
     public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -597,23 +600,25 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Applies the specified function to update all elements in the specified row in-place.
+     * Updates all elements in a row in-place by applying the specified function.
+     * This modifies the matrix directly.
      *
-     * <p>Each element in the row is replaced with the result of applying the function
-     * to that element. The operation modifies the matrix directly.
+     * <p>The function is applied to each element in the specified row sequentially
+     * from left to right (column 0 to column cols-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateRow(0, c -> Character.toUpperCase(c));
-     * // First row is now ['A', 'B']
+     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
+     * matrix.updateRow(0, c -> Character.toUpperCase(c)); // Converts first row to uppercase
+     * // matrix is now [['A', 'B', 'C'], ['d', 'e', 'f']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param rowIndex the row index to update (0-based)
-     * @param func the function to apply to each element in the row
+     * @param <E> the type of exception that the function may throw
+     * @param rowIndex the index of the row to update (0-based)
+     * @param func the function to apply to each element in the row; receives the current
+     *             element value and returns the new value
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      * @throws E if the function throws an exception
-     * @throws ArrayIndexOutOfBoundsException if rowIndex is negative or &gt;= number of rows
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
@@ -622,24 +627,25 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Applies the specified function to update all elements in the specified column in-place.
+     * Updates all elements in a column in-place by applying the specified function.
+     * This modifies the matrix directly.
      *
-     * <p>Each element in the column is replaced with the result of applying the function
-     * to that element. The operation modifies the matrix directly.
+     * <p>The function is applied to each element in the specified column sequentially
+     * from top to bottom (row 0 to row rows-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'A', 'B'}, {'C', 'D'}});
-     * matrix.updateColumn(1, c -> Character.toLowerCase(c));
-     * // Second column is now ['b', 'd']
-     * // Matrix is now: [['A', 'b'], ['C', 'd']]
+     * matrix.updateColumn(1, c -> Character.toLowerCase(c)); // Converts second column to lowercase
+     * // matrix is now [['A', 'b'], ['C', 'd']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param columnIndex the column index to update (0-based)
-     * @param func the function to apply to each element in the column
+     * @param <E> the type of exception that the function may throw
+     * @param columnIndex the index of the column to update (0-based)
+     * @param func the function to apply to each element in the column; receives the current
+     *             element value and returns the new value
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      * @throws E if the function throws an exception
-     * @throws ArrayIndexOutOfBoundsException if columnIndex is negative or &gt;= number of columns
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
@@ -677,10 +683,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -691,7 +696,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Diagonal is now ['x', 'y', 'z']
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -705,21 +710,20 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates the elements on the main diagonal (left-upper to right-down) using the specified function.
-     * The matrix must be square. Each diagonal element is replaced with the result of applying
-     * the function to that element.
+     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
+     * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * matrix.updateLU2RD(c -> Character.toUpperCase(c));
+     * matrix.updateLU2RD(c -> Character.toUpperCase(c)); // Converts diagonal to uppercase
      * // Diagonal is now ['A', 'D'], matrix: [['A', 'b'], ['c', 'D']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
+     * @param <E> the type of exception that the function may throw
      * @param func the function to apply to each diagonal element
+     * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.CharUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -915,22 +919,28 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a new CharMatrix by applying the specified function to each element.
+     * Creates a new CharMatrix by applying a transformation function to each element.
+     * The original matrix is not modified; a new matrix with transformed values is returned.
      *
-     * <p>This is a non-mutating operation that returns a new matrix. The original matrix
-     * is not modified. For large matrices, this operation may be performed in parallel.
+     * <p>The operation may be performed in parallel for large matrices to improve performance.
+     * This is the immutable counterpart to {@link #updateAll(Throwables.CharUnaryOperator)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * CharMatrix upper = matrix.map(c -> Character.toUpperCase(c));
-     * // upper is [['A', 'B'], ['C', 'D']], original matrix is unchanged
+     * CharMatrix upper = matrix.map(c -> Character.toUpperCase(c)); // Creates new matrix with uppercase values
+     * // upper is [['A', 'B'], ['C', 'D']], original matrix unchanged
+     *
+     * CharMatrix lower = matrix.map(c -> Character.toLowerCase(c)); // Convert all to lowercase
+     * // lower is [['a', 'b'], ['c', 'd']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param func the mapping function to apply to each element
-     * @return a new CharMatrix with the transformed values
+     * @param <E> the type of exception that the function may throw
+     * @param func the function to apply to each element; receives the current element value
+     *             and returns the transformed value
+     * @return a new CharMatrix with transformed values
      * @throws E if the function throws an exception
+     * @see #updateAll(Throwables.CharUnaryOperator)
      */
     public <E extends Exception> CharMatrix map(final Throwables.CharUnaryOperator<E> func) throws E {
         final char[][] result = new char[rows][cols];
@@ -996,37 +1006,38 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fills the matrix with values from the specified two-dimensional array, starting from position (0,0).
-     * If the source array is larger than the matrix, only the fitting portion is copied.
-     * If the source array is smaller, only the available values are copied.
+     * Fills the matrix with values from the specified two-dimensional array in-place, starting from position (0,0).
+     * Values are copied up to the minimum of the matrix size and the source array size. If the source
+     * array is smaller than the matrix, only the overlapping region is filled. If the source array is
+     * larger, only the portion that fits is copied.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{0, 0}, {0, 0}});
+     * CharMatrix matrix = CharMatrix.of(new char[3][3]);
      * matrix.fill(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * // matrix is now [['a', 'b'], ['c', 'd']]
+     * // Top-left 2x2 region is filled: [['a', 'b', 0], ['c', 'd', 0], [0, 0, 0]]
      * }</pre>
      *
-     * @param b the source array to copy values from
+     * @param b the source array to copy values from (maybe smaller or larger than the matrix)
      */
     public void fill(final char[][] b) {
         fill(0, 0, b);
     }
 
     /**
-     * Fills a portion of the matrix with values from the specified two-dimensional array.
-     * Values are copied starting from the specified position. If the source array
-     * extends beyond the matrix bounds, only the fitting portion is copied.
+     * Fills a portion of the matrix with values from the specified two-dimensional array in-place, starting from a specified position.
+     * Values are copied starting from the specified row and column indices. If the source array extends
+     * beyond the matrix bounds from the starting position, only the portion that fits is copied.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.of(new char[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
+     * CharMatrix matrix = CharMatrix.of(new char[3][3]);
      * matrix.fill(1, 1, new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * // matrix is now [[0, 0, 0], [0, 'a', 'b'], [0, 'c', 'd']]
+     * // Result: [[0, 0, 0], [0, 'a', 'b'], [0, 'c', 'd']]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index in this matrix (must be &gt;= 0 and &lt;= rows)
-     * @param fromColumnIndex the starting column index in this matrix (must be &gt;= 0 and &lt;= cols)
+     * @param fromRowIndex the starting row index in this matrix (0-based)
+     * @param fromColumnIndex the starting column index in this matrix (0-based)
      * @param b the source array to copy values from
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
@@ -1138,8 +1149,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1169,8 +1180,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: [['a']]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the char value to fill new cells with during extension
      * @return a new CharMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
@@ -1904,7 +1915,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix charMatrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Matrix<Character&gt; boxed = charMatrix.boxed();
+     * Matrix<Character> boxed = charMatrix.boxed();
      * }</pre>
      *
      * @return a new Matrix containing Character objects with the same values and dimensions
@@ -2091,7 +2102,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Applies a ternary operation element-wise to this matrix and two other matrices.
      * All three matrices must have the same dimensions. The zip function is applied
      * to corresponding elements from all three matrices.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix a = CharMatrix.of(new char[][] {{'a', 'b'}});
@@ -2110,7 +2121,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws E if the zip function throws an exception
      */
     public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final CharMatrix matrixC, final Throwables.CharTernaryOperator<E> zipFunction)
-            throws E {
+            throws IllegalArgumentException, E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
 
         final char[][] b = matrixB.a;

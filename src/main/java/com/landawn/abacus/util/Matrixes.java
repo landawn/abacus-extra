@@ -2000,7 +2000,9 @@ public final class Matrixes {
      *
      * <p>This method performs element-wise combination of two long matrices using the provided
      * binary operator. For each position (i, j), the function is called with the corresponding
-     * elements from both matrices. Both matrices must have identical dimensions.
+     * elements from both matrices: {@code zipFunction.apply(a[i][j], b[i][j])}.</p>
+     *
+     * <p>Both matrices must have identical dimensions (same number of rows and columns).
      * The operation delegates to the {@link LongMatrix#zipWith} method.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2033,7 +2035,8 @@ public final class Matrixes {
      *
      * <p>This method performs element-wise combination of three long matrices using the provided
      * ternary operator. For each position (i, j), the function is called with the corresponding
-     * elements from all three matrices. All three matrices must have identical dimensions.
+     * elements from all three matrices: {@code zipFunction.apply(a[i][j], b[i][j], c[i][j])}.
+     * All three matrices must have identical dimensions (same number of rows and columns).
      * The operation delegates to the {@link LongMatrix#zipWith} method.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2392,7 +2395,9 @@ public final class Matrixes {
      *
      * <p>This method performs element-wise combination of two double matrices using the provided
      * binary operator. For each position (i, j), the function is called with the corresponding
-     * elements from both matrices. Both matrices must have identical dimensions.
+     * elements from both matrices: {@code zipFunction.apply(a[i][j], b[i][j])}.</p>
+     *
+     * <p>Both matrices must have identical dimensions (same number of rows and columns).
      * The operation delegates to the {@link DoubleMatrix#zipWith} method.</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -2426,7 +2431,8 @@ public final class Matrixes {
      *
      * <p>This method performs element-wise combination of three double matrices using the provided
      * ternary operator. For each position (i, j), the function is called with the corresponding
-     * elements from all three matrices. All three matrices must have identical dimensions.
+     * elements from all three matrices: {@code zipFunction.apply(a[i][j], b[i][j], c[i][j])}.
+     * All three matrices must have identical dimensions (same number of rows and columns).
      * The operation delegates to the {@link DoubleMatrix#zipWith} method.</p>
      *
      * <p><b>Usage Examples:</b></p>

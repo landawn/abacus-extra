@@ -115,7 +115,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple4 tuple = BooleanTuple.of(true, false, true, false);
-     * boolean fourth = tuple._4; // false
+     * boolean first = tuple._1;   // true
+     * boolean fourth = tuple._4;  // false
+     * BooleanTuple4 reversed = tuple.reverse(); // (false, true, false, true)
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -134,7 +136,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple5 tuple = BooleanTuple.of(true, false, true, false, true);
-     * boolean fifth = tuple._5; // true
+     * boolean first = tuple._1;   // true
+     * boolean fifth = tuple._5;   // true
+     * boolean contains = tuple.contains(false); // true
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -154,7 +158,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple6 tuple = BooleanTuple.of(true, false, true, false, true, false);
-     * boolean sixth = tuple._6; // false
+     * boolean first = tuple._1;  // true
+     * boolean sixth = tuple._6;  // false
+     * BooleanTuple6 reversed = tuple.reverse(); // (false, true, false, true, false, true)
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -175,7 +181,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple7 tuple = BooleanTuple.of(true, false, true, false, true, false, true);
+     * boolean first = tuple._1;   // true
      * boolean seventh = tuple._7; // true
+     * boolean[] array = tuple.toArray(); // [true, false, true, false, true, false, true]
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -198,7 +206,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple8 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false);
+     * boolean first = tuple._1;  // true
      * boolean eighth = tuple._8; // false
+     * BooleanList list = tuple.toList();
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -224,7 +234,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple9 tuple = BooleanTuple.of(true, false, true, false, true, false, true, false, true);
+     * boolean first = tuple._1; // true
      * boolean ninth = tuple._9; // true
+     * int arity = tuple.arity(); // 9
      * }</pre>
      *
      * @param _1 the first boolean value
@@ -314,17 +326,16 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * Returns a new tuple with the elements in reverse order.
      * <p>
      * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged. For example, a tuple (true, false, true) becomes
-     * (true, false, true) when reversed.
+     * The original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanTuple3 tuple = BooleanTuple.of(true, false, false);
-     * BooleanTuple3 reversed = tuple.reverse(); // (false, false, true)
-     *
      * BooleanTuple2 pair = BooleanTuple.of(true, false);
      * BooleanTuple2 reversedPair = pair.reverse(); // (false, true)
+     *
+     * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
+     * BooleanTuple3 reversed = tuple.reverse(); // (true, false, true)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -416,13 +427,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
      * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Prints: Value: true
-     * //         Value: false
-     * //         Value: true
+     * // Output: Value: true, Value: false, Value: true
      *
      * // Count true values
      * AtomicInteger count = new AtomicInteger();
      * tuple.forEach(b -> { if (b) count.incrementAndGet(); });
+     * // count is now 2
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
@@ -448,9 +458,9 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
      * long trueCount = tuple.stream().filter(b -> b).count(); // 2
+     * List<Boolean> list = tuple.stream().collect(Collectors.toList()); // [true, false, true]
      *
      * BooleanTuple2 flags = BooleanTuple.of(true, false);
-     * List<Boolean> list = flags.stream().collect(Collectors.toList());
      * boolean anyTrue = flags.stream().anyMatch(b -> b); // true
      * }</pre>
      *

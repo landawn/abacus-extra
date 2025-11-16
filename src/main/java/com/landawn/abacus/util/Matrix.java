@@ -112,12 +112,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * not a copy. Modifications to the original array will affect the matrix,
      * and vice versa.</p>
      *
-     * <p>All rows must have the same length as the first row (rectangular array required).</p>
+     * <p>All rows must have the same length as the first row (rectangular array required).
+     * The array must not be null.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> matrix = Matrix.of(new String[][] {{"a", "b"}, {"c", "d"}});
-     * // matrix.get(1, 0) returns "c"
+     * // Create a matrix from an existing 2D array
+     * String[][] data = {{"a", "b"}, {"c", "d"}};
+     * Matrix<String> matrix = Matrix.of(data);
+     * String value = matrix.get(1, 0); // Returns "c"
+     *
+     * // Create a matrix with varargs
+     * Matrix<Integer> numbers = Matrix.of(
+     *     new Integer[]{1, 2, 3},
+     *     new Integer[]{4, 5, 6}
+     * );
+     *
+     * // Note: Modifications to the original array affect the matrix
+     * data[0][0] = "x"; // This also changes the matrix
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
@@ -133,21 +145,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a matrix with a single row containing the specified element repeated.
      * This method requires the element to be non-null to infer the element type.
-     * 
+     * The element class is derived from the element's runtime type.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create a 1×5 matrix filled with "X"
      * Matrix<String> matrix = Matrix.repeat("X", 5);
      * // Creates: [["X", "X", "X", "X", "X"]]
+     *
+     * // Create a 1×3 matrix filled with integers
+     * Matrix<Integer> numbers = Matrix.repeat(42, 3);
+     * // Creates: [[42, 42, 42]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
      * @param element the element to repeat (must not be null)
-     * @param len the number of columns
+     * @param len the number of columns (must be non-negative)
      * @return a 1×len matrix filled with the element
      * @throws IllegalArgumentException if element is null
      * @see #repeat(Object, int, Class)
      * @see #repeatNonNull(Object, int)
-     * @deprecated Use {@link #repeat(Object, int, Class)} for better type safety
+     * @deprecated Use {@link #repeat(Object, int, Class)} for better type safety and clarity
      */
     @Deprecated
     public static <T> Matrix<T> repeat(final T element, final int len) throws IllegalArgumentException {
@@ -159,21 +177,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a matrix with a single row containing the specified element repeated.
      * This method requires explicit specification of the element class for proper array creation.
-     * The element can be null when using this method.
-     * 
+     * The element can be null, making this method more flexible than {@link #repeat(Object, int)}.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create a 1×5 matrix with explicit type specification
      * Matrix<Double> matrix = Matrix.repeat(0.0, 5, Double.class);
      * // Creates: [[0.0, 0.0, 0.0, 0.0, 0.0]]
-     * 
+     *
+     * // Create a 1×3 matrix with null values
      * Matrix<String> nullMatrix = Matrix.repeat(null, 3, String.class);
      * // Creates: [[null, null, null]]
+     *
+     * // Create a 1×4 matrix with explicit String type
+     * Matrix<String> strMatrix = Matrix.repeat("default", 4, String.class);
+     * // Creates: [["default", "default", "default", "default"]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
      * @param element the element to repeat (can be null)
-     * @param len the number of columns
-     * @param elementClass the class of the element type
+     * @param len the number of columns (must be non-negative)
+     * @param elementClass the class of the element type (must not be null)
      * @return a 1×len matrix filled with the element
      * @throws IllegalArgumentException if elementClass is null or len is negative
      */
@@ -189,22 +213,31 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a matrix with a single row containing the specified non-null element repeated.
      * The element class is inferred from the element itself.
-     * This method is a convenience wrapper that ensures type safety for non-null elements.
-     * 
+     * This method is a convenience wrapper that ensures type safety for non-null elements,
+     * combining the simplicity of {@link #repeat(Object, int)} with the benefits of explicit type specification.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create a 1×3 matrix with repeated string
      * Matrix<String> matrix = Matrix.repeatNonNull("X", 3);
      * // Creates: [["X", "X", "X"]]
-     * 
+     *
+     * // Create a 1×4 matrix with repeated integer
      * Matrix<Integer> numbers = Matrix.repeatNonNull(42, 4);
      * // Creates: [[42, 42, 42, 42]]
+     *
+     * // Create a 1×5 matrix with repeated double
+     * Matrix<Double> doubles = Matrix.repeatNonNull(3.14, 5);
+     * // Creates: [[3.14, 3.14, 3.14, 3.14, 3.14]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
      * @param element the element to repeat (must not be null)
-     * @param len the number of columns
+     * @param len the number of columns (must be non-negative)
      * @return a 1×len matrix filled with the element
      * @throws IllegalArgumentException if the specified element is null or len is negative
+     * @see #repeat(Object, int)
+     * @see #repeat(Object, int, Class)
      */
     public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
@@ -215,23 +248,30 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a square diagonal matrix with the given values on the main diagonal (left-up to right-down).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
-     * 
+     *
+     * <p>LU2RD stands for Left-Up to Right-Down diagonal. The resulting matrix is always square
+     * with size n×n where n is the length of the diagonal array.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create a 3×3 diagonal matrix
      * Matrix<Integer> diag = Matrix.diagonalLU2RD(new Integer[] {1, 2, 3});
      * // Creates: [[1, null, null],
      * //           [null, 2, null],
      * //           [null, null, 3]]
-     * 
+     *
+     * // Create a 2×2 diagonal matrix with strings
      * Matrix<String> strDiag = Matrix.diagonalLU2RD(new String[] {"A", "B"});
      * // Creates: [["A", null],
      * //           [null, "B"]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param leftUp2RightDownDiagonal the diagonal values
-     * @return a square matrix with the given diagonal values
+     * @param leftUp2RightDownDiagonal the diagonal values (must not be null)
+     * @return a square matrix with the given diagonal values on the main diagonal
      * @throws IllegalArgumentException if the diagonal array is null
+     * @see #diagonal(Object[], Object[])
+     * @see #diagonalRU2LD(Object[])
      */
     public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
@@ -240,23 +280,31 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Creates a square diagonal matrix with the given values on the anti-diagonal (right-up to left-down).
      * All other elements are null. The matrix dimension is determined by the length of the diagonal array.
-     * 
+     *
+     * <p>RU2LD stands for Right-Up to Left-Down diagonal. The resulting matrix is always square
+     * with size n×n where n is the length of the diagonal array. The first element in the array
+     * goes to the top-right corner, and subsequent elements move diagonally down-left.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create a 3×3 anti-diagonal matrix
      * Matrix<Integer> diag = Matrix.diagonalRU2LD(new Integer[] {1, 2, 3});
      * // Creates: [[null, null, 1],
      * //           [null, 2, null],
      * //           [3, null, null]]
-     * 
+     *
+     * // Create a 2×2 anti-diagonal matrix with strings
      * Matrix<String> strDiag = Matrix.diagonalRU2LD(new String[] {"X", "Y"});
      * // Creates: [[null, "X"],
      * //           ["Y", null]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param rightUp2LeftDownDiagonal the anti-diagonal values
+     * @param rightUp2LeftDownDiagonal the anti-diagonal values (must not be null)
      * @return a square matrix with the given anti-diagonal values
      * @throws IllegalArgumentException if the diagonal array is null
+     * @see #diagonal(Object[], Object[])
+     * @see #diagonalLU2RD(Object[])
      */
     public static <T> Matrix<T> diagonalRU2LD(final T[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -1296,16 +1344,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Creates a copy of this matrix.
-     * The returned matrix is independent of the original; modifications to one
-     * do not affect the other. Each row array is cloned.
+     * The returned matrix is a completely independent copy with its own underlying array;
+     * modifications to one matrix do not affect the other. This method creates new array
+     * instances and copies all element values. For large matrices, this operation can be
+     * memory and time intensive.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<T> copy = matrix.copy();
-     * copy.set(0, 0, newValue); // Does not affect original matrix
+     * Matrix<String> original = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * Matrix<String> copy = original.copy();
+     * copy.set(0, 0, "X"); // Original matrix remains unchanged
+     * // original: {{"A", "B"}, {"C", "D"}}
+     * // copy:     {{"X", "B"}, {"C", "D"}}
      * }</pre>
      *
-     * @return a new matrix with the same dimensions and copied elements
+     * @return a new matrix that is a copy of this matrix with the same dimensions and values
      */
     @Override
     public Matrix<T> copy() {
@@ -1622,13 +1675,27 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a new matrix rotated 90 degrees clockwise.
-     * The dimensions are swapped: an m×n matrix becomes n×m.
+     * Rotates this matrix 90 degrees clockwise.
+     * The resulting matrix has dimensions swapped (rows become columns), with the first
+     * column of the result being the last row of the original matrix reading upward.
+     * Creates a new matrix; the original matrix is not modified.
+     *
+     * <p>Rotation formula: element at position (i, j) in the original matrix
+     * moves to position (j, rows - 1 - i) in the rotated matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Matrix<Integer> rotated = matrix.rotate90();
+     * // Original:    Rotated 90° clockwise:
+     * // 1 2 3        7 4 1
+     * // 4 5 6   =>   8 5 2
+     * // 7 8 9        9 6 3
+     *
+     * Matrix<Integer> original = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> rotated = original.rotate90(); // 3×3 remains 3×3
+     *
+     * // Rectangular example
+     * Matrix<Integer> rect = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> rotated = rect.rotate90(); // 3×2 becomes 2×3
      * // Result: {{5, 3, 1}, {6, 4, 2}}
      * }</pre>
      *
@@ -1660,14 +1727,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a new matrix rotated 180 degrees.
-     * Equivalent to flipping both horizontally and vertically.
+     * Rotates this matrix 180 degrees.
+     * This is equivalent to flipping both horizontally and vertically, reversing the
+     * order of all elements. The resulting matrix has the same dimensions as the original.
+     * Creates a new matrix; the original matrix is not modified.
+     *
+     * <p>Rotation formula: element at position (i, j) in the original matrix
+     * moves to position (rows - 1 - i, cols - 1 - j) in the rotated matrix.</p>
+     *
+     * <p>This operation is equivalent to calling {@code rotate90().rotate90()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Original:    Rotated 180°:
+     * // 1 2 3        6 5 4
+     * // 4 5 6   =>   3 2 1
+     *
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Matrix<Integer> rotated = matrix.rotate180();
-     * // Result: {{6, 5, 4}, {3, 2, 1}}
+     * Matrix<Integer> rotated = matrix.rotate180(); // Dimensions remain 2×3
      * }</pre>
      *
      * @return a new matrix rotated 180 degrees with the same dimensions (rows × cols)
@@ -1685,13 +1762,30 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a new matrix rotated 270 degrees clockwise (90 degrees counter-clockwise).
-     * The dimensions are swapped: an m×n matrix becomes n×m.
+     * Rotates this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * The resulting matrix has dimensions swapped (rows become columns), with the first
+     * column of the result being the first row of the original matrix reading downward.
+     * Creates a new matrix; the original matrix is not modified.
+     *
+     * <p>Rotation formula: element at position (i, j) in the original matrix
+     * moves to position (cols - 1 - j, i) in the rotated matrix.</p>
+     *
+     * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}
+     * or {@code transpose().rotate180().transpose()}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
-     * Matrix<Integer> rotated = matrix.rotate270();
+     * // Original:    Rotated 270° clockwise:
+     * // 1 2 3        3 6 9
+     * // 4 5 6   =>   2 5 8
+     * // 7 8 9        1 4 7
+     *
+     * Matrix<Integer> original = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
+     * Matrix<Integer> rotated = original.rotate270(); // 3×3 becomes 3×3
+     *
+     * // Rectangular example
+     * Matrix<Integer> rect = Matrix.of(new Integer[][] {{1, 2}, {3, 4}, {5, 6}});
+     * Matrix<Integer> rotated = rect.rotate270(); // 3×2 becomes 2×3
      * // Result: {{2, 4, 6}, {1, 3, 5}}
      * }</pre>
      *
@@ -1729,15 +1823,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix has dimensions swapped (rows × cols becomes cols × rows).
      * Creates a new matrix; the original matrix is not modified.
      *
+     * <p>Transpose formula: element at position (i, j) in the original matrix
+     * moves to position (j, i) in the transposed matrix.</p>
+     *
+     * <p>The transpose is a fundamental matrix operation used in linear algebra,
+     * statistics, and many matrix algorithms.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Original:  Transposed:
-     * // 1 2 3      1 4
-     * // 4 5 6      2 5
-     * //            3 6
+     * // Original:    Transposed:
+     * // 1 2 3        1 4 7
+     * // 4 5 6   =>   2 5 8
+     * // 7 8 9        3 6 9
      *
-     * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Matrix<Integer> transposed = matrix.transpose(); // 2×3 becomes 3×2
+     * Matrix<Integer> original = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
+     * Matrix<Integer> transposed = original.transpose(); // 2×3 becomes 3×2
      * }</pre>
      *
      * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
@@ -1931,18 +2031,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Flattens the matrix into a one-dimensional list by reading elements row by row.
-     * The list is a new collection independent of the matrix. Elements are read in
-     * row-major order (left to right, top to bottom).
+     * Elements are taken in row-major order (row by row from left to right).
+     * The returned list is a new instance containing all matrix elements.
+     *
+     * <p>The flattening operation converts a two-dimensional matrix structure into a one-dimensional sequence,
+     * which is useful for operations that work on linear data structures.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
      * List<Integer> flat = matrix.flatten();
      * // Result: [1, 2, 3, 4, 5, 6]
+     *
+     * Matrix<String> strings = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
+     * List<String> flat2 = strings.flatten();
+     * // Result: ["A", "B", "C", "D"]
      * }</pre>
      *
-     * @return a new list containing all elements in row-major order with size equal to {@code count}
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
+     * @return a new list containing all elements in row-major order with size equal to count
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols > Integer.MAX_VALUE)
      */
     @Override
     public List<T> flatten() {

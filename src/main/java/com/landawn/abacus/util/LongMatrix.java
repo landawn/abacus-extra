@@ -639,6 +639,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final long[] row) throws IllegalArgumentException {
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -658,6 +659,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final long[] column) throws IllegalArgumentException {
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -677,7 +679,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param <E> the type of exception that the function may throw
      * @param rowIndex the row index to update (0-based)
      * @param func the unary operator to apply to each element in the row
-     * @throws IndexOutOfBoundsException if rowIndex is out of bounds [0, rows)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds [0, rows)
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateRow(final int rowIndex, final Throwables.LongUnaryOperator<E> func) throws E {
@@ -698,7 +700,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param <E> the type of exception that the function may throw
      * @param columnIndex the column index to update (0-based)
      * @param func the unary operator to apply to each element in the column
-     * @throws IndexOutOfBoundsException if columnIndex is out of bounds [0, cols)
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds [0, cols)
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.LongUnaryOperator<E> func) throws E {
@@ -737,10 +739,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly the same length as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -749,7 +750,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Diagonal is now [9L, 8L]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -831,7 +832,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length &lt; rows
+     * @throws IllegalArgumentException if diagonal array length is less than rows
      */
     public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();

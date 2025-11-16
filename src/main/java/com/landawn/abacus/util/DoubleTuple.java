@@ -21,15 +21,32 @@ import com.landawn.abacus.util.stream.DoubleStream;
 
 /**
  * Abstract base class for immutable tuple implementations that hold primitive double values.
+ * <p>
  * This class provides common functionality for double-based tuples of various sizes (0 to 9 elements).
- *
- * <p>DoubleTuple is designed to be a lightweight, type-safe container for multiple double values
+ * DoubleTuple is designed to be a lightweight, type-safe container for multiple double values
  * that can be used as a composite key, return multiple values from a method, or group related
- * double values together.</p>
+ * double values together. All double tuple implementations extend this class and are immutable by design.
+ * </p>
  *
- * <p>All tuple implementations are immutable and thread-safe.</p>
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * DoubleTuple1 single = DoubleTuple.of(3.14);
+ * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+ * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
+ *
+ * // Using statistical operations
+ * double min = triple.min();     // 1.0
+ * double max = triple.max();     // 3.0
+ * double avg = triple.average(); // 2.0
+ *
+ * // Using functional operations
+ * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+ * double product = triple.map((a, b, c) -> a * b * c); // 6.0
+ * }</pre>
  *
  * @param <TP> the specific DoubleTuple subtype
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveTuple<TP> {
@@ -37,23 +54,26 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     protected double[] elements;
 
     /**
-     * Protected constructor for subclasses.
+     * Constructor for subclasses.
+     * <p>
      * This constructor is protected to prevent direct instantiation of the abstract class.
+     * Subclasses should use this constructor to initialize their instances.
+     * </p>
      */
     protected DoubleTuple() {
     }
 
     /**
      * Creates a DoubleTuple1 containing a single double value.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple1 single = DoubleTuple.of(3.14);
      * double value = single._1; // 3.14
      * }</pre>
      *
-     * @param _1 the double value to wrap in a tuple
-     * @return a new DoubleTuple1 containing the provided value
+     * @param _1 the double value to store in the tuple
+     * @return a new DoubleTuple1 containing the specified value
      */
     public static DoubleTuple1 of(final double _1) {
         return new DoubleTuple1(_1);
@@ -61,16 +81,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple2 containing two double values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
-     * double sum = pair._1 + pair._2; // 4.0
+     * double first = pair._1;  // 1.5
+     * double second = pair._2; // 2.5
      * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
-     * @return a new DoubleTuple2 containing the provided values
+     * @return a new DoubleTuple2 containing the specified values
      */
     public static DoubleTuple2 of(final double _1, final double _2) {
         return new DoubleTuple2(_1, _2);
@@ -78,17 +99,17 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple3 containing three double values.
-     * 
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 triple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * double average = triple.average(); // 2.0
+     * double third = triple._3; // 3.0
      * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
-     * @return a new DoubleTuple3 containing the provided values
+     * @return a new DoubleTuple3 containing the specified values
      */
     public static DoubleTuple3 of(final double _1, final double _2, final double _3) {
         return new DoubleTuple3(_1, _2, _3);
@@ -99,15 +120,15 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple4 quad = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double sum = quad.sum(); // 10.0
+     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double fourth = tuple._4; // 4.0
      * }</pre>
      *
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
      * @param _4 the fourth double value
-     * @return a new DoubleTuple4 containing the provided values
+     * @return a new DoubleTuple4 containing the specified values
      */
     public static DoubleTuple4 of(final double _1, final double _2, final double _3, final double _4) {
         return new DoubleTuple4(_1, _2, _3, _4);
@@ -127,7 +148,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _3 the third double value
      * @param _4 the fourth double value
      * @param _5 the fifth double value
-     * @return a new DoubleTuple5 containing the provided values
+     * @return a new DoubleTuple5 containing the specified values
      */
     public static DoubleTuple5 of(final double _1, final double _2, final double _3, final double _4, final double _5) {
         return new DoubleTuple5(_1, _2, _3, _4, _5);
@@ -139,7 +160,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple6 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-     * double average = tuple.average(); // 3.5
+     * double sum = tuple.sum(); // 21.0
      * }</pre>
      *
      * @param _1 the first double value
@@ -148,7 +169,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _4 the fourth double value
      * @param _5 the fifth double value
      * @param _6 the sixth double value
-     * @return a new DoubleTuple6 containing the provided values
+     * @return a new DoubleTuple6 containing the specified values
      */
     public static DoubleTuple6 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
         return new DoubleTuple6(_1, _2, _3, _4, _5, _6);
@@ -160,7 +181,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple7 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0);
-     * double max = tuple.max(); // 7.0
+     * DoubleTuple7 reversed = tuple.reverse(); // (7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * }</pre>
      *
      * @param _1 the first double value
@@ -170,7 +191,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _5 the fifth double value
      * @param _6 the sixth double value
      * @param _7 the seventh double value
-     * @return a new DoubleTuple7 containing the provided values
+     * @return a new DoubleTuple7 containing the specified values
      */
     public static DoubleTuple7 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
@@ -182,7 +203,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple8 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0);
-     * double min = tuple.min(); // 1.0
+     * double[] array = tuple.toArray(); // [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
      * }</pre>
      *
      * @param _1 the first double value
@@ -193,7 +214,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _6 the sixth double value
      * @param _7 the seventh double value
      * @param _8 the eighth double value
-     * @return a new DoubleTuple8 containing the provided values
+     * @return a new DoubleTuple8 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
     @Deprecated
@@ -208,7 +229,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple9 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
-     * double sum = tuple.sum(); // 45.0
+     * DoubleTuple9 reversed = tuple.reverse(); // (9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0)
      * }</pre>
      *
      * @param _1 the first double value
@@ -220,7 +241,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _7 the seventh double value
      * @param _8 the eighth double value
      * @param _9 the ninth double value
-     * @return a new DoubleTuple9 containing the provided values
+     * @return a new DoubleTuple9 containing the specified values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
     @Deprecated
@@ -231,18 +252,29 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Creates a DoubleTuple from an array of double values.
-     * The size of the returned tuple depends on the array length (0-9).
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty DoubleTuple0. For arrays with 1-9 elements, returns
+     * the corresponding DoubleTuple1-9 instance.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * double[] values = {1.0, 2.0, 3.0};
      * DoubleTuple3 tuple = DoubleTuple.create(values);
-     * // tuple._1 == 1.0, tuple._2 == 2.0, tuple._3 == 3.0
+     *
+     * // Empty array returns DoubleTuple0
+     * DoubleTuple0 empty = DoubleTuple.create(new double[0]);
+     *
+     * // Single element
+     * DoubleTuple1 single = DoubleTuple.create(new double[]{3.14});
      * }</pre>
      *
-     * @param <TP> the specific DoubleTuple type to return
-     * @param a the array of double values (must have length 0-9)
-     * @return a DoubleTuple of appropriate size containing the array values
+     * @param <TP> the specific DoubleTuple subtype to return
+     * @param a the array of double values (must have length 0-9), may be {@code null}
+     * @return a DoubleTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends DoubleTuple<TP>> TP create(final double[] a) {
@@ -285,11 +317,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns the minimum double value in this tuple.
+     * <p>
+     * This method finds and returns the smallest double value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double min = tuple.min(); // 1.0
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(2.5, 1.5);
+     * double minPair = pair.min(); // 1.5
      * }</pre>
      *
      * @return the minimum double value in this tuple
@@ -301,11 +340,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns the maximum double value in this tuple.
+     * <p>
+     * This method finds and returns the largest double value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(3.0, 1.0, 2.0);
      * double max = tuple.max(); // 3.0
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * double maxPair = pair.max(); // 2.5
      * }</pre>
      *
      * @return the maximum double value in this tuple
@@ -317,16 +363,22 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns the median double value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
-     * 
+     * <p>
+     * The median is the middle value when all elements are sorted. For tuples with
+     * an odd number of elements, returns the exact middle value. For tuples with an
+     * even number of elements, returns the lower of the two middle values.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleTuple3 tuple = DoubleTuple.of(30.0, 10.0, 20.0);
-     * double median = tuple.median(); // 20.0
-     * 
-     * DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double median = tuple.median(); // 2.0
-     * }</pre> 
+     * // Odd number of elements
+     * DoubleTuple3 tuple3 = DoubleTuple.of(30.0, 10.0, 20.0);
+     * double median = tuple3.median(); // 20.0 (middle value when sorted: 10.0, 20.0, 30.0)
+     *
+     * // Even number of elements
+     * DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
+     * double median2 = tuple4.median(); // 2.0 (lower middle value)
+     * }</pre>
      *
      * @return the median double value in this tuple
      * @throws NoSuchElementException if the tuple is empty
@@ -337,11 +389,18 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns the sum of all elements in this tuple.
-     * 
+     * <p>
+     * This method calculates the sum by adding all double elements together.
+     * For an empty tuple, returns 0.0.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.sum(); // 6.0
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * double pairSum = pair.sum(); // 4.0
      * }</pre>
      *
      * @return the sum of all double values in this tuple
@@ -352,11 +411,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns the average of all double values in this tuple.
+     * <p>
+     * This method calculates the arithmetic mean of all elements in the tuple.
+     * The result is always returned as a double to preserve precision, even when
+     * the average is a whole number.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double avg = tuple.average(); // 2.0
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.0, 2.0);
+     * double avgPair = pair.average(); // 1.5
      * }</pre>
      *
      * @return the average of all double values in this tuple
@@ -368,11 +435,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged. For example, a tuple (1.0, 2.0, 3.0) becomes
+     * (3.0, 2.0, 1.0) when reversed.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleTuple3 reversed = tuple.reverse(); // (3.0, 2.0, 1.0)
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleTuple2 reversedPair = pair.reverse(); // (2.5, 1.5)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -381,13 +456,22 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Checks if this tuple contains the specified double value.
-     * Uses {@link N#equals(double, double)} for comparison to handle NaN and precision.
+     * <p>
+     * This method performs a linear search through all elements in the tuple to determine
+     * if any element matches the specified value. Uses {@link N#equals(double, double)} for
+     * comparison to handle NaN and precision correctly. Returns {@code true} if at least one
+     * element equals the search value, {@code false} otherwise.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * boolean hasTwo = tuple.contains(2.0); // true
      * boolean hasFive = tuple.contains(5.0); // false
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * boolean has1_5 = pair.contains(1.5); // true
+     * boolean has3_5 = pair.contains(3.5); // false
      * }</pre>
      *
      * @param valueToFind the double value to search for
@@ -397,12 +481,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
-     * 
+     * <p>
+     * This method creates a defensive copy of the internal array. Modifications to the
+     * returned array will not affect the tuple since tuples are immutable.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double[] array = tuple.toArray(); // [1.0, 2.0, 3.0]
+     * array[0] = 5.0; // Does not modify the original tuple
+     *
+     * DoubleTuple0 empty = DoubleTuple.create(new double[0]);
+     * double[] emptyArray = empty.toArray(); // []
      * }</pre>
      *
      * @return a new double array containing all tuple elements
@@ -413,11 +504,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a new DoubleList containing all elements of this tuple.
+     * <p>
+     * This method converts the tuple into a mutable DoubleList. The returned list is a new
+     * instance, and modifications to it will not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * DoubleList list = tuple.toList();
+     * list.add(4.0); // Does not affect the original tuple
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * DoubleList pairList = pair.toList(); // [1.5, 2.5]
      * }</pre>
      *
      * @return a new DoubleList containing all tuple elements
@@ -428,15 +527,23 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Performs the given action for each element in this tuple.
-     * 
+     * <p>
+     * This method iterates through all elements in the tuple in order, applying the specified
+     * consumer action to each element. The action is performed for its side effects only.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * tuple.forEach(System.out::println); // prints each value
+     * tuple.forEach(d -> System.out.print(d + " ")); // prints "1.0 2.0 3.0 "
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * List<Double> list = new ArrayList<>();
+     * pair.forEach(list::add); // adds 1.5 and 2.5 to the list
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown
-     * @param consumer the action to perform for each element
+     * @param <E> the type of exception that may be thrown by the consumer
+     * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> consumer) throws E {
@@ -447,11 +554,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a DoubleStream of all elements in this tuple.
+     * <p>
+     * This method creates a sequential DoubleStream with all elements from the tuple.
+     * The stream provides a functional programming interface for processing the tuple elements
+     * through operations like filter, map, and reduce.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
      * double sum = tuple.stream().sum(); // 6.0
+     *
+     * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
+     * long count = pair.stream().filter(d -> d > 2.0).count(); // 1
      * }</pre>
      *
      * @return a DoubleStream containing all tuple elements
@@ -462,7 +577,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on the contents of the tuple.
+     * <p>
+     * The hash code is computed based on the contents of the tuple's elements.
+     * Tuples with identical elements in the same order will have the same hash code.
+     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -473,10 +592,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Compares this tuple to the specified object for equality.
-     * Two tuples are equal if they are of the same class and contain the same elements in the same order.
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * </p>
+     * <ul>
+     * <li>They are of the exact same class (e.g., both DoubleTuple2)</li>
+     * <li>They contain the same elements in the same order</li>
+     * </ul>
+     * <p>
+     * This method adheres to the general contract of {@link Object#equals(Object)}.
+     * </p>
      *
      * @param obj the object to be compared for equality with this tuple
-     * @return {@code true} if the specified object is equal to this tuple
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -491,10 +619,19 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * Returns a string representation of this tuple.
-     * The string representation consists of the tuple elements enclosed in parentheses
-     * and separated by commas and spaces.
+     * <p>
+     * The string representation consists of the tuple elements enclosed in parentheses "( )"
+     * and separated by commas and spaces. This format provides a clear and readable
+     * representation of the tuple's contents.
+     * </p>
      *
-     * <p>Example: {@code (1.0, 2.0, 3.0)}</p>
+     * <p><b>Example output:</b></p>
+     * <ul>
+     * <li>{@code (1.0, 2.0, 3.0)} - for a DoubleTuple3</li>
+     * <li>{@code (1.5, 2.5)} - for a DoubleTuple2</li>
+     * <li>{@code (3.14)} - for a DoubleTuple1</li>
+     * <li>{@code ()} - for an empty DoubleTuple0</li>
+     * </ul>
      *
      * @return a string representation of this tuple
      */
@@ -507,7 +644,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * An empty DoubleTuple containing no elements.
-     * This class represents a tuple with arity 0.
+     * <p>
+     * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
+     * with a single shared instance accessed via {@code DoubleTuple.create(new double[0])} or returned
+     * when creating tuples from null/empty arrays. All statistical operations on DoubleTuple0 either
+     * return 0.0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * </p>
      */
     static final class DoubleTuple0 extends DoubleTuple<DoubleTuple0> {
 
@@ -626,7 +768,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly one double value.
-     * Provides direct access to the element via the public final field {@code _1}.
+     * <p>
+     * This class provides direct access to the single element through the public final field {@code _1}.
+     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
+     * or are based on that single element.
+     * </p>
      */
     public static final class DoubleTuple1 extends DoubleTuple<DoubleTuple1> {
 
@@ -772,7 +918,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly two double values.
-     * Provides direct access to elements via public final fields {@code _1} and {@code _2}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
+     * DoubleTuple2 offers additional functional methods like {@link #accept(Throwables.DoubleBiConsumer)},
+     * {@link #map(Throwables.DoubleBiFunction)}, and {@link #filter(Throwables.DoubleBiPredicate)} that
+     * operate on both elements simultaneously.
+     * </p>
      */
     public static final class DoubleTuple2 extends DoubleTuple<DoubleTuple2> {
 
@@ -991,7 +1142,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
     /**
      * A DoubleTuple containing exactly three double values.
-     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * DoubleTuple3 offers additional functional methods like {@link #accept(Throwables.DoubleTriConsumer)},
+     * {@link #map(Throwables.DoubleTriFunction)}, and {@link #filter(Throwables.DoubleTriPredicate)} that
+     * operate on all three elements simultaneously.
+     * </p>
      */
     public static final class DoubleTuple3 extends DoubleTuple<DoubleTuple3> {
 

@@ -120,8 +120,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple4 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4);
-     * byte first = tuple._1;
+     * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+     * byte first = tuple._1;  // 10
+     * byte fourth = tuple._4; // 40
+     * byte median = tuple.median(); // 20
      * }</pre>
      *
      * @param _1 the first byte value
@@ -139,8 +141,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple5 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5);
-     * byte first = tuple._1;
+     * ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
+     * byte first = tuple._1;  // 10
+     * byte fifth = tuple._5;  // 50
+     * int sum = tuple.sum();  // 150
      * }</pre>
      *
      * @param _1 the first byte value
@@ -159,8 +163,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple6 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6);
-     * byte first = tuple._1;
+     * ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
+     * byte first = tuple._1;    // 10
+     * byte sixth = tuple._6;    // 60
+     * ByteTuple6 reversed = tuple.reverse(); // (60, 50, 40, 30, 20, 10)
      * }</pre>
      *
      * @param _1 the first byte value
@@ -180,8 +186,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple7 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7);
-     * byte first = tuple._1;
+     * ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+     * byte first = tuple._1;   // 10
+     * byte seventh = tuple._7; // 70
+     * byte[] array = tuple.toArray(); // [10, 20, 30, 40, 50, 60, 70]
      * }</pre>
      *
      * @param _1 the first byte value
@@ -202,8 +210,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple8 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8);
-     * byte first = tuple._1;
+     * ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+     * byte first = tuple._1;  // 10
+     * byte eighth = tuple._8; // 80
+     * ByteList list = tuple.toList();
      * }</pre>
      *
      * @param _1 the first byte value
@@ -227,8 +237,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple9 tuple = ByteTuple.of((byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6, (byte)7, (byte)8, (byte)9);
-     * byte first = tuple._1;
+     * ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+     * byte first = tuple._1; // 10
+     * byte ninth = tuple._9; // 90
+     * int arity = tuple.arity(); // 9
      * }</pre>
      *
      * @param _1 the first byte value
@@ -437,17 +449,16 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * Returns a new tuple with the elements in reverse order.
      * <p>
      * This method creates and returns a new tuple instance with all elements in reversed order.
-     * The original tuple remains unchanged. For example, a tuple (10, 20, 30) becomes
-     * (30, 20, 10) when reversed.
+     * The original tuple remains unchanged as tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * ByteTuple3 reversed = tuple.reverse(); // (30, 20, 10)
-     *
      * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 15);
      * ByteTuple2 reversedPair = pair.reverse(); // (15, 5)
+     *
+     * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+     * ByteTuple3 reversed = tuple.reverse(); // (30, 20, 10)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -539,13 +550,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * tuple.forEach(b -> System.out.println("Value: " + b));
-     * // Prints: Value: 10
-     * //         Value: 20
-     * //         Value: 30
+     * // Output: Value: 10, Value: 20, Value: 30
      *
      * // Sum values using external accumulator
      * AtomicInteger sum = new AtomicInteger();
      * tuple.forEach(b -> sum.addAndGet(b));
+     * // sum is now 60
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
@@ -571,10 +581,10 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
      * int sum = tuple.stream().sum(); // 60
+     * long count = tuple.stream().filter(b -> b > 15).count(); // 2
      *
      * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
      * byte max = pair.stream().max().orElse((byte) 0); // 10
-     * long count = pair.stream().filter(b -> b > 7).count(); // 1
      * }</pre>
      *
      * @return a ByteStream containing all tuple elements

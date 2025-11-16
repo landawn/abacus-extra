@@ -696,10 +696,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * The diagonal array length must exactly match the number of rows (and columns) in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -708,7 +708,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length == rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -761,7 +761,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a new short array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public short[] getRU2LD() {
+    public short[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final short[] res = new short[rows];

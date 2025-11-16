@@ -302,7 +302,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns the component type of the matrix elements, which is always {@code float.class}.
-     * 
+     * This method is useful for reflection-based code that needs to determine the element type.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * Class componentType = matrix.componentType();
+     * // componentType is float.class
+     * assert componentType == float.class;
+     * }</pre>
+     *
      * @return {@code float.class}
      */
     @SuppressWarnings("rawtypes")
@@ -641,10 +650,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -653,7 +661,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Diagonal is now [9.0f, 8.0f]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length == rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -2011,7 +2019,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][cols - ++cursor];
+                return a[cursor][cols - 1 - cursor++];
             }
 
             @Override
@@ -2573,6 +2581,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * The hash code is computed based on the deep contents of the internal two-dimensional array.
      * Matrices with the same dimensions and element values will have equal hash codes,
      * consistent with the {@link #equals(Object)} method.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * FloatMatrix matrix1 = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * FloatMatrix matrix2 = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * // Same content yields same hash code
+     * int hash1 = matrix1.hashCode();
+     * int hash2 = matrix2.hashCode();
+     * assert hash1 == hash2;
+     * }</pre>
      *
      * @return a hash code value for this matrix
      */

@@ -580,7 +580,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param rowIndex the index of the row to set (0-based)
      * @param row the array of values to set; must have length equal to number of columns
-     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
+     * @throws IllegalArgumentException if row length does not match column count
+     * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
     public void setRow(final int rowIndex, final byte[] row) throws IllegalArgumentException {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -599,7 +600,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to set; must have length equal to number of rows
-     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws IllegalArgumentException if column length does not match row count
+     * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
     public void setColumn(final int columnIndex, final byte[] column) throws IllegalArgumentException {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -685,10 +687,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -697,7 +698,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Diagonal is now [10, 11, 12]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -1933,17 +1934,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Converts this ByteMatrix to a Matrix of Byte objects (boxed values).
-     * Each primitive byte value is boxed into a Byte object.
-     * 
+     * Converts this primitive byte matrix to a boxed Byte Matrix.
+     * Each byte value is converted to its corresponding Byte wrapper object.
+     *
+     * <p>This conversion is useful when you need to work with APIs that require
+     * object types rather than primitives, or when you need null values in the matrix.
+     * Note that boxing incurs memory overhead and may impact performance.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * Matrix<Byte> boxed = byteMatrix.boxed();
-     * // boxed contains Byte objects instead of primitive bytes
+     * ByteMatrix primitive = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
+     * Matrix<Byte> boxed = primitive.boxed();
+     *
+     * // Now you can use methods that work with generic types
+     * Stream<Byte> stream = boxed.streamH();
+     * boxed.set(0, 0, null); // Can use null values
      * }</pre>
      *
-     * @return a new Matrix containing Byte objects
+     * @return a new Matrix<Byte> with the same dimensions and values as this matrix
      */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rows][cols];
