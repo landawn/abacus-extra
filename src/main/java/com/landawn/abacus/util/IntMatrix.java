@@ -823,10 +823,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * length equal to the number of rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -835,7 +834,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length == rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -1325,8 +1324,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new IntMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1356,8 +1355,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the int value to fill new cells with during extension
      * @return a new IntMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,

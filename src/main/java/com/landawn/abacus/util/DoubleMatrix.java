@@ -1099,7 +1099,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param <E> the exception type that the function may throw
      * @param func the mapping function that converts each double element to type T; must not be null
      * @param targetElementType the class object representing the target element type (used for array creation); must not be null
-     * @return a new Matrix<T> with the mapped values (same dimensions as the original)
+     * @return a new Matrix&lt;T&gt; with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> func, final Class<T> targetElementType) throws E {

@@ -1076,8 +1076,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //          [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new FloatMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1107,8 +1107,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Result: [[1.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the float value to fill new cells with during extension
      * @return a new FloatMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,

@@ -1951,7 +1951,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * boxed.set(0, 0, null); // Can use null values
      * }</pre>
      *
-     * @return a new Matrix<Byte> with the same dimensions and values as this matrix
+     * @return a new Matrix&lt;Byte&gt; with the same dimensions and values as this matrix
      */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rows][cols];
