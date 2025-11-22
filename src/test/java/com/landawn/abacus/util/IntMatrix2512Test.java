@@ -507,7 +507,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new int[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new int[] { 1, 2 }));
     }
 
     @Test

@@ -629,10 +629,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowIndex the row index to replace (0-based)
      * @param row the new row data (must have exactly {@code cols} elements)
-     * @throws IllegalArgumentException if the row array length doesn't match the number of columns
-     * @throws IndexOutOfBoundsException if rowIndex is negative or greater than or equal to the number of rows
+     * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);

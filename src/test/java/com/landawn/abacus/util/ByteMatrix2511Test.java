@@ -628,8 +628,8 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testSetRow_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0 } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(-1, new byte[] { 1, 2 }));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(1, new byte[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(-1, new byte[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(1, new byte[] { 1, 2 }));
     }
 
     @Test

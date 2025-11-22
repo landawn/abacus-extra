@@ -711,6 +711,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if newCols &lt;= 0
      */
     public X reshape(final int newCols) {
+        N.checkArgument(newCols > 0, "The 'newCols' must be > 0");
+
         return reshape((int) (count % newCols == 0 ? count / newCols : count / newCols + 1), newCols);
     }
 

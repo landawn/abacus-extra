@@ -396,7 +396,7 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new float[] { 1.0f, 2.0f }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new float[] { 1.0f, 2.0f }));
     }
 
     @Test

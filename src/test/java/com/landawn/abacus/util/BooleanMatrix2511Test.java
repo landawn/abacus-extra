@@ -543,8 +543,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testSetRow_invalidIndex() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(-1, new boolean[] { true, true }));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(1, new boolean[] { true, true }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(-1, new boolean[] { true, true }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(1, new boolean[] { true, true }));
     }
 
     @Test

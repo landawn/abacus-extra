@@ -452,7 +452,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new double[] { 1.0, 2.0 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new double[] { 1.0, 2.0 }));
     }
 
     @Test

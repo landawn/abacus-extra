@@ -623,8 +623,8 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testSetRow_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ' } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(-1, new char[] { 'a', 'b' }));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(1, new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(-1, new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(1, new char[] { 'a', 'b' }));
     }
 
     @Test

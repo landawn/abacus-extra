@@ -445,7 +445,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_setRow_invalidRowIndex() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setRow(5, new long[] { 1L, 2L }));
+        assertThrows(IllegalArgumentException.class, () -> m.setRow(5, new long[] { 1L, 2L }));
     }
 
     @Test
@@ -464,7 +464,7 @@ public class LongMatrix2512Test extends TestBase {
     @Test
     public void test_setColumn_invalidColumnIndex() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(5, new long[] { 1L }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(5, new long[] { 1L }));
     }
 
     @Test
