@@ -531,6 +531,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a Nullable containing the element at position (i, j-1), or empty if j == 0
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public Nullable<T> leftOf(final int i, final int j) {
         return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
@@ -550,6 +551,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a Nullable containing the element at position (i, j+1), or empty if j == cols-1
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public Nullable<T> rightOf(final int i, final int j) {
         return j == cols - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
@@ -653,10 +655,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param columnIndex the column index to replace (0-based)
      * @param column the new column data (must have exactly {@code rows} elements)
-     * @throws IllegalArgumentException if the column array length doesn't match the number of rows
-     * @throws IndexOutOfBoundsException if columnIndex is negative or greater than or equal to the number of columns
+     * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -814,7 +816,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a new array containing the anti-diagonal elements from top-right to bottom-left
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public T[] getRU2LD() {
+    public T[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final T[] res = N.newArray(elementType, rows);
@@ -829,9 +831,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Sets the anti-diagonal elements (right-up to left-down).
      * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have at least as many elements as the matrix dimension.
+     * The diagonal array must have exactly as many elements as the matrix dimension.
      * The first element goes to the top-right corner, the last to the bottom-left corner.
-     * Extra elements in the array are ignored. The matrix is modified in-place.
+     * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -841,13 +843,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: {{1,2,10},{4,20,6},{30,8,9}}
      * }</pre>
      *
-     * @param diagonal the new anti-diagonal values (must not be null and must have at least {@code rows} elements)
+     * @param diagonal the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != cols)
-     * @throws IllegalArgumentException if diagonal array has fewer elements than the matrix dimension
+     * @throws IllegalArgumentException if diagonal array does not have exactly {@code rows} elements
      */
     public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -1334,11 +1336,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
+        N.checkArgNotNull(b, cs.b);
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
-            N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));
+            if (b[i] != null) {
+                N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));
+            }
         }
     }
 

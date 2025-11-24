@@ -1091,8 +1091,11 @@ public final class Matrixes {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
-     * Matrix<Double> avg = Matrixes.zip(matrices,
-     *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0), Double.class);
+     * Matrix<Double> avg = Matrixes.zip(matrices, arr -> {
+     *     double sum = 0;
+     *     for (byte b : arr) sum += b;
+     *     return sum / arr.length;
+     * }, Double.class);
      * }</pre>
      *
      * @param <R> the type of elements in the result matrix
@@ -1129,7 +1132,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      * Matrix<String> hex = Matrixes.zip(matrices,
      *     arr -> Integer.toHexString(arr[0] ^ arr[1] ^ arr[2]), true, String.class);
      * }</pre>
@@ -1289,7 +1292,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute sum as integers (avoiding byte overflow)
      * IntMatrix sum = Matrixes.zipToInt(matrices, arr -> {
@@ -1332,7 +1335,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<ByteMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<ByteMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as integer (safe with shareIntermediateArray = true)
      * IntMatrix avg = Matrixes.zipToInt(matrices, arr -> {
@@ -1471,7 +1474,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3, m4);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3, m4);
      *
      * // Element-wise maximum across all matrices
      * IntMatrix max = Matrixes.zip(matrices, Integer::max);
@@ -1534,11 +1537,11 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute statistics at each position
      * Matrix<String> stats = Matrixes.zip(matrices,
-     *     arr -> "avg=" + Arrays.stream(arr).average().orElse(0),
+     *     arr -> "avg=" + java.util.Arrays.stream(arr).average().orElse(0),
      *     String.class);
      * }</pre>
      *
@@ -1578,12 +1581,12 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute median at each position (safe with shareIntermediateArray = false)
      * Matrix<Double> median = Matrixes.zip(matrices, arr -> {
-     *     int[] sorted = Arrays.copyOf(arr, arr.length);
-     *     Arrays.sort(sorted);
+     *     int[] sorted = java.util.Arrays.copyOf(arr, arr.length);
+     *     java.util.Arrays.sort(sorted);
      *     return (double) sorted[sorted.length / 2];
      * }, false, Double.class);
      * }</pre>
@@ -1734,7 +1737,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Sum all values as long (avoiding overflow)
      * LongMatrix sum = Matrixes.zipToLong(matrices, arr -> {
@@ -1769,7 +1772,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute product of all values as long
      * LongMatrix product = Matrixes.zipToLong(matrices, arr -> {
@@ -1914,11 +1917,11 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as double
      * DoubleMatrix avg = Matrixes.zipToDouble(matrices,
-     *     arr -> Arrays.stream(arr).average().orElse(0.0));
+     *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0));
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -1947,12 +1950,12 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<IntMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<IntMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute standard deviation at each position
      * DoubleMatrix stdDev = Matrixes.zipToDouble(matrices, arr -> {
-     *     double avg = Arrays.stream(arr).average().orElse(0);
-     *     double variance = Arrays.stream(arr).mapToDouble(i -> Math.pow(i - avg, 2)).average().orElse(0);
+     *     double avg = java.util.Arrays.stream(arr).average().orElse(0);
+     *     double variance = java.util.Arrays.stream(arr).mapToDouble(i -> Math.pow(i - avg, 2)).average().orElse(0);
      *     return Math.sqrt(variance);
      * }, true);
      * }</pre>
@@ -2073,7 +2076,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise sum
      * LongMatrix sum = Matrixes.zip(matrices, (a, b) -> a + b);
@@ -2129,12 +2132,12 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find the range (max - min) at each position
      * Matrix<Long> range = Matrixes.zip(matrices, arr -> {
-     *     long max = Arrays.stream(arr).max().orElse(0L);
-     *     long min = Arrays.stream(arr).min().orElse(0L);
+     *     long max = java.util.Arrays.stream(arr).max().orElse(0L);
+     *     long min = java.util.Arrays.stream(arr).min().orElse(0L);
      *     return max - min;
      * }, Long.class);
      * }</pre>
@@ -2312,11 +2315,11 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average as double
      * DoubleMatrix avg = Matrixes.zipToDouble(matrices,
-     *     arr -> Arrays.stream(arr).average().orElse(0.0));
+     *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0));
      * }</pre>
      *
      * @param <E> the type of exception that the zip function might throw
@@ -2345,10 +2348,10 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<LongMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<LongMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      * DoubleMatrix variance = Matrixes.zipToDouble(matrices, arr -> {
-     *     double mean = Arrays.stream(arr).average().orElse(0);
-     *     return Arrays.stream(arr).mapToDouble(v -> Math.pow(v - mean, 2)).average().orElse(0);
+     *     double mean = java.util.Arrays.stream(arr).average().orElse(0);
+     *     return java.util.Arrays.stream(arr).mapToDouble(v -> Math.pow(v - mean, 2)).average().orElse(0);
      * }, true);
      * }</pre>
      *
@@ -2469,7 +2472,7 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<DoubleMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Element-wise sum
      * DoubleMatrix sum = Matrixes.zip(matrices, (a, b) -> a + b);
@@ -2525,12 +2528,12 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<DoubleMatrix> matrices = Arrays.asList(m1, m2, m3);
+     * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Find variance at each position
      * Matrix<Double> variance = Matrixes.zip(matrices, arr -> {
-     *     double mean = Arrays.stream(arr).average().orElse(0);
-     *     return Arrays.stream(arr).map(v -> Math.pow(v - mean, 2)).average().orElse(0);
+     *     double mean = java.util.Arrays.stream(arr).average().orElse(0);
+     *     return java.util.Arrays.stream(arr).map(v -> Math.pow(v - mean, 2)).average().orElse(0);
      * }, Double.class);
      * }</pre>
      *
@@ -2562,6 +2565,15 @@ public final class Matrixes {
      * optimization if the function immediately processes and discards the array.</p>
      *
      * <p>All matrices in the collection must have identical dimensions.</p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * List<DoubleMatrix> matrices = java.util.Arrays.asList(m1, m2, m3);
+     * // Compute average across all matrices at each position
+     * Matrix<Double> avg = Matrixes.zip(matrices,
+     *     arr -> java.util.Arrays.stream(arr).average().orElse(0.0),
+     *     true, Double.class);
+     * }</pre>
      *
      * @param <R> the type of elements in the result matrix
      * @param <E> the type of exception that the zip function might throw
@@ -2786,13 +2798,13 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<Matrix<String>> matrices = Arrays.asList(m1, m2, m3);
+     * List<Matrix<String>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Concatenate strings at each position
      * Matrix<String> concatenated = Matrixes.zip(matrices, (a, b) -> a + "," + b);
      *
      * // Find first non-null value at each position
-     * Matrix<Integer> firstNonNull = Matrixes.zip(matrices, (a, b) -> a != null ? a : b);
+     * Matrix<String> firstNonNull = Matrixes.zip(matrices, (a, b) -> a != null ? a : b);
      * }</pre>
      *
      * @param <T> the element type of the matrices
@@ -2898,16 +2910,16 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * List<Matrix<Integer>> matrices = Arrays.asList(m1, m2, m3);
+     * List<Matrix<Integer>> matrices = java.util.Arrays.asList(m1, m2, m3);
      *
      * // Compute average across all matrices at each position
      * Matrix<Double> avg = Matrixes.zip(matrices,
-     *     arr -> Arrays.stream(arr).mapToInt(i -> i).average().orElse(0.0),
+     *     arr -> java.util.Arrays.stream(arr).mapToInt(i -> i).average().orElse(0.0),
      *     true, Double.class);
      *
      * // Find maximum value at each position
      * Matrix<Integer> max = Matrixes.zip(matrices,
-     *     arr -> Arrays.stream(arr).max(Integer::compare).orElse(0),
+     *     arr -> java.util.Arrays.stream(arr).max(Integer::compare).orElse(0),
      *     false, Integer.class);
      * }</pre>
      *

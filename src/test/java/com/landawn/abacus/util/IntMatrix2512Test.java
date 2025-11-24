@@ -526,7 +526,7 @@ public class IntMatrix2512Test extends TestBase {
     @Test
     public void test_setColumn_invalidColumnIndex() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(5, new int[] { 1 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(5, new int[] { 1 }));
     }
 
     @Test

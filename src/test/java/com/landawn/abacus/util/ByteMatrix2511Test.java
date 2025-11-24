@@ -649,8 +649,8 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testSetColumn_invalidIndex() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 0, 0 }, { 0, 0 } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(-1, new byte[] { 1, 2 }));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(2, new byte[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(-1, new byte[] { 1, 2 }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(2, new byte[] { 1, 2 }));
     }
 
     @Test

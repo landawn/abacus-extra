@@ -400,6 +400,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j-1), or empty if j == 0
+     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalBoolean leftOf(final int i, final int j) {
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
@@ -420,6 +421,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j+1), or empty if j == cols-1
+     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
      */
     public OptionalBoolean rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
@@ -517,6 +519,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final boolean[] column) throws IllegalArgumentException {
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -697,7 +700,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a new boolean array containing the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public boolean[] getRU2LD() {
+    public boolean[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
         final boolean[] res = new boolean[rows];
@@ -712,11 +715,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
      * The matrix must be square (rows == columns), and the diagonal array must have
-     * at least as many elements as the matrix has rows.
+     * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
-     * If the diagonal array is longer than needed, extra elements are ignored.
+     * The diagonal array length must exactly match the number of rows; extra elements will not be ignored.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -729,13 +732,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Anti-diagonal is now all true
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length &gt;= rows
+     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
      * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length &lt; rows
+     * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
     public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -1019,11 +1022,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final boolean[][] b) throws IllegalArgumentException {
+        N.checkArgNotNull(b, cs.b);
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
         N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
-            N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));
+            if (b[i] != null) {
+                N.copy(b[i], 0, a[i + fromRowIndex], fromColumnIndex, N.min(b[i].length, cols - fromColumnIndex));
+            }
         }
     }
 
@@ -1618,14 +1624,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Repeats each element in the matrix the specified number of times in both dimensions.
      * Each element is expanded into a rowRepeats x colRepeats block.
-     * 
-     * <p>Example:
-     * <pre>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * // [[true, false]] with repelem(2, 3) becomes:
      * // [[true, true, true, false, false, false],
      * //  [true, true, true, false, false, false]]
      * BooleanMatrix repeated = matrix.repelem(2, 3);
-     * </pre>
+     * }</pre>
      *
      * @param rowRepeats number of times to repeat each element vertically
      * @param colRepeats number of times to repeat each element horizontally
@@ -1665,14 +1671,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Repeats the entire matrix the specified number of times in both dimensions.
      * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
-     * 
-     * <p>Example:
-     * <pre>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
      * // [[true, false]] with repmat(2, 3) becomes:
      * // [[true, false, true, false, true, false],
      * //  [true, false, true, false, true, false]]
      * BooleanMatrix tiled = matrix.repmat(2, 3);
-     * </pre>
+     * }</pre>
      *
      * @param rowRepeats number of times to repeat the matrix vertically
      * @param colRepeats number of times to repeat the matrix horizontally

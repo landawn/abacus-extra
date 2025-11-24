@@ -644,8 +644,8 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testSetColumn_invalidIndex() {
         CharMatrix m = CharMatrix.of(new char[][] { { ' ', ' ' }, { ' ', ' ' } });
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(-1, new char[] { 'a', 'b' }));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> m.setColumn(2, new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(-1, new char[] { 'a', 'b' }));
+        assertThrows(IllegalArgumentException.class, () -> m.setColumn(2, new char[] { 'a', 'b' }));
     }
 
     @Test
