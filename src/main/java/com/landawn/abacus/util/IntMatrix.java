@@ -73,18 +73,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Constructs a IntMatrix from a two-dimensional int array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
-     * <p><b>Important:</b> The input array is used directly without defensive copying.
-     * This means modifications to the input array after construction will affect the matrix,
-     * and vice versa. For independent matrices, create a copy of the array before passing it.</p>
+     * <p><b>Important:</b> The array is used directly without copying. Modifications to the input array
+     * after construction will affect the matrix, and vice versa. If you need an independent copy,
+     * use {@link #copy()} after construction.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[][] data = {{1, 2, 3}, {4, 5, 6}};
      * IntMatrix matrix = new IntMatrix(data);
-     * data[0][0] = 99;  // This will also modify the matrix
+     * // Modifying data[0][0] will also modify matrix.get(0, 0)
      * }</pre>
      *
-     * @param a the two-dimensional int array to wrap as a matrix. If null, an empty matrix is created.
+     * @param a the two-dimensional int array to wrap as a matrix. Can be null, which creates an empty matrix.
      */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);
@@ -270,7 +270,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param len the number of columns (must be non-negative)
-     * @return a new 1xlen IntMatrix filled with random int values, or an empty matrix if len is 0
+     * @return a 1×n IntMatrix filled with random int values, where n = len (or an empty matrix if len is 0)
      */
     @SuppressWarnings("deprecation")
     public static IntMatrix random(final int len) {
@@ -288,7 +288,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param val the value to repeat in all positions
      * @param len the number of columns (must be non-negative)
-     * @return a new 1xlen IntMatrix with all elements set to val, or an empty matrix if len is 0
+     * @return a 1×n IntMatrix with all elements set to val, where n = len (or an empty matrix if len is 0)
      */
     public static IntMatrix repeat(final int val, final int len) {
         return new IntMatrix(new int[][] { Array.repeat(val, len) });
@@ -413,23 +413,25 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements are set to zero.
+     * All other elements are set to zero. If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.diagonal(new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
+     * // Resulting matrix:
      * //   {1, 0, 4},
      * //   {0, 2, 0},
      * //   {6, 0, 3}
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements
-     * @return a square matrix with the specified diagonals
-     * @throws IllegalArgumentException if arrays have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
+     * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static IntMatrix diagonal(final int[] leftUp2RightDownDiagonal, final int[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -877,7 +879,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
+     * @param func the function to apply to each diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */
@@ -956,7 +958,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element
+     * @param func the function to apply to each anti-diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */
@@ -1261,10 +1263,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <pre>{@code
      * IntMatrix original = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix copy = original.copy();
-     * copy.set(0, 0, 10); // Original matrix remains unchanged
+     *
+     * // Modifying the copy does NOT affect the original
+     * copy.set(0, 0, 99);
+     * assert original.get(0, 0) == 1; // Original unchanged
+     * assert copy.get(0, 0) == 99; // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
      */
     @Override
     public IntMatrix copy() {
@@ -1278,19 +1284,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of a row range from this matrix.
+     * Creates a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * IntMatrix subMatrix = matrix.copy(0, 2); // Contains rows 0 and 1
+     * IntMatrix subset = matrix.copy(1, 3); // Copies rows 1 and 2 (exclusive end)
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a new IntMatrix containing the specified rows
-     * @throws IndexOutOfBoundsException if the indices are out of bounds
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1306,22 +1311,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Returns a copy of a rectangular region from this matrix.
-     * The returned matrix contains only the specified rows and columns and is completely
-     * independent from the original matrix.
+     * Creates a copy of a submatrix defined by row and column ranges.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntMatrix subMatrix = matrix.copy(0, 2, 1, 3); // Contains [[2, 3], [5, 6]]
+     * IntMatrix submatrix = matrix.copy(0, 2, 1, 3); // Copies rows 0-1, columns 1-2
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
-     * @return a new IntMatrix containing the specified region
-     * @throws IndexOutOfBoundsException if any index is out of bounds
+     * @return a new IntMatrix containing the specified submatrix
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {

@@ -796,7 +796,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
+     * @param func the function to apply to each diagonal element; receives the current
+     *             element value and returns the new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */
@@ -875,7 +876,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element
+     * @param func the function to apply to each anti-diagonal element; receives the current
+     *             element value and returns the new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */

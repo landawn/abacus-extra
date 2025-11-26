@@ -359,7 +359,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the average of all short values in this tuple.
+     * Returns the average of all short values in this tuple as a double.
+     * <p>
+     * Note: The result is returned as a double to preserve precision. The average is
+     * calculated by converting short values to double during computation.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -367,7 +371,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * double avg = tuple.average(); // 2.5
      * }</pre>
      *
-     * @return the average of all short values in this tuple
+     * @return the average of all short values in this tuple as a double
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {

@@ -621,6 +621,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The values are copied from the provided array, so subsequent modifications to
      * the input array will not affect the matrix.
      *
+     * <p>This method modifies the matrix in-place.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
@@ -644,6 +646,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Replaces an entire column with values from the given array.
      * The array must have the same length as the number of rows in this matrix.
      * Each element is copied to the corresponding row in the specified column.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -748,8 +752,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Sets the main diagonal elements (left-up to right-down).
      * The matrix must be square (same number of rows and columns).
-     * The diagonal array must have at least as many elements as the matrix dimension.
-     * Extra elements in the array are ignored. The matrix is modified in-place.
+     * The diagonal array must have exactly as many elements as the matrix dimension.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -759,7 +764,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Matrix is now: {{10,2,3},{4,20,6},{7,8,30}}
      * }</pre>
      *
-     * @param diagonal the new diagonal values (must not be null and must have at least {@code rows} elements)
+     * @param diagonal the new diagonal values (must not be null and must have exactly {@code rows} elements)
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
@@ -833,7 +838,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The matrix must be square (same number of rows and columns).
      * The diagonal array must have exactly as many elements as the matrix dimension.
      * The first element goes to the top-right corner, the last to the bottom-left corner.
-     * The matrix is modified in-place.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1282,7 +1288,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Fills all elements in the matrix with the specified value.
-     * This replaces every element with the same value. The matrix is modified in-place.
+     * This replaces every element with the same value.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1304,7 +1312,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Copies as much data as will fit, starting from the top-left corner (position 0,0).
      * If the source array is larger than this matrix, extra data is ignored.
      * If the source array is smaller than this matrix, the remaining cells are unchanged.
-     * The matrix is modified in-place.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1322,7 +1331,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Fills the matrix with values from another two-dimensional array starting at the specified position.
      * Copies as much data as will fit from the starting position.
      * If the source data extends beyond the matrix bounds, it is truncated.
-     * The matrix is modified in-place.
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1593,8 +1603,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reverses the order of elements in each row (horizontal flip in-place).
-     * This modifies the matrix directly.
+     * Reverses the order of elements in each row (horizontal flip).
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1612,8 +1623,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reverses the order of rows in the matrix (vertical flip in-place).
-     * This modifies the matrix directly.
+     * Reverses the order of rows in the matrix (vertical flip).
+     *
+     * <p>This method modifies the matrix in-place.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3025,19 +3037,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Prints this matrix to the standard output using the Arrays.println method.
-     * This provides a convenient way to visualize the matrix content.
+     * Prints the matrix to standard output in a formatted, human-readable manner and returns the output string.
+     * Each row is displayed on a separate line. This method is primarily intended
+     * for debugging and logging purposes.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.println();
-     * // Output:
+     * String output = matrix.println();
+     * // Prints to console:
      * //  [1, 2, 3]
      * //  [4, 5, 6]
+     * // And returns the same string
      * }</pre>
-     * 
-     * @return the formatted string representation of the matrix
+     *
+     * @return the formatted string representation of the matrix that was printed to standard output
      */
     @Override
     public String println() {

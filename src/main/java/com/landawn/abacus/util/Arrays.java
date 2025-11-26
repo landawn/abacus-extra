@@ -1187,7 +1187,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input double array (can be {@code null}).
+     * @param a the double array to map (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1224,11 +1224,13 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input two-dimensional double array (can be {@code null}).
+     * @param a the two-dimensional double array to map (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -1259,11 +1261,13 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional double array (can be {@code null}).
+     * @param a the three-dimensional double array to map (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
+     * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -1293,10 +1297,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input int array (can be {@code null}).
+     * @param a the int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
+     * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[] mapToLong(final int[] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1325,10 +1331,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input two-dimensional int array (can be {@code null}).
+     * @param a the two-dimensional int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
+     * @see #mapToLong(int[][][], Throwables.IntToLongFunction) for three-dimensional arrays
      */
     public static <E extends Exception> long[][] mapToLong(final int[][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1357,10 +1365,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional int array (can be {@code null}).
+     * @param a the three-dimensional int array to map (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
+     * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
      */
     public static <E extends Exception> long[][][] mapToLong(final int[][][] a, final Throwables.IntToLongFunction<E> mapper) throws E {
         if (N.isEmpty(a)) {
@@ -1882,6 +1892,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the boolean array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1909,6 +1921,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1936,6 +1950,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -1964,6 +1980,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
+     * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -1994,6 +2012,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
+     * @see #replaceIf(boolean[][][], Throwables.BooleanPredicate, boolean) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -2013,7 +2033,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] cube = {{{true, false}, {true, false}}, {{false, true}, {false, true}}};
-     * Arrays.replaceIf(cube, b -> b == false, true);
+     * Arrays.replaceIf(cube, b -> !b, true);
      * // cube is now: {{{true, true}, {true, true}}, {{true, true}, {true, true}}}
      * }</pre>
      *
@@ -2022,6 +2042,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
+     * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final boolean[][][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3199,9 +3221,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The character array to update. The update is performed in-place.
+     * @param a The char array to update (can be {@code null}).
      * @param operator The unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3226,9 +3250,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The two-dimensional character array to update. The update is performed in-place.
+     * @param a The two-dimensional char array to update (can be {@code null}).
      * @param operator The unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3253,9 +3279,11 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The three-dimensional character array to update. The update is performed in-place.
+     * @param a The three-dimensional char array to update (can be {@code null}).
      * @param operator The unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -3280,10 +3308,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The character array to modify (can be {@code null}).
+     * @param a The char array to modify (can be {@code null}).
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
+     * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3309,10 +3339,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The two-dimensional character array to modify.
+     * @param a The two-dimensional char array to modify (can be {@code null}).
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
+     * @see #replaceIf(char[][][], Throwables.CharPredicate, char) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -3336,10 +3368,12 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The three-dimensional character array to modify.
+     * @param a The three-dimensional char array to modify (can be {@code null}).
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
+     * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final char[][][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isEmpty(a)) {
@@ -4528,6 +4562,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the byte array to update (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
+     * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -4555,6 +4591,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -4582,6 +4620,8 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to update (can be {@code null} or empty).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
+     * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
+     * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
      */
     public static <E extends Exception> void updateAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isEmpty(a)) {
@@ -4610,6 +4650,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
+     * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {
@@ -4640,6 +4682,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
+     * @see #replaceIf(byte[][][], Throwables.BytePredicate, byte) for three-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {
@@ -4668,6 +4712,8 @@ public sealed class Arrays permits Arrays.f {
      * @param predicate the condition to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
+     * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
+     * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
      */
     public static <E extends Exception> void replaceIf(final byte[][][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isEmpty(a)) {

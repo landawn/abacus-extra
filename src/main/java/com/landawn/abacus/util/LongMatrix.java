@@ -60,24 +60,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Constructs a LongMatrix from a two-dimensional long array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
-     * <p><b>Important:</b> The array is used directly without copying. This means:
-     * <ul>
-     * <li>Modifications to the input array after construction will affect the matrix</li>
-     * <li>Modifications to the matrix will affect the original array</li>
-     * <li>This provides better performance but less encapsulation</li>
-     * </ul>
-     * For a safe copy, use {@link #of(long[][])} or {@link #copy()} after construction.
+     * <p><b>Important:</b> The array is used directly without copying. Modifications to the input array
+     * after construction will affect the matrix, and vice versa. If you need an independent copy,
+     * use {@link #copy()} after construction.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[][] data = {{1, 2}, {3, 4}};
      * LongMatrix matrix = new LongMatrix(data);
-     * data[0][0] = 99; // This also changes matrix.get(0,0) to 99
-     *
-     * LongMatrix empty = new LongMatrix(null); // Creates 0x0 empty matrix
+     * // Modifying data[0][0] will also modify matrix.get(0, 0)
      * }</pre>
      *
-     * @param a the two-dimensional long array to wrap as a matrix. Can be null.
+     * @param a the two-dimensional long array to wrap as a matrix. Can be null, which creates an empty matrix.
      */
     public LongMatrix(final long[][] a) {
         super(a == null ? new long[0][0] : a);
@@ -178,7 +172,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix filled with random long values
+     * @return a 1×n LongMatrix filled with random long values, where n = len (or an empty matrix if len is 0)
      * @throws IllegalArgumentException if len is negative
      */
     @SuppressWarnings("deprecation")
@@ -201,7 +195,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param val the value to repeat
      * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix with all elements set to val
+     * @return a 1×n LongMatrix with all elements set to val, where n = len (or an empty matrix if len is 0)
      * @throws IllegalArgumentException if len is negative
      */
     public static LongMatrix repeat(final long val, final int len) {
@@ -335,23 +329,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements (off both diagonals) are set to zero. If both arrays are provided, they must have the same length.
-     * Either array can be null/empty, in which case only the other diagonal is set.
+     * All other elements are set to zero. If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.diagonal(new long[] { 1, 2, 3 }, new long[] { 4, 5, 6 });
      * // Creates 3x3 matrix with both diagonals set
-     * // Resulting matrix: 
+     * // Resulting matrix:
      * //   {1, 0, 4},
      * //   {0, 2, 0},
-     * //   {6, 0, 3} 
+     * //   {6, 0, 3}
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (top-left to bottom-right), or null
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (top-right to bottom-left), or null
-     * @return a square n×n matrix with the specified diagonals, where n is the length of the non-null array(s)
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static LongMatrix diagonal(final long[] leftUp2RightDownDiagonal, final long[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
@@ -800,7 +795,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
+     * @param func the function to apply to each diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */
@@ -879,7 +874,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element
+     * @param func the function to apply to each anti-diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
      * @throws E if the function throws an exception
      */
@@ -1190,11 +1185,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix original = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
      * LongMatrix copy = original.copy();
-     * // copy is independent from original
-     * copy.set(0, 0, 99L); // Does not affect original
+     *
+     * // Modifying the copy does NOT affect the original
+     * copy.set(0, 0, 99L);
+     * assert original.get(0, 0) == 1L; // Original unchanged
+     * assert copy.get(0, 0) == 99L; // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
      */
     @Override
     public LongMatrix copy() {
@@ -1208,18 +1206,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a copy of a row range from this matrix.
+     * Creates a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix subMatrix = matrix.copy(1, 3); // Copies rows 1 and 2 (exclusive of 3)
+     * LongMatrix subset = matrix.copy(1, 3); // Copies rows 1 and 2 (exclusive end)
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a new LongMatrix containing the specified rows with all columns
-     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or fromRowIndex &gt; toRowIndex
+     * @return a new LongMatrix containing the specified rows
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1235,12 +1233,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a copy of a submatrix defined by row and column ranges.
-     * The returned matrix is independent of this matrix.
+     * Creates a copy of a submatrix defined by row and column ranges.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix subMatrix = matrix.copy(1, 3, 0, 2); // Copies rows 1-2, columns 0-1
+     * LongMatrix submatrix = matrix.copy(0, 2, 1, 3); // Copies rows 0-1, columns 1-2
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1248,7 +1245,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new LongMatrix containing the specified submatrix
-     * @throws IndexOutOfBoundsException if indices are out of bounds [0, rows] or [0, cols], or if fromRowIndex &gt; toRowIndex or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if indices are out of bounds
      */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {

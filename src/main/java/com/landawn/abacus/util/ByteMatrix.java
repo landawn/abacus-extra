@@ -419,7 +419,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * matrix.set(0, 1, 9); // Sets element at row 0, column 1 to 9
+     * matrix.set(0, 1, (byte) 9); // Sets element at row 0, column 1 to 9
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -643,8 +643,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all values in the specified row by applying the given function to each element.
-     * Each element in the row is replaced with the result of applying the function to that element.
+     * Updates all elements in the specified row by applying the given function to each element.
+     * The matrix is modified in-place. Each element in the row is transformed by the function
+     * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -655,7 +656,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param <E> the type of exception that may be thrown by the function
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the function to apply to each element in the row
+     * @param func the unary operator to apply to each element in the row, taking a byte and returning a byte
      * @throws E if the function throws an exception
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
@@ -666,8 +667,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all values in the specified column by applying the given function to each element.
-     * Each element in the column is replaced with the result of applying the function to that element.
+     * Updates all elements in the specified column by applying the given function to each element.
+     * The matrix is modified in-place. Each element in the column is transformed by the function
+     * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -678,7 +680,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param <E> the type of exception that may be thrown by the function
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the function to apply to each element in the column
+     * @param func the unary operator to apply to each element in the column, taking a byte and returning a byte
      * @throws E if the function throws an exception
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
@@ -743,9 +745,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all values on the main diagonal (left-up to right-down) by applying the given function.
-     * The matrix must be square for this operation.
-     * 
+     * Updates all elements on the main diagonal (left-up to right-down) by applying the given function.
+     * The matrix must be square (same number of rows and columns).
+     * The matrix is modified in-place.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
@@ -756,7 +759,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param <E> the type of exception that may be thrown by the function
      * @param func the function to apply to each diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -823,9 +826,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all values on the anti-diagonal (right-up to left-down) by applying the given function.
-     * The matrix must be square for this operation.
-     * 
+     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given function.
+     * The matrix must be square (same number of rows and columns).
+     * The matrix is modified in-place.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
@@ -836,7 +840,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param <E> the type of exception that may be thrown by the function
      * @param func the function to apply to each anti-diagonal element
      * @throws E if the function throws an exception
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> func) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -847,9 +851,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements in the matrix by applying the given function to each value.
-     * The operation may be performed in parallel for large matrices.
-     * 
+     * Updates all elements in the matrix by applying the given function to each element.
+     * The matrix is modified in-place. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
@@ -858,7 +863,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the function
-     * @param func the function to apply to each element
+     * @param func the unary operator to apply to each element, taking a byte and returning a byte
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.ByteUnaryOperator<E> func) throws E {
@@ -868,8 +873,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Updates all elements in the matrix based on their position by applying the given function.
-     * The function receives the row and column indices and returns the new value for that position.
-     * 
+     * The function receives the row and column indices (0-based) and returns the new value for that position.
+     * The matrix is modified in-place. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{0, 0}, {0, 0}});
@@ -878,7 +885,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the function
-     * @param func the function that takes row and column indices and returns a new byte value
+     * @param func the bi-function that takes (rowIndex, columnIndex) and returns the new byte value
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Byte, E> func) throws E {
@@ -887,8 +894,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces all elements that match the given predicate with the specified new value.
-     * 
+     * Conditionally replaces elements in the matrix based on a predicate.
+     * Each element that satisfies the predicate is replaced with the specified new value.
+     * The matrix is modified in-place. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
@@ -897,7 +907,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param predicate the condition to test each element
+     * @param predicate the condition to test each element; returns {@code true} if the element should be replaced
      * @param newValue the value to use as replacement
      * @throws E if the predicate throws an exception
      */
@@ -907,9 +917,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replaces elements based on their position using the given predicate.
+     * Conditionally replaces elements in the matrix based on their position.
      * Elements at positions where the predicate returns {@code true} are replaced with the new value.
-     * 
+     * The matrix is modified in-place. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
@@ -918,7 +930,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate
-     * @param predicate the condition that takes row and column indices and returns {@code true} for positions to replace
+     * @param predicate the bi-predicate that takes (rowIndex, columnIndex) and returns {@code true} if element should be replaced
      * @param newValue the value to use as replacement
      * @throws E if the predicate throws an exception
      */
@@ -929,8 +941,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a new ByteMatrix by applying the given function to each element of this matrix.
-     * The resulting matrix has the same dimensions as the original.
-     * 
+     * The original matrix is not modified. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
@@ -939,8 +952,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the function
-     * @param func the function to apply to each element
-     * @return a new ByteMatrix with transformed values
+     * @param func the unary operator to apply to each element, taking a byte and returning a byte
+     * @return a new ByteMatrix with the transformed values; the original matrix is unchanged
      * @throws E if the function throws an exception
      */
     public <E extends Exception> ByteMatrix map(final Throwables.ByteUnaryOperator<E> func) throws E {
@@ -953,9 +966,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a new Matrix by applying the given function to map byte values to objects of type T.
-     * The resulting matrix has the same dimensions but contains objects instead of primitives.
-     * 
+     * Creates a new object matrix by applying the given function to each element of this matrix.
+     * The function transforms each primitive byte value to an object of the specified type.
+     * The original matrix is not modified. This operation may be performed in parallel for large matrices
+     * to improve performance.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix byteMatrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
@@ -968,9 +983,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the type of exception that may be thrown by the function
-     * @param func the function to convert byte values to type T
-     * @param targetElementType the class of the target element type
-     * @return a new Matrix containing the mapped values
+     * @param func the function to transform each byte to an object of type T
+     * @param targetElementType the class of the target element type (used for array creation)
+     * @return a new Matrix&lt;T&gt; with the transformed object values; the original matrix is unchanged
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ByteFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
@@ -983,8 +998,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fills all elements in the matrix with the specified value.
-     * 
+     * Fills all elements of the matrix with the specified value.
+     * The matrix is modified in-place.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
@@ -2824,18 +2840,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies the given action to each element in the matrix.
-     * The operation may be performed in parallel for large matrices.
-     * 
+     * Applies the specified action to each element in the matrix.
+     * Elements are processed in row-major order (left to right, top to bottom).
+     * This operation may be performed in parallel for large matrices.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * matrix.forEach(value -> System.out.print(value + " "));
-     * // Prints: 1 2 3 4
+     * // Output: 1 2 3 4
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
-     * @param action the action to perform on each element
+     * @param action the consumer to apply to each element
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
@@ -2843,23 +2860,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Applies the given action to each element in the specified rectangular region of the matrix.
-     * The operation may be performed in parallel for large regions.
-     * 
+     * Applies the specified action to each element in a rectangular sub-region of the matrix.
+     * Elements are processed in row-major order (left to right, top to bottom) within the specified bounds.
+     * This operation may be performed in parallel for large regions.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.forEach(0, 2, 1, 3, value -> System.out.print(value + " "));
-     * // Prints: 2 3 5 6 (the 2x2 submatrix from [0,1] to [2,3])
+     * matrix.forEach(1, 3, 1, 3, value -> System.out.print(value + " "));
+     * // Output: 5 6 8 9  (processes elements in rows 1-2, columns 1-2)
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the action
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @param fromColumnIndex the starting column index (inclusive)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
-     * @param action the action to perform on each element
-     * @throws IndexOutOfBoundsException if any indices are out of bounds
+     * @param action the consumer to apply to each element in the region
+     * @throws IndexOutOfBoundsException if any index is out of bounds or fromIndex &gt; toIndex
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,

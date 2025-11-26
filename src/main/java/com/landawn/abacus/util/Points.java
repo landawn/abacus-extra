@@ -116,7 +116,16 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + v}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two ByteBytePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -234,7 +243,16 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + v}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two ByteIntPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -352,7 +370,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two ByteLongPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -470,7 +498,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two ByteDoublePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -591,7 +629,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + N.hashCode(v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The value's hash code is computed using
+             * {@link N#hashCode(Object)}, which handles null values safely.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two ByteObjPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -709,7 +757,16 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + v}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two IntBytePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -827,7 +884,16 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + v}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two IntIntPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -945,7 +1011,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two IntLongPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1063,7 +1139,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two IntDoublePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1184,7 +1270,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code ((x * 31) + y) * 31 + N.hashCode(v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The value's hash code is computed using
+             * {@link N#hashCode(Object)}, which handles null values safely.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two IntObjPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1302,7 +1398,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two LongBytePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1420,7 +1526,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two LongIntPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1538,7 +1654,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two LongLongPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1656,7 +1782,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two LongDoublePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1777,7 +1913,18 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + N.hashCode(v))}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The value's hash code is computed using
+             * {@link N#hashCode(Object)}, which handles null values safely. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two LongObjPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -1895,7 +2042,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two DoubleBytePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -2013,7 +2170,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two DoubleIntPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -2131,7 +2298,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two DoubleLongPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -2249,7 +2426,17 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + v)}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two DoubleDoublePoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {
@@ -2370,7 +2557,18 @@ public final class Points {
             /**
              * Returns a hash code for this point based on its coordinates and value.
              *
+             * <p>The hash code is computed using a polynomial rolling hash algorithm with a prime multiplier (31):
+             * {@code (int)(((x * 31) + y) * 31 + N.hashCode(v))}. This algorithm efficiently combines all three fields to produce
+             * a well-distributed hash code value while minimizing collisions. The value's hash code is computed using
+             * {@link N#hashCode(Object)}, which handles null values safely. The result is cast to int to fit the
+             * return type.</p>
+             *
+             * <p>This method satisfies the general contract of {@link Object#hashCode()}: if two DoubleObjPoint
+             * instances are equal according to {@link #equals(Object)}, then calling this method on each will
+             * produce the same integer result.</p>
+             *
              * @return a hash code value for this point
+             * @see #equals(Object)
              */
             @Override
             public int hashCode() {

@@ -424,9 +424,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the average of all byte values in this tuple as a double.
      * <p>
-     * This method calculates the arithmetic mean of all elements in the tuple.
-     * The result is always returned as a double to preserve precision, even when
-     * the average is a whole number.
+     * Note: The result is returned as a double to preserve precision. The average is
+     * calculated by converting byte values to double during computation.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

@@ -412,9 +412,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Returns the average of all char values in this tuple as a double.
      * <p>
-     * This method calculates the arithmetic mean of the numeric values of all elements in the tuple.
-     * The result is always returned as a double to preserve precision, even when
-     * the average is a whole number.
+     * Note: The result is returned as a double to preserve precision. The average is
+     * calculated by converting char values to double during computation.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

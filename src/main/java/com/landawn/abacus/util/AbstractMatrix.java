@@ -110,9 +110,9 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * <p><b>Core Matrix Operations Categories:</b>
  * <ul>
- *   <li><b>Dimensional Operations:</b> {@code rows()}, {@code cols()}, {@code count()}, {@code isEmpty()}</li>
+ *   <li><b>Dimensional Operations:</b> {@code rows}, {@code cols}, {@code count}, {@code isEmpty()}</li>
  *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code getRow()}, {@code getColumn()}</li>
- *   <li><b>Stream Operations:</b> {@code stream()}, {@code streamH()}, {@code streamV()}, {@code streamD()}</li>
+ *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamLU2RD()}, {@code streamRU2LD()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
  *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
  *   <li><b>Utility Operations:</b> {@code copy()}, {@code clone()}, {@code toArray()}, {@code toString()}</li>
@@ -131,7 +131,7 @@ import com.landawn.abacus.util.stream.Stream;
  * IntMatrix flipped = intMatrix.flipH();         // Horizontal flip
  *
  * // Stream-based processing
- * intMatrix.stream()                             // Stream all elements
+ * intMatrix.streamH()                            // Stream all elements
  *     .filter(x -> x > 0)
  *     .sum();
  *
@@ -158,10 +158,10 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
- *         IntMatrix result = IntMatrix.of(new int[matrix.rows()][matrix.cols()]);
+ *         IntMatrix result = IntMatrix.of(new int[matrix.rows][matrix.cols]);
  *
- *         for (int i = 1; i < matrix.rows() - 1; i++) {
- *             for (int j = 1; j < matrix.cols() - 1; j++) {
+ *         for (int i = 1; i < matrix.rows - 1; i++) {
+ *             for (int j = 1; j < matrix.cols - 1; j++) {
  *                 int current = matrix.get(i, j);
  *                 int finalI = i;
  *                 int finalJ = j;
@@ -176,7 +176,7 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static Matrix<Double> normalizeColumns(Matrix<Double> input) {
- *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rows(), input.cols(), input.componentType()));
+ *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rows, input.cols, input.componentType()));
  *
  *         input.pointsC().forEach(colStream -> {
  *             List<Point> colPoints = colStream.toList();
@@ -270,15 +270,15 @@ import com.landawn.abacus.util.stream.Stream;
  *     
  *     // Matrix multiplication implementation
  *     public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
- *         if (a.cols() != b.rows()) {
+ *         if (a.cols != b.rows) {
  *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
  *         }
  *
- *         DoubleMatrix result = DoubleMatrix.of(new double[a.rows()][b.cols()]);
- *         
- *         IntStream.range(0, a.rows()).parallel().forEach(i -> {
- *             IntStream.range(0, b.cols()).forEach(j -> {
- *                 double sum = IntStream.range(0, a.cols())
+ *         DoubleMatrix result = DoubleMatrix.of(new double[a.rows][b.cols]);
+ *
+ *         IntStream.range(0, a.rows).parallel().forEach(i -> {
+ *             IntStream.range(0, b.cols).forEach(j -> {
+ *                 double sum = IntStream.range(0, a.cols)
  *                     .mapToDouble(k -> a.get(i, k) * b.get(k, j))
  *                     .sum();
  *                 result.set(i, j, sum);
@@ -300,12 +300,12 @@ import com.landawn.abacus.util.stream.Stream;
  *     
  *     // Image processing convolution
  *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
- *         IntMatrix result = IntMatrix.of(new int[image.rows()][image.cols()]);
- *         int filterSize = filter.rows();
+ *         IntMatrix result = IntMatrix.of(new int[image.rows][image.cols]);
+ *         int filterSize = filter.rows;
  *         int offset = filterSize / 2;
- *         
- *         IntStream.range(offset, image.rows() - offset).parallel().forEach(i -> {
- *             IntStream.range(offset, image.cols() - offset).forEach(j -> {
+ *
+ *         IntStream.range(offset, image.rows - offset).parallel().forEach(i -> {
+ *             IntStream.range(offset, image.cols - offset).forEach(j -> {
  *                 double sum = 0.0;
  *                 for (int fi = 0; fi < filterSize; fi++) {
  *                     for (int fj = 0; fj < filterSize; fj++) {
@@ -467,7 +467,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Prints the matrix to standard output in a formatted, human-readable manner.
+     * Prints the matrix to standard output in a formatted, human-readable manner and returns the output string.
      * Each concrete implementation provides its own formatting based on the element type.
      * This method is primarily intended for debugging and logging purposes.
      *
@@ -480,13 +480,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * matrix.println();
-     * // Output:
+     * String output = matrix.println();
+     * // Prints to console:
      * // [1, 2]
      * // [3, 4]
+     * // And returns the same string
      * }</pre>
      *
-     * @return the formatted string representation of the matrix
+     * @return the formatted string representation of the matrix that was printed to standard output
      */
     public abstract String println();
 
