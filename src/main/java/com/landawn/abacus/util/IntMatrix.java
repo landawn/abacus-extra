@@ -295,66 +295,83 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a 1xN IntMatrix with values from startInclusive to endExclusive.
-     * 
+     * Creates a 1-row IntMatrix with values from startInclusive to endExclusive.
+     * The values are generated with a step of 1. If {@code startInclusive >= endExclusive}, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix range = IntMatrix.range(0, 5); // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix matrix = IntMatrix.range(0, 5); // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix empty = IntMatrix.range(5, 0);  // Creates an empty matrix
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @return a new 1xN IntMatrix with sequential values
+     * @return a new 1×n IntMatrix where n = max(0, endExclusive - startInclusive)
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
-     * Creates a 1xN IntMatrix with values from startInclusive to endExclusive with specified step.
-     * 
+     * Creates a 1-row IntMatrix with values from startInclusive to endExclusive with the specified step.
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix range = IntMatrix.range(0, 10, 2); // Creates [[0, 2, 4, 6, 8]]
+     * IntMatrix matrix = IntMatrix.range(0, 10, 2);  // Creates [[0, 2, 4, 6, 8]]
+     * IntMatrix desc = IntMatrix.range(10, 0, -2);   // Creates [[10, 8, 6, 4, 2]]
+     * IntMatrix empty = IntMatrix.range(0, 10, -1);  // Creates an empty matrix (step is wrong direction)
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size
-     * @return a new 1xN IntMatrix with sequential values
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n IntMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static IntMatrix range(final int startInclusive, final int endExclusive, final int by) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
-     * Creates a 1xN IntMatrix with values from startInclusive to endInclusive.
-     * 
+     * Creates a 1-row IntMatrix with values from startInclusive to endInclusive.
+     * This method includes the end value, unlike {@link #range(int, int)}.
+     * If {@code startInclusive > endInclusive}, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix range = IntMatrix.rangeClosed(0, 4); // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix matrix = IntMatrix.rangeClosed(0, 4); // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix single = IntMatrix.rangeClosed(5, 5); // Creates [[5]]
+     * IntMatrix empty = IntMatrix.rangeClosed(5, 0);  // Creates an empty matrix
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
      * @param endInclusive the ending value (inclusive)
-     * @return a new 1xN IntMatrix with sequential values
+     * @return a new 1×n IntMatrix where n = max(0, endInclusive - startInclusive + 1)
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
-     * Creates a 1xN IntMatrix with values from startInclusive to endInclusive with specified step.
-     * 
+     * Creates a 1-row IntMatrix with values from startInclusive to endInclusive with the specified step.
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * The end value is included only if it is reachable by stepping from start. If the step would not
+     * reach endInclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix range = IntMatrix.rangeClosed(0, 10, 2); // Creates [[0, 2, 4, 6, 8, 10]]
+     * IntMatrix matrix = IntMatrix.rangeClosed(0, 8, 2);  // Creates [[0, 2, 4, 6, 8]]
+     * IntMatrix partial = IntMatrix.rangeClosed(0, 9, 2); // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * IntMatrix desc = IntMatrix.rangeClosed(10, 0, -2);  // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
-     * 
+     *
      * @param startInclusive the starting value (inclusive)
-     * @param endInclusive the ending value (inclusive)
-     * @param by the step size
-     * @return a new 1xN IntMatrix with sequential values
+     * @param endInclusive the ending value (inclusive, if reachable by stepping)
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n IntMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static IntMatrix rangeClosed(final int startInclusive, final int endInclusive, final int by) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
@@ -571,7 +588,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
      */
     public OptionalInt upOf(final int i, final int j) {
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
@@ -592,7 +609,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
@@ -613,6 +630,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i, j-1), or empty if j == 0
+     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
      */
     public OptionalInt leftOf(final int i, final int j) {
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
@@ -633,6 +651,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i, j+1), or empty if j == cols-1
+     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
      */
     public OptionalInt rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
@@ -1093,12 +1112,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a new LongMatrix by applying a function that converts int values to long.
-     * 
+     * This operation may be executed in parallel for better performance on large matrices.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * LongMatrix longMatrix = matrix.mapToLong(x -> (long) x * 1000000);
+     * // longMatrix is [[1000000L, 2000000L], [3000000L, 4000000L]]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the function may throw
      * @param func the function to convert int values to long
      * @return a new LongMatrix with converted values
@@ -1115,12 +1137,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a new DoubleMatrix by applying a function that converts int values to double.
-     * 
+     * This operation may be executed in parallel for better performance on large matrices.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{10, 20}, {30, 40}});
      * DoubleMatrix doubleMatrix = matrix.mapToDouble(x -> x * 0.1);
+     * // doubleMatrix is [[1.0, 2.0], [3.0, 4.0]]
      * }</pre>
-     * 
+     *
      * @param <E> the type of exception that the function may throw
      * @param func the function to convert int values to double
      * @return a new DoubleMatrix with converted values
@@ -1137,12 +1162,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Creates a new Matrix by applying a function that converts int values to objects of type T.
-     * 
+     * This operation may be executed in parallel for better performance on large matrices.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * Matrix<String> stringMatrix = matrix.mapToObj(x -> String.valueOf(x), String.class);
+     * // stringMatrix is [["1", "2"], ["3", "4"]]
      * }</pre>
-     * 
+     *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the type of exception that the function may throw
      * @param func the function to convert int values to type T
@@ -1160,20 +1188,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fills the entire matrix with the specified value in-place.
-     * This modifies the matrix directly, setting every element to the given value.
+     * Fills all elements of the matrix with the specified value.
+     * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.fill(0); // Sets all elements to 0
-     * // matrix is now [[0, 0, 0], [0, 0, 0]]
-     *
-     * matrix.fill(42); // Sets all elements to 42
-     * // matrix is now [[42, 42, 42], [42, 42, 42]]
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * matrix.fill(5); // Result: [[5, 5], [5, 5]]
      * }</pre>
      *
-     * @param val the value to fill all matrix elements with
+     * @param val the value to fill the matrix with
      */
     public void fill(final int val) {
         for (int i = 0; i < rows; i++) {
@@ -1182,15 +1206,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fills the matrix with values from another two-dimensional array, starting from the top-left corner.
-     * If the source array is larger than the matrix, only the fitting portion is copied.
-     * If the source array is smaller, only the available values are copied.
+     * Fills the matrix with values from another two-dimensional array, starting at position (0, 0).
+     * The source array can be smaller than this matrix; only the overlapping region is copied.
+     * If the source array is larger, only the portion that fits is copied. The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{0, 0, 0}, {0, 0, 0}});
-     * int[][] patch = {{1, 2}, {3, 4}};
-     * matrix.fill(patch); // Fills from (0,0): [[1, 2, 0], [3, 4, 0]]
+     * matrix.fill(new int[][] {{1, 2}, {3, 4}});
+     * // Result: [[1, 2, 0], [3, 4, 0]]
      * }</pre>
      *
      * @param b the two-dimensional array to copy values from
@@ -1200,19 +1224,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fills a portion of the matrix with values from another two-dimensional array.
-     * The filling starts at the specified position and copies as much as will fit.
-     * 
+     * Fills a region of the matrix with values from another two-dimensional array, starting at the specified position.
+     * The source array can extend beyond this matrix's bounds; only the overlapping region is copied.
+     * The matrix is modified in-place. Elements outside the matrix bounds are ignored.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * int[][] patch = {{1, 2}, {3, 4}};
-     * matrix.fill(1, 1, patch); // Fills starting at row 1, column 1
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}});
+     * matrix.fill(1, 1, new int[][] {{1, 2}, {3, 4}});
+     * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
-     * 
-     * @param fromRowIndex the starting row index for filling
-     * @param fromColumnIndex the starting column index for filling
+     *
+     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rows)
+     * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= cols)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
+     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; cols
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);

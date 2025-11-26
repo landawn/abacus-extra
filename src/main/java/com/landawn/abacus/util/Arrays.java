@@ -1070,6 +1070,9 @@ public sealed class Arrays permits Arrays.f {
      * // Result: ["98.6°F", "99.5°F", "97.3°F"]
      * }</pre>
      *
+     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
+     * and type safety throughout the transformation process.</p>
+     *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the float array to map (can be {@code null}).
@@ -1077,6 +1080,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final float[] a, final Throwables.FloatFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -1174,8 +1179,11 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * double[] doubles = {1.5, 2.5, 3.5};
      * String[] strings = Arrays.mapToObj(doubles, d -> String.format("%.1f", d), String.class);
-     * // Result: {"1.5", "2.5", "3.5"}
+     * // Result: ["1.5", "2.5", "3.5"]
      * }</pre>
+     *
+     * <p><b>Type Conversion:</b> The target element type must be specified to ensure proper array creation
+     * and type safety throughout the transformation process.</p>
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
@@ -1184,6 +1192,8 @@ public sealed class Arrays permits Arrays.f {
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
+     * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
+     * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
             final Class<T> targetElementType) throws E {
@@ -1859,12 +1869,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a boolean array using the provided unary operator.
      * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true};
      * Arrays.updateAll(arr, b -> !b);
-     * // arr is now: {false, true, false}
+     * // arr is now: [false, true, false]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -1939,12 +1950,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces all elements in a boolean array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[] arr = {true, false, true, false};
      * Arrays.replaceIf(arr, b -> b, false);
-     * // arr is now: {false, false, false, false}
+     * // arr is now: [false, false, false, false]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -2029,7 +2041,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * boolean[] arr = {true, false, true, false, true};
      * boolean[][] reshaped = Arrays.reshape(arr, 2);
-     * // Result: {{true, false}, {true, false}, {true}}
+     * // Result: [[true, false], [true, false], [true]]
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape.
@@ -3257,7 +3269,8 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of a character array with a new value if the element satisfies
-     * the given predicate. The operation is performed in-place.
+     * the given predicate. Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -3267,7 +3280,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The character array to modify.
+     * @param a The character array to modify (can be {@code null}).
      * @param predicate The condition to test for each element.
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -4502,12 +4515,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a byte array using the provided unary operator.
      * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3};
      * updateAll(arr, b -> (byte)(b * b));
-     * // arr is now: {1, 4, 9}
+     * // arr is now: [1, 4, 9]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
@@ -4582,12 +4596,13 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces all elements in a byte array that match the predicate with a new value.
      * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[] arr = {1, 2, 3, 2, 4};
      * replaceIf(arr, b -> b == 2, (byte)10);
-     * // arr is now: {1, 10, 3, 10, 4}
+     * // arr is now: [1, 10, 3, 10, 4]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
@@ -5762,11 +5777,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Updates all elements in a short array using the provided unary operator.
      * The operator is applied to each element and the result replaces the original value.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3};
-     * updateAll(array, x -> (short)(x * x)); // array becomes {1, 4, 9}
+     * updateAll(array, x -> (short)(x * x)); // array becomes [1, 4, 9]
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5837,11 +5853,12 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Replaces elements in a short array that match the predicate with a new value.
      * Only elements for which the predicate returns {@code true} are replaced.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * replaceIf(array, x -> x > 3, (short)0); // array becomes {1, 2, 3, 0, 0}
+     * replaceIf(array, x -> x > 3, (short)0); // array becomes [1, 2, 3, 0, 0]
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -7009,20 +7026,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Updates all elements of the given array by applying the specified unary operator.
-     *
-     * <p>This method modifies the original array by applying the operator function to each element.
-     * The operator can throw a checked exception of type E. If the array is null or empty,
-     * the method returns without performing any operation.</p>
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] arr = {1, 2, 3};
      * Arrays.updateAll(arr, x -> x * x);
-     * // arr is now {1, 4, 9}
+     * // arr is now [1, 4, 9]
      * }</pre>
      *
      * @param <E> the type of exception that the operator may throw.
-     * @param a the array to be modified.
+     * @param a the array to be modified (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -7096,20 +7111,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces elements in the array that match the given predicate with the specified new value.
-     *
-     * <p>This method modifies the original array by testing each element with the predicate
-     * and replacing matching elements with the new value. The predicate can throw a checked
-     * exception of type E. If the array is null or empty, the method returns without performing any operation.</p>
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * int[] arr = {1, 2, 3, 4, 5};
      * Arrays.replaceIf(arr, x -> x % 2 == 0, 0);
-     * // arr is now {1, 0, 3, 0, 5}
+     * // arr is now [1, 0, 3, 0, 5]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw.
-     * @param a the array to be modified.
+     * @param a the array to be modified (can be {@code null}).
      * @param predicate the predicate to test each element.
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
@@ -8302,17 +8315,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified long array in-place by applying a unary operator.
+     * Updates each element of the specified long array by applying a unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L};
      * updateAll(array, x -> x * x);
-     * // array is now {1L, 4L, 9L}
+     * // array is now [1L, 4L, 9L]
      * }</pre>
      *
      * @param <E> The type of exception that the operator may throw.
-     * @param a The array to be modified. The modification happens in-place.
+     * @param a The array to be modified (can be {@code null}).
      * @param operator The unary operator to apply to each element.
      * @throws E If the {@code operator} throws an exception.
      */
@@ -8378,16 +8393,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of a long array with a new value if it satisfies a given predicate.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * long[] array = {1L, 2L, 3L, 4L, 5L};
      * replaceIf(array, x -> x % 2 == 0, 0L);
-     * // array is now {1L, 0L, 3L, 0L, 5L}
+     * // array is now [1L, 0L, 3L, 0L, 5L]
      * }</pre>
      *
      * @param <E> The type of exception that the predicate may throw.
-     * @param a The array to be modified.
+     * @param a The array to be modified (can be {@code null}).
      * @param predicate The condition to test for each element.
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
@@ -9549,12 +9566,14 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified float array in-place by applying a given unary operator.
+     * Updates each element of the specified float array by applying a given unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f};
-     * Arrays.updateAll(array, x -> Math.abs(x)); // array becomes {1.0f, 2.0f, 3.0f}
+     * Arrays.updateAll(array, x -> Math.abs(x)); // array becomes [1.0f, 2.0f, 3.0f]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9622,16 +9641,17 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of a float array with the specified new value if it satisfies the given predicate.
-     * The modification is done in-place.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0f); // array becomes {1.0f, 0.0f, 3.0f, 0.0f}
+     * Arrays.replaceIf(array, x -> x < 0, 0.0f); // array becomes [1.0f, 0.0f, 3.0f, 0.0f]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
-     * @param a the array to be modified.
+     * @param a the array to be modified (can be {@code null}).
      * @param predicate the condition to test for each element.
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
@@ -10796,17 +10816,19 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Updates each element of the specified array in-place by applying a unary operator.
+     * Updates each element of the specified double array by applying a unary operator.
+     * Each element is replaced with the result of applying the operator.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1.0, -2.0, 3.0};
      * Arrays.updateAll(array, x -> Math.abs(x));
-     * // array is now {1.0, 2.0, 3.0}
+     * // array is now [1.0, 2.0, 3.0]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operator.
-     * @param a the array to be updated.
+     * @param a the array to be updated (can be {@code null}).
      * @param operator the unary operator to apply to each element.
      * @throws E if the {@code operator} throws an exception.
      */
@@ -10872,16 +10894,18 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Replaces each element of the array with the specified new value if it satisfies the given predicate.
+     * Elements that don't match the predicate remain unchanged.
+     * This method modifies the array in-place.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double[] array = {1.0, -2.0, 3.0, -4.0};
      * Arrays.replaceIf(array, x -> x < 0, 0.0);
-     * // array is now {1.0, 0.0, 3.0, 0.0}
+     * // array is now [1.0, 0.0, 3.0, 0.0]
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the predicate.
-     * @param a the array to be modified.
+     * @param a the array to be modified (can be {@code null}).
      * @param predicate a predicate to apply to each element to determine if it should be replaced.
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.

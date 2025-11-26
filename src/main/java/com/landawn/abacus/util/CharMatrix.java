@@ -102,16 +102,19 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a 1-row matrix filled with random values.
+     * Creates a 1-row matrix filled with random char values.
+     *
+     * <p>The random values are generated using the default random number generator
+     * and will span the entire range of possible char values (0 to 65535, or '\u0000' to '\uffff').</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.random(5);
-     * // Creates a 1x5 matrix with random char values
+     * // Creates a 1x5 matrix like [['ࠜ', '㘋', 'ဂ', '鎨', 'ￗ']]
      * }</pre>
      *
-     * @param len the number of columns
-     * @return a 1-row matrix filled with random char values
+     * @param len the number of columns (must be non-negative)
+     * @return a new 1xlen CharMatrix filled with random char values, or an empty matrix if len is 0
      */
     @SuppressWarnings("deprecation")
     public static CharMatrix random(final int len) {
@@ -154,16 +157,21 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Creates a single-row CharMatrix containing a range of char values with a step.
-     * 
+     * The range increments by the specified step size. Supports both ascending (positive step)
+     * and descending (negative step) sequences.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.range('a', 'g', 2); // Creates [['a', 'c', 'e']]
+     * CharMatrix matrix = CharMatrix.range('a', 'g', 2);  // Creates [['a', 'c', 'e']]
+     * CharMatrix desc = CharMatrix.range('z', 'u', -2);   // Creates [['z', 'x', 'v']]
+     * CharMatrix empty = CharMatrix.range('a', 'z', -1);  // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting char value (inclusive)
      * @param endExclusive the ending char value (exclusive)
-     * @param by the step size between consecutive values
-     * @return a CharMatrix with one row containing the range of values
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n CharMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static CharMatrix range(final char startInclusive, final char endExclusive, final int by) {
         return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive, by) });
@@ -188,34 +196,43 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Creates a single-row CharMatrix containing a closed range of char values with a step.
-     * The range is [startInclusive, endInclusive].
+     * The range is [startInclusive, endInclusive]. The range increments by the specified step size.
+     * Supports both ascending (positive step) and descending (negative step) sequences.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.rangeClosed('a', 'g', 2); // Creates [['a', 'c', 'e', 'g']]
+     * CharMatrix matrix = CharMatrix.rangeClosed('a', 'g', 2);  // Creates [['a', 'c', 'e', 'g']]
+     * CharMatrix partial = CharMatrix.rangeClosed('a', 'i', 2); // Creates [['a', 'c', 'e', 'g', 'i']]
+     * CharMatrix desc = CharMatrix.rangeClosed('z', 'u', -2);   // Creates [['z', 'x', 'v']]
      * }</pre>
      *
      * @param startInclusive the starting char value (inclusive)
-     * @param endInclusive the ending char value (inclusive)
-     * @param by the step size between consecutive values
-     * @return a CharMatrix with one row containing the range of values
+     * @param endInclusive the ending char value (inclusive, if reachable by stepping)
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n CharMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static CharMatrix rangeClosed(final char startInclusive, final char endInclusive, final int by) {
         return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements.
-     * All other elements are set to zero.
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * All other elements (off-diagonal) are set to zero (the null character '\u0000'). The matrix size is n×n where n is the length
+     * of the diagonal array. The main diagonal runs from top-left to bottom-right.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.diagonalLU2RD(new char[] {'a', 'b', 'c'});
      * // Creates 3x3 matrix with diagonal ['a', 'b', 'c'] and zeros elsewhere
+     * // Resulting matrix:
+     * //   {'a', '\u0000', '\u0000'},
+     * //   {'\u0000', 'b', '\u0000'},
+     * //   {'\u0000', '\u0000', 'c'}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of diagonal elements
-     * @return a square matrix with the specified main diagonal
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
     public static CharMatrix diagonalLU2RD(final char[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
@@ -425,7 +442,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalChar containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar upOf(final int i, final int j) {
         return i == 0 ? OptionalChar.empty() : OptionalChar.of(a[i - 1][j]);
@@ -446,7 +463,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalChar containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalChar.empty() : OptionalChar.of(a[i + 1][j]);

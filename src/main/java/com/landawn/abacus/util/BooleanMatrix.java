@@ -107,16 +107,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a 1-row matrix filled with random values.
+     * Creates a 1-row matrix filled with random boolean values.
+     *
+     * <p>The random values are generated using the default random number generator
+     * with approximately equal probability for true and false values (50% distribution).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.random(5);
-     * // Creates a 1x5 matrix with random boolean values
+     * // Creates a 1x5 matrix like [[true, false, true, true, false]]
      * }</pre>
      *
-     * @param len the number of columns
-     * @return a 1-row matrix filled with random boolean values
+     * @param len the number of columns (must be non-negative)
+     * @return a new 1xlen BooleanMatrix filled with random boolean values, or an empty matrix if len is 0
      */
     @SuppressWarnings("deprecation")
     public static BooleanMatrix random(final int len) {
@@ -141,17 +144,22 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a square matrix from the specified main diagonal elements.
-     * All other elements are set to false.
+     * Creates a square matrix from the specified main diagonal elements (left-up to right-down).
+     * All other elements (off-diagonal) are set to false. The matrix size is n×n where n is the length
+     * of the diagonal array. The main diagonal runs from top-left to bottom-right.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.diagonalLU2RD(new boolean[] {true, false, true});
      * // Creates 3x3 matrix with diagonal [true, false, true] and false elsewhere
+     * // Resulting matrix:
+     * //   {true, false, false},
+     * //   {false, false, false},
+     * //   {false, false, true}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of diagonal elements
-     * @return a square matrix with the specified main diagonal
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements
+     * @return a square matrix with the specified main diagonal (n×n where n = diagonal length)
      */
     public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RightDownDiagonal) {
         return diagonal(leftUp2RightDownDiagonal, null);
@@ -358,7 +366,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean upOf(final int i, final int j) {
         return i == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i - 1][j]);
@@ -379,7 +387,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i + 1][j]);
@@ -400,7 +408,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean leftOf(final int i, final int j) {
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
@@ -421,7 +429,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalBoolean containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);

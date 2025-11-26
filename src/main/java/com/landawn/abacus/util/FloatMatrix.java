@@ -451,7 +451,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalFloat containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public OptionalFloat leftOf(final int i, final int j) {
         return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
@@ -471,7 +471,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalFloat containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if i is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public OptionalFloat rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
@@ -906,20 +906,25 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new Matrix by applying a function that converts float values to objects of type T.
-     * The operation may be performed in parallel for large matrices.
+     * Creates a new object Matrix by applying the specified function to each element of this matrix.
+     * The original matrix is not modified. Each float element is independently converted to an object
+     * of type T by the function, and the results are collected into a new Matrix with the same dimensions.
+     * The operation may be performed in parallel for large matrices to improve performance.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * Matrix<String> stringMatrix = matrix.mapToObj(x -> String.format("%.2f", x), String.class);
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.23f, 4.56f}, {7.89f, 0.12f}});
+     * Matrix<String> stringMatrix = matrix.mapToObj(f -> String.format("%.2f", f), String.class);
+     * // stringMatrix is [["1.23", "4.56"], ["7.89", "0.12"]]
+     *
      * Matrix<BigDecimal> decimalMatrix = matrix.mapToObj(BigDecimal::valueOf, BigDecimal.class);
      * }</pre>
      *
      * @param <T> the type of elements in the resulting matrix
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to convert float values to type T
-     * @param targetElementType the Class object for type T (required for array creation)
-     * @return a new Matrix containing the converted values
+     * @param <E> the exception type that the function may throw
+     * @param func the mapping function that converts each float element to type T; must not be null
+     * @param targetElementType the class object representing the target element type (used for array creation); must not be null
+     * @return a new Matrix&lt;T&gt; with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.FloatFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
@@ -932,13 +937,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Fills the entire matrix with the specified value.
-     * 
+     * Fills the entire matrix with the specified value in-place.
+     * This method modifies the matrix directly, setting every element to the same value.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.fill(0.0f); // Sets all elements to 0
+     * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * matrix.fill(0.0f);
+     * // Matrix is now [[0.0f, 0.0f], [0.0f, 0.0f]]
+     *
+     * FloatMatrix identity = FloatMatrix.of(new float[3][3]);
+     * identity.fill(1.0f);
+     * // Creates a matrix filled with 1.0f: [[1.0f, 1.0f, 1.0f], [1.0f, 1.0f, 1.0f], [1.0f, 1.0f, 1.0f]]
      * }</pre>
-     * 
+     *
      * @param val the value to fill the matrix with
      */
     public void fill(final float val) {
@@ -992,16 +1004,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns a copy of this matrix.
+     * Returns a deep copy of this matrix.
+     *
+     * <p>The returned matrix is completely independent from the original. All elements
+     * are copied into a new two-dimensional array, ensuring that modifications to either
+     * the copy or the original will not affect the other.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix original = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * FloatMatrix copy = original.copy();
-     * // copy is independent from original
+     *
+     * // Modifying the copy does NOT affect the original
+     * copy.set(0, 0, 99.0f);
+     * assert original.get(0, 0) == 1.0f; // Original unchanged
+     * assert copy.get(0, 0) == 99.0f; // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
      */
     @Override
     public FloatMatrix copy() {

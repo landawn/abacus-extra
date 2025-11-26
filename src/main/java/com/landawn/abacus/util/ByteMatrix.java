@@ -66,18 +66,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * Constructs a ByteMatrix from a two-dimensional byte array.
      * If the input array is null, an empty matrix (0x0) is created.
      *
-     * <p><b>Important:</b> The input array is used directly without defensive copying.
-     * This means modifications to the input array after construction will affect the matrix,
-     * and vice versa. For independent matrices, create a copy of the array before passing it.</p>
+     * <p><b>Important:</b> The array is used directly without copying. This means:
+     * <ul>
+     * <li>Modifications to the input array after construction will affect the matrix</li>
+     * <li>Modifications to the matrix will affect the original array</li>
+     * <li>This provides better performance but less encapsulation</li>
+     * </ul>
+     * For a safe copy, use {@link #of(byte[][])} or {@link #copy()} after construction.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] data = {{1, 2, 3}, {4, 5, 6}};
      * ByteMatrix matrix = new ByteMatrix(data);
      * data[0][0] = (byte) 99;  // This will also modify the matrix
+     *
+     * ByteMatrix empty = new ByteMatrix(null); // Creates 0x0 empty matrix
      * }</pre>
      *
-     * @param a the two-dimensional byte array to wrap as a matrix. If null, an empty matrix is created.
+     * @param a the two-dimensional byte array to wrap as a matrix. Can be null.
      */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
@@ -118,12 +124,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a 1-row matrix filled with random byte values.
-     * Each byte value is randomly generated within the full byte range (-128 to 127).
+     * Each element is a random byte value generated using the default random number generator.
+     * The values can range across the entire byte value space (from {@code Byte.MIN_VALUE} to {@code Byte.MAX_VALUE}).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.random(5);
-     * // Creates a 1x5 matrix with random byte values, e.g., [[23, -45, 67, -89, 12]]
+     * // Creates a 1x5 matrix with random byte values
+     * // Each value is in range [Byte.MIN_VALUE, Byte.MAX_VALUE]
      * }</pre>
      *
      * @param len the number of columns (must be non-negative)
@@ -172,18 +180,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a 1-row ByteMatrix containing a range of byte values with a specified step.
-     * The range starts at startInclusive, increments by the step value, and stops before endExclusive.
-     * 
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * If the step would not reach endExclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix range = ByteMatrix.range((byte)0, (byte)10, (byte)2);
-     * // Creates matrix: [[0, 2, 4, 6, 8]]
+     * ByteMatrix range = ByteMatrix.range((byte)0, (byte)10, (byte)2);  // Creates [[0, 2, 4, 6, 8]]
+     * ByteMatrix desc = ByteMatrix.range((byte)10, (byte)0, (byte)-2);  // Creates [[10, 8, 6, 4, 2]]
+     * ByteMatrix empty = ByteMatrix.range((byte)0, (byte)10, (byte)-1); // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
      * @param endExclusive the ending value (exclusive)
-     * @param by the step size for incrementing values
-     * @return a new ByteMatrix containing the range of values
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n ByteMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static ByteMatrix range(final byte startInclusive, final byte endExclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, by) });
@@ -209,18 +220,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a 1-row ByteMatrix containing a closed range of byte values with a specified step.
-     * The range includes both start and end values.
-     * 
+     * The step size can be positive (for ascending sequences) or negative (for descending sequences).
+     * The end value is included only if it is reachable by stepping from start. If the step would not
+     * reach endInclusive from startInclusive, an empty matrix is returned.
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix range = ByteMatrix.rangeClosed((byte)0, (byte)9, (byte)3);
-     * // Creates matrix: [[0, 3, 6, 9]]
+     * ByteMatrix range = ByteMatrix.rangeClosed((byte)0, (byte)8, (byte)2);  // Creates [[0, 2, 4, 6, 8]]
+     * ByteMatrix partial = ByteMatrix.rangeClosed((byte)0, (byte)9, (byte)2); // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * ByteMatrix desc = ByteMatrix.rangeClosed((byte)10, (byte)0, (byte)-2);  // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
-     * @param endInclusive the ending value (inclusive)
-     * @param by the step size for incrementing values
-     * @return a new ByteMatrix containing the range of values
+     * @param endInclusive the ending value (inclusive, if reachable by stepping)
+     * @param by the step size (must not be zero; can be positive or negative)
+     * @return a new 1×n ByteMatrix with values incremented by the step size
+     * @throws IllegalArgumentException if {@code by} is zero
      */
     public static ByteMatrix rangeClosed(final byte startInclusive, final byte endInclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
@@ -450,7 +465,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalByte containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte upOf(final int i, final int j) {
         return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
@@ -471,7 +486,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalByte containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);

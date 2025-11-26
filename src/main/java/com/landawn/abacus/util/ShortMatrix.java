@@ -461,7 +461,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalShort containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort upOf(final int i, final int j) {
         return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
@@ -482,7 +482,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalShort containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
@@ -533,7 +533,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Returns the specified row as a short array.
      *
-     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *

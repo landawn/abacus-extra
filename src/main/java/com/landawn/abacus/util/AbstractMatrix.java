@@ -149,7 +149,7 @@ import com.landawn.abacus.util.stream.Stream;
  * // Complex stream operations with multiple access patterns
  * public class MatrixAnalytics {
  *     public static double calculateRowVariance(DoubleMatrix matrix, int rowIndex) {
- *         double[] row = matrix.getRow(rowIndex);
+ *         double[] row = matrix.row(rowIndex);
  *         double mean = DoubleStream.of(row).average().orElse(0.0);
  *         return DoubleStream.of(row)
  *             .map(x -> Math.pow(x - mean, 2))
@@ -158,13 +158,15 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
- *         IntMatrix result = IntMatrix.zeros(matrix.rows(), matrix.cols());
- *         
+ *         IntMatrix result = IntMatrix.of(new int[matrix.rows()][matrix.cols()]);
+ *
  *         for (int i = 1; i < matrix.rows() - 1; i++) {
  *             for (int j = 1; j < matrix.cols() - 1; j++) {
  *                 int current = matrix.get(i, j);
- *                 boolean isMaxima = matrix.streamAroundPoint(i, j, 1)
- *                     .allMatch(neighbor -> current >= neighbor);
+ *                 int finalI = i;
+ *                 int finalJ = j;
+ *                 boolean isMaxima = matrix.adjacent8Points(i, j)
+ *                     .allMatch(point -> current >= matrix.get(point.rowIndex(), point.columnIndex()));
  *                 if (isMaxima) {
  *                     result.set(i, j, 1);
  *                 }
@@ -173,18 +175,22 @@ import com.landawn.abacus.util.stream.Stream;
  *         return result;
  *     }
  *
- *     public static <T> Matrix<T> applyConvolution(Matrix<T> input, Matrix<Double> kernel,
- *                                                 BinaryOperator<T> combiner) {
- *         Matrix<T> result = Matrix.zeros(input.rows(), input.cols(), input.elementType());
- *         
- *         input.streamWithIndices()
- *             .parallel()
- *             .forEach(entry -> {
- *                 T convolutionResult = computeConvolution(input, kernel, 
- *                     entry.rowIndex(), entry.colIndex(), combiner);
- *                 result.set(entry.rowIndex(), entry.colIndex(), convolutionResult);
+ *     public static Matrix<Double> normalizeColumns(Matrix<Double> input) {
+ *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rows(), input.cols(), input.componentType()));
+ *
+ *         input.pointsC().forEach(colStream -> {
+ *             List<Point> colPoints = colStream.toList();
+ *             double max = colPoints.stream()
+ *                 .mapToDouble(p -> input.get(p.rowIndex(), p.columnIndex()))
+ *                 .max()
+ *                 .orElse(1.0);
+ *
+ *             colPoints.forEach(p -> {
+ *                 double normalized = input.get(p.rowIndex(), p.columnIndex()) / max;
+ *                 result.set(p.rowIndex(), p.columnIndex(), normalized);
  *             });
- *         
+ *         });
+ *
  *         return result;
  *     }
  * }
@@ -267,8 +273,8 @@ import com.landawn.abacus.util.stream.Stream;
  *         if (a.cols() != b.rows()) {
  *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
  *         }
- *         
- *         DoubleMatrix result = DoubleMatrix.zeros(a.rows(), b.cols());
+ *
+ *         DoubleMatrix result = DoubleMatrix.of(new double[a.rows()][b.cols()]);
  *         
  *         IntStream.range(0, a.rows()).parallel().forEach(i -> {
  *             IntStream.range(0, b.cols()).forEach(j -> {
@@ -294,7 +300,7 @@ import com.landawn.abacus.util.stream.Stream;
  *     
  *     // Image processing convolution
  *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
- *         IntMatrix result = IntMatrix.zeros(image.rows(), image.cols());
+ *         IntMatrix result = IntMatrix.of(new int[image.rows()][image.cols()]);
  *         int filterSize = filter.rows();
  *         int offset = filterSize / 2;
  *         
@@ -1064,18 +1070,19 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Point&gt; adjacent = matrix.adjacent4Points(0, 0);
+     * Stream<Point> adjacent = matrix.adjacent4Points(0, 0);
      * // Returns stream of Point.of(0, 1) and Point.of(1, 0) - only right and down exist
      *
      * // Center position has all 4 neighbors
      * BooleanMatrix larger = BooleanMatrix.of(new boolean[3][3]);
-     * Stream<Point&gt; centerAdj = larger.adjacent4Points(1, 1);
+     * Stream<Point> centerAdj = larger.adjacent4Points(1, 1);
      * // Returns all 4 adjacent points: (0,1), (1,2), (2,1), (1,0)
      * }</pre>
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
+     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         final List<Point> points = new ArrayList<>(4);
@@ -1120,6 +1127,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
+     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         final List<Point> points = new ArrayList<>(8);

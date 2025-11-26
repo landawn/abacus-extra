@@ -201,7 +201,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _7 the seventh short value
      * @param _8 the eighth short value
      * @return a new ShortTuple8 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
     public static ShortTuple8 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7,
@@ -229,7 +229,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _8 the eighth short value
      * @param _9 the ninth short value
      * @return a new ShortTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
     public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
@@ -2026,7 +2026,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * boolean contains5 = tuple.contains((short)5); // true
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
     public static final class ShortTuple8 extends ShortTuple<ShortTuple8> {
@@ -2229,7 +2229,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * double avg = tuple.average(); // 5.0
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
      */
     @Deprecated
     public static final class ShortTuple9 extends ShortTuple<ShortTuple9> {

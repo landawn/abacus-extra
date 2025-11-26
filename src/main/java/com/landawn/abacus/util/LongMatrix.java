@@ -511,7 +511,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalLong containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalLong upOf(final int i, final int j) {
         return i == 0 ? OptionalLong.empty() : OptionalLong.of(a[i - 1][j]);
@@ -532,7 +532,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalLong containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalLong downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalLong.empty() : OptionalLong.of(a[i + 1][j]);
@@ -553,7 +553,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalLong containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalLong leftOf(final int i, final int j) {
         return j == 0 ? OptionalLong.empty() : OptionalLong.of(a[i][j - 1]);
@@ -574,7 +574,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalLong containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalLong rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalLong.empty() : OptionalLong.of(a[i][j + 1]);

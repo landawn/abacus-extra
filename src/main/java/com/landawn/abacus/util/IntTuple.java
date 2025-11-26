@@ -200,7 +200,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _7 the seventh int value
      * @param _8 the eighth int value
      * @return a new IntTuple8 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
      */
     @Deprecated
     public static IntTuple8 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8) {
@@ -226,7 +226,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _8 the eighth int value
      * @param _9 the ninth int value
      * @return a new IntTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
      */
     @Deprecated
     public static IntTuple9 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
@@ -1946,8 +1946,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * An IntTuple containing exactly eight int values.
      * Provides direct access to elements via public final fields.
-     * 
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
      */
     @Deprecated
     public static final class IntTuple8 extends IntTuple<IntTuple8> {
@@ -2141,8 +2141,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * An IntTuple containing exactly nine int values.
      * Provides direct access to elements via public final fields.
-     * 
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     *
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
      */
     @Deprecated
     public static final class IntTuple9 extends IntTuple<IntTuple9> {

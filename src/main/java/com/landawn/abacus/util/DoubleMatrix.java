@@ -507,7 +507,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalDouble containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble upOf(final int i, final int j) {
         return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
@@ -528,7 +528,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalDouble containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
@@ -549,7 +549,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalDouble containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i &lt; 0 or i &gt;= rows or j &lt; 0 or j &gt;= cols
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble leftOf(final int i, final int j) {
         return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
@@ -570,7 +570,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalDouble containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if i &lt; 0 or i &gt;= rows or j &lt; 0 or j &gt;= cols
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
@@ -952,8 +952,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * matrix.replaceIf(x -> x < 0, 0.0); // Replaces all negative values with 0
      * // matrix is now [[0.0, 2.0, 0.0], [4.0, 0.0, 6.0]]
      *
-     * matrix.replaceIf(x -> x % 2 == 0, 1.0); // Replaces all even values with 1
-     * // matrix is now [[0.0, 1.0, 0.0], [1.0, 0.0, 1.0]]
+     * matrix.replaceIf(x -> x > 3.0, 99.0); // Replaces all values greater than 3 with 99
+     * // matrix is now [[0.0, 2.0, 0.0], [99.0, 0.0, 99.0]]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
@@ -1113,14 +1113,18 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fills all elements in the matrix with the specified value in-place.
-     * This method modifies the matrix directly.
+     * Fills the entire matrix with the specified value in-place.
+     * This method modifies the matrix directly, setting every element to the same value.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.fill(0.0); // All elements become 0.0
+     * matrix.fill(0.0);
      * // Matrix is now [[0.0, 0.0], [0.0, 0.0]]
+     *
+     * DoubleMatrix identity = DoubleMatrix.of(new double[3][3]);
+     * identity.fill(1.0);
+     * // Creates a matrix filled with 1.0: [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0, 1.0, 1.0]]
      * }</pre>
      *
      * @param val the value to fill the matrix with
@@ -1180,16 +1184,24 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Returns a copy of this matrix.
+     * Returns a deep copy of this matrix.
+     *
+     * <p>The returned matrix is completely independent from the original. All elements
+     * are copied into a new two-dimensional array, ensuring that modifications to either
+     * the copy or the original will not affect the other.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix original = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix copy = original.copy();
-     * // copy is independent from original
+     *
+     * // Modifying the copy does NOT affect the original
+     * copy.set(0, 0, 99.0);
+     * assert original.get(0, 0) == 1.0; // Original unchanged
+     * assert copy.get(0, 0) == 99.0; // Copy modified
      * }</pre>
      *
-     * @return a new matrix that is a copy of this matrix
+     * @return a new matrix that is a deep copy of this matrix with full independence guarantee
      */
     @Override
     public DoubleMatrix copy() {

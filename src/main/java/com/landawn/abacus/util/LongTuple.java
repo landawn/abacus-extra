@@ -200,7 +200,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _7 the seventh long value
      * @param _8 the eighth long value
      * @return a new LongTuple8 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
      */
     @Deprecated
     public static LongTuple8 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8) {
@@ -226,7 +226,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth long value
      * @param _9 the ninth long value
      * @return a new LongTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
      */
     @Deprecated
     public static LongTuple9 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8,
@@ -2032,7 +2032,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * boolean contains5 = tuple.contains(5L); // true
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
      */
     @Deprecated
     public static final class LongTuple8 extends LongTuple<LongTuple8> {
@@ -2236,7 +2236,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * double avg = tuple.average(); // 5.0
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
      */
     @Deprecated
     public static final class LongTuple9 extends LongTuple<LongTuple9> {

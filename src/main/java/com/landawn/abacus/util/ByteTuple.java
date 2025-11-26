@@ -253,7 +253,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth byte value
      * @param _9 the ninth byte value
      * @return a new ByteTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
     @Deprecated
     public static ByteTuple9 of(final byte _1, final byte _2, final byte _3, final byte _4, final byte _5, final byte _6, final byte _7, final byte _8,
@@ -2446,7 +2446,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * int arity = tuple.arity(); // 9
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more byte values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more byte values
      */
     @Deprecated
     public static final class ByteTuple9 extends ByteTuple<ByteTuple9> {
