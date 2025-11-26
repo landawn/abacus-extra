@@ -602,6 +602,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             return "()";
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * For an empty tuple, returns an empty boolean array.
+         *
+         * @return an empty boolean array
+         */
         @Override
         protected boolean[] elements() {
             return N.EMPTY_BOOLEAN_ARRAY;
@@ -705,6 +711,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             return "(" + _1 + ")";
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing the single element
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -890,6 +902,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             return "(" + _1 + ", " + _2 + ")";
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1080,6 +1098,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             return "(" + _1 + ", " + _2 + ", " + _3 + ")";
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1179,6 +1203,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_4);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1282,6 +1312,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_5);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1389,6 +1425,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_6);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1501,6 +1543,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_7);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1621,6 +1669,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_8);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {
@@ -1745,6 +1799,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_9);
         }
 
+        /**
+         * Returns the internal array of boolean elements.
+         * The array is lazily initialized on first access.
+         *
+         * @return a boolean array containing all elements in order
+         */
         @Override
         protected boolean[] elements() {
             if (elements == null) {

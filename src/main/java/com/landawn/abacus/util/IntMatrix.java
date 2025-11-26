@@ -728,6 +728,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param columnIndex the index of the column to set (0-based)
      * @param column the array of values to set; must have length equal to number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
+     * @throws ArrayIndexOutOfBoundsException if array access is out of bounds during column copy
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);

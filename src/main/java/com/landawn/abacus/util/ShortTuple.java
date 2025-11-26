@@ -325,7 +325,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the median short value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * For tuples with an even number of elements, returns the lower middle element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -547,10 +547,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the minimum value in this tuple.
+         * Returns the minimum short value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as an empty tuple has no minimum value
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public short min() {
@@ -558,10 +559,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the maximum value in this tuple.
+         * Returns the maximum short value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as an empty tuple has no maximum value
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public short max() {
@@ -569,10 +571,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the median value in this tuple.
+         * Returns the median short value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as an empty tuple has no median value
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public short median() {
@@ -591,10 +594,11 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the average of all values in this tuple.
+         * Returns the average of all short values in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
          *
          * @return never returns normally
-         * @throws NoSuchElementException always, as an empty tuple has no average value
+         * @throws NoSuchElementException always, because the tuple is empty
          */
         @Override
         public double average() {
@@ -862,7 +866,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median short value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower) short value
          */
@@ -1326,7 +1330,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the four elements.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
          */
@@ -1698,7 +1702,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the six elements.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
          */
@@ -2091,7 +2095,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns the median value of the eight elements.
-         * For tuples with an even number of elements, returns the lower middle value.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) short value when sorted
          */

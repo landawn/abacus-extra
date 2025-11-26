@@ -731,6 +731,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Returns a reversed version of this tuple.
          * For an empty tuple, returns the same instance.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple0 tuple = DoubleTuple.of();
+         * DoubleTuple0 reversed = tuple.reverse(); // same instance
+         * }</pre>
+         *
          * @return this instance
          */
         @Override
@@ -850,6 +856,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple1 tuple = DoubleTuple.of(5.0);
+         * DoubleTuple1 reversed = tuple.reverse(); // (5.0)
+         * }</pre>
          *
          * @return a new DoubleTuple1 with the same value
          */
@@ -1005,6 +1017,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
+         * DoubleTuple2 reversed = tuple.reverse(); // (4.0, 3.0)
+         * }</pre>
+         *
          * @return a new DoubleTuple2 with (_2, _1)
          */
         @Override
@@ -1016,7 +1034,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * Checks whether this tuple contains the specified value.
          *
          * @param valueToFind the value to search for
-         * @return {@code true} if either element equals valueToFind
+         * @return {@code true} if any element equals valueToFind
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1230,6 +1248,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns a new tuple with the elements in reverse order.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
+         * DoubleTuple3 reversed = tuple.reverse(); // (3.0, 2.0, 1.0)
+         * }</pre>
          *
          * @return a new DoubleTuple3 with (_3, _2, _1)
          */

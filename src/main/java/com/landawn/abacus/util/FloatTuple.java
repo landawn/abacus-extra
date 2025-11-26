@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.FloatStream;
 
@@ -526,7 +527,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * An empty FloatTuple containing no elements.
-     * This class is used as a singleton for efficiency.
+     * <p>
+     * This class represents a tuple with arity 0 (zero elements). It follows the singleton pattern,
+     * with a single shared instance accessed via {@code FloatTuple.create(new float[0])} or returned
+     * when creating tuples from null/empty arrays. All statistical operations on FloatTuple0 either
+     * return 0 (for sum) or throw {@link NoSuchElementException} (for min, max, median, average).
+     * </p>
      */
     static final class FloatTuple0 extends FloatTuple<FloatTuple0> {
 
@@ -535,31 +541,70 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         FloatTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
         }
 
+        /**
+         * Returns the minimum float value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum float value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median float value in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public float median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all float values in this tuple.
+         * Since this tuple is empty, this method always returns 0.
+         *
+         * @return 0
+         */
         @Override
         public float sum() {
             return 0;
         }
 
+        /**
+         * Returns the average of all float values in this tuple.
+         * Since this tuple is empty, this method always throws an exception.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, because the tuple is empty
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
@@ -879,6 +924,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1099,6 +1145,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.FloatTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }

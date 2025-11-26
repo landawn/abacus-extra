@@ -1864,7 +1864,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix primitive = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Matrix<Boolean&gt; boxed = primitive.boxed();
+     * Matrix<Boolean> boxed = primitive.boxed();
      *
      * // Now you can use methods that work with generic types
      * Stream<Boolean> stream = boxed.streamH();
@@ -2003,7 +2003,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {false, false, true}
      * });
-     * List<Boolean&gt; diagonal = matrix.streamLU2RD().toList(); // [true, true, true]
+     * List<Boolean> diagonal = matrix.streamLU2RD().toList(); // [true, true, true]
      * 
      * // Check if it's an identity-like matrix
      * boolean allTrue = matrix.streamLU2RD().allMatch(b -> b);

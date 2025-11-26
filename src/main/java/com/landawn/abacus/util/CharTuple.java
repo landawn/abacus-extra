@@ -671,6 +671,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the minimum char value in this tuple.
          * Since this tuple is empty, this method always throws an exception.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * char min = emptyTuple.min(); // throws NoSuchElementException
+         * }</pre>
+         *
          * @return never returns normally
          * @throws NoSuchElementException always, because the tuple is empty
          */
@@ -683,6 +689,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the maximum char value in this tuple.
          * Since this tuple is empty, this method always throws an exception.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * char max = emptyTuple.max(); // throws NoSuchElementException
+         * }</pre>
+         *
          * @return never returns normally
          * @throws NoSuchElementException always, because the tuple is empty
          */
@@ -694,6 +706,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the median char value in this tuple.
          * Since this tuple is empty, this method always throws an exception.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * char median = emptyTuple.median(); // throws NoSuchElementException
+         * }</pre>
          *
          * @return never returns normally
          * @throws NoSuchElementException always, because the tuple is empty
@@ -1402,6 +1420,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1}, {@code _2}, {@code _3}, and {@code _4}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple4 tuple = CharTuple.of('a', 'b', 'c', 'd');
+     * }</pre>
      */
     public static final class CharTuple4 extends CharTuple<CharTuple4> {
 
@@ -1587,6 +1610,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _5}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple5 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e');
+     * }</pre>
      */
     public static final class CharTuple5 extends CharTuple<CharTuple5> {
 
@@ -1776,6 +1804,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _6}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple6 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f');
+     * }</pre>
      */
     public static final class CharTuple6 extends CharTuple<CharTuple6> {
 
@@ -1969,6 +2002,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * This class provides direct access to elements through public final fields
      * {@code _1} through {@code _7}.
      * </p>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharTuple7 tuple = CharTuple.of('a', 'b', 'c', 'd', 'e', 'f', 'g');
+     * }</pre>
      */
     public static final class CharTuple7 extends CharTuple<CharTuple7> {
 

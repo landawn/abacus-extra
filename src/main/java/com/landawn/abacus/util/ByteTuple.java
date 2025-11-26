@@ -377,7 +377,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p>
      * The median is the middle value when all elements are sorted. For tuples with
      * an odd number of elements, returns the exact middle value. For tuples with an
-     * even number of elements, returns the lower of the two middle values.
+     * even number of elements, returns the lower middle element.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -388,7 +388,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * // Even number of elements
      * ByteTuple4 tuple4 = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-     * byte median2 = tuple4.median(); // 20 (lower middle value)
+     * byte median2 = tuple4.median(); // 20 (lower middle element)
      * }</pre>
      *
      * @return the median byte value in this tuple
@@ -1023,7 +1023,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower) byte value
          */
@@ -1494,7 +1494,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of four elements, returns the lower of the two middle values when sorted.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median byte value
          */
@@ -1563,6 +1563,48 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_2);
             consumer.accept(_3);
             consumer.accept(_4);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all four elements.
+         *
+         * @return a hash code based on all four elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * _1 + _2) + _3)) + _4;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple4 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple4 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple4 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
         }
 
         @Override
@@ -1647,7 +1689,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of five elements, returns the middle value when sorted.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
          * @return the median byte value
          */
@@ -1717,6 +1759,48 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all five elements.
+         *
+         * @return a hash code based on all five elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple5 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple5 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple5 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4, element5) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
         @Override
@@ -1804,7 +1888,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of six elements, returns the lower of the two middle values when sorted.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median byte value
          */
@@ -1875,6 +1959,48 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_4);
             consumer.accept(_5);
             consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all six elements.
+         *
+         * @return a hash code based on all six elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple6 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple6 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple6 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4, element5, element6) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
         @Override
@@ -1965,7 +2091,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of seven elements, returns the middle value when sorted.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
          * @return the median byte value
          */
@@ -2038,6 +2164,48 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_5);
             consumer.accept(_6);
             consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all seven elements.
+         *
+         * @return a hash code based on all seven elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple7 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple7 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple7 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4, element5, element6, element7) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
         @Override
@@ -2134,7 +2302,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of eight elements, returns the lower of the two middle values when sorted.
+         * For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median byte value
          */
@@ -2208,6 +2376,49 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_6);
             consumer.accept(_7);
             consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all eight elements.
+         *
+         * @return a hash code based on all eight elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple8 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple8 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple8 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4, element5, element6, element7, element8) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7, element8)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
         @Override
@@ -2307,7 +2518,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median byte value in this tuple.
-         * For a tuple of nine elements, returns the middle value when sorted.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
          * @return the median byte value
          */
@@ -2382,6 +2593,49 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
             consumer.accept(_7);
             consumer.accept(_8);
             consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all nine elements.
+         *
+         * @return a hash code based on all nine elements
+         */
+        @Override
+        public int hashCode() {
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9;
+        }
+
+        /**
+         * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both ByteTuple9 instances
+         * and all corresponding elements are equal.
+         *
+         * @param obj the object to compare with
+         * @return {@code true} if obj is a ByteTuple9 with equal elements, {@code false} otherwise
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final ByteTuple9 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8 && _9 == other._9;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         * The format is (element1, element2, element3, element4, element5, element6, element7, element8, element9) where each element is displayed in order.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7, element8, element9)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
         @Override

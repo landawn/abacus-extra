@@ -320,8 +320,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the median int value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -536,16 +535,37 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             return 0;
         }
 
+        /**
+         * Returns the minimum value in this tuple.
+         * Since this tuple is empty, always throws NoSuchElementException.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as the tuple is empty
+         */
         @Override
         public int min() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the maximum value in this tuple.
+         * Since this tuple is empty, always throws NoSuchElementException.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as the tuple is empty
+         */
         @Override
         public int max() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
+         * Since this tuple is empty, always throws NoSuchElementException.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as the tuple is empty
+         */
         @Override
         public int median() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
@@ -556,6 +576,13 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             return 0;
         }
 
+        /**
+         * Returns the average of all elements in this tuple.
+         * Since this tuple is empty, always throws NoSuchElementException.
+         *
+         * @return never returns normally
+         * @throws NoSuchElementException always, as the tuple is empty
+         */
         @Override
         public double average() {
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
@@ -630,7 +657,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value in this tuple, which is the single element.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the value of _1
          */
@@ -779,10 +806,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median int value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
-         * @return the median (lower) int value
+         * @return the median (lower middle) int value
          */
         @Override
         public int median() {
@@ -1000,7 +1026,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the three elements.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the middle value when sorted
          */
@@ -1224,8 +1250,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the four elements.
-         * For a tuple of four elements, returns the lower middle value.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) int value
          */
@@ -1402,7 +1427,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the five elements.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the middle value when sorted
          */
@@ -1583,8 +1608,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the six elements.
-         * For a tuple of six elements, returns the lower middle value.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) int value
          */
@@ -1769,7 +1793,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the seven elements.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the middle value when sorted
          */
@@ -1962,8 +1986,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the eight elements.
-         * For a tuple of eight elements, returns the lower middle value.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the median (lower middle) int value
          */
@@ -2161,7 +2184,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Returns the median value of the nine elements.
+         * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
          *
          * @return the middle value when sorted
          */

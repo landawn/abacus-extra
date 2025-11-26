@@ -860,9 +860,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median long value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * For tuples with an even number of elements, returns the lower middle value.
          *
-         * @return the median (lower) long value
+         * @return the median (lower middle) long value
          */
         @Override
         public long median() {
@@ -1095,8 +1095,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the three elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the middle long value when sorted
+         * @return the median long value
          */
         @Override
         public long median() {
@@ -1938,8 +1939,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the seven elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the middle value when sorted
+         * @return the median long value
          */
         @Override
         public long median() {
@@ -2348,8 +2350,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the median value of the nine elements.
+         * For tuples with an odd number of elements, returns the middle value when sorted.
          *
-         * @return the middle value when sorted
+         * @return the median long value
          */
         @Override
         public long median() {
