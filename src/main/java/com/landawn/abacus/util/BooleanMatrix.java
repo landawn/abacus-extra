@@ -486,7 +486,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the values of the specified row.
+     * Sets the values of the specified row by copying from the provided array.
+     * All elements in the row are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix row.
+     * The source array must have exactly the same length as the number of columns in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -495,7 +499,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set; must have length equal to number of columns
+     * @param row the array of values to copy into the row; must have length equal to the number of columns
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final boolean[] row) throws IllegalArgumentException {
@@ -506,7 +510,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the values of the specified column.
+     * Sets the values of the specified column by copying from the provided array.
+     * All elements in the column are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix column.
+     * The source array must have exactly the same length as the number of rows in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -515,7 +523,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set; must have length equal to number of rows
+     * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final boolean[] column) throws IllegalArgumentException {
@@ -1362,8 +1370,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Reverses the order of elements in each column in-place (vertical reversal).
-     * This method modifies the matrix directly, reversing elements top-to-bottom within each column.
+     * Reverses the order of rows in the matrix (vertical flip in-place).
+     * This method modifies the matrix directly, reversing the row order from top to bottom.
      *
      * <p>This operation is useful for mirroring or flipping data vertically. Unlike {@link #flipV()},
      * which returns a new matrix, this method modifies the current matrix in place, making it more
@@ -1742,25 +1750,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flattens the underlying two-dimensional array into a one-dimensional array, applies an operation to it, then reconstructs
-     * the two-dimensional structure. This is useful for operations that need a flat view of all matrix elements.
-     *
-     * <p><b>IMPORTANT:</b> The operation receives the actual flattened internal array. Modifications made
-     * by the operation will be reflected back into the matrix structure after the operation completes.
-     *
-     * <p>This method is particularly useful for bulk operations that work more efficiently on
-     * a flat array representation, such as sorting all elements, applying array-level transformations,
-     * or interfacing with APIs that expect one-dimensional arrays.
+     * Applies an operation to each row array of the matrix.
+     * This is useful for operations that work on entire row arrays at once,
+     * such as sorting or reversing rows.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{false, true}, {true, false}});
-     * matrix.flatOp(arr -> Arrays.sort(arr)); // Sort all elements
-     * // Matrix elements are now sorted: [[false, false], [true, true]]
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * matrix.flatOp(row -> Arrays.sort(row)); // Sorts each row independently
+     * // Each row is now sorted
      * }</pre>
      *
      * @param <E> the type of exception that the operation may throw
-     * @param op the consumer operation to apply to the flattened internal array; must not be null
+     * @param op the operation to apply to each row array
      * @throws E if the operation throws an exception
      * @see Arrays#flatOp(boolean[][], Throwables.Consumer)
      */
@@ -2132,13 +2134,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Boolean&gt; stream = matrix.streamH(); // Stream of [true, false, false, true]
+     * Stream<Boolean> stream = matrix.streamH(); // Stream of [true, false, false, true]
      * 
      * // Count true values
      * long trueCount = matrix.streamH().filter(b -> b).count(); // Returns 2
      * 
      * // Convert to list
-     * List<Boolean&gt; list = matrix.streamH().toList(); // [true, false, false, true]
+     * List<Boolean> list = matrix.streamH().toList(); // [true, false, false, true]
      * }</pre>
      * 
      * @return a Stream&lt;Boolean&gt; of all elements in row-major order, or an empty stream if the matrix is empty
@@ -2161,7 +2163,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {false, true, false}
      * });
-     * Stream<Boolean&gt; firstRow = matrix.streamH(0); // Stream of [true, false, true]
+     * Stream<Boolean> firstRow = matrix.streamH(0); // Stream of [true, false, true]
      * 
      * // Check if any value in the second row is true
      * boolean hasTrue = matrix.streamH(1).anyMatch(b -> b); // Returns true
@@ -2192,7 +2194,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true},
      *     {true, true}
      * });
-     * Stream<Boolean&gt; middleRows = matrix.streamH(1, 3); // Stream rows 1 and 2: [false, true, true, true]
+     * Stream<Boolean> middleRows = matrix.streamH(1, 3); // Stream rows 1 and 2: [false, true, true, true]
      * 
      * // Process subset of rows
      * boolean[] subset = matrix.streamH(0, 2)
@@ -2292,10 +2294,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * Stream<Boolean&gt; stream = matrix.streamV(); // Stream of [true, false, false, true]
+     * Stream<Boolean> stream = matrix.streamV(); // Stream of [true, false, false, true]
      * 
      * // Process in column order
-     * List<Boolean&gt; colMajor = matrix.streamV().toList(); // [true, false, false, true]
+     * List<Boolean> colMajor = matrix.streamV().toList(); // [true, false, false, true]
      * }</pre>
      * 
      * @return a Stream&lt;Boolean&gt; of all elements in column-major order, or an empty stream if the matrix is empty

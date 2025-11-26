@@ -482,7 +482,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns a new array containing all elements of this tuple.
      * <p>
      * This method creates a defensive copy of the internal array. Modifications to the
-     * returned array will not affect the tuple since tuples are immutable.
+     * returned array do not affect the tuple since tuples are immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -505,7 +505,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * Returns a new CharList containing all elements of this tuple.
      * <p>
      * This method converts the tuple into a mutable CharList. The returned list is a new
-     * instance, and modifications to it will not affect the original tuple.
+     * instance, and modifications to it do not affect the original tuple.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -527,8 +527,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
     /**
      * Performs the given action for each element in this tuple.
      * <p>
-     * This method iterates through all elements in the tuple in order, applying the specified
-     * consumer action to each element. The action is performed for its side effects only.
+     * Iterates through all elements in this tuple in order, executing the provided
+     * consumer action for each element. This method is primarily used for side effects
+     * such as logging, printing, or updating external state. The tuple itself is not
+     * modified as it is immutable.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -542,8 +544,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
-     * @param consumer the action to be performed for each element
-     * @throws E if the consumer throws an exception
+     * @param consumer the action to be performed for each element, must not be {@code null}
+     * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
         for (final char e : elements()) {
@@ -759,7 +761,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Since this tuple is empty, this method always returns false.
          *
          * @param valueToFind the char value to search for
-         * @return false always, because the tuple is empty
+         * @return {@code false} always, because the tuple is empty
          */
         @Override
         public boolean contains(final char valueToFind) {
@@ -996,7 +998,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the median char value in this tuple.
          * For a tuple of two elements, returns the lower value.
          *
-         * @return the median (lower) char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -1026,7 +1028,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a new CharTuple2 with the elements in reverse order.
          *
-         * @return a new CharTuple2 with elements swapped
+         * @return a new CharTuple2 with the elements in reverse order
          */
         @Override
         public CharTuple2 reverse() {
@@ -1506,7 +1508,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'B' (lower middle value)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -1699,7 +1701,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'C' (middle value when sorted: A, B, C, D, E)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -1896,7 +1898,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'C' (lower middle value when sorted)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -2097,7 +2099,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'D' (middle value when sorted: A, B, C, D, E, F, G)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -2301,7 +2303,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'D' (lower middle value when sorted)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {
@@ -2509,7 +2511,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * char median = tuple.median(); // 'E' (middle value when sorted: A, B, C, D, E, F, G, H, I)
          * }</pre>
          *
-         * @return the median char value
+         * @return the median char value in this tuple
          */
         @Override
         public char median() {

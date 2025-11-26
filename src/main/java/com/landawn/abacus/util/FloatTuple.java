@@ -58,7 +58,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float value = single._1; // 3.14f
      * }</pre>
      *
-     * @param _1 the float value to wrap in a tuple
+     * @param _1 the float value to store in the tuple
      * @return a new FloatTuple1 containing the provided value
      */
     public static FloatTuple1 of(final float _1) {
@@ -610,16 +610,34 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         * Since this tuple is empty, returns itself.
+         *
+         * @return this FloatTuple0 instance
+         */
         @Override
         public FloatTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified float value.
+         * Since this tuple is empty, always returns false.
+         *
+         * @param valueToFind the float value to search for
+         * @return {@code false} always, because the tuple is empty
+         */
         @Override
         public boolean contains(final float valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "()"
+         */
         @Override
         public String toString() {
             return "()";

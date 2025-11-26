@@ -1227,7 +1227,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a copy of this matrix.
+     * Returns a copy of this matrix.
      * The returned matrix is a completely independent copy; modifications to one
      * do not affect the other.
      *
@@ -1252,7 +1252,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a copy of a row range from this matrix.
+     * Returns a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1280,7 +1280,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a copy of a rectangular region from this matrix.
+     * Returns a copy of a rectangular region from this matrix.
      * The returned matrix contains only the specified rows and columns and is completely
      * independent from the original matrix.
      *
@@ -1902,6 +1902,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @return a list of all elements in row-major order
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
      */
     @Override
     public IntList flatten() {

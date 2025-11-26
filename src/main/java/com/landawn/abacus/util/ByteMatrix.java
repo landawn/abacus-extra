@@ -578,7 +578,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the values of the specified row.
+     * Sets the values of the specified row by copying from the provided array.
+     * All elements in the row are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix row.
+     * The source array must have exactly the same length as the number of columns in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -587,7 +591,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set; must have length equal to number of columns
+     * @param row the array of values to copy into the row; must have length equal to the number of columns
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final byte[] row) throws IllegalArgumentException {
@@ -598,7 +602,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the values of the specified column.
+     * Sets the values of the specified column by copying from the provided array.
+     * All elements in the column are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix column.
+     * The source array must have exactly the same length as the number of rows in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -607,7 +615,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set; must have length equal to number of rows
+     * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final byte[] column) throws IllegalArgumentException {
@@ -1329,7 +1337,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Reverses the order of elements in each column vertically in-place.
+     * Reverses the order of rows in the matrix (vertical flip in-place).
      * This modifies the matrix directly. For a non-destructive version, use {@link #flipV()}.
      *
      * <p><b>Usage Examples:</b></p>

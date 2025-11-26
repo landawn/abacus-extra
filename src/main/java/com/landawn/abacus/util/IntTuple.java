@@ -530,6 +530,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         IntTuple0() {
         }
 
+        /**
+         * Returns the number of elements in this tuple, which is always 0.
+         *
+         * @return 0
+         */
         @Override
         public int arity() {
             return 0;
@@ -571,6 +576,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns the sum of all elements in this tuple.
+         * For an empty tuple, the sum is 0.
+         *
+         * @return 0
+         */
         @Override
         public int sum() {
             return 0;
@@ -588,16 +599,34 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
             throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
         }
 
+        /**
+         * Returns a new tuple with the elements in reverse order.
+         * For an empty tuple, returns itself.
+         *
+         * @return this empty tuple
+         */
         @Override
         public IntTuple0 reverse() {
             return this;
         }
 
+        /**
+         * Checks if this tuple contains the specified value.
+         * Since this tuple is empty, always returns false.
+         *
+         * @param valueToFind the value to search for
+         * @return {@code false} always, as the tuple is empty
+         */
         @Override
         public boolean contains(final int valueToFind) {
             return false;
         }
 
+        /**
+         * Returns a string representation of this empty tuple.
+         *
+         * @return "()"
+         */
         @Override
         public String toString() {
             return "()";

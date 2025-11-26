@@ -1208,7 +1208,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a copy of a row range from this matrix.
+     * Returns a copy of a row range from this matrix.
      * The returned matrix contains only the specified rows and is completely independent from the original matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1235,7 +1235,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a copy of a submatrix defined by row and column ranges.
+     * Returns a copy of a submatrix defined by row and column ranges.
      * The returned matrix is independent of this matrix.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1552,13 +1552,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a new matrix rotated 90 degrees clockwise.
+     * Rotates this matrix 90 degrees clockwise.
+     * The resulting matrix has dimensions swapped (rows become columns), with the first
+     * column of the result being the last row of the original, reading upward.
+     * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix rotated = matrix.rotate90();
-     * // rotated is {{3, 1}, {4, 2}}
+     * // Original:    Rotated 90° clockwise:
+     * // 1 2          3 1
+     * // 3 4     =>   4 2
      * }</pre>
      *
      * @return a new matrix rotated 90 degrees clockwise
@@ -1585,13 +1588,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a new matrix rotated 180 degrees.
+     * Rotates this matrix 180 degrees.
+     * This is equivalent to flipping both horizontally and vertically, reversing the
+     * order of all elements. The resulting matrix has the same dimensions as the original.
+     * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix rotated = matrix.rotate180();
-     * // rotated is {{4, 3}, {2, 1}}
+     * // Original:    Rotated 180°:
+     * // 1 2          4 3
+     * // 3 4     =>   2 1
      * }</pre>
      *
      * @return a new matrix rotated 180 degrees
@@ -1609,13 +1615,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Returns a new matrix rotated 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * Rotates this matrix 270 degrees clockwise (or 90 degrees counter-clockwise).
+     * The resulting matrix has dimensions swapped (rows become columns), with the first
+     * column of the result being the first row of the original, reading downward.
+     * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix rotated = matrix.rotate270();
-     * // rotated is {{2, 4}, {1, 3}}
+     * // Original:    Rotated 270° clockwise:
+     * // 1 2          2 4
+     * // 3 4     =>   1 3
      * }</pre>
      *
      * @return a new matrix rotated 270 degrees clockwise
@@ -2346,17 +2355,22 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a stream of all elements in the matrix in row-major order (horizontally).
-     * Elements are streamed row by row from left to right.
+     * Returns a stream of all matrix elements in row-major order (left to right, then top to bottom).
+     * The stream includes all elements from all rows, proceeding from left to right within each row,
+     * and from the first row to the last row.
+     *
+     * <p>This method is useful for processing all matrix elements sequentially. The returned
+     * stream can be used with all standard LongStream operations including sum, average, filter, map, etc.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
      * LongStream stream = matrix.streamH();
      * // Stream contains: 1, 2, 3, 4, 5, 6
+     * long sum = matrix.streamH().sum(); // Returns 21
      * }</pre>
      *
-     * @return a stream of all matrix elements in row-major order
+     * @return a stream of all matrix elements in row-major order, or an empty stream if the matrix is empty
      */
     @Override
     public LongStream streamH() {
@@ -2364,18 +2378,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a stream of elements from a specific row.
+     * Returns a stream of elements from a single row.
+     * The elements are streamed from left to right within the specified row.
+     *
+     * <p>This method is particularly useful when you need to process or analyze
+     * a specific row of the matrix independently. The returned stream can be
+     * used with all standard LongStream operations.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
      * LongStream row = matrix.streamH(1);
      * // Stream contains: 4, 5, 6
+     * long rowSum = matrix.streamH(1).sum(); // Returns 15
      * }</pre>
      *
-     * @param rowIndex the index of the row to stream
+     * @param rowIndex the index of the row to stream (0-based)
      * @return a stream of elements from the specified row
-     * @throws IndexOutOfBoundsException if the row index is out of bounds
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     @Override
     public LongStream streamH(final int rowIndex) {
@@ -2383,20 +2403,26 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a stream of elements from a range of rows in row-major order.
-     * Elements are streamed row by row from left to right.
+     * Returns a stream of elements from a range of rows in row-major order.
+     * Elements are streamed row by row from the starting row (inclusive) to
+     * the ending row (exclusive), with each row streamed from left to right.
+     *
+     * <p>This method allows for efficient processing of a subset of matrix rows.
+     * The stream maintains the row-major order, meaning all elements from one row
+     * are streamed before moving to the next row.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}, {5, 6}});
      * LongStream stream = matrix.streamH(1, 3);
      * // Stream contains: 3, 4, 5, 6
+     * long[] subset = matrix.streamH(0, 2).toArray(); // Returns [1, 2, 3, 4]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index (inclusive)
+     * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a stream of elements from the specified row range
-     * @throws IndexOutOfBoundsException if the row indices are out of bounds
+     * @return a stream of elements from the specified row range, or an empty stream if the matrix is empty
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
      */
     @Override
     public LongStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {

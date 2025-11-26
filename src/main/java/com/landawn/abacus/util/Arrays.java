@@ -465,7 +465,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional boolean array to map.
+     * @param a the two-dimensional boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -501,7 +501,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional boolean array to map.
+     * @param a the three-dimensional boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -536,7 +536,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the char array to map.
+     * @param a the char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -572,7 +572,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional char array to map.
+     * @param a the two-dimensional char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -608,7 +608,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional char array to map.
+     * @param a the three-dimensional char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -643,7 +643,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the byte array to map.
+     * @param a the byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -679,7 +679,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional byte array to map.
+     * @param a the two-dimensional byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -715,7 +715,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional byte array to map.
+     * @param a the three-dimensional byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -750,7 +750,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the short array to map.
+     * @param a the short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -786,7 +786,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional short array to map.
+     * @param a the two-dimensional short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -822,7 +822,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional short array to map.
+     * @param a the three-dimensional short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -894,7 +894,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional int array to map.
+     * @param a the two-dimensional int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -930,7 +930,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional int array to map.
+     * @param a the three-dimensional int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -965,7 +965,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the long array to map.
+     * @param a the long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1001,7 +1001,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional long array to map.
+     * @param a the two-dimensional long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1037,7 +1037,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional long array to map.
+     * @param a the three-dimensional long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1072,7 +1072,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the float array to map.
+     * @param a the float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1108,7 +1108,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the two-dimensional float array to map.
+     * @param a the two-dimensional float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1144,7 +1144,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
-     * @param a the three-dimensional float array to map.
+     * @param a the three-dimensional float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object.
      * @param targetElementType the class of the target element type.
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
@@ -1167,7 +1167,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a double array to an object array using the provided mapper function.
+     * Maps each element of a double array to an object using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1179,10 +1179,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input double array.
+     * @param a the input double array (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return an array of type T with mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -1202,7 +1202,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a two-dimensional double array to a two-dimensional object array using the provided mapper function.
+     * Maps each element of a two-dimensional double array to an object using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1214,10 +1214,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input two-dimensional double array.
+     * @param a the input two-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a two-dimensional array of type T with mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -1237,7 +1237,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Maps a three-dimensional double array to a three-dimensional object array using the provided mapper function.
+     * Maps each element of a three-dimensional double array to an object using the provided mapper function.
      * Each element in the input array is transformed using the mapper function.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1249,10 +1249,10 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional double array.
+     * @param a the input three-dimensional double array (can be {@code null}).
      * @param mapper the function to transform each double element.
      * @param targetElementType the class of the target element type.
-     * @return a three-dimensional array of type T with mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper,
@@ -1283,7 +1283,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input int array.
+     * @param a the input int array (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1315,7 +1315,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input two-dimensional int array.
+     * @param a the input two-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1347,7 +1347,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional int array.
+     * @param a the input three-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to long.
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1379,7 +1379,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input int array.
+     * @param a the input int array (can be {@code null}).
      * @param mapper the function to transform each int to double.
      * @return a double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1411,7 +1411,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input two-dimensional int array.
+     * @param a the input two-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to double.
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1443,7 +1443,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional int array.
+     * @param a the input three-dimensional int array (can be {@code null}).
      * @param mapper the function to transform each int to double.
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1475,7 +1475,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input long array.
+     * @param a the input long array (can be {@code null}).
      * @param mapper the function to transform each long to int.
      * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1639,7 +1639,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input three-dimensional long array.
+     * @param a the input three-dimensional long array (can be {@code null}).
      * @param mapper the function to transform each long to double.
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
@@ -1671,7 +1671,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the mapper.
-     * @param a the input double array.
+     * @param a the input double array (can be {@code null}).
      * @param mapper the function to transform each double to int.
      * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.

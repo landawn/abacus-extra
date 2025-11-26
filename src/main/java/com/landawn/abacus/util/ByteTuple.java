@@ -1087,7 +1087,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Applies the given action to both elements of this tuple.
+         * Applies the given bi-consumer to both elements of this tuple.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1096,7 +1096,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed on both elements
+         * @param action the bi-consumer to apply to both elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
@@ -1104,7 +1104,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Applies the given function to both elements of this tuple and returns the result.
+         * Applies the given bi-function to both elements of this tuple and returns the result.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1114,8 +1114,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown
-         * @param mapper the mapping function to apply to both elements
-         * @return the result of applying the mapping function
+         * @param mapper the bi-function to apply to both elements
+         * @return the result of applying the bi-function
          * @throws E if the mapper throws an exception
          */
         public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
@@ -1123,7 +1123,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
+         * Returns an Optional containing this tuple if it matches the given bi-predicate,
          * otherwise returns an empty Optional.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1133,8 +1133,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test both elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @param predicate the bi-predicate to test both elements
+         * @return an Optional containing this tuple if the bi-predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
@@ -1324,7 +1324,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Applies the given action to all three elements of this tuple.
+         * Applies the given tri-consumer to all three elements of this tuple.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1333,7 +1333,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param action the action to be performed on all three elements
+         * @param action the tri-consumer to apply to all three elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
@@ -1341,7 +1341,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Applies the given function to all three elements of this tuple and returns the result.
+         * Applies the given tri-function to all three elements of this tuple and returns the result.
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1351,8 +1351,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown
-         * @param mapper the mapping function to apply to all three elements
-         * @return the result of applying the mapping function
+         * @param mapper the tri-function to apply to all three elements
+         * @return the result of applying the tri-function
          * @throws E if the mapper throws an exception
          */
         public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
@@ -1360,7 +1360,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Returns an Optional containing this tuple if it matches the given predicate,
+         * Returns an Optional containing this tuple if it matches the given tri-predicate,
          * otherwise returns an empty Optional.
          *
          * <p><b>Usage Examples:</b></p>
@@ -1370,8 +1370,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param predicate the predicate to test all three elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @param predicate the tri-predicate to test all three elements
+         * @return an Optional containing this tuple if the tri-predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {

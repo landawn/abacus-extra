@@ -1355,7 +1355,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Reverses the order of rows vertically (in-place).
+     * Reverses the order of rows in the matrix (vertical flip in-place).
      * This modifies the matrix directly. The first row becomes the last, second becomes second-to-last, etc.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2513,7 +2513,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<CharStream&gt; rows = matrix.streamR();
+     * Stream<CharStream> rows = matrix.streamR();
      * // First stream contains: 'a', 'b'
      * // Second stream contains: 'c', 'd'
      * }</pre>
@@ -2593,7 +2593,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * Stream<CharStream&gt; columns = matrix.streamC();
+     * Stream<CharStream> columns = matrix.streamC();
      * // First stream contains: 'a', 'c'
      * // Second stream contains: 'b', 'd'
      * }</pre>

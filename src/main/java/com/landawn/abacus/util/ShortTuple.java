@@ -58,7 +58,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * short value = single._1; // 42
      * }</pre>
      *
-     * @param _1 the short value to wrap in a tuple
+     * @param _1 the short value to store in the tuple
      * @return a new ShortTuple1 containing the provided value
      */
     public static ShortTuple1 of(final short _1) {

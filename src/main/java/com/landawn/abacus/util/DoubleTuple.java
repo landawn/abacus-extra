@@ -73,7 +73,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @param _1 the double value to store in the tuple
-     * @return a new DoubleTuple1 containing the specified value
+     * @return a new DoubleTuple1 containing the provided value
      */
     public static DoubleTuple1 of(final double _1) {
         return new DoubleTuple1(_1);
@@ -91,7 +91,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @param _1 the first double value
      * @param _2 the second double value
-     * @return a new DoubleTuple2 containing the specified values
+     * @return a new DoubleTuple2 containing the provided values
      */
     public static DoubleTuple2 of(final double _1, final double _2) {
         return new DoubleTuple2(_1, _2);
@@ -109,7 +109,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _1 the first double value
      * @param _2 the second double value
      * @param _3 the third double value
-     * @return a new DoubleTuple3 containing the specified values
+     * @return a new DoubleTuple3 containing the provided values
      */
     public static DoubleTuple3 of(final double _1, final double _2, final double _3) {
         return new DoubleTuple3(_1, _2, _3);
@@ -128,7 +128,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _2 the second double value
      * @param _3 the third double value
      * @param _4 the fourth double value
-     * @return a new DoubleTuple4 containing the specified values
+     * @return a new DoubleTuple4 containing the provided values
      */
     public static DoubleTuple4 of(final double _1, final double _2, final double _3, final double _4) {
         return new DoubleTuple4(_1, _2, _3, _4);
@@ -148,7 +148,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _3 the third double value
      * @param _4 the fourth double value
      * @param _5 the fifth double value
-     * @return a new DoubleTuple5 containing the specified values
+     * @return a new DoubleTuple5 containing the provided values
      */
     public static DoubleTuple5 of(final double _1, final double _2, final double _3, final double _4, final double _5) {
         return new DoubleTuple5(_1, _2, _3, _4, _5);
@@ -169,7 +169,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _4 the fourth double value
      * @param _5 the fifth double value
      * @param _6 the sixth double value
-     * @return a new DoubleTuple6 containing the specified values
+     * @return a new DoubleTuple6 containing the provided values
      */
     public static DoubleTuple6 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6) {
         return new DoubleTuple6(_1, _2, _3, _4, _5, _6);
@@ -191,7 +191,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _5 the fifth double value
      * @param _6 the sixth double value
      * @param _7 the seventh double value
-     * @return a new DoubleTuple7 containing the specified values
+     * @return a new DoubleTuple7 containing the provided values
      */
     public static DoubleTuple7 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7) {
         return new DoubleTuple7(_1, _2, _3, _4, _5, _6, _7);
@@ -214,7 +214,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _6 the sixth double value
      * @param _7 the seventh double value
      * @param _8 the eighth double value
-     * @return a new DoubleTuple8 containing the specified values
+     * @return a new DoubleTuple8 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
      */
     @Deprecated
@@ -241,7 +241,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _7 the seventh double value
      * @param _8 the eighth double value
      * @param _9 the ninth double value
-     * @return a new DoubleTuple9 containing the specified values
+     * @return a new DoubleTuple9 containing the provided values
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
     @Deprecated
@@ -362,12 +362,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the median double value in this tuple.
-     * <p>
-     * The median is the middle value when all elements are sorted. For tuples with
-     * an odd number of elements, returns the exact middle value. For tuples with an
-     * even number of elements, returns the lower of the two middle values.
-     * </p>
+     * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1055,8 +1050,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Performs the given binary action on the two elements.
-         * 
+         * Performs the given bi-consumer on the two elements.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
@@ -1064,7 +1059,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param action the binary action to perform
+         * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleBiConsumer<E> action) throws E {
@@ -1072,8 +1067,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Applies the given binary function to the two elements and returns the result.
-         * 
+         * Applies the given bi-function to the two elements and returns the result.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
@@ -1082,7 +1077,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown
-         * @param mapper the binary function to apply
+         * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
@@ -1093,7 +1088,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
@@ -1101,7 +1096,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param predicate the binary predicate to test
+         * @param predicate the bi-predicate to test the two elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
@@ -1288,8 +1283,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Performs the given ternary action on the three elements.
-         * 
+         * Performs the given tri-consumer on the three elements.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
@@ -1297,7 +1292,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param action the ternary action to perform
+         * @param action the tri-consumer to perform on the three elements
          * @throws E if the action throws an exception
          */
         public <E extends Exception> void accept(final Throwables.DoubleTriConsumer<E> action) throws E {
@@ -1305,8 +1300,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Applies the given ternary function to the three elements and returns the result.
-         * 
+         * Applies the given tri-function to the three elements and returns the result.
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
@@ -1315,7 +1310,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that may be thrown
-         * @param mapper the ternary function to apply
+         * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
@@ -1326,7 +1321,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
-         * 
+         *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
@@ -1334,7 +1329,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * }</pre>
          *
          * @param <E> the type of exception that may be thrown
-         * @param predicate the ternary predicate to test
+         * @param predicate the tri-predicate to test the three elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
          */
