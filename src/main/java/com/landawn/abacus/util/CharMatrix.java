@@ -63,6 +63,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * This means modifications to the input array after construction will affect the matrix,
      * and vice versa. For independent matrices, create a copy of the array before passing it.
      *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * char[][] data = {{'a', 'b'}, {'c', 'd'}};
+     * CharMatrix matrix = new CharMatrix(data);
+     * data[0][0] = 'x'; // This also changes matrix.get(0,0) to 'x'
+     *
+     * CharMatrix empty = new CharMatrix(null); // Creates 0x0 empty matrix
+     * }</pre>
+     *
      * @param a the two-dimensional char array to initialize the matrix with, or null for an empty matrix
      */
     public CharMatrix(final char[][] a) {

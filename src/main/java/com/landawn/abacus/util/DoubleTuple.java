@@ -16,6 +16,7 @@ package com.landawn.abacus.util;
 
 import java.util.NoSuchElementException;
 
+import com.landawn.abacus.annotation.MayReturnNull;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.DoubleStream;
 
@@ -1081,6 +1082,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
         }
@@ -1314,6 +1316,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
          */
+        @MayReturnNull
         public <U, E extends Exception> U map(final Throwables.DoubleTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
         }
