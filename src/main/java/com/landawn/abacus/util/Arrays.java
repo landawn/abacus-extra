@@ -2213,7 +2213,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional boolean array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -2248,8 +2248,7 @@ public sealed class Arrays permits Arrays.f {
         }
     }
 
-    /**
-     * Flattens a three-dimensional boolean array, applies an operation to the flattened array, then sets the values back.
+    /**Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
@@ -3541,7 +3540,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs a specified operation on the resulting one-dimensional array,
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * and then copies the modified elements back into the original two-dimensional array.
      * This allows for applying one-dimensional array operations (like sorting) across a two-dimensional structure.
      * The operation is performed in-place on the original two-dimensional array.
@@ -3578,8 +3577,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs a specified operation on the resulting one-dimensional array,
-     * and then copies the modified elements back into the original three-dimensional array.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for applying one-dimensional array operations across a three-dimensional structure.
      * The operation is performed in-place on the original three-dimensional array.
      *
@@ -4806,7 +4804,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional byte array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure.
      *
      * <p><b>Usage Examples:</b></p>
@@ -4841,7 +4839,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional byte array, applies an operation to the flattened array, then sets the values back.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for operations that need to be applied to all elements regardless of structure,
      * such as sorting or bulk modifications. The original three-dimensional structure is preserved.
      *
@@ -6129,7 +6127,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Performs an operation on a flattened view of a two-dimensional array and writes the result back.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This method flattens the array, applies the operation, then copies the values back to their original positions.
      *
      * <p><b>Usage Examples:</b></p>
@@ -6163,8 +6161,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Performs an operation on a flattened view of a three-dimensional array and writes the result back.
-     * This method flattens the array, applies the operation, then copies the values back to their original positions.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7411,7 +7408,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, applies the given operation, and updates the original array with the results.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
      * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to two-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
@@ -7449,7 +7446,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, applies the given operation, and updates the original array with the results.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      *
      * <p>This method provides a convenient way to apply operations that work on one-dimensional arrays to three-dimensional arrays.
      * The array is flattened, the operation is applied to the flattened array, and then the values
@@ -8671,8 +8668,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then
-     * copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8706,8 +8702,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then
-     * copies the modified elements back into the original three-dimensional array.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9920,8 +9915,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs a specified operation on the resulting one-dimensional array,
-     * and then copies the modified elements back into the original two-dimensional array in-place.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
@@ -9956,8 +9950,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs a specified operation on the resulting one-dimensional array,
-     * and then copies the modified elements back into the original three-dimensional array in-place.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This is useful for applying operations like sorting to the entire set of elements
      * in a multi-dimensional array.
      *
@@ -11176,8 +11169,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array,
-     * and then copies the modified elements back into the original two-dimensional array.
+     * Flattens a two-dimensional array, performs an operation on the resulting one-dimensional array, and then copies the modified elements back into the original two-dimensional array.
      * This allows for operations like sorting across the entire two-dimensional array.
      * The modification happens in-place on the original two-dimensional array.
      *
@@ -11213,8 +11205,7 @@ public sealed class Arrays permits Arrays.f {
     }
 
     /**
-     * Flattens a three-dimensional array, performs an operation on the resulting one-dimensional array,
-     * and then copies the modified elements back into the original three-dimensional array.
+     * Flattens a three-dimensional array, performs an in-place operation on the resulting one-dimensional array, and then copies the modified elements back into the original three-dimensional array.
      * This allows for operations like sorting across the entire three-dimensional array.
      * The modification happens in-place on the original three-dimensional array.
      *
@@ -14338,6 +14329,9 @@ public sealed class Arrays permits Arrays.f {
      * Integer[] ints = Arrays.f.map(strings, Integer::valueOf, Integer.class);
      * // Result: [1, 2, 3]
      * }</pre>
+     *
+     * @see Arrays#ff
+     * @see Arrays#fff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class f extends com.landawn.abacus.util.Arrays { // NOSONAR
@@ -14667,7 +14661,8 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null-safe operations throughout</li>
      * </ul>
      * 
-     * @since 1.0
+     * @see Arrays#f
+     * @see Arrays#fff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
@@ -15780,8 +15775,8 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Combining multiple arrays through zip operations</li>
      * </ul>
      *
-     * @author Landawn Abacus
-     * @since 1.0
+     * @see Arrays#f
+     * @see Arrays#ff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
