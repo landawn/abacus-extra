@@ -2558,7 +2558,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
-     * Stream<CharStream&gt; rows = matrix.streamR(1, 3);
+     * Stream<CharStream> rows = matrix.streamR(1, 3);
      * // First stream contains: 'c', 'd'
      * // Second stream contains: 'e', 'f'
      * }</pre>
@@ -2641,7 +2641,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
-     * Stream<CharStream&gt; columns = matrix.streamC(1, 3);
+     * Stream<CharStream> columns = matrix.streamC(1, 3);
      * // First stream contains: 'b', 'e'
      * // Second stream contains: 'c', 'f'
      * }</pre>

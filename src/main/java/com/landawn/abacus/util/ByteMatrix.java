@@ -1166,8 +1166,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
      * @return a new ByteMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1197,8 +1197,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
      * @param defaultValueForNewCell the byte value to fill new cells with during extension
      * @return a new ByteMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,

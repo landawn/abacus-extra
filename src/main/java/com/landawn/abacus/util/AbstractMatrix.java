@@ -1672,23 +1672,33 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
     /**
      * Executes the given action with this matrix as the parameter.
-     * This method enables fluent-style operations where the matrix needs to be passed to a consumer.
-     * It follows the functional programming pattern of accepting a consumer function.
+     * This method enables the functional programming pattern of passing the matrix to a consumer function
+     * for side-effect operations such as logging, validation, or modification.
      *
-     * <p>This method is useful for performing operations on the matrix in a fluent chain
-     * or for passing the matrix to utility methods that expect a consumer.</p>
+     * <p>This method is useful for performing operations on the matrix without returning a value,
+     * such as printing, logging, or passing to utility methods that expect a consumer.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Log matrix details
      * matrix.accept(m -> {
      *     System.out.println("Matrix dimensions: " + m.rows + "x" + m.cols);
      *     m.println();
      * });
      *
-     * // Use in a fluent chain
-     * IntMatrix result = matrix.copy()
-     *     .accept(m -> System.out.println("Processing..."))
-     *     .transpose();
+     * // Validate matrix before processing
+     * matrix.accept(m -> {
+     *     if (m.isEmpty()) {
+     *         throw new IllegalStateException("Matrix cannot be empty");
+     *     }
+     * });
+     *
+     * // Modify matrix elements in place
+     * matrix.accept(m -> {
+     *     for (int i = 0; i < m.rows; i++) {
+     *         m.set(i, 0, 0); // Set first column to 0
+     *     }
+     * });
      * }</pre>
      *
      * @param <E> the type of exception that the action might throw

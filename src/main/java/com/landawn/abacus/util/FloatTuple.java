@@ -22,17 +22,32 @@ import com.landawn.abacus.util.stream.FloatStream;
 
 /**
  * Abstract base class for immutable tuple implementations that hold primitive float values.
+ * <p>
  * This class provides common functionality for float-based tuples of various sizes (0 to 9 elements).
+ * FloatTuple is designed to be a lightweight, type-safe container for multiple float values
+ * that can be used as a composite key, return multiple values from a method, or group related
+ * float values together. All float tuple implementations extend this class and are immutable by design.
+ * </p>
  *
- * <p>FloatTuple and its subclasses offer:</p>
- * <ul>
- *   <li>Type safety for float collections of known size</li>
- *   <li>Immutability for thread-safe operations</li>
- *   <li>Convenient factory methods and utilities</li>
- *   <li>Statistical operations (min, max, median, sum, average)</li>
- * </ul>
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * FloatTuple1 single = FloatTuple.of(3.14f);
+ * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+ * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+ *
+ * // Using statistical operations
+ * float min = triple.min();      // 1.0f
+ * float max = triple.max();      // 3.0f
+ * double avg = triple.average(); // 2.0
+ *
+ * // Using functional operations
+ * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+ * float product = triple.map((a, b, c) -> a * b * c); // 6.0f
+ * }</pre>
  *
  * @param <TP> the specific FloatTuple subtype for fluent method chaining
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTuple<TP> {
@@ -40,11 +55,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     protected float[] elements;
 
     /**
-     * Protected constructor for subclass instantiation.
+     * Constructor for subclasses.
      * <p>
-     * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link FloatTuple1#of(float)}, {@link FloatTuple2#of(float, float)}, etc.,
-     * to create tuple instances.
+     * This constructor is protected to prevent direct instantiation of the abstract class.
+     * Subclasses should use this constructor to initialize their instances.
+     * </p>
      */
     protected FloatTuple() {
     }
@@ -237,18 +252,29 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Creates a FloatTuple from an array of float values.
-     * The size of the returned tuple depends on the array length (0-9).
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty FloatTuple0. For arrays with 1-9 elements, returns
+     * the corresponding FloatTuple1-9 instance.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * float[] values = {1.0f, 2.0f, 3.0f};
      * FloatTuple3 tuple = FloatTuple.create(values);
-     * // tuple._1 == 1.0f, tuple._2 == 2.0f, tuple._3 == 3.0f
+     *
+     * // Empty array returns FloatTuple0
+     * FloatTuple0 empty = FloatTuple.create(new float[0]);
+     *
+     * // Single element
+     * FloatTuple1 single = FloatTuple.create(new float[]{3.14f});
      * }</pre>
      *
-     * @param <TP> the specific FloatTuple type to return
-     * @param a the array of float values (must have length 0-9)
-     * @return a FloatTuple of appropriate size containing the array values
+     * @param <TP> the specific FloatTuple subtype to return
+     * @param a the array of float values (must have length 0-9), may be {@code null}
+     * @return a FloatTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     public static <TP extends FloatTuple<TP>> TP create(final float[] a) {
@@ -291,11 +317,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the minimum float value in this tuple.
+     * <p>
+     * This method finds and returns the smallest float value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
      * float min = tuple.min(); // 1.0f
+     *
+     * FloatTuple2 pair = FloatTuple.of(2.5f, 1.5f);
+     * float minPair = pair.min(); // 1.5f
      * }</pre>
      *
      * @return the minimum float value in this tuple
@@ -307,11 +340,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the maximum float value in this tuple.
+     * <p>
+     * This method finds and returns the largest float value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
      * float max = tuple.max(); // 3.0f
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * float maxPair = pair.max(); // 2.5f
      * }</pre>
      *
      * @return the maximum float value in this tuple
@@ -322,17 +362,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the median float value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatTuple3 tuple = FloatTuple.of(30.0f, 10.0f, 20.0f);
-     * float median = tuple.median(); // 20.0f
+     * // Odd number of elements
+     * FloatTuple3 tuple3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
+     * float median = tuple3.median(); // 20.0f (middle value when sorted: 10.0f, 20.0f, 30.0f)
      *
-     * FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-     * float median = tuple.median(); // 2.0f
-     * }</pre> 
+     * // Even number of elements
+     * FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
+     * float median2 = tuple4.median(); // 2.0f (lower middle value)
+     * }</pre>
      *
      * @return the median float value in this tuple
      * @throws NoSuchElementException if the tuple is empty
@@ -343,11 +384,18 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns the sum of all elements in this tuple.
-     * 
+     * <p>
+     * This method calculates the sum by adding all float elements together.
+     * For an empty tuple, returns 0.0f.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * float sum = tuple.sum(); // 6.0f
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * float pairSum = pair.sum(); // 4.0f
      * }</pre>
      *
      * @return the sum of all float values in this tuple
@@ -357,15 +405,23 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the average of all float values in this tuple as a double.
+     * Returns the average of all float values in this tuple.
+     * <p>
+     * This method calculates the arithmetic mean of all elements in the tuple.
+     * The result is always returned as a double to preserve precision, even when
+     * the average is a whole number.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * double avg = tuple.average(); // 2.0
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.0f, 2.0f);
+     * double avgPair = pair.average(); // 1.5
      * }</pre>
      *
-     * @return the average of all float values as a double
+     * @return the average of all float values in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double average() {
@@ -374,11 +430,19 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged. For example, a tuple (1.0f, 2.0f, 3.0f) becomes
+     * (3.0f, 2.0f, 1.0f) when reversed.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * FloatTuple3 reversed = tuple.reverse(); // (3.0f, 2.0f, 1.0f)
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatTuple2 reversedPair = pair.reverse(); // (2.5f, 1.5f)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -388,7 +452,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     /**
      * Checks if this tuple contains the specified float value.
      * <p>
-     * Uses {@link N#equals(float, float)} for comparison to handle NaN and precision issues.
+     * This method performs a linear search through all elements in the tuple to determine
+     * if any element matches the specified value. Uses {@link N#equals(float, float)} for
+     * comparison to handle NaN and precision correctly. Returns {@code true} if at least one
+     * element equals the search value, {@code false} otherwise.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -396,6 +463,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * boolean hasTwo = tuple.contains(2.0f); // true
      * boolean hasFive = tuple.contains(5.0f); // false
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * boolean has1_5 = pair.contains(1.5f); // true
+     * boolean has3_5 = pair.contains(3.5f); // false
      * }</pre>
      *
      * @param valueToFind the float value to search for
@@ -405,12 +476,19 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
-     * 
+     * <p>
+     * This method creates a defensive copy of the internal array. Modifications to the
+     * returned array will not affect the tuple since tuples are immutable.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * float[] array = tuple.toArray(); // [1.0f, 2.0f, 3.0f]
+     * array[0] = 5.0f; // Does not modify the original tuple
+     *
+     * FloatTuple0 empty = FloatTuple.create(new float[0]);
+     * float[] emptyArray = empty.toArray(); // []
      * }</pre>
      *
      * @return a new float array containing all tuple elements
@@ -421,11 +499,19 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a new FloatList containing all elements of this tuple.
+     * <p>
+     * This method converts the tuple into a mutable FloatList. The returned list is a new
+     * instance, and modifications to it will not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * FloatList list = tuple.toList();
+     * list.add(4.0f); // Does not affect the original tuple
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatList pairList = pair.toList(); // [1.5f, 2.5f]
      * }</pre>
      *
      * @return a new FloatList containing all tuple elements
@@ -436,15 +522,23 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Performs the given action for each element in this tuple.
+     * <p>
+     * This method iterates through all elements in the tuple in order, applying the specified
+     * consumer action to each element. The action is performed for its side effects only.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * tuple.forEach(System.out::println); // prints each value
+     * tuple.forEach(f -> System.out.print(f + " ")); // prints "1.0 2.0 3.0 "
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * FloatList list = FloatList.empty();
+     * pair.forEach(list::add); // adds 1.5f and 2.5f to the list
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
-     * @param consumer the action to perform for each element
+     * @param <E> the type of exception that may be thrown by the consumer
+     * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
@@ -455,11 +549,19 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a FloatStream of all elements in this tuple.
+     * <p>
+     * This method creates a sequential FloatStream with all elements from the tuple.
+     * The stream provides a functional programming interface for processing the tuple elements
+     * through operations like filter, map, and reduce.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * float sum = tuple.stream().sum(); // 6.0f
+     *
+     * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
+     * long count = pair.stream().filter(f -> f > 2.0f).count(); // 1
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements
@@ -470,7 +572,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on all elements.
+     * <p>
+     * The hash code is computed based on the contents of the tuple's elements.
+     * Tuples with identical elements in the same order will have the same hash code.
+     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -480,12 +586,20 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Compares this tuple to another object for equality.
-     * Two tuples are equal if they are of the same class and contain equal elements
-     * in the same order.
+     * Compares this tuple to the specified object for equality.
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * </p>
+     * <ul>
+     * <li>They are of the exact same class (e.g., both FloatTuple2)</li>
+     * <li>They contain the same elements in the same order</li>
+     * </ul>
+     * <p>
+     * This method adheres to the general contract of {@link Object#equals(Object)}.
+     * </p>
      *
-     * @param obj the object to compare with
-     * @return {@code true} if the objects are equal, {@code false} otherwise
+     * @param obj the object to be compared for equality with this tuple
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -500,7 +614,19 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * Returns a string representation of this tuple.
-     * The format is (element1, element2, ...).
+     * <p>
+     * The string representation consists of the tuple elements enclosed in parentheses "( )"
+     * and separated by commas and spaces. This format provides a clear and readable
+     * representation of the tuple's contents.
+     * </p>
+     *
+     * <p><b>Example output:</b></p>
+     * <ul>
+     * <li>{@code (1.0, 2.0, 3.0)} - for a FloatTuple3</li>
+     * <li>{@code (1.5, 2.5)} - for a FloatTuple2</li>
+     * <li>{@code (3.14)} - for a FloatTuple1</li>
+     * <li>{@code ()} - for an empty FloatTuple0</li>
+     * </ul>
      *
      * @return a string representation of this tuple
      */

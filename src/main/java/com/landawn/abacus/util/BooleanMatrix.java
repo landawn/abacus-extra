@@ -1170,8 +1170,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //          [false, false, false]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
      */
@@ -1201,8 +1201,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Result: [[true]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can smaller than the row number of current maxtrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can smaller than the column number of current maxtrix but must be non-negative
+     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of current matrix but must be non-negative
+     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of current matrix but must be non-negative
      * @param defaultValueForNewCell the boolean value to fill new cells with during extension
      * @return a new BooleanMatrix with the specified dimensions
      * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
@@ -2079,7 +2079,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {false, true, false},
      *     {true, false, false}
      * });
-     * List<Boolean&gt; antiDiagonal = matrix.streamRU2LD().toList(); // [true, true, true]
+     * List<Boolean> antiDiagonal = matrix.streamRU2LD().toList(); // [true, true, true]
      * 
      * // Count true values on anti-diagonal
      * long trueCount = matrix.streamRU2LD().filter(b -> b).count();
@@ -2329,7 +2329,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {true, true, false}
      * });
-     * Stream<Boolean&gt; firstCol = matrix.streamV(0); // Stream of [true, true]
+     * Stream<Boolean> firstCol = matrix.streamV(0); // Stream of [true, true]
      * 
      * // Check if all values in a column are true
      * boolean allTrue = matrix.streamV(0).allMatch(b -> b); // Returns true
@@ -2358,7 +2358,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *     {true, false, true},
      *     {false, true, false}
      * });
-     * Stream<Boolean&gt; lastTwoCols = matrix.streamV(1, 3); // Stream columns 1 and 2: [false, true, true, false]
+     * Stream<Boolean> lastTwoCols = matrix.streamV(1, 3); // Stream columns 1 and 2: [false, true, true, false]
      * 
      * // Count true values in column subset
      * long trueCount = matrix.streamV(0, 2).filter(b -> b).count();
@@ -2499,9 +2499,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * });
      * 
      * // Process middle rows only
-     * List<Boolean&gt; hasPattern = matrix.streamR(1, 3)
+     * List<Boolean> hasPattern = matrix.streamR(1, 3)
      *     .map(row -> {
-     *         List<Boolean&gt; list = row.toList();
+     *         List<Boolean> list = row.toList();
      *         return list.get(0) != list.get(2); // Check if first != last
      *     })
      *     .toList(); // [true, false]

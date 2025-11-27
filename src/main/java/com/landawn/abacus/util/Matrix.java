@@ -1532,11 +1532,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: 4x4 matrix with original in center
      * }</pre>
      *
-     * @param toUp number of rows to add at the top
-     * @param toDown number of rows to add at the bottom
-     * @param toLeft number of columns to add on the left
-     * @param toRight number of columns to add on the right
-     * @return a new extended matrix
+     * @param toUp number of rows to add at the top (must be non-negative)
+     * @param toDown number of rows to add at the bottom (must be non-negative)
+     * @param toLeft number of columns to add on the left (must be non-negative)
+     * @param toRight number of columns to add on the right (must be non-negative)
+     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + cols + toRight)
+     * @throws IllegalArgumentException if any extension parameter is negative
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, null);
@@ -1553,12 +1554,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: 4x4 matrix with original in center, surrounded by 0s
      * }</pre>
      *
-     * @param toUp number of rows to add at the top
-     * @param toDown number of rows to add at the bottom
-     * @param toLeft number of columns to add on the left
-     * @param toRight number of columns to add on the right
+     * @param toUp number of rows to add at the top (must be non-negative)
+     * @param toDown number of rows to add at the bottom (must be non-negative)
+     * @param toLeft number of columns to add on the left (must be non-negative)
+     * @param toRight number of columns to add on the right (must be non-negative)
      * @param defaultValueForNewCell the value to fill new cells with (can be null)
-     * @return a new extended matrix
+     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + cols + toRight)
      * @throws IllegalArgumentException if any extension parameter is negative
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell)
@@ -2263,10 +2264,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <B> the element type of the second matrix
      * @param <C> the element type of the third matrix
      * @param <E> the type of exception that the zip function may throw
-     * @param matrixB the second matrix to zip with
-     * @param matrixC the third matrix to zip with
-     * @param zipFunction the function to apply to corresponding elements
+     * @param matrixB the second matrix to zip with (must have the same dimensions, must not be null)
+     * @param matrixC the third matrix to zip with (must have the same dimensions, must not be null)
+     * @param zipFunction the function to apply to corresponding elements (must not be null)
      * @return a new matrix with the results of the zip function
+     * @throws IllegalArgumentException if the matrices don't have the same dimensions
      * @throws E if the zip function throws an exception
      */
     public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
@@ -2277,14 +2279,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Combines three matrices element-wise using the specified ternary function.
      * The function can return elements of a different type than the input matrices.
-     * All matrices must have the same dimensions.
+     * All matrices must have the same dimensions. The operation may be performed
+     * in parallel for large matrices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> m1 = Matrix.of(new Integer[][] {{1, 2}, {3, 4}});
      * Matrix<String> m2 = Matrix.of(new String[][] {{"a", "b"}, {"c", "d"}});
      * Matrix<Double> m3 = Matrix.of(new Double[][] {{0.1, 0.2}, {0.3, 0.4}});
-     * Matrix<String> result = m1.zipWith(m2, m3, 
+     * Matrix<String> result = m1.zipWith(m2, m3,
      *     (i, s, d) -> i + s + String.format("%.1f", d), String.class);
      * // Result: {{"1a0.1", "2b0.2"}, {"3c0.3", "4d0.4"}}
      * }</pre>
@@ -2293,10 +2296,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <C> the element type of the third matrix
      * @param <R> the element type of the result matrix
      * @param <E> the type of exception that the zip function may throw
-     * @param matrixB the second matrix to zip with
-     * @param matrixC the third matrix to zip with
-     * @param zipFunction the function to apply to corresponding elements
-     * @param targetElementType the class of the result element type
+     * @param matrixB the second matrix to zip with (must have the same dimensions, must not be null)
+     * @param matrixC the third matrix to zip with (must have the same dimensions, must not be null)
+     * @param zipFunction the function to apply to corresponding elements (must not be null)
+     * @param targetElementType the class of the result element type (must not be null)
      * @return a new matrix with the results of the zip function
      * @throws IllegalArgumentException if the matrices don't have the same shape
      * @throws E if the zip function throws an exception
