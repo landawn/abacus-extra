@@ -1,3 +1,7 @@
+### 2.26.5
+
+* Improve javadoc and add unit tests
+
 ### 2.26.3
 
 * Improve javadoc and add unit tests
