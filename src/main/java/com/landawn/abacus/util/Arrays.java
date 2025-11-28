@@ -14330,8 +14330,8 @@ public sealed class Arrays permits Arrays.f {
      * // Result: [1, 2, 3]
      * }</pre>
      *
-     * @see Arrays#ff
-     * @see Arrays#fff
+     * @see Arrays.ff
+     * @see Arrays.fff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class f extends com.landawn.abacus.util.Arrays { // NOSONAR
@@ -14661,8 +14661,8 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Null-safe operations throughout</li>
      * </ul>
      * 
-     * @see Arrays#f
-     * @see Arrays#fff
+     * @see Arrays.f
+     * @see Arrays.fff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class ff { // NOSONAR
@@ -15775,8 +15775,8 @@ public sealed class Arrays permits Arrays.f {
      *   <li>Combining multiple arrays through zip operations</li>
      * </ul>
      *
-     * @see Arrays#f
-     * @see Arrays#ff
+     * @see Arrays.f
+     * @see Arrays.ff
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class fff { // NOSONAR
