@@ -300,8 +300,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.range(0, 5);  // Creates [[0, 1, 2, 3, 4]]
-     * IntMatrix empty = IntMatrix.range(5, 0);  // Creates an empty matrix
+     * IntMatrix matrix = IntMatrix.range(0, 5);   // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix empty = IntMatrix.range(5, 0);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -319,9 +319,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.range(0, 10, 2);  // Creates [[0, 2, 4, 6, 8]]
-     * IntMatrix desc = IntMatrix.range(10, 0, -2);  // Creates [[10, 8, 6, 4, 2]]
-     * IntMatrix empty = IntMatrix.range(0, 10, -1);  // Creates an empty matrix (step is wrong direction)
+     * IntMatrix matrix = IntMatrix.range(0, 10, 2);   // Creates [[0, 2, 4, 6, 8]]
+     * IntMatrix desc = IntMatrix.range(10, 0, -2);    // Creates [[10, 8, 6, 4, 2]]
+     * IntMatrix empty = IntMatrix.range(0, 10, -1);   // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -341,9 +341,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.rangeClosed(0, 4);  // Creates [[0, 1, 2, 3, 4]]
-     * IntMatrix single = IntMatrix.rangeClosed(5, 5);  // Creates [[5]]
-     * IntMatrix empty = IntMatrix.rangeClosed(5, 0);  // Creates an empty matrix
+     * IntMatrix matrix = IntMatrix.rangeClosed(0, 4);   // Creates [[0, 1, 2, 3, 4]]
+     * IntMatrix single = IntMatrix.rangeClosed(5, 5);   // Creates [[5]]
+     * IntMatrix empty = IntMatrix.rangeClosed(5, 0);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -362,9 +362,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.rangeClosed(0, 8, 2);  // Creates [[0, 2, 4, 6, 8]]
-     * IntMatrix partial = IntMatrix.rangeClosed(0, 9, 2);  // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
-     * IntMatrix desc = IntMatrix.rangeClosed(10, 0, -2);  // Creates [[10, 8, 6, 4, 2, 0]]
+     * IntMatrix matrix = IntMatrix.rangeClosed(0, 8, 2);    // Creates [[0, 2, 4, 6, 8]]
+     * IntMatrix partial = IntMatrix.rangeClosed(0, 9, 2);   // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * IntMatrix desc = IntMatrix.rangeClosed(10, 0, -2);    // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -583,8 +583,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.upOf(1, 0);  // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.upOf(0, 0);  // Returns OptionalInt.empty() - no row above
+     * OptionalInt value = matrix.upOf(1, 0);   // Returns OptionalInt.of(1)
+     * OptionalInt empty = matrix.upOf(0, 0);   // Returns OptionalInt.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -604,8 +604,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.downOf(0, 0);  // Returns OptionalInt.of(3)
-     * OptionalInt empty = matrix.downOf(1, 0);  // Returns OptionalInt.empty() - no row below
+     * OptionalInt value = matrix.downOf(0, 0);   // Returns OptionalInt.of(3)
+     * OptionalInt empty = matrix.downOf(1, 0);   // Returns OptionalInt.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -625,8 +625,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.leftOf(0, 1);  // Returns OptionalInt.of(1)
-     * OptionalInt empty = matrix.leftOf(0, 0);  // Returns OptionalInt.empty() - no column to the left
+     * OptionalInt value = matrix.leftOf(0, 1);   // Returns OptionalInt.of(1)
+     * OptionalInt empty = matrix.leftOf(0, 0);   // Returns OptionalInt.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -646,8 +646,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * OptionalInt value = matrix.rightOf(0, 0);  // Returns OptionalInt.of(2)
-     * OptionalInt empty = matrix.rightOf(0, 1);  // Returns OptionalInt.empty() - no column to the right
+     * OptionalInt value = matrix.rightOf(0, 0);   // Returns OptionalInt.of(2)
+     * OptionalInt empty = matrix.rightOf(0, 1);   // Returns OptionalInt.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1266,8 +1266,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * // Modifying the copy does NOT affect the original
      * copy.set(0, 0, 99);
-     * assert original.get(0, 0) == 1;  // Original unchanged
-     * assert copy.get(0, 0) == 99;  // Copy modified
+     * assert original.get(0, 0)   == 1;  // Original unchanged
+     * assert copy.get(0, 0)       == 99;  // Copy modified
      * }</pre>
      *
      * @return a new matrix that is a deep copy of this matrix with full independence guarantee
@@ -1787,8 +1787,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1, 2], [3, 4], [5, 6]]
-     * IntMatrix extended = matrix.reshape(2, 4);  // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * IntMatrix reshaped = matrix.reshape(3, 2);   // Becomes [[1, 2], [3, 4], [5, 6]]
+     * IntMatrix extended = matrix.reshape(2, 4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix (must be non-negative)
@@ -1979,9 +1979,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix a = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});  // 2x3
-     * IntMatrix b = IntMatrix.of(new int[][] {{7, 8, 9}, {10, 11, 12}});  // 2x3
-     * IntMatrix c = a.vstack(b);  // 4x3
+     * IntMatrix a = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});      // 2x3
+     * IntMatrix b = IntMatrix.of(new int[][] {{7, 8, 9}, {10, 11, 12}});   // 2x3
+     * IntMatrix c = a.vstack(b);                                           // 4x3
      * // Result: [[1, 2, 3],
      * //          [4, 5, 6],
      * //          [7, 8, 9],
@@ -2020,9 +2020,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix a = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});  // 2x3
-     * IntMatrix b = IntMatrix.of(new int[][] {{7, 8, 9}, {10, 11, 12}});  // 2x3
-     * IntMatrix c = a.hstack(b);  // 2x6
+     * IntMatrix a = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});      // 2x3
+     * IntMatrix b = IntMatrix.of(new int[][] {{7, 8, 9}, {10, 11, 12}});   // 2x3
+     * IntMatrix c = a.hstack(b);                                           // 2x6
      * // Result: [[1, 2, 3, 7, 8, 9],
      * //          [4, 5, 6, 10, 11, 12]]
      * }</pre>
@@ -2431,9 +2431,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream stream = matrix.streamH();  // Stream of [1, 2, 3, 4]
-     * int sum = matrix.streamH().sum();  // Returns 10
-     * int[] array = matrix.streamH().toArray();  // Returns [1, 2, 3, 4]
+     * IntStream stream = matrix.streamH();        // Stream of [1, 2, 3, 4]
+     * int sum = matrix.streamH().sum();           // Returns 10
+     * int[] array = matrix.streamH().toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      * 
      * @return an IntStream of all elements in row-major order, or an empty stream if the matrix is empty
@@ -2454,9 +2454,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream rowStream = matrix.streamH(0);  // Stream of [1, 2, 3]
-     * int rowSum = matrix.streamH(1).sum();  // Returns 15 (sum of second row)
-     * int[] firstRow = matrix.streamH(0).toArray();  // Returns [1, 2, 3]
+     * IntStream rowStream = matrix.streamH(0);        // Stream of [1, 2, 3]
+     * int rowSum = matrix.streamH(1).sum();           // Returns 15 (sum of second row)
+     * int[] firstRow = matrix.streamH(0).toArray();   // Returns [1, 2, 3]
      * }</pre>
      * 
      * @param rowIndex the index of the row to stream (0-based)
@@ -2480,8 +2480,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * IntStream stream = matrix.streamH(1, 3);  // Stream rows 1 and 2: [3, 4, 5, 6]
-     * int[] subset = matrix.streamH(0, 2).toArray();  // Returns [1, 2, 3, 4]
+     * IntStream stream = matrix.streamH(1, 3);         // Stream rows 1 and 2: [3, 4, 5, 6]
+     * int[] subset = matrix.streamH(0, 2).toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      * 
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -2573,8 +2573,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream stream = matrix.streamV();  // Stream of [1, 3, 2, 4]
-     * int[] colMajor = matrix.streamV().toArray();  // Returns [1, 3, 2, 4]
+     * IntStream stream = matrix.streamV();           // Stream of [1, 3, 2, 4]
+     * int[] colMajor = matrix.streamV().toArray();   // Returns [1, 3, 2, 4]
      * }</pre>
      * 
      * @return an IntStream of all elements in column-major order, or an empty stream if the matrix is empty
@@ -2595,9 +2595,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream colStream = matrix.streamV(1);  // Stream of [2, 5]
-     * int colSum = matrix.streamV(0).sum();  // Returns 5 (sum of first column)
-     * int[] secondCol = matrix.streamV(1).toArray();  // Returns [2, 5]
+     * IntStream colStream = matrix.streamV(1);         // Stream of [2, 5]
+     * int colSum = matrix.streamV(0).sum();            // Returns 5 (sum of first column)
+     * int[] secondCol = matrix.streamV(1).toArray();   // Returns [2, 5]
      * }</pre>
      * 
      * @param columnIndex the index of the column to stream (0-based)
@@ -2620,8 +2620,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream stream = matrix.streamV(1, 3);  // Stream columns 1 and 2: [2, 5, 3, 6]
-     * int[] subset = matrix.streamV(0, 2).toArray();  // Returns [1, 4, 2, 5]
+     * IntStream stream = matrix.streamV(1, 3);         // Stream columns 1 and 2: [2, 5, 3, 6]
+     * int[] subset = matrix.streamV(0, 2).toArray();   // Returns [1, 4, 2, 5]
      * }</pre>
      * 
      * @param fromColumnIndex the starting column index (inclusive, 0-based)

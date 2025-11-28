@@ -359,8 +359,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.upOf(1, 0);  // Returns OptionalBoolean.of(true)
-     * OptionalBoolean empty = matrix.upOf(0, 0);  // Returns OptionalBoolean.empty() - no row above
+     * OptionalBoolean value = matrix.upOf(1, 0);   // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.upOf(0, 0);   // Returns OptionalBoolean.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -380,8 +380,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.downOf(0, 0);  // Returns OptionalBoolean.of(false)
-     * OptionalBoolean empty = matrix.downOf(1, 0);  // Returns OptionalBoolean.empty() - no row below
+     * OptionalBoolean value = matrix.downOf(0, 0);   // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.downOf(1, 0);   // Returns OptionalBoolean.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -401,8 +401,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.leftOf(0, 1);  // Returns OptionalBoolean.of(true)
-     * OptionalBoolean empty = matrix.leftOf(0, 0);  // Returns OptionalBoolean.empty() - no column to the left
+     * OptionalBoolean value = matrix.leftOf(0, 1);   // Returns OptionalBoolean.of(true)
+     * OptionalBoolean empty = matrix.leftOf(0, 0);   // Returns OptionalBoolean.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -422,8 +422,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
-     * OptionalBoolean value = matrix.rightOf(0, 0);  // Returns OptionalBoolean.of(false)
-     * OptionalBoolean empty = matrix.rightOf(0, 1);  // Returns OptionalBoolean.empty() - no column to the right
+     * OptionalBoolean value = matrix.rightOf(0, 0);   // Returns OptionalBoolean.of(false)
+     * OptionalBoolean empty = matrix.rightOf(0, 1);   // Returns OptionalBoolean.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)

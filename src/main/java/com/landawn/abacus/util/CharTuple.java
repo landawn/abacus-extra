@@ -396,11 +396,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
-     * int sum = tuple.sum();  // 198
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 'A'=65, 'B'=66, 'C'=67
+     * int sum = tuple.sum();                            // 198
      *
-     * CharTuple2 pair = CharTuple.of('X', 'Y');  // 'X'=88, 'Y'=89
-     * int pairSum = pair.sum();  // 177
+     * CharTuple2 pair = CharTuple.of('X', 'Y');         // 'X'=88, 'Y'=89
+     * int pairSum = pair.sum();                         // 177
      * }</pre>
      *
      * @return the sum of all char values in this tuple as an integer
@@ -418,11 +418,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
-     * double avg = tuple.average();  // 66.0
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 'A'=65, 'B'=66, 'C'=67
+     * double avg = tuple.average();                     // 66.0
      *
-     * CharTuple2 pair = CharTuple.of('A', 'D');  // 'A'=65, 'D'=68
-     * double avgPair = pair.average();  // 66.5
+     * CharTuple2 pair = CharTuple.of('A', 'D');         // 'A'=65, 'D'=68
+     * double avgPair = pair.average();                  // 66.5
      * }</pre>
      *
      * @return the average of all char values in this tuple as a double
@@ -464,12 +464,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * boolean hasB = tuple.contains('B');  // true
-     * boolean hasZ = tuple.contains('Z');  // false
+     * boolean hasB = tuple.contains('B');   // true
+     * boolean hasZ = tuple.contains('Z');   // false
      *
      * CharTuple2 pair = CharTuple.of('X', 'Y');
-     * boolean hasX = pair.contains('X');  // true
-     * boolean hasA = pair.contains('A');  // false
+     * boolean hasX = pair.contains('X');   // true
+     * boolean hasA = pair.contains('A');   // false
      * }</pre>
      *
      * @param valueToFind the char value to search for
@@ -1251,8 +1251,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
-         * int sum = tuple.sum();  // 198
+         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 'A'=65, 'B'=66, 'C'=67
+         * int sum = tuple.sum();                            // 198
          * }</pre>
          *
          * @return the sum of the numeric values of all three chars
@@ -1267,8 +1267,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
-         * double avg = tuple.average();  // 66.0
+         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 'A'=65, 'B'=66, 'C'=67
+         * double avg = tuple.average();                     // 66.0
          * }</pre>
          *
          * @return the average of the numeric values of all three chars
@@ -1519,8 +1519,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');  // 'A'=65, 'B'=66, 'C'=67, 'D'=68
-         * int sum = tuple.sum();  // 266
+         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');   // 'A'=65, 'B'=66, 'C'=67, 'D'=68
+         * int sum = tuple.sum();                                 // 266
          * }</pre>
          *
          * @return the sum of the numeric values of all four chars
@@ -1535,8 +1535,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');  // 'A'=65, 'B'=66, 'C'=67, 'D'=68
-         * double avg = tuple.average();  // 66.5
+         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');   // 'A'=65, 'B'=66, 'C'=67, 'D'=68
+         * double avg = tuple.average();                          // 66.5
          * }</pre>
          *
          * @return the average of the numeric values of all four chars
@@ -1568,8 +1568,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * boolean hasB = tuple.contains('B');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasB = tuple.contains('B');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -1712,8 +1712,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');  // 65, 66, 67, 68, 69
-         * int sum = tuple.sum();  // 335
+         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');   // 65, 66, 67, 68, 69
+         * int sum = tuple.sum();                                      // 335
          * }</pre>
          *
          * @return the sum of the numeric values of all five chars
@@ -1728,8 +1728,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');  // 65, 66, 67, 68, 69
-         * double avg = tuple.average();  // 67.0
+         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');   // 65, 66, 67, 68, 69
+         * double avg = tuple.average();                               // 67.0
          * }</pre>
          *
          * @return the average of the numeric values of all five chars
@@ -1761,8 +1761,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * boolean hasC = tuple.contains('C');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasC = tuple.contains('C');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -1909,8 +1909,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');  // 65, 66, 67, 68, 69, 70
-         * int sum = tuple.sum();  // 405
+         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');   // 65, 66, 67, 68, 69, 70
+         * int sum = tuple.sum();                                           // 405
          * }</pre>
          *
          * @return the sum of the numeric values of all six chars
@@ -1925,8 +1925,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');  // 65, 66, 67, 68, 69, 70
-         * double avg = tuple.average();  // 67.5
+         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');   // 65, 66, 67, 68, 69, 70
+         * double avg = tuple.average();                                    // 67.5
          * }</pre>
          *
          * @return the average of the numeric values of all six chars
@@ -1958,8 +1958,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * boolean hasD = tuple.contains('D');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasD = tuple.contains('D');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2110,8 +2110,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');  // 65, 66, 67, 68, 69, 70, 71
-         * int sum = tuple.sum();  // 476
+         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');   // 65, 66, 67, 68, 69, 70, 71
+         * int sum = tuple.sum();                                                // 476
          * }</pre>
          *
          * @return the sum of the numeric values of all seven chars
@@ -2126,8 +2126,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');  // 65, 66, 67, 68, 69, 70, 71
-         * double avg = tuple.average();  // 68.0
+         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');   // 65, 66, 67, 68, 69, 70, 71
+         * double avg = tuple.average();                                         // 68.0
          * }</pre>
          *
          * @return the average of the numeric values of all seven chars
@@ -2159,8 +2159,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * boolean hasE = tuple.contains('E');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasE = tuple.contains('E');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2314,8 +2314,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');  // 65-72
-         * int sum = tuple.sum();  // 548
+         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');   // 65-72
+         * int sum = tuple.sum();                                                     // 548
          * }</pre>
          *
          * @return the sum of the numeric values of all eight chars
@@ -2330,8 +2330,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');  // 65-72
-         * double avg = tuple.average();  // 68.5
+         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');   // 65-72
+         * double avg = tuple.average();                                              // 68.5
          * }</pre>
          *
          * @return the average of the numeric values of all eight chars
@@ -2363,8 +2363,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * boolean hasF = tuple.contains('F');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasF = tuple.contains('F');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2522,8 +2522,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');  // 65-73
-         * int sum = tuple.sum();  // 621
+         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');   // 65-73
+         * int sum = tuple.sum();                                                          // 621
          * }</pre>
          *
          * @return the sum of the numeric values of all nine chars
@@ -2538,8 +2538,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');  // 65-73
-         * double avg = tuple.average();  // 69.0
+         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');   // 65-73
+         * double avg = tuple.average();                                                   // 69.0
          * }</pre>
          *
          * @return the average of the numeric values of all nine chars
@@ -2571,8 +2571,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * boolean hasG = tuple.contains('G');  // true
-         * boolean hasZ = tuple.contains('Z');  // false
+         * boolean hasG = tuple.contains('G');   // true
+         * boolean hasZ = tuple.contains('Z');   // false
          * }</pre>
          *
          * @param valueToFind the char value to search for

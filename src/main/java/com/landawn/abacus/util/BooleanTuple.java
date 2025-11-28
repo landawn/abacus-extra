@@ -353,12 +353,12 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * boolean hasTrue = tuple.contains(true);  // true
-     * boolean hasFalse = tuple.contains(false);  // true
+     * boolean hasTrue = tuple.contains(true);     // true
+     * boolean hasFalse = tuple.contains(false);   // true
      *
      * BooleanTuple2 flags = BooleanTuple.of(true, true);
-     * boolean hasTrue = flags.contains(true);  // true
-     * boolean hasFalse = flags.contains(false);  // false
+     * boolean hasTrue = flags.contains(true);     // true
+     * boolean hasFalse = flags.contains(false);   // false
      * }</pre>
      *
      * @param valueToFind the boolean value to search for
@@ -457,8 +457,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
-     * long trueCount = tuple.stream().filter(b -> b).count();  // 2
-     * List<Boolean> list = tuple.stream().collect(Collectors.toList());  // [true, false, true]
+     * long trueCount = tuple.stream().filter(b -> b).count();             // 2
+     * List<Boolean> list = tuple.stream().collect(Collectors.toList());   // [true, false, true]
      *
      * BooleanTuple2 flags = BooleanTuple.of(true, false);
      * boolean anyTrue = flags.stream().anyMatch(b -> b);  // true
@@ -934,8 +934,8 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * boolean third = tuple._3;  // true
      *
      * // Using functional operations
-     * boolean allTrue = tuple.map((a, b, c) -> a && b && c);  // false
-     * boolean anyTrue = tuple.map((a, b, c) -> a || b || c);  // true
+     * boolean allTrue = tuple.map((a, b, c) -> a && b && c);   // false
+     * boolean anyTrue = tuple.map((a, b, c) -> a || b || c);   // true
      * }</pre>
      */
     public static final class BooleanTuple3 extends BooleanTuple<BooleanTuple3> {

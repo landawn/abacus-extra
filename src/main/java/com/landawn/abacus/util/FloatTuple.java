@@ -461,12 +461,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * boolean hasTwo = tuple.contains(2.0f);  // true
-     * boolean hasFive = tuple.contains(5.0f);  // false
+     * boolean hasTwo = tuple.contains(2.0f);    // true
+     * boolean hasFive = tuple.contains(5.0f);   // false
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * boolean has1_5 = pair.contains(1.5f);  // true
-     * boolean has3_5 = pair.contains(3.5f);  // false
+     * boolean has1_5 = pair.contains(1.5f);   // true
+     * boolean has3_5 = pair.contains(3.5f);   // false
      * }</pre>
      *
      * @param valueToFind the float value to search for

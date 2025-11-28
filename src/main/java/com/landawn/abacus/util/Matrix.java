@@ -405,8 +405,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * String value = matrix.get(1, 0);  // Returns "C"
-     * String corner = matrix.get(1, 1);  // Returns "D"
+     * String value = matrix.get(1, 0);    // Returns "C"
+     * String corner = matrix.get(1, 1);   // Returns "D"
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -484,8 +484,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.upOf(1, 0);  // Returns Nullable.of("A")
-     * Nullable<String> empty = matrix.upOf(0, 0);  // Returns Nullable.empty() (no row above)
+     * Nullable<String> value = matrix.upOf(1, 0);   // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.upOf(0, 0);   // Returns Nullable.empty() (no row above)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -504,8 +504,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.downOf(0, 0);  // Returns Nullable.of("C")
-     * Nullable<String> empty = matrix.downOf(1, 0);  // Returns Nullable.empty() (no row below)
+     * Nullable<String> value = matrix.downOf(0, 0);   // Returns Nullable.of("C")
+     * Nullable<String> empty = matrix.downOf(1, 0);   // Returns Nullable.empty() (no row below)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -524,8 +524,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.leftOf(0, 1);  // Returns Nullable.of("A")
-     * Nullable<String> empty = matrix.leftOf(0, 0);  // Returns Nullable.empty() (no column to left)
+     * Nullable<String> value = matrix.leftOf(0, 1);   // Returns Nullable.of("A")
+     * Nullable<String> empty = matrix.leftOf(0, 0);   // Returns Nullable.empty() (no column to left)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -544,8 +544,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<String> matrix = Matrix.of(new String[][] {{"A", "B"}, {"C", "D"}});
-     * Nullable<String> value = matrix.rightOf(0, 0);  // Returns Nullable.of("B")
-     * Nullable<String> empty = matrix.rightOf(0, 1);  // Returns Nullable.empty() (no column to right)
+     * Nullable<String> value = matrix.rightOf(0, 0);   // Returns Nullable.of("B")
+     * Nullable<String> empty = matrix.rightOf(0, 1);   // Returns Nullable.empty() (no column to right)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1294,9 +1294,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.fill(null);  // Clear all values
-     * matrix.fill(defaultValue);  // Reset to default
-     * matrix.fill("");  // Fill with empty strings
+     * matrix.fill(null);           // Clear all values
+     * matrix.fill(defaultValue);   // Reset to default
+     * matrix.fill("");             // Fill with empty strings
      * }</pre>
      *
      * @param val the value to fill the matrix with (can be null)

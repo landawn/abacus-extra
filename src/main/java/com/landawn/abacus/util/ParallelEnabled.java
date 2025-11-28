@@ -138,8 +138,8 @@ public enum ParallelEnabled {
      * IntMatrix result1 = small.transpose();  // Sequential execution
      *
      * // Large matrix - will automatically parallelize
-     * IntMatrix large = IntMatrix.random(200, 200);  // 40,000 elements > 8192
-     * IntMatrix result2 = large.transpose();  // Parallel execution
+     * IntMatrix large = IntMatrix.random(200, 200);   // 40,000 elements > 8192
+     * IntMatrix result2 = large.transpose();          // Parallel execution
      *
      * // This is the recommended setting for most use cases
      * // as it balances performance and overhead automatically

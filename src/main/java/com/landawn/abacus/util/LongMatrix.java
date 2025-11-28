@@ -208,8 +208,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.range(0L, 5L);  // Creates [[0, 1, 2, 3, 4]]
-     * LongMatrix empty = LongMatrix.range(5L, 0L);  // Creates an empty matrix
+     * LongMatrix matrix = LongMatrix.range(0L, 5L);   // Creates [[0, 1, 2, 3, 4]]
+     * LongMatrix empty = LongMatrix.range(5L, 0L);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -227,9 +227,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.range(0L, 10L, 2L);  // Creates [[0, 2, 4, 6, 8]]
-     * LongMatrix desc = LongMatrix.range(10L, 0L, -2L);  // Creates [[10, 8, 6, 4, 2]]
-     * LongMatrix empty = LongMatrix.range(0L, 10L, -1L);  // Creates an empty matrix (step is wrong direction)
+     * LongMatrix matrix = LongMatrix.range(0L, 10L, 2L);   // Creates [[0, 2, 4, 6, 8]]
+     * LongMatrix desc = LongMatrix.range(10L, 0L, -2L);    // Creates [[10, 8, 6, 4, 2]]
+     * LongMatrix empty = LongMatrix.range(0L, 10L, -1L);   // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -249,9 +249,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.rangeClosed(0L, 4L);  // Creates [[0, 1, 2, 3, 4]]
-     * LongMatrix single = LongMatrix.rangeClosed(5L, 5L);  // Creates [[5]]
-     * LongMatrix empty = LongMatrix.rangeClosed(5L, 0L);  // Creates an empty matrix
+     * LongMatrix matrix = LongMatrix.rangeClosed(0L, 4L);   // Creates [[0, 1, 2, 3, 4]]
+     * LongMatrix single = LongMatrix.rangeClosed(5L, 5L);   // Creates [[5]]
+     * LongMatrix empty = LongMatrix.rangeClosed(5L, 0L);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -270,9 +270,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.rangeClosed(0L, 8L, 2L);  // Creates [[0, 2, 4, 6, 8]]
-     * LongMatrix partial = LongMatrix.rangeClosed(0L, 9L, 2L);  // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
-     * LongMatrix desc = LongMatrix.rangeClosed(10L, 0L, -2L);  // Creates [[10, 8, 6, 4, 2, 0]]
+     * LongMatrix matrix = LongMatrix.rangeClosed(0L, 8L, 2L);    // Creates [[0, 2, 4, 6, 8]]
+     * LongMatrix partial = LongMatrix.rangeClosed(0L, 9L, 2L);   // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * LongMatrix desc = LongMatrix.rangeClosed(10L, 0L, -2L);    // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -499,8 +499,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.upOf(1, 0);  // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.upOf(0, 0);  // Returns OptionalLong.empty() - no row above
+     * OptionalLong value = matrix.upOf(1, 0);   // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.upOf(0, 0);   // Returns OptionalLong.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -520,8 +520,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.downOf(0, 0);  // Returns OptionalLong.of(3L)
-     * OptionalLong empty = matrix.downOf(1, 0);  // Returns OptionalLong.empty() - no row below
+     * OptionalLong value = matrix.downOf(0, 0);   // Returns OptionalLong.of(3L)
+     * OptionalLong empty = matrix.downOf(1, 0);   // Returns OptionalLong.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -541,8 +541,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.leftOf(0, 1);  // Returns OptionalLong.of(1L)
-     * OptionalLong empty = matrix.leftOf(0, 0);  // Returns OptionalLong.empty() - no column to the left
+     * OptionalLong value = matrix.leftOf(0, 1);   // Returns OptionalLong.of(1L)
+     * OptionalLong empty = matrix.leftOf(0, 0);   // Returns OptionalLong.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -562,8 +562,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * OptionalLong value = matrix.rightOf(0, 0);  // Returns OptionalLong.of(2L)
-     * OptionalLong empty = matrix.rightOf(0, 1);  // Returns OptionalLong.empty() - no column to the right
+     * OptionalLong value = matrix.rightOf(0, 0);   // Returns OptionalLong.of(2L)
+     * OptionalLong empty = matrix.rightOf(0, 1);   // Returns OptionalLong.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1188,8 +1188,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * // Modifying the copy does NOT affect the original
      * copy.set(0, 0, 99L);
-     * assert original.get(0, 0) == 1L;  // Original unchanged
-     * assert copy.get(0, 0) == 99L;  // Copy modified
+     * assert original.get(0, 0)   == 1L;  // Original unchanged
+     * assert copy.get(0, 0)       == 99L;  // Copy modified
      * }</pre>
      *
      * @return a new matrix that is a deep copy of this matrix with full independence guarantee
@@ -1698,8 +1698,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
-     * LongMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1, 2], [3, 4], [5, 6]]
-     * LongMatrix extended = matrix.reshape(2, 4);  // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * LongMatrix reshaped = matrix.reshape(3, 2);   // Becomes [[1, 2], [3, 4], [5, 6]]
+     * LongMatrix extended = matrix.reshape(2, 4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix

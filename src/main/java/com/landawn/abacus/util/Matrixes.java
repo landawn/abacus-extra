@@ -231,12 +231,12 @@ public final class Matrixes {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});  // 2×2 matrix
-     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});  // 2×2 matrix
-     * IntMatrix m3 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});  // 2×3 matrix
+     * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});         // 2×2 matrix
+     * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});         // 2×2 matrix
+     * IntMatrix m3 = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});   // 2×3 matrix
      *
-     * boolean same1 = Matrixes.isSameShape(m1, m2);  // true
-     * boolean same2 = Matrixes.isSameShape(m1, m3);  // false
+     * boolean same1 = Matrixes.isSameShape(m1, m2);                      // true
+     * boolean same2 = Matrixes.isSameShape(m1, m3);                      // false
      * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}

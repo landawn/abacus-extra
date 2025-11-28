@@ -392,8 +392,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * boolean hasTwo = tuple.contains(2);  // true
-     * boolean hasFive = tuple.contains(5);  // false
+     * boolean hasTwo = tuple.contains(2);    // true
+     * boolean hasFive = tuple.contains(5);   // false
      * }</pre>
      *
      * @param valueToFind the int value to search for

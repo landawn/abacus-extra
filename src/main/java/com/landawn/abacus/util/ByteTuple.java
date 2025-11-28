@@ -475,12 +475,12 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * boolean has20 = tuple.contains((byte) 20);  // true
-     * boolean has40 = tuple.contains((byte) 40);  // false
+     * boolean has20 = tuple.contains((byte) 20);   // true
+     * boolean has40 = tuple.contains((byte) 40);   // false
      *
      * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
-     * boolean has5 = pair.contains((byte) 5);  // true
-     * boolean has15 = pair.contains((byte) 15);  // false
+     * boolean has5 = pair.contains((byte) 5);     // true
+     * boolean has15 = pair.contains((byte) 15);   // false
      * }</pre>
      *
      * @param valueToFind the byte value to search for
@@ -579,8 +579,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-     * int sum = tuple.stream().sum();  // 60
-     * long count = tuple.stream().filter(b -> b > 15).count();  // 2
+     * int sum = tuple.stream().sum();                            // 60
+     * long count = tuple.stream().filter(b -> b > 15).count();   // 2
      *
      * ByteTuple2 pair = ByteTuple.of((byte) 5, (byte) 10);
      * byte max = pair.stream().max().orElse((byte) 0);  // 10
@@ -803,8 +803,8 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * ByteTuple1 tuple = ByteTuple.of((byte) 42);
      * byte value = tuple._1;  // 42
-     * byte min = tuple.min();  // 42 (single element)
-     * byte max = tuple.max();  // 42 (single element)
+     * byte min = tuple.min();   // 42 (single element)
+     * byte max = tuple.max();   // 42 (single element)
      * }</pre>
      */
     public static final class ByteTuple1 extends ByteTuple<ByteTuple1> {
@@ -1203,9 +1203,9 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * byte third = tuple._3;  // 30
      *
      * // Using statistical operations
-     * byte min = tuple.min();  // 10
-     * byte max = tuple.max();  // 30
-     * double avg = tuple.average();  // 20.0
+     * byte min = tuple.min();         // 10
+     * byte max = tuple.max();         // 30
+     * double avg = tuple.average();   // 20.0
      * }</pre>
      */
     public static final class ByteTuple3 extends ByteTuple<ByteTuple3> {

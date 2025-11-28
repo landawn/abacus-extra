@@ -185,9 +185,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix range = ByteMatrix.range((byte)0, (byte)10, (byte)2);  // Creates [[0, 2, 4, 6, 8]]
-     * ByteMatrix desc = ByteMatrix.range((byte)10, (byte)0, (byte)-2);  // Creates [[10, 8, 6, 4, 2]]
-     * ByteMatrix empty = ByteMatrix.range((byte)0, (byte)10, (byte)-1);  // Creates an empty matrix (step is wrong direction)
+     * ByteMatrix range = ByteMatrix.range((byte)0, (byte)10, (byte)2);    // Creates [[0, 2, 4, 6, 8]]
+     * ByteMatrix desc = ByteMatrix.range((byte)10, (byte)0, (byte)-2);    // Creates [[10, 8, 6, 4, 2]]
+     * ByteMatrix empty = ByteMatrix.range((byte)0, (byte)10, (byte)-1);   // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -226,9 +226,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ByteMatrix range = ByteMatrix.rangeClosed((byte)0, (byte)8, (byte)2);  // Creates [[0, 2, 4, 6, 8]]
-     * ByteMatrix partial = ByteMatrix.rangeClosed((byte)0, (byte)9, (byte)2);  // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
-     * ByteMatrix desc = ByteMatrix.rangeClosed((byte)10, (byte)0, (byte)-2);  // Creates [[10, 8, 6, 4, 2, 0]]
+     * ByteMatrix range = ByteMatrix.rangeClosed((byte)0, (byte)8, (byte)2);     // Creates [[0, 2, 4, 6, 8]]
+     * ByteMatrix partial = ByteMatrix.rangeClosed((byte)0, (byte)9, (byte)2);   // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * ByteMatrix desc = ByteMatrix.rangeClosed((byte)10, (byte)0, (byte)-2);    // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -458,8 +458,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.upOf(1, 0);  // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.upOf(0, 0);  // Returns OptionalByte.empty() - no row above
+     * OptionalByte value = matrix.upOf(1, 0);   // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.upOf(0, 0);   // Returns OptionalByte.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -479,8 +479,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.downOf(0, 0);  // Returns OptionalByte.of((byte)3)
-     * OptionalByte empty = matrix.downOf(1, 0);  // Returns OptionalByte.empty() - no row below
+     * OptionalByte value = matrix.downOf(0, 0);   // Returns OptionalByte.of((byte)3)
+     * OptionalByte empty = matrix.downOf(1, 0);   // Returns OptionalByte.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -500,8 +500,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.leftOf(0, 1);  // Returns OptionalByte.of((byte)1)
-     * OptionalByte empty = matrix.leftOf(0, 0);  // Returns OptionalByte.empty() - no column to the left
+     * OptionalByte value = matrix.leftOf(0, 1);   // Returns OptionalByte.of((byte)1)
+     * OptionalByte empty = matrix.leftOf(0, 0);   // Returns OptionalByte.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -521,8 +521,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * OptionalByte value = matrix.rightOf(0, 0);  // Returns OptionalByte.of((byte)2)
-     * OptionalByte empty = matrix.rightOf(0, 1);  // Returns OptionalByte.empty() - no column to the right
+     * OptionalByte value = matrix.rightOf(0, 0);   // Returns OptionalByte.of((byte)2)
+     * OptionalByte empty = matrix.rightOf(0, 1);   // Returns OptionalByte.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1614,9 +1614,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1, 2], [3, 4], [5, 6]]
-     * ByteMatrix extended = matrix.reshape(2, 4);  // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
-     * ByteMatrix truncated = matrix.reshape(1, 4);  // Becomes [[1, 2, 3, 4]]
+     * ByteMatrix reshaped = matrix.reshape(3, 2);    // Becomes [[1, 2], [3, 4], [5, 6]]
+     * ByteMatrix extended = matrix.reshape(2, 4);    // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * ByteMatrix truncated = matrix.reshape(1, 4);   // Becomes [[1, 2, 3, 4]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix (must be non-negative)
@@ -2994,10 +2994,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * ByteMatrix m2 = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * ByteMatrix m3 = ByteMatrix.of(new byte[][] {{1, 2}, {3, 5}});
      *
-     * m1.equals(m2);  // true - same dimensions and values
-     * m1.equals(m3);  // false - different values
-     * m1.equals(null);  // false - null is not equal
-     * m1.equals("string");  // false - different type
+     * m1.equals(m2);         // true - same dimensions and values
+     * m1.equals(m3);         // false - different values
+     * m1.equals(null);       // false - null is not equal
+     * m1.equals("string");   // false - different type
      * }</pre>
      *
      * @param obj the object to compare with this matrix

@@ -145,9 +145,9 @@ public final class Points {
              * ByteBytePoint point2 = ByteBytePoint.of((byte)10, (byte)20, (byte)100);
              * ByteBytePoint point3 = ByteBytePoint.of((byte)10, (byte)20, (byte)99);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -176,8 +176,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteBytePoint point = ByteBytePoint.of((byte)10, (byte)20, (byte)100);
-             * System.out.println(point.toString());  // prints: [10, 20, 100]
-             * System.out.println(point);  // prints: [10, 20, 100]
+             * System.out.println(point.toString());   // prints: [10, 20, 100]
+             * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -272,9 +272,9 @@ public final class Points {
              * ByteIntPoint point2 = ByteIntPoint.of((byte)10, (byte)20, 100);
              * ByteIntPoint point3 = ByteIntPoint.of((byte)10, (byte)20, 200);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -303,8 +303,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteIntPoint point = ByteIntPoint.of((byte)10, (byte)20, 100);
-             * System.out.println(point.toString());  // prints: [10, 20, 100]
-             * System.out.println(point);  // prints: [10, 20, 100]
+             * System.out.println(point.toString());   // prints: [10, 20, 100]
+             * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -400,9 +400,9 @@ public final class Points {
              * ByteLongPoint point2 = ByteLongPoint.of((byte)10, (byte)20, 100L);
              * ByteLongPoint point3 = ByteLongPoint.of((byte)10, (byte)20, 200L);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -431,8 +431,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteLongPoint point = ByteLongPoint.of((byte)10, (byte)20, 100L);
-             * System.out.println(point.toString());  // prints: [10, 20, 100]
-             * System.out.println(point);  // prints: [10, 20, 100]
+             * System.out.println(point.toString());   // prints: [10, 20, 100]
+             * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -528,9 +528,9 @@ public final class Points {
              * ByteDoublePoint point2 = ByteDoublePoint.of((byte)10, (byte)20, 100.5);
              * ByteDoublePoint point3 = ByteDoublePoint.of((byte)10, (byte)20, 200.5);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -559,8 +559,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteDoublePoint point = ByteDoublePoint.of((byte)10, (byte)20, 100.5);
-             * System.out.println(point.toString());  // prints: [10, 20, 100.5]
-             * System.out.println(point);  // prints: [10, 20, 100.5]
+             * System.out.println(point.toString());   // prints: [10, 20, 100.5]
+             * System.out.println(point);              // prints: [10, 20, 100.5]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -659,9 +659,9 @@ public final class Points {
              * ByteObjPoint<String> point2 = ByteObjPoint.of((byte)5, (byte)10, "marker");
              * ByteObjPoint<String> point3 = ByteObjPoint.of((byte)5, (byte)10, "different");
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -690,8 +690,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * ByteObjPoint<String> point = ByteObjPoint.of((byte)5, (byte)10, "marker");
-             * System.out.println(point.toString());  // prints: [5, 10, marker]
-             * System.out.println(point);  // prints: [5, 10, marker]
+             * System.out.println(point.toString());   // prints: [5, 10, marker]
+             * System.out.println(point);              // prints: [5, 10, marker]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -786,9 +786,9 @@ public final class Points {
              * IntBytePoint point2 = IntBytePoint.of(100, 200, (byte)50);
              * IntBytePoint point3 = IntBytePoint.of(100, 200, (byte)60);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -817,8 +817,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntBytePoint point = IntBytePoint.of(100, 200, (byte)50);
-             * System.out.println(point.toString());  // prints: [100, 200, 50]
-             * System.out.println(point);  // prints: [100, 200, 50]
+             * System.out.println(point.toString());   // prints: [100, 200, 50]
+             * System.out.println(point);              // prints: [100, 200, 50]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -913,9 +913,9 @@ public final class Points {
              * IntIntPoint point2 = IntIntPoint.of(100, 200, 300);
              * IntIntPoint point3 = IntIntPoint.of(100, 200, 400);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -944,8 +944,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntIntPoint point = IntIntPoint.of(100, 200, 300);
-             * System.out.println(point.toString());  // prints: [100, 200, 300]
-             * System.out.println(point);  // prints: [100, 200, 300]
+             * System.out.println(point.toString());   // prints: [100, 200, 300]
+             * System.out.println(point);              // prints: [100, 200, 300]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1041,9 +1041,9 @@ public final class Points {
              * IntLongPoint point2 = IntLongPoint.of(100, 200, 1000000L);
              * IntLongPoint point3 = IntLongPoint.of(100, 200, 2000000L);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1072,8 +1072,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntLongPoint point = IntLongPoint.of(100, 200, 1000000L);
-             * System.out.println(point.toString());  // prints: [100, 200, 1000000]
-             * System.out.println(point);  // prints: [100, 200, 1000000]
+             * System.out.println(point.toString());   // prints: [100, 200, 1000000]
+             * System.out.println(point);              // prints: [100, 200, 1000000]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1169,9 +1169,9 @@ public final class Points {
              * IntDoublePoint point2 = IntDoublePoint.of(100, 200, 3.14159);
              * IntDoublePoint point3 = IntDoublePoint.of(100, 200, 2.71828);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1200,8 +1200,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntDoublePoint point = IntDoublePoint.of(100, 200, 3.14159);
-             * System.out.println(point.toString());  // prints: [100, 200, 3.14159]
-             * System.out.println(point);  // prints: [100, 200, 3.14159]
+             * System.out.println(point.toString());   // prints: [100, 200, 3.14159]
+             * System.out.println(point);              // prints: [100, 200, 3.14159]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1300,9 +1300,9 @@ public final class Points {
              * IntObjPoint<String> point2 = IntObjPoint.of(10, 20, "marker");
              * IntObjPoint<String> point3 = IntObjPoint.of(10, 20, "different");
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1331,8 +1331,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * IntObjPoint<String> point = IntObjPoint.of(10, 20, "marker");
-             * System.out.println(point.toString());  // prints: [10, 20, marker]
-             * System.out.println(point);  // prints: [10, 20, marker]
+             * System.out.println(point.toString());   // prints: [10, 20, marker]
+             * System.out.println(point);              // prints: [10, 20, marker]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1428,9 +1428,9 @@ public final class Points {
              * LongBytePoint point2 = LongBytePoint.of(1000L, 2000L, (byte)50);
              * LongBytePoint point3 = LongBytePoint.of(1000L, 2000L, (byte)60);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1459,8 +1459,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongBytePoint point = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * System.out.println(point.toString());  // prints: [1000, 2000, 50]
-             * System.out.println(point);  // prints: [1000, 2000, 50]
+             * System.out.println(point.toString());   // prints: [1000, 2000, 50]
+             * System.out.println(point);              // prints: [1000, 2000, 50]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1556,9 +1556,9 @@ public final class Points {
              * LongIntPoint point2 = LongIntPoint.of(1000L, 2000L, 500);
              * LongIntPoint point3 = LongIntPoint.of(1000L, 2000L, 600);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1587,8 +1587,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongIntPoint point = LongIntPoint.of(1000L, 2000L, 500);
-             * System.out.println(point.toString());  // prints: [1000, 2000, 500]
-             * System.out.println(point);  // prints: [1000, 2000, 500]
+             * System.out.println(point.toString());   // prints: [1000, 2000, 500]
+             * System.out.println(point);              // prints: [1000, 2000, 500]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1684,9 +1684,9 @@ public final class Points {
              * LongLongPoint point2 = LongLongPoint.of(1000L, 2000L, 3000L);
              * LongLongPoint point3 = LongLongPoint.of(1000L, 2000L, 4000L);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1715,8 +1715,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongLongPoint point = LongLongPoint.of(1000L, 2000L, 3000L);
-             * System.out.println(point.toString());  // prints: [1000, 2000, 3000]
-             * System.out.println(point);  // prints: [1000, 2000, 3000]
+             * System.out.println(point.toString());   // prints: [1000, 2000, 3000]
+             * System.out.println(point);              // prints: [1000, 2000, 3000]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1812,9 +1812,9 @@ public final class Points {
              * LongDoublePoint point2 = LongDoublePoint.of(1000L, 2000L, 99.99);
              * LongDoublePoint point3 = LongDoublePoint.of(1000L, 2000L, 88.88);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1843,8 +1843,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongDoublePoint point = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * System.out.println(point.toString());  // prints: [1000, 2000, 99.99]
-             * System.out.println(point);  // prints: [1000, 2000, 99.99]
+             * System.out.println(point.toString());   // prints: [1000, 2000, 99.99]
+             * System.out.println(point);              // prints: [1000, 2000, 99.99]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -1944,9 +1944,9 @@ public final class Points {
              * LongObjPoint<String> point2 = LongObjPoint.of(1000L, 2000L, "marker");
              * LongObjPoint<String> point3 = LongObjPoint.of(1000L, 2000L, "different");
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -1975,8 +1975,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * LongObjPoint<String> point = LongObjPoint.of(1000L, 2000L, "marker");
-             * System.out.println(point.toString());  // prints: [1000, 2000, marker]
-             * System.out.println(point);  // prints: [1000, 2000, marker]
+             * System.out.println(point.toString());   // prints: [1000, 2000, marker]
+             * System.out.println(point);              // prints: [1000, 2000, marker]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -2072,9 +2072,9 @@ public final class Points {
              * DoubleBytePoint point2 = DoubleBytePoint.of(10.5, 20.3, (byte)100);
              * DoubleBytePoint point3 = DoubleBytePoint.of(10.5, 20.3, (byte)99);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -2103,8 +2103,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)100);
-             * System.out.println(point.toString());  // prints: [10.5, 20.3, 100]
-             * System.out.println(point);  // prints: [10.5, 20.3, 100]
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 100]
+             * System.out.println(point);              // prints: [10.5, 20.3, 100]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -2200,9 +2200,9 @@ public final class Points {
              * DoubleIntPoint point2 = DoubleIntPoint.of(10.5, 20.3, 500);
              * DoubleIntPoint point3 = DoubleIntPoint.of(10.5, 20.3, 600);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -2231,8 +2231,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 500);
-             * System.out.println(point.toString());  // prints: [10.5, 20.3, 500]
-             * System.out.println(point);  // prints: [10.5, 20.3, 500]
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 500]
+             * System.out.println(point);              // prints: [10.5, 20.3, 500]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -2328,9 +2328,9 @@ public final class Points {
              * DoubleLongPoint point2 = DoubleLongPoint.of(10.5, 20.3, 1000000L);
              * DoubleLongPoint point3 = DoubleLongPoint.of(10.5, 20.3, 2000000L);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -2359,8 +2359,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleLongPoint point = DoubleLongPoint.of(10.5, 20.3, 1000000L);
-             * System.out.println(point.toString());  // prints: [10.5, 20.3, 1000000]
-             * System.out.println(point);  // prints: [10.5, 20.3, 1000000]
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 1000000]
+             * System.out.println(point);              // prints: [10.5, 20.3, 1000000]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -2456,9 +2456,9 @@ public final class Points {
              * DoubleDoublePoint point2 = DoubleDoublePoint.of(10.5, 20.3, 3.14159);
              * DoubleDoublePoint point3 = DoubleDoublePoint.of(10.5, 20.3, 2.71828);
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -2487,8 +2487,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleDoublePoint point = DoubleDoublePoint.of(10.5, 20.3, 3.14159);
-             * System.out.println(point.toString());  // prints: [10.5, 20.3, 3.14159]
-             * System.out.println(point);  // prints: [10.5, 20.3, 3.14159]
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 3.14159]
+             * System.out.println(point);              // prints: [10.5, 20.3, 3.14159]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"
@@ -2588,9 +2588,9 @@ public final class Points {
              * DoubleObjPoint<String> point2 = DoubleObjPoint.of(10.5, 20.3, "marker");
              * DoubleObjPoint<String> point3 = DoubleObjPoint.of(10.5, 20.3, "different");
              *
-             * System.out.println(point1.equals(point2));  // prints: true
-             * System.out.println(point1.equals(point3));  // prints: false
-             * System.out.println(point1.equals("not a point"));  // prints: false
+             * System.out.println(point1.equals(point2));          // prints: true
+             * System.out.println(point1.equals(point3));          // prints: false
+             * System.out.println(point1.equals("not a point"));   // prints: false
              * }</pre>
              *
              * @param obj the reference object with which to compare
@@ -2619,8 +2619,8 @@ public final class Points {
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
              * DoubleObjPoint<String> point = DoubleObjPoint.of(10.5, 20.3, "marker");
-             * System.out.println(point.toString());  // prints: [10.5, 20.3, marker]
-             * System.out.println(point);  // prints: [10.5, 20.3, marker]
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, marker]
+             * System.out.println(point);              // prints: [10.5, 20.3, marker]
              * }</pre>
              *
              * @return a string representation of this point in the format \"[x, y, v]\"

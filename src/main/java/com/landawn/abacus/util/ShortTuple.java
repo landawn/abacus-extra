@@ -397,8 +397,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short) 1, (short) 2, (short) 3);
-     * boolean has2 = tuple.contains((short) 2);  // true
-     * boolean has5 = tuple.contains((short) 5);  // false
+     * boolean has2 = tuple.contains((short) 2);   // true
+     * boolean has5 = tuple.contains((short) 5);   // false
      * }</pre>
      *
      * @param valueToFind the short value to search for

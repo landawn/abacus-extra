@@ -462,12 +462,12 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-     * boolean hasTwo = tuple.contains(2.0);  // true
-     * boolean hasFive = tuple.contains(5.0);  // false
+     * boolean hasTwo = tuple.contains(2.0);    // true
+     * boolean hasFive = tuple.contains(5.0);   // false
      *
      * DoubleTuple2 pair = DoubleTuple.of(1.5, 2.5);
-     * boolean has1_5 = pair.contains(1.5);  // true
-     * boolean has3_5 = pair.contains(3.5);  // false
+     * boolean has1_5 = pair.contains(1.5);   // true
+     * boolean has3_5 = pair.contains(3.5);   // false
      * }</pre>
      *
      * @param valueToFind the double value to search for

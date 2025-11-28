@@ -737,9 +737,9 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1, 2], [3, 4], [5, 6]]
-     * IntMatrix extended = matrix.reshape(2, 4);  // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
-     * IntMatrix truncated = matrix.reshape(1, 3);  // Becomes [[1, 2, 3]] (remaining elements discarded)
+     * IntMatrix reshaped = matrix.reshape(3, 2);    // Becomes [[1, 2], [3, 4], [5, 6]]
+     * IntMatrix extended = matrix.reshape(2, 4);    // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * IntMatrix truncated = matrix.reshape(1, 3);   // Becomes [[1, 2, 3]] (remaining elements discarded)
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix (must be positive)
@@ -1178,8 +1178,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> diagonal = matrix.pointsLU2RD();  // Points: (0,0), (1,1), (2,2)
-     * List<Point> points = diagonal.toList();  // [(0,0), (1,1), (2,2)]
+     * Stream<Point> diagonal = matrix.pointsLU2RD();   // Points: (0,0), (1,1), (2,2)
+     * List<Point> points = diagonal.toList();          // [(0,0), (1,1), (2,2)]
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the main diagonal positions
@@ -1202,8 +1202,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * Stream<Point> antiDiagonal = matrix.pointsRU2LD();  // Points: (0,2), (1,1), (2,0)
-     * List<Point> points = antiDiagonal.toList();  // [(0,2), (1,1), (2,0)]
+     * Stream<Point> antiDiagonal = matrix.pointsRU2LD();   // Points: (0,2), (1,1), (2,0)
+     * List<Point> points = antiDiagonal.toList();          // [(0,2), (1,1), (2,0)]
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the anti-diagonal positions
@@ -1452,8 +1452,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntStream diagonal = matrix.streamLU2RD();  // Stream of: 1, 5, 9
-     * int sum = diagonal.sum();  // 15
+     * IntStream diagonal = matrix.streamLU2RD();   // Stream of: 1, 5, 9
+     * int sum = diagonal.sum();                    // 15
      * }</pre>
      *
      * @return a stream of diagonal elements
@@ -1471,8 +1471,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * IntStream antiDiagonal = matrix.streamRU2LD();  // Stream of: 3, 5, 7
-     * int sum = antiDiagonal.sum();  // 15
+     * IntStream antiDiagonal = matrix.streamRU2LD();   // Stream of: 3, 5, 7
+     * int sum = antiDiagonal.sum();                    // 15
      * }</pre>
      *
      * @return a stream of anti-diagonal elements
@@ -1489,8 +1489,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream elements = matrix.streamH();  // Stream of: 1, 2, 3, 4
-     * int sum = elements.sum();  // 10
+     * IntStream elements = matrix.streamH();   // Stream of: 1, 2, 3, 4
+     * int sum = elements.sum();                // 10
      * }</pre>
      *
      * @return a stream of all elements in row-major order
@@ -1504,8 +1504,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream row1 = matrix.streamH(1);  // Stream of: 4, 5, 6
-     * int max = row1.max().orElse(0);  // 6
+     * IntStream row1 = matrix.streamH(1);   // Stream of: 4, 5, 6
+     * int max = row1.max().orElse(0);       // 6
      * }</pre>
      *
      * @param rowIndex the row index (0-based)
@@ -1521,8 +1521,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
-     * IntStream rows1and2 = matrix.streamH(1, 3);  // Stream of: 3, 4, 5, 6
-     * long count = rows1and2.count();  // 4
+     * IntStream rows1and2 = matrix.streamH(1, 3);   // Stream of: 3, 4, 5, 6
+     * long count = rows1and2.count();               // 4
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1541,8 +1541,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * IntStream elements = matrix.streamV();  // Stream of: 1, 3, 2, 4
-     * int sum = elements.sum();  // 10
+     * IntStream elements = matrix.streamV();   // Stream of: 1, 3, 2, 4
+     * int sum = elements.sum();                // 10
      * }</pre>
      *
      * @return a stream of all elements in column-major order
@@ -1556,8 +1556,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream col1 = matrix.streamV(1);  // Stream of: 2, 5
-     * int min = col1.min().orElse(0);  // 2
+     * IntStream col1 = matrix.streamV(1);   // Stream of: 2, 5
+     * int min = col1.min().orElse(0);       // 2
      * }</pre>
      *
      * @param columnIndex the column index (0-based)
@@ -1573,8 +1573,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream cols1and2 = matrix.streamV(1, 3);  // Stream of: 2, 5, 3, 6
-     * double avg = cols1and2.average().orElse(0);  // 4.0
+     * IntStream cols1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
+     * double avg = cols1and2.average().orElse(0);   // 4.0
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive, 0-based)

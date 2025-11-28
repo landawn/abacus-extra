@@ -403,8 +403,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * OptionalFloat value = matrix.upOf(1, 0);  // Returns OptionalFloat.of(1.0f)
-     * OptionalFloat empty = matrix.upOf(0, 0);  // Returns OptionalFloat.empty() (no row above)
+     * OptionalFloat value = matrix.upOf(1, 0);   // Returns OptionalFloat.of(1.0f)
+     * OptionalFloat empty = matrix.upOf(0, 0);   // Returns OptionalFloat.empty() (no row above)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -423,8 +423,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * OptionalFloat value = matrix.downOf(0, 0);  // Returns OptionalFloat.of(3.0f)
-     * OptionalFloat empty = matrix.downOf(1, 0);  // Returns OptionalFloat.empty() (no row below)
+     * OptionalFloat value = matrix.downOf(0, 0);   // Returns OptionalFloat.of(3.0f)
+     * OptionalFloat empty = matrix.downOf(1, 0);   // Returns OptionalFloat.empty() (no row below)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -443,8 +443,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * OptionalFloat value = matrix.leftOf(0, 1);  // Returns OptionalFloat.of(1.0f)
-     * OptionalFloat empty = matrix.leftOf(0, 0);  // Returns OptionalFloat.empty() (no column to left)
+     * OptionalFloat value = matrix.leftOf(0, 1);   // Returns OptionalFloat.of(1.0f)
+     * OptionalFloat empty = matrix.leftOf(0, 0);   // Returns OptionalFloat.empty() (no column to left)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -463,8 +463,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
-     * OptionalFloat value = matrix.rightOf(0, 0);  // Returns OptionalFloat.of(2.0f)
-     * OptionalFloat empty = matrix.rightOf(0, 1);  // Returns OptionalFloat.empty() (no column to right)
+     * OptionalFloat value = matrix.rightOf(0, 0);   // Returns OptionalFloat.of(2.0f)
+     * OptionalFloat empty = matrix.rightOf(0, 1);   // Returns OptionalFloat.empty() (no column to right)
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -541,8 +541,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * matrix.setRow(0, new float[] {7.0f, 8.0f, 9.0f});  // First row is now [7.0f, 8.0f, 9.0f]
-     * assert matrix.get(0, 0) == 7.0f;
-     * assert matrix.get(0, 2) == 9.0f;
+     * assert matrix.get(0, 0)   == 7.0f;
+     * assert matrix.get(0, 2)   == 9.0f;
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -567,8 +567,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
      * matrix.setColumn(0, new float[] {7.0f, 8.0f});  // First column is now [7.0f, 8.0f]
-     * assert matrix.get(0, 0) == 7.0f;
-     * assert matrix.get(1, 0) == 8.0f;
+     * assert matrix.get(0, 0)   == 7.0f;
+     * assert matrix.get(1, 0)   == 8.0f;
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -1048,8 +1048,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * // Modifying the copy does NOT affect the original
      * copy.set(0, 0, 99.0f);
-     * assert original.get(0, 0) == 1.0f;  // Original unchanged
-     * assert copy.get(0, 0) == 99.0f;  // Copy modified
+     * assert original.get(0, 0)   == 1.0f;  // Original unchanged
+     * assert copy.get(0, 0)       == 99.0f;  // Copy modified
      * }</pre>
      *
      * @return a new matrix that is a deep copy of this matrix with full independence guarantee
@@ -1540,8 +1540,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1.0f, 2.0f, 3.0f}, {4.0f, 5.0f, 6.0f}});
-     * FloatMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1.0f, 2.0f], [3.0f, 4.0f], [5.0f, 6.0f]]
-     * FloatMatrix extended = matrix.reshape(2, 4);  // Becomes [[1.0f, 2.0f, 3.0f, 4.0f], [5.0f, 6.0f, 0.0f, 0.0f]]
+     * FloatMatrix reshaped = matrix.reshape(3, 2);   // Becomes [[1.0f, 2.0f], [3.0f, 4.0f], [5.0f, 6.0f]]
+     * FloatMatrix extended = matrix.reshape(2, 4);   // Becomes [[1.0f, 2.0f, 3.0f, 4.0f], [5.0f, 6.0f, 0.0f, 0.0f]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix

@@ -169,8 +169,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 5);  // Creates [[0, 1, 2, 3, 4]]
-     * ShortMatrix empty = ShortMatrix.range((short) 5, (short) 0);  // Creates an empty matrix
+     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 5);   // Creates [[0, 1, 2, 3, 4]]
+     * ShortMatrix empty = ShortMatrix.range((short) 5, (short) 0);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -188,9 +188,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 10, (short) 2);  // Creates [[0, 2, 4, 6, 8]]
-     * ShortMatrix desc = ShortMatrix.range((short) 10, (short) 0, (short) -2);  // Creates [[10, 8, 6, 4, 2]]
-     * ShortMatrix empty = ShortMatrix.range((short) 0, (short) 10, (short) -1);  // Creates an empty matrix (step is wrong direction)
+     * ShortMatrix matrix = ShortMatrix.range((short) 0, (short) 10, (short) 2);   // Creates [[0, 2, 4, 6, 8]]
+     * ShortMatrix desc = ShortMatrix.range((short) 10, (short) 0, (short) -2);    // Creates [[10, 8, 6, 4, 2]]
+     * ShortMatrix empty = ShortMatrix.range((short) 0, (short) 10, (short) -1);   // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -210,9 +210,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 4);  // Creates [[0, 1, 2, 3, 4]]
-     * ShortMatrix single = ShortMatrix.rangeClosed((short) 5, (short) 5);  // Creates [[5]]
-     * ShortMatrix empty = ShortMatrix.rangeClosed((short) 5, (short) 0);  // Creates an empty matrix
+     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 4);   // Creates [[0, 1, 2, 3, 4]]
+     * ShortMatrix single = ShortMatrix.rangeClosed((short) 5, (short) 5);   // Creates [[5]]
+     * ShortMatrix empty = ShortMatrix.rangeClosed((short) 5, (short) 0);    // Creates an empty matrix
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -231,9 +231,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 8, (short) 2);  // Creates [[0, 2, 4, 6, 8]]
-     * ShortMatrix partial = ShortMatrix.rangeClosed((short) 0, (short) 9, (short) 2);  // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
-     * ShortMatrix desc = ShortMatrix.rangeClosed((short) 10, (short) 0, (short) -2);  // Creates [[10, 8, 6, 4, 2, 0]]
+     * ShortMatrix matrix = ShortMatrix.rangeClosed((short) 0, (short) 8, (short) 2);    // Creates [[0, 2, 4, 6, 8]]
+     * ShortMatrix partial = ShortMatrix.rangeClosed((short) 0, (short) 9, (short) 2);   // Creates [[0, 2, 4, 6, 8]] (9 not reachable)
+     * ShortMatrix desc = ShortMatrix.rangeClosed((short) 10, (short) 0, (short) -2);    // Creates [[10, 8, 6, 4, 2, 0]]
      * }</pre>
      *
      * @param startInclusive the starting value (inclusive)
@@ -454,8 +454,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.upOf(1, 0);  // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.upOf(0, 0);  // Returns OptionalShort.empty() - no row above
+     * OptionalShort value = matrix.upOf(1, 0);   // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.upOf(0, 0);   // Returns OptionalShort.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -475,8 +475,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.downOf(0, 0);  // Returns OptionalShort.of((short)3)
-     * OptionalShort empty = matrix.downOf(1, 0);  // Returns OptionalShort.empty() - no row below
+     * OptionalShort value = matrix.downOf(0, 0);   // Returns OptionalShort.of((short)3)
+     * OptionalShort empty = matrix.downOf(1, 0);   // Returns OptionalShort.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -496,8 +496,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.leftOf(0, 1);  // Returns OptionalShort.of((short)1)
-     * OptionalShort empty = matrix.leftOf(0, 0);  // Returns OptionalShort.empty() - no column to the left
+     * OptionalShort value = matrix.leftOf(0, 1);   // Returns OptionalShort.of((short)1)
+     * OptionalShort empty = matrix.leftOf(0, 0);   // Returns OptionalShort.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -517,8 +517,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * OptionalShort value = matrix.rightOf(0, 0);  // Returns OptionalShort.of((short)2)
-     * OptionalShort empty = matrix.rightOf(0, 1);  // Returns OptionalShort.empty() - no column to the right
+     * OptionalShort value = matrix.rightOf(0, 0);   // Returns OptionalShort.of((short)2)
+     * OptionalShort empty = matrix.rightOf(0, 1);   // Returns OptionalShort.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1559,8 +1559,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1, 2], [3, 4], [5, 6]]
-     * ShortMatrix extended = matrix.reshape(2, 4);  // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
+     * ShortMatrix reshaped = matrix.reshape(3, 2);   // Becomes [[1, 2], [3, 4], [5, 6]]
+     * ShortMatrix extended = matrix.reshape(2, 4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix

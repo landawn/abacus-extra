@@ -500,8 +500,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.upOf(1, 0);  // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.upOf(0, 0);  // Returns OptionalDouble.empty() - no row above
+     * OptionalDouble value = matrix.upOf(1, 0);   // Returns OptionalDouble.of(1.0)
+     * OptionalDouble empty = matrix.upOf(0, 0);   // Returns OptionalDouble.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -521,8 +521,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.downOf(0, 0);  // Returns OptionalDouble.of(3.0)
-     * OptionalDouble empty = matrix.downOf(1, 0);  // Returns OptionalDouble.empty() - no row below
+     * OptionalDouble value = matrix.downOf(0, 0);   // Returns OptionalDouble.of(3.0)
+     * OptionalDouble empty = matrix.downOf(1, 0);   // Returns OptionalDouble.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -542,8 +542,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.leftOf(0, 1);  // Returns OptionalDouble.of(1.0)
-     * OptionalDouble empty = matrix.leftOf(0, 0);  // Returns OptionalDouble.empty() - no column to the left
+     * OptionalDouble value = matrix.leftOf(0, 1);   // Returns OptionalDouble.of(1.0)
+     * OptionalDouble empty = matrix.leftOf(0, 0);   // Returns OptionalDouble.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -563,8 +563,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * OptionalDouble value = matrix.rightOf(0, 0);  // Returns OptionalDouble.of(2.0)
-     * OptionalDouble empty = matrix.rightOf(0, 1);  // Returns OptionalDouble.empty() - no column to the right
+     * OptionalDouble value = matrix.rightOf(0, 0);   // Returns OptionalDouble.of(2.0)
+     * OptionalDouble empty = matrix.rightOf(0, 1);   // Returns OptionalDouble.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -1199,8 +1199,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * // Modifying the copy does NOT affect the original
      * copy.set(0, 0, 99.0);
-     * assert original.get(0, 0) == 1.0;  // Original unchanged
-     * assert copy.get(0, 0) == 99.0;  // Copy modified
+     * assert original.get(0, 0)   == 1.0;  // Original unchanged
+     * assert copy.get(0, 0)       == 99.0;  // Copy modified
      * }</pre>
      *
      * @return a new matrix that is a deep copy of this matrix with full independence guarantee
@@ -1705,8 +1705,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * DoubleMatrix reshaped = matrix.reshape(3, 2);  // Becomes [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
-     * DoubleMatrix extended = matrix.reshape(2, 4);  // Becomes [[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 0.0, 0.0]]
+     * DoubleMatrix reshaped = matrix.reshape(3, 2);   // Becomes [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
+     * DoubleMatrix extended = matrix.reshape(2, 4);   // Becomes [[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 0.0, 0.0]]
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix
@@ -2162,8 +2162,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double sum = matrix.streamH().sum();  // Returns 10.0 (1.0 + 2.0 + 3.0 + 4.0)
-     * double[] array = matrix.streamH().toArray();  // Returns [1.0, 2.0, 3.0, 4.0]
+     * double sum = matrix.streamH().sum();           // Returns 10.0 (1.0 + 2.0 + 3.0 + 4.0)
+     * double[] array = matrix.streamH().toArray();   // Returns [1.0, 2.0, 3.0, 4.0]
      * }</pre>
      *
      * @return a DoubleStream of all matrix elements in row-major order, or an empty stream if the matrix is empty
@@ -2294,8 +2294,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] row1 = matrix.streamH(1).toArray();  // Returns [3.0, 4.0]
-     * double rowSum = matrix.streamH(1).sum();  // Returns 7.0
+     * double[] row1 = matrix.streamH(1).toArray();   // Returns [3.0, 4.0]
+     * double rowSum = matrix.streamH(1).sum();       // Returns 7.0
      * }</pre>
      *
      * @param rowIndex the index of the row to stream (0-based)
@@ -2319,8 +2319,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}});
-     * double[] elements = matrix.streamH(1, 3).toArray();  // [3.0, 4.0, 5.0, 6.0]
-     * double[] subset = matrix.streamH(0, 2).toArray();  // Returns [1.0, 2.0, 3.0, 4.0]
+     * double[] elements = matrix.streamH(1, 3).toArray();   // [3.0, 4.0, 5.0, 6.0]
+     * double[] subset = matrix.streamH(0, 2).toArray();     // Returns [1.0, 2.0, 3.0, 4.0]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)

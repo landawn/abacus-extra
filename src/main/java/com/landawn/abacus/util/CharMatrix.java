@@ -171,9 +171,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.range('a', 'g', 2);  // Creates [['a', 'c', 'e']]
-     * CharMatrix desc = CharMatrix.range('z', 'u', -2);  // Creates [['z', 'x', 'v']]
-     * CharMatrix empty = CharMatrix.range('a', 'z', -1);  // Creates an empty matrix (step is wrong direction)
+     * CharMatrix matrix = CharMatrix.range('a', 'g', 2);   // Creates [['a', 'c', 'e']]
+     * CharMatrix desc = CharMatrix.range('z', 'u', -2);    // Creates [['z', 'x', 'v']]
+     * CharMatrix empty = CharMatrix.range('a', 'z', -1);   // Creates an empty matrix (step is wrong direction)
      * }</pre>
      *
      * @param startInclusive the starting char value (inclusive)
@@ -210,9 +210,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharMatrix matrix = CharMatrix.rangeClosed('a', 'g', 2);  // Creates [['a', 'c', 'e', 'g']]
-     * CharMatrix partial = CharMatrix.rangeClosed('a', 'i', 2);  // Creates [['a', 'c', 'e', 'g', 'i']]
-     * CharMatrix desc = CharMatrix.rangeClosed('z', 'u', -2);  // Creates [['z', 'x', 'v']]
+     * CharMatrix matrix = CharMatrix.rangeClosed('a', 'g', 2);    // Creates [['a', 'c', 'e', 'g']]
+     * CharMatrix partial = CharMatrix.rangeClosed('a', 'i', 2);   // Creates [['a', 'c', 'e', 'g', 'i']]
+     * CharMatrix desc = CharMatrix.rangeClosed('z', 'u', -2);     // Creates [['z', 'x', 'v']]
      * }</pre>
      *
      * @param startInclusive the starting char value (inclusive)
@@ -444,8 +444,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.upOf(1, 0);  // Returns OptionalChar.of('a')
-     * OptionalChar empty = matrix.upOf(0, 0);  // Returns OptionalChar.empty() - no row above
+     * OptionalChar value = matrix.upOf(1, 0);   // Returns OptionalChar.of('a')
+     * OptionalChar empty = matrix.upOf(0, 0);   // Returns OptionalChar.empty() - no row above
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -465,8 +465,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.downOf(0, 0);  // Returns OptionalChar.of('c')
-     * OptionalChar empty = matrix.downOf(1, 0);  // Returns OptionalChar.empty() - no row below
+     * OptionalChar value = matrix.downOf(0, 0);   // Returns OptionalChar.of('c')
+     * OptionalChar empty = matrix.downOf(1, 0);   // Returns OptionalChar.empty() - no row below
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -486,8 +486,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.leftOf(0, 1);  // Returns OptionalChar.of('a')
-     * OptionalChar empty = matrix.leftOf(0, 0);  // Returns OptionalChar.empty() - no column to the left
+     * OptionalChar value = matrix.leftOf(0, 1);   // Returns OptionalChar.of('a')
+     * OptionalChar empty = matrix.leftOf(0, 0);   // Returns OptionalChar.empty() - no column to the left
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -507,8 +507,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
-     * OptionalChar value = matrix.rightOf(0, 0);  // Returns OptionalChar.of('b')
-     * OptionalChar empty = matrix.rightOf(0, 1);  // Returns OptionalChar.empty() - no column to the right
+     * OptionalChar value = matrix.rightOf(0, 0);   // Returns OptionalChar.of('b')
+     * OptionalChar empty = matrix.rightOf(0, 1);   // Returns OptionalChar.empty() - no column to the right
      * }</pre>
      *
      * @param i the row index (0-based)

@@ -394,8 +394,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * boolean hasTwo = tuple.contains(2L);  // true
-     * boolean hasFive = tuple.contains(5L);  // false
+     * boolean hasTwo = tuple.contains(2L);    // true
+     * boolean hasFive = tuple.contains(5L);   // false
      * }</pre>
      *
      * @param valueToFind the long value to search for
@@ -1275,9 +1275,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long sum = quad.sum();  // 10L
-     * long min = quad.min();  // 1L
-     * LongTuple4 reversed = quad.reverse();  // (4, 3, 2, 1)
+     * long sum = quad.sum();                  // 10L
+     * long min = quad.min();                  // 1L
+     * LongTuple4 reversed = quad.reverse();   // (4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
@@ -1458,9 +1458,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * double avg = tuple.average();  // 3.0
-     * long median = tuple.median();  // 3
-     * LongTuple5 reversed = tuple.reverse();  // (5, 4, 3, 2, 1)
+     * double avg = tuple.average();            // 3.0
+     * long median = tuple.median();            // 3
+     * LongTuple5 reversed = tuple.reverse();   // (5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple5 extends LongTuple<LongTuple5> {
@@ -1645,8 +1645,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-     * long sum = tuple.sum();  // 21
-     * double avg = tuple.average();  // 3.5
+     * long sum = tuple.sum();         // 21
+     * double avg = tuple.average();   // 3.5
      * }</pre>
      */
     public static final class LongTuple6 extends LongTuple<LongTuple6> {
@@ -1835,9 +1835,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * long sum = tuple.sum();  // 28
-     * long median = tuple.median();  // 4
-     * LongTuple7 reversed = tuple.reverse();  // (7, 6, 5, 4, 3, 2, 1)
+     * long sum = tuple.sum();                  // 28
+     * long median = tuple.median();            // 4
+     * LongTuple7 reversed = tuple.reverse();   // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple7 extends LongTuple<LongTuple7> {
@@ -2031,9 +2031,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-     * long sum = tuple.sum();  // 36
-     * double avg = tuple.average();  // 4.5
-     * boolean contains5 = tuple.contains(5L);  // true
+     * long sum = tuple.sum();                   // 36
+     * double avg = tuple.average();             // 4.5
+     * boolean contains5 = tuple.contains(5L);   // true
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
@@ -2235,9 +2235,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-     * long sum = tuple.sum();  // 45
-     * long median = tuple.median();  // 5
-     * double avg = tuple.average();  // 5.0
+     * long sum = tuple.sum();         // 45
+     * long median = tuple.median();   // 5
+     * double avg = tuple.average();   // 5.0
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
