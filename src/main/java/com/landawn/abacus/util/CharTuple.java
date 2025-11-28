@@ -36,9 +36,9 @@ import com.landawn.abacus.util.stream.CharStream;
  * CharTuple3 triple = CharTuple.of('A', 'B', 'C');
  *
  * // Using statistical operations
- * char min = triple.min();     // 'A'
- * char max = triple.max();     // 'C'
- * double avg = triple.average(); // 66.0 (average of ASCII values)
+ * char min = triple.min();  // 'A'
+ * char max = triple.max();  // 'C'
+ * double avg = triple.average();  // 66.0 (average of ASCII values)
  *
  * // Using functional operations
  * pair.accept((a, b) -> System.out.println(a + " and " + b));
@@ -69,7 +69,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple1 tuple = CharTuple.of('A');
-     * char value = tuple._1; // 'A'
+     * char value = tuple._1;  // 'A'
      * }</pre>
      *
      * @param _1 the char value to store in the tuple
@@ -86,7 +86,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * CharTuple2 tuple = CharTuple.of('A', 'B');
      * char first = tuple._1;  // 'A'
-     * char second = tuple._2; // 'B'
+     * char second = tuple._2;  // 'B'
      * }</pre>
      *
      * @param _1 the first char value
@@ -103,7 +103,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * char third = tuple._3; // 'C'
+     * char third = tuple._3;  // 'C'
      * }</pre>
      *
      * @param _1 the first char value
@@ -121,7 +121,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-     * char fourth = tuple._4; // 'D'
+     * char fourth = tuple._4;  // 'D'
      * }</pre>
      *
      * @param _1 the first char value
@@ -140,7 +140,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-     * char median = tuple.median(); // 'C' (middle value when sorted)
+     * char median = tuple.median();  // 'C' (middle value when sorted)
      * }</pre>
      *
      * @param _1 the first char value
@@ -160,7 +160,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-     * int sum = tuple.sum(); // Sum of ASCII values
+     * int sum = tuple.sum();  // Sum of ASCII values
      * }</pre>
      *
      * @param _1 the first char value
@@ -181,7 +181,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple7 tuple = CharTuple.of('M', 'O', 'N', 'D', 'A', 'Y', 'S');
-     * CharTuple7 reversed = tuple.reverse(); // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
+     * CharTuple7 reversed = tuple.reverse();  // ('S', 'Y', 'A', 'D', 'N', 'O', 'M')
      * }</pre>
      *
      * @param _1 the first char value
@@ -203,7 +203,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-     * boolean hasX = tuple.contains('X'); // false
+     * boolean hasX = tuple.contains('X');  // false
      * }</pre>
      *
      * @param _1 the first char value
@@ -228,7 +228,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-     * char[] array = tuple.toArray(); // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+     * char[] array = tuple.toArray();  // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
      * }</pre>
      *
      * @param _1 the first char value
@@ -324,10 +324,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-     * char min = tuple.min(); // 'A'
+     * char min = tuple.min();  // 'A'
      *
      * CharTuple2 pair = CharTuple.of('B', 'D');
-     * char minPair = pair.min(); // 'B'
+     * char minPair = pair.min();  // 'B'
      * }</pre>
      *
      * @return the minimum char value in this tuple
@@ -347,10 +347,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-     * char max = tuple.max(); // 'Z'
+     * char max = tuple.max();  // 'Z'
      *
      * CharTuple2 pair = CharTuple.of('B', 'D');
-     * char maxPair = pair.max(); // 'D'
+     * char maxPair = pair.max();  // 'D'
      * }</pre>
      *
      * @return the maximum char value in this tuple
@@ -372,11 +372,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * // Odd number of elements
      * CharTuple3 tuple3 = CharTuple.of('Z', 'A', 'M');
-     * char median = tuple3.median(); // 'M' (middle value when sorted: A, M, Z)
+     * char median = tuple3.median();  // 'M' (middle value when sorted: A, M, Z)
      *
      * // Even number of elements
      * CharTuple4 tuple4 = CharTuple.of('A', 'B', 'C', 'D');
-     * char median2 = tuple4.median(); // 'B' (lower middle value)
+     * char median2 = tuple4.median();  // 'B' (lower middle value)
      * }</pre>
      *
      * @return the median char value in this tuple
@@ -396,11 +396,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
-     * int sum = tuple.sum(); // 198
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
+     * int sum = tuple.sum();  // 198
      *
-     * CharTuple2 pair = CharTuple.of('X', 'Y'); // 'X'=88, 'Y'=89
-     * int pairSum = pair.sum(); // 177
+     * CharTuple2 pair = CharTuple.of('X', 'Y');  // 'X'=88, 'Y'=89
+     * int pairSum = pair.sum();  // 177
      * }</pre>
      *
      * @return the sum of all char values in this tuple as an integer
@@ -418,11 +418,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
-     * double avg = tuple.average(); // 66.0
+     * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
+     * double avg = tuple.average();  // 66.0
      *
-     * CharTuple2 pair = CharTuple.of('A', 'D'); // 'A'=65, 'D'=68
-     * double avgPair = pair.average(); // 66.5
+     * CharTuple2 pair = CharTuple.of('A', 'D');  // 'A'=65, 'D'=68
+     * double avgPair = pair.average();  // 66.5
      * }</pre>
      *
      * @return the average of all char values in this tuple as a double
@@ -443,10 +443,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * CharTuple3 reversed = tuple.reverse(); // ('C', 'B', 'A')
+     * CharTuple3 reversed = tuple.reverse();  // ('C', 'B', 'A')
      *
      * CharTuple2 pair = CharTuple.of('X', 'Y');
-     * CharTuple2 reversedPair = pair.reverse(); // ('Y', 'X')
+     * CharTuple2 reversedPair = pair.reverse();  // ('Y', 'X')
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -464,12 +464,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * boolean hasB = tuple.contains('B'); // true
-     * boolean hasZ = tuple.contains('Z'); // false
+     * boolean hasB = tuple.contains('B');  // true
+     * boolean hasZ = tuple.contains('Z');  // false
      *
      * CharTuple2 pair = CharTuple.of('X', 'Y');
-     * boolean hasX = pair.contains('X'); // true
-     * boolean hasA = pair.contains('A'); // false
+     * boolean hasX = pair.contains('X');  // true
+     * boolean hasA = pair.contains('A');  // false
      * }</pre>
      *
      * @param valueToFind the char value to search for
@@ -487,11 +487,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * char[] array = tuple.toArray(); // ['A', 'B', 'C']
-     * array[0] = 'X'; // Does not modify the original tuple
+     * char[] array = tuple.toArray();  // ['A', 'B', 'C']
+     * array[0] = 'X';  // Does not modify the original tuple
      *
      * CharTuple0 empty = CharTuple.create(new char[0]);
-     * char[] emptyArray = empty.toArray(); // []
+     * char[] emptyArray = empty.toArray();  // []
      * }</pre>
      *
      * @return a new char array containing all tuple elements
@@ -511,10 +511,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
      * CharList list = tuple.toList();
-     * list.add('D'); // Does not affect the original tuple
+     * list.add('D');  // Does not affect the original tuple
      *
      * CharTuple2 pair = CharTuple.of('X', 'Y');
-     * CharList pairList = pair.toList(); // [X, Y]
+     * CharList pairList = pair.toList();  // [X, Y]
      * }</pre>
      *
      * @return a new CharList containing all tuple elements
@@ -535,11 +535,11 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * tuple.forEach(ch -> System.out.print(ch + " ")); // prints "A B C "
+     * tuple.forEach(ch -> System.out.print(ch + " "));  // prints "A B C "
      *
      * CharTuple2 pair = CharTuple.of('X', 'Y');
      * List<Character> chars = new ArrayList<>();
-     * pair.forEach(chars::add); // adds 'X' and 'Y' to the list
+     * pair.forEach(chars::add);  // adds 'X' and 'Y' to the list
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
@@ -563,10 +563,10 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-     * int sum = tuple.stream().sum(); // 198 (sum of ASCII values)
+     * int sum = tuple.stream().sum();  // 198 (sum of ASCII values)
      *
      * CharTuple2 pair = CharTuple.of('a', 'b');
-     * long count = pair.stream().filter(c -> c > 'a').count(); // 1
+     * long count = pair.stream().filter(c -> c > 'a').count();  // 1
      * }</pre>
      *
      * @return a CharStream containing all tuple elements
@@ -675,7 +675,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
-         * char min = emptyTuple.min(); // throws NoSuchElementException
+         * char min = emptyTuple.min();  // throws NoSuchElementException
          * }</pre>
          *
          * @return never returns normally
@@ -693,7 +693,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
-         * char max = emptyTuple.max(); // throws NoSuchElementException
+         * char max = emptyTuple.max();  // throws NoSuchElementException
          * }</pre>
          *
          * @return never returns normally
@@ -711,7 +711,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
-         * char median = emptyTuple.median(); // throws NoSuchElementException
+         * char median = emptyTuple.median();  // throws NoSuchElementException
          * }</pre>
          *
          * @return never returns normally
@@ -1064,7 +1064,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
-         * tuple.accept((a, b) -> System.out.println(a + " and " + b)); // prints "A and B"
+         * tuple.accept((a, b) -> System.out.println(a + " and " + b));  // prints "A and B"
          * }</pre>
          * 
          * @param <E> the type of exception that may be thrown
@@ -1081,7 +1081,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
-         * String result = tuple.map((a, b) -> "" + a + b); // "AB"
+         * String result = tuple.map((a, b) -> "" + a + b);  // "AB"
          * }</pre>
          * 
          * @param <U> the type of the result
@@ -1101,7 +1101,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple2 tuple = CharTuple.of('A', 'B');
-         * Optional<CharTuple2> result = tuple.filter((a, b) -> a < b); // Optional containing the tuple
+         * Optional<CharTuple2> result = tuple.filter((a, b) -> a < b);  // Optional containing the tuple
          * }</pre>
          * 
          * @param <E> the type of exception that may be thrown
@@ -1204,7 +1204,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the three char values
@@ -1220,7 +1220,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-         * char max = tuple.max(); // 'Z'
+         * char max = tuple.max();  // 'Z'
          * }</pre>
          *
          * @return the largest of the three char values
@@ -1236,7 +1236,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('Z', 'A', 'M');
-         * char median = tuple.median(); // 'M' (middle value when sorted)
+         * char median = tuple.median();  // 'M' (middle value when sorted)
          * }</pre>
          *
          * @return the middle char value when sorted
@@ -1251,8 +1251,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
-         * int sum = tuple.sum(); // 198
+         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
+         * int sum = tuple.sum();  // 198
          * }</pre>
          *
          * @return the sum of the numeric values of all three chars
@@ -1267,8 +1267,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 'A'=65, 'B'=66, 'C'=67
-         * double avg = tuple.average(); // 66.0
+         * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');  // 'A'=65, 'B'=66, 'C'=67
+         * double avg = tuple.average();  // 66.0
          * }</pre>
          *
          * @return the average of the numeric values of all three chars
@@ -1336,7 +1336,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-         * String result = tuple.map((a, b, c) -> "" + a + b + c); // "ABC"
+         * String result = tuple.map((a, b, c) -> "" + a + b + c);  // "ABC"
          * }</pre>
          * 
          * @param <U> the type of the result
@@ -1356,7 +1356,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-         * Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c); // Optional containing the tuple
+         * Optional<CharTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);  // Optional containing the tuple
          * }</pre>
          * 
          * @param <E> the type of exception that may be thrown
@@ -1455,7 +1455,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * int size = tuple.arity(); // 4
+         * int size = tuple.arity();  // 4
          * }</pre>
          *
          * @return 4
@@ -1471,7 +1471,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('D', 'A', 'C', 'B');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the four char values
@@ -1487,7 +1487,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('D', 'A', 'C', 'B');
-         * char max = tuple.max(); // 'D'
+         * char max = tuple.max();  // 'D'
          * }</pre>
          *
          * @return the largest of the four char values
@@ -1504,7 +1504,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * char median = tuple.median(); // 'B' (lower middle value)
+         * char median = tuple.median();  // 'B' (lower middle value)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -1519,8 +1519,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D'); // 'A'=65, 'B'=66, 'C'=67, 'D'=68
-         * int sum = tuple.sum(); // 266
+         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');  // 'A'=65, 'B'=66, 'C'=67, 'D'=68
+         * int sum = tuple.sum();  // 266
          * }</pre>
          *
          * @return the sum of the numeric values of all four chars
@@ -1535,8 +1535,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D'); // 'A'=65, 'B'=66, 'C'=67, 'D'=68
-         * double avg = tuple.average(); // 66.5
+         * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');  // 'A'=65, 'B'=66, 'C'=67, 'D'=68
+         * double avg = tuple.average();  // 66.5
          * }</pre>
          *
          * @return the average of the numeric values of all four chars
@@ -1552,7 +1552,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * CharTuple4 reversed = tuple.reverse(); // ('D', 'C', 'B', 'A')
+         * CharTuple4 reversed = tuple.reverse();  // ('D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple4 with the elements in reverse order
@@ -1568,8 +1568,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-         * boolean hasB = tuple.contains('B'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasB = tuple.contains('B');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -1648,7 +1648,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * int size = tuple.arity(); // 5
+         * int size = tuple.arity();  // 5
          * }</pre>
          *
          * @return 5
@@ -1664,7 +1664,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('E', 'A', 'C', 'B', 'D');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the five char values
@@ -1680,7 +1680,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('E', 'A', 'C', 'B', 'D');
-         * char max = tuple.max(); // 'E'
+         * char max = tuple.max();  // 'E'
          * }</pre>
          *
          * @return the largest of the five char values
@@ -1697,7 +1697,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('E', 'A', 'C', 'B', 'D');
-         * char median = tuple.median(); // 'C' (middle value when sorted: A, B, C, D, E)
+         * char median = tuple.median();  // 'C' (middle value when sorted: A, B, C, D, E)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -1712,8 +1712,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E'); // 65, 66, 67, 68, 69
-         * int sum = tuple.sum(); // 335
+         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');  // 65, 66, 67, 68, 69
+         * int sum = tuple.sum();  // 335
          * }</pre>
          *
          * @return the sum of the numeric values of all five chars
@@ -1728,8 +1728,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E'); // 65, 66, 67, 68, 69
-         * double avg = tuple.average(); // 67.0
+         * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');  // 65, 66, 67, 68, 69
+         * double avg = tuple.average();  // 67.0
          * }</pre>
          *
          * @return the average of the numeric values of all five chars
@@ -1745,7 +1745,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * CharTuple5 reversed = tuple.reverse(); // ('E', 'D', 'C', 'B', 'A')
+         * CharTuple5 reversed = tuple.reverse();  // ('E', 'D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple5 with the elements in reverse order
@@ -1761,8 +1761,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple5 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E');
-         * boolean hasC = tuple.contains('C'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasC = tuple.contains('C');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -1845,7 +1845,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * int size = tuple.arity(); // 6
+         * int size = tuple.arity();  // 6
          * }</pre>
          *
          * @return 6
@@ -1861,7 +1861,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('F', 'A', 'C', 'E', 'B', 'D');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the six char values
@@ -1877,7 +1877,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('F', 'A', 'C', 'E', 'B', 'D');
-         * char max = tuple.max(); // 'F'
+         * char max = tuple.max();  // 'F'
          * }</pre>
          *
          * @return the largest of the six char values
@@ -1894,7 +1894,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * char median = tuple.median(); // 'C' (lower middle value when sorted)
+         * char median = tuple.median();  // 'C' (lower middle value when sorted)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -1909,8 +1909,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F'); // 65, 66, 67, 68, 69, 70
-         * int sum = tuple.sum(); // 405
+         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');  // 65, 66, 67, 68, 69, 70
+         * int sum = tuple.sum();  // 405
          * }</pre>
          *
          * @return the sum of the numeric values of all six chars
@@ -1925,8 +1925,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F'); // 65, 66, 67, 68, 69, 70
-         * double avg = tuple.average(); // 67.5
+         * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');  // 65, 66, 67, 68, 69, 70
+         * double avg = tuple.average();  // 67.5
          * }</pre>
          *
          * @return the average of the numeric values of all six chars
@@ -1942,7 +1942,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * CharTuple6 reversed = tuple.reverse(); // ('F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple6 reversed = tuple.reverse();  // ('F', 'E', 'D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple6 with the elements in reverse order
@@ -1958,8 +1958,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple6 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F');
-         * boolean hasD = tuple.contains('D'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasD = tuple.contains('D');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2046,7 +2046,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * int size = tuple.arity(); // 7
+         * int size = tuple.arity();  // 7
          * }</pre>
          *
          * @return 7
@@ -2062,7 +2062,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('G', 'A', 'C', 'E', 'B', 'D', 'F');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the seven char values
@@ -2078,7 +2078,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('G', 'A', 'C', 'E', 'B', 'D', 'F');
-         * char max = tuple.max(); // 'G'
+         * char max = tuple.max();  // 'G'
          * }</pre>
          *
          * @return the largest of the seven char values
@@ -2095,7 +2095,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('G', 'A', 'C', 'E', 'B', 'D', 'F');
-         * char median = tuple.median(); // 'D' (middle value when sorted: A, B, C, D, E, F, G)
+         * char median = tuple.median();  // 'D' (middle value when sorted: A, B, C, D, E, F, G)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -2110,8 +2110,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G'); // 65, 66, 67, 68, 69, 70, 71
-         * int sum = tuple.sum(); // 476
+         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');  // 65, 66, 67, 68, 69, 70, 71
+         * int sum = tuple.sum();  // 476
          * }</pre>
          *
          * @return the sum of the numeric values of all seven chars
@@ -2126,8 +2126,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G'); // 65, 66, 67, 68, 69, 70, 71
-         * double avg = tuple.average(); // 68.0
+         * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');  // 65, 66, 67, 68, 69, 70, 71
+         * double avg = tuple.average();  // 68.0
          * }</pre>
          *
          * @return the average of the numeric values of all seven chars
@@ -2143,7 +2143,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * CharTuple7 reversed = tuple.reverse(); // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple7 reversed = tuple.reverse();  // ('G', 'F', 'E', 'D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple7 with the elements in reverse order
@@ -2159,8 +2159,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple7 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G');
-         * boolean hasE = tuple.contains('E'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasE = tuple.contains('E');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2250,7 +2250,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * int size = tuple.arity(); // 8
+         * int size = tuple.arity();  // 8
          * }</pre>
          *
          * @return 8
@@ -2266,7 +2266,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('H', 'A', 'C', 'E', 'B', 'D', 'F', 'G');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the eight char values
@@ -2282,7 +2282,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('H', 'A', 'C', 'E', 'B', 'D', 'F', 'G');
-         * char max = tuple.max(); // 'H'
+         * char max = tuple.max();  // 'H'
          * }</pre>
          *
          * @return the largest of the eight char values
@@ -2299,7 +2299,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * char median = tuple.median(); // 'D' (lower middle value when sorted)
+         * char median = tuple.median();  // 'D' (lower middle value when sorted)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -2314,8 +2314,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'); // 65-72
-         * int sum = tuple.sum(); // 548
+         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');  // 65-72
+         * int sum = tuple.sum();  // 548
          * }</pre>
          *
          * @return the sum of the numeric values of all eight chars
@@ -2330,8 +2330,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'); // 65-72
-         * double avg = tuple.average(); // 68.5
+         * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');  // 65-72
+         * double avg = tuple.average();  // 68.5
          * }</pre>
          *
          * @return the average of the numeric values of all eight chars
@@ -2347,7 +2347,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * CharTuple8 reversed = tuple.reverse(); // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple8 reversed = tuple.reverse();  // ('H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple8 with the elements in reverse order
@@ -2363,8 +2363,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple8 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
-         * boolean hasF = tuple.contains('F'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasF = tuple.contains('F');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for
@@ -2458,7 +2458,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * int size = tuple.arity(); // 9
+         * int size = tuple.arity();  // 9
          * }</pre>
          *
          * @return 9
@@ -2474,7 +2474,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('I', 'A', 'C', 'E', 'B', 'D', 'F', 'G', 'H');
-         * char min = tuple.min(); // 'A'
+         * char min = tuple.min();  // 'A'
          * }</pre>
          *
          * @return the smallest of the nine char values
@@ -2490,7 +2490,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('I', 'A', 'C', 'E', 'B', 'D', 'F', 'G', 'H');
-         * char max = tuple.max(); // 'I'
+         * char max = tuple.max();  // 'I'
          * }</pre>
          *
          * @return the largest of the nine char values
@@ -2507,7 +2507,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('I', 'A', 'C', 'E', 'B', 'D', 'F', 'G', 'H');
-         * char median = tuple.median(); // 'E' (middle value when sorted: A, B, C, D, E, F, G, H, I)
+         * char median = tuple.median();  // 'E' (middle value when sorted: A, B, C, D, E, F, G, H, I)
          * }</pre>
          *
          * @return the median char value in this tuple
@@ -2522,8 +2522,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'); // 65-73
-         * int sum = tuple.sum(); // 621
+         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');  // 65-73
+         * int sum = tuple.sum();  // 621
          * }</pre>
          *
          * @return the sum of the numeric values of all nine chars
@@ -2538,8 +2538,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'); // 65-73
-         * double avg = tuple.average(); // 69.0
+         * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');  // 65-73
+         * double avg = tuple.average();  // 69.0
          * }</pre>
          *
          * @return the average of the numeric values of all nine chars
@@ -2555,7 +2555,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * CharTuple9 reversed = tuple.reverse(); // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
+         * CharTuple9 reversed = tuple.reverse();  // ('I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A')
          * }</pre>
          *
          * @return a new CharTuple9 with the elements in reverse order
@@ -2571,8 +2571,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * CharTuple9 tuple = CharTuple.of('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I');
-         * boolean hasG = tuple.contains('G'); // true
-         * boolean hasZ = tuple.contains('Z'); // false
+         * boolean hasG = tuple.contains('G');  // true
+         * boolean hasZ = tuple.contains('Z');  // false
          * }</pre>
          *
          * @param valueToFind the char value to search for

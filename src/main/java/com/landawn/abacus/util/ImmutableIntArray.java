@@ -32,7 +32,7 @@ import com.landawn.abacus.util.stream.IntStream;
  * <pre>{@code
  * int[] data = {1, 2, 3, 4, 5};
  * ImmutableIntArray immutable = ImmutableIntArray.copyOf(data);
- * int value = immutable.get(2); // returns 3
+ * int value = immutable.get(2);  // returns 3
  * }</pre>
  * 
  */
@@ -75,11 +75,11 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * int[] data = new int[] {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.of(data);
-     * System.out.println(array.get(1)); // prints: 20
+     * System.out.println(array.get(1));  // prints: 20
      *
      * // CAUTION: Modifying the original array affects the ImmutableIntArray
      * data[1] = 99;
-     * System.out.println(array.get(1)); // prints: 99 (not recommended!)
+     * System.out.println(array.get(1));  // prints: 99 (not recommended!)
      * }</pre>
      *
      * @param a the int array to wrap, or {@code null} to create an empty ImmutableIntArray
@@ -105,11 +105,11 @@ public final class ImmutableIntArray implements Immutable {
      * <pre>{@code
      * int[] data = {10, 20, 30};
      * ImmutableIntArray array = ImmutableIntArray.copyOf(data);
-     * System.out.println(array.get(0)); // prints: 10
+     * System.out.println(array.get(0));  // prints: 10
      *
      * // Modifying the original array does NOT affect the ImmutableIntArray
      * data[0] = 99;
-     * System.out.println(array.get(0)); // still prints: 10
+     * System.out.println(array.get(0));  // still prints: 10
      * }</pre>
      *
      * @param a the array to copy, or {@code null} to create an empty ImmutableIntArray
@@ -131,9 +131,9 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[] {5, 10, 15, 20});
-     * int value = array.get(1); // returns 10
-     * int first = array.get(0); // returns 5
-     * int last = array.get(array.length - 1); // returns 20
+     * int value = array.get(1);  // returns 10
+     * int first = array.get(0);  // returns 5
+     * int last = array.get(array.length - 1);  // returns 20
      * }</pre>
      *
      * @param index the zero-based index of the element to retrieve (must be {@code >= 0 and < length})
@@ -166,7 +166,7 @@ public final class ImmutableIntArray implements Immutable {
      * // Accumulate sum
      * int[] sum = {0};
      * array.forEach(value -> sum[0] += value);
-     * System.out.println(sum[0]); // prints: 15
+     * System.out.println(sum[0]);  // prints: 15
      * }</pre>
      *
      * @param <E> the type of exception that the action may throw.
@@ -239,20 +239,20 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3, 4, 5});
      *
      * // Calculate sum
-     * int sum = array.stream().sum(); // returns 15
+     * int sum = array.stream().sum();  // returns 15
      *
      * // Find maximum
-     * int max = array.stream().max().orElse(0); // returns 5
+     * int max = array.stream().max().orElse(0);  // returns 5
      *
      * // Filter and collect
      * int[] evens = array.stream()
      *     .filter(x -> x % 2 == 0)
-     *     .toArray(); // returns {2, 4}
+     *     .toArray();  // returns {2, 4}
      *
      * // Map and sum
      * int sumOfSquares = array.stream()
      *     .map(x -> x * x)
-     *     .sum(); // returns 55 (1 + 4 + 9 + 16 + 25)
+     *     .sum();  // returns 55 (1 + 4 + 9 + 16 + 25)
      * }</pre>
      *
      * @return an IntStream containing all elements of this ImmutableIntArray in order
@@ -318,8 +318,8 @@ public final class ImmutableIntArray implements Immutable {
      *
      * // Can modify the returned array
      * mutableCopy[0] = 99;
-     * System.out.println(java.util.Arrays.toString(mutableCopy)); // prints: [99, 30, 40]
-     * System.out.println(array.get(1)); // still prints: 20 (original unchanged)
+     * System.out.println(java.util.Arrays.toString(mutableCopy));  // prints: [99, 30, 40]
+     * System.out.println(array.get(1));  // still prints: 20 (original unchanged)
      *
      * // Get all elements as a mutable array
      * int[] allElements = array.copyToArray(0, array.length);
@@ -357,10 +357,10 @@ public final class ImmutableIntArray implements Immutable {
      *
      * int hash1 = array1.hashCode();
      * int hash2 = array2.hashCode();
-     * System.out.println(hash1 == hash2); // prints: true (equal arrays have same hash)
+     * System.out.println(hash1 == hash2);  // prints: true (equal arrays have same hash)
      *
      * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
-     * System.out.println(hash1 == array3.hashCode()); // prints: false (different arrays)
+     * System.out.println(hash1 == array3.hashCode());  // prints: false (different arrays)
      * }</pre>
      *
      * @return a hash code value for this ImmutableIntArray based on its contents
@@ -389,9 +389,9 @@ public final class ImmutableIntArray implements Immutable {
      * ImmutableIntArray array2 = ImmutableIntArray.copyOf(new int[] {1, 2, 3});
      * ImmutableIntArray array3 = ImmutableIntArray.of(new int[] {1, 2, 4});
      *
-     * System.out.println(array1.equals(array2)); // prints: true
-     * System.out.println(array1.equals(array3)); // prints: false
-     * System.out.println(array1.equals(new int[] {1, 2, 3})); // prints: false (different type)
+     * System.out.println(array1.equals(array2));  // prints: true
+     * System.out.println(array1.equals(array3));  // prints: false
+     * System.out.println(array1.equals(new int[] {1, 2, 3}));  // prints: false (different type)
      * }</pre>
      *
      * @param obj the object to compare with this ImmutableIntArray
@@ -414,14 +414,14 @@ public final class ImmutableIntArray implements Immutable {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ImmutableIntArray array = ImmutableIntArray.of(new int[] {1, 2, 3});
-     * System.out.println(array.toString()); // prints: [1, 2, 3]
-     * System.out.println(array); // prints: [1, 2, 3]
+     * System.out.println(array.toString());  // prints: [1, 2, 3]
+     * System.out.println(array);  // prints: [1, 2, 3]
      *
      * ImmutableIntArray empty = ImmutableIntArray.of(null);
-     * System.out.println(empty); // prints: []
+     * System.out.println(empty);  // prints: []
      *
      * ImmutableIntArray single = ImmutableIntArray.of(new int[] {42});
-     * System.out.println(single); // prints: [42]
+     * System.out.println(single);  // prints: [42]
      * }</pre>
      *
      * @return a string representation of this ImmutableIntArray in the format {@code "[element1, element2, ...]"}

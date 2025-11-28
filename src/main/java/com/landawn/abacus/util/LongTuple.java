@@ -55,7 +55,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple1 single = LongTuple.of(42L);
-     * long value = single._1; // 42
+     * long value = single._1;  // 42
      * }</pre>
      *
      * @param _1 the long value to wrap in a tuple
@@ -71,7 +71,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple2 pair = LongTuple.of(1L, 2L);
-     * long sum = pair._1 + pair._2; // 3
+     * long sum = pair._1 + pair._2;  // 3
      * }</pre>
      *
      * @param _1 the first long value
@@ -88,7 +88,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
-     * double average = triple.average(); // 2.0
+     * double average = triple.average();  // 2.0
      * }</pre>
      *
      * @param _1 the first long value
@@ -294,7 +294,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long min = tuple.min(); // 1
+     * long min = tuple.min();  // 1
      * }</pre>
      *
      * @return the minimum long value in this tuple
@@ -310,7 +310,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long max = tuple.max(); // 3
+     * long max = tuple.max();  // 3
      * }</pre>
      *
      * @return the maximum long value in this tuple
@@ -327,10 +327,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
-     * long median = tuple.median(); // 2
+     * long median = tuple.median();  // 2
      *
      * LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-     * long median = tuple.median(); // 2
+     * long median = tuple.median();  // 2
      * }</pre>
      *
      * @return the median long value in this tuple
@@ -346,7 +346,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.sum(); // 6
+     * long sum = tuple.sum();  // 6
      * }</pre>
      *
      * @return the sum of all long values in this tuple
@@ -365,7 +365,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * double avg = tuple.average(); // 2.0
+     * double avg = tuple.average();  // 2.0
      * }</pre>
      *
      * @return the average of all long values in this tuple as a double
@@ -381,7 +381,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * LongTuple3 reversed = tuple.reverse(); // (3, 2, 1)
+     * LongTuple3 reversed = tuple.reverse();  // (3, 2, 1)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -394,8 +394,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * boolean hasTwo = tuple.contains(2L); // true
-     * boolean hasFive = tuple.contains(5L); // false
+     * boolean hasTwo = tuple.contains(2L);  // true
+     * boolean hasFive = tuple.contains(5L);  // false
      * }</pre>
      *
      * @param valueToFind the long value to search for
@@ -410,7 +410,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long[] array = tuple.toArray(); // [1, 2, 3]
+     * long[] array = tuple.toArray();  // [1, 2, 3]
      * }</pre>
      *
      * @return a new long array containing all tuple elements
@@ -440,7 +440,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * tuple.forEach(System.out::println); // prints each value
+     * tuple.forEach(System.out::println);  // prints each value
      * }</pre>
      *
      * @param <E> the type of exception that the consumer may throw
@@ -459,7 +459,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * long sum = tuple.stream().sum(); // 6
+     * long sum = tuple.stream().sum();  // 6
      * }</pre>
      *
      * @return a LongStream containing all tuple elements
@@ -648,7 +648,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple1 single = LongTuple.of(42L);
-     * long value = single._1; // 42
+     * long value = single._1;  // 42
      * }</pre>
      */
     public static final class LongTuple1 extends LongTuple<LongTuple1> {
@@ -950,7 +950,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 3L);
-         * long remainder = pair.map((a, b) -> a % b); // 1
+         * long remainder = pair.map((a, b) -> a % b);  // 1
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1188,7 +1188,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
-         * long volume = triple.map((l, w, h) -> l * w * h); // 24
+         * long volume = triple.map((l, w, h) -> l * w * h);  // 24
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1275,9 +1275,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
-     * long sum = quad.sum(); // 10L
-     * long min = quad.min(); // 1L
-     * LongTuple4 reversed = quad.reverse(); // (4, 3, 2, 1)
+     * long sum = quad.sum();  // 10L
+     * long min = quad.min();  // 1L
+     * LongTuple4 reversed = quad.reverse();  // (4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple4 extends LongTuple<LongTuple4> {
@@ -1458,9 +1458,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple5 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L);
-     * double avg = tuple.average(); // 3.0
-     * long median = tuple.median(); // 3
-     * LongTuple5 reversed = tuple.reverse(); // (5, 4, 3, 2, 1)
+     * double avg = tuple.average();  // 3.0
+     * long median = tuple.median();  // 3
+     * LongTuple5 reversed = tuple.reverse();  // (5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple5 extends LongTuple<LongTuple5> {
@@ -1645,8 +1645,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple6 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L);
-     * long sum = tuple.sum(); // 21
-     * double avg = tuple.average(); // 3.5
+     * long sum = tuple.sum();  // 21
+     * double avg = tuple.average();  // 3.5
      * }</pre>
      */
     public static final class LongTuple6 extends LongTuple<LongTuple6> {
@@ -1835,9 +1835,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple7 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L);
-     * long sum = tuple.sum(); // 28
-     * long median = tuple.median(); // 4
-     * LongTuple7 reversed = tuple.reverse(); // (7, 6, 5, 4, 3, 2, 1)
+     * long sum = tuple.sum();  // 28
+     * long median = tuple.median();  // 4
+     * LongTuple7 reversed = tuple.reverse();  // (7, 6, 5, 4, 3, 2, 1)
      * }</pre>
      */
     public static final class LongTuple7 extends LongTuple<LongTuple7> {
@@ -2031,9 +2031,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple8 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L);
-     * long sum = tuple.sum(); // 36
-     * double avg = tuple.average(); // 4.5
-     * boolean contains5 = tuple.contains(5L); // true
+     * long sum = tuple.sum();  // 36
+     * double avg = tuple.average();  // 4.5
+     * boolean contains5 = tuple.contains(5L);  // true
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
@@ -2235,9 +2235,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple9 tuple = LongTuple.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L);
-     * long sum = tuple.sum(); // 45
-     * long median = tuple.median(); // 5
-     * double avg = tuple.average(); // 5.0
+     * long sum = tuple.sum();  // 45
+     * long median = tuple.median();  // 5
+     * double avg = tuple.average();  // 5.0
      * }</pre>
      *
      * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values

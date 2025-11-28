@@ -71,11 +71,11 @@ public enum ParallelEnabled {
      * Matrixes.setParallelEnabled(ParallelEnabled.YES);
      * IntMatrix matrix1 = IntMatrix.random(1000, 1000);
      * IntMatrix matrix2 = IntMatrix.random(1000, 1000);
-     * IntMatrix result = matrix1.multiply(matrix2); // Will use parallel processing
+     * IntMatrix result = matrix1.multiply(matrix2);  // Will use parallel processing
      *
      * // Even small matrices will be processed in parallel when YES is set
      * IntMatrix smallMatrix = IntMatrix.random(100, 100);
-     * IntMatrix transposed = smallMatrix.transpose(); // Will still parallelize
+     * IntMatrix transposed = smallMatrix.transpose();  // Will still parallelize
      * }</pre>
      */
     YES,
@@ -101,12 +101,12 @@ public enum ParallelEnabled {
      * // Ensure sequential execution for deterministic behavior
      * Matrixes.setParallelEnabled(ParallelEnabled.NO);
      * IntMatrix matrix = IntMatrix.random(10000, 10000);
-     * IntMatrix result = matrix.transpose(); // Will execute sequentially
+     * IntMatrix result = matrix.transpose();  // Will execute sequentially
      *
      * // Use sequential execution in single-threaded contexts
      * // or when integrating with non-thread-safe code
      * DoubleMatrix data = DoubleMatrix.of(new double[][]{{1, 2}, {3, 4}});
-     * DoubleMatrix scaled = data.multiply(2.0); // Sequential execution
+     * DoubleMatrix scaled = data.multiply(2.0);  // Sequential execution
      * }</pre>
      */
     NO,
@@ -135,11 +135,11 @@ public enum ParallelEnabled {
      *
      * // Small matrix - will execute sequentially
      * IntMatrix small = IntMatrix.random(50, 50);
-     * IntMatrix result1 = small.transpose(); // Sequential execution
+     * IntMatrix result1 = small.transpose();  // Sequential execution
      *
      * // Large matrix - will automatically parallelize
-     * IntMatrix large = IntMatrix.random(200, 200); // 40,000 elements > 8192
-     * IntMatrix result2 = large.transpose(); // Parallel execution
+     * IntMatrix large = IntMatrix.random(200, 200);  // 40,000 elements > 8192
+     * IntMatrix result2 = large.transpose();  // Parallel execution
      *
      * // This is the recommended setting for most use cases
      * // as it balances performance and overhead automatically
