@@ -261,7 +261,7 @@ public final class Matrixes {
      * IntMatrix m1 = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * IntMatrix m2 = IntMatrix.of(new int[][] {{5, 6}, {7, 8}});
      * IntMatrix m3 = IntMatrix.of(new int[][] {{9, 10}, {11, 12}});
-     * boolean same = Matrixes.isSameShape(m1, m2, m3);  // true
+     * boolean same = Matrixes.isSameShape(m1, m2, m3);   // true
      * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}

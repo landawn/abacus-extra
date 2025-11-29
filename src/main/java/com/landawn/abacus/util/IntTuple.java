@@ -88,7 +88,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 triple = IntTuple.of(1, 2, 3);
-     * double average = triple.average();  // 2.0
+     * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first int value
@@ -293,7 +293,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
-     * int min = tuple.min();  // 1
+     * int min = tuple.min();   // 1
      * }</pre>
      *
      * @return the minimum int value in this tuple
@@ -309,7 +309,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
-     * int max = tuple.max();  // 3
+     * int max = tuple.max();   // 3
      * }</pre>
      *
      * @return the maximum int value in this tuple
@@ -325,10 +325,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
-     * int median = tuple.median();  // 2
+     * int median = tuple.median();   // 2
      *
      * IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-     * int median2 = tuple.median();  // 2
+     * int median2 = tuple.median();   // 2
      * }</pre>
      *
      * @return the median int value in this tuple
@@ -344,7 +344,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * int sum = tuple.sum();  // 6
+     * int sum = tuple.sum();   // 6
      * }</pre>
      *
      * @return the sum of all int values in this tuple
@@ -363,7 +363,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * double avg = tuple.average();  // 2.0
+     * double avg = tuple.average();   // 2.0
      * }</pre>
      *
      * @return the average of all int values in this tuple as a double
@@ -379,7 +379,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * IntTuple3 reversed = tuple.reverse();  // (3, 2, 1)
+     * IntTuple3 reversed = tuple.reverse();   // (3, 2, 1)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -408,7 +408,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * int[] array = tuple.toArray();  // [1, 2, 3]
+     * int[] array = tuple.toArray();   // [1, 2, 3]
      * }</pre>
      *
      * @return a new int array containing all tuple elements
@@ -438,7 +438,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * tuple.forEach(System.out::println);  // prints each value
+     * tuple.forEach(System.out::println);   // prints each value
      * }</pre>
      *
      * @param <E> the type of exception that the consumer may throw
@@ -457,7 +457,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * int sum = tuple.stream().sum();  // 6
+     * int sum = tuple.stream().sum();   // 6
      * }</pre>
      *
      * @return an IntStream containing all tuple elements
@@ -925,7 +925,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
-         * int product = tuple.map((a, b) -> a * b);  // 12
+         * int product = tuple.map((a, b) -> a * b);   // 12
          * }</pre>
          *
          * @param <U> the type of the result
@@ -946,7 +946,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple2 tuple = IntTuple.of(3, 4);
-         * Optional<IntTuple2> result = tuple.filter((a, b) -> a + b > 5);  // present
+         * Optional<IntTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1146,7 +1146,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-         * int product = tuple.map((a, b, c) -> a * b * c);  // 6
+         * int product = tuple.map((a, b, c) -> a * b * c);   // 6
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1167,7 +1167,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-         * Optional<IntTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);  // present
+         * Optional<IntTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw

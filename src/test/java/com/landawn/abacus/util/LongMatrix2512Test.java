@@ -679,7 +679,7 @@ public class LongMatrix2512Test extends TestBase {
         // Test that fill() gracefully handles source arrays larger than the target matrix
         // by copying only what fits (as documented in the javadoc)
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L } });
-        m.fill(0, 0, new long[][] { { 9L, 8L, 7L } }); // Source array has 3 elements, matrix has 2
+        m.fill(0, 0, new long[][] { { 9L, 8L, 7L } });   // Source array has 3 elements, matrix has 2
         // Should copy only the first 2 elements that fit
         assertEquals(9L, m.get(0, 0));
         assertEquals(8L, m.get(0, 1));
@@ -695,7 +695,7 @@ public class LongMatrix2512Test extends TestBase {
         assertEquals(m.cols, copy.cols);
         assertEquals(1L, copy.get(0, 0));
         copy.set(0, 0, 99L);
-        assertEquals(1L, m.get(0, 0)); // Original unchanged
+        assertEquals(1L, m.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -896,7 +896,7 @@ public class LongMatrix2512Test extends TestBase {
         // Test that reshape() can expand to larger dimensions, filling new cells with zeros
         // as documented in the javadoc
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        LongMatrix reshaped = m.reshape(3, 3); // Expand from 2x2 (4 elements) to 3x3 (9 elements)
+        LongMatrix reshaped = m.reshape(3, 3);   // Expand from 2x2 (4 elements) to 3x3 (9 elements)
         assertEquals(3, reshaped.rows);
         assertEquals(3, reshaped.cols);
         // Verify original elements are preserved

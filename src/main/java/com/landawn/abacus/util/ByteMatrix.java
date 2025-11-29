@@ -47,7 +47,7 @@ import com.landawn.abacus.util.stream.Stream;
  * ByteMatrix matrix = ByteMatrix.of(data);
  * 
  * // Access elements
- * byte value = matrix.get(1, 2);  // Gets value at row 1, column 2
+ * byte value = matrix.get(1, 2);   // Gets value at row 1, column 2
  * 
  * // Perform operations
  * ByteMatrix transposed = matrix.transpose();
@@ -80,7 +80,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * ByteMatrix matrix = new ByteMatrix(data);
      * data[0][0] = (byte) 99;  // This will also modify the matrix
      *
-     * ByteMatrix empty = new ByteMatrix(null);  // Creates 0x0 empty matrix
+     * ByteMatrix empty = new ByteMatrix(null);   // Creates 0x0 empty matrix
      * }</pre>
      *
      * @param a the two-dimensional byte array to wrap as a matrix. Can be null.
@@ -365,7 +365,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * Class<?> type = matrix.componentType();  // Returns byte.class
+     * Class<?> type = matrix.componentType();   // Returns byte.class
      * }</pre>
      *
      * @return {@code byte.class}
@@ -382,7 +382,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * byte value = matrix.get(0, 1);  // Returns 2
+     * byte value = matrix.get(0, 1);   // Returns 2
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -402,7 +402,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * Point point = Point.of(0, 1);
-     * byte value = matrix.get(point);  // Returns 2
+     * byte value = matrix.get(point);   // Returns 2
      * }</pre>
      *
      * @param point the point containing row and column indices (0-based)
@@ -419,7 +419,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * matrix.set(0, 1, (byte) 9);  // Sets element at row 0, column 1 to 9
+     * matrix.set(0, 1, (byte) 9);   // Sets element at row 0, column 1 to 9
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -439,7 +439,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * Point point = Point.of(0, 1);
-     * matrix.set(point, (byte) 9);  // Sets element at point to 9
+     * matrix.set(point, (byte) 9);   // Sets element at point to 9
      * }</pre>
      *
      * @param point the point containing row and column indices (0-based)
@@ -544,7 +544,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * byte[] firstRow = matrix.row(0);  // Returns [1, 2, 3]
+     * byte[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99;  // matrix now has 99 at position (0,0)
@@ -570,7 +570,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * byte[] firstColumn = matrix.column(0);  // Returns [1, 4]
+     * byte[] firstColumn = matrix.column(0);   // Returns [1, 4]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * firstColumn[0] = 99;  // matrix still has 1 at position (0,0)
@@ -602,7 +602,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.setRow(0, new byte[] {7, 8, 9});  // First row is now [7, 8, 9]
+     * matrix.setRow(0, new byte[] {7, 8, 9});   // First row is now [7, 8, 9]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -626,7 +626,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.setColumn(0, new byte[] {7, 8});  // First column is now [7, 8]
+     * matrix.setColumn(0, new byte[] {7, 8});   // First column is now [7, 8]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -699,7 +699,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * byte[] diagonal = matrix.getLU2RD();  // Returns [1, 5, 9]
+     * byte[] diagonal = matrix.getLU2RD();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new byte array containing the main diagonal elements
@@ -779,7 +779,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * byte[] diagonal = matrix.getRU2LD();  // Returns [3, 5, 7]
+     * byte[] diagonal = matrix.getRU2LD();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new byte array containing the anti-diagonal elements
@@ -1074,7 +1074,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <pre>{@code
      * ByteMatrix original = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * ByteMatrix copy = original.copy();
-     * copy.set(0, 0, (byte) 10);  // Original matrix remains unchanged
+     * copy.set(0, 0, (byte) 10);   // Original matrix remains unchanged
      * }</pre>
      *
      * @return a new matrix that is a copy of this matrix
@@ -1187,13 +1187,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteMatrix extended = matrix.extend(3, 4, (byte) 9);  // Extend to 3x4, fill new cells with 9
+     * ByteMatrix extended = matrix.extend(3, 4, (byte) 9);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * ByteMatrix truncated = matrix.extend(1, 1, (byte) 0);  // Keep only top-left element
+     * ByteMatrix truncated = matrix.extend(1, 1, (byte) 0);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1573,7 +1573,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * //            3 6
      *
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2, 3}, {4, 5, 6}});
-     * ByteMatrix transposed = matrix.transpose();  // 2×3 becomes 3×2
+     * ByteMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
      * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
@@ -1761,7 +1761,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * ByteList list = matrix.flatten();  // Returns ByteList containing [1, 2, 3, 4]
+     * ByteList list = matrix.flatten();   // Returns ByteList containing [1, 2, 3, 4]
      * }</pre>
      *
      * @return a new ByteList containing all elements in row-major order
@@ -1997,7 +1997,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * // Now you can use methods that work with generic types
      * Stream<Byte> stream = boxed.streamH();
-     * boxed.set(0, 0, null);  // Can use null values
+     * boxed.set(0, 0, null);   // Can use null values
      * }</pre>
      *
      * @return a new Matrix&lt;Byte&gt; with the same dimensions and values as this matrix
@@ -3028,10 +3028,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
-     * System.out.println(matrix.toString());  // Output: [[1, 2], [3, 4]]
+     * System.out.println(matrix.toString());   // Output: [[1, 2], [3, 4]]
      *
      * ByteMatrix empty = ByteMatrix.empty();
-     * System.out.println(empty.toString());  // Output: []
+     * System.out.println(empty.toString());   // Output: []
      * }</pre>
      *
      * @return a string representation of this matrix in two-dimensional array format

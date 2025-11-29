@@ -166,7 +166,7 @@ public class ShortTupleTest extends TestBase {
         assertEquals(10, tuple.median());
 
         ShortTuple.ShortTuple4 evenTuple = ShortTuple.of((short) 5, (short) 10, (short) 15, (short) 20);
-        assertEquals((short) 10, evenTuple.median()); // Should be (10 + 15) / 2 = 12
+        assertEquals((short) 10, evenTuple.median());   // Should be (10 + 15) / 2 = 12
 
         ShortTuple.ShortTuple0 empty = ShortTuple.create(new short[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
@@ -415,6 +415,6 @@ public class ShortTupleTest extends TestBase {
         ShortTuple.ShortTuple3 tuple = ShortTuple.of((short) 5, (short) 10, (short) 15);
         short[] elements1 = tuple.elements();
         short[] elements2 = tuple.elements();
-        assertSame(elements1, elements2); // Should return same cached array
+        assertSame(elements1, elements2);   // Should return same cached array
     }
 }

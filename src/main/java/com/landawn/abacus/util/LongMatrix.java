@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.Stream;
  * LongMatrix matrix = LongMatrix.of(data);
  * 
  * // Access elements
- * long value = matrix.get(1, 2);  // Gets element at row 1, column 2
+ * long value = matrix.get(1, 2);   // Gets element at row 1, column 2
  * 
  * // Perform operations
  * LongMatrix transposed = matrix.transpose();
@@ -123,7 +123,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix.get(0, 0) returns 1L
      *
      * // Empty or null input creates an empty matrix
-     * LongMatrix empty = LongMatrix.create(null);  // Returns empty matrix
+     * LongMatrix empty = LongMatrix.create(null);   // Returns empty matrix
      * }</pre>
      *
      * @param a the two-dimensional int array to convert to a long matrix, or null/empty for an empty matrix
@@ -403,7 +403,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * Class<?> type = matrix.componentType();  // Returns long.class
+     * Class<?> type = matrix.componentType();   // Returns long.class
      * }</pre>
      *
      * @return {@code long.class}
@@ -420,7 +420,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * long value = matrix.get(0, 1);  // Returns 2L
+     * long value = matrix.get(0, 1);   // Returns 2L
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -440,7 +440,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
      * Point point = Point.of(0, 1);
-     * long value = matrix.get(point);  // Returns 2L
+     * long value = matrix.get(point);   // Returns 2L
      * }</pre>
      *
      * @param point the point containing row and column indices (must not be null)
@@ -458,7 +458,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.set(0, 1, 9L);  // Sets element at row 0, column 1 to 9L
+     * matrix.set(0, 1, 9L);   // Sets element at row 0, column 1 to 9L
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -585,7 +585,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstRow = matrix.row(0);  // Returns [1L, 2L, 3L]
+     * long[] firstRow = matrix.row(0);   // Returns [1L, 2L, 3L]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99L;  // matrix now has 99L at position (0,0)
@@ -611,7 +611,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * long[] firstColumn = matrix.column(0);  // Returns [1L, 4L]
+     * long[] firstColumn = matrix.column(0);   // Returns [1L, 4L]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * firstColumn[0] = 99L;  // matrix still has 1L at position (0,0)
@@ -639,7 +639,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * matrix.setRow(0, new long[] {7L, 8L, 9L});  // First row is now [7L, 8L, 9L]
+     * matrix.setRow(0, new long[] {7L, 8L, 9L});   // First row is now [7L, 8L, 9L]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -659,7 +659,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * matrix.setColumn(0, new long[] {7L, 8L});  // First column is now [7L, 8L]
+     * matrix.setColumn(0, new long[] {7L, 8L});   // First column is now [7L, 8L]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -685,7 +685,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * matrix.updateRow(0, x -> x * 2);  // Doubles all values in the first row
+     * matrix.updateRow(0, x -> x * 2);   // Doubles all values in the first row
      * // matrix is now [[2L, 4L, 6L], [4L, 5L, 6L]]
      * }</pre>
      *
@@ -712,7 +712,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}});
-     * matrix.updateColumn(0, x -> x + 10L);  // Adds 10 to all values in the first column
+     * matrix.updateColumn(0, x -> x + 10L);   // Adds 10 to all values in the first column
      * // matrix is now [[11L, 2L], [13L, 4L], [15L, 6L]]
      * }</pre>
      *
@@ -739,7 +739,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
-     * long[] diagonal = matrix.getLU2RD();  // Returns [1L, 5L, 9L]
+     * long[] diagonal = matrix.getLU2RD();   // Returns [1L, 5L, 9L]
      * }</pre>
      *
      * @return a new long array containing a copy of the main diagonal elements
@@ -791,7 +791,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateLU2RD(x -> x * x);  // Squares all diagonal values
+     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -818,7 +818,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
-     * long[] diagonal = matrix.getRU2LD();  // Returns [3L, 5L, 7L]
+     * long[] diagonal = matrix.getRU2LD();   // Returns [3L, 5L, 7L]
      * }</pre>
      *
      * @return a new long array containing a copy of the anti-diagonal elements
@@ -870,7 +870,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateRU2LD(x -> -x);  // Negates all anti-diagonal values
+     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -896,7 +896,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * matrix.updateAll(x -> x * 2);  // Doubles all values in the matrix
+     * matrix.updateAll(x -> x * 2);   // Doubles all values in the matrix
      * // matrix is now [[2L, 4L], [6L, 8L]]
      * }</pre>
      *
@@ -921,10 +921,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{0L, 0L, 0L}, {0L, 0L, 0L}});
-     * matrix.updateAll((i, j) -> (long)(i + j));  // Sets each element to sum of its indices
+     * matrix.updateAll((i, j) -> (long)(i + j));   // Sets each element to sum of its indices
      * // matrix is now [[0L, 1L, 2L], [1L, 2L, 3L]]
      *
-     * matrix.updateAll((i, j) -> i * 10L + j);  // Position encoding
+     * matrix.updateAll((i, j) -> i * 10L + j);   // Position encoding
      * // matrix is now [[0L, 1L, 2L], [10L, 11L, 12L]]
      * }</pre>
      *
@@ -948,10 +948,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{-1L, 2L, -3L}, {4L, -5L, 6L}});
-     * matrix.replaceIf(x -> x < 0, 0L);  // Replaces all negative values with 0
+     * matrix.replaceIf(x -> x < 0, 0L);   // Replaces all negative values with 0
      * // matrix is now [[0L, 2L, 0L], [4L, 0L, 6L]]
      *
-     * matrix.replaceIf(x -> x % 2 == 0, 1L);  // Replaces all even values with 1
+     * matrix.replaceIf(x -> x % 2 == 0, 1L);   // Replaces all even values with 1
      * // matrix is now [[0L, 1L, 0L], [1L, 0L, 1L]]
      * }</pre>
      *
@@ -977,10 +977,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
-     * matrix.replaceIf((i, j) -> i == j, 0L);  // Sets main diagonal elements to 0
+     * matrix.replaceIf((i, j) -> i == j, 0L);   // Sets main diagonal elements to 0
      * // matrix is now [[0L, 2L, 3L], [4L, 0L, 6L], [7L, 8L, 0L]]
      *
-     * matrix.replaceIf((i, j) -> i == 0 || j == 0, -1L);  // Sets first row and column to -1
+     * matrix.replaceIf((i, j) -> i == 0 || j == 0, -1L);   // Sets first row and column to -1
      * // matrix is now [[-1L, -1L, -1L], [-1L, 0L, 6L], [-1L, 8L, 0L]]
      * }</pre>
      *
@@ -1005,10 +1005,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * LongMatrix squared = matrix.map(x -> x * x);  // Creates new matrix with squared values
+     * LongMatrix squared = matrix.map(x -> x * x);   // Creates new matrix with squared values
      * // squared is [[1L, 4L], [9L, 16L]], original matrix unchanged
      *
-     * LongMatrix negated = matrix.map(x -> -x);  // Negate all values
+     * LongMatrix negated = matrix.map(x -> -x);   // Negate all values
      * // negated is [[-1L, -2L], [-3L, -4L]]
      * }</pre>
      *
@@ -1118,7 +1118,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * matrix.fill(5L);  // Result: [[5, 5], [5, 5]]
+     * matrix.fill(5L);   // Result: [[5, 5], [5, 5]]
      * }</pre>
      *
      * @param val the value to fill the matrix with
@@ -1211,7 +1211,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix subset = matrix.copy(1, 3);  // Copies rows 1 and 2 (exclusive end)
+     * LongMatrix subset = matrix.copy(1, 3);   // Copies rows 1 and 2 (exclusive end)
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1237,7 +1237,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix submatrix = matrix.copy(0, 2, 1, 3);  // Copies rows 0-1, columns 1-2
+     * LongMatrix submatrix = matrix.copy(0, 2, 1, 3);   // Copies rows 0-1, columns 1-2
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1298,13 +1298,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}});
-     * LongMatrix extended = matrix.extend(3, 4, 9L);  // Extend to 3x4, fill new cells with 9
+     * LongMatrix extended = matrix.extend(3, 4, 9L);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * LongMatrix truncated = matrix.extend(1, 1, 0L);  // Keep only top-left element
+     * LongMatrix truncated = matrix.extend(1, 1, 0L);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1662,7 +1662,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //            3L 6L
      *
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}});
-     * LongMatrix transposed = matrix.transpose();  // 2×3 becomes 3×2
+     * LongMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
      * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
@@ -1842,7 +1842,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * LongList list = matrix.flatten();  // Returns LongList of 1L, 2L, 3L, 4L
+     * LongList list = matrix.flatten();   // Returns LongList of 1L, 2L, 3L, 4L
      * }</pre>
      *
      * @return a new LongList containing all elements in row-major order
@@ -2108,7 +2108,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * // Be aware of precision loss for large values
      * LongMatrix large = LongMatrix.of(new long[][] {{16777217L}});
-     * FloatMatrix converted = large.toFloatMatrix();  // May lose precision
+     * FloatMatrix converted = large.toFloatMatrix();   // May lose precision
      * }</pre>
      *
      * @return a new {@code FloatMatrix} with values converted from long to float
@@ -2364,7 +2364,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
      * LongStream stream = matrix.streamH();
      * // Stream contains: 1, 2, 3, 4, 5, 6
-     * long sum = matrix.streamH().sum();  // Returns 21
+     * long sum = matrix.streamH().sum();   // Returns 21
      * }</pre>
      *
      * @return a stream of all matrix elements in row-major order, or an empty stream if the matrix is empty
@@ -2387,7 +2387,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2, 3}, {4, 5, 6}});
      * LongStream row = matrix.streamH(1);
      * // Stream contains: 4, 5, 6
-     * long rowSum = matrix.streamH(1).sum();  // Returns 15
+     * long rowSum = matrix.streamH(1).sum();   // Returns 15
      * }</pre>
      *
      * @param rowIndex the index of the row to stream (0-based)
@@ -2413,7 +2413,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1, 2}, {3, 4}, {5, 6}});
      * LongStream stream = matrix.streamH(1, 3);
      * // Stream contains: 3, 4, 5, 6
-     * long[] subset = matrix.streamH(0, 2).toArray();  // Returns [1, 2, 3, 4]
+     * long[] subset = matrix.streamH(0, 2).toArray();   // Returns [1, 2, 3, 4]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -2962,7 +2962,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <pre>{@code
      * LongMatrix m1 = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
      * LongMatrix m2 = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * m1.equals(m2);  // true
+     * m1.equals(m2);   // true
      * }</pre>
      *
      * @param obj the object to compare with
@@ -2988,7 +2988,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
-     * System.out.println(matrix.toString());  // [[1, 2], [3, 4]]
+     * System.out.println(matrix.toString());   // [[1, 2], [3, 4]]
      * }</pre>
      *
      * @return a string representation of this matrix

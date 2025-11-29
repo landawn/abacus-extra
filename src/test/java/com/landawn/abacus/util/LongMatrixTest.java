@@ -521,7 +521,7 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(2L, matrix.get(0, 1));
         Assertions.assertEquals(3L, matrix.get(1, 0));
         Assertions.assertEquals(4L, matrix.get(1, 1));
-        Assertions.assertEquals(0L, matrix.get(2, 2)); // unchanged
+        Assertions.assertEquals(0L, matrix.get(2, 2));   // unchanged
     }
 
     @Test
@@ -531,7 +531,7 @@ public class LongMatrixTest extends TestBase {
 
         long[][] b = { { 1L, 2L } };
         matrix.fill(1, 1, b);
-        Assertions.assertEquals(0L, matrix.get(0, 0)); // unchanged
+        Assertions.assertEquals(0L, matrix.get(0, 0));   // unchanged
         Assertions.assertEquals(1L, matrix.get(1, 1));
         Assertions.assertEquals(2L, matrix.get(1, 2));
 
@@ -551,7 +551,7 @@ public class LongMatrixTest extends TestBase {
         Assertions.assertEquals(4L, copy.get(1, 1));
 
         copy.set(0, 0, 100L);
-        Assertions.assertEquals(1L, matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals(1L, matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -676,7 +676,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix flipped = matrix.flipH();
         Assertions.assertEquals(3L, flipped.get(0, 0));
         Assertions.assertEquals(1L, flipped.get(0, 2));
-        Assertions.assertEquals(1L, matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals(1L, matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -687,7 +687,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix flipped = matrix.flipV();
         Assertions.assertEquals(5L, flipped.get(0, 0));
         Assertions.assertEquals(1L, flipped.get(2, 0));
-        Assertions.assertEquals(1L, matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals(1L, matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -1187,10 +1187,10 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix3 = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 5L } });
         LongMatrix matrix4 = LongMatrix.of(new long[][] { { 1L, 2L } });
 
-        Assertions.assertEquals(matrix1, matrix1); // same instance
-        Assertions.assertEquals(matrix1, matrix2); // same content
-        Assertions.assertNotEquals(matrix1, matrix3); // different content
-        Assertions.assertNotEquals(matrix1, matrix4); // different dimensions
+        Assertions.assertEquals(matrix1, matrix1);   // same instance
+        Assertions.assertEquals(matrix1, matrix2);   // same content
+        Assertions.assertNotEquals(matrix1, matrix3);   // different content
+        Assertions.assertNotEquals(matrix1, matrix4);   // different dimensions
         Assertions.assertNotEquals(matrix1, null);
         Assertions.assertNotEquals(matrix1, "not a matrix");
     }

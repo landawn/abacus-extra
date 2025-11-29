@@ -787,7 +787,7 @@ public class DoubleTuple2512Test extends TestBase {
         DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
         double[] array = tuple.toArray();
         array[0] = 99.9;
-        assertEquals(1.0, tuple._1, DELTA); // Tuple should be unaffected
+        assertEquals(1.0, tuple._1, DELTA);   // Tuple should be unaffected
     }
 
     @Test
@@ -795,7 +795,7 @@ public class DoubleTuple2512Test extends TestBase {
         DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
         DoubleList list = tuple.toList();
         list.set(0, 99.9);
-        assertEquals(1.0, tuple._1, DELTA); // Tuple should be unaffected
+        assertEquals(1.0, tuple._1, DELTA);   // Tuple should be unaffected
     }
 
     @Test
@@ -844,7 +844,7 @@ public class DoubleTuple2512Test extends TestBase {
     @Test
     public void test_median_evenCount() {
         DoubleTuple4 tuple = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-        assertEquals(2.0, tuple.median(), DELTA); // Lower middle value
+        assertEquals(2.0, tuple.median(), DELTA);   // Lower middle value
     }
 
     @Test

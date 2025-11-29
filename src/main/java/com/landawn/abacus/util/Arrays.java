@@ -99,12 +99,12 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <pre>{@code
  * // Flatten multi-dimensional arrays
  * int[][] matrix = {{1, 2, 3}, {4, 5, 6}};
- * int[] flattened = Arrays.flatten(matrix);  // {1, 2, 3, 4, 5, 6}
+ * int[] flattened = Arrays.flatten(matrix);   // {1, 2, 3, 4, 5, 6}
  *
  * // Type conversion operations
  * int[] integers = {1, 2, 3, 4};
- * double[] doubles = Arrays.toDouble(integers);  // {1.0, 2.0, 3.0, 4.0}
- * float[] floats = Arrays.toFloat(integers);  // {1.0f, 2.0f, 3.0f, 4.0f}
+ * double[] doubles = Arrays.toDouble(integers);   // {1.0, 2.0, 3.0, 4.0}
+ * float[] floats = Arrays.toFloat(integers);   // {1.0f, 2.0f, 3.0f, 4.0f}
  * }</pre>
  *
  * <p><b>Array Reshaping Operations:</b>
@@ -112,11 +112,11 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * // Reshape arrays to different dimensions
  * // reshape(array, cols) creates rows with specified number of columns
  * int[] linear = {1, 2, 3, 4, 5, 6};
- * int[][] reshaped2D = Arrays.reshape(linear, 2);  // {{1, 2}, {3, 4}, {5, 6}} - 3 rows x 2 cols
+ * int[][] reshaped2D = Arrays.reshape(linear, 2);   // {{1, 2}, {3, 4}, {5, 6}} - 3 rows x 2 cols
  *
  * // reshape(array, rows, cols) creates blocks of rows x cols matrices
  * int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
- * int[][][] reshaped3D = Arrays.reshape(arr, 2, 2);  // {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
+ * int[][][] reshaped3D = Arrays.reshape(arr, 2, 2);   // {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
  * }</pre>
  *
  * <p><b>Functional Programming Support:</b>
@@ -125,15 +125,15 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int[] numbers = {1, 2, 3, 4, 5};
  * 
  * // Update all elements with a function
- * Arrays.updateAll(numbers, x -> x * x);  // {1, 4, 9, 16, 25}
+ * Arrays.updateAll(numbers, x -> x * x);   // {1, 4, 9, 16, 25}
  * 
  * // Conditional replacement
- * Arrays.replaceIf(numbers, x -> x > 10, 0);  // Replace values > 10 with 0
+ * Arrays.replaceIf(numbers, x -> x > 10, 0);   // Replace values > 10 with 0
  * 
  * // Zip operations with custom functions
  * int[] a = {1, 2, 3};
  * int[] b = {4, 5, 6};
- * int[] zipped = Arrays.zip(a, b, (x, y) -> x + y * 2);  // {9, 12, 15}
+ * int[] zipped = Arrays.zip(a, b, (x, y) -> x + y * 2);   // {9, 12, 15}
  * 
  * // Multi-array operations
  * int[] c = {7, 8, 9};
@@ -144,18 +144,18 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <pre>{@code
  * // 3D array operations
  * int[][][] cube = new int[2][3][4];  // 2x3x4 cube
- * Arrays.updateAll(cube, x -> 42);  // Update all elements
+ * Arrays.updateAll(cube, x -> 42);   // Update all elements
  *
  * // Flatten 3D to 1D
- * int[] flattened3D = Arrays.flatten(cube);  // 24 elements
+ * int[] flattened3D = Arrays.flatten(cube);   // 24 elements
  *
  * // Calculate total elements across dimensions
- * long totalElements = Arrays.totalCountOfElements(cube);  // 24
+ * long totalElements = Arrays.totalCountOfElements(cube);   // 24
  *
  * // For 2D arrays - get min/max sub-array lengths
  * int[][] matrix2D = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
- * int minLength = Arrays.minSubArrayLen(matrix2D);  // 4
- * int maxLength = Arrays.maxSubArrayLen(matrix2D);  // 4
+ * int minLength = Arrays.minSubArrayLen(matrix2D);   // 4
+ * int maxLength = Arrays.maxSubArrayLen(matrix2D);   // 4
  * }</pre>
  *
  * <p><b>Performance Characteristics and Optimizations:</b>
@@ -2219,7 +2219,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][] arr = {{true, false}, {false, true}};
-     * flatOp(arr, t -> Arrays.sort(t));  // Sorts all elements
+     * flatOp(arr, t -> Arrays.sort(t));   // Sorts all elements
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the operation.
@@ -2255,7 +2255,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * boolean[][][] cube = {{{false, true}, {true, false}}, {{true, false}, {false, true}}};
-     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));  // Sorts all elements
+     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
      * // cube's structure is preserved but elements are sorted
      * }</pre>
      *
@@ -4810,7 +4810,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] arr = {{3, 1}, {4, 2}};
-     * flatOp(arr, t -> Arrays.sort(t));  // Sorts all elements
+     * flatOp(arr, t -> Arrays.sort(t));   // Sorts all elements
      * // arr becomes: {{1, 2}, {3, 4}}
      * }</pre>
      *
@@ -4846,7 +4846,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] cube = {{{3, 1}, {4, 2}}, {{6, 5}, {8, 7}}};
-     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));  // Sorts all elements
+     * Arrays.flatOp(cube, arr -> java.util.Arrays.sort(arr));   // Sorts all elements
      * // cube's structure is preserved but elements are sorted
      * }</pre>
      *
@@ -5449,7 +5449,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, null, {4, 5}};
-     * long count = totalCountOfElements(array);  // returns 5
+     * long count = totalCountOfElements(array);   // returns 5
      * }</pre>
      *
      * @param a the two-dimensional byte array.
@@ -5476,7 +5476,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][][] array = {{{1, 2}, {3}}, {{4, 5, 6}}};
-     * long count = totalCountOfElements(array);  // returns 6
+     * long count = totalCountOfElements(array);   // returns 6
      * }</pre>
      *
      * @param a the three-dimensional byte array.
@@ -5514,7 +5514,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
-     * int minLen = minSubArrayLen(array);  // returns 2
+     * int minLen = minSubArrayLen(array);   // returns 2
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze.
@@ -5542,7 +5542,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * byte[][] array = {{1, 2}, null, {3, 4, 5, 6}};
-     * int maxLen = maxSubArrayLen(array);  // returns 4
+     * int maxLen = maxSubArrayLen(array);   // returns 4
      * }</pre>
      *
      * @param a the two-dimensional byte array to analyze.
@@ -5826,7 +5826,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3};
-     * updateAll(array, x -> (short)(x * x));  // array becomes [1, 4, 9]
+     * updateAll(array, x -> (short)(x * x));   // array becomes [1, 4, 9]
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5851,7 +5851,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
-     * updateAll(array, x -> (short)(x + 10));  // array becomes {{11, 12}, {13, 14}}
+     * updateAll(array, x -> (short)(x + 10));   // array becomes {{11, 12}, {13, 14}}
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5876,7 +5876,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * updateAll(array, x -> (short)(x * 2));  // all elements doubled
+     * updateAll(array, x -> (short)(x * 2));   // all elements doubled
      * }</pre>
      *
      * @param <E> the type of exception the operator may throw.
@@ -5902,7 +5902,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * replaceIf(array, x -> x > 3, (short)0);  // array becomes [1, 2, 3, 0, 0]
+     * replaceIf(array, x -> x > 3, (short)0);   // array becomes [1, 2, 3, 0, 0]
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5930,7 +5930,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4}};
-     * replaceIf(array, x -> x % 2 == 0, (short)0);  // array becomes {{1, 0}, {3, 0}}
+     * replaceIf(array, x -> x % 2 == 0, (short)0);   // array becomes {{1, 0}, {3, 0}}
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5956,7 +5956,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}}, {{3, 4}}};
-     * replaceIf(array, x -> x < 3, (short)10);  // replaces 1 and 2 with 10
+     * replaceIf(array, x -> x < 3, (short)10);   // replaces 1 and 2 with 10
      * }</pre>
      *
      * @param <E> the type of exception the predicate may throw.
@@ -5982,7 +5982,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5};
-     * short[][] reshaped = Arrays.reshape(array, 2);  // returns {{1, 2}, {3, 4}, {5}}
+     * short[][] reshaped = Arrays.reshape(array, 2);   // returns {{1, 2}, {3, 4}, {5}}
      * }</pre>
      *
      * @param a the array to reshape.
@@ -6015,7 +6015,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[] array = {1, 2, 3, 4, 5, 6, 7, 8};
-     * short[][][] reshaped = Arrays.reshape(array, 2, 2);  // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
+     * short[][][] reshaped = Arrays.reshape(array, 2, 2);   // returns {{{1,2},{3,4}}, {{5,6},{7,8}}}
      * }</pre>
      *
      * @param a the array to reshape.
@@ -6054,7 +6054,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{1, 2}, {3, 4, 5}};
-     * short[] flat = Arrays.flatten(array);  // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
@@ -6091,7 +6091,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{1, 2}, {3}}, {{4, 5}}};
-     * short[] flat = Arrays.flatten(array);  // returns {1, 2, 3, 4, 5}
+     * short[] flat = Arrays.flatten(array);   // returns {1, 2, 3, 4, 5}
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
@@ -6133,7 +6133,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][] array = {{3, 1}, {4, 2}};
-     * flatOp(array, t -> Arrays.sort(t));  // sorts all elements across sub-arrays
+     * flatOp(array, t -> Arrays.sort(t));   // sorts all elements across sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -6166,7 +6166,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * short[][][] array = {{{5, 2}}, {{3, 1}}};
-     * flatOp(array, t -> Arrays.sort(t));  // sorts all elements across all sub-arrays
+     * flatOp(array, t -> Arrays.sort(t));   // sorts all elements across all sub-arrays
      * }</pre>
      *
      * @param <E> the type of exception the operation may throw.
@@ -9614,7 +9614,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f};
-     * Arrays.updateAll(array, x -> Math.abs(x));  // array becomes [1.0f, 2.0f, 3.0f]
+     * Arrays.updateAll(array, x -> Math.abs(x));   // array becomes [1.0f, 2.0f, 3.0f]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9638,7 +9638,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, -2.0f}, {-3.0f, 4.0f}};
-     * Arrays.updateAll(matrix, x -> x * x);  // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
+     * Arrays.updateAll(matrix, x -> x * x);   // matrix becomes {{1.0f, 4.0f}, {9.0f, 16.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9662,7 +9662,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{-1.0f}}, {{2.0f}}};
-     * Arrays.updateAll(cube, x -> -x);  // cube becomes {{{1.0f}}, {{-2.0f}}}
+     * Arrays.updateAll(cube, x -> -x);   // cube becomes {{{1.0f}}, {{-2.0f}}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operator.
@@ -9688,7 +9688,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1.0f, -2.0f, 3.0f, -4.0f};
-     * Arrays.replaceIf(array, x -> x < 0, 0.0f);  // array becomes [1.0f, 0.0f, 3.0f, 0.0f]
+     * Arrays.replaceIf(array, x -> x < 0, 0.0f);   // array becomes [1.0f, 0.0f, 3.0f, 0.0f]
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9716,7 +9716,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, -2.0f}, {0.0f, -4.0f}};
-     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f);  // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
+     * Arrays.replaceIf(matrix, x -> x <= 0, 99.0f);   // matrix becomes {{1.0f, 99.0f}, {99.0f, 99.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9742,7 +9742,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{1f, -2f}}, {{-3f, 4f}}};
-     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);  // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
+     * Arrays.replaceIf(cube, x -> x > 0, 0.0f);   // cube becomes {{{0.0f, -2.0f}}, {{-3.0f, 0.0f}}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the predicate.
@@ -9769,7 +9769,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][] matrix = Arrays.reshape(array, 3);  // returns {{1, 2, 3}, {4, 5, 6}, {7}}
+     * float[][] matrix = Arrays.reshape(array, 3);   // returns {{1, 2, 3}, {4, 5, 6}, {7}}
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
@@ -9803,7 +9803,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[] array = {1, 2, 3, 4, 5, 6, 7};
-     * float[][][] cube = Arrays.reshape(array, 2, 2);  // returns {{{1,2},{3,4}},{{5,6},{7}}}
+     * float[][][] cube = Arrays.reshape(array, 2, 2);   // returns {{{1,2},{3,4}},{{5,6},{7}}}
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
@@ -9842,7 +9842,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f, 4.0f}};
-     * float[] array = Arrays.flatten(matrix);  // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(matrix);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
@@ -9879,7 +9879,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{1.0f}, {2.0f}}, {{3.0f}, {4.0f}}};
-     * float[] array = Arrays.flatten(cube);  // returns {1.0f, 2.0f, 3.0f, 4.0f}
+     * float[] array = Arrays.flatten(cube);   // returns {1.0f, 2.0f, 3.0f, 4.0f}
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
@@ -9922,7 +9922,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{4.0f, 1.0f}, {3.0f, 2.0f}};
-     * Arrays.flatOp(matrix, N::sort);  // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
+     * Arrays.flatOp(matrix, N::sort);   // matrix becomes {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -9957,7 +9957,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{4.0f, 1.0f}}, {{3.0f, 2.0f}}};
-     * Arrays.flatOp(cube, N::sort);  // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
+     * Arrays.flatOp(cube, N::sort);   // cube becomes {{{1.0f, 2.0f}}, {{3.0f, 4.0f}}}
      * }</pre>
      *
      * @param <E> the type of exception that can be thrown by the operation.
@@ -10487,7 +10487,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f}, null};
-     * long count = Arrays.totalCountOfElements(matrix);  // count is 3
+     * long count = Arrays.totalCountOfElements(matrix);   // count is 3
      * }</pre>
      *
      * @param a the two-dimensional array to count elements in.
@@ -10514,7 +10514,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][][] cube = {{{1.0f}}, {{2.0f, 3.0f}, null}, null};
-     * long count = Arrays.totalCountOfElements(cube);  // count is 3
+     * long count = Arrays.totalCountOfElements(cube);   // count is 3
      * }</pre>
      *
      * @param a the three-dimensional array to count elements in.
@@ -10551,7 +10551,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f, 2.0f}, {3.0f}, null};
-     * int minLen = Arrays.minSubArrayLen(matrix);  // minLen is 0
+     * int minLen = Arrays.minSubArrayLen(matrix);   // minLen is 0
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
@@ -10578,7 +10578,7 @@ public sealed class Arrays permits Arrays.f {
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * float[][] matrix = {{1.0f}, {2.0f, 3.0f, 4.0f}, null};
-     * int maxLen = Arrays.maxSubArrayLen(matrix);  // maxLen is 3
+     * int maxLen = Arrays.maxSubArrayLen(matrix);   // maxLen is 3
      * }</pre>
      *
      * @param a the two-dimensional array to inspect.
@@ -14922,7 +14922,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
-                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
+                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);   // NOSONAR
             }
 
             final int len = N.len(a);
@@ -15337,7 +15337,7 @@ public sealed class Arrays permits Arrays.f {
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
-            final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
+            final int len = N.max(lenA, lenB);   // Use max to ensure we cover the longer array
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
@@ -15506,7 +15506,7 @@ public sealed class Arrays permits Arrays.f {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
-            final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
+            final int len = N.max(lenA, lenB, lenC);   // Use max to ensure we cover the longest array
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
@@ -15544,7 +15544,7 @@ public sealed class Arrays permits Arrays.f {
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
-            final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
+            final int len = N.max(lenA, lenB);   // Use max to ensure we cover the longer array
 
             final R[] result = N.newArray(targetElementType, len);
 
@@ -15590,7 +15590,7 @@ public sealed class Arrays permits Arrays.f {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
-            final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
+            final int len = N.max(lenA, lenB, lenC);   // Use max to ensure we cover the longest array
 
             final R[] result = N.newArray(targetElementType, len);
 

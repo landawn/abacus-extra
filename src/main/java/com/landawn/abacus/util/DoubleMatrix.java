@@ -44,8 +44,8 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
- * double value = matrix.get(0, 1);  // returns 2.0
- * matrix.transpose();  // returns new matrix with rows and columns swapped
+ * double value = matrix.get(0, 1);   // returns 2.0
+ * matrix.transpose();   // returns new matrix with rows and columns swapped
  * }</pre>
  * 
  * @see AbstractMatrix
@@ -421,7 +421,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double value = matrix.get(0, 1);  // Returns 2.0
+     * double value = matrix.get(0, 1);   // Returns 2.0
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -441,7 +441,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * Point point = Point.of(0, 1);
-     * double value = matrix.get(point);  // Returns 2.0
+     * double value = matrix.get(point);   // Returns 2.0
      * }</pre>
      *
      * @param point the point containing row and column indices (must not be null)
@@ -459,7 +459,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.set(0, 1, 9.0);  // Sets element at row 0, column 1 to 9.0
+     * matrix.set(0, 1, 9.0);   // Sets element at row 0, column 1 to 9.0
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -586,7 +586,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * double[] firstRow = matrix.row(0);  // Returns [1.0, 2.0, 3.0]
+     * double[] firstRow = matrix.row(0);   // Returns [1.0, 2.0, 3.0]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 99.0;  // matrix now has 99.0 at position (0,0)
@@ -612,7 +612,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * double[] firstColumn = matrix.column(0);  // Returns [1.0, 4.0]
+     * double[] firstColumn = matrix.column(0);   // Returns [1.0, 4.0]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * firstColumn[0] = 99.0;  // matrix still has 1.0 at position (0,0)
@@ -640,7 +640,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * matrix.setRow(0, new double[] {7.0, 8.0, 9.0});  // First row is now [7.0, 8.0, 9.0]
+     * matrix.setRow(0, new double[] {7.0, 8.0, 9.0});   // First row is now [7.0, 8.0, 9.0]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -660,7 +660,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * matrix.setColumn(0, new double[] {7.0, 8.0});  // First column is now [7.0, 8.0]
+     * matrix.setColumn(0, new double[] {7.0, 8.0});   // First column is now [7.0, 8.0]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -686,7 +686,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * matrix.updateRow(0, x -> x * 2);  // Doubles all values in the first row
+     * matrix.updateRow(0, x -> x * 2);   // Doubles all values in the first row
      * // matrix is now [[2.0, 4.0, 6.0], [4.0, 5.0, 6.0]]
      * }</pre>
      *
@@ -713,7 +713,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}});
-     * matrix.updateColumn(0, x -> x + 10.0);  // Adds 10 to all values in the first column
+     * matrix.updateColumn(0, x -> x + 10.0);   // Adds 10 to all values in the first column
      * // matrix is now [[11.0, 2.0], [13.0, 4.0], [15.0, 6.0]]
      * }</pre>
      *
@@ -740,7 +740,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
-     * double[] diagonal = matrix.getLU2RD();  // Returns [1.0, 5.0, 9.0]
+     * double[] diagonal = matrix.getLU2RD();   // Returns [1.0, 5.0, 9.0]
      * }</pre>
      *
      * @return a new double array containing a copy of the main diagonal elements
@@ -792,7 +792,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateLU2RD(x -> x * x);  // Squares all diagonal values
+     * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -820,7 +820,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
-     * double[] diagonal = matrix.getRU2LD();  // Returns [3.0, 5.0, 7.0]
+     * double[] diagonal = matrix.getRU2LD();   // Returns [3.0, 5.0, 7.0]
      * }</pre>
      *
      * @return a new double array containing a copy of the anti-diagonal elements
@@ -872,7 +872,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * matrix.updateRU2LD(x -> -x);  // Negates all anti-diagonal values
+     * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -899,7 +899,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * matrix.updateAll(x -> x * 2);  // Doubles all values in the matrix
+     * matrix.updateAll(x -> x * 2);   // Doubles all values in the matrix
      * // matrix is now [[2.0, 4.0], [6.0, 8.0]]
      * }</pre>
      *
@@ -924,10 +924,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}});
-     * matrix.updateAll((i, j) -> i + j);  // Sets each element to sum of its indices
+     * matrix.updateAll((i, j) -> i + j);   // Sets each element to sum of its indices
      * // matrix is now [[0.0, 1.0, 2.0], [1.0, 2.0, 3.0]]
      *
-     * matrix.updateAll((i, j) -> i * 10.0 + j);  // Position encoding
+     * matrix.updateAll((i, j) -> i * 10.0 + j);   // Position encoding
      * // matrix is now [[0.0, 1.0, 2.0], [10.0, 11.0, 12.0]]
      * }</pre>
      *
@@ -951,10 +951,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{-1.0, 2.0, -3.0}, {4.0, -5.0, 6.0}});
-     * matrix.replaceIf(x -> x < 0, 0.0);  // Replaces all negative values with 0
+     * matrix.replaceIf(x -> x < 0, 0.0);   // Replaces all negative values with 0
      * // matrix is now [[0.0, 2.0, 0.0], [4.0, 0.0, 6.0]]
      *
-     * matrix.replaceIf(x -> x > 3.0, 99.0);  // Replaces all values greater than 3 with 99
+     * matrix.replaceIf(x -> x > 3.0, 99.0);   // Replaces all values greater than 3 with 99
      * // matrix is now [[0.0, 2.0, 0.0], [99.0, 0.0, 99.0]]
      * }</pre>
      *
@@ -980,10 +980,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}, {7.0, 8.0, 9.0}});
-     * matrix.replaceIf((i, j) -> i == j, 0.0);  // Sets main diagonal elements to 0
+     * matrix.replaceIf((i, j) -> i == j, 0.0);   // Sets main diagonal elements to 0
      * // matrix is now [[0.0, 2.0, 3.0], [4.0, 0.0, 6.0], [7.0, 8.0, 0.0]]
      *
-     * matrix.replaceIf((i, j) -> i == 0 || j == 0, -1.0);  // Sets first row and column to -1
+     * matrix.replaceIf((i, j) -> i == 0 || j == 0, -1.0);   // Sets first row and column to -1
      * // matrix is now [[-1.0, -1.0, -1.0], [-1.0, 0.0, 6.0], [-1.0, 8.0, 0.0]]
      * }</pre>
      *
@@ -1008,10 +1008,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix squared = matrix.map(x -> x * x);  // Creates new matrix with squared values
+     * DoubleMatrix squared = matrix.map(x -> x * x);   // Creates new matrix with squared values
      * // squared is [[1.0, 4.0], [9.0, 16.0]], original matrix unchanged
      *
-     * DoubleMatrix negated = matrix.map(x -> -x);  // Negate all values
+     * DoubleMatrix negated = matrix.map(x -> -x);   // Negate all values
      * // negated is [[-1.0, -2.0], [-3.0, -4.0]]
      * }</pre>
      *
@@ -1223,7 +1223,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}});
-     * DoubleMatrix partial = matrix.copy(1, 3);  // Returns [[3.0, 4.0], [5.0, 6.0]]
+     * DoubleMatrix partial = matrix.copy(1, 3);   // Returns [[3.0, 4.0], [5.0, 6.0]]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1251,7 +1251,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix sub = matrix.copy(0, 2, 1, 3);  // Copy rows 0-1, columns 1-2
+     * DoubleMatrix sub = matrix.copy(0, 2, 1, 3);   // Copy rows 0-1, columns 1-2
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1315,13 +1315,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix extended = matrix.extend(3, 4, 9.0);  // Extend to 3x4, fill new cells with 9.0
+     * DoubleMatrix extended = matrix.extend(3, 4, 9.0);   // Extend to 3x4, fill new cells with 9.0
      * // Result: [[1.0, 2.0, 9.0, 9.0],
      * //          [3.0, 4.0, 9.0, 9.0],
      * //          [9.0, 9.0, 9.0, 9.0]]
      *
      * // Truncate to smaller size
-     * DoubleMatrix truncated = matrix.extend(1, 1, 0.0);  // Keep only top-left element
+     * DoubleMatrix truncated = matrix.extend(1, 1, 0.0);   // Keep only top-left element
      * // Result: [[1.0]]
      * }</pre>
      *
@@ -1483,7 +1483,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * matrix.reverseH();  // matrix is now [[3.0, 2.0, 1.0]]
+     * matrix.reverseH();   // matrix is now [[3.0, 2.0, 1.0]]
      * }</pre>
      *
      * @see #flipH()
@@ -1501,7 +1501,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * matrix.reverseV();  // matrix is now [[3.0], [2.0], [1.0]]
+     * matrix.reverseV();   // matrix is now [[3.0], [2.0], [1.0]]
      * }</pre>
      *
      * @see #flipV()
@@ -1524,7 +1524,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}});
-     * DoubleMatrix flipped = matrix.flipH();  // returns [[3.0, 2.0, 1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flipH();   // returns [[3.0, 2.0, 1.0]], original unchanged
      * }</pre>
      *
      * @return a new DoubleMatrix with each row reversed
@@ -1543,7 +1543,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0}, {2.0}, {3.0}});
-     * DoubleMatrix flipped = matrix.flipV();  // returns [[3.0], [2.0], [1.0]], original unchanged
+     * DoubleMatrix flipped = matrix.flipV();   // returns [[3.0], [2.0], [1.0]], original unchanged
      * }</pre>
      *
      * @return a new DoubleMatrix with rows reversed
@@ -1669,7 +1669,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * //              3.0 6.0
      *
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * DoubleMatrix transposed = matrix.transpose();  // 2×3 becomes 3×2
+     * DoubleMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
      * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
@@ -1848,7 +1848,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleList list = matrix.flatten();  // Returns DoubleList containing [1.0, 2.0, 3.0, 4.0]
+     * DoubleList list = matrix.flatten();   // Returns DoubleList containing [1.0, 2.0, 3.0, 4.0]
      * }</pre>
      *
      * @return a DoubleList containing all elements in row-major order
@@ -1880,7 +1880,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{3.0, 1.0, 2.0}, {6.0, 4.0, 5.0}});
-     * matrix.flatOp(row -> java.util.Arrays.sort(row));  // Sort each row in-place
+     * matrix.flatOp(row -> java.util.Arrays.sort(row));   // Sort each row in-place
      * // Matrix becomes [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
      * }</pre>
      *
@@ -1968,7 +1968,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{5.0, 6.0}, {7.0, 8.0}});
-     * DoubleMatrix sum = a.add(b);  // [[6.0, 8.0], [10.0, 12.0]]
+     * DoubleMatrix sum = a.add(b);   // [[6.0, 8.0], [10.0, 12.0]]
      * }</pre>
      *
      * @param b the matrix to add to this matrix
@@ -1995,7 +1995,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{5.0, 6.0}, {7.0, 8.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * DoubleMatrix diff = a.subtract(b);  // [[4.0, 4.0], [4.0, 4.0]]
+     * DoubleMatrix diff = a.subtract(b);   // [[4.0, 4.0], [4.0, 4.0]]
      * }</pre>
      *
      * @param b the matrix to subtract from this matrix
@@ -2023,7 +2023,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{5.0, 6.0}, {7.0, 8.0}});
-     * DoubleMatrix product = a.multiply(b);  // [[19.0, 22.0], [43.0, 50.0]]
+     * DoubleMatrix product = a.multiply(b);   // [[19.0, 22.0], [43.0, 50.0]]
      * }</pre>
      *
      * @param b the matrix to multiply with this matrix
@@ -2089,7 +2089,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{5.0, 6.0}, {7.0, 8.0}});
-     * DoubleMatrix max = a.zipWith(b, Math::max);  // [[5.0, 6.0], [7.0, 8.0]]
+     * DoubleMatrix max = a.zipWith(b, Math::max);   // [[5.0, 6.0], [7.0, 8.0]]
      * }</pre>
      *
      * @param <E> the type of exception that the zip function may throw
@@ -2125,7 +2125,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix a = DoubleMatrix.of(new double[][] {{1.0, 2.0}});
      * DoubleMatrix b = DoubleMatrix.of(new double[][] {{3.0, 4.0}});
      * DoubleMatrix c = DoubleMatrix.of(new double[][] {{5.0, 6.0}});
-     * DoubleMatrix result = a.zipWith(b, c, (x, y, z) -> x + y * z);  // [[16.0, 26.0]]
+     * DoubleMatrix result = a.zipWith(b, c, (x, y, z) -> x + y * z);   // [[16.0, 26.0]]
      * }</pre>
      *
      * @param <E> the type of exception that the zip function may throw
@@ -2180,7 +2180,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] diagonal = matrix.streamLU2RD().toArray();  // [1.0, 4.0]
+     * double[] diagonal = matrix.streamLU2RD().toArray();   // [1.0, 4.0]
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-left to bottom-right
@@ -2235,7 +2235,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] antiDiagonal = matrix.streamRU2LD().toArray();  // [2.0, 3.0]
+     * double[] antiDiagonal = matrix.streamRU2LD().toArray();   // [2.0, 3.0]
      * }</pre>
      *
      * @return a DoubleStream of diagonal elements from top-right to bottom-left
@@ -2408,7 +2408,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] columnMajor = matrix.streamV().toArray();  // [1.0, 3.0, 2.0, 4.0]
+     * double[] columnMajor = matrix.streamV().toArray();   // [1.0, 3.0, 2.0, 4.0]
      * }</pre>
      *
      * @return a DoubleStream of all matrix elements in column-major order
@@ -2426,7 +2426,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * double[] column1 = matrix.streamV(1).toArray();  // Returns [2.0, 4.0]
+     * double[] column1 = matrix.streamV(1).toArray();   // Returns [2.0, 4.0]
      * }</pre>
      *
      * @param columnIndex the index of the column to stream (0-based)
@@ -2446,7 +2446,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-     * double[] elements = matrix.streamV(1, 3).toArray();  // [2.0, 5.0, 3.0, 6.0]
+     * double[] elements = matrix.streamV(1, 3).toArray();   // [2.0, 5.0, 3.0, 6.0]
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive)
@@ -2873,7 +2873,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix m1 = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
      * DoubleMatrix m2 = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * m1.equals(m2);  // true
+     * m1.equals(m2);   // true
      * }</pre>
      *
      * @param obj the object to compare with
@@ -2899,7 +2899,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.of(new double[][] {{1.0, 2.0}, {3.0, 4.0}});
-     * System.out.println(matrix.toString());  // [[1.0, 2.0], [3.0, 4.0]]
+     * System.out.println(matrix.toString());   // [[1.0, 2.0], [3.0, 4.0]]
      * }</pre>
      *
      * @return a string representation of this matrix

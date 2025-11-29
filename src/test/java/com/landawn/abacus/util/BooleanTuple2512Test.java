@@ -654,7 +654,7 @@ public class BooleanTuple2512Test extends TestBase {
         BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
         boolean[] array = tuple.toArray();
         array[0] = false;
-        assertEquals(true, tuple._1); // Tuple should be unaffected
+        assertEquals(true, tuple._1);   // Tuple should be unaffected
     }
 
     @Test
@@ -662,7 +662,7 @@ public class BooleanTuple2512Test extends TestBase {
         BooleanTuple3 tuple = BooleanTuple.of(true, false, true);
         BooleanList list = tuple.toList();
         list.set(0, false);
-        assertEquals(true, tuple._1); // Tuple should be unaffected
+        assertEquals(true, tuple._1);   // Tuple should be unaffected
     }
 
     @Test

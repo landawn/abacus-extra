@@ -754,7 +754,7 @@ public class CharTuple2512Test extends TestBase {
     @Test
     public void test_mixedCase() {
         CharTuple2 tuple = CharTuple.of('a', 'A');
-        assertEquals('A', tuple.min()); // uppercase has lower ASCII value
+        assertEquals('A', tuple.min());   // uppercase has lower ASCII value
         assertEquals('a', tuple.max());
     }
 
@@ -763,7 +763,7 @@ public class CharTuple2512Test extends TestBase {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
         char[] array = tuple.toArray();
         array[0] = 'Z';
-        assertEquals('A', tuple._1); // Tuple should be unaffected
+        assertEquals('A', tuple._1);   // Tuple should be unaffected
     }
 
     @Test
@@ -771,7 +771,7 @@ public class CharTuple2512Test extends TestBase {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
         CharList list = tuple.toList();
         list.set(0, 'Z');
-        assertEquals('A', tuple._1); // Tuple should be unaffected
+        assertEquals('A', tuple._1);   // Tuple should be unaffected
     }
 
     @Test
@@ -820,7 +820,7 @@ public class CharTuple2512Test extends TestBase {
     @Test
     public void test_median_evenCount() {
         CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-        assertEquals('B', tuple.median()); // Lower middle value
+        assertEquals('B', tuple.median());   // Lower middle value
     }
 
     @Test

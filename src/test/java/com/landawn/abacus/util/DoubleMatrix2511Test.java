@@ -329,7 +329,7 @@ public class DoubleMatrix2511Test extends TestBase {
         DoubleMatrix m = DoubleMatrix.diagonal(new double[] { 5.0 }, new double[] { 7.0 });
         assertEquals(1, m.rows);
         assertEquals(1, m.cols);
-        assertEquals(5.0, m.get(0, 0)); // Main diagonal takes precedence
+        assertEquals(5.0, m.get(0, 0));   // Main diagonal takes precedence
     }
 
     @Test

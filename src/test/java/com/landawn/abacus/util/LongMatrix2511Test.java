@@ -1153,9 +1153,9 @@ public class LongMatrix2511Test extends TestBase {
         LongMatrix result = m.map(x -> x * 2).transpose().map(x -> x + 1);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(3L, result.get(0, 0)); // (1*2)+1
-        assertEquals(7L, result.get(0, 1)); // (3*2)+1
-        assertEquals(5L, result.get(1, 0)); // (2*2)+1
-        assertEquals(9L, result.get(1, 1)); // (4*2)+1
+        assertEquals(3L, result.get(0, 0));   // (1*2)+1
+        assertEquals(7L, result.get(0, 1));   // (3*2)+1
+        assertEquals(5L, result.get(1, 0));   // (2*2)+1
+        assertEquals(9L, result.get(1, 1));   // (4*2)+1
     }
 }

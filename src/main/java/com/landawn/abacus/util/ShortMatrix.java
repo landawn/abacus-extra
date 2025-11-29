@@ -42,7 +42,7 @@ import com.landawn.abacus.util.stream.Stream;
  * ShortMatrix matrix = ShortMatrix.of(data);
  * 
  * // Get element at position (1, 2)
- * short value = matrix.get(1, 2);  // returns 6
+ * short value = matrix.get(1, 2);   // returns 6
  * 
  * // Transpose the matrix
  * ShortMatrix transposed = matrix.transpose();
@@ -79,7 +79,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * ShortMatrix matrix = new ShortMatrix(data);
      * data[0][0] = 99;  // This also changes matrix.get(0,0) to 99
      *
-     * ShortMatrix empty = new ShortMatrix(null);  // Creates 0x0 empty matrix
+     * ShortMatrix empty = new ShortMatrix(null);   // Creates 0x0 empty matrix
      * }</pre>
      *
      * @param a the two-dimensional short array to wrap as a matrix. Can be null.
@@ -363,7 +363,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * Class<?> type = matrix.componentType();  // Returns short.class
+     * Class<?> type = matrix.componentType();   // Returns short.class
      * }</pre>
      *
      * @return {@code short.class}
@@ -380,7 +380,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * short value = matrix.get(0, 1);  // Returns 2
+     * short value = matrix.get(0, 1);   // Returns 2
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -399,7 +399,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * // Assuming you have a Point implementation
-     * // short value = matrix.get(point);  // Returns element at point
+     * // short value = matrix.get(point);   // Returns element at point
      * }</pre>
      *
      * @param point the point containing row and column indices
@@ -416,7 +416,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.set(0, 1, (short) 9);  // Sets element at row 0, column 1 to 9
+     * matrix.set(0, 1, (short) 9);   // Sets element at row 0, column 1 to 9
      * }</pre>
      *
      * @param i the row index (0-based)
@@ -435,7 +435,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * // Assuming you have a Point implementation
-     * // matrix.set(point, (short) 9);  // Sets element at point
+     * // matrix.set(point, (short) 9);   // Sets element at point
      * }</pre>
      *
      * @param point the point containing row and column indices
@@ -540,7 +540,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * short[] firstRow = matrix.row(0);  // Returns [1, 2, 3]
+     * short[] firstRow = matrix.row(0);   // Returns [1, 2, 3]
      *
      * // Direct modification affects the matrix
      * firstRow[0] = 10;  // matrix now has 10 at position (0,0)
@@ -566,7 +566,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * short[] firstColumn = matrix.column(0);  // Returns [1, 4]
+     * short[] firstColumn = matrix.column(0);   // Returns [1, 4]
      *
      * // Modification does NOT affect the matrix (it's a copy)
      * firstColumn[0] = 10;  // matrix still has 1 at position (0,0)
@@ -598,7 +598,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.setRow(0, new short[] {7, 8, 9});  // First row is now [7, 8, 9]
+     * matrix.setRow(0, new short[] {7, 8, 9});   // First row is now [7, 8, 9]
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
@@ -622,7 +622,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.setColumn(0, new short[] {7, 8});  // First column is now [7, 8]
+     * matrix.setColumn(0, new short[] {7, 8});   // First column is now [7, 8]
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
@@ -646,7 +646,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.updateRow(0, x -> (short)(x * 2));  // First row becomes [2, 4, 6]
+     * matrix.updateRow(0, x -> (short)(x * 2));   // First row becomes [2, 4, 6]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -669,7 +669,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.updateColumn(1, x -> (short)(x + 10));  // Second column becomes [12, 15]
+     * matrix.updateColumn(1, x -> (short)(x + 10));   // Second column becomes [12, 15]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -693,7 +693,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] diagonal = matrix.getLU2RD();  // Returns [1, 5, 9]
+     * short[] diagonal = matrix.getLU2RD();   // Returns [1, 5, 9]
      * }</pre>
      *
      * @return a new short array containing the main diagonal elements
@@ -747,7 +747,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateLU2RD(x -> (short)(x * 2));  // Diagonal [1, 5, 9] becomes [2, 10, 18]
+     * matrix.updateLU2RD(x -> (short)(x * 2));   // Diagonal [1, 5, 9] becomes [2, 10, 18]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -773,7 +773,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * short[] diagonal = matrix.getRU2LD();  // Returns [3, 5, 7]
+     * short[] diagonal = matrix.getRU2LD();   // Returns [3, 5, 7]
      * }</pre>
      *
      * @return a new short array containing the anti-diagonal elements
@@ -827,7 +827,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.updateRU2LD(x -> (short)(x + 1));  // Anti-diagonal [3, 5, 7] becomes [4, 6, 8]
+     * matrix.updateRU2LD(x -> (short)(x + 1));   // Anti-diagonal [3, 5, 7] becomes [4, 6, 8]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -851,7 +851,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.updateAll(x -> (short)(x * 2));  // All elements are doubled: [[2, 4], [6, 8]]
+     * matrix.updateAll(x -> (short)(x * 2));   // All elements are doubled: [[2, 4], [6, 8]]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -872,7 +872,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.updateAll((i, j) -> (short)(i + j));  // Element at (i,j) becomes i+j: [[0, 1], [1, 2]]
+     * matrix.updateAll((i, j) -> (short)(i + j));   // Element at (i,j) becomes i+j: [[0, 1], [1, 2]]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -893,7 +893,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * matrix.replaceIf(x -> x > 3, (short)0);  // Result: [[1, 2, 3], [0, 0, 0]]
+     * matrix.replaceIf(x -> x > 3, (short)0);   // Result: [[1, 2, 3], [0, 0, 0]]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
@@ -915,7 +915,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * matrix.replaceIf((i, j) -> i == j, (short)0);  // Replace diagonal: [[0, 2, 3], [4, 0, 6], [7, 8, 0]]
+     * matrix.replaceIf((i, j) -> i == j, (short)0);   // Replace diagonal: [[0, 2, 3], [4, 0, 6], [7, 8, 0]]
      * }</pre>
      *
      * @param <E> the type of exception that the predicate may throw
@@ -936,7 +936,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix squared = matrix.map(x -> (short)(x * x));  // Result: [[1, 4], [9, 16]]
+     * ShortMatrix squared = matrix.map(x -> (short)(x * x));   // Result: [[1, 4], [9, 16]]
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -989,7 +989,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * matrix.fill((short)5);  // Result: [[5, 5], [5, 5]]
+     * matrix.fill((short)5);   // Result: [[5, 5], [5, 5]]
      * }</pre>
      *
      * @param val the value to fill the matrix with
@@ -1056,7 +1056,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <pre>{@code
      * ShortMatrix original = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * ShortMatrix copy = original.copy();
-     * copy.set(0, 0, (short)99);  // original is unchanged
+     * copy.set(0, 0, (short)99);   // original is unchanged
      * }</pre>
      *
      * @return a new matrix that is a copy of this matrix
@@ -1079,7 +1079,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}, {5, 6}});
-     * ShortMatrix subset = matrix.copy(1, 3);  // Returns [[3, 4], [5, 6]]
+     * ShortMatrix subset = matrix.copy(1, 3);   // Returns [[3, 4], [5, 6]]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1107,7 +1107,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
-     * ShortMatrix region = matrix.copy(0, 2, 1, 3);  // Returns [[2, 3], [5, 6]]
+     * ShortMatrix region = matrix.copy(0, 2, 1, 3);   // Returns [[2, 3], [5, 6]]
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1168,13 +1168,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortMatrix extended = matrix.extend(3, 4, (short) 9);  // Extend to 3x4, fill new cells with 9
+     * ShortMatrix extended = matrix.extend(3, 4, (short) 9);   // Extend to 3x4, fill new cells with 9
      * // Result: [[1, 2, 9, 9],
      * //          [3, 4, 9, 9],
      * //          [9, 9, 9, 9]]
      *
      * // Truncate to smaller size
-     * ShortMatrix truncated = matrix.extend(1, 1, (short) 0);  // Keep only top-left element
+     * ShortMatrix truncated = matrix.extend(1, 1, (short) 0);   // Keep only top-left element
      * // Result: [[1]]
      * }</pre>
      *
@@ -1523,7 +1523,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * //            3 6
      *
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2, 3}, {4, 5, 6}});
-     * ShortMatrix transposed = matrix.transpose();  // 2×3 becomes 3×2
+     * ShortMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
      * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
@@ -1704,7 +1704,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * ShortList list = matrix.flatten();  // Returns ShortList containing [1, 2, 3, 4]
+     * ShortList list = matrix.flatten();   // Returns ShortList containing [1, 2, 3, 4]
      * }</pre>
      *
      * @return a new ShortList containing all elements in row-major order
@@ -2861,7 +2861,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <pre>{@code
      * ShortMatrix m1 = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
      * ShortMatrix m2 = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * m1.equals(m2);  // true
+     * m1.equals(m2);   // true
      * }</pre>
      *
      * @param obj the object to compare with
@@ -2887,7 +2887,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * System.out.println(matrix.toString());  // [[1, 2], [3, 4]]
+     * System.out.println(matrix.toString());   // [[1, 2], [3, 4]]
      * }</pre>
      *
      * @return a string representation of this matrix

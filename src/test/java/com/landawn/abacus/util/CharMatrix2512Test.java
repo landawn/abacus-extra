@@ -201,7 +201,7 @@ public class CharMatrix2512Test extends TestBase {
         CharMatrix primitive = CharMatrix.unbox(boxed);
         assertEquals('a', primitive.get(0, 0));
         assertEquals('b', primitive.get(0, 1));
-        assertEquals('\0', primitive.get(1, 0)); // null becomes '\0'
+        assertEquals('\0', primitive.get(1, 0));   // null becomes '\0'
         assertEquals('d', primitive.get(1, 1));
     }
 
@@ -547,7 +547,7 @@ public class CharMatrix2512Test extends TestBase {
         assertEquals('a', copy.get(0, 0));
         // Modify copy
         copy.set(0, 0, 'z');
-        assertEquals('a', original.get(0, 0)); // Original unchanged
+        assertEquals('a', original.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -566,8 +566,8 @@ public class CharMatrix2512Test extends TestBase {
         CharMatrix copy = m.copy(0, 2, 1, 3);
         assertEquals(2, copy.rows);
         assertEquals(2, copy.cols);
-        assertEquals('b', copy.get(0, 0)); // From (0,1)
-        assertEquals('c', copy.get(0, 1)); // From (0,2)
+        assertEquals('b', copy.get(0, 0));   // From (0,1)
+        assertEquals('c', copy.get(0, 1));   // From (0,2)
     }
 
     // ============ Transformation Tests ============
@@ -773,10 +773,10 @@ public class CharMatrix2512Test extends TestBase {
         CharMatrix m1 = CharMatrix.of(new char[][] { { '\2', '\3' }, { '\4', '\5' } });
         CharMatrix m2 = CharMatrix.of(new char[][] { { '\2', '\2' }, { '\2', '\2' } });
         CharMatrix result = m1.multiply(m2);
-        assertEquals('\12', result.get(0, 0)); // 2*2 + 3*2 = 10
-        assertEquals('\12', result.get(0, 1)); // 2*2 + 3*2 = 10
-        assertEquals('\22', result.get(1, 0)); // 4*2 + 5*2 = 18
-        assertEquals('\22', result.get(1, 1)); // 4*2 + 5*2 = 18
+        assertEquals('\12', result.get(0, 0));   // 2*2 + 3*2 = 10
+        assertEquals('\12', result.get(0, 1));   // 2*2 + 3*2 = 10
+        assertEquals('\22', result.get(1, 0));   // 4*2 + 5*2 = 18
+        assertEquals('\22', result.get(1, 1));   // 4*2 + 5*2 = 18
     }
 
     // ============ Conversion Tests ============

@@ -411,7 +411,7 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals(10, matrix.get(0, 0));
         Assertions.assertEquals(50, matrix.get(1, 1));
         Assertions.assertEquals(90, matrix.get(2, 2));
-        Assertions.assertEquals(2, matrix.get(0, 1)); // unchanged
+        Assertions.assertEquals(2, matrix.get(0, 1));   // unchanged
     }
 
     @Test
@@ -440,7 +440,7 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals(-3, matrix.get(0, 2));
         Assertions.assertEquals(-5, matrix.get(1, 1));
         Assertions.assertEquals(-7, matrix.get(2, 0));
-        Assertions.assertEquals(1, matrix.get(0, 0)); // unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0));   // unchanged
     }
 
     @Test
@@ -616,8 +616,8 @@ public class MatrixTest extends TestBase {
         matrix.fill(patch);
         Assertions.assertEquals(7, matrix.get(0, 0));
         Assertions.assertEquals(8, matrix.get(0, 1));
-        Assertions.assertEquals(3, matrix.get(0, 2)); // unchanged
-        Assertions.assertEquals(4, matrix.get(1, 0)); // unchanged
+        Assertions.assertEquals(3, matrix.get(0, 2));   // unchanged
+        Assertions.assertEquals(4, matrix.get(1, 0));   // unchanged
     }
 
     @Test
@@ -626,7 +626,7 @@ public class MatrixTest extends TestBase {
 
         Integer[][] patch = { { 10, 11 }, { 12, 13 } };
         matrix.fill(1, 1, patch);
-        Assertions.assertEquals(1, matrix.get(0, 0)); // unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0));   // unchanged
         Assertions.assertEquals(10, matrix.get(1, 1));
         Assertions.assertEquals(11, matrix.get(1, 2));
         Assertions.assertEquals(12, matrix.get(2, 1));
@@ -642,7 +642,7 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals(matrix.get(1, 1), copy.get(1, 1));
 
         copy.set(0, 0, 10);
-        Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0));   // original unchanged
         Assertions.assertEquals(10, copy.get(0, 0));
     }
 
@@ -1180,10 +1180,10 @@ public class MatrixTest extends TestBase {
         Matrix<Integer> m3 = Matrix.of(new Integer[][] { { 1, 2 }, { 3, 5 } });
         Matrix<Integer> m4 = Matrix.of(new Integer[][] { { 1, 2 } });
 
-        Assertions.assertEquals(m1, m1); // same instance
-        Assertions.assertEquals(m1, m2); // equal content
-        Assertions.assertNotEquals(m1, m3); // different content
-        Assertions.assertNotEquals(m1, m4); // different dimensions
+        Assertions.assertEquals(m1, m1);   // same instance
+        Assertions.assertEquals(m1, m2);   // equal content
+        Assertions.assertNotEquals(m1, m3);   // different content
+        Assertions.assertNotEquals(m1, m4);   // different dimensions
         Assertions.assertNotEquals(m1, null);
         Assertions.assertNotEquals(m1, "not a matrix");
     }

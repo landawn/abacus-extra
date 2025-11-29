@@ -56,8 +56,8 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_isParallelable_withMatrix() {
-        IntMatrix largeMatrix = IntMatrix.of(new int[100][100]); // 10000 elements
-        IntMatrix smallMatrix = IntMatrix.of(new int[10][10]); // 100 elements
+        IntMatrix largeMatrix = IntMatrix.of(new int[100][100]);   // 10000 elements
+        IntMatrix smallMatrix = IntMatrix.of(new int[10][10]);   // 100 elements
 
         // With DEFAULT, large matrix should be parallelable
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
@@ -199,7 +199,7 @@ public class Matrixes2512Test extends TestBase {
 
     @Test
     public void test_newArray_withPrimitiveType() {
-        Integer[][] arr = Matrixes.newArray(2, 3, int.class); // Should be wrapped to Integer
+        Integer[][] arr = Matrixes.newArray(2, 3, int.class);   // Should be wrapped to Integer
         assertEquals(2, arr.length);
         assertEquals(3, arr[0].length);
         // Elements should be null by default
@@ -251,7 +251,7 @@ public class Matrixes2512Test extends TestBase {
             count.incrementAndGet();
         }, false);
 
-        assertEquals(12, count.get()); // 3 rows * 4 cols
+        assertEquals(12, count.get());   // 3 rows * 4 cols
     }
 
     @Test
@@ -290,11 +290,11 @@ public class Matrixes2512Test extends TestBase {
         }, false);
 
         // Check that only positions in range [1,3) x [1,4) are visited
-        assertEquals(0, visited[0][0]); // outside range
-        assertEquals(1, visited[1][1]); // inside range
-        assertEquals(1, visited[2][3]); // inside range
-        assertEquals(0, visited[3][1]); // outside range (row)
-        assertEquals(0, visited[1][4]); // outside range (col)
+        assertEquals(0, visited[0][0]);   // outside range
+        assertEquals(1, visited[1][1]);   // inside range
+        assertEquals(1, visited[2][3]);   // inside range
+        assertEquals(0, visited[3][1]);   // outside range (row)
+        assertEquals(0, visited[1][4]);   // outside range (col)
     }
 
     // ============ Zip Tests for ByteMatrix ============
@@ -320,8 +320,8 @@ public class Matrixes2512Test extends TestBase {
         ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) (a + b));
 
         // Should sum all three matrices element-wise
-        assertEquals(15, result.get(0, 0)); // 1+5+9
-        assertEquals(24, result.get(1, 1)); // 4+8+12
+        assertEquals(15, result.get(0, 0));   // 1+5+9
+        assertEquals(24, result.get(1, 1));   // 4+8+12
     }
 
     @Test
@@ -331,9 +331,9 @@ public class Matrixes2512Test extends TestBase {
 
         IntMatrix result = Matrixes.zipToInt(m1, m2, (a, b) -> a * b);
 
-        assertEquals(5, result.get(0, 0)); // 1*5
-        assertEquals(12, result.get(0, 1)); // 2*6
-        assertEquals(32, result.get(1, 1)); // 4*8
+        assertEquals(5, result.get(0, 0));   // 1*5
+        assertEquals(12, result.get(0, 1));   // 2*6
+        assertEquals(32, result.get(1, 1));   // 4*8
     }
 
     // ============ Zip Tests for IntMatrix ============
@@ -506,29 +506,29 @@ public class Matrixes2512Test extends TestBase {
             result.a[i][j] += m1.a[i][k] * m2.a[k][j];
         });
 
-        assertEquals(19, result.get(0, 0)); // 1*5 + 2*7
-        assertEquals(22, result.get(0, 1)); // 1*6 + 2*8
-        assertEquals(43, result.get(1, 0)); // 3*5 + 4*7
-        assertEquals(50, result.get(1, 1)); // 3*6 + 4*8
+        assertEquals(19, result.get(0, 0));   // 1*5 + 2*7
+        assertEquals(22, result.get(0, 1));   // 1*6 + 2*8
+        assertEquals(43, result.get(1, 0));   // 3*5 + 4*7
+        assertEquals(50, result.get(1, 1));   // 3*6 + 4*8
     }
 
     @Test
     public void test_multiply_withDifferentDimensions() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });   // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });   // 3x1
         IntMatrix result = IntMatrix.of(new int[1][1]);
 
         Matrixes.multiply(m1, m2, (i, j, k) -> {
             result.a[i][j] += m1.a[i][k] * m2.a[k][j];
         });
 
-        assertEquals(32, result.get(0, 0)); // 1*4 + 2*5 + 3*6
+        assertEquals(32, result.get(0, 0));   // 1*4 + 2*5 + 3*6
     }
 
     @Test
     public void test_multiply_incompatibleDimensions_throwsException() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } }); // 1x3 (incompatible)
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });   // 1x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 3, 4, 5 } });   // 1x3 (incompatible)
 
         assertThrows(IllegalArgumentException.class, () -> Matrixes.multiply(m1, m2, (i, j, k) -> {
         }));
@@ -542,7 +542,7 @@ public class Matrixes2512Test extends TestBase {
 
         int[] result = stream.toArray();
 
-        assertEquals(6, result.length); // 2 rows * 3 cols
+        assertEquals(6, result.length);   // 2 rows * 3 cols
         assertArrayEquals(new int[] { 0, 1, 2, 10, 11, 12 }, result);
     }
 
@@ -552,7 +552,7 @@ public class Matrixes2512Test extends TestBase {
 
         long count = stream.count();
 
-        assertEquals(25, count); // 5 rows * 5 cols
+        assertEquals(25, count);   // 5 rows * 5 cols
     }
 
     // ============ Edge Cases Tests ============

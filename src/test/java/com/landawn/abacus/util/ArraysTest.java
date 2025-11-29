@@ -2251,9 +2251,9 @@ public class ArraysTest extends TestBase {
             // Test with overflow scenario
             long[] overflowInput = { Long.MAX_VALUE, 0L, Long.MIN_VALUE };
             int[] overflowResult = Arrays.mapToInt(overflowInput, l -> (int) (l));
-            Assertions.assertEquals(-1, overflowResult[0]); // overflow
+            Assertions.assertEquals(-1, overflowResult[0]);   // overflow
             Assertions.assertEquals(0, overflowResult[1]);
-            Assertions.assertEquals(0, overflowResult[2]); // overflow
+            Assertions.assertEquals(0, overflowResult[2]);   // overflow
         }
 
         @Test
@@ -2746,7 +2746,7 @@ public class ArraysTest extends TestBase {
 
             // Test overflow behavior
             int[] overflowResult = Arrays.zip(maxValues, ones, (x, y) -> x + y);
-            Assertions.assertEquals(Integer.MIN_VALUE, overflowResult[0]); // Overflow wraps around
+            Assertions.assertEquals(Integer.MIN_VALUE, overflowResult[0]);   // Overflow wraps around
             Assertions.assertEquals(Integer.MAX_VALUE, overflowResult[1]);
         }
 
@@ -2841,7 +2841,7 @@ public class ArraysTest extends TestBase {
             long[] longResult = Arrays.mapToLong(largeArray, i -> (long) i * i);
             Assertions.assertEquals(size, longResult.length);
             Assertions.assertEquals(0L, longResult[0]);
-            Assertions.assertEquals(998001L, longResult[999]); // 999^2
+            Assertions.assertEquals(998001L, longResult[999]);   // 999^2
 
             // Test mapToDouble with large array
             double[] doubleResult = Arrays.mapToDouble(largeArray, i -> Math.sqrt(i));
@@ -3350,11 +3350,11 @@ public class ArraysTest extends TestBase {
 
             // Test with null array
             String[][] nullArray = null;
-            ff.updateAll(nullArray, str -> str.toUpperCase()); // Should not throw
+            ff.updateAll(nullArray, str -> str.toUpperCase());   // Should not throw
 
             // Test with empty array
             String[][] emptyArray = {};
-            ff.updateAll(emptyArray, str -> str.toUpperCase()); // Should not throw
+            ff.updateAll(emptyArray, str -> str.toUpperCase());   // Should not throw
 
             // Test with array containing null sub-arrays
             String[][] arrayWithNulls = { { "a", "b" }, null, { "c", "d" } };
@@ -3393,11 +3393,11 @@ public class ArraysTest extends TestBase {
 
             // Test with null array
             Integer[][] nullArray = null;
-            ff.replaceIf(nullArray, val -> val == null, 0); // Should not throw
+            ff.replaceIf(nullArray, val -> val == null, 0);   // Should not throw
 
             // Test with empty array
             Integer[][] emptyArray = {};
-            ff.replaceIf(emptyArray, val -> val == null, 0); // Should not throw
+            ff.replaceIf(emptyArray, val -> val == null, 0);   // Should not throw
 
             // Test with array containing null sub-arrays
             Integer[][] arrayWithNulls = { { 1, 2 }, null, { 3, 4 } };
@@ -3516,11 +3516,11 @@ public class ArraysTest extends TestBase {
 
             // Test with empty array
             Integer[][] emptyArray = {};
-            ff.flatOp(emptyArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.flatOp(emptyArray, arr -> java.util.Arrays.sort(arr));   // Should not throw
 
             // Test with null array
             Integer[][] nullArray = null;
-            ff.flatOp(nullArray, arr -> java.util.Arrays.sort(arr)); // Should not throw
+            ff.flatOp(nullArray, arr -> java.util.Arrays.sort(arr));   // Should not throw
 
             // Test with custom operation
             Integer[][] array2 = { { 1, 2 }, { 3, 4 } };
@@ -3906,7 +3906,7 @@ public class ArraysTest extends TestBase {
             Double[][] b2 = { { 1.1, 2.2 }, { 3.3 } };
             String[][] c2 = { { "X", "Y" }, { "Z" } };
             String[][] result2 = ff.zip(a2, b2, c2, (i, d, s) -> i + "-" + d + "-" + s, String.class);
-            Assertions.assertEquals(1, result2.length); // Minimum row count
+            Assertions.assertEquals(1, result2.length);   // Minimum row count
             Assertions.assertArrayEquals(new String[] { "1-1.1-X", "2-2.2-Y" }, result2[0]);
         }
 
@@ -3985,7 +3985,7 @@ public class ArraysTest extends TestBase {
             // Test normal array
             Object[][] array = { { 1, 2, 3 }, { 4, 5 }, null, { 6 } };
             int minLen = ff.minSubArrayLen(array);
-            Assertions.assertEquals(0, minLen); // null counts as 0
+            Assertions.assertEquals(0, minLen);   // null counts as 0
 
             // Test without null
             Object[][] array2 = { { 1, 2, 3 }, { 4, 5 }, { 6 } };

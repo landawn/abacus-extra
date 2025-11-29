@@ -644,7 +644,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals(2, m.get(0, 0));
         assertEquals(10, m.get(1, 1));
         assertEquals(18, m.get(2, 2));
-        assertEquals(2, m.get(0, 1)); // Non-diagonal unchanged
+        assertEquals(2, m.get(0, 1));   // Non-diagonal unchanged
     }
 
     @Test
@@ -653,7 +653,7 @@ public class Matrix2511Test extends TestBase {
         m.updateLU2RD(String::toUpperCase);
         assertEquals("A", m.get(0, 0));
         assertEquals("D", m.get(1, 1));
-        assertEquals("b", m.get(0, 1)); // Non-diagonal unchanged
+        assertEquals("b", m.get(0, 1));   // Non-diagonal unchanged
     }
 
     @Test
@@ -718,7 +718,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals(6, m.get(0, 2));
         assertEquals(10, m.get(1, 1));
         assertEquals(14, m.get(2, 0));
-        assertEquals(2, m.get(0, 1)); // Non-diagonal unchanged
+        assertEquals(2, m.get(0, 1));   // Non-diagonal unchanged
     }
 
     @Test
@@ -727,7 +727,7 @@ public class Matrix2511Test extends TestBase {
         m.updateRU2LD(String::toUpperCase);
         assertEquals("B", m.get(0, 1));
         assertEquals("C", m.get(1, 0));
-        assertEquals("a", m.get(0, 0)); // Non-diagonal unchanged
+        assertEquals("a", m.get(0, 0));   // Non-diagonal unchanged
     }
 
     @Test
@@ -823,7 +823,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReplaceIf_positionPredicate_integers() {
         Matrix<Integer> m = Matrix.of(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.replaceIf((i, j) -> i == j, 0); // Replace diagonal
+        m.replaceIf((i, j) -> i == j, 0);   // Replace diagonal
         assertEquals(0, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(0, m.get(1, 1));
@@ -833,7 +833,7 @@ public class Matrix2511Test extends TestBase {
     @Test
     public void testReplaceIf_positionPredicate_strings() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        m.replaceIf((i, j) -> i < j, "X"); // Replace upper triangle
+        m.replaceIf((i, j) -> i < j, "X");   // Replace upper triangle
         assertEquals("A", m.get(0, 0));
         assertEquals("X", m.get(0, 1));
         assertEquals("X", m.get(0, 2));
@@ -1065,8 +1065,8 @@ public class Matrix2511Test extends TestBase {
         m.fill(patch);
         assertEquals("X", m.get(0, 0));
         assertEquals("Y", m.get(0, 1));
-        assertEquals("C", m.get(0, 2)); // Unchanged
-        assertEquals("D", m.get(1, 0)); // Unchanged
+        assertEquals("C", m.get(0, 2));   // Unchanged
+        assertEquals("D", m.get(1, 0));   // Unchanged
     }
 
     @Test
@@ -1077,7 +1077,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals("A", m.get(0, 0));
         assertEquals("X", m.get(1, 1));
         assertEquals("Y", m.get(1, 2));
-        assertEquals("G", m.get(2, 0)); // Unchanged
+        assertEquals("G", m.get(2, 0));   // Unchanged
     }
 
     @Test
@@ -1268,9 +1268,9 @@ public class Matrix2511Test extends TestBase {
 
         assertEquals(4, extended.rows);
         assertEquals(4, extended.cols);
-        assertNull(extended.get(0, 0)); // New top row
-        assertEquals(1, extended.get(1, 1)); // Original top-left
-        assertEquals(4, extended.get(2, 2)); // Original bottom-right
+        assertNull(extended.get(0, 0));   // New top row
+        assertEquals(1, extended.get(1, 1));   // Original top-left
+        assertEquals(4, extended.get(2, 2));   // Original bottom-right
     }
 
     @Test
@@ -1280,9 +1280,9 @@ public class Matrix2511Test extends TestBase {
 
         assertEquals(4, extended.rows);
         assertEquals(4, extended.cols);
-        assertEquals(99, extended.get(0, 0)); // New top row
-        assertEquals(1, extended.get(1, 1)); // Original top-left
-        assertEquals(4, extended.get(2, 2)); // Original bottom-right
+        assertEquals(99, extended.get(0, 0));   // New top row
+        assertEquals(1, extended.get(1, 1));   // Original top-left
+        assertEquals(4, extended.get(2, 2));   // Original bottom-right
     }
 
     @Test
@@ -1348,7 +1348,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals("B", flipped.get(0, 1));
         assertEquals("A", flipped.get(0, 2));
         assertEquals("F", flipped.get(1, 0));
-        assertEquals("A", m.get(0, 0)); // Original unchanged
+        assertEquals("A", m.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -1358,7 +1358,7 @@ public class Matrix2511Test extends TestBase {
 
         assertEquals(2, flipped.get(0, 0));
         assertEquals(1, flipped.get(0, 1));
-        assertEquals(1, m.get(0, 0)); // Original unchanged
+        assertEquals(1, m.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -1370,7 +1370,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals("F", flipped.get(0, 1));
         assertEquals("C", flipped.get(1, 0));
         assertEquals("A", flipped.get(2, 0));
-        assertEquals("A", m.get(0, 0)); // Original unchanged
+        assertEquals("A", m.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -1379,7 +1379,7 @@ public class Matrix2511Test extends TestBase {
         Matrix<Integer> flipped = m.flipV();
 
         assertEquals(3, flipped.get(0, 0));
-        assertEquals(1, m.get(0, 0)); // Original unchanged
+        assertEquals(1, m.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -1565,7 +1565,7 @@ public class Matrix2511Test extends TestBase {
         assertEquals(4, reshaped.get(0, 3));
         assertEquals(5, reshaped.get(1, 0));
         assertEquals(6, reshaped.get(1, 1));
-        assertNull(reshaped.get(1, 2)); // Padding
+        assertNull(reshaped.get(1, 2));   // Padding
     }
 
     @Test
@@ -1612,8 +1612,8 @@ public class Matrix2511Test extends TestBase {
         assertEquals(4, repeated.cols);
         assertEquals("A", repeated.get(0, 0));
         assertEquals("B", repeated.get(0, 1));
-        assertEquals("A", repeated.get(0, 2)); // Tiled
-        assertEquals("A", repeated.get(2, 0)); // Tiled
+        assertEquals("A", repeated.get(0, 2));   // Tiled
+        assertEquals("A", repeated.get(2, 0));   // Tiled
         assertEquals("D", repeated.get(3, 3));
     }
 
@@ -1626,8 +1626,8 @@ public class Matrix2511Test extends TestBase {
         assertEquals(4, repeated.cols);
         assertEquals(1, repeated.get(0, 0));
         assertEquals(2, repeated.get(0, 1));
-        assertEquals(1, repeated.get(0, 2)); // Tiled horizontally
-        assertEquals(1, repeated.get(2, 0)); // Tiled vertically
+        assertEquals(1, repeated.get(0, 2));   // Tiled horizontally
+        assertEquals(1, repeated.get(2, 0));   // Tiled vertically
         assertEquals(4, repeated.get(5, 3));
     }
 

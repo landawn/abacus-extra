@@ -223,7 +223,7 @@ public class PrimitiveTupleTest extends TestBase {
 
         // Test that exceptions thrown in lambda functions are properly propagated
         try {
-            tuple.map(t -> t._1 / t._2); // Division by zero
+            tuple.map(t -> t._1 / t._2);   // Division by zero
             assertTrue(false, "Should have thrown ArithmeticException");
         } catch (ArithmeticException e) {
             // Expected

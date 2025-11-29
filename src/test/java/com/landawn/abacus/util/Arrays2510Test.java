@@ -837,7 +837,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testUpdateAll_1D_Boolean_null() {
         boolean[] arr = null;
-        Arrays.updateAll(arr, b -> !b); // Should not throw exception
+        Arrays.updateAll(arr, b -> !b);   // Should not throw exception
     }
 
     @Test
@@ -960,7 +960,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testUpdateAll_1D_Int_null() {
         int[] arr = null;
-        Arrays.updateAll(arr, i -> i * 2); // Should not throw exception
+        Arrays.updateAll(arr, i -> i * 2);   // Should not throw exception
     }
 
     @Test
@@ -1050,7 +1050,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testUpdateAll_1D_Double_null() {
         double[] arr = null;
-        Arrays.updateAll(arr, d -> d * 2); // Should not throw exception
+        Arrays.updateAll(arr, d -> d * 2);   // Should not throw exception
     }
 
     @Test
@@ -1086,7 +1086,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testReplaceIf_1D_Boolean_null() {
         boolean[] arr = null;
-        Arrays.replaceIf(arr, b -> b, false); // Should not throw exception
+        Arrays.replaceIf(arr, b -> b, false);   // Should not throw exception
     }
 
     @Test
@@ -1223,7 +1223,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testReplaceIf_1D_Int_null() {
         int[] arr = null;
-        Arrays.replaceIf(arr, i -> i > 0, 0); // Should not throw exception
+        Arrays.replaceIf(arr, i -> i > 0, 0);   // Should not throw exception
     }
 
     @Test
@@ -1327,7 +1327,7 @@ public class Arrays2510Test extends TestBase {
     @Test
     public void testReplaceIf_1D_Double_null() {
         double[] arr = null;
-        Arrays.replaceIf(arr, d -> d > 0, 0.0); // Should not throw exception
+        Arrays.replaceIf(arr, d -> d > 0, 0.0);   // Should not throw exception
     }
 
     @Test
@@ -1858,7 +1858,7 @@ public class Arrays2510Test extends TestBase {
     public void testFlatOp_2D_Int_null() {
         int[][] arr = null;
         final int[] sum = { 0 };
-        Arrays.flatOp(arr, subArr -> sum[0]++); // Should not throw exception
+        Arrays.flatOp(arr, subArr -> sum[0]++);   // Should not throw exception
         assertEquals(0, sum[0]);
     }
 

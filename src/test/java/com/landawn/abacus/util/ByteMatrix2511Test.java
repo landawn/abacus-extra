@@ -1534,7 +1534,7 @@ public class ByteMatrix2511Test extends TestBase {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger sum = new AtomicInteger(0);
         m.forEach(val -> sum.addAndGet((int) val));
-        assertEquals(10, sum.get()); // 1+2+3+4 = 10
+        assertEquals(10, sum.get());   // 1+2+3+4 = 10
     }
 
     // ============ Utility Tests ============

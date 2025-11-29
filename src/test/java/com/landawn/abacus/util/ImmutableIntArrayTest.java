@@ -61,7 +61,7 @@ public class ImmutableIntArrayTest extends TestBase {
 
         // Test that changes to original array do NOT affect immutable (defensive copy)
         array[0] = 100;
-        assertEquals(10, immutable.get(0)); // Should still be 10
+        assertEquals(10, immutable.get(0));   // Should still be 10
     }
 
     @Test
@@ -162,7 +162,7 @@ public class ImmutableIntArrayTest extends TestBase {
         // Test that returned array is mutable
         array[0] = 999;
         assertEquals(999, array[0]);
-        assertEquals(20, immutable.get(1)); // Original should be unchanged
+        assertEquals(20, immutable.get(1));   // Original should be unchanged
     }
 
     @Test

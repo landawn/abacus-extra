@@ -99,10 +99,10 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.create(chars);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
-        assertEquals(65, m.get(0, 0)); // 'A' = 65
-        assertEquals(66, m.get(0, 1)); // 'B' = 66
-        assertEquals(67, m.get(1, 0)); // 'C' = 67
-        assertEquals(68, m.get(1, 1)); // 'D' = 68
+        assertEquals(65, m.get(0, 0));   // 'A' = 65
+        assertEquals(66, m.get(0, 1));   // 'B' = 66
+        assertEquals(67, m.get(1, 0));   // 'C' = 67
+        assertEquals(68, m.get(1, 1));   // 'D' = 68
     }
 
     @Test
@@ -336,8 +336,8 @@ public class IntMatrix2025Test extends TestBase {
         Matrix<Integer> boxedMatrix = Matrix.of(boxed);
         IntMatrix unboxed = IntMatrix.unbox(boxedMatrix);
         assertEquals(1, unboxed.get(0, 0));
-        assertEquals(0, unboxed.get(0, 1)); // null -> 0
-        assertEquals(0, unboxed.get(1, 0)); // null -> 0
+        assertEquals(0, unboxed.get(0, 1));   // null -> 0
+        assertEquals(0, unboxed.get(1, 0));   // null -> 0
         assertEquals(4, unboxed.get(1, 1));
     }
 
@@ -490,7 +490,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setRow(0, new int[] { 10, 20 });
         assertArrayEquals(new int[] { 10, 20 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 3, 4 }, m.row(1));   // unchanged
     }
 
     @Test
@@ -505,7 +505,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.setColumn(0, new int[] { 10, 20 });
         assertArrayEquals(new int[] { 10, 20 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 4 }, m.column(1)); // unchanged
+        assertArrayEquals(new int[] { 2, 4 }, m.column(1));   // unchanged
     }
 
     @Test
@@ -520,7 +520,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateRow(0, x -> x * 2);
         assertArrayEquals(new int[] { 2, 4 }, m.row(0));
-        assertArrayEquals(new int[] { 3, 4 }, m.row(1)); // unchanged
+        assertArrayEquals(new int[] { 3, 4 }, m.row(1));   // unchanged
     }
 
     @Test
@@ -528,7 +528,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         m.updateColumn(0, x -> x + 10);
         assertArrayEquals(new int[] { 11, 13 }, m.column(0));
-        assertArrayEquals(new int[] { 2, 4 }, m.column(1)); // unchanged
+        assertArrayEquals(new int[] { 2, 4 }, m.column(1));   // unchanged
     }
 
     // ============ Diagonal Operations Tests ============
@@ -573,7 +573,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(10, m.get(0, 0));
         assertEquals(50, m.get(1, 1));
         assertEquals(90, m.get(2, 2));
-        assertEquals(2, m.get(0, 1)); // unchanged
+        assertEquals(2, m.get(0, 1));   // unchanged
     }
 
     @Test
@@ -622,7 +622,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(30, m.get(0, 2));
         assertEquals(50, m.get(1, 1));
         assertEquals(70, m.get(2, 0));
-        assertEquals(2, m.get(0, 1)); // unchanged
+        assertEquals(2, m.get(0, 1));   // unchanged
     }
 
     @Test
@@ -660,19 +660,19 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(0, 2));
-        assertEquals(0, m.get(1, 0)); // was 4
-        assertEquals(0, m.get(1, 1)); // was 5
-        assertEquals(0, m.get(1, 2)); // was 6
+        assertEquals(0, m.get(1, 0));   // was 4
+        assertEquals(0, m.get(1, 1));   // was 5
+        assertEquals(0, m.get(1, 2));   // was 6
     }
 
     @Test
     public void testReplaceIf_withIndices() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
-        m.replaceIf((i, j) -> i == j, 0); // Replace diagonal
+        m.replaceIf((i, j) -> i == j, 0);   // Replace diagonal
         assertEquals(0, m.get(0, 0));
         assertEquals(0, m.get(1, 1));
         assertEquals(0, m.get(2, 2));
-        assertEquals(2, m.get(0, 1)); // unchanged
+        assertEquals(2, m.get(0, 1));   // unchanged
     }
 
     @Test
@@ -734,7 +734,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
         assertEquals(4, m.get(1, 1));
-        assertEquals(0, m.get(2, 2)); // unchanged
+        assertEquals(0, m.get(2, 2));   // unchanged
     }
 
     @Test
@@ -742,7 +742,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } });
         int[][] patch = { { 1, 2 }, { 3, 4 } };
         m.fill(1, 1, patch);
-        assertEquals(0, m.get(0, 0)); // unchanged
+        assertEquals(0, m.get(0, 0));   // unchanged
         assertEquals(1, m.get(1, 1));
         assertEquals(2, m.get(1, 2));
         assertEquals(3, m.get(2, 1));
@@ -817,7 +817,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(4, extended.cols);
         assertEquals(1, extended.get(0, 0));
         assertEquals(4, extended.get(1, 1));
-        assertEquals(0, extended.get(3, 3)); // new cells are 0
+        assertEquals(0, extended.get(3, 3));   // new cells are 0
     }
 
     @Test
@@ -837,7 +837,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(3, extended.rows);
         assertEquals(3, extended.cols);
         assertEquals(1, extended.get(0, 0));
-        assertEquals(-1, extended.get(2, 2)); // new cell
+        assertEquals(-1, extended.get(2, 2));   // new cell
     }
 
     @Test
@@ -851,8 +851,8 @@ public class IntMatrix2025Test extends TestBase {
     public void testExtend_directional() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         IntMatrix extended = m.extend(1, 1, 2, 2);
-        assertEquals(5, extended.rows); // 1 + 3 + 1
-        assertEquals(7, extended.cols); // 2 + 3 + 2
+        assertEquals(5, extended.rows);   // 1 + 3 + 1
+        assertEquals(7, extended.cols);   // 2 + 3 + 2
 
         // Original values at offset position
         assertEquals(1, extended.get(1, 2));
@@ -1040,7 +1040,7 @@ public class IntMatrix2025Test extends TestBase {
         assertEquals(2, repeated.get(0, 3));
         assertEquals(2, repeated.get(0, 4));
         assertEquals(2, repeated.get(0, 5));
-        assertEquals(1, repeated.get(1, 0)); // second row same as first
+        assertEquals(1, repeated.get(1, 0));   // second row same as first
     }
 
     @Test
@@ -1060,14 +1060,14 @@ public class IntMatrix2025Test extends TestBase {
         // Check pattern
         assertEquals(1, repeated.get(0, 0));
         assertEquals(2, repeated.get(0, 1));
-        assertEquals(1, repeated.get(0, 2)); // repeat starts
+        assertEquals(1, repeated.get(0, 2));   // repeat starts
         assertEquals(2, repeated.get(0, 3));
 
         assertEquals(3, repeated.get(1, 0));
         assertEquals(4, repeated.get(1, 1));
 
         // Check vertical repeat
-        assertEquals(1, repeated.get(2, 0)); // vertical repeat starts
+        assertEquals(1, repeated.get(2, 0));   // vertical repeat starts
         assertEquals(2, repeated.get(2, 1));
     }
 
@@ -1200,10 +1200,10 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix product = m1.multiply(m2);
 
-        assertEquals(19, product.get(0, 0)); // 1*5 + 2*7
-        assertEquals(22, product.get(0, 1)); // 1*6 + 2*8
-        assertEquals(43, product.get(1, 0)); // 3*5 + 4*7
-        assertEquals(50, product.get(1, 1)); // 3*6 + 4*8
+        assertEquals(19, product.get(0, 0));   // 1*5 + 2*7
+        assertEquals(22, product.get(0, 1));   // 1*6 + 2*8
+        assertEquals(43, product.get(1, 0));   // 3*5 + 4*7
+        assertEquals(50, product.get(1, 1));   // 3*6 + 4*8
     }
 
     @Test
@@ -1215,13 +1215,13 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testMultiply_rectangularMatrices() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });   // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });   // 3x1
         IntMatrix product = m1.multiply(m2);
 
         assertEquals(1, product.rows);
         assertEquals(1, product.cols);
-        assertEquals(32, product.get(0, 0)); // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
+        assertEquals(32, product.get(0, 0));   // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
     }
 
     // ============ Conversion Tests ============
@@ -1274,10 +1274,10 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });
         IntMatrix result = m1.zipWith(m2, (a, b) -> a * b);
 
-        assertEquals(5, result.get(0, 0)); // 1*5
-        assertEquals(12, result.get(0, 1)); // 2*6
-        assertEquals(21, result.get(1, 0)); // 3*7
-        assertEquals(32, result.get(1, 1)); // 4*8
+        assertEquals(5, result.get(0, 0));   // 1*5
+        assertEquals(12, result.get(0, 1));   // 2*6
+        assertEquals(21, result.get(1, 0));   // 3*7
+        assertEquals(32, result.get(1, 1));   // 4*8
     }
 
     @Test
@@ -1294,10 +1294,10 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m3 = IntMatrix.of(new int[][] { { 9, 10 }, { 11, 12 } });
         IntMatrix result = m1.zipWith(m2, m3, (a, b, c) -> a + b + c);
 
-        assertEquals(15, result.get(0, 0)); // 1+5+9
-        assertEquals(18, result.get(0, 1)); // 2+6+10
-        assertEquals(21, result.get(1, 0)); // 3+7+11
-        assertEquals(24, result.get(1, 1)); // 4+8+12
+        assertEquals(15, result.get(0, 0));   // 1+5+9
+        assertEquals(18, result.get(0, 1));   // 2+6+10
+        assertEquals(21, result.get(1, 0));   // 3+7+11
+        assertEquals(24, result.get(1, 1));   // 4+8+12
     }
 
     @Test
@@ -1548,7 +1548,7 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m3 = IntMatrix.of(new int[][] { { 1, 2 }, { 4, 3 } });
 
         assertEquals(m1.hashCode(), m2.hashCode());
-        assertNotEquals(m1.hashCode(), m3.hashCode()); // Usually different
+        assertNotEquals(m1.hashCode(), m3.hashCode());   // Usually different
     }
 
     @Test
@@ -1558,10 +1558,10 @@ public class IntMatrix2025Test extends TestBase {
         IntMatrix m3 = IntMatrix.of(new int[][] { { 1, 2 }, { 4, 3 } });
         IntMatrix m4 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
-        assertTrue(m1.equals(m1)); // Same object
-        assertTrue(m1.equals(m2)); // Same values
-        assertFalse(m1.equals(m3)); // Different values
-        assertFalse(m1.equals(m4)); // Different dimensions
+        assertTrue(m1.equals(m1));   // Same object
+        assertTrue(m1.equals(m2));   // Same values
+        assertFalse(m1.equals(m3));   // Different values
+        assertFalse(m1.equals(m4));   // Different dimensions
         assertFalse(m1.equals(null));
         assertFalse(m1.equals("not a matrix"));
     }
@@ -1585,15 +1585,15 @@ public class IntMatrix2025Test extends TestBase {
 
         // Test sum
         int totalSum = m.streamH().sum();
-        assertEquals(45, totalSum); // 1+2+3+4+5+6+7+8+9 = 45
+        assertEquals(45, totalSum);   // 1+2+3+4+5+6+7+8+9 = 45
 
         // Test sum of specific row
         int row1Sum = m.streamH(1).sum();
-        assertEquals(15, row1Sum); // 4+5+6 = 15
+        assertEquals(15, row1Sum);   // 4+5+6 = 15
 
         // Test sum of specific column
         int col0Sum = m.streamV(0).sum();
-        assertEquals(12, col0Sum); // 1+4+7 = 12
+        assertEquals(12, col0Sum);   // 1+4+7 = 12
 
         // Test min/max
         int min = m.streamH().min().orElse(0);
@@ -1608,10 +1608,10 @@ public class IntMatrix2025Test extends TestBase {
 
         // Test diagonal operations
         int diagonalSum = m.streamLU2RD().sum();
-        assertEquals(15, diagonalSum); // 1+5+9 = 15
+        assertEquals(15, diagonalSum);   // 1+5+9 = 15
 
         int antiDiagonalSum = m.streamRU2LD().sum();
-        assertEquals(15, antiDiagonalSum); // 3+5+7 = 15
+        assertEquals(15, antiDiagonalSum);   // 3+5+7 = 15
     }
 
     @Test
@@ -1621,16 +1621,16 @@ public class IntMatrix2025Test extends TestBase {
         // Test statistics on individual rows
         List<Integer> rowSums = m.streamR().map(row -> row.sum()).toList();
         assertEquals(3, rowSums.size());
-        assertEquals(6, rowSums.get(0).intValue()); // 1+2+3
-        assertEquals(15, rowSums.get(1).intValue()); // 4+5+6
-        assertEquals(24, rowSums.get(2).intValue()); // 7+8+9
+        assertEquals(6, rowSums.get(0).intValue());   // 1+2+3
+        assertEquals(15, rowSums.get(1).intValue());   // 4+5+6
+        assertEquals(24, rowSums.get(2).intValue());   // 7+8+9
 
         // Test statistics on individual columns
         List<Integer> colSums = m.streamC().map(col -> col.sum()).toList();
         assertEquals(3, colSums.size());
-        assertEquals(12, colSums.get(0).intValue()); // 1+4+7
-        assertEquals(15, colSums.get(1).intValue()); // 2+5+8
-        assertEquals(18, colSums.get(2).intValue()); // 3+6+9
+        assertEquals(12, colSums.get(0).intValue());   // 1+4+7
+        assertEquals(15, colSums.get(1).intValue());   // 2+5+8
+        assertEquals(18, colSums.get(2).intValue());   // 3+6+9
     }
 
     // ============ Edge Case Tests ============
@@ -1696,12 +1696,12 @@ public class IntMatrix2025Test extends TestBase {
 
         // Test addition
         IntMatrix largeSum = large1.add(large2);
-        assertEquals(3, largeSum.get(0, 0)); // 1 + 2 = 3
-        assertEquals(300, largeSum.get(9, 9)); // 100 + 200 = 300
+        assertEquals(3, largeSum.get(0, 0));   // 1 + 2 = 3
+        assertEquals(300, largeSum.get(9, 9));   // 100 + 200 = 300
 
         // Test sum of all elements
         long totalSum = largeSum.streamH().asLongStream().sum();
-        assertEquals(15150, totalSum); // 3*(1+2+...+100) = 3*5050 = 15150
+        assertEquals(15150, totalSum);   // 3*(1+2+...+100) = 3*5050 = 15150
     }
 
     @Test
@@ -1732,17 +1732,17 @@ public class IntMatrix2025Test extends TestBase {
 
         // Element-wise multiplication
         IntMatrix elementWiseProduct = m1.zipWith(m2, (a, b) -> a * b);
-        assertEquals(2, elementWiseProduct.get(0, 0)); // 1*2
-        assertEquals(6, elementWiseProduct.get(0, 1)); // 2*3
-        assertEquals(12, elementWiseProduct.get(1, 0)); // 3*4
-        assertEquals(20, elementWiseProduct.get(1, 1)); // 4*5
+        assertEquals(2, elementWiseProduct.get(0, 0));   // 1*2
+        assertEquals(6, elementWiseProduct.get(0, 1));   // 2*3
+        assertEquals(12, elementWiseProduct.get(1, 0));   // 3*4
+        assertEquals(20, elementWiseProduct.get(1, 1));   // 4*5
 
         // Element-wise division
         IntMatrix elementWiseDivision = m2.zipWith(m1, (a, b) -> a / b);
-        assertEquals(2, elementWiseDivision.get(0, 0)); // 2/1
-        assertEquals(1, elementWiseDivision.get(0, 1)); // 3/2 (integer division)
-        assertEquals(1, elementWiseDivision.get(1, 0)); // 4/3 (integer division)
-        assertEquals(1, elementWiseDivision.get(1, 1)); // 5/4 (integer division)
+        assertEquals(2, elementWiseDivision.get(0, 0));   // 2/1
+        assertEquals(1, elementWiseDivision.get(0, 1));   // 3/2 (integer division)
+        assertEquals(1, elementWiseDivision.get(1, 0));   // 4/3 (integer division)
+        assertEquals(1, elementWiseDivision.get(1, 1));   // 5/4 (integer division)
     }
 
     // ============ Integer Overflow Tests ============
@@ -1850,7 +1850,7 @@ public class IntMatrix2025Test extends TestBase {
 
         // flatOp flattens all rows into one array, so there's only 1 result
         assertEquals(1, maxValues.size());
-        assertEquals(6, maxValues.get(0).intValue()); // max of [1,2,3,4,5,6] is 6
+        assertEquals(6, maxValues.get(0).intValue());   // max of [1,2,3,4,5,6] is 6
     }
 
     @Test

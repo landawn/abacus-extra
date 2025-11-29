@@ -142,7 +142,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(2.0f, m.get(1, 1), DELTA);
         assertEquals(3.0f, m.get(2, 2), DELTA);
         assertEquals(4.0f, m.get(0, 2), DELTA);
-        assertEquals(2.0f, m.get(1, 1), DELTA); // Overwritten
+        assertEquals(2.0f, m.get(1, 1), DELTA);   // Overwritten
         assertEquals(6.0f, m.get(2, 0), DELTA);
 
         // Test with only main diagonal
@@ -432,17 +432,17 @@ public class FloatMatrixTest extends TestBase {
         m.replaceIf(x -> x > 5.0f, 0.0f);
         assertEquals(1.0f, m.get(0, 0), DELTA);
         assertEquals(5.0f, m.get(1, 1), DELTA);
-        assertEquals(0.0f, m.get(2, 2), DELTA); // was 9.0f
+        assertEquals(0.0f, m.get(2, 2), DELTA);   // was 9.0f
     }
 
     @Test
     public void testReplaceIfWithIndices() {
         FloatMatrix m = matrix.copy();
-        m.replaceIf((i, j) -> i == j, 0.0f); // Replace diagonal
+        m.replaceIf((i, j) -> i == j, 0.0f);   // Replace diagonal
         assertEquals(0.0f, m.get(0, 0), DELTA);
         assertEquals(0.0f, m.get(1, 1), DELTA);
         assertEquals(0.0f, m.get(2, 2), DELTA);
-        assertEquals(2.0f, m.get(0, 1), DELTA); // unchanged
+        assertEquals(2.0f, m.get(0, 1), DELTA);   // unchanged
     }
 
     @Test
@@ -483,7 +483,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(2.0f, m.get(0, 1), DELTA);
         assertEquals(3.0f, m.get(1, 0), DELTA);
         assertEquals(4.0f, m.get(1, 1), DELTA);
-        assertEquals(0.0f, m.get(2, 2), DELTA); // unchanged
+        assertEquals(0.0f, m.get(2, 2), DELTA);   // unchanged
     }
 
     @Test
@@ -491,7 +491,7 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } });
         float[][] patch = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         m.fill(1, 1, patch);
-        assertEquals(0.0f, m.get(0, 0), DELTA); // unchanged
+        assertEquals(0.0f, m.get(0, 0), DELTA);   // unchanged
         assertEquals(1.0f, m.get(1, 1), DELTA);
         assertEquals(2.0f, m.get(1, 2), DELTA);
         assertEquals(3.0f, m.get(2, 1), DELTA);
@@ -551,7 +551,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(5, extended.rows);
         assertEquals(5, extended.cols);
         assertEquals(1.0f, extended.get(0, 0), DELTA);
-        assertEquals(0.0f, extended.get(3, 3), DELTA); // new cells are 0
+        assertEquals(0.0f, extended.get(3, 3), DELTA);   // new cells are 0
 
         // Test truncation
         FloatMatrix truncated = matrix.extend(2, 2);
@@ -565,7 +565,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(4, extended.rows);
         assertEquals(4, extended.cols);
         assertEquals(1.0f, extended.get(0, 0), DELTA);
-        assertEquals(-1.0f, extended.get(3, 3), DELTA); // new cell
+        assertEquals(-1.0f, extended.get(3, 3), DELTA);   // new cell
 
         // Test negative dimensions
         assertThrows(IllegalArgumentException.class, () -> matrix.extend(-1, 3, 0.0f));
@@ -575,8 +575,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testExtendDirectional() {
         FloatMatrix extended = matrix.extend(1, 1, 2, 2);
-        assertEquals(5, extended.rows); // 1 + 3 + 1
-        assertEquals(7, extended.cols); // 2 + 3 + 2
+        assertEquals(5, extended.rows);   // 1 + 3 + 1
+        assertEquals(7, extended.cols);   // 2 + 3 + 2
 
         // Original values should be at offset position
         assertEquals(1.0f, extended.get(1, 2), DELTA);
@@ -730,7 +730,7 @@ public class FloatMatrixTest extends TestBase {
         assertEquals(2.0f, repeated.get(0, 3), DELTA);
         assertEquals(2.0f, repeated.get(0, 4), DELTA);
         assertEquals(2.0f, repeated.get(0, 5), DELTA);
-        assertEquals(1.0f, repeated.get(1, 0), DELTA); // second row same as first
+        assertEquals(1.0f, repeated.get(1, 0), DELTA);   // second row same as first
 
         // Test invalid arguments
         assertThrows(IllegalArgumentException.class, () -> m.repelem(0, 1));
@@ -747,16 +747,16 @@ public class FloatMatrixTest extends TestBase {
         // Check pattern
         assertEquals(1.0f, repeated.get(0, 0), DELTA);
         assertEquals(2.0f, repeated.get(0, 1), DELTA);
-        assertEquals(1.0f, repeated.get(0, 2), DELTA); // repeat starts
+        assertEquals(1.0f, repeated.get(0, 2), DELTA);   // repeat starts
         assertEquals(2.0f, repeated.get(0, 3), DELTA);
-        assertEquals(1.0f, repeated.get(0, 4), DELTA); // another repeat
+        assertEquals(1.0f, repeated.get(0, 4), DELTA);   // another repeat
         assertEquals(2.0f, repeated.get(0, 5), DELTA);
 
         assertEquals(3.0f, repeated.get(1, 0), DELTA);
         assertEquals(4.0f, repeated.get(1, 1), DELTA);
 
         // Check vertical repeat
-        assertEquals(1.0f, repeated.get(2, 0), DELTA); // vertical repeat starts
+        assertEquals(1.0f, repeated.get(2, 0), DELTA);   // vertical repeat starts
         assertEquals(2.0f, repeated.get(2, 1), DELTA);
 
         // Test invalid arguments
@@ -859,10 +859,10 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
         FloatMatrix product = m1.multiply(m2);
 
-        assertEquals(19.0f, product.get(0, 0), DELTA); // 1*5 + 2*7
-        assertEquals(22.0f, product.get(0, 1), DELTA); // 1*6 + 2*8
-        assertEquals(43.0f, product.get(1, 0), DELTA); // 3*5 + 4*7
-        assertEquals(50.0f, product.get(1, 1), DELTA); // 3*6 + 4*8
+        assertEquals(19.0f, product.get(0, 0), DELTA);   // 1*5 + 2*7
+        assertEquals(22.0f, product.get(0, 1), DELTA);   // 1*6 + 2*8
+        assertEquals(43.0f, product.get(1, 0), DELTA);   // 3*5 + 4*7
+        assertEquals(50.0f, product.get(1, 1), DELTA);   // 3*6 + 4*8
 
         // Test incompatible dimensions
         FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f } });
@@ -893,10 +893,10 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
         FloatMatrix result = m1.zipWith(m2, (a, b) -> a * b);
 
-        assertEquals(5.0f, result.get(0, 0), DELTA); // 1*5
-        assertEquals(12.0f, result.get(0, 1), DELTA); // 2*6
-        assertEquals(21.0f, result.get(1, 0), DELTA); // 3*7
-        assertEquals(32.0f, result.get(1, 1), DELTA); // 4*8
+        assertEquals(5.0f, result.get(0, 0), DELTA);   // 1*5
+        assertEquals(12.0f, result.get(0, 1), DELTA);   // 2*6
+        assertEquals(21.0f, result.get(1, 0), DELTA);   // 3*7
+        assertEquals(32.0f, result.get(1, 1), DELTA);   // 4*8
 
         // Test different shapes
         FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f } });
@@ -910,10 +910,10 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m3 = FloatMatrix.of(new float[][] { { 9.0f, 10.0f }, { 11.0f, 12.0f } });
         FloatMatrix result = m1.zipWith(m2, m3, (a, b, c) -> a + b + c);
 
-        assertEquals(15.0f, result.get(0, 0), DELTA); // 1+5+9
-        assertEquals(18.0f, result.get(0, 1), DELTA); // 2+6+10
-        assertEquals(21.0f, result.get(1, 0), DELTA); // 3+7+11
-        assertEquals(24.0f, result.get(1, 1), DELTA); // 4+8+12
+        assertEquals(15.0f, result.get(0, 0), DELTA);   // 1+5+9
+        assertEquals(18.0f, result.get(0, 1), DELTA);   // 2+6+10
+        assertEquals(21.0f, result.get(1, 0), DELTA);   // 3+7+11
+        assertEquals(24.0f, result.get(1, 1), DELTA);   // 4+8+12
     }
 
     @Test
@@ -1098,7 +1098,7 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 4.0f, 3.0f } });
 
         assertEquals(m1.hashCode(), m2.hashCode());
-        assertNotEquals(m1.hashCode(), m3.hashCode()); // Usually different
+        assertNotEquals(m1.hashCode(), m3.hashCode());   // Usually different
     }
 
     @Test
@@ -1108,10 +1108,10 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m3 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 4.0f, 3.0f } });
         FloatMatrix m4 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
 
-        assertTrue(m1.equals(m1)); // Same object
-        assertTrue(m1.equals(m2)); // Same values
-        assertFalse(m1.equals(m3)); // Different values
-        assertFalse(m1.equals(m4)); // Different dimensions
+        assertTrue(m1.equals(m1));   // Same object
+        assertTrue(m1.equals(m2));   // Same values
+        assertFalse(m1.equals(m3));   // Different values
+        assertFalse(m1.equals(m4));   // Different dimensions
         assertFalse(m1.equals(null));
         assertFalse(m1.equals("not a matrix"));
     }
@@ -1130,12 +1130,12 @@ public class FloatMatrixTest extends TestBase {
     public void testIteratorNoSuchElement() {
         // Test streamH iterator
         FloatStream stream = matrix.streamH(0, 1);
-        stream.toArray(); // Consume all
+        stream.toArray();   // Consume all
         assertThrows(IllegalStateException.class, () -> stream.iterator().next());
 
         // Test streamLU2RD iterator
         FloatStream diagStream = matrix.streamLU2RD();
-        diagStream.toArray(); // Consume all
+        diagStream.toArray();   // Consume all
         assertThrows(IllegalStateException.class, () -> diagStream.iterator().next());
     }
 

@@ -276,7 +276,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple1_sum() {
         CharTuple1 tuple = CharTuple.of('A');
-        assertEquals(65, tuple.sum()); // ASCII value of 'A' is 65
+        assertEquals(65, tuple.sum());   // ASCII value of 'A' is 65
     }
 
     @Test
@@ -312,8 +312,8 @@ public class CharTuple2510Test extends TestBase {
         CharTuple1 tuple3 = CharTuple.of('B');
 
         assertEquals(tuple1.hashCode(), tuple2.hashCode());
-        assertEquals(65, tuple1.hashCode()); // ASCII value of 'A'
-        assertEquals(66, tuple3.hashCode()); // ASCII value of 'B'
+        assertEquals(65, tuple1.hashCode());   // ASCII value of 'A'
+        assertEquals(66, tuple3.hashCode());   // ASCII value of 'B'
     }
 
     @Test
@@ -364,7 +364,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple2_sum() {
         CharTuple2 tuple = CharTuple.of('A', 'B');
-        assertEquals(131, tuple.sum()); // 65 + 66
+        assertEquals(131, tuple.sum());   // 65 + 66
     }
 
     @Test
@@ -483,7 +483,7 @@ public class CharTuple2510Test extends TestBase {
     @Test
     public void testTuple3_sum() {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
-        assertEquals(198, tuple.sum()); // 65 + 66 + 67
+        assertEquals(198, tuple.sum());   // 65 + 66 + 67
     }
 
     @Test
@@ -743,7 +743,7 @@ public class CharTuple2510Test extends TestBase {
     public void testStream() {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
         int sum = tuple.stream().sum();
-        assertEquals(198, sum); // 65 + 66 + 67
+        assertEquals(198, sum);   // 65 + 66 + 67
     }
 
     @Test
@@ -797,13 +797,13 @@ public class CharTuple2510Test extends TestBase {
         CharTuple3 tuple = CharTuple.of('a', 'b', 'c');
         assertEquals('a', tuple.min());
         assertEquals('c', tuple.max());
-        assertEquals(294, tuple.sum()); // 97 + 98 + 99
+        assertEquals(294, tuple.sum());   // 97 + 98 + 99
     }
 
     @Test
     public void testMixedCaseCharacters() {
         CharTuple2 tuple = CharTuple.of('A', 'a');
-        assertEquals('A', tuple.min()); // 'A' = 65, 'a' = 97
+        assertEquals('A', tuple.min());   // 'A' = 65, 'a' = 97
         assertEquals('a', tuple.max());
     }
 }

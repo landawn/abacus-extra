@@ -76,7 +76,7 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testIsParallelable_singleArg_largeMatrix() {
-        IntMatrix m = IntMatrix.of(new int[100][100]); // count = 10000
+        IntMatrix m = IntMatrix.of(new int[100][100]);   // count = 10000
         Matrixes.setParallelEnabled(ParallelEnabled.DEFAULT);
         // Large matrix should be parallelable by default if parallel streams supported
         boolean result = Matrixes.isParallelable(m);
@@ -369,7 +369,7 @@ public class Matrixes2510Test extends TestBase {
     public void testRun_intBiConsumer_withRange() {
         List<String> positions = new ArrayList<>();
         Matrixes.run(1, 3, 2, 5, (i, j) -> positions.add(i + "," + j), false);
-        assertEquals(6, positions.size()); // 2 rows * 3 cols
+        assertEquals(6, positions.size());   // 2 rows * 3 cols
         assertTrue(positions.contains("1,2"));
         assertTrue(positions.contains("2,4"));
         assertFalse(positions.contains("0,0"));
@@ -437,9 +437,9 @@ public class Matrixes2510Test extends TestBase {
     public void testCall_withRange() {
         Stream<Integer> result = Matrixes.call(1, 4, 2, 5, (i, j) -> i * 10 + j, false);
         List<Integer> values = result.toList();
-        assertEquals(9, values.size()); // 3 rows * 3 cols
-        assertTrue(values.contains(12)); // row 1, col 2
-        assertTrue(values.contains(34)); // row 3, col 4
+        assertEquals(9, values.size());   // 3 rows * 3 cols
+        assertTrue(values.contains(12));   // row 1, col 2
+        assertTrue(values.contains(34));   // row 3, col 4
     }
 
     @Test
@@ -456,8 +456,8 @@ public class Matrixes2510Test extends TestBase {
         IntStream result = Matrixes.callToInt(2, 3, (i, j) -> i + j, false);
         int[] values = result.toArray();
         assertEquals(6, values.length);
-        assertEquals(0, values[0]); // 0+0
-        assertTrue(IntStream.of(values).anyMatch(v -> v == 3)); // 1+2
+        assertEquals(0, values[0]);   // 0+0
+        assertTrue(IntStream.of(values).anyMatch(v -> v == 3));   // 1+2
     }
 
     @Test
@@ -473,7 +473,7 @@ public class Matrixes2510Test extends TestBase {
         int[] values = result.toArray();
         assertEquals(4, values.length);
         assertTrue(IntStream.of(values).anyMatch(v -> v == 0));
-        assertTrue(IntStream.of(values).anyMatch(v -> v == 1)); // 1*1
+        assertTrue(IntStream.of(values).anyMatch(v -> v == 1));   // 1*1
     }
 
     @Test
@@ -496,19 +496,19 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testMultiply_basic() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } }); // 2x2
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } }); // 2x2
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });   // 2x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6 }, { 7, 8 } });   // 2x2
         List<String> triplets = new ArrayList<>();
         Matrixes.multiply(m1, m2, (i, j, k) -> triplets.add(i + "," + j + "," + k));
-        assertEquals(8, triplets.size()); // 2*2*2
+        assertEquals(8, triplets.size());   // 2*2*2
         assertTrue(triplets.contains("0,0,0"));
         assertTrue(triplets.contains("1,1,1"));
     }
 
     @Test
     public void testMultiply_incompatibleDimensions() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } }); // 1x2
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } }); // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 } });   // 1x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 3 }, { 4 }, { 5 } });   // 3x1
         assertThrows(IllegalArgumentException.class, () -> {
             Matrixes.multiply(m1, m2, (i, j, k) -> {
             });
@@ -517,11 +517,11 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testMultiply_compatibleDimensions() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });   // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });   // 3x1
         AtomicInteger count = new AtomicInteger(0);
         Matrixes.multiply(m1, m2, (i, j, k) -> count.incrementAndGet());
-        assertEquals(3, count.get()); // 1*1*3
+        assertEquals(3, count.get());   // 1*1*3
     }
 
     @Test
@@ -552,8 +552,8 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix result = Matrixes.zip(m1, m2, (a, b) -> (byte) (a + b));
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(6, result.get(0, 0)); // 1+5
-        assertEquals(12, result.get(1, 1)); // 4+8
+        assertEquals(6, result.get(0, 0));   // 1+5
+        assertEquals(12, result.get(1, 1));   // 4+8
     }
 
     @Test
@@ -564,8 +564,8 @@ public class Matrixes2510Test extends TestBase {
         ByteMatrix result = Matrixes.zip(m1, m2, m3, (a, b, c) -> (byte) (a + b + c));
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(16, result.get(0, 0)); // 1+5+10
-        assertEquals(52, result.get(1, 1)); // 4+8+40
+        assertEquals(16, result.get(0, 0));   // 1+5+10
+        assertEquals(52, result.get(1, 1));   // 4+8+40
     }
 
     @Test
@@ -610,8 +610,8 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix result = Matrixes.zipToInt(m1, m2, (a, b) -> a * b);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(5, result.get(0, 0)); // 1*5
-        assertEquals(32, result.get(1, 1)); // 4*8
+        assertEquals(5, result.get(0, 0));   // 1*5
+        assertEquals(32, result.get(1, 1));   // 4*8
     }
 
     @Test
@@ -622,8 +622,8 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix result = Matrixes.zipToInt(m1, m2, m3, (a, b, c) -> a + b + c);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(8, result.get(0, 0)); // 1+5+2
-        assertEquals(14, result.get(1, 1)); // 4+8+2
+        assertEquals(8, result.get(0, 0));   // 1+5+2
+        assertEquals(14, result.get(1, 1));   // 4+8+2
     }
 
     @Test
@@ -683,7 +683,7 @@ public class Matrixes2510Test extends TestBase {
         IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(16, result.get(0, 0)); // 1+5+10
+        assertEquals(16, result.get(0, 0));   // 1+5+10
     }
 
     @Test
@@ -1077,8 +1077,8 @@ public class Matrixes2510Test extends TestBase {
         Stream<Integer> result = Matrixes.call(10, 20, (i, j) -> i * 100 + j, false);
         List<Integer> values = result.toList();
         assertEquals(200, values.size());
-        assertTrue(values.contains(0)); // 0*100 + 0
-        assertTrue(values.contains(919)); // 9*100 + 19
+        assertTrue(values.contains(0));   // 0*100 + 0
+        assertTrue(values.contains(919));   // 9*100 + 19
     }
 
     @Test
@@ -1091,8 +1091,8 @@ public class Matrixes2510Test extends TestBase {
 
     @Test
     public void testMultiply_rectangularMatrices() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });   // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });   // 3x1
         List<Integer> kValues = new ArrayList<>();
         Matrixes.multiply(m1, m2, (i, j, k) -> kValues.add(k));
         assertEquals(3, kValues.size());

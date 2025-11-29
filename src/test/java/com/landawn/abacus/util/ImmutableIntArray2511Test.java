@@ -395,8 +395,8 @@ public class ImmutableIntArray2511Test extends TestBase {
             valueSum.addAndGet(value);
         });
 
-        assertEquals(6, indexSum.get()); // 0 + 1 + 2 + 3
-        assertEquals(1000, valueSum.get()); // 100 + 200 + 300 + 400
+        assertEquals(6, indexSum.get());   // 0 + 1 + 2 + 3
+        assertEquals(1000, valueSum.get());   // 100 + 200 + 300 + 400
     }
 
     @Test

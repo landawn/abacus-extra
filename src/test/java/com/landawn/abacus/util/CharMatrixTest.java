@@ -486,7 +486,7 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('y', matrix.get(0, 1));
         Assertions.assertEquals('z', matrix.get(1, 0));
         Assertions.assertEquals('w', matrix.get(1, 1));
-        Assertions.assertEquals('i', matrix.get(2, 2)); // unchanged
+        Assertions.assertEquals('i', matrix.get(2, 2));   // unchanged
     }
 
     @Test
@@ -496,7 +496,7 @@ public class CharMatrixTest extends TestBase {
 
         char[][] b = { { 'x', 'y' } };
         matrix.fill(1, 1, b);
-        Assertions.assertEquals('a', matrix.get(0, 0)); // unchanged
+        Assertions.assertEquals('a', matrix.get(0, 0));   // unchanged
         Assertions.assertEquals('x', matrix.get(1, 1));
         Assertions.assertEquals('y', matrix.get(1, 2));
 
@@ -516,7 +516,7 @@ public class CharMatrixTest extends TestBase {
         Assertions.assertEquals('d', copy.get(1, 1));
 
         copy.set(0, 0, 'x');
-        Assertions.assertEquals('a', matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals('a', matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -641,7 +641,7 @@ public class CharMatrixTest extends TestBase {
         CharMatrix flipped = matrix.flipH();
         Assertions.assertEquals('c', flipped.get(0, 0));
         Assertions.assertEquals('a', flipped.get(0, 2));
-        Assertions.assertEquals('a', matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals('a', matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -652,7 +652,7 @@ public class CharMatrixTest extends TestBase {
         CharMatrix flipped = matrix.flipV();
         Assertions.assertEquals('e', flipped.get(0, 0));
         Assertions.assertEquals('a', flipped.get(2, 0));
-        Assertions.assertEquals('a', matrix.get(0, 0)); // original unchanged
+        Assertions.assertEquals('a', matrix.get(0, 0));   // original unchanged
     }
 
     @Test
@@ -839,10 +839,10 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrixB = CharMatrix.of(b);
 
         CharMatrix sum = matrixA.add(matrixB);
-        Assertions.assertEquals('b', sum.get(0, 0)); // 'a' + 1
-        Assertions.assertEquals('d', sum.get(0, 1)); // 'b' + 2
-        Assertions.assertEquals('f', sum.get(1, 0)); // 'c' + 3
-        Assertions.assertEquals('h', sum.get(1, 1)); // 'd' + 4
+        Assertions.assertEquals('b', sum.get(0, 0));   // 'a' + 1
+        Assertions.assertEquals('d', sum.get(0, 1));   // 'b' + 2
+        Assertions.assertEquals('f', sum.get(1, 0));   // 'c' + 3
+        Assertions.assertEquals('h', sum.get(1, 1));   // 'd' + 4
 
         CharMatrix differentShape = CharMatrix.of(new char[][] { { 'x' } });
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrixA.add(differentShape));
@@ -856,10 +856,10 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrixB = CharMatrix.of(b);
 
         CharMatrix diff = matrixA.subtract(matrixB);
-        Assertions.assertEquals('c', diff.get(0, 0)); // 'd' - 1
-        Assertions.assertEquals('c', diff.get(0, 1)); // 'e' - 2
-        Assertions.assertEquals('c', diff.get(1, 0)); // 'f' - 3
-        Assertions.assertEquals('c', diff.get(1, 1)); // 'g' - 4
+        Assertions.assertEquals('c', diff.get(0, 0));   // 'd' - 1
+        Assertions.assertEquals('c', diff.get(0, 1));   // 'e' - 2
+        Assertions.assertEquals('c', diff.get(1, 0));   // 'f' - 3
+        Assertions.assertEquals('c', diff.get(1, 1));   // 'g' - 4
 
         CharMatrix differentShape = CharMatrix.of(new char[][] { { 'x' } });
         Assertions.assertThrows(IllegalArgumentException.class, () -> matrixA.subtract(differentShape));
@@ -901,8 +901,8 @@ public class CharMatrixTest extends TestBase {
         IntMatrix intMatrix = matrix.toIntMatrix();
         Assertions.assertEquals(2, intMatrix.rows);
         Assertions.assertEquals(2, intMatrix.cols);
-        Assertions.assertEquals(97, intMatrix.get(0, 0)); // 'a'
-        Assertions.assertEquals(100, intMatrix.get(1, 1)); // 'd'
+        Assertions.assertEquals(97, intMatrix.get(0, 0));   // 'a'
+        Assertions.assertEquals(100, intMatrix.get(1, 1));   // 'd'
     }
 
     @Test
@@ -913,8 +913,8 @@ public class CharMatrixTest extends TestBase {
         LongMatrix longMatrix = matrix.toLongMatrix();
         Assertions.assertEquals(2, longMatrix.rows);
         Assertions.assertEquals(2, longMatrix.cols);
-        Assertions.assertEquals(97L, longMatrix.get(0, 0)); // 'a'
-        Assertions.assertEquals(100L, longMatrix.get(1, 1)); // 'd'
+        Assertions.assertEquals(97L, longMatrix.get(0, 0));   // 'a'
+        Assertions.assertEquals(100L, longMatrix.get(1, 1));   // 'd'
     }
 
     @Test
@@ -925,8 +925,8 @@ public class CharMatrixTest extends TestBase {
         FloatMatrix floatMatrix = matrix.toFloatMatrix();
         Assertions.assertEquals(2, floatMatrix.rows);
         Assertions.assertEquals(2, floatMatrix.cols);
-        Assertions.assertEquals(97.0f, floatMatrix.get(0, 0)); // 'a'
-        Assertions.assertEquals(100.0f, floatMatrix.get(1, 1)); // 'd'
+        Assertions.assertEquals(97.0f, floatMatrix.get(0, 0));   // 'a'
+        Assertions.assertEquals(100.0f, floatMatrix.get(1, 1));   // 'd'
     }
 
     @Test
@@ -937,8 +937,8 @@ public class CharMatrixTest extends TestBase {
         DoubleMatrix doubleMatrix = matrix.toDoubleMatrix();
         Assertions.assertEquals(2, doubleMatrix.rows);
         Assertions.assertEquals(2, doubleMatrix.cols);
-        Assertions.assertEquals(97.0, doubleMatrix.get(0, 0)); // 'a'
-        Assertions.assertEquals(100.0, doubleMatrix.get(1, 1)); // 'd'
+        Assertions.assertEquals(97.0, doubleMatrix.get(0, 0));   // 'a'
+        Assertions.assertEquals(100.0, doubleMatrix.get(1, 1));   // 'd'
     }
 
     @Test
@@ -1171,10 +1171,10 @@ public class CharMatrixTest extends TestBase {
         CharMatrix matrix3 = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'e' } });
         CharMatrix matrix4 = CharMatrix.of(new char[][] { { 'a', 'b' } });
 
-        Assertions.assertEquals(matrix1, matrix1); // same instance
-        Assertions.assertEquals(matrix1, matrix2); // same content
-        Assertions.assertNotEquals(matrix1, matrix3); // different content
-        Assertions.assertNotEquals(matrix1, matrix4); // different dimensions
+        Assertions.assertEquals(matrix1, matrix1);   // same instance
+        Assertions.assertEquals(matrix1, matrix2);   // same content
+        Assertions.assertNotEquals(matrix1, matrix3);   // different content
+        Assertions.assertNotEquals(matrix1, matrix4);   // different dimensions
         Assertions.assertNotEquals(matrix1, null);
         Assertions.assertNotEquals(matrix1, "not a matrix");
     }

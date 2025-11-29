@@ -58,10 +58,10 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple2 tuple2 = IntTuple.of(10, 20);
-     * int size = tuple2.arity();  // returns 2
+     * int size = tuple2.arity();   // returns 2
      *
      * IntTuple3 tuple3 = IntTuple.of(1, 2, 3);
-     * int size3 = tuple3.arity();  // returns 3
+     * int size3 = tuple3.arity();   // returns 3
      * }</pre>
      *
      * @return the number of elements in this tuple, which is a positive integer greater than zero

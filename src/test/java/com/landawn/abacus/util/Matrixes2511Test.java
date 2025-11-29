@@ -79,7 +79,7 @@ public class Matrixes2511Test extends TestBase {
     public void testIsParallelable_smallMatrix_defaultSetting() {
         IntMatrix small = IntMatrix.of(new int[10][10]);
         boolean result = Matrixes.isParallelable(small);
-        assertFalse(result); // 100 elements < 8192
+        assertFalse(result);   // 100 elements < 8192
     }
 
     @Test
@@ -90,7 +90,7 @@ public class Matrixes2511Test extends TestBase {
             Matrixes.setParallelEnabled(ParallelEnabled.YES);
             boolean result = Matrixes.isParallelable(small);
             // Result depends on whether parallel streams are supported
-            assertTrue(result || !result); // Just verify it returns a boolean
+            assertTrue(result || !result);   // Just verify it returns a boolean
         } finally {
             Matrixes.setParallelEnabled(original);
         }
@@ -113,7 +113,7 @@ public class Matrixes2511Test extends TestBase {
         IntMatrix large = IntMatrix.of(new int[100][100]);
         boolean result = Matrixes.isParallelable(large);
         // 10000 elements >= 8192, so should be true if supported
-        assertTrue(result || !result); // Verify it returns a boolean
+        assertTrue(result || !result);   // Verify it returns a boolean
     }
 
     @Test
@@ -449,8 +449,8 @@ public class Matrixes2511Test extends TestBase {
 
         assertEquals(23, grid[2][3]);
         assertEquals(47, grid[4][7]);
-        assertEquals(0, grid[0][0]); // Outside region
-        assertEquals(0, grid[5][9]); // Outside region
+        assertEquals(0, grid[0][0]);   // Outside region
+        assertEquals(0, grid[5][9]);   // Outside region
     }
 
     @Test
@@ -466,8 +466,8 @@ public class Matrixes2511Test extends TestBase {
             }
         }
 
-        assertEquals(0, grid[0][0]); // Outside region
-        assertEquals(0, grid[19][19]); // Outside region
+        assertEquals(0, grid[0][0]);   // Outside region
+        assertEquals(0, grid[19][19]);   // Outside region
     }
 
     @Test
@@ -602,8 +602,8 @@ public class Matrixes2511Test extends TestBase {
         assertNotNull(result);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(6, result.get(0, 0)); // 1 + 5
-        assertEquals(12, result.get(1, 1)); // 4 + 8
+        assertEquals(6, result.get(0, 0));   // 1 + 5
+        assertEquals(12, result.get(1, 1));   // 4 + 8
     }
 
     @Test
@@ -616,7 +616,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(7, result.get(0, 0)); // 1 + 5 + 1
+        assertEquals(7, result.get(0, 0));   // 1 + 5 + 1
     }
 
     @Test
@@ -627,7 +627,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6, result.get(0, 0)); // 1 + 5
+        assertEquals(6, result.get(0, 0));   // 1 + 5
     }
 
     // ============ Zip Tests - IntMatrix ============
@@ -642,8 +642,8 @@ public class Matrixes2511Test extends TestBase {
         assertNotNull(result);
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals(6, result.get(0, 0)); // 1 + 5
-        assertEquals(12, result.get(1, 1)); // 4 + 8
+        assertEquals(6, result.get(0, 0));   // 1 + 5
+        assertEquals(12, result.get(1, 1));   // 4 + 8
     }
 
     @Test
@@ -656,7 +656,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(7, result.get(0, 0)); // 1 + 5 + 1
+        assertEquals(7, result.get(0, 0));   // 1 + 5 + 1
     }
 
     @Test
@@ -667,7 +667,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6, result.get(0, 0)); // 1 + 5
+        assertEquals(6, result.get(0, 0));   // 1 + 5
     }
 
     @Test
@@ -679,7 +679,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6L, result.get(0, 0)); // 1 + 5
+        assertEquals(6L, result.get(0, 0));   // 1 + 5
     }
 
     @Test
@@ -691,7 +691,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6.5, result.get(0, 0), 0.01); // 1 + 5 + 0.5
+        assertEquals(6.5, result.get(0, 0), 0.01);   // 1 + 5 + 0.5
     }
 
     // ============ Zip Tests - LongMatrix ============
@@ -705,7 +705,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6L, result.get(0, 0)); // 1 + 5
+        assertEquals(6L, result.get(0, 0));   // 1 + 5
     }
 
     @Test
@@ -717,7 +717,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6.0, result.get(0, 0), 0.01); // 1 + 5
+        assertEquals(6.0, result.get(0, 0), 0.01);   // 1 + 5
     }
 
     // ============ Zip Tests - DoubleMatrix ============
@@ -731,7 +731,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(6.0, result.get(0, 0), 0.01); // 1 + 5
+        assertEquals(6.0, result.get(0, 0), 0.01);   // 1 + 5
     }
 
     @Test
@@ -744,7 +744,7 @@ public class Matrixes2511Test extends TestBase {
 
         assertNotNull(result);
         assertEquals(2, result.rows);
-        assertEquals(7.0, result.get(0, 0), 0.01); // 1 + 5 + 1
+        assertEquals(7.0, result.get(0, 0), 0.01);   // 1 + 5 + 1
     }
 
     // ============ Zip with Generic Result Type ============

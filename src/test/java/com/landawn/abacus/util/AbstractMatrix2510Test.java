@@ -570,7 +570,7 @@ public class AbstractMatrix2510Test extends TestBase {
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(4, reshaped.get(0, 3));
         assertEquals(5, reshaped.get(1, 0));
-        assertEquals(0, reshaped.get(1, 3)); // Padding with default value
+        assertEquals(0, reshaped.get(1, 3));   // Padding with default value
     }
 
     @Test
@@ -676,8 +676,8 @@ public class AbstractMatrix2510Test extends TestBase {
         assertEquals(4, repeated.cols);
         assertEquals(1, repeated.get(0, 0));
         assertEquals(2, repeated.get(0, 1));
-        assertEquals(1, repeated.get(0, 2)); // Tiled
-        assertEquals(1, repeated.get(2, 0)); // Tiled
+        assertEquals(1, repeated.get(0, 2));   // Tiled
+        assertEquals(1, repeated.get(2, 0));   // Tiled
         assertEquals(4, repeated.get(3, 3));
     }
 
@@ -690,8 +690,8 @@ public class AbstractMatrix2510Test extends TestBase {
         assertEquals(4, repeated.cols);
         assertEquals(1, repeated.get(0, 0));
         assertEquals(2, repeated.get(0, 1));
-        assertEquals(1, repeated.get(0, 2)); // Second tile
-        assertEquals(1, repeated.get(1, 0)); // Second row tile
+        assertEquals(1, repeated.get(0, 2));   // Second tile
+        assertEquals(1, repeated.get(1, 0));   // Second row tile
     }
 
     @Test
@@ -834,7 +834,7 @@ public class AbstractMatrix2510Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
         m.forEach(1, 3, 1, 3, (i, j, matrix) -> sum.addAndGet(matrix.get(i, j)));
-        assertEquals(28, sum.get()); // 5 + 6 + 8 + 9
+        assertEquals(28, sum.get());   // 5 + 6 + 8 + 9
     }
 
     // ============ Adjacent Points Tests ============
@@ -889,10 +889,10 @@ public class AbstractMatrix2510Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, false, true } });
         List<Point> points = m.adjacent4Points(1, 1).toList();
         assertEquals(4, points.size());
-        assertNotNull(points.get(0)); // up
-        assertNotNull(points.get(1)); // right
-        assertNotNull(points.get(2)); // down
-        assertNotNull(points.get(3)); // left
+        assertNotNull(points.get(0));   // up
+        assertNotNull(points.get(1));   // right
+        assertNotNull(points.get(2));   // down
+        assertNotNull(points.get(3));   // left
     }
 
     @Test
@@ -900,8 +900,8 @@ public class AbstractMatrix2510Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         List<Point> points = m.adjacent4Points(0, 0).toList();
         assertEquals(2, points.size());
-        assertNotNull(points.get(0)); // right
-        assertNotNull(points.get(1)); // down
+        assertNotNull(points.get(0));   // right
+        assertNotNull(points.get(1));   // down
     }
 
     @Test
@@ -920,9 +920,9 @@ public class AbstractMatrix2510Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         List<Point> points = m.adjacent8Points(0, 0).toList();
         assertEquals(3, points.size());
-        assertNotNull(points.get(0)); // right
-        assertNotNull(points.get(1)); // right-down
-        assertNotNull(points.get(2)); // down
+        assertNotNull(points.get(0));   // right
+        assertNotNull(points.get(1));   // right-down
+        assertNotNull(points.get(2));   // down
     }
 
     // ============ Point Stream Tests ============

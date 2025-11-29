@@ -37,13 +37,13 @@ import com.landawn.abacus.util.stream.FloatStream;
  * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
  *
  * // Using statistical operations
- * float min = triple.min();  // 1.0f
- * float max = triple.max();  // 3.0f
- * double avg = triple.average();  // 2.0
+ * float min = triple.min();   // 1.0f
+ * float max = triple.max();   // 3.0f
+ * double avg = triple.average();   // 2.0
  *
  * // Using functional operations
  * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
- * float product = triple.map((a, b, c) -> a * b * c);  // 6.0f
+ * float product = triple.map((a, b, c) -> a * b * c);   // 6.0f
  * }</pre>
  *
  * @param <TP> the specific FloatTuple subtype for fluent method chaining
@@ -103,7 +103,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 triple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * double average = triple.average();  // 2.0
+     * double average = triple.average();   // 2.0
      * }</pre>
      *
      * @param _1 the first float value
@@ -121,7 +121,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple4 quad = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-     * float sum = quad.sum();  // 10.0f
+     * float sum = quad.sum();   // 10.0f
      * }</pre>
      *
      * @param _1 the first float value
@@ -140,7 +140,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-     * float median = tuple.median();  // 3.0f
+     * float median = tuple.median();   // 3.0f
      * }</pre>
      *
      * @param _1 the first float value
@@ -160,7 +160,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-     * double average = tuple.average();  // 3.5
+     * double average = tuple.average();   // 3.5
      * }</pre>
      *
      * @param _1 the first float value
@@ -181,7 +181,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-     * float max = tuple.max();  // 7.0f
+     * float max = tuple.max();   // 7.0f
      * }</pre>
      *
      * @param _1 the first float value
@@ -203,7 +203,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-     * float min = tuple.min();  // 1.0f
+     * float min = tuple.min();   // 1.0f
      * }</pre>
      *
      * @param _1 the first float value
@@ -229,7 +229,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-     * float sum = tuple.sum();  // 45.0f
+     * float sum = tuple.sum();   // 45.0f
      * }</pre>
      *
      * @param _1 the first float value
@@ -325,10 +325,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
-     * float min = tuple.min();  // 1.0f
+     * float min = tuple.min();   // 1.0f
      *
      * FloatTuple2 pair = FloatTuple.of(2.5f, 1.5f);
-     * float minPair = pair.min();  // 1.5f
+     * float minPair = pair.min();   // 1.5f
      * }</pre>
      *
      * @return the minimum float value in this tuple
@@ -348,10 +348,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(3.0f, 1.0f, 2.0f);
-     * float max = tuple.max();  // 3.0f
+     * float max = tuple.max();   // 3.0f
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * float maxPair = pair.max();  // 2.5f
+     * float maxPair = pair.max();   // 2.5f
      * }</pre>
      *
      * @return the maximum float value in this tuple
@@ -368,11 +368,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * // Odd number of elements
      * FloatTuple3 tuple3 = FloatTuple.of(30.0f, 10.0f, 20.0f);
-     * float median = tuple3.median();  // 20.0f (middle value when sorted: 10.0f, 20.0f, 30.0f)
+     * float median = tuple3.median();   // 20.0f (middle value when sorted: 10.0f, 20.0f, 30.0f)
      *
      * // Even number of elements
      * FloatTuple4 tuple4 = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-     * float median2 = tuple4.median();  // 2.0f (lower middle value)
+     * float median2 = tuple4.median();   // 2.0f (lower middle value)
      * }</pre>
      *
      * @return the median float value in this tuple
@@ -392,10 +392,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * float sum = tuple.sum();  // 6.0f
+     * float sum = tuple.sum();   // 6.0f
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * float pairSum = pair.sum();  // 4.0f
+     * float pairSum = pair.sum();   // 4.0f
      * }</pre>
      *
      * @return the sum of all float values in this tuple
@@ -415,10 +415,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * double avg = tuple.average();  // 2.0
+     * double avg = tuple.average();   // 2.0
      *
      * FloatTuple2 pair = FloatTuple.of(1.0f, 2.0f);
-     * double avgPair = pair.average();  // 1.5
+     * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
      * @return the average of all float values in this tuple
@@ -439,10 +439,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * FloatTuple3 reversed = tuple.reverse();  // (3.0f, 2.0f, 1.0f)
+     * FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * FloatTuple2 reversedPair = pair.reverse();  // (2.5f, 1.5f)
+     * FloatTuple2 reversedPair = pair.reverse();   // (2.5f, 1.5f)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -484,11 +484,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * float[] array = tuple.toArray();  // [1.0f, 2.0f, 3.0f]
+     * float[] array = tuple.toArray();   // [1.0f, 2.0f, 3.0f]
      * array[0] = 5.0f;  // Does not modify the original tuple
      *
      * FloatTuple0 empty = FloatTuple.create(new float[0]);
-     * float[] emptyArray = empty.toArray();  // []
+     * float[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
      * @return a new float array containing all tuple elements
@@ -508,10 +508,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
      * FloatList list = tuple.toList();
-     * list.add(4.0f);  // Does not affect the original tuple
+     * list.add(4.0f);   // Does not affect the original tuple
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * FloatList pairList = pair.toList();  // [1.5f, 2.5f]
+     * FloatList pairList = pair.toList();   // [1.5f, 2.5f]
      * }</pre>
      *
      * @return a new FloatList containing all tuple elements
@@ -530,11 +530,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * tuple.forEach(f -> System.out.print(f + " "));  // prints "1.0 2.0 3.0 "
+     * tuple.forEach(f -> System.out.print(f + " "));   // prints "1.0 2.0 3.0 "
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
      * FloatList list = FloatList.empty();
-     * pair.forEach(list::add);  // adds 1.5f and 2.5f to the list
+     * pair.forEach(list::add);   // adds 1.5f and 2.5f to the list
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the consumer
@@ -558,10 +558,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-     * float sum = tuple.stream().sum();  // 6.0f
+     * float sum = tuple.stream().sum();   // 6.0f
      *
      * FloatTuple2 pair = FloatTuple.of(1.5f, 2.5f);
-     * long count = pair.stream().filter(f -> f > 2.0f).count();  // 1
+     * long count = pair.stream().filter(f -> f > 2.0f).count();   // 1
      * }</pre>
      *
      * @return a FloatStream containing all tuple elements
@@ -1059,7 +1059,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-         * float product = tuple.map((a, b) -> a * b);  // 12.0f
+         * float product = tuple.map((a, b) -> a * b);   // 12.0f
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1080,7 +1080,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-         * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);  // present
+         * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1280,7 +1280,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * float product = tuple.map((a, b, c) -> a * b * c);  // 6.0f
+         * float product = tuple.map((a, b, c) -> a * b * c);   // 6.0f
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1301,7 +1301,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);  // present
+         * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1453,7 +1453,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple4 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f);
-         * FloatTuple4 reversed = tuple.reverse();  // (4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple4 reversed = tuple.reverse();   // (4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple4 with (_4, _3, _2, _1)
@@ -1638,7 +1638,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple5 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-         * FloatTuple5 reversed = tuple.reverse();  // (5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple5 reversed = tuple.reverse();   // (5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple5 with (_5, _4, _3, _2, _1)
@@ -1830,7 +1830,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple6 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
-         * FloatTuple6 reversed = tuple.reverse();  // (6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple6 reversed = tuple.reverse();   // (6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple6 with (_6, _5, _4, _3, _2, _1)
@@ -2027,7 +2027,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple7 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f);
-         * FloatTuple7 reversed = tuple.reverse();  // (7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple7 reversed = tuple.reverse();   // (7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple7 with (_7, _6, _5, _4, _3, _2, _1)
@@ -2233,7 +2233,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple8 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f);
-         * FloatTuple8 reversed = tuple.reverse();  // (8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple8 reversed = tuple.reverse();   // (8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple8 with (_8, _7, _6, _5, _4, _3, _2, _1)
@@ -2444,7 +2444,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple9 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f, 9.0f);
-         * FloatTuple9 reversed = tuple.reverse();  // (9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
+         * FloatTuple9 reversed = tuple.reverse();   // (9.0f, 8.0f, 7.0f, 6.0f, 5.0f, 4.0f, 3.0f, 2.0f, 1.0f)
          * }</pre>
          *
          * @return a new FloatTuple9 with (_9, _8, _7, _6, _5, _4, _3, _2, _1)

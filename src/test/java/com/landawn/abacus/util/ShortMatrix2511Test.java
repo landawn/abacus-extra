@@ -1151,9 +1151,9 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix result = m.map(x -> (short) (x * 2)).transpose().map(x -> (short) (x + 1));
         assertEquals(2, result.rows);
         assertEquals(2, result.cols);
-        assertEquals((short) 3, result.get(0, 0)); // (1*2)+1
-        assertEquals((short) 7, result.get(0, 1)); // (3*2)+1
-        assertEquals((short) 5, result.get(1, 0)); // (2*2)+1
-        assertEquals((short) 9, result.get(1, 1)); // (4*2)+1
+        assertEquals((short) 3, result.get(0, 0));   // (1*2)+1
+        assertEquals((short) 7, result.get(0, 1));   // (3*2)+1
+        assertEquals((short) 5, result.get(1, 0));   // (2*2)+1
+        assertEquals((short) 9, result.get(1, 1));   // (4*2)+1
     }
 }

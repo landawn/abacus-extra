@@ -824,7 +824,7 @@ public class CharTuple2025Test extends TestBase {
         assertEquals('a', tuple.min());
         assertEquals('d', tuple.max());
         assertEquals('b', tuple.median());
-        assertEquals(394, tuple.sum()); // 97+98+99+100
+        assertEquals(394, tuple.sum());   // 97+98+99+100
         assertEquals(98.5, tuple.average(), 0.001);
 
         // Test hashCode and equals
@@ -861,7 +861,7 @@ public class CharTuple2025Test extends TestBase {
         assertEquals('a', tuple.min());
         assertEquals('e', tuple.max());
         assertEquals('c', tuple.median());
-        assertEquals(495, tuple.sum()); // 97+98+99+100+101
+        assertEquals(495, tuple.sum());   // 97+98+99+100+101
         assertEquals(99.0, tuple.average(), 0.001);
 
         // Test equals
@@ -889,7 +889,7 @@ public class CharTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals('a', tuple.min());
         assertEquals('f', tuple.max());
-        assertEquals(597, tuple.sum()); // 97+98+99+100+101+102
+        assertEquals(597, tuple.sum());   // 97+98+99+100+101+102
         assertEquals(99.5, tuple.average(), 0.001);
     }
 
@@ -913,7 +913,7 @@ public class CharTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals('a', tuple.min());
         assertEquals('g', tuple.max());
-        assertEquals(700, tuple.sum()); // 97+98+99+100+101+102+103
+        assertEquals(700, tuple.sum());   // 97+98+99+100+101+102+103
         assertEquals(100.0, tuple.average(), 0.001);
     }
 
@@ -937,7 +937,7 @@ public class CharTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals('a', tuple.min());
         assertEquals('h', tuple.max());
-        assertEquals(804, tuple.sum()); // 97+98+99+100+101+102+103+104
+        assertEquals(804, tuple.sum());   // 97+98+99+100+101+102+103+104
         assertEquals(100.5, tuple.average(), 0.001);
     }
 
@@ -961,7 +961,7 @@ public class CharTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals('a', tuple.min());
         assertEquals('i', tuple.max());
-        assertEquals(909, tuple.sum()); // 97+98+99+100+101+102+103+104+105
+        assertEquals(909, tuple.sum());   // 97+98+99+100+101+102+103+104+105
         assertEquals(101.0, tuple.average(), 0.001);
     }
 

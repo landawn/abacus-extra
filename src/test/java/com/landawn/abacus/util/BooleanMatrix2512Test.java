@@ -176,7 +176,7 @@ public class BooleanMatrix2512Test extends TestBase {
         BooleanMatrix primitive = BooleanMatrix.unbox(boxed);
         assertTrue(primitive.get(0, 0));
         assertFalse(primitive.get(0, 1));
-        assertFalse(primitive.get(1, 0)); // null becomes false
+        assertFalse(primitive.get(1, 0));   // null becomes false
         assertTrue(primitive.get(1, 1));
     }
 
@@ -522,7 +522,7 @@ public class BooleanMatrix2512Test extends TestBase {
         assertTrue(copy.get(0, 0));
         // Modify copy
         copy.set(0, 0, false);
-        assertTrue(original.get(0, 0)); // Original unchanged
+        assertTrue(original.get(0, 0));   // Original unchanged
     }
 
     @Test
@@ -541,8 +541,8 @@ public class BooleanMatrix2512Test extends TestBase {
         BooleanMatrix copy = m.copy(0, 2, 1, 3);
         assertEquals(2, copy.rows);
         assertEquals(2, copy.cols);
-        assertFalse(copy.get(0, 0)); // From (0,1)
-        assertTrue(copy.get(0, 1)); // From (0,2)
+        assertFalse(copy.get(0, 0));   // From (0,1)
+        assertTrue(copy.get(0, 1));   // From (0,2)
     }
 
     // ============ Transformation Tests ============
