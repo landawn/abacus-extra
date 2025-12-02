@@ -659,6 +659,17 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array containing all byte elements in this tuple.
+     * <p>
+     * This method provides direct access to the underlying byte array used by the tuple.
+     * Subclasses implement this method to return their internal storage. The returned array
+     * should not be modified directly as it may be shared or cached by the tuple implementation.
+     * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
+     * </p>
+     *
+     * @return the internal array of byte elements
+     */
     protected abstract byte[] elements();
 
     /**

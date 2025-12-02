@@ -349,9 +349,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the component type of the matrix elements, which is always {@code char.class}.
-     * 
-     * @return {@code char.class}
+     * Returns the component type of the matrix elements.
+     *
+     * @return {@code char.class}, the primitive char type
      */
     @SuppressWarnings("rawtypes")
     @Override

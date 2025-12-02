@@ -46,7 +46,7 @@ import com.landawn.abacus.util.stream.FloatStream;
  * float product = triple.map((a, b, c) -> a * b * c);   // 6.0f
  * }</pre>
  *
- * @param <TP> the specific FloatTuple subtype for fluent method chaining
+ * @param <TP> The specific FloatTuple subtype for fluent method chaining
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -55,10 +55,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
     protected float[] elements;
 
     /**
-     * Constructor for subclasses.
+     * Protected constructor for subclass instantiation.
      * <p>
-     * This constructor is protected to prevent direct instantiation of the abstract class.
-     * Subclasses should use this constructor to initialize their instances.
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link #of(float)}, {@link #of(float, float)}, etc.,
+     * to create tuple instances.
      * </p>
      */
     protected FloatTuple() {
@@ -73,7 +74,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float value = single._1;  // 3.14f
      * }</pre>
      *
-     * @param _1 the float value to store in the tuple
+     * @param _1 the float value to wrap in a tuple
      * @return a new FloatTuple1 containing the provided value
      */
     public static FloatTuple1 of(final float _1) {
@@ -375,7 +376,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * float median2 = tuple4.median();   // 2.0f (lower middle value)
      * }</pre>
      *
-     * @return the median float value in this tuple
+     * @return the median float element in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public float median() {

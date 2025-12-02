@@ -537,6 +537,17 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array containing all boolean elements in this tuple.
+     * <p>
+     * This method provides direct access to the underlying boolean array used by the tuple.
+     * Subclasses implement this method to return their internal storage. The returned array
+     * should not be modified directly as it may be shared or cached by the tuple implementation.
+     * For safe array access, use {@link #toArray()} instead, which returns a defensive copy.
+     * </p>
+     *
+     * @return the internal array of boolean elements
+     */
     protected abstract boolean[] elements();
 
     /**

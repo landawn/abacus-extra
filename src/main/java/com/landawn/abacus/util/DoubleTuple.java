@@ -46,7 +46,7 @@ import com.landawn.abacus.util.stream.DoubleStream;
  * double product = triple.map((a, b, c) -> a * b * c);   // 6.0
  * }</pre>
  *
- * @param <TP> the specific DoubleTuple subtype
+ * @param <TP> The specific DoubleTuple subtype for fluent method chaining
  * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
@@ -55,10 +55,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     protected double[] elements;
 
     /**
-     * Constructor for subclasses.
+     * Protected constructor for subclass instantiation.
      * <p>
-     * This constructor is protected to prevent direct instantiation of the abstract class.
-     * Subclasses should use this constructor to initialize their instances.
+     * This constructor is not intended for direct use. Use the static factory methods
+     * such as {@link #of(double)}, {@link #of(double, double)}, etc.,
+     * to create tuple instances.
      * </p>
      */
     protected DoubleTuple() {
@@ -73,7 +74,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double value = single._1;  // 3.14
      * }</pre>
      *
-     * @param _1 the double value to store in the tuple
+     * @param _1 the double value to wrap in a tuple
      * @return a new DoubleTuple1 containing the provided value
      */
     public static DoubleTuple1 of(final double _1) {
@@ -376,7 +377,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * double median2 = tuple4.median();   // 2.0 (lower middle value)
      * }</pre>
      *
-     * @return the median double value in this tuple
+     * @return the median double element in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public double median() {
@@ -636,6 +637,20 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         return N.toString(elements());
     }
 
+    /**
+     * Returns the internal array of elements in this tuple.
+     * <p>
+     * This method is used internally by the tuple implementation to access the
+     * underlying array of double values. The returned array is lazily initialized
+     * on first access and cached for subsequent calls.
+     * </p>
+     * <p>
+     * Subclasses must implement this method to provide access to their elements.
+     * Modifications to the returned array will affect the tuple's internal state.
+     * </p>
+     *
+     * @return the array of double elements stored in this tuple
+     */
     protected abstract double[] elements();
 
     /**

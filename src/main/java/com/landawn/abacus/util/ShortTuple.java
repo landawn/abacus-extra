@@ -249,7 +249,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
-     * @param a the array of short values (must have length 0-9)
+     * @param a the array of short values (must have length 0-9), may be {@code null}
      * @return a ShortTuple of appropriate size containing the array values
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
