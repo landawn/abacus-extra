@@ -4992,7 +4992,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
-     * byte[] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
+     * byte[] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
      * // result: {6, 8, 13, 14} (using 10 for missing b elements)
      * }</pre>
      * 
@@ -5040,7 +5040,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6, 7};
      * byte[] c = {8, 9};
-     * byte[] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * byte[] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
      * // result: {14, 17}
      * }</pre>
      * 
@@ -5077,7 +5077,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[] a = {1, 2, 3, 4};
      * byte[] b = {5, 6};
      * byte[] c = {8, 9, 10};
-     * byte[] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * byte[] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
      * // result: {14, 17, 23, 34} (using defaults for missing elements)
      * }</pre>
      * 
@@ -5123,7 +5123,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}};
-     * byte[][] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * byte[][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
      * // result: {{6, 8}, {11, 13}}
      * }</pre>
      * 
@@ -5156,7 +5156,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[][] a = {{1, 2}, {3, 4, 5}};
      * byte[][] b = {{5, 6, 7}, {8, 9}, {10}};
-     * byte[][] result = Arrays.zip(a, b, 0, 10, (x, y) -> x + y);
+     * byte[][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
      * // result: {{6, 8, 7}, {11, 13, 15}, {10}}
      * }</pre>
      * 
@@ -5288,7 +5288,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}};
-     * byte[][][] result = Arrays.zip(a, b, (x, y) -> x + y);
+     * byte[][][] result = Arrays.zip(a, b, (x, y) -> (byte) (x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {77, 88}}}
      * }</pre>
      * 
@@ -5321,7 +5321,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * byte[][][] a = {{{1, 2}, {3, 4}}, {{5, 6}}};
      * byte[][][] b = {{{10, 20}, {30, 40}}, {{50, 60}, {70, 80}}, {{90}}};
-     * byte[][][] result = Arrays.zip(a, b, 0L, 10L, (x, y) -> x + y);
+     * byte[][][] result = Arrays.zip(a, b, (byte) 0, (byte) 10, (x, y) -> (byte) (x + y));
      * // result: {{{11, 22}, {33, 44}}, {{55, 66}, {70, 80}}, {{90}}}
      * }</pre>
      * 
@@ -5369,7 +5369,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
      * byte[][][] c = {{{21, 22}}};
-     * byte[][][] result = Arrays.zip(a, b, c, (x, y, z) -> x + y + z);
+     * byte[][][] result = Arrays.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
      * // result: {{{33, 36}}}
      * }</pre>
      * 
@@ -5406,7 +5406,7 @@ public sealed class Arrays permits Arrays.f {
      * byte[][][] a = {{{1, 2}}};
      * byte[][][] b = {{{11, 12}, {13, 14}}};
      * byte[][][] c = {{{21, 22}}};
-     * byte[][][] result = Arrays.zip(a, b, c, 0, 10, 20, (x, y, z) -> x + y + z);
+     * byte[][][] result = Arrays.zip(a, b, c, (byte) 0, (byte) 10, (byte) 20, (x, y, z) -> (byte) (x + y + z));
      * // result: {{{33, 36}, {33, 34}}}}
      * }</pre>
      * 
