@@ -6412,7 +6412,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new two-dimensional array with outer length equal to the shorter input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
@@ -6578,7 +6578,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new three-dimensional array with outer length equal to the shorter input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
@@ -7701,7 +7701,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new two-dimensional array with outer length equal to the inter input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
@@ -7866,7 +7866,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new three-dimensional array with outer length equal to the inter input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
@@ -10039,7 +10039,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new array with length equal to the floater input array.
+     * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
@@ -10203,7 +10203,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new two-dimensional array with outer length equal to the floater input array.
+     * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
@@ -10369,7 +10369,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements.
-     * @return a new three-dimensional array with outer length equal to the floater input array.
+     * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
