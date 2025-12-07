@@ -40,7 +40,6 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int value = point.v();  // 100
  * }</pre>
  */
-@com.landawn.abacus.annotation.Immutable
 public final class Points {
 
     private Points() {
@@ -51,7 +50,6 @@ public final class Points {
      * The Class xy.
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
-    @com.landawn.abacus.annotation.Immutable
     public static final class xy { // NOSONAR
 
         /**
@@ -72,8 +70,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record ByteBytePoint(byte x, byte y, byte v) implements Immutable {
+        public record ByteBytePoint(byte x, byte y, byte v) {
 
             /**
              * Creates a new ByteBytePoint with the specified x, y coordinates and value.
@@ -99,8 +96,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record ByteIntPoint(byte x, byte y, int v) implements Immutable {
+        public record ByteIntPoint(byte x, byte y, int v) {
 
             /**
              * Creates a new ByteIntPoint with the specified coordinates and value.
@@ -126,8 +122,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record ByteLongPoint(byte x, byte y, long v) implements Immutable {
+        public record ByteLongPoint(byte x, byte y, long v) {
 
             /**
              * Creates a new ByteLongPoint with the specified coordinates and value.
@@ -153,8 +148,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record ByteDoublePoint(byte x, byte y, double v) implements Immutable {
+        public record ByteDoublePoint(byte x, byte y, double v) {
 
             /**
              * Creates a new ByteDoublePoint with the specified coordinates and value.
@@ -181,8 +175,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record ByteObjPoint<T>(byte x, byte y, T v) implements Immutable {
+        public record ByteObjPoint<T>(byte x, byte y, T v) {
 
             /**
              * Creates a new ByteObjPoint with the specified coordinates and value.
@@ -209,8 +202,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record IntBytePoint(int x, int y, byte v) implements Immutable {
+        public record IntBytePoint(int x, int y, byte v) {
 
             /**
              * Creates a new IntBytePoint with the specified coordinates and value.
@@ -236,8 +228,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record IntIntPoint(int x, int y, int v) implements Immutable {
+        public record IntIntPoint(int x, int y, int v) {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
@@ -263,8 +254,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record IntLongPoint(int x, int y, long v) implements Immutable {
+        public record IntLongPoint(int x, int y, long v) {
 
             /**
              * Creates a new IntLongPoint with the specified coordinates and value.
@@ -290,8 +280,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record IntDoublePoint(int x, int y, double v) implements Immutable {
+        public record IntDoublePoint(int x, int y, double v) {
 
             /**
              * Creates a new IntDoublePoint with the specified coordinates and value.
@@ -318,8 +307,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record IntObjPoint<T>(int x, int y, T v) implements Immutable {
+        public record IntObjPoint<T>(int x, int y, T v) {
 
             /**
              * Creates a new IntObjPoint with the specified coordinates and value.
@@ -346,8 +334,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record LongBytePoint(long x, long y, byte v) implements Immutable {
+        public record LongBytePoint(long x, long y, byte v) {
 
             /**
              * Creates a new LongBytePoint with the specified coordinates and value.
@@ -373,8 +360,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record LongIntPoint(long x, long y, int v) implements Immutable {
+        public record LongIntPoint(long x, long y, int v) {
 
             /**
              * Creates a new LongIntPoint with the specified coordinates and value.
@@ -399,8 +385,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record LongLongPoint(long x, long y, long v) implements Immutable {
+        public record LongLongPoint(long x, long y, long v) {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
@@ -426,8 +411,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record LongDoublePoint(long x, long y, double v) implements Immutable {
+        public record LongDoublePoint(long x, long y, double v) {
 
             /**
              * Creates a new LongDoublePoint with the specified coordinates and value.
@@ -454,8 +438,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record LongObjPoint<T>(long x, long y, T v) implements Immutable {
+        public record LongObjPoint<T>(long x, long y, T v) {
 
             /**
              * Creates a new LongObjPoint with the specified coordinates and value.
@@ -482,8 +465,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record DoubleBytePoint(double x, double y, byte v) implements Immutable {
+        public record DoubleBytePoint(double x, double y, byte v) {
 
             /**
              * Creates a new DoubleBytePoint with the specified coordinates and value.
@@ -509,8 +491,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record DoubleIntPoint(double x, double y, int v) implements Immutable {
+        public record DoubleIntPoint(double x, double y, int v) {
 
             /**
              * Creates a new DoubleIntPoint with the specified coordinates and value.
@@ -536,8 +517,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record DoubleLongPoint(double x, double y, long v) implements Immutable {
+        public record DoubleLongPoint(double x, double y, long v) {
 
             /**
              * Creates a new DoubleLongPoint with the specified coordinates and value.
@@ -562,8 +542,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record DoubleDoublePoint(double x, double y, double v) implements Immutable {
+        public record DoubleDoublePoint(double x, double y, double v) {
 
             /**
              * Creates a new DoubleDoublePoint with the specified coordinates and value.
@@ -590,8 +569,7 @@ public final class Points {
          * @param y the y-coordinate of this point
          * @param v the value associated with this point
          */
-        @com.landawn.abacus.annotation.Immutable
-        public record DoubleObjPoint<T>(double x, double y, T v) implements Immutable {
+        public record DoubleObjPoint<T>(double x, double y, T v) {
 
             /**
              * Creates a new DoubleObjPoint with the specified coordinates and value.

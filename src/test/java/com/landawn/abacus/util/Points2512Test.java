@@ -92,7 +92,7 @@ public class Points2512Test extends TestBase {
     public void test_ByteBytePoint_toString() {
         ByteBytePoint point = ByteBytePoint.of((byte) 10, (byte) 20, (byte) 30);
 
-        assertEquals("[10, 20, 30]", point.toString());
+        assertEquals("ByteBytePoint[x=10, y=20, v=30]", point.toString());
     }
 
     // ============================================
@@ -133,7 +133,7 @@ public class Points2512Test extends TestBase {
     public void test_ByteIntPoint_toString() {
         ByteIntPoint point = ByteIntPoint.of((byte) 10, (byte) 20, 300);
 
-        assertEquals("[10, 20, 300]", point.toString());
+        assertEquals("ByteIntPoint[x=10, y=20, v=300]", point.toString());
     }
 
     // ============================================
@@ -172,7 +172,7 @@ public class Points2512Test extends TestBase {
     public void test_ByteLongPoint_toString() {
         ByteLongPoint point = ByteLongPoint.of((byte) 10, (byte) 20, 3000L);
 
-        assertEquals("[10, 20, 3000]", point.toString());
+        assertEquals("ByteLongPoint[x=10, y=20, v=3000]", point.toString());
     }
 
     // ============================================
@@ -295,7 +295,7 @@ public class Points2512Test extends TestBase {
     public void test_IntBytePoint_toString() {
         IntBytePoint point = IntBytePoint.of(100, 200, (byte) 30);
 
-        assertEquals("[100, 200, 30]", point.toString());
+        assertEquals("IntBytePoint[x=100, y=200, v=30]", point.toString());
     }
 
     // ============================================
@@ -334,7 +334,7 @@ public class Points2512Test extends TestBase {
     public void test_IntIntPoint_toString() {
         IntIntPoint point = IntIntPoint.of(100, 200, 300);
 
-        assertEquals("[100, 200, 300]", point.toString());
+        assertEquals("IntIntPoint[x=100, y=200, v=300]", point.toString());
     }
 
     // ============================================
@@ -373,7 +373,7 @@ public class Points2512Test extends TestBase {
     public void test_IntLongPoint_toString() {
         IntLongPoint point = IntLongPoint.of(100, 200, 3000L);
 
-        assertEquals("[100, 200, 3000]", point.toString());
+        assertEquals("IntLongPoint[x=100, y=200, v=3000]", point.toString());
     }
 
     // ============================================
@@ -496,7 +496,7 @@ public class Points2512Test extends TestBase {
     public void test_LongBytePoint_toString() {
         LongBytePoint point = LongBytePoint.of(1000L, 2000L, (byte) 30);
 
-        assertEquals("[1000, 2000, 30]", point.toString());
+        assertEquals("LongBytePoint[x=1000, y=2000, v=30]", point.toString());
     }
 
     // ============================================
@@ -535,7 +535,7 @@ public class Points2512Test extends TestBase {
     public void test_LongIntPoint_toString() {
         LongIntPoint point = LongIntPoint.of(1000L, 2000L, 300);
 
-        assertEquals("[1000, 2000, 300]", point.toString());
+        assertEquals("LongIntPoint[x=1000, y=2000, v=300]", point.toString());
     }
 
     // ============================================
@@ -574,7 +574,7 @@ public class Points2512Test extends TestBase {
     public void test_LongLongPoint_toString() {
         LongLongPoint point = LongLongPoint.of(1000L, 2000L, 3000L);
 
-        assertEquals("[1000, 2000, 3000]", point.toString());
+        assertEquals("LongLongPoint[x=1000, y=2000, v=3000]", point.toString());
     }
 
     // ============================================
@@ -882,7 +882,7 @@ public class Points2512Test extends TestBase {
         assertEquals(0, point.x());
         assertEquals(0, point.y());
         assertEquals(0, point.v());
-        assertEquals("[0, 0, 0]", point.toString());
+        assertEquals("IntIntPoint[x=0, y=0, v=0]", point.toString());
     }
 
     @Test
