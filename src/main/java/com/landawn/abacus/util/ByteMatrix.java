@@ -55,8 +55,14 @@ import com.landawn.abacus.util.stream.Stream;
  * }</pre>
  * 
  * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see CharMatrix
+ * @see ShortMatrix
  * @see IntMatrix
+ * @see LongMatrix
+ * @see FloatMatrix
  * @see DoubleMatrix
+ * @see Matrix
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 

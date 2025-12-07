@@ -60,9 +60,14 @@ import com.landawn.abacus.util.stream.Stream;
  * int sum = matrix.streamH().sum();
  * }</pre>
  *
+ * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see ByteMatrix
+ * @see CharMatrix
+ * @see ShortMatrix
+ * @see LongMatrix
  * @see FloatMatrix
  * @see DoubleMatrix
- * @see LongMatrix
  * @see Matrix
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {

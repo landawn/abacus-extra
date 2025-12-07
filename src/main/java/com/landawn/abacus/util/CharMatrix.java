@@ -48,8 +48,14 @@ import com.landawn.abacus.util.stream.Stream;
  * }</pre>
  * 
  * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see ByteMatrix
+ * @see ShortMatrix
  * @see IntMatrix
+ * @see LongMatrix
+ * @see FloatMatrix
  * @see DoubleMatrix
+ * @see Matrix
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 

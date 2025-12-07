@@ -48,7 +48,13 @@ import com.landawn.abacus.util.stream.Stream;
  * LongMatrix doubled = matrix.map(x -> x * 2);
  * }</pre>
  * 
+ * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see ByteMatrix
+ * @see CharMatrix
+ * @see ShortMatrix
  * @see IntMatrix
+ * @see FloatMatrix
  * @see DoubleMatrix
  * @see Matrix
  */

@@ -47,6 +47,13 @@ import com.landawn.abacus.util.stream.Stream;
  * }</pre>
  * 
  * @see AbstractMatrix
+ * @see ByteMatrix
+ * @see CharMatrix
+ * @see ShortMatrix
+ * @see IntMatrix
+ * @see LongMatrix
+ * @see FloatMatrix
+ * @see DoubleMatrix
  * @see Matrix
  */
 public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {

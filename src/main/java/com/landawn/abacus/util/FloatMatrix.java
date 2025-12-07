@@ -42,7 +42,13 @@ import com.landawn.abacus.util.stream.Stream;
  * float element = matrix.get(0, 1);   // Returns 2.0f
  * }</pre>
  * 
+ * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see ByteMatrix
+ * @see CharMatrix
+ * @see ShortMatrix
  * @see IntMatrix
+ * @see LongMatrix
  * @see DoubleMatrix
  * @see Matrix
  */

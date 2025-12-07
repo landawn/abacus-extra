@@ -52,10 +52,14 @@ import com.landawn.abacus.util.stream.Stream;
  * }</pre>
  * 
  * @see AbstractMatrix
+ * @see BooleanMatrix
+ * @see ByteMatrix
+ * @see CharMatrix
  * @see IntMatrix
  * @see LongMatrix
  * @see FloatMatrix
  * @see DoubleMatrix
+ * @see Matrix
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
 
