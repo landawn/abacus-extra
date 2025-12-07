@@ -5,7 +5,7 @@
 
 	<groupId>com.landawn</groupId>
 	<artifactId>abacus-extra</artifactId>
-	<version>2.26.7</version>
+	<version>2.26.8</version>
 	<packaging>jar</packaging>
 	<name>abacus-extra</name>
 	<description>Abacus Data Access and Analysis</description>
@@ -36,8 +36,8 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.release>17</maven.compiler.release>
-		<junit.jupiter.version>5.10.1</junit.jupiter.version>
-		<junit.platform.version>1.10.1</junit.platform.version>
+		<junit.jupiter.version>5.14.1</junit.jupiter.version>
+		<junit.platform.version>1.14.1</junit.platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -46,7 +46,7 @@
 		<dependency>
 			<groupId>com.landawn</groupId>
 			<artifactId>abacus-common</artifactId>
-			<version>6.26.6</version>
+			<version>6.26.7</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -80,7 +80,7 @@
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
+			<artifactId>junit-jupiter-engine</artifactId>
 			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -90,6 +90,19 @@
 			<version>${junit.platform.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
