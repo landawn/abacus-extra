@@ -28,9 +28,9 @@ public class Points2025Test extends TestBase {
     public void testByteBytePoint_Of() {
         xy.ByteBytePoint point = xy.ByteBytePoint.of((byte) 10, (byte) 20, (byte) 100);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(100, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(100, point.v());
     }
 
     @Test
@@ -71,9 +71,9 @@ public class Points2025Test extends TestBase {
     public void testByteIntPoint_Of() {
         xy.ByteIntPoint point = xy.ByteIntPoint.of((byte) 10, (byte) 20, 100);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(100, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(100, point.v());
     }
 
     @Test
@@ -111,9 +111,9 @@ public class Points2025Test extends TestBase {
     public void testByteLongPoint_Of() {
         xy.ByteLongPoint point = xy.ByteLongPoint.of((byte) 10, (byte) 20, 1000L);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(1000L, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(1000L, point.v());
     }
 
     @Test
@@ -151,9 +151,9 @@ public class Points2025Test extends TestBase {
     public void testByteDoublePoint_Of() {
         xy.ByteDoublePoint point = xy.ByteDoublePoint.of((byte) 10, (byte) 20, 100.5);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(100.5, point.v, 0.0001);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(100.5, point.v(), 0.0001);
     }
 
     @Test
@@ -190,9 +190,9 @@ public class Points2025Test extends TestBase {
     public void testByteObjPoint_Of() {
         xy.ByteObjPoint<String> point = xy.ByteObjPoint.of((byte) 10, (byte) 20, "Test");
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals("Test", point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals("Test", point.v());
     }
 
     @Test
@@ -229,9 +229,9 @@ public class Points2025Test extends TestBase {
     public void testIntBytePoint_Of() {
         xy.IntBytePoint point = xy.IntBytePoint.of(100, 200, (byte) 50);
 
-        assertEquals(100, point.x);
-        assertEquals(200, point.y);
-        assertEquals(50, point.v);
+        assertEquals(100, point.x());
+        assertEquals(200, point.y());
+        assertEquals(50, point.v());
     }
 
     @Test
@@ -269,9 +269,9 @@ public class Points2025Test extends TestBase {
     public void testIntIntPoint_Of() {
         xy.IntIntPoint point = xy.IntIntPoint.of(10, 20, 100);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(100, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(100, point.v());
     }
 
     @Test
@@ -307,9 +307,9 @@ public class Points2025Test extends TestBase {
     public void testIntIntPoint_NegativeValues() {
         xy.IntIntPoint point = xy.IntIntPoint.of(-10, -20, -30);
 
-        assertEquals(-10, point.x);
-        assertEquals(-20, point.y);
-        assertEquals(-30, point.v);
+        assertEquals(-10, point.x());
+        assertEquals(-20, point.y());
+        assertEquals(-30, point.v());
     }
 
     // ============================================
@@ -320,9 +320,9 @@ public class Points2025Test extends TestBase {
     public void testIntLongPoint_Of() {
         xy.IntLongPoint point = xy.IntLongPoint.of(10, 20, 1000L);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(1000L, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(1000L, point.v());
     }
 
     @Test
@@ -359,9 +359,9 @@ public class Points2025Test extends TestBase {
     public void testIntDoublePoint_Of() {
         xy.IntDoublePoint point = xy.IntDoublePoint.of(10, 20, 100.5);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(100.5, point.v, 0.0001);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(100.5, point.v(), 0.0001);
     }
 
     @Test
@@ -398,9 +398,9 @@ public class Points2025Test extends TestBase {
     public void testIntObjPoint_Of() {
         xy.IntObjPoint<String> point = xy.IntObjPoint.of(10, 20, "TestValue");
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals("TestValue", point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals("TestValue", point.v());
     }
 
     @Test
@@ -437,9 +437,9 @@ public class Points2025Test extends TestBase {
     public void testLongBytePoint_Of() {
         xy.LongBytePoint point = xy.LongBytePoint.of(1000L, 2000L, (byte) 50);
 
-        assertEquals(1000L, point.x);
-        assertEquals(2000L, point.y);
-        assertEquals(50, point.v);
+        assertEquals(1000L, point.x());
+        assertEquals(2000L, point.y());
+        assertEquals(50, point.v());
     }
 
     @Test
@@ -476,9 +476,9 @@ public class Points2025Test extends TestBase {
     public void testLongIntPoint_Of() {
         xy.LongIntPoint point = xy.LongIntPoint.of(1000L, 2000L, 100);
 
-        assertEquals(1000L, point.x);
-        assertEquals(2000L, point.y);
-        assertEquals(100, point.v);
+        assertEquals(1000L, point.x());
+        assertEquals(2000L, point.y());
+        assertEquals(100, point.v());
     }
 
     @Test
@@ -515,9 +515,9 @@ public class Points2025Test extends TestBase {
     public void testLongLongPoint_Of() {
         xy.LongLongPoint point = xy.LongLongPoint.of(1000L, 2000L, 3000L);
 
-        assertEquals(1000L, point.x);
-        assertEquals(2000L, point.y);
-        assertEquals(3000L, point.v);
+        assertEquals(1000L, point.x());
+        assertEquals(2000L, point.y());
+        assertEquals(3000L, point.v());
     }
 
     @Test
@@ -555,9 +555,9 @@ public class Points2025Test extends TestBase {
     public void testLongDoublePoint_Of() {
         xy.LongDoublePoint point = xy.LongDoublePoint.of(1000L, 2000L, 100.5);
 
-        assertEquals(1000L, point.x);
-        assertEquals(2000L, point.y);
-        assertEquals(100.5, point.v, 0.0001);
+        assertEquals(1000L, point.x());
+        assertEquals(2000L, point.y());
+        assertEquals(100.5, point.v(), 0.0001);
     }
 
     @Test
@@ -594,9 +594,9 @@ public class Points2025Test extends TestBase {
     public void testLongObjPoint_Of() {
         xy.LongObjPoint<String> point = xy.LongObjPoint.of(1000L, 2000L, "TestValue");
 
-        assertEquals(1000L, point.x);
-        assertEquals(2000L, point.y);
-        assertEquals("TestValue", point.v);
+        assertEquals(1000L, point.x());
+        assertEquals(2000L, point.y());
+        assertEquals("TestValue", point.v());
     }
 
     @Test
@@ -633,9 +633,9 @@ public class Points2025Test extends TestBase {
     public void testDoubleBytePoint_Of() {
         xy.DoubleBytePoint point = xy.DoubleBytePoint.of(10.5, 20.5, (byte) 50);
 
-        assertEquals(10.5, point.x, 0.0001);
-        assertEquals(20.5, point.y, 0.0001);
-        assertEquals(50, point.v);
+        assertEquals(10.5, point.x(), 0.0001);
+        assertEquals(20.5, point.y(), 0.0001);
+        assertEquals(50, point.v());
     }
 
     @Test
@@ -672,9 +672,9 @@ public class Points2025Test extends TestBase {
     public void testDoubleIntPoint_Of() {
         xy.DoubleIntPoint point = xy.DoubleIntPoint.of(10.5, 20.5, 100);
 
-        assertEquals(10.5, point.x, 0.0001);
-        assertEquals(20.5, point.y, 0.0001);
-        assertEquals(100, point.v);
+        assertEquals(10.5, point.x(), 0.0001);
+        assertEquals(20.5, point.y(), 0.0001);
+        assertEquals(100, point.v());
     }
 
     @Test
@@ -711,9 +711,9 @@ public class Points2025Test extends TestBase {
     public void testDoubleLongPoint_Of() {
         xy.DoubleLongPoint point = xy.DoubleLongPoint.of(10.5, 20.5, 1000L);
 
-        assertEquals(10.5, point.x, 0.0001);
-        assertEquals(20.5, point.y, 0.0001);
-        assertEquals(1000L, point.v);
+        assertEquals(10.5, point.x(), 0.0001);
+        assertEquals(20.5, point.y(), 0.0001);
+        assertEquals(1000L, point.v());
     }
 
     @Test
@@ -750,9 +750,9 @@ public class Points2025Test extends TestBase {
     public void testDoubleDoublePoint_Of() {
         xy.DoubleDoublePoint point = xy.DoubleDoublePoint.of(10.5, 20.5, 100.5);
 
-        assertEquals(10.5, point.x, 0.0001);
-        assertEquals(20.5, point.y, 0.0001);
-        assertEquals(100.5, point.v, 0.0001);
+        assertEquals(10.5, point.x(), 0.0001);
+        assertEquals(20.5, point.y(), 0.0001);
+        assertEquals(100.5, point.v(), 0.0001);
     }
 
     @Test
@@ -790,9 +790,9 @@ public class Points2025Test extends TestBase {
     public void testDoubleObjPoint_Of() {
         xy.DoubleObjPoint<String> point = xy.DoubleObjPoint.of(10.5, 20.5, "TestValue");
 
-        assertEquals(10.5, point.x, 0.0001);
-        assertEquals(20.5, point.y, 0.0001);
-        assertEquals("TestValue", point.v);
+        assertEquals(10.5, point.x(), 0.0001);
+        assertEquals(20.5, point.y(), 0.0001);
+        assertEquals("TestValue", point.v());
     }
 
     @Test
@@ -859,27 +859,27 @@ public class Points2025Test extends TestBase {
     public void testIntIntPoint_ZeroValues() {
         xy.IntIntPoint point = xy.IntIntPoint.of(0, 0, 0);
 
-        assertEquals(0, point.x);
-        assertEquals(0, point.y);
-        assertEquals(0, point.v);
+        assertEquals(0, point.x());
+        assertEquals(0, point.y());
+        assertEquals(0, point.v());
     }
 
     @Test
     public void testDoubleDoublePoint_SpecialValues() {
         xy.DoubleDoublePoint point1 = xy.DoubleDoublePoint.of(Double.MAX_VALUE, Double.MIN_VALUE, 0.0);
 
-        assertEquals(Double.MAX_VALUE, point1.x, 0.0001);
-        assertEquals(Double.MIN_VALUE, point1.y, 0.0001);
-        assertEquals(0.0, point1.v, 0.0001);
+        assertEquals(Double.MAX_VALUE, point1.x(), 0.0001);
+        assertEquals(Double.MIN_VALUE, point1.y(), 0.0001);
+        assertEquals(0.0, point1.v(), 0.0001);
     }
 
     @Test
     public void testObjPoint_NullValue() {
         xy.IntObjPoint<String> point = xy.IntObjPoint.of(10, 20, null);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(null, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(null, point.v());
     }
 
     @Test
@@ -887,9 +887,9 @@ public class Points2025Test extends TestBase {
         java.util.List<Integer> list = java.util.Arrays.asList(1, 2, 3);
         xy.IntObjPoint<java.util.List<Integer>> point = xy.IntObjPoint.of(10, 20, list);
 
-        assertEquals(10, point.x);
-        assertEquals(20, point.y);
-        assertEquals(list, point.v);
+        assertEquals(10, point.x());
+        assertEquals(20, point.y());
+        assertEquals(list, point.v());
     }
 
     @Test

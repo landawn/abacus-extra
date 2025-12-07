@@ -1089,16 +1089,16 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         final List<Point> points = new ArrayList<>(4);
 
         if (i > 0) {
-            points.add(Point.of(i - 1, j));   // up
+            points.add(Point.of(i - 1, j)); // up
         }
         if (j < cols - 1) {
-            points.add(Point.of(i, j + 1));   // right
+            points.add(Point.of(i, j + 1)); // right
         }
         if (i < rows - 1) {
-            points.add(Point.of(i + 1, j));   // down
+            points.add(Point.of(i + 1, j)); // down
         }
         if (j > 0) {
-            points.add(Point.of(i, j - 1));   // left
+            points.add(Point.of(i, j - 1)); // left
         }
 
         return Stream.of(points);
@@ -1134,35 +1134,35 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         final List<Point> points = new ArrayList<>(8);
 
         if (i > 0 && j > 0) {
-            points.add(Point.of(i - 1, j - 1));   // leftUp
+            points.add(Point.of(i - 1, j - 1)); // leftUp
         }
 
         if (i > 0) {
-            points.add(Point.of(i - 1, j));   // up
+            points.add(Point.of(i - 1, j)); // up
         }
 
         if (i > 0 && j < cols - 1) {
-            points.add(Point.of(i - 1, j + 1));   // rightUp
+            points.add(Point.of(i - 1, j + 1)); // rightUp
         }
 
         if (j < cols - 1) {
-            points.add(Point.of(i, j + 1));   // right
+            points.add(Point.of(i, j + 1)); // right
         }
 
         if (i < rows - 1 && j < cols - 1) {
-            points.add(Point.of(i + 1, j + 1));   // rightDown
+            points.add(Point.of(i + 1, j + 1)); // rightDown
         }
 
         if (i < rows - 1) {
-            points.add(Point.of(i + 1, j));   // down
+            points.add(Point.of(i + 1, j)); // down
         }
 
         if (i < rows - 1 && j > 0) {
-            points.add(Point.of(i + 1, j - 1));   // leftDown
+            points.add(Point.of(i + 1, j - 1)); // leftDown
         }
 
         if (j > 0) {
-            points.add(Point.of(i, j - 1));   // left
+            points.add(Point.of(i, j - 1)); // left
         }
 
         return Stream.of(points);

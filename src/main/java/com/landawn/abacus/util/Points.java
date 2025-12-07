@@ -67,31 +67,13 @@ public final class Points {
          * and values fit within the byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class ByteBytePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final byte x;
-
-            /** The y-coordinate of this point. */
-            public final byte y;
-
-            /** The value associated with this point. */
-            public final byte v; // value
-
-            /**
-             * Constructs a new ByteBytePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            ByteBytePoint(final byte x, final byte y, final byte v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record ByteBytePoint(byte x, byte y, byte v) implements Immutable {
 
             /**
              * Creates a new ByteBytePoint with the specified x, y coordinates and value.
@@ -133,41 +115,7 @@ public final class Points {
             }
 
             /**
-             * Compares this ByteBytePoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a ByteBytePoint
-             * and both points have the same coordinates and value. Two ByteBytePoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * ByteBytePoint point1 = ByteBytePoint.of((byte)10, (byte)20, (byte)100);
-             * ByteBytePoint point2 = ByteBytePoint.of((byte)10, (byte)20, (byte)100);
-             * ByteBytePoint point3 = ByteBytePoint.of((byte)10, (byte)20, (byte)99);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final ByteBytePoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this ByteBytePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this ByteBytePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -180,7 +128,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -194,31 +142,13 @@ public final class Points {
          * but the associated value requires the full integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class ByteIntPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final byte x;
-
-            /** The y-coordinate of this point. */
-            public final byte y;
-
-            /** The value associated with this point. */
-            public final int v; // value
-
-            /**
-             * Constructs a new ByteIntPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            ByteIntPoint(final byte x, final byte y, final int v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record ByteIntPoint(byte x, byte y, int v) implements Immutable {
 
             /**
              * Creates a new ByteIntPoint with the specified coordinates and value.
@@ -260,41 +190,7 @@ public final class Points {
             }
 
             /**
-             * Compares this ByteIntPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a ByteIntPoint
-             * and both points have the same coordinates and value. Two ByteIntPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * ByteIntPoint point1 = ByteIntPoint.of((byte)10, (byte)20, 100);
-             * ByteIntPoint point2 = ByteIntPoint.of((byte)10, (byte)20, 100);
-             * ByteIntPoint point3 = ByteIntPoint.of((byte)10, (byte)20, 200);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final ByteIntPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this ByteIntPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this ByteIntPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -307,7 +203,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -321,31 +217,13 @@ public final class Points {
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class ByteLongPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final byte x;
-
-            /** The y-coordinate of this point. */
-            public final byte y;
-
-            /** The value associated with this point. */
-            public final long v; // value
-
-            /**
-             * Constructs a new ByteLongPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            ByteLongPoint(final byte x, final byte y, final long v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record ByteLongPoint(byte x, byte y, long v) implements Immutable {
 
             /**
              * Creates a new ByteLongPoint with the specified coordinates and value.
@@ -388,41 +266,7 @@ public final class Points {
             }
 
             /**
-             * Compares this ByteLongPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a ByteLongPoint
-             * and both points have the same coordinates and value. Two ByteLongPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * ByteLongPoint point1 = ByteLongPoint.of((byte)10, (byte)20, 100L);
-             * ByteLongPoint point2 = ByteLongPoint.of((byte)10, (byte)20, 100L);
-             * ByteLongPoint point3 = ByteLongPoint.of((byte)10, (byte)20, 200L);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final ByteLongPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this ByteLongPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this ByteLongPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -435,7 +279,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10, 20, 100]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -449,31 +293,13 @@ public final class Points {
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class ByteDoublePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final byte x;
-
-            /** The y-coordinate of this point. */
-            public final byte y;
-
-            /** The value associated with this point. */
-            public final double v; // value
-
-            /**
-             * Constructs a new ByteDoublePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            ByteDoublePoint(final byte x, final byte y, final double v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record ByteDoublePoint(byte x, byte y, double v) implements Immutable {
 
             /**
              * Creates a new ByteDoublePoint with the specified coordinates and value.
@@ -550,7 +376,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this ByteDoublePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this ByteDoublePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -563,7 +389,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10, 20, 100.5]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -579,31 +405,12 @@ public final class Points {
          * <p>All instances are immutable and thread-safe.</p>
          *
          * @param <T> the type of the value object associated with this point
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class ByteObjPoint<T> implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final byte x;
-
-            /** The y-coordinate of this point. */
-            public final byte y;
-
-            /** The value associated with this point. */
-            public final T v; // value
-
-            /**
-             * Constructs a new ByteObjPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            ByteObjPoint(final byte x, final byte y, final T v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record ByteObjPoint<T>(byte x, byte y, T v) implements Immutable {
 
             /**
              * Creates a new ByteObjPoint with the specified coordinates and value.
@@ -681,7 +488,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this ByteObjPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this ByteObjPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -694,7 +501,7 @@ public final class Points {
              * System.out.println(point);              // prints: [5, 10, marker]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -708,31 +515,13 @@ public final class Points {
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class IntBytePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final int x;
-
-            /** The y-coordinate of this point. */
-            public final int y;
-
-            /** The value associated with this point. */
-            public final byte v; // value
-
-            /**
-             * Constructs a new IntBytePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            IntBytePoint(final int x, final int y, final byte v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record IntBytePoint(int x, int y, byte v) implements Immutable {
 
             /**
              * Creates a new IntBytePoint with the specified coordinates and value.
@@ -774,41 +563,7 @@ public final class Points {
             }
 
             /**
-             * Compares this IntBytePoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also an IntBytePoint
-             * and both points have the same coordinates and value. Two IntBytePoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * IntBytePoint point1 = IntBytePoint.of(100, 200, (byte)50);
-             * IntBytePoint point2 = IntBytePoint.of(100, 200, (byte)50);
-             * IntBytePoint point3 = IntBytePoint.of(100, 200, (byte)60);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final IntBytePoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this IntBytePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this IntBytePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -821,7 +576,7 @@ public final class Points {
              * System.out.println(point);              // prints: [100, 200, 50]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -835,31 +590,13 @@ public final class Points {
          * coordinate systems and grid operations.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class IntIntPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final int x;
-
-            /** The y-coordinate of this point. */
-            public final int y;
-
-            /** The value associated with this point. */
-            public final int v; // value
-
-            /**
-             * Constructs a new IntIntPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            IntIntPoint(final int x, final int y, final int v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record IntIntPoint(int x, int y, int v) implements Immutable {
 
             /**
              * Creates a new IntIntPoint with the specified coordinates and value.
@@ -901,41 +638,7 @@ public final class Points {
             }
 
             /**
-             * Compares this IntIntPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also an IntIntPoint
-             * and both points have the same coordinates and value. Two IntIntPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * IntIntPoint point1 = IntIntPoint.of(100, 200, 300);
-             * IntIntPoint point2 = IntIntPoint.of(100, 200, 300);
-             * IntIntPoint point3 = IntIntPoint.of(100, 200, 400);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final IntIntPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this IntIntPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this IntIntPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -948,7 +651,7 @@ public final class Points {
              * System.out.println(point);              // prints: [100, 200, 300]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -962,31 +665,13 @@ public final class Points {
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class IntLongPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final int x;
-
-            /** The y-coordinate of this point. */
-            public final int y;
-
-            /** The value associated with this point. */
-            public final long v; // value
-
-            /**
-             * Constructs a new IntLongPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            IntLongPoint(final int x, final int y, final long v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record IntLongPoint(int x, int y, long v) implements Immutable {
 
             /**
              * Creates a new IntLongPoint with the specified coordinates and value.
@@ -1029,41 +714,7 @@ public final class Points {
             }
 
             /**
-             * Compares this IntLongPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also an IntLongPoint
-             * and both points have the same coordinates and value. Two IntLongPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * IntLongPoint point1 = IntLongPoint.of(100, 200, 1000000L);
-             * IntLongPoint point2 = IntLongPoint.of(100, 200, 1000000L);
-             * IntLongPoint point3 = IntLongPoint.of(100, 200, 2000000L);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final IntLongPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this IntLongPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this IntLongPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1076,7 +727,7 @@ public final class Points {
              * System.out.println(point);              // prints: [100, 200, 1000000]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1090,31 +741,13 @@ public final class Points {
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class IntDoublePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final int x;
-
-            /** The y-coordinate of this point. */
-            public final int y;
-
-            /** The value associated with this point. */
-            public final double v; // value
-
-            /**
-             * Constructs a new IntDoublePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            IntDoublePoint(final int x, final int y, final double v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record IntDoublePoint(int x, int y, double v) implements Immutable {
 
             /**
              * Creates a new IntDoublePoint with the specified coordinates and value.
@@ -1191,7 +824,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this IntDoublePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this IntDoublePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1204,7 +837,7 @@ public final class Points {
              * System.out.println(point);              // prints: [100, 200, 3.14159]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1220,40 +853,21 @@ public final class Points {
          * <p>All instances are immutable and thread-safe.</p>
          *
          * @param <T> the type of the value object associated with this point
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class IntObjPoint<T> implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final int x;
-
-            /** The y-coordinate of this point. */
-            public final int y;
-
-            /** The value associated with this point. */
-            public final T v; // value
-
-            /**
-             * Constructs a new IntObjPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            IntObjPoint(final int x, final int y, final T v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record IntObjPoint<T>(int x, int y, T v) implements Immutable {
 
             /**
              * Creates a new IntObjPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * IntObjPoint<String> point = IntObjPoint.of(10, 20, "marker");
-             * int x = point.x;  // 10
-             * int y = point.y;  // 20
+             * IntObjPoint<String> point = IntObjPoint.of(100, 200, "marker");
+             * int x = point.x;  // 100
+             * int y = point.y;  // 200
              * String value = point.v;  // "marker"
              * }</pre>
              *
@@ -1296,9 +910,9 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * IntObjPoint<String> point1 = IntObjPoint.of(10, 20, "marker");
-             * IntObjPoint<String> point2 = IntObjPoint.of(10, 20, "marker");
-             * IntObjPoint<String> point3 = IntObjPoint.of(10, 20, "different");
+             * IntObjPoint<String> point1 = IntObjPoint.of(100, 200, "marker");
+             * IntObjPoint<String> point2 = IntObjPoint.of(100, 200, "marker");
+             * IntObjPoint<String> point3 = IntObjPoint.of(100, 200, "different");
              *
              * System.out.println(point1.equals(point2));          // prints: true
              * System.out.println(point1.equals(point3));          // prints: false
@@ -1322,7 +936,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this IntObjPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this IntObjPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1330,12 +944,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * IntObjPoint<String> point = IntObjPoint.of(10, 20, "marker");
-             * System.out.println(point.toString());   // prints: [10, 20, marker]
-             * System.out.println(point);              // prints: [10, 20, marker]
+             * IntObjPoint<String> point = IntObjPoint.of(100, 200, "marker");
+             * System.out.println(point.toString());   // prints: [100, 200, marker]
+             * System.out.println(point);              // prints: [100, 200, marker]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1344,45 +958,27 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long integer coordinates and a byte value.
+         * Represents an immutable two-dimensional point with long coordinates and a byte value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class LongBytePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final long x;
-
-            /** The y-coordinate of this point. */
-            public final long y;
-
-            /** The value associated with this point. */
-            public final byte v; // value
-
-            /**
-             * Constructs a new LongBytePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            LongBytePoint(final long x, final long y, final byte v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record LongBytePoint(long x, long y, byte v) implements Immutable {
 
             /**
              * Creates a new LongBytePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongBytePoint point = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * long x = point.x;  // 1000L
-             * long y = point.y;  // 2000L
+             * LongBytePoint point = LongBytePoint.of(100L, 200L, (byte)50);
+             * long x = point.x;  // 100L
+             * long y = point.y;  // 200L
              * byte value = point.v;  // 50
              * }</pre>
              *
@@ -1416,41 +1012,7 @@ public final class Points {
             }
 
             /**
-             * Compares this LongBytePoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a LongBytePoint
-             * and both points have the same coordinates and value. Two LongBytePoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * LongBytePoint point1 = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * LongBytePoint point2 = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * LongBytePoint point3 = LongBytePoint.of(1000L, 2000L, (byte)60);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final LongBytePoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this LongBytePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this LongBytePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1458,12 +1020,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongBytePoint point = LongBytePoint.of(1000L, 2000L, (byte)50);
-             * System.out.println(point.toString());   // prints: [1000, 2000, 50]
-             * System.out.println(point);              // prints: [1000, 2000, 50]
+             * LongBytePoint point = LongBytePoint.of(100L, 200L, (byte)50);
+             * System.out.println(point.toString());   // prints: [100, 200, 50]
+             * System.out.println(point);              // prints: [100, 200, 50]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1472,46 +1034,28 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long integer coordinates and an integer value.
+         * Represents an immutable two-dimensional point with long coordinates and an integer value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class LongIntPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final long x;
-
-            /** The y-coordinate of this point. */
-            public final long y;
-
-            /** The value associated with this point. */
-            public final int v; // value
-
-            /**
-             * Constructs a new LongIntPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            LongIntPoint(final long x, final long y, final int v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record LongIntPoint(long x, long y, int v) implements Immutable {
 
             /**
              * Creates a new LongIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongIntPoint point = LongIntPoint.of(1000L, 2000L, 500);
-             * long x = point.x;  // 1000L
-             * long y = point.y;  // 2000L
-             * int value = point.v;  // 500
+             * LongIntPoint point = LongIntPoint.of(100L, 200L, 300);
+             * long x = point.x;  // 100L
+             * long y = point.y;  // 200L
+             * int value = point.v;  // 300
              * }</pre>
              *
              * @param x the x-coordinate
@@ -1544,41 +1088,7 @@ public final class Points {
             }
 
             /**
-             * Compares this LongIntPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a LongIntPoint
-             * and both points have the same coordinates and value. Two LongIntPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * LongIntPoint point1 = LongIntPoint.of(1000L, 2000L, 500);
-             * LongIntPoint point2 = LongIntPoint.of(1000L, 2000L, 500);
-             * LongIntPoint point3 = LongIntPoint.of(1000L, 2000L, 600);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final LongIntPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this LongIntPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this LongIntPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1586,12 +1096,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongIntPoint point = LongIntPoint.of(1000L, 2000L, 500);
-             * System.out.println(point.toString());   // prints: [1000, 2000, 500]
-             * System.out.println(point);              // prints: [1000, 2000, 500]
+             * LongIntPoint point = LongIntPoint.of(100L, 200L, 300);
+             * System.out.println(point.toString());   // prints: [100, 200, 300]
+             * System.out.println(point);              // prints: [100, 200, 300]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1600,46 +1110,27 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long integer coordinates and a long value.
-         * This class is useful for large-scale coordinate systems where both coordinates
-         * and values require the full long integer range.
+         * Represents an immutable two-dimensional point with long coordinates and a long value.
+         * This class provides full long integer range for both coordinates and associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class LongLongPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final long x;
-
-            /** The y-coordinate of this point. */
-            public final long y;
-
-            /** The value associated with this point. */
-            public final long v; // value
-
-            /**
-             * Constructs a new LongLongPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            LongLongPoint(final long x, final long y, final long v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record LongLongPoint(long x, long y, long v) implements Immutable {
 
             /**
              * Creates a new LongLongPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongLongPoint point = LongLongPoint.of(1000L, 2000L, 3000L);
-             * long x = point.x;  // 1000L
-             * long y = point.y;  // 2000L
-             * long value = point.v;  // 3000L
+             * LongLongPoint point = LongLongPoint.of(100L, 200L, 300L);
+             * long x = point.x;  // 100L
+             * long y = point.y;  // 200L
+             * long value = point.v;  // 300L
              * }</pre>
              *
              * @param x the x-coordinate
@@ -1672,41 +1163,7 @@ public final class Points {
             }
 
             /**
-             * Compares this LongLongPoint with the specified object for equality.
-             *
-             * <p>Returns {@code true} if and only if the specified object is also a LongLongPoint
-             * and both points have the same coordinates and value. Two LongLongPoint instances are
-             * considered equal if their x, y coordinates and v value are all equal.</p>
-             *
-             * <p><b>Usage Examples:</b></p>
-             * <pre>{@code
-             * LongLongPoint point1 = LongLongPoint.of(1000L, 2000L, 3000L);
-             * LongLongPoint point2 = LongLongPoint.of(1000L, 2000L, 3000L);
-             * LongLongPoint point3 = LongLongPoint.of(1000L, 2000L, 4000L);
-             *
-             * System.out.println(point1.equals(point2));          // prints: true
-             * System.out.println(point1.equals(point3));          // prints: false
-             * System.out.println(point1.equals("not a point"));   // prints: false
-             * }</pre>
-             *
-             * @param obj the reference object with which to compare
-             * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise
-             */
-            @Override
-            public boolean equals(final Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-
-                if (obj instanceof final LongLongPoint other) {
-                    return x == other.x && y == other.y && v == other.v;
-                }
-
-                return false;
-            }
-
-            /**
-             * Returns a string representation of this LongLongPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this LongLongPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1714,12 +1171,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongLongPoint point = LongLongPoint.of(1000L, 2000L, 3000L);
-             * System.out.println(point.toString());   // prints: [1000, 2000, 3000]
-             * System.out.println(point);              // prints: [1000, 2000, 3000]
+             * LongLongPoint point = LongLongPoint.of(100L, 200L, 300L);
+             * System.out.println(point.toString());   // prints: [100, 200, 300]
+             * System.out.println(point);              // prints: [100, 200, 300]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1728,46 +1185,28 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long integer coordinates and a double-precision floating-point value.
+         * Represents an immutable two-dimensional point with long coordinates and a double-precision floating-point value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value requires floating-point precision.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class LongDoublePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final long x;
-
-            /** The y-coordinate of this point. */
-            public final long y;
-
-            /** The value associated with this point. */
-            public final double v; // value
-
-            /**
-             * Constructs a new LongDoublePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            LongDoublePoint(final long x, final long y, final double v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record LongDoublePoint(long x, long y, double v) implements Immutable {
 
             /**
              * Creates a new LongDoublePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongDoublePoint point = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * long x = point.x;  // 1000L
-             * long y = point.y;  // 2000L
-             * double value = point.v;  // 99.99
+             * LongDoublePoint point = LongDoublePoint.of(100L, 200L, 3.14159);
+             * long x = point.x;  // 100L
+             * long y = point.y;  // 200L
+             * double value = point.v;  // 3.14159
              * }</pre>
              *
              * @param x the x-coordinate
@@ -1808,9 +1247,9 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongDoublePoint point1 = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * LongDoublePoint point2 = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * LongDoublePoint point3 = LongDoublePoint.of(1000L, 2000L, 88.88);
+             * LongDoublePoint point1 = LongDoublePoint.of(100L, 200L, 3.14159);
+             * LongDoublePoint point2 = LongDoublePoint.of(100L, 200L, 3.14159);
+             * LongDoublePoint point3 = LongDoublePoint.of(100L, 200L, 2.71828);
              *
              * System.out.println(point1.equals(point2));          // prints: true
              * System.out.println(point1.equals(point3));          // prints: false
@@ -1834,7 +1273,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this LongDoublePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this LongDoublePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1842,12 +1281,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongDoublePoint point = LongDoublePoint.of(1000L, 2000L, 99.99);
-             * System.out.println(point.toString());   // prints: [1000, 2000, 99.99]
-             * System.out.println(point);              // prints: [1000, 2000, 99.99]
+             * LongDoublePoint point = LongDoublePoint.of(100L, 200L, 3.14159);
+             * System.out.println(point.toString());   // prints: [100, 200, 3.14159]
+             * System.out.println(point);              // prints: [100, 200, 3.14159]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1856,47 +1295,28 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with long integer coordinates and a generic object value.
+         * Represents an immutable two-dimensional point with long coordinates and a generic object value.
          * This class is useful when coordinates require the full long integer range
          * but the associated value can be any object type.
          *
          * <p>All instances are immutable and thread-safe.</p>
          *
          * @param <T> the type of the value object associated with this point
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class LongObjPoint<T> implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final long x;
-
-            /** The y-coordinate of this point. */
-            public final long y;
-
-            /** The value associated with this point. */
-            public final T v; // value
-
-            /**
-             * Constructs a new LongObjPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            LongObjPoint(final long x, final long y, final T v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record LongObjPoint<T>(long x, long y, T v) implements Immutable {
 
             /**
              * Creates a new LongObjPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongObjPoint<String> point = LongObjPoint.of(1000L, 2000L, "marker");
-             * long x = point.x;  // 1000L
-             * long y = point.y;  // 2000L
+             * LongObjPoint<String> point = LongObjPoint.of(100L, 200L, "marker");
+             * long x = point.x;  // 100L
+             * long y = point.y;  // 200L
              * String value = point.v;  // "marker"
              * }</pre>
              *
@@ -1940,9 +1360,9 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongObjPoint<String> point1 = LongObjPoint.of(1000L, 2000L, "marker");
-             * LongObjPoint<String> point2 = LongObjPoint.of(1000L, 2000L, "marker");
-             * LongObjPoint<String> point3 = LongObjPoint.of(1000L, 2000L, "different");
+             * LongObjPoint<String> point1 = LongObjPoint.of(100L, 200L, "marker");
+             * LongObjPoint<String> point2 = LongObjPoint.of(100L, 200L, "marker");
+             * LongObjPoint<String> point3 = LongObjPoint.of(100L, 200L, "different");
              *
              * System.out.println(point1.equals(point2));          // prints: true
              * System.out.println(point1.equals(point3));          // prints: false
@@ -1966,7 +1386,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this LongObjPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this LongObjPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -1974,12 +1394,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * LongObjPoint<String> point = LongObjPoint.of(1000L, 2000L, "marker");
-             * System.out.println(point.toString());   // prints: [1000, 2000, marker]
-             * System.out.println(point);              // prints: [1000, 2000, marker]
+             * LongObjPoint<String> point = LongObjPoint.of(100L, 200L, "marker");
+             * System.out.println(point.toString());   // prints: [100, 200, marker]
+             * System.out.println(point);              // prints: [100, 200, marker]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -1993,41 +1413,23 @@ public final class Points {
          * but the associated value is constrained to byte range (-128 to 127).
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class DoubleBytePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final double x;
-
-            /** The y-coordinate of this point. */
-            public final double y;
-
-            /** The value associated with this point. */
-            public final byte v; // value
-
-            /**
-             * Constructs a new DoubleBytePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            DoubleBytePoint(final double x, final double y, final byte v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record DoubleBytePoint(double x, double y, byte v) implements Immutable {
 
             /**
              * Creates a new DoubleBytePoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)100);
+             * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)50);
              * double x = point.x;  // 10.5
              * double y = point.y;  // 20.3
-             * byte value = point.v;  // 100
+             * byte value = point.v;  // 50
              * }</pre>
              *
              * @param x the x-coordinate
@@ -2068,9 +1470,9 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleBytePoint point1 = DoubleBytePoint.of(10.5, 20.3, (byte)100);
-             * DoubleBytePoint point2 = DoubleBytePoint.of(10.5, 20.3, (byte)100);
-             * DoubleBytePoint point3 = DoubleBytePoint.of(10.5, 20.3, (byte)99);
+             * DoubleBytePoint point1 = DoubleBytePoint.of(10.5, 20.3, (byte)50);
+             * DoubleBytePoint point2 = DoubleBytePoint.of(10.5, 20.3, (byte)50);
+             * DoubleBytePoint point3 = DoubleBytePoint.of(10.5, 20.3, (byte)60);
              *
              * System.out.println(point1.equals(point2));          // prints: true
              * System.out.println(point1.equals(point3));          // prints: false
@@ -2094,7 +1496,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this DoubleBytePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this DoubleBytePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -2102,12 +1504,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)100);
-             * System.out.println(point.toString());   // prints: [10.5, 20.3, 100]
-             * System.out.println(point);              // prints: [10.5, 20.3, 100]
+             * DoubleBytePoint point = DoubleBytePoint.of(10.5, 20.3, (byte)50);
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 50]
+             * System.out.println(point);              // prints: [10.5, 20.3, 50]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -2121,41 +1523,23 @@ public final class Points {
          * but the associated value fits within the integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class DoubleIntPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final double x;
-
-            /** The y-coordinate of this point. */
-            public final double y;
-
-            /** The value associated with this point. */
-            public final int v; // value
-
-            /**
-             * Constructs a new DoubleIntPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            DoubleIntPoint(final double x, final double y, final int v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record DoubleIntPoint(double x, double y, int v) implements Immutable {
 
             /**
              * Creates a new DoubleIntPoint with the specified coordinates and value.
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 500);
+             * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 100);
              * double x = point.x;  // 10.5
              * double y = point.y;  // 20.3
-             * int value = point.v;  // 500
+             * int value = point.v;  // 100
              * }</pre>
              *
              * @param x the x-coordinate
@@ -2196,9 +1580,9 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleIntPoint point1 = DoubleIntPoint.of(10.5, 20.3, 500);
-             * DoubleIntPoint point2 = DoubleIntPoint.of(10.5, 20.3, 500);
-             * DoubleIntPoint point3 = DoubleIntPoint.of(10.5, 20.3, 600);
+             * DoubleIntPoint point1 = DoubleIntPoint.of(10.5, 20.3, 100);
+             * DoubleIntPoint point2 = DoubleIntPoint.of(10.5, 20.3, 100);
+             * DoubleIntPoint point3 = DoubleIntPoint.of(10.5, 20.3, 200);
              *
              * System.out.println(point1.equals(point2));          // prints: true
              * System.out.println(point1.equals(point3));          // prints: false
@@ -2222,7 +1606,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this DoubleIntPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this DoubleIntPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -2230,12 +1614,12 @@ public final class Points {
              *
              * <p><b>Usage Examples:</b></p>
              * <pre>{@code
-             * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 500);
-             * System.out.println(point.toString());   // prints: [10.5, 20.3, 500]
-             * System.out.println(point);              // prints: [10.5, 20.3, 500]
+             * DoubleIntPoint point = DoubleIntPoint.of(10.5, 20.3, 100);
+             * System.out.println(point.toString());   // prints: [10.5, 20.3, 100]
+             * System.out.println(point);              // prints: [10.5, 20.3, 100]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -2249,31 +1633,13 @@ public final class Points {
          * but the associated value requires the full long integer range.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class DoubleLongPoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final double x;
-
-            /** The y-coordinate of this point. */
-            public final double y;
-
-            /** The value associated with this point. */
-            public final long v; // value
-
-            /**
-             * Constructs a new DoubleLongPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            DoubleLongPoint(final double x, final double y, final long v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record DoubleLongPoint(double x, double y, long v) implements Immutable {
 
             /**
              * Creates a new DoubleLongPoint with the specified coordinates and value.
@@ -2350,7 +1716,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this DoubleLongPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this DoubleLongPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -2363,7 +1729,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10.5, 20.3, 1000000]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -2372,36 +1738,17 @@ public final class Points {
         }
 
         /**
-         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and a double value.
-         * This class is useful for high-precision floating-point coordinate systems and scientific computations
-         * where both coordinates and values require double precision.
+         * Represents an immutable two-dimensional point with double-precision floating-point coordinates and value.
+         * This class provides full double-precision floating-point support for both coordinates and the associated value.
          *
          * <p>All instances are immutable and thread-safe.</p>
+         *
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class DoubleDoublePoint implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final double x;
-
-            /** The y-coordinate of this point. */
-            public final double y;
-
-            /** The value associated with this point. */
-            public final double v; // value
-
-            /**
-             * Constructs a new DoubleDoublePoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            DoubleDoublePoint(final double x, final double y, final double v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record DoubleDoublePoint(double x, double y, double v) implements Immutable {
 
             /**
              * Creates a new DoubleDoublePoint with the specified coordinates and value.
@@ -2478,7 +1825,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this DoubleDoublePoint in the format \"[x, y, v]\".
+             * Returns a string representation of this DoubleDoublePoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -2491,7 +1838,7 @@ public final class Points {
              * System.out.println(point);              // prints: [10.5, 20.3, 3.14159]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
@@ -2507,31 +1854,12 @@ public final class Points {
          * <p>All instances are immutable and thread-safe.</p>
          *
          * @param <T> the type of the value object associated with this point
+         * @param x the x-coordinate of this point
+         * @param y the y-coordinate of this point
+         * @param v the value associated with this point
          */
         @com.landawn.abacus.annotation.Immutable
-        public static final class DoubleObjPoint<T> implements Immutable {
-
-            /** The x-coordinate of this point. */
-            public final double x;
-
-            /** The y-coordinate of this point. */
-            public final double y;
-
-            /** The value associated with this point. */
-            public final T v; // value
-
-            /**
-             * Constructs a new DoubleObjPoint with the specified coordinates and value.
-             *
-             * @param x the x-coordinate
-             * @param y the y-coordinate
-             * @param v the value associated with this point
-             */
-            DoubleObjPoint(final double x, final double y, final T v) {
-                this.x = x;
-                this.y = y;
-                this.v = v;
-            }
+        public record DoubleObjPoint<T>(double x, double y, T v) implements Immutable {
 
             /**
              * Creates a new DoubleObjPoint with the specified coordinates and value.
@@ -2610,7 +1938,7 @@ public final class Points {
             }
 
             /**
-             * Returns a string representation of this DoubleObjPoint in the format \"[x, y, v]\".
+             * Returns a string representation of this DoubleObjPoint in the format "[x, y, v]".
              *
              * <p>The string representation consists of the x-coordinate, y-coordinate, and value
              * enclosed in square brackets and separated by commas and spaces. This format provides
@@ -2623,2553 +1951,12 @@ public final class Points {
              * System.out.println(point);              // prints: [10.5, 20.3, marker]
              * }</pre>
              *
-             * @return a string representation of this point in the format \"[x, y, v]\"
+             * @return a string representation of this point in the format "[x, y, v]"
              */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + N.toString(v) + "]";
             }
         }
-
-        //        public static final class ByteByteTimePoint  implements Immutable {
-        //            public final byte x;
-        //             public final byte y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final ByteByteTimePoint() {
-        //            }
-        //
-        //            public final ByteByteTimePoint(byte x, byte y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ByteByteTimePoint of(byte x, byte y, long t, byte v) {
-        //                return new ByteByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ByteByteTimePoint) {
-        //                    ByteByteTimePoint other = (ByteByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ByteIntTimePoint implements Immutable {
-        //            public final byte x;
-        //             public final byte y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final ByteIntTimePoint() {
-        //            }
-        //
-        //            public final ByteIntTimePoint(byte x, byte y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ByteIntTimePoint of(byte x, byte y, long t, int v) {
-        //                return new ByteIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ByteIntTimePoint) {
-        //                    ByteIntTimePoint other = (ByteIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ByteLongTimePoint implements Immutable {
-        //            public final byte x;
-        //             public final byte y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final ByteLongTimePoint() {
-        //            }
-        //
-        //            public final ByteLongTimePoint(byte x, byte y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ByteLongTimePoint of(byte x, byte y, long t, long v) {
-        //                return new ByteLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ByteLongTimePoint) {
-        //                    ByteLongTimePoint other = (ByteLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ByteDoubleTimePoint implements Immutable {
-        //            public final byte x;
-        //             public final byte y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final ByteDoubleTimePoint() {
-        //            }
-        //
-        //            public final ByteDoubleTimePoint(byte x, byte y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ByteDoubleTimePoint of(byte x, byte y, long t, double v) {
-        //                return new ByteDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ByteDoubleTimePoint) {
-        //                    ByteDoubleTimePoint other = (ByteDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ByteObjTimePoint<T> implements Immutable {
-        //            public final byte x;
-        //             public final byte y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final ByteObjTimePoint() {
-        //            }
-        //
-        //            public final ByteObjTimePoint(byte x, byte y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ByteObjTimePoint<T> of(byte x, byte y, long t, T v) {
-        //                return new ByteObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + t) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ByteObjTimePoint) {
-        //                    ByteObjTimePoint<?> other = (ByteObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class IntByteTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final IntByteTimePoint() {
-        //            }
-        //
-        //            public final IntByteTimePoint(int x, int y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static IntByteTimePoint of(int x, int y, long t, byte v) {
-        //                return new IntByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof IntByteTimePoint) {
-        //                    IntByteTimePoint other = (IntByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class IntIntTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final IntIntTimePoint() {
-        //            }
-        //
-        //            public final IntIntTimePoint(int x, int y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static IntIntTimePoint of(int x, int y, long t, int v) {
-        //                return new IntIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof IntIntTimePoint) {
-        //                    IntIntTimePoint other = (IntIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class IntLongTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final IntLongTimePoint() {
-        //            }
-        //
-        //            public final IntLongTimePoint(int x, int y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static IntLongTimePoint of(int x, int y, long t, long v) {
-        //                return new IntLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof IntLongTimePoint) {
-        //                    IntLongTimePoint other = (IntLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class IntDoubleTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final IntDoubleTimePoint() {
-        //            }
-        //
-        //            public final IntDoubleTimePoint(int x, int y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static IntDoubleTimePoint of(int x, int y, long t, double v) {
-        //                return new IntDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof IntDoubleTimePoint) {
-        //                    IntDoubleTimePoint other = (IntDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class IntObjTimePoint<T> implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final IntObjTimePoint() {
-        //            }
-        //
-        //            public final IntObjTimePoint(int x, int y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> IntObjTimePoint<T> of(int x, int y, long t, T v) {
-        //                return new IntObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + t) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof IntObjTimePoint) {
-        //                    IntObjTimePoint<?> other = (IntObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class LongByteTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final LongByteTimePoint() {
-        //            }
-        //
-        //            public final LongByteTimePoint(long x, long y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static LongByteTimePoint of(long x, long y, long t, byte v) {
-        //                return new LongByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof LongByteTimePoint) {
-        //                    LongByteTimePoint other = (LongByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class LongIntTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final LongIntTimePoint() {
-        //            }
-        //
-        //            public final LongIntTimePoint(long x, long y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static LongIntTimePoint of(long x, long y, long t, int v) {
-        //                return new LongIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof LongIntTimePoint) {
-        //                    LongIntTimePoint other = (LongIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class LongLongTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final LongLongTimePoint() {
-        //            }
-        //
-        //            public final LongLongTimePoint(long x, long y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static LongLongTimePoint of(long x, long y, long t, long v) {
-        //                return new LongLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof LongLongTimePoint) {
-        //                    LongLongTimePoint other = (LongLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class LongDoubleTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final LongDoubleTimePoint() {
-        //            }
-        //
-        //            public final LongDoubleTimePoint(long x, long y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static LongDoubleTimePoint of(long x, long y, long t, double v) {
-        //                return new LongDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof LongDoubleTimePoint) {
-        //                    LongDoubleTimePoint other = (LongDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class LongObjTimePoint<T> implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final LongObjTimePoint() {
-        //            }
-        //
-        //            public final LongObjTimePoint(long x, long y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> LongObjTimePoint<T> of(long x, long y, long t, T v) {
-        //                return new LongObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof LongObjTimePoint) {
-        //                    LongObjTimePoint<?> other = (LongObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class DoubleByteTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final DoubleByteTimePoint() {
-        //            }
-        //
-        //            public final DoubleByteTimePoint(double x, double y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static DoubleByteTimePoint of(double x, double y, long t, byte v) {
-        //                return new DoubleByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof DoubleByteTimePoint) {
-        //                    DoubleByteTimePoint other = (DoubleByteTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class DoubleIntTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final DoubleIntTimePoint() {
-        //            }
-        //
-        //            public final DoubleIntTimePoint(double x, double y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static DoubleIntTimePoint of(double x, double y, long t, int v) {
-        //                return new DoubleIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof DoubleIntTimePoint) {
-        //                    DoubleIntTimePoint other = (DoubleIntTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class DoubleLongTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final DoubleLongTimePoint() {
-        //            }
-        //
-        //            public final DoubleLongTimePoint(double x, double y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static DoubleLongTimePoint of(double x, double y, long t, long v) {
-        //                return new DoubleLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof DoubleLongTimePoint) {
-        //                    DoubleLongTimePoint other = (DoubleLongTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class DoubleDoubleTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final DoubleDoubleTimePoint() {
-        //            }
-        //
-        //            public final DoubleDoubleTimePoint(double x, double y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static DoubleDoubleTimePoint of(double x, double y, long t, double v) {
-        //                return new DoubleDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof DoubleDoubleTimePoint) {
-        //                    DoubleDoubleTimePoint other = (DoubleDoubleTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class DoubleObjTimePoint<T> implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final DoubleObjTimePoint() {
-        //            }
-        //
-        //            public final DoubleObjTimePoint(double x, double y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> DoubleObjTimePoint<T> of(double x, double y, long t, T v) {
-        //                return new DoubleObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof DoubleObjTimePoint) {
-        //                    DoubleObjTimePoint<?> other = (DoubleObjTimePoint<?>) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteBytePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final byte v; // value
-        //
-        //            public final ImmutableByteBytePoint(byte x, byte y, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteBytePoint of(byte x, byte y, byte v) {
-        //                return new ImmutableByteBytePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + v;
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteBytePoint) {
-        //                    ImmutableByteBytePoint other = (ImmutableByteBytePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteIntPoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final int v; // value
-        //
-        //            public final ImmutableByteIntPoint(byte x, byte y, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteIntPoint of(byte x, byte y, int v) {
-        //                return new ImmutableByteIntPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + v;
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteIntPoint) {
-        //                    ImmutableByteIntPoint other = (ImmutableByteIntPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteLongPoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long v; // value
-        //
-        //            public final ImmutableByteLongPoint(byte x, byte y, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteLongPoint of(byte x, byte y, long v) {
-        //                return new ImmutableByteLongPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteLongPoint) {
-        //                    ImmutableByteLongPoint other = (ImmutableByteLongPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteDoublePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final double v; // value
-        //
-        //            public final ImmutableByteDoublePoint(byte x, byte y, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteDoublePoint of(byte x, byte y, double v) {
-        //                return new ImmutableByteDoublePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteDoublePoint) {
-        //                    ImmutableByteDoublePoint other = (ImmutableByteDoublePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteObjPoint<T> implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final T v; // value
-        //
-        //            public final ImmutableByteObjPoint(byte x, byte y, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableByteObjPoint<T> of(byte x, byte y, T v) {
-        //                return new ImmutableByteObjPoint<>(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteObjPoint) {
-        //                    ImmutableByteObjPoint<?> other = (ImmutableByteObjPoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntBytePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final byte v; // value
-        //
-        //            public final ImmutableIntBytePoint(int x, int y, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntBytePoint of(int x, int y, byte v) {
-        //                return new ImmutableIntBytePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + v;
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntBytePoint) {
-        //                    ImmutableIntBytePoint other = (ImmutableIntBytePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntIntPoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final int v; // value
-        //
-        //            public final ImmutableIntIntPoint(int x, int y, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntIntPoint of(int x, int y, int v) {
-        //                return new ImmutableIntIntPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + v;
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntIntPoint) {
-        //                    ImmutableIntIntPoint other = (ImmutableIntIntPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntLongPoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long v; // value
-        //
-        //            public final ImmutableIntLongPoint(int x, int y, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntLongPoint of(int x, int y, long v) {
-        //                return new ImmutableIntLongPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntLongPoint) {
-        //                    ImmutableIntLongPoint other = (ImmutableIntLongPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntDoublePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final double v; // value
-        //
-        //            public final ImmutableIntDoublePoint(int x, int y, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntDoublePoint of(int x, int y, double v) {
-        //                return new ImmutableIntDoublePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntDoublePoint) {
-        //                    ImmutableIntDoublePoint other = (ImmutableIntDoublePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntObjPoint<T> implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final T v; // value
-        //
-        //            public final ImmutableIntObjPoint(int x, int y, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableIntObjPoint<T> of(int x, int y, T v) {
-        //                return new ImmutableIntObjPoint<>(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (x * 31 + y) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntObjPoint) {
-        //                    ImmutableIntObjPoint<?> other = (ImmutableIntObjPoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongBytePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final byte v; // value
-        //
-        //            public final ImmutableLongBytePoint(long x, long y, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongBytePoint of(long x, long y, byte v) {
-        //                return new ImmutableLongBytePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongBytePoint) {
-        //                    ImmutableLongBytePoint other = (ImmutableLongBytePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongIntPoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final int v; // value
-        //
-        //            public final ImmutableLongIntPoint(long x, long y, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongIntPoint of(long x, long y, int v) {
-        //                return new ImmutableLongIntPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongIntPoint) {
-        //                    ImmutableLongIntPoint other = (ImmutableLongIntPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongLongPoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long v; // value
-        //
-        //            public final ImmutableLongLongPoint(long x, long y, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongLongPoint of(long x, long y, long v) {
-        //                return new ImmutableLongLongPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongLongPoint) {
-        //                    ImmutableLongLongPoint other = (ImmutableLongLongPoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongDoublePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final double v; // value
-        //
-        //            public final ImmutableLongDoublePoint(long x, long y, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongDoublePoint of(long x, long y, double v) {
-        //                return new ImmutableLongDoublePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongDoublePoint) {
-        //                    ImmutableLongDoublePoint other = (ImmutableLongDoublePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongObjPoint<T> implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final T v; // value
-        //
-        //            public final ImmutableLongObjPoint(long x, long y, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableLongObjPoint<T> of(long x, long y, T v) {
-        //                return new ImmutableLongObjPoint<>(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongObjPoint) {
-        //                    ImmutableLongObjPoint<?> other = (ImmutableLongObjPoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleBytePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final byte v; // value
-        //
-        //            public final ImmutableDoubleBytePoint(double x, double y, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleBytePoint of(double x, double y, byte v) {
-        //                return new ImmutableDoubleBytePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleBytePoint) {
-        //                    ImmutableDoubleBytePoint other = (ImmutableDoubleBytePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleIntPoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final int v; // value
-        //
-        //            public final ImmutableDoubleIntPoint(double x, double y, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleIntPoint of(double x, double y, int v) {
-        //                return new ImmutableDoubleIntPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleIntPoint) {
-        //                    ImmutableDoubleIntPoint other = (ImmutableDoubleIntPoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleLongPoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long v; // value
-        //
-        //            public final ImmutableDoubleLongPoint(double x, double y, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleLongPoint of(double x, double y, long v) {
-        //                return new ImmutableDoubleLongPoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleLongPoint) {
-        //                    ImmutableDoubleLongPoint other = (ImmutableDoubleLongPoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleDoublePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final double v; // value
-        //
-        //            public final ImmutableDoubleDoublePoint(double x, double y, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleDoublePoint of(double x, double y, double v) {
-        //                return new ImmutableDoubleDoublePoint(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleDoublePoint) {
-        //                    ImmutableDoubleDoublePoint other = (ImmutableDoubleDoublePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleObjPoint<T> {
-        //            public final double x;
-        //            public final double y;
-        //            public final T v; // value
-        //
-        //            public final ImmutableDoubleObjPoint(double x, double y, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableDoubleObjPoint<T> of(double x, double y, T v) {
-        //                return new ImmutableDoubleObjPoint<>(x, y, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleObjPoint) {
-        //                    ImmutableDoubleObjPoint<?> other = (ImmutableDoubleObjPoint<?>) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteByteTimePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final ImmutableByteByteTimePoint(byte x, byte y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteByteTimePoint of(byte x, byte y, long t, byte v) {
-        //                return new ImmutableByteByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteByteTimePoint) {
-        //                    ImmutableByteByteTimePoint other = (ImmutableByteByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteIntTimePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final ImmutableByteIntTimePoint(byte x, byte y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteIntTimePoint of(byte x, byte y, long t, int v) {
-        //                return new ImmutableByteIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteIntTimePoint) {
-        //                    ImmutableByteIntTimePoint other = (ImmutableByteIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteLongTimePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final ImmutableByteLongTimePoint(byte x, byte y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteLongTimePoint of(byte x, byte y, long t, long v) {
-        //                return new ImmutableByteLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteLongTimePoint) {
-        //                    ImmutableByteLongTimePoint other = (ImmutableByteLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteDoubleTimePoint implements Immutable {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final ImmutableByteDoubleTimePoint(byte x, byte y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableByteDoubleTimePoint of(byte x, byte y, long t, double v) {
-        //                return new ImmutableByteDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteDoubleTimePoint) {
-        //                    ImmutableByteDoubleTimePoint other = (ImmutableByteDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableByteObjTimePoint<T> {
-        //            public final byte x;
-        //            public final byte y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final ImmutableByteObjTimePoint(byte x, byte y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableByteObjTimePoint<T> of(byte x, byte y, long t, T v) {
-        //                return new ImmutableByteObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + t) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableByteObjTimePoint) {
-        //                    ImmutableByteObjTimePoint<?> other = (ImmutableByteObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntByteTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final ImmutableIntByteTimePoint(int x, int y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntByteTimePoint of(int x, int y, long t, byte v) {
-        //                return new ImmutableIntByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntByteTimePoint) {
-        //                    ImmutableIntByteTimePoint other = (ImmutableIntByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntIntTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final ImmutableIntIntTimePoint(int x, int y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntIntTimePoint of(int x, int y, long t, int v) {
-        //                return new ImmutableIntIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntIntTimePoint) {
-        //                    ImmutableIntIntTimePoint other = (ImmutableIntIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntLongTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final ImmutableIntLongTimePoint(int x, int y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntLongTimePoint of(int x, int y, long t, long v) {
-        //                return new ImmutableIntLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntLongTimePoint) {
-        //                    ImmutableIntLongTimePoint other = (ImmutableIntLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntDoubleTimePoint implements Immutable {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final ImmutableIntDoubleTimePoint(int x, int y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableIntDoubleTimePoint of(int x, int y, long t, double v) {
-        //                return new ImmutableIntDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntDoubleTimePoint) {
-        //                    ImmutableIntDoubleTimePoint other = (ImmutableIntDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableIntObjTimePoint<T> {
-        //            public final int x;
-        //            public final int y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final ImmutableIntObjTimePoint(int x, int y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableIntObjTimePoint<T> of(int x, int y, long t, T v) {
-        //                return new ImmutableIntObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((x * 31 + y) * 31 + t) * 31 + N.hashCode(v);
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableIntObjTimePoint) {
-        //                    ImmutableIntObjTimePoint<?> other = (ImmutableIntObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongByteTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final ImmutableLongByteTimePoint(long x, long y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongByteTimePoint of(long x, long y, long t, byte v) {
-        //                return new ImmutableLongByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongByteTimePoint) {
-        //                    ImmutableLongByteTimePoint other = (ImmutableLongByteTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongIntTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final ImmutableLongIntTimePoint(long x, long y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongIntTimePoint of(long x, long y, long t, int v) {
-        //                return new ImmutableLongIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongIntTimePoint) {
-        //                    ImmutableLongIntTimePoint other = (ImmutableLongIntTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongLongTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final ImmutableLongLongTimePoint(long x, long y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongLongTimePoint of(long x, long y, long t, long v) {
-        //                return new ImmutableLongLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongLongTimePoint) {
-        //                    ImmutableLongLongTimePoint other = (ImmutableLongLongTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongDoubleTimePoint implements Immutable {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final ImmutableLongDoubleTimePoint(long x, long y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableLongDoubleTimePoint of(long x, long y, long t, double v) {
-        //                return new ImmutableLongDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongDoubleTimePoint) {
-        //                    ImmutableLongDoubleTimePoint other = (ImmutableLongDoubleTimePoint) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableLongObjTimePoint<T> {
-        //            public final long x;
-        //            public final long y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final ImmutableLongObjTimePoint(long x, long y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableLongObjTimePoint<T> of(long x, long y, long t, T v) {
-        //                return new ImmutableLongObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableLongObjTimePoint) {
-        //                    ImmutableLongObjTimePoint<?> other = (ImmutableLongObjTimePoint<?>) obj;
-        //                    return this.x == other.x && this.y == other.y && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleByteTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final byte v; // value
-        //
-        //            public final ImmutableDoubleByteTimePoint(double x, double y, long t, byte v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleByteTimePoint of(double x, double y, long t, byte v) {
-        //                return new ImmutableDoubleByteTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleByteTimePoint) {
-        //                    ImmutableDoubleByteTimePoint other = (ImmutableDoubleByteTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleIntTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final int v; // value
-        //
-        //            public final ImmutableDoubleIntTimePoint(double x, double y, long t, int v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleIntTimePoint of(double x, double y, long t, int v) {
-        //                return new ImmutableDoubleIntTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleIntTimePoint) {
-        //                    ImmutableDoubleIntTimePoint other = (ImmutableDoubleIntTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleLongTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final long v; // value
-        //
-        //            public final ImmutableDoubleLongTimePoint(double x, double y, long t, long v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleLongTimePoint of(double x, double y, long t, long v) {
-        //                return new ImmutableDoubleLongTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleLongTimePoint) {
-        //                    ImmutableDoubleLongTimePoint other = (ImmutableDoubleLongTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && this.v == other.v;
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleDoubleTimePoint implements Immutable {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final double v; // value
-        //
-        //            public final ImmutableDoubleDoubleTimePoint(double x, double y, long t, double v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static ImmutableDoubleDoubleTimePoint of(double x, double y, long t, double v) {
-        //                return new ImmutableDoubleDoubleTimePoint(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) ((((x * 31 + y) * 31 + t) * 31 + v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleDoubleTimePoint) {
-        //                    ImmutableDoubleDoubleTimePoint other = (ImmutableDoubleDoubleTimePoint) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + v + "]";
-        //            }
-        //        }
-        //
-        //        public static final class ImmutableDoubleObjTimePoint<T> {
-        //            public final double x;
-        //            public final double y;
-        //            public final long t; // timestamp
-        //            public final T v; // value
-        //
-        //            public final ImmutableDoubleObjTimePoint(double x, double y, long t, T v) {
-        //                this.x = x;
-        //                this.y = y;
-        //                this.t = t;
-        //                this.v = v;
-        //            }
-        //
-        //            public final static <T> ImmutableDoubleObjTimePoint<T> of(double x, double y, long t, T v) {
-        //                return new ImmutableDoubleObjTimePoint<>(x, y, t, v);
-        //            }
-        //
-        //            @Override
-        //            public final int hashCode() {
-        //                return (int) (((x * 31 + y) * 31 + t) * 31 + N.hashCode(v));
-        //            }
-        //
-        //            @Override
-        //            public final boolean equals(Object obj) {
-        //                if (this == obj) {
-        //                    return true;
-        //                }
-        //
-        //                if (obj instanceof ImmutableDoubleObjTimePoint) {
-        //                    ImmutableDoubleObjTimePoint<?> other = (ImmutableDoubleObjTimePoint<?>) obj;
-        //                    return N.equals(this.x, other.x) && N.equals(this.y, other.y) && this.t == other.t && N.equals(this.v, other.v);
-        //                }
-        //
-        //                return false;
-        //            }
-        //
-        //            @Override
-        //            public final String toString() {
-        //                return "[" + x + ", " + y + ", " + t + "," + N.toString(v) + "]";
-        //            }
-        //        }
     }
-
 }

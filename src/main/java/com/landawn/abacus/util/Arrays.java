@@ -14922,7 +14922,7 @@ public sealed class Arrays permits Arrays.f {
         public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
-                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0);   // NOSONAR
+                return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
             }
 
             final int len = N.len(a);
@@ -15337,7 +15337,7 @@ public sealed class Arrays permits Arrays.f {
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
-            final int len = N.max(lenA, lenB);   // Use max to ensure we cover the longer array
+            final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
@@ -15506,7 +15506,7 @@ public sealed class Arrays permits Arrays.f {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
-            final int len = N.max(lenA, lenB, lenC);   // Use max to ensure we cover the longest array
+            final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
 
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
@@ -15544,7 +15544,7 @@ public sealed class Arrays permits Arrays.f {
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
-            final int len = N.max(lenA, lenB);   // Use max to ensure we cover the longer array
+            final int len = N.max(lenA, lenB); // Use max to ensure we cover the longer array
 
             final R[] result = N.newArray(targetElementType, len);
 
@@ -15590,7 +15590,7 @@ public sealed class Arrays permits Arrays.f {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
-            final int len = N.max(lenA, lenB, lenC);   // Use max to ensure we cover the longest array
+            final int len = N.max(lenA, lenB, lenC); // Use max to ensure we cover the longest array
 
             final R[] result = N.newArray(targetElementType, len);
 
