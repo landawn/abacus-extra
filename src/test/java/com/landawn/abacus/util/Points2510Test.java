@@ -82,7 +82,7 @@ public class Points2510Test extends TestBase {
         xy.ByteBytePoint point = xy.ByteBytePoint.of((byte) 1, (byte) 2, (byte) 3);
         String result = point.toString();
 
-        assertEquals("[1, 2, 3]", result);
+        assertEquals("ByteBytePoint[x=1, y=2, v=3]", result);
     }
 
     // ============================================
@@ -374,7 +374,7 @@ public class Points2510Test extends TestBase {
         xy.IntIntPoint point = xy.IntIntPoint.of(-10, -20, -30);
         String result = point.toString();
 
-        assertEquals("[-10, -20, -30]", result);
+        assertEquals("IntIntPoint[x=-10, y=-20, v=-30]", result);
     }
 
     // ============================================
@@ -990,7 +990,7 @@ public class Points2510Test extends TestBase {
         xy.ByteBytePoint point = xy.ByteBytePoint.of((byte) -128, (byte) 127, (byte) 0);
         String result = point.toString();
 
-        assertEquals("[-128, 127, 0]", result);
+        assertEquals("ByteBytePoint[x=-128, y=127, v=0]", result);
     }
 
     @Test
@@ -998,7 +998,7 @@ public class Points2510Test extends TestBase {
         xy.IntIntPoint point = xy.IntIntPoint.of(Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
         String result = point.toString();
 
-        assertEquals("[" + Integer.MIN_VALUE + ", " + Integer.MAX_VALUE + ", 0]", result);
+        assertEquals("IntIntPoint[x=" + Integer.MIN_VALUE + ", y=" + Integer.MAX_VALUE + ", v=0]", result);
     }
 
     @Test
@@ -1006,7 +1006,7 @@ public class Points2510Test extends TestBase {
         xy.LongLongPoint point = xy.LongLongPoint.of(Long.MIN_VALUE, Long.MAX_VALUE, 0L);
         String result = point.toString();
 
-        assertEquals("[" + Long.MIN_VALUE + ", " + Long.MAX_VALUE + ", 0]", result);
+        assertEquals("LongLongPoint[x=" + Long.MIN_VALUE + ", y=" + Long.MAX_VALUE + ", v=0]", result);
     }
 
     @Test

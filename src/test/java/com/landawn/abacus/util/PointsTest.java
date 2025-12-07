@@ -57,7 +57,7 @@ public class PointsTest extends TestBase {
         assertTrue(str.contains("1"));
         assertTrue(str.contains("2"));
         assertTrue(str.contains("3"));
-        assertEquals("[1, 2, 3]", str);
+        assertEquals("ByteBytePoint[x=1, y=2, v=3]", str);
     }
 
     @Test
@@ -150,7 +150,8 @@ public class PointsTest extends TestBase {
         assertFalse(point1.equals(point3));
 
         assertEquals(point1.hashCode(), point2.hashCode());
-        assertEquals(point1.hashCode(), point3.hashCode());
+        // Record uses default hashCode which includes all fields
+        assertNotEquals(point1.hashCode(), point3.hashCode());
     }
 
     @Test
@@ -217,7 +218,7 @@ public class PointsTest extends TestBase {
         Points.xy.DoubleDoublePoint doublePoint = Points.xy.DoubleDoublePoint.of(1.1, 2.2, 3.3);
         Points.xy.IntObjPoint<String> objPoint = Points.xy.IntObjPoint.of(1, 2, "test");
 
-        assertEquals("[1, 2, 3]", intPoint.toString());
+        assertEquals("IntIntPoint[x=1, y=2, v=3]", intPoint.toString());
         assertTrue(doublePoint.toString().contains("1.1"));
         assertTrue(doublePoint.toString().contains("2.2"));
         assertTrue(doublePoint.toString().contains("3.3"));
@@ -284,7 +285,7 @@ public class PointsTest extends TestBase {
         assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
-        assertEquals("[10, 20, 1000]", point.toString());
+        assertEquals("ByteLongPoint[x=10, y=20, v=1000]", point.toString());
     }
 
     @Test
@@ -354,7 +355,7 @@ public class PointsTest extends TestBase {
         assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
-        assertEquals("[100, 200, 50]", point.toString());
+        assertEquals("IntBytePoint[x=100, y=200, v=50]", point.toString());
     }
 
     @Test
@@ -375,7 +376,7 @@ public class PointsTest extends TestBase {
         assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
-        assertEquals("[10, 20, 5000]", point.toString());
+        assertEquals("IntLongPoint[x=10, y=20, v=5000]", point.toString());
     }
 
     @Test
@@ -396,7 +397,7 @@ public class PointsTest extends TestBase {
         assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
-        assertEquals("[1000, 2000, 100]", point.toString());
+        assertEquals("LongBytePoint[x=1000, y=2000, v=100]", point.toString());
     }
 
     @Test
@@ -417,7 +418,7 @@ public class PointsTest extends TestBase {
         assertNotEquals(point.hashCode(), point3.hashCode());
 
         // Test toString
-        assertEquals("[500, 1000, 250]", point.toString());
+        assertEquals("LongIntPoint[x=500, y=1000, v=250]", point.toString());
     }
 
     @Test
