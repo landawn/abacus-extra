@@ -1,3 +1,8 @@
+### 2.26.8
+
+* Improve javadoc and add unit tests
+* Convert *Point classes to Records.
+
 ### 2.26.7
 
 * Improve javadoc and add unit tests

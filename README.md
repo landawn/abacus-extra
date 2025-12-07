@@ -1,7 +1,7 @@
 # abacus-extra 
  
 [![Maven Central](https://img.shields.io/maven-central/v/com.landawn/abacus-extra.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn/abacus-extra/)
-[![Javadocs](https://img.shields.io/badge/javadoc-2.26.7-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/2.26.7/index.html)
+[![Javadocs](https://img.shields.io/badge/javadoc-2.26.8-brightgreen.svg)](https://www.javadoc.io/doc/com.landawn/abacus-extra/2.26.8/index.html)
 
 
 * Matrixes: 
@@ -32,7 +32,7 @@
 * Gradle:
 ```gradle
 // JDK 17 or above:
-compile 'com.landawn:abacus-extra:2.26.7'
+compile 'com.landawn:abacus-extra:2.26.8'
 ```
 
 
