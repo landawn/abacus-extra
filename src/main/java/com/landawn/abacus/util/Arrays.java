@@ -2072,7 +2072,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
      */
     public static boolean[][] reshape(final boolean[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new boolean[0][];
@@ -2107,7 +2107,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
      */
     public static boolean[][][] reshape(final boolean[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new boolean[0][][];
@@ -3402,7 +3402,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static char[][] reshape(final char[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new char[0][];
@@ -3438,7 +3438,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static char[][][] reshape(final char[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new char[0][][];
@@ -4895,7 +4895,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
      */
     public static byte[][] reshape(final byte[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new byte[0][];
@@ -4930,7 +4930,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
      */
     public static byte[][][] reshape(final byte[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new byte[0][][];
@@ -5991,7 +5991,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if cols is less than 1.
      */
     public static short[][] reshape(final short[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new short[0][];
@@ -6025,7 +6025,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if rows or cols is less than 1.
      */
     public static short[][][] reshape(final short[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new short[0][][];
@@ -7262,7 +7262,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if cols is less than 1.
      */
     public static int[][] reshape(final int[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new int[0][];
@@ -7300,7 +7300,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if rows or cols is less than 1.
      */
     public static int[][][] reshape(final int[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new int[0][][];
@@ -8533,7 +8533,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static long[][] reshape(final long[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new long[0][];
@@ -8568,7 +8568,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static long[][][] reshape(final long[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new long[0][][];
@@ -9778,7 +9778,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static float[][] reshape(final float[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new float[0][];
@@ -9813,7 +9813,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static float[][][] reshape(final float[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new float[0][][];
@@ -11031,7 +11031,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code cols} is not positive.
      */
     public static double[][] reshape(final double[] a, final int cols) throws IllegalArgumentException {
-        checkMForReshape(cols);
+        checkColsForReshape(cols);
 
         if (N.isEmpty(a)) {
             return new double[0][];
@@ -11067,7 +11067,7 @@ public sealed class Arrays permits Arrays.f {
      * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
      */
     public static double[][][] reshape(final double[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkMAndLForReshape(rows, cols);
+        checkRowsAndColsForReshape(rows, cols);
 
         if (N.isEmpty(a)) {
             return new double[0][][];
@@ -14311,12 +14311,12 @@ public sealed class Arrays permits Arrays.f {
         return result;
     }
 
-    private static void checkMForReshape(final int m) { // NOSONAR
-        N.checkArgument(m > 0, "'m' must be positive number: m = %s", m);
+    private static void checkColsForReshape(final int m) { // NOSONAR
+        N.checkArgument(m > 0, "'cols' must be positive number: cols = %s", m);
     }
 
-    private static void checkMAndLForReshape(final int m, final int l) {
-        N.checkArgument(m > 0 && l > 0, "'m'  and 'l' must be positive number: m = %s, l = %s", m, l);
+    private static void checkRowsAndColsForReshape(final int rows, final int cols) {
+        N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive number: rows = %s, cols = %s", rows, cols);
     }
 
     /**
@@ -14773,7 +14773,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if {@code cols} is not positive ({@code cols <= 0}).
          */
         public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
-            checkMForReshape(cols);
+            checkColsForReshape(cols);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][];
@@ -15878,7 +15878,7 @@ public sealed class Arrays permits Arrays.f {
          * @throws IllegalArgumentException if rows or cols are not positive numbers.
          */
         public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
-            N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive numbers: rows = %s, cols = %s", rows, cols);
+            checkRowsAndColsForReshape(rows, cols);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][][];

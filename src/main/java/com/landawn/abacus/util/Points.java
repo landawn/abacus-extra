@@ -54,7 +54,20 @@ public final class Points {
     }
 
     /**
-     * The Class xy.
+     * This class provides two-dimensional coordinate point implementations.
+     * Each point stores x and y coordinates of various primitive types
+     * (byte, int, long, double) to optimize memory usage and performance for specific use cases.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * // Create a two-dimensional integer point with value
+     * Points.xy.IntIntPoint point = Points.xy.IntIntPoint.of(10, 20, 100);
+     * int x = point.x();  // 10
+     * int y = point.y();  // 20
+     * int value = point.v();  // 100
+     * }</pre>
+     * 
+     * @see xyz
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class xy { // NOSONAR
@@ -594,7 +607,6 @@ public final class Points {
     }
 
     /**
-     * The Class xyz.
      * This class provides three-dimensional coordinate point implementations.
      * Each point stores x, y, and z coordinates of various primitive types
      * (byte, int, long, double) to optimize memory usage and performance for specific use cases.
@@ -608,6 +620,8 @@ public final class Points {
      * int z = point.z();  // 30
      * int value = point.v();  // 100
      * }</pre>
+     * 
+     * @see xy
      */
     @SuppressFBWarnings("NM_CLASS_NAMING_CONVENTION")
     public static final class xyz { // NOSONAR
