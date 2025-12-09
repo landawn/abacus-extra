@@ -36,15 +36,16 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <pre>{@code
  * // Create a two-dimensional integer point with value
  * Points.xy.IntIntPoint point2D = Points.xy.IntIntPoint.of(10, 20, 100);
- * int x = point2D.x();  // 10
- * int y = point2D.y();  // 20
+ * int x = point2D.x();      // 10
+ * int y = point2D.y();      // 20
  * int value = point2D.v();  // 100
  *
  * // Create a three-dimensional integer point
- * Points.xyz.IntIntIntPoint point3D = Points.xyz.IntIntIntPoint.of(10, 20, 30);
- * int x3 = point3D.x();  // 10
- * int y3 = point3D.y();  // 20
- * int z3 = point3D.z();  // 30
+ * Points.xyz.IntIntIntPoint point3D = Points.xyz.IntIntIntPoint.of(10, 20, 30, 100);
+ * int x3 = point3D.x();     // 10
+ * int y3 = point3D.y();     // 20
+ * int z3 = point3D.z();     // 30
+ * int value = point3D.v();  // 100
  * }</pre>
  */
 public final class Points {
