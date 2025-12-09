@@ -428,8 +428,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the boolean array to map (can be {@code null}).
-     * @param mapper the function that maps each boolean to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each boolean to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
@@ -466,8 +466,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional boolean array to map (can be {@code null}).
-     * @param mapper the function that maps each boolean to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each boolean to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -502,8 +502,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional boolean array to map (can be {@code null}).
-     * @param mapper the function that maps each boolean to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each boolean to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -537,8 +537,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the char array to map (can be {@code null}).
-     * @param mapper the function that maps each char to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each char to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -573,8 +573,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional char array to map (can be {@code null}).
-     * @param mapper the function that maps each char to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each char to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -609,8 +609,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional char array to map (can be {@code null}).
-     * @param mapper the function that maps each char to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each char to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -644,8 +644,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the byte array to map (can be {@code null}).
-     * @param mapper the function that maps each byte to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each byte to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -680,8 +680,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional byte array to map (can be {@code null}).
-     * @param mapper the function that maps each byte to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each byte to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -716,8 +716,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional byte array to map (can be {@code null}).
-     * @param mapper the function that maps each byte to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each byte to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -751,8 +751,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the short array to map (can be {@code null}).
-     * @param mapper the function that maps each short to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each short to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -787,8 +787,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional short array to map (can be {@code null}).
-     * @param mapper the function that maps each short to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each short to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -823,8 +823,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional short array to map (can be {@code null}).
-     * @param mapper the function that maps each short to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each short to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -859,8 +859,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the int array to map (can be {@code null}).
-     * @param mapper the function that maps each int to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each int to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -895,8 +895,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional int array to map (can be {@code null}).
-     * @param mapper the function that maps each int to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each int to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -931,8 +931,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional int array to map (can be {@code null}).
-     * @param mapper the function that maps each int to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each int to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -966,8 +966,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the long array to map (can be {@code null}).
-     * @param mapper the function that maps each long to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each long to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1002,8 +1002,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional long array to map (can be {@code null}).
-     * @param mapper the function that maps each long to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each long to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1038,8 +1038,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional long array to map (can be {@code null}).
-     * @param mapper the function that maps each long to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each long to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1076,8 +1076,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the float array to map (can be {@code null}).
-     * @param mapper the function that maps each float to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each float to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
@@ -1114,8 +1114,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the two-dimensional float array to map (can be {@code null}).
-     * @param mapper the function that maps each float to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each float to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1150,8 +1150,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the result array.
      * @param <E> the type of exception that the mapper may throw.
      * @param a the three-dimensional float array to map (can be {@code null}).
-     * @param mapper the function that maps each float to an object.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function that maps each float to an object (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1188,8 +1188,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the double array to map (can be {@code null}).
-     * @param mapper the function to transform each double element.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function to transform each double element (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return an object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
@@ -1225,8 +1225,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the two-dimensional double array to map (can be {@code null}).
-     * @param mapper the function to transform each double element.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function to transform each double element (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
@@ -1262,8 +1262,8 @@ public sealed class Arrays permits Arrays.f {
      * @param <T> the type of elements in the resulting array.
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the three-dimensional double array to map (can be {@code null}).
-     * @param mapper the function to transform each double element.
-     * @param targetElementType the class of the target element type.
+     * @param mapper the function to transform each double element (must not be {@code null}).
+     * @param targetElementType the class of the target element type (must not be {@code null}).
      * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
@@ -1298,7 +1298,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the int array to map (can be {@code null}).
-     * @param mapper the function to transform each int to long.
+     * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[][], Throwables.IntToLongFunction) for two-dimensional arrays
@@ -1332,7 +1332,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the two-dimensional int array to map (can be {@code null}).
-     * @param mapper the function to transform each int to long.
+     * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
@@ -1366,7 +1366,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the three-dimensional int array to map (can be {@code null}).
-     * @param mapper the function to transform each int to long.
+     * @param mapper the function to transform each int to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToLong(int[], Throwables.IntToLongFunction) for one-dimensional arrays
@@ -1400,7 +1400,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input int array (can be {@code null}).
-     * @param mapper the function to transform each int to double.
+     * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1432,7 +1432,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional int array (can be {@code null}).
-     * @param mapper the function to transform each int to double.
+     * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1464,7 +1464,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional int array (can be {@code null}).
-     * @param mapper the function to transform each int to double.
+     * @param mapper the function to transform each int to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1496,7 +1496,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input long array (can be {@code null}).
-     * @param mapper the function to transform each long to int.
+     * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1529,7 +1529,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional long array (can be {@code null}).
-     * @param mapper the function to transform each long to int.
+     * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1562,7 +1562,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional long array (can be {@code null}).
-     * @param mapper the function to transform each long to int.
+     * @param mapper the function to transform each long to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1595,7 +1595,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input long array (can be {@code null}).
-     * @param mapper the function to transform each long to double.
+     * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1628,7 +1628,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional long array (can be {@code null}).
-     * @param mapper the function to transform each long to double.
+     * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a two-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1660,7 +1660,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional long array (can be {@code null}).
-     * @param mapper the function to transform each long to double.
+     * @param mapper the function to transform each long to double (must not be {@code null}).
      * @return a three-dimensional double array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1692,7 +1692,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input double array (can be {@code null}).
-     * @param mapper the function to transform each double to int.
+     * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return an int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1725,7 +1725,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional double array (can be {@code null}).
-     * @param mapper the function to transform each double to int.
+     * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a two-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1758,7 +1758,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional double array (can be {@code null}).
-     * @param mapper the function to transform each double to int.
+     * @param mapper the function to transform each double to int (must not be {@code null}).
      * @return a three-dimensional int array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1791,7 +1791,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input double array (can be {@code null}).
-     * @param mapper the function to transform each double to long.
+     * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1824,7 +1824,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input two-dimensional double array (can be {@code null}).
-     * @param mapper the function to transform each double to long.
+     * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a two-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1857,7 +1857,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the mapper.
      * @param a the input three-dimensional double array (can be {@code null}).
-     * @param mapper the function to transform each double to long.
+     * @param mapper the function to transform each double to long (must not be {@code null}).
      * @return a three-dimensional long array with mapped values, or an empty array if input is {@code null}.
      * @throws E if the {@code mapper} function throws an exception.
      */
@@ -1890,7 +1890,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the boolean array to update (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
@@ -1919,7 +1919,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional boolean array to update (can be {@code null} or empty).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
      * @see #updateAll(boolean[][][], Throwables.BooleanUnaryOperator) for three-dimensional arrays
@@ -1948,7 +1948,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional boolean array to update (can be {@code null} or empty).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(boolean[], Throwables.BooleanUnaryOperator) for one-dimensional arrays
      * @see #updateAll(boolean[][], Throwables.BooleanUnaryOperator) for two-dimensional arrays
@@ -1977,7 +1977,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the boolean array to modify (can be {@code null}).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[][], Throwables.BooleanPredicate, boolean) for two-dimensional arrays
@@ -2009,7 +2009,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the two-dimensional boolean array to modify (can be {@code null} or empty).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
@@ -2039,7 +2039,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the three-dimensional boolean array to modify (can be {@code null} or empty).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(boolean[], Throwables.BooleanPredicate, boolean) for one-dimensional arrays
@@ -2224,7 +2224,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional boolean array to operate on.
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      * @see #flatten(boolean[][]) for just flattening without applying operations
      * @see #flatOp(boolean[][][], Throwables.Consumer) for three-dimensional arrays
@@ -2261,7 +2261,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional boolean array to operate on (can be {@code null} or empty).
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final boolean[][][] a, final Throwables.Consumer<? super boolean[], E> op) throws E {
@@ -2306,7 +2306,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -2345,7 +2345,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2394,7 +2394,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2438,7 +2438,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2485,7 +2485,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -2526,7 +2526,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2577,7 +2577,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2621,7 +2621,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2668,7 +2668,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -2708,7 +2708,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2759,7 +2759,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -2803,7 +2803,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3221,7 +3221,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
@@ -3250,7 +3250,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The two-dimensional char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][][], Throwables.CharUnaryOperator) for three-dimensional arrays
@@ -3279,7 +3279,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The three-dimensional char array to update (can be {@code null}).
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(char[], Throwables.CharUnaryOperator) for one-dimensional arrays
      * @see #updateAll(char[][], Throwables.CharUnaryOperator) for two-dimensional arrays
@@ -3308,7 +3308,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[][], Throwables.CharPredicate, char) for two-dimensional arrays
@@ -3339,7 +3339,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The two-dimensional char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
@@ -3368,7 +3368,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The three-dimensional char array to modify (can be {@code null}).
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(char[], Throwables.CharPredicate, char) for one-dimensional arrays
@@ -3554,7 +3554,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The two-dimensional character array to operate on.
-     * @param op The consumer operation to apply to the flattened array.
+     * @param op The consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final char[][] a, final Throwables.Consumer<? super char[], E> op) throws E {
@@ -3590,7 +3590,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The three-dimensional character array to operate on.
-     * @param op The consumer operation to apply to the flattened array.
+     * @param op The consumer operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final char[][][] a, final Throwables.Consumer<? super char[], E> op) throws E {
@@ -3635,7 +3635,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -3674,7 +3674,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3726,7 +3726,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3772,7 +3772,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3819,7 +3819,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -3859,7 +3859,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3910,7 +3910,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -3955,7 +3955,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -4003,7 +4003,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -4043,7 +4043,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -4095,7 +4095,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -4141,7 +4141,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -4558,7 +4558,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the byte array to update (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
@@ -4587,7 +4587,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional byte array to update (can be {@code null} or empty).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
      * @see #updateAll(byte[][][], Throwables.ByteUnaryOperator) for three-dimensional arrays
@@ -4616,7 +4616,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional byte array to update (can be {@code null} or empty).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      * @see #updateAll(byte[], Throwables.ByteUnaryOperator) for one-dimensional arrays
      * @see #updateAll(byte[][], Throwables.ByteUnaryOperator) for two-dimensional arrays
@@ -4645,7 +4645,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the byte array to modify (can be {@code null}).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[][], Throwables.BytePredicate, byte) for two-dimensional arrays
@@ -4677,7 +4677,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the two-dimensional byte array to modify (can be {@code null} or empty).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
@@ -4707,7 +4707,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the three-dimensional byte array to modify (can be {@code null} or empty).
-     * @param predicate the condition to test each element.
+     * @param predicate the condition to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      * @see #replaceIf(byte[], Throwables.BytePredicate, byte) for one-dimensional arrays
@@ -4816,7 +4816,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional byte array to operate on.
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final byte[][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
@@ -4852,7 +4852,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional byte array to operate on (can be {@code null} or empty).
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final byte[][][] a, final Throwables.Consumer<? super byte[], E> op) throws E {
@@ -4966,7 +4966,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -5001,7 +5001,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5048,7 +5048,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5088,7 +5088,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5130,7 +5130,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -5165,7 +5165,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5212,7 +5212,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5252,7 +5252,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5295,7 +5295,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -5330,7 +5330,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5377,7 +5377,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5417,7 +5417,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -5831,7 +5831,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operator may throw.
      * @param a the array to update (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
@@ -5856,7 +5856,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operator may throw.
      * @param a the two-dimensional array to update (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
@@ -5881,7 +5881,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operator may throw.
      * @param a the three-dimensional array to update (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
@@ -5907,7 +5907,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the predicate may throw.
      * @param a the array to modify (can be {@code null}).
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -5935,7 +5935,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the predicate may throw.
      * @param a the two-dimensional array to modify (can be {@code null}).
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -5961,7 +5961,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the predicate may throw.
      * @param a the three-dimensional array to modify (can be {@code null}).
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -6138,7 +6138,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operation may throw.
      * @param a the two-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final short[][] a, final Throwables.Consumer<? super short[], E> op) throws E {
@@ -6171,7 +6171,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception the operation may throw.
      * @param a the three-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final short[][][] a, final Throwables.Consumer<? super short[], E> op) throws E {
@@ -6212,7 +6212,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -6247,7 +6247,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6294,7 +6294,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6334,7 +6334,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6376,7 +6376,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -6411,7 +6411,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6458,7 +6458,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6498,7 +6498,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6541,7 +6541,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -6577,7 +6577,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6624,7 +6624,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -6664,7 +6664,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7081,7 +7081,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operator may throw.
      * @param a the array to be modified (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
@@ -7110,7 +7110,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operator may throw.
      * @param a the two-dimensional array to be modified.
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
@@ -7139,7 +7139,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operator may throw.
      * @param a the three-dimensional array to be modified.
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
@@ -7166,7 +7166,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the array to be modified (can be {@code null}).
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -7198,7 +7198,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the two-dimensional array to be modified.
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -7228,7 +7228,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the predicate may throw.
      * @param a the three-dimensional array to be modified.
-     * @param predicate the predicate to test each element.
+     * @param predicate the predicate to test each element (must not be {@code null}).
      * @param newValue the value to replace matching elements with.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -7423,7 +7423,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the two-dimensional array to process.
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final int[][] a, final Throwables.Consumer<? super int[], E> op) throws E {
@@ -7461,7 +7461,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that the operation may throw.
      * @param a the three-dimensional array to process.
-     * @param op the operation to apply to the flattened array.
+     * @param op the operation to apply to the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final int[][][] a, final Throwables.Consumer<? super int[], E> op) throws E {
@@ -7502,7 +7502,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -7537,7 +7537,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7584,7 +7584,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7623,7 +7623,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7665,7 +7665,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -7700,7 +7700,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7747,7 +7747,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7787,7 +7787,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7830,7 +7830,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -7865,7 +7865,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7912,7 +7912,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -7952,7 +7952,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -8371,7 +8371,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The array to be modified (can be {@code null}).
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E If the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
@@ -8396,7 +8396,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The two-dimensional array to be modified. The modification happens in-place.
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E If the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
@@ -8421,7 +8421,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operator may throw.
      * @param a The three-dimensional array to be modified. The modification happens in-place.
-     * @param operator The unary operator to apply to each element.
+     * @param operator The unary operator to apply to each element (must not be {@code null}).
      * @throws E If the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
@@ -8448,7 +8448,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The array to be modified (can be {@code null}).
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
      */
@@ -8476,7 +8476,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The two-dimensional array to be modified.
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
      */
@@ -8502,7 +8502,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the predicate may throw.
      * @param a The three-dimensional array to be modified.
-     * @param predicate The condition to test for each element.
+     * @param predicate The condition to test for each element (must not be {@code null}).
      * @param newValue The value to replace with if the predicate is true.
      * @throws E If the {@code predicate} throws an exception.
      */
@@ -8679,7 +8679,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The two-dimensional array to operate on.
-     * @param op The consumer to accept the flattened one-dimensional array for modification.
+     * @param op The consumer to accept the flattened one-dimensional array for modification (must not be {@code null}).
      * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][] a, final Throwables.Consumer<? super long[], E> op) throws E {
@@ -8713,7 +8713,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> The type of exception that the operation may throw.
      * @param a The three-dimensional array to operate on.
-     * @param op The consumer to accept the flattened one-dimensional array for modification.
+     * @param op The consumer to accept the flattened one-dimensional array for modification (must not be {@code null}).
      * @throws E If the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final long[][][] a, final Throwables.Consumer<? super long[], E> op) throws E {
@@ -8754,7 +8754,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -8789,7 +8789,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -8836,7 +8836,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -8876,7 +8876,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -8918,7 +8918,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -8953,7 +8953,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9000,7 +9000,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9040,7 +9040,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9083,7 +9083,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -9118,7 +9118,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9165,7 +9165,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9205,7 +9205,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -9619,7 +9619,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the array to be updated (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
@@ -9643,7 +9643,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the two-dimensional array to be updated (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
@@ -9667,7 +9667,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operator.
      * @param a the three-dimensional array to be updated (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
@@ -9693,7 +9693,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the array to be modified (can be {@code null}).
-     * @param predicate the condition to test for each element.
+     * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -9721,7 +9721,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the two-dimensional array to be modified.
-     * @param predicate the condition to test for each element.
+     * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -9747,7 +9747,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the predicate.
      * @param a the three-dimensional array to be modified.
-     * @param predicate the condition to test for each element.
+     * @param predicate the condition to test for each element (must not be {@code null}).
      * @param newValue the value to be placed in the array if the predicate is true.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -9927,7 +9927,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the two-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final float[][] a, final Throwables.Consumer<? super float[], E> op) throws E {
@@ -9962,7 +9962,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that can be thrown by the operation.
      * @param a the three-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final float[][][] a, final Throwables.Consumer<? super float[], E> op) throws E {
@@ -10003,7 +10003,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -10038,7 +10038,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10085,7 +10085,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10125,7 +10125,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10167,7 +10167,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -10202,7 +10202,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10249,7 +10249,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10289,7 +10289,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10332,7 +10332,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -10368,7 +10368,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10415,7 +10415,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10455,7 +10455,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -10868,7 +10868,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the array to be updated (can be {@code null}).
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
@@ -10893,7 +10893,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the two-dimensional array to be updated.
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
@@ -10918,7 +10918,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operator.
      * @param a the three-dimensional array to be updated.
-     * @param operator the unary operator to apply to each element.
+     * @param operator the unary operator to apply to each element (must not be {@code null}).
      * @throws E if the {@code operator} throws an exception.
      */
     public static <E extends Exception> void updateAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
@@ -10945,7 +10945,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the array to be modified (can be {@code null}).
-     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -10973,7 +10973,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the two-dimensional array to be modified.
-     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -10999,7 +10999,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the predicate.
      * @param a the three-dimensional array to be modified.
-     * @param predicate a predicate to apply to each element to determine if it should be replaced.
+     * @param predicate a predicate to apply to each element to determine if it should be replaced (must not be {@code null}).
      * @param newValue the value to be placed into the array.
      * @throws E if the {@code predicate} throws an exception.
      */
@@ -11182,7 +11182,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the two-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final double[][] a, final Throwables.Consumer<? super double[], E> op) throws E {
@@ -11218,7 +11218,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param <E> the type of exception that may be thrown by the operation.
      * @param a the three-dimensional array to operate on.
-     * @param op the operation to perform on the flattened array.
+     * @param op the operation to perform on the flattened array (must not be {@code null}).
      * @throws E if the operation throws an exception.
      */
     public static <E extends Exception> void flatOp(final double[][][] a, final Throwables.Consumer<? super double[], E> op) throws E {
@@ -11259,7 +11259,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from both arrays.
+     * @param zipFunction the function to apply to corresponding elements from both arrays (must not be {@code null}).
      * @return a new array containing the results of applying the zip function to corresponding elements.
      * @throws E if the zip function throws an exception.
      */
@@ -11294,7 +11294,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11341,7 +11341,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new array containing the results with length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11381,7 +11381,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' is shorter.
      * @param valueForNoneB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11423,7 +11423,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results of zipping corresponding sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -11458,7 +11458,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11505,7 +11505,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new two-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11545,7 +11545,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11588,7 +11588,7 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements in sub-arrays.
+     * @param zipFunction the function to apply to corresponding elements in sub-arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results of zipping corresponding two-dimensional sub-arrays.
      * @throws E if the zip function throws an exception.
      */
@@ -11624,7 +11624,7 @@ public sealed class Arrays permits Arrays.f {
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11671,7 +11671,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param zipFunction the function to apply to corresponding elements from all three arrays.
+     * @param zipFunction the function to apply to corresponding elements from all three arrays (must not be {@code null}).
      * @return a new three-dimensional array containing the results with outer length equal to the shortest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -11711,7 +11711,7 @@ public sealed class Arrays permits Arrays.f {
      * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
      * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
-     * @param zipFunction the function to apply to corresponding elements.
+     * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
@@ -14354,8 +14354,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the mapping function to apply to each element.
-         * @param targetElementType the class of the target element type.
+         * @param func the mapping function to apply to each element (must not be {@code null}).
+         * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14389,7 +14389,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a boolean.
+         * @param func the function that maps each element to a boolean (must not be {@code null}).
          * @return a boolean array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14422,7 +14422,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a char.
+         * @param func the function that maps each element to a char (must not be {@code null}).
          * @return a char array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14455,7 +14455,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a byte.
+         * @param func the function that maps each element to a byte (must not be {@code null}).
          * @return a byte array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14488,7 +14488,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a short.
+         * @param func the function that maps each element to a short (must not be {@code null}).
          * @return a short array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14522,7 +14522,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to an int.
+         * @param func the function that maps each element to an int (must not be {@code null}).
          * @return an int array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14556,7 +14556,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a long.
+         * @param func the function that maps each element to a long (must not be {@code null}).
          * @return a long array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14590,7 +14590,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a float.
+         * @param func the function that maps each element to a float (must not be {@code null}).
          * @return a float array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14624,7 +14624,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a double.
+         * @param func the function that maps each element to a double (must not be {@code null}).
          * @return a double array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
@@ -14693,7 +14693,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the two-dimensional array to update (can be {@code null}).
-         * @param operator the unary operator to apply to each element.
+         * @param operator the unary operator to apply to each element (must not be {@code null}).
          * @throws E if the {@code operator} throws an exception during processing.
          */
         public static <T, E extends Exception> void updateAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -14729,7 +14729,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
          * @param a the two-dimensional array to modify (can be {@code null}).
-         * @param predicate the condition to test each element against.
+         * @param predicate the condition to test each element against (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
          * @throws E if the {@code predicate} throws an exception during testing.
          */
@@ -14849,7 +14849,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the two-dimensional array to operate on (can be {@code null}). The operation modifies this array in-place.
-         * @param op the consumer that operates on the flattened array.
+         * @param op the consumer that operates on the flattened array (must not be {@code null}).
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void flatOp(final T[][] a, final Throwables.Consumer<? super T[], E> op) throws E {
@@ -14888,7 +14888,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the unary operator to apply to each element.
+         * @param func the unary operator to apply to each element (must not be {@code null}).
          * @return a new two-dimensional array with mapped elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14914,8 +14914,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to transform each element.
-         * @param targetElementType the class of the target element type.
+         * @param func the function to transform each element (must not be {@code null}).
+         * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14949,7 +14949,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the predicate function to test each element.
+         * @param func the predicate function to test each element (must not be {@code null}).
          * @return a new two-dimensional boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -14982,7 +14982,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to extract a char from each element.
+         * @param func the function to extract a char from each element (must not be {@code null}).
          * @return a new two-dimensional char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15015,7 +15015,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a byte.
+         * @param func the function to convert each element to a byte (must not be {@code null}).
          * @return a new two-dimensional byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15048,7 +15048,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a short.
+         * @param func the function to convert each element to a short (must not be {@code null}).
          * @return a new two-dimensional short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15081,7 +15081,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to an int.
+         * @param func the function to convert each element to an int (must not be {@code null}).
          * @return a new two-dimensional int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15114,7 +15114,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a long.
+         * @param func the function to convert each element to a long (must not be {@code null}).
          * @return a new two-dimensional long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15147,7 +15147,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a float.
+         * @param func the function to convert each element to a float (must not be {@code null}).
          * @return a new two-dimensional float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15180,7 +15180,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a double.
+         * @param func the function to convert each element to a double (must not be {@code null}).
          * @return a new two-dimensional double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
@@ -15219,7 +15219,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array.
          * @param b the second two-dimensional array.
-         * @param zipFunction the function to combine paired elements.
+         * @param zipFunction the function to combine paired elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -15246,8 +15246,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array.
          * @param b the second two-dimensional array.
-         * @param zipFunction the function to combine paired elements.
-         * @param targetElementType the class of the result element type.
+         * @param zipFunction the function to combine paired elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type containing combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -15296,7 +15296,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value used when first array has no element at a position.
          * @param valueForNoneB default value used when second array has no element at a position.
-         * @param zipFunction the function to combine elements.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
@@ -15328,8 +15328,8 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second two-dimensional array. can be {@code null}.
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
-         * @param zipFunction the function to combine elements.
-         * @param targetElementType the class of the result element type.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -15378,7 +15378,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first two-dimensional array.
          * @param b the second two-dimensional array.
          * @param c the third two-dimensional array.
-         * @param zipFunction the function to combine three elements.
+         * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array containing the combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -15408,8 +15408,8 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first two-dimensional array.
          * @param b the second two-dimensional array.
          * @param c the third two-dimensional array.
-         * @param zipFunction the function to combine three elements.
-         * @param targetElementType the class of the result element type.
+         * @param zipFunction the function to combine three elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type.
          * @throws E if the zip function throws an exception.
          */
@@ -15461,7 +15461,7 @@ public sealed class Arrays permits Arrays.f {
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
          * @param valueForNoneC default value for the third array.
-         * @param zipFunction the function to combine three elements.
+         * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
@@ -15495,8 +15495,8 @@ public sealed class Arrays permits Arrays.f {
          * @param valueForNoneA default value for the first array.
          * @param valueForNoneB default value for the second array.
          * @param valueForNoneC default value for the third array.
-         * @param zipFunction the function to combine three elements.
-         * @param targetElementType the class of the result element type.
+         * @param zipFunction the function to combine three elements (must not be {@code null}).
+         * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -15530,8 +15530,8 @@ public sealed class Arrays permits Arrays.f {
          * @param b second array.
          * @param valueForNoneA default value for first array.
          * @param valueForNoneB default value for second array.
-         * @param zipFunction function to combine elements.
-         * @param targetElementType class of the result element type.
+         * @param zipFunction function to combine elements (must not be {@code null}).
+         * @param targetElementType class of the result element type (must not be {@code null}).
          *
          * @param <A> type of first array element.
          * @param <B> type of second array element.
@@ -15579,8 +15579,8 @@ public sealed class Arrays permits Arrays.f {
          * @param valueForNoneA default value for first array.
          * @param valueForNoneB default value for second array.
          * @param valueForNoneC default value for third array.
-         * @param zipFunction function to combine elements.
-         * @param targetElementType class of the result element type.
+         * @param zipFunction function to combine elements (must not be {@code null}).
+         * @param targetElementType class of the result element type (must not be {@code null}).
          * @return a new array of zipped elements.
          * @throws E if the zip function fails.
          */
@@ -15809,7 +15809,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operator.
          * @param a the three-dimensional array to update (can be {@code null}).
-         * @param operator the unary operator to apply to each element.
+         * @param operator the unary operator to apply to each element (must not be {@code null}).
          * @throws E if the {@code operator} throws an exception during execution.
          */
         public static <T, E extends Exception> void updateAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
@@ -15840,7 +15840,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the predicate.
          * @param a the three-dimensional array to modify (can be {@code null}).
-         * @param predicate the condition to test for each element. Elements that match will be replaced.
+         * @param predicate the condition to test for each element. Elements that match will be replaced (must not be {@code null}).
          * @param newValue the value to replace matching elements with (can be {@code null}).
          * @throws E if the {@code predicate} throws an exception during evaluation.
          */
@@ -15968,7 +15968,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param <E> the type of exception that may be thrown by the operation.
          * @param a the three-dimensional array to operate on. Modified in-place.
-         * @param op the consumer operation to apply to the flattened array.
+         * @param op the consumer operation to apply to the flattened array (must not be {@code null}).
          * @throws E if the operation throws an exception.
          */
         public static <T, E extends Exception> void flatOp(final T[][][] a, final Throwables.Consumer<? super T[], E> op) throws E {
@@ -16012,7 +16012,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the unary operator to apply to each element.
+         * @param func the unary operator to apply to each element (must not be {@code null}).
          * @return a new array with mapped elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16040,8 +16040,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to transform each element.
-         * @param targetElementType the class of the result array's element type.
+         * @param func the function to transform each element (must not be {@code null}).
+         * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16079,7 +16079,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the predicate function to test each element.
+         * @param func the predicate function to test each element (must not be {@code null}).
          * @return a new boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16115,7 +16115,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to extract a char from each element.
+         * @param func the function to extract a char from each element (must not be {@code null}).
          * @return a new char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16152,7 +16152,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to byte.
+         * @param func the function to convert each element to byte (must not be {@code null}).
          * @return a new byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16189,7 +16189,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to short.
+         * @param func the function to convert each element to short (must not be {@code null}).
          * @return a new short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16226,7 +16226,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to int.
+         * @param func the function to convert each element to int (must not be {@code null}).
          * @return a new int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16263,7 +16263,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to long.
+         * @param func the function to convert each element to long (must not be {@code null}).
          * @return a new long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16300,7 +16300,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to float.
+         * @param func the function to convert each element to float (must not be {@code null}).
          * @return a new float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16337,7 +16337,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to double.
+         * @param func the function to convert each element to double (must not be {@code null}).
          * @return a new double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
@@ -16377,7 +16377,7 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
-         * @param zipFunction the binary function to combine corresponding elements.
+         * @param zipFunction the binary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -16409,8 +16409,8 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
-         * @param zipFunction the function to combine corresponding elements.
-         * @param targetElementType the class of the result array's element type.
+         * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
+         * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
@@ -16451,7 +16451,7 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array.
          * @param valueForNoneA default value when first array element is missing.
          * @param valueForNoneB default value when second array element is missing.
-         * @param zipFunction the function to combine elements.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -16485,8 +16485,8 @@ public sealed class Arrays permits Arrays.f {
          * @param b the second three-dimensional array.
          * @param valueForNoneA default value when first array element is missing.
          * @param valueForNoneB default value when second array element is missing.
-         * @param zipFunction the function to combine elements.
-         * @param targetElementType the class of the result array's element type.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
+         * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
@@ -16539,7 +16539,7 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
          * @param c the third three-dimensional array.
-         * @param zipFunction the ternary function to combine corresponding elements.
+         * @param zipFunction the ternary function to combine corresponding elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -16574,8 +16574,8 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
          * @param c the third three-dimensional array.
-         * @param zipFunction the function to combine corresponding elements.
-         * @param targetElementType the class of the result array's element type.
+         * @param zipFunction the function to combine corresponding elements (must not be {@code null}).
+         * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
@@ -16621,7 +16621,7 @@ public sealed class Arrays permits Arrays.f {
          * @param valueForNoneA default value when first array element is missing.
          * @param valueForNoneB default value when second array element is missing.
          * @param valueForNoneC default value when third array element is missing.
-         * @param zipFunction the function to combine elements.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
@@ -16660,8 +16660,8 @@ public sealed class Arrays permits Arrays.f {
          * @param valueForNoneA default value when first array element is missing.
          * @param valueForNoneB default value when second array element is missing.
          * @param valueForNoneC default value when third array element is missing.
-         * @param zipFunction the function to combine elements.
-         * @param targetElementType the class of the result array's element type.
+         * @param zipFunction the function to combine elements (must not be {@code null}).
+         * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
