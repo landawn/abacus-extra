@@ -288,9 +288,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements (off-diagonal) are set to zero. The matrix size is n×n where n is the length
-     * of the diagonal arrays. If only one diagonal is specified (the other is null), only that diagonal
-     * is set with the provided values.
+     * All other elements are set to zero. If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -301,18 +301,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * //   {0, 2, 0},
      * //   {6, 0, 3}
      *
-     * // With both diagonals having non-zero values
-     * ByteMatrix matrix2 = ByteMatrix.diagonal(new byte[] {1, 2, 3}, new byte[] {7, 8, 9});
-     * // Resulting matrix:
-     * //   {1, 0, 7},
-     * //   {0, 2, 0},
-     * //   {9, 0, 3}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (left-up to right-down), can be null
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (right-up to left-down), can be null
-     * @return a square matrix with the specified diagonals (n×n where n = diagonal length)
-     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
+     * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static ByteMatrix diagonal(final byte[] leftUp2RightDownDiagonal, final byte[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -411,9 +405,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * byte value = matrix.get(point);   // Returns 2
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @return the element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the byte element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #get(int, int)
      */
     public byte get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
@@ -438,19 +433,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the element at the specified point.
+     * Sets the element at the specified point to the given value.
      * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.of(new byte[][] {{1, 2}, {3, 4}});
      * Point point = Point.of(0, 1);
-     * matrix.set(point, (byte) 9);   // Sets element at point to 9
+     * matrix.set(point, (byte) 9);
+     * assert matrix.get(point) == 9;
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new byte value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #set(int, int, byte)
      */
     public void set(final Point point, final byte val) {
         a[point.rowIndex()][point.columnIndex()] = val;

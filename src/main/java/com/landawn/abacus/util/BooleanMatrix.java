@@ -139,12 +139,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.repeat(true, 5);
-     * // Creates a 1x5 matrix where all elements are true
+     * // Creates a 1x5 matrix [[true, true, true, true, true]]
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns
-     * @return a 1-row matrix with all elements set to val
+     * @param val the value to repeat in all positions
+     * @param len the number of columns (must be non-negative)
+     * @return a 1×n BooleanMatrix with all elements set to val, where n = len (or an empty matrix if len is 0)
      */
     public static BooleanMatrix repeat(final boolean val, final int len) {
         return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
@@ -196,9 +196,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements (off-diagonal) are set to false. The matrix size is n×n where n is the length
-     * of the diagonal arrays. If only one diagonal is specified (the other is null), only that diagonal
-     * is set with the provided values.
+     * All other elements are set to false. If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -209,18 +209,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //   {false, true, false},
      * //   {false, false, true}
      *
-     * // With both diagonals having values
-     * BooleanMatrix matrix2 = BooleanMatrix.diagonal(new boolean[] {true, false, true}, new boolean[] {true, true, true});
-     * // Resulting matrix:
-     * //   {true, false, true},
-     * //   {false, false, false},
-     * //   {true, false, true}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (left-up to right-down), can be null
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (right-up to left-down), can be null
-     * @return a square matrix with the specified diagonals (n×n where n = diagonal length)
-     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
+     * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RightDownDiagonal, final boolean[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -275,7 +269,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
 
     /**
      * Returns the component type of the matrix elements, which is always {@code boolean.class}.
-     * 
+     * This method is useful for reflection-based code that needs to determine the element type.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
+     * Class componentType = matrix.componentType();
+     * // componentType is boolean.class
+     * assert componentType == boolean.class;
+     * }</pre>
+     *
      * @return {@code boolean.class}
      */
     @SuppressWarnings("rawtypes")
@@ -313,9 +316,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * boolean value = matrix.get(point);   // Returns false
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @return the element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the boolean element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #get(int, int)
      */
     public boolean get(final Point point) { // NOSONAR
         return a[point.rowIndex()][point.columnIndex()];
@@ -340,19 +344,21 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the element at the specified point.
+     * Sets the element at the specified point to the given value.
      * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
      * Point point = Point.of(1, 0);
-     * matrix.set(point, true);   // Sets element at point to true
+     * matrix.set(point, true);
+     * assert matrix.get(point) == true;
      * }</pre>
      *
-     * @param point the point containing row and column indices (0-based)
-     * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new boolean value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #set(int, int, boolean)
      */
     public void set(final Point point, final boolean val) {
         a[point.rowIndex()][point.columnIndex()] = val;

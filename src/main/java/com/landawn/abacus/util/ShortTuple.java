@@ -246,11 +246,16 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * short[] values = {1, 2, 3};
      * ShortTuple3 tuple = ShortTuple.create(values);
      * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
+     *
+     * short[] empty = {};
+     * ShortTuple0 emptyTuple = ShortTuple.create(empty);  // returns ShortTuple0.EMPTY
+     *
+     * ShortTuple1 nullTuple = ShortTuple.create(null);    // returns ShortTuple0.EMPTY
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
      * @param a the array of short values (must have length 0-9), may be {@code null}
-     * @return a ShortTuple of appropriate size containing the array values
+     * @return a ShortTuple of appropriate size containing the array values, or {@link ShortTuple0#EMPTY} if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -331,10 +336,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)3, (short)2);
-     * short median = tuple.median();   // 2
+     * short median = tuple.median();   // 2 (middle value when sorted: 1, 2, 3)
      *
-     * ShortTuple4 tuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
-     * short median = tuple.median();   // 2
+     * ShortTuple4 evenTuple = ShortTuple.of((short)1, (short)2, (short)3, (short)4);
+     * short median = evenTuple.median();   // 2 (lower middle when sorted: 1, [2], 3, 4)
      * }</pre>
      *
      * @return the median short value in this tuple

@@ -169,8 +169,8 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(sum[0]);   // prints: 15
      * }</pre>
      *
-     * @param <E> the type of exception that the action may throw.
-     * @param action the action to be performed for each element (must not be {@code null})
+     * @param <E> the type of exception that the action may throw
+     * @param action the action to be performed for each element, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
      */
@@ -209,9 +209,9 @@ public final class ImmutableIntArray implements Immutable {
      * array.forEachIndexed((index, value) -> map.put(index, value));
      * }</pre>
      *
-     * @param <E> the type of exception that the action may throw.
+     * @param <E> the type of exception that the action may throw
      * @param action the action to be performed for each element, receiving the index (first parameter)
-     *               and value (second parameter) as primitive ints (must not be {@code null})
+     *               and value (second parameter) as primitive ints, must not be {@code null}
      * @throws IllegalArgumentException if {@code action} is {@code null}
      * @throws E if the action throws an exception during execution
      */

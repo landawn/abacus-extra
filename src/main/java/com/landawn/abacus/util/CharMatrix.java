@@ -277,9 +277,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements (off-diagonal) are set to zero (the null character '\u0000'). The matrix size is n×n where n is the length
-     * of the diagonal arrays. If only one diagonal is specified (the other is null), only that diagonal
-     * is set with the provided values.
+     * All other elements are set to zero (the null character '\u0000'). If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -290,18 +290,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //   {'\u0000', 'b', '\u0000'},
      * //   {'z', '\u0000', 'c'}
      *
-     * // With both diagonals having non-zero characters
-     * CharMatrix matrix2 = CharMatrix.diagonal(new char[] {'1', '2', '3'}, new char[] {'A', 'B', 'C'});
-     * // Resulting matrix:
-     * //   {'1', '\u0000', 'A'},
-     * //   {'\u0000', '2', '\u0000'},
-     * //   {'C', '\u0000', '3'}
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (left-up to right-down), can be null
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (right-up to left-down), can be null
-     * @return a square matrix with the specified diagonals (n×n where n = diagonal length)
-     * @throws IllegalArgumentException if both arrays are non-null and have different lengths
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
+     * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static CharMatrix diagonal(final char[] leftUp2RightDownDiagonal, final char[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
         N.checkArgument(
@@ -355,9 +349,18 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns the component type of the matrix elements.
+     * Returns the component type of the matrix elements, which is always {@code char.class}.
+     * This method is useful for reflection-based code that needs to determine the element type.
      *
-     * @return {@code char.class}, the primitive char type
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}});
+     * Class componentType = matrix.componentType();
+     * // componentType is char.class
+     * assert componentType == char.class;
+     * }</pre>
+     *
+     * @return {@code char.class}
      */
     @SuppressWarnings("rawtypes")
     @Override

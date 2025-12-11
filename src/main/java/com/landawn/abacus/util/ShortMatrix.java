@@ -294,8 +294,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Creates a square matrix from the specified main diagonal and anti-diagonal elements.
-     * All other elements (off both diagonals) are set to zero. If both arrays are provided, they must have the same length.
-     * Either array can be null/empty, in which case only the other diagonal is set.
+     * All other elements are set to zero. If both arrays are provided, they must have the same length.
+     * The resulting matrix has dimensions n×n where n is the length of the non-null/non-empty array
+     * (or the maximum length if both are provided).
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -308,9 +309,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * }</pre>
      *
-     * @param leftUp2RightDownDiagonal the array of main diagonal elements (top-left to bottom-right), or null
-     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (top-right to bottom-left), or null
-     * @return a square n×n matrix with the specified diagonals, where n is the length of the non-null array(s)
+     * @param leftUp2RightDownDiagonal the array of main diagonal elements (can be null or empty)
+     * @param rightUp2LeftDownDiagonal the array of anti-diagonal elements (can be null or empty)
+     * @return a square matrix with the specified diagonals, or an empty matrix if both inputs are null or empty
      * @throws IllegalArgumentException if both arrays are non-empty and have different lengths
      */
     public static ShortMatrix diagonal(final short[] leftUp2RightDownDiagonal, final short[] rightUp2LeftDownDiagonal) throws IllegalArgumentException {
@@ -401,17 +402,19 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the element at the specified point.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // short value = matrix.get(point);   // Returns element at point
+     * Point point = Point.of(0, 1);
+     * short value = matrix.get(point);   // Returns 2
      * }</pre>
      *
-     * @param point the point containing row and column indices
-     * @return the element at the specified point
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @return the short element at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #get(int, int)
      */
     public short get(final Point point) {
         return a[point.rowIndex()][point.columnIndex()];
@@ -436,18 +439,21 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Sets the element at the specified point.
+     * Sets the element at the specified point to the given value.
+     * This is a convenience method that accepts a Point object instead of separate row and column indices.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.of(new short[][] {{1, 2}, {3, 4}});
-     * // Assuming you have a Point implementation
-     * // matrix.set(point, (short) 9);   // Sets element at point
+     * Point point = Point.of(0, 1);
+     * matrix.set(point, (short) 9);
+     * assert matrix.get(point) == 9;
      * }</pre>
      *
-     * @param point the point containing row and column indices
-     * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if the point is out of bounds
+     * @param point the point containing row and column indices (must not be null)
+     * @param val the new short value to set at the specified point
+     * @throws ArrayIndexOutOfBoundsException if the point coordinates are out of bounds
+     * @see #set(int, int, short)
      */
     public void set(final Point point, final short val) {
         a[point.rowIndex()][point.columnIndex()] = val;
