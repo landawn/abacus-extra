@@ -279,6 +279,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @return a DoubleTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends DoubleTuple<TP>> TP create(final double[] a) {
         if (a == null || a.length == 0) {
             return (TP) DoubleTuple0.EMPTY;

@@ -26,7 +26,7 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p>The Points class contains:</p>
  * <ul>
  *   <li>{@code xy} - two-dimensional coordinate point implementations with associated values (x, y, v)</li>
- *   <li>{@code xyz} - three-dimensional coordinate point implementations (x, y, z)</li>
+ *   <li>{@code xyz} - three-dimensional coordinate point implementations with associated values (x, y, z, v)</li>
  * </ul>
  *
  * <p>Both nested classes provide point implementations for different primitive types
@@ -40,12 +40,12 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * int y = point2D.y();      // 20
  * int value = point2D.v();  // 100
  *
- * // Create a three-dimensional integer point
- * Points.xyz.IntIntIntPoint point3D = Points.xyz.IntIntIntPoint.of(10, 20, 30, 100);
+ * // Create a three-dimensional integer point with value
+ * Points.xyz.IntIntPoint point3D = Points.xyz.IntIntPoint.of(10, 20, 30, 100);
  * int x3 = point3D.x();     // 10
  * int y3 = point3D.y();     // 20
  * int z3 = point3D.z();     // 30
- * int value = point3D.v();  // 100
+ * int value3 = point3D.v(); // 100
  * }</pre>
  */
 public final class Points {

@@ -278,6 +278,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @return a FloatTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends FloatTuple<TP>> TP create(final float[] a) {
         if (a == null || a.length == 0) {
             return (TP) FloatTuple0.EMPTY;

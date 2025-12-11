@@ -284,6 +284,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * @return a BooleanTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends BooleanTuple<TP>> TP create(final boolean[] a) {
         if (a == null || a.length == 0) {
             return (TP) BooleanTuple0.EMPTY;

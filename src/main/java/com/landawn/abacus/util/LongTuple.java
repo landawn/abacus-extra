@@ -41,7 +41,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * Protected constructor for subclass instantiation.
      * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link LongTuple1#of(long)}, {@link LongTuple2#of(long, long)}, etc.,
+     * such as {@link #of(long)}, {@link #of(long, long)}, etc.,
      * to create tuple instances.
      */
     protected LongTuple() {
@@ -250,6 +250,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @return a LongTuple of appropriate size containing the array values
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends LongTuple<TP>> TP create(final long[] a) {
         if (a == null || a.length == 0) {
             return (TP) LongTuple0.EMPTY;

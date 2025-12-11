@@ -41,7 +41,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * Protected constructor for subclass instantiation.
      * <p>
      * This constructor is not intended for direct use. Use the static factory methods
-     * such as {@link IntTuple1#of(int)}, {@link IntTuple2#of(int, int)}, etc.,
+     * such as {@link #of(int)}, {@link #of(int, int)}, etc.,
      * to create tuple instances.
      */
     protected IntTuple() {
@@ -249,6 +249,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @return an IntTuple of appropriate size containing the array values
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends IntTuple<TP>> TP create(final int[] a) {
         if (a == null || a.length == 0) {
             return (TP) IntTuple0.EMPTY;

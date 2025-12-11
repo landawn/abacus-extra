@@ -276,6 +276,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @return a CharTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends CharTuple<TP>> TP create(final char[] a) {
         if (a == null || a.length == 0) {
             return (TP) CharTuple0.EMPTY;

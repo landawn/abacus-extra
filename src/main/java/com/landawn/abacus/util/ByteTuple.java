@@ -288,6 +288,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      * @return a ByteTuple of appropriate size containing the array elements
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
+    @SuppressWarnings("deprecation")
     public static <TP extends ByteTuple<TP>> TP create(final byte[] a) {
         if (a == null || a.length == 0) {
             return (TP) ByteTuple0.EMPTY;

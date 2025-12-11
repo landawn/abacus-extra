@@ -111,7 +111,7 @@ import com.landawn.abacus.util.stream.Stream;
  * <p><b>Core Matrix Operations Categories:</b>
  * <ul>
  *   <li><b>Dimensional Operations:</b> {@code rows}, {@code cols}, {@code count}, {@code isEmpty()}</li>
- *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code getRow()}, {@code getColumn()}</li>
+ *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code row()}, {@code column()}</li>
  *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamLU2RD()}, {@code streamRU2LD()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
  *   <li><b>Mathematical Operations:</b> Element-wise arithmetic, linear algebra, statistical functions</li>
