@@ -245,8 +245,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * }</pre>
      *
      * @param <TP> the specific IntTuple type to return
-     * @param a the array of int values (must have length 0-9)
-     * @return an IntTuple of appropriate size containing the array values
+     * @param a the array of int values (must have length 0-9), may be {@code null}
+     * @return an IntTuple of appropriate size containing the array values, or an empty IntTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
@@ -321,7 +321,8 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
+     * Returns the median int value in this tuple.
+     * For tuples with an even number of elements, returns the lower middle element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

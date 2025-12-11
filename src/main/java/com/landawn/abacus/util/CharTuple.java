@@ -273,7 +273,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      *
      * @param <TP> the specific CharTuple subtype to return
      * @param a the array of char values (must have length 0-9), may be {@code null}
-     * @return a CharTuple of appropriate size containing the array elements
+     * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

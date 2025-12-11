@@ -112,7 +112,7 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(array.get(0));   // still prints: 10
      * }</pre>
      *
-     * @param a the array to copy, or {@code null} to create an empty ImmutableIntArray
+     * @param a the int array to copy, or {@code null} to create an empty ImmutableIntArray
      * @return a new ImmutableIntArray containing a defensive copy of the provided array,
      *         or an empty ImmutableIntArray if the input is {@code null}
      * @see #of(int[])

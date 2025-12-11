@@ -451,7 +451,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns the specified row as a boolean array.
      *
-     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
@@ -617,10 +617,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the elements on the main diagonal from left-upper to right-down.
+     * Returns a copy of the elements on the main diagonal from left-upper to right-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -632,7 +633,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * boolean[] diagonal = matrix.getLU2RD();   // Returns [true, true, true]
      * }</pre>
      *
-     * @return a new boolean array containing the main diagonal elements
+     * @return a new boolean array containing a copy of the main diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public boolean[] getLU2RD() throws IllegalStateException {
@@ -710,11 +711,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Returns the elements on the anti-diagonal from right-upper to left-down.
+     * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
      * The matrix must be square (rows == columns) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
+     * The returned array is a copy; modifications to it will not affect the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -726,7 +728,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * boolean[] antiDiag = matrix.getRU2LD();   // Returns [true, true, true]
      * }</pre>
      *
-     * @return a new boolean array containing the anti-diagonal elements
+     * @return a new boolean array containing a copy of the anti-diagonal elements
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
     public boolean[] getRU2LD() throws IllegalStateException {

@@ -483,9 +483,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Returns the specified row as an array.
+     * Returns the specified row as a float array.
      *
-     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(rowIndex), matrix.cols)}.
      *

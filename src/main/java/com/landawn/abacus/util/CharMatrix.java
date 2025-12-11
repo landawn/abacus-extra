@@ -532,7 +532,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the specified row as a char array.
      *
-     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *
@@ -588,7 +588,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the values of the specified row.
+     * Sets the values of the specified row by copying from the provided array.
+     * All elements in the row are replaced with values from the provided array.
      *
      * <p>The values from the source array are copied into the matrix row.
      * The source array must have exactly the same length as the number of columns in the matrix.
@@ -600,7 +601,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set; must have length equal to number of columns
+     * @param row the array of values to copy into the row; must have length equal to the number of columns
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
@@ -611,7 +612,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the values of the specified column.
+     * Sets the values of the specified column by copying from the provided array.
+     * All elements in the column are replaced with values from the provided array.
      *
      * <p>The values from the source array are copied into the matrix column.
      * The source array must have exactly the same length as the number of rows in the matrix.
@@ -624,7 +626,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set; must have length equal to number of rows
+     * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {

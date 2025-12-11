@@ -281,7 +281,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      *
      * @param <TP> the specific BooleanTuple subtype to return
      * @param a the array of boolean values (must have length 0-9), may be {@code null}
-     * @return a BooleanTuple of appropriate size containing the array elements
+     * @return a BooleanTuple of appropriate size containing the array values, or an empty BooleanTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

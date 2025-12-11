@@ -276,7 +276,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * @param <TP> the specific DoubleTuple subtype to return
      * @param a the array of double values (must have length 0-9), may be {@code null}
-     * @return a DoubleTuple of appropriate size containing the array elements
+     * @return a DoubleTuple of appropriate size containing the array values, or an empty DoubleTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

@@ -540,7 +540,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     /**
      * Returns the specified row as a byte array.
      *
-     * <p><b>Important:</b> This method returns a reference to the internal array, not a copy.
+     * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
      * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
      *

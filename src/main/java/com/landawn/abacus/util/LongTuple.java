@@ -246,8 +246,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param <TP> the specific LongTuple type to return
-     * @param a the array of long values (must have length 0-9)
-     * @return a LongTuple of appropriate size containing the array values
+     * @param a the array of long values (must have length 0-9), may be {@code null}
+     * @return a LongTuple of appropriate size containing the array values, or an empty LongTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

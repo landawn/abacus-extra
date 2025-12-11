@@ -275,7 +275,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      *
      * @param <TP> the specific FloatTuple subtype to return
      * @param a the array of float values (must have length 0-9), may be {@code null}
-     * @return a FloatTuple of appropriate size containing the array elements
+     * @return a FloatTuple of appropriate size containing the array values, or an empty FloatTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

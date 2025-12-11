@@ -285,7 +285,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
      *
      * @param <TP> the specific ByteTuple subtype to return
      * @param a the array of byte values (must have length 0-9), may be {@code null}
-     * @return a ByteTuple of appropriate size containing the array elements
+     * @return a ByteTuple of appropriate size containing the array values, or an empty ByteTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")

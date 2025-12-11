@@ -595,7 +595,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt upOf(final int i, final int j) {
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
@@ -616,7 +616,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
@@ -637,7 +637,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt leftOf(final int i, final int j) {
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
@@ -658,7 +658,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return an OptionalInt containing the element at position (i, j+1), or empty if j == cols-1
-     * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
@@ -723,7 +723,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the values of the specified row.
+     * Sets the values of the specified row by copying from the provided array.
+     * All elements in the row are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix row.
+     * The source array must have exactly the same length as the number of columns in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -732,7 +736,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param rowIndex the index of the row to set (0-based)
-     * @param row the array of values to set; must have length equal to number of columns 
+     * @param row the array of values to copy into the row; must have length equal to the number of columns
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException {
@@ -743,7 +747,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the values of the specified column.
+     * Sets the values of the specified column by copying from the provided array.
+     * All elements in the column are replaced with values from the provided array.
+     *
+     * <p>The values from the source array are copied into the matrix column.
+     * The source array must have exactly the same length as the number of rows in the matrix.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -752,9 +760,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param columnIndex the index of the column to set (0-based)
-     * @param column the array of values to set; must have length equal to number of rows
+     * @param column the array of values to copy into the column; must have length equal to the number of rows
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
-     * @throws ArrayIndexOutOfBoundsException if array access is out of bounds during column copy
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
