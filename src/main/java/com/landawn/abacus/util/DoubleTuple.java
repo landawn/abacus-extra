@@ -365,7 +365,11 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
     }
 
     /**
-     * Returns the median value. For tuples with an even number of elements, returns the lower middle element.
+     * Returns the median value of the elements in this tuple.
+     * <p>
+     * For tuples with an odd number of elements, returns the middle value when sorted.
+     * For tuples with an even number of elements, returns the lower middle value.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -375,7 +379,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      *
      * // Even number of elements
      * DoubleTuple4 tuple4 = DoubleTuple.of(1.0, 2.0, 3.0, 4.0);
-     * double median2 = tuple4.median();   // 2.0 (lower middle value)
+     * double median2 = tuple4.median();   // 2.0 (lower middle value when sorted)
      * }</pre>
      *
      * @return the median double element in this tuple
@@ -996,8 +1000,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Returns the median double value in this tuple.
-         * For a tuple of two elements, returns the lower value.
+         * Returns the median value of the two elements.
+         * For two elements (even number), returns the lower value.
          *
          * @return the median (lower) double value
          */
@@ -1067,15 +1071,25 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Performs the given bi-consumer on the two elements.
+         * Performs the given bi-consumer action on the two elements of this tuple.
+         * <p>
+         * This method applies the specified bi-consumer to both elements simultaneously,
+         * allowing operations that need to work with both values together. The action is
+         * executed for its side effects only.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         * // Prints: 3.0 + 4.0 = 7.0
+         *
+         * DoubleTuple2 coordinates = DoubleTuple.of(10.5, 20.3);
+         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
+         * // Prints: Point: (10.5, 20.3)
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the bi-consumer to perform on the two elements
          * @throws E if the action throws an exception
          */
@@ -1085,15 +1099,27 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Applies the given bi-function to the two elements and returns the result.
+         * <p>
+         * This method transforms both elements of the tuple into a single result value
+         * of type {@code U}. The mapper function receives both elements as parameters and
+         * can perform any calculation or transformation on them.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
          * double product = tuple.map((a, b) -> a * b);   // 12.0
+         *
+         * DoubleTuple2 dimensions = DoubleTuple.of(5.0, 3.0);
+         * String description = dimensions.map((w, h) -> String.format("%.0f x %.0f", w, h));
+         * // Returns: "5 x 3"
+         *
+         * DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
+         * Double distance = point.map((x, y) -> Math.sqrt(x * x + y * y));   // 5.0
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the bi-function to apply to the two elements
          * @return the result of applying the mapper to _1 and _2
          * @throws E if the mapper throws an exception
@@ -1106,14 +1132,28 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method evaluates the given bi-predicate against both elements of the tuple.
+         * If the predicate returns {@code true}, returns an Optional containing this tuple.
+         * If it returns {@code false}, returns an empty Optional.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple2 tuple = DoubleTuple.of(3.0, 4.0);
-         * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
+         * Optional<DoubleTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * // Returns: Optional containing tuple (since 3.0 + 4.0 = 7.0 > 5)
+         *
+         * DoubleTuple2 small = DoubleTuple.of(1.0, 2.0);
+         * Optional<DoubleTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * // Returns: Optional.empty() (since 1.0 + 2.0 = 3.0 is not > 10)
+         *
+         * DoubleTuple2 point = DoubleTuple.of(3.0, 4.0);
+         * Optional<DoubleTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
+         * // Returns: Optional containing point (both coordinates are positive)
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the bi-predicate to test the two elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1231,6 +1271,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the three elements.
+         * For three elements (odd number), returns the middle value when sorted.
          *
          * @return the middle value when sorted
          */
@@ -1301,15 +1342,29 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Performs the given tri-consumer on the three elements.
+         * Performs the given tri-consumer action on the three elements of this tuple.
+         * <p>
+         * This method applies the specified tri-consumer to all three elements simultaneously,
+         * allowing operations that need to work with all values together. The action is
+         * executed for its side effects only.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
+         * // Prints: Sum: 6.0
+         *
+         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));
+         * // Prints: Volume: 30.0
+         *
+         * DoubleTuple3 rgb = DoubleTuple.of(0.5, 0.7, 0.3);
+         * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));
+         * // Prints: Color: RGB(0.5, 0.7, 0.3)
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the action
          * @param action the tri-consumer to perform on the three elements
          * @throws E if the action throws an exception
          */
@@ -1319,15 +1374,28 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Applies the given tri-function to the three elements and returns the result.
+         * <p>
+         * This method transforms all three elements of the tuple into a single result value
+         * of type {@code U}. The mapper function receives all three elements as parameters and
+         * can perform any calculation or transformation on them.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
          * double product = tuple.map((a, b, c) -> a * b * c);   // 6.0
+         *
+         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * String description = dimensions.map((l, w, h) ->
+         *     String.format("Box: %.0f x %.0f x %.0f", l, w, h));
+         * // Returns: "Box: 5 x 3 x 2"
+         *
+         * DoubleTuple3 point = DoubleTuple.of(1.0, 2.0, 2.0);
+         * Double distance = point.map((x, y, z) -> Math.sqrt(x*x + y*y + z*z));   // 3.0
          * }</pre>
          *
          * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the mapper
          * @param mapper the tri-function to apply to the three elements
          * @return the result of applying the mapper to _1, _2, and _3
          * @throws E if the mapper throws an exception
@@ -1340,14 +1408,28 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method evaluates the given tri-predicate against all three elements of the tuple.
+         * If the predicate returns {@code true}, returns an Optional containing this tuple.
+         * If it returns {@code false}, returns an empty Optional.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * DoubleTuple3 tuple = DoubleTuple.of(1.0, 2.0, 3.0);
-         * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
+         * Optional<DoubleTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * // Returns: Optional containing tuple (since 1.0 + 2.0 + 3.0 = 6.0 > 5)
+         *
+         * DoubleTuple3 small = DoubleTuple.of(1.0, 1.0, 1.0);
+         * Optional<DoubleTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * // Returns: Optional.empty() (since 1.0 + 1.0 + 1.0 = 3.0 is not > 10)
+         *
+         * DoubleTuple3 dimensions = DoubleTuple.of(5.0, 3.0, 2.0);
+         * Optional<DoubleTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
+         * // Returns: Optional containing dimensions (all values are positive)
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
+         * @param <E> the type of exception that may be thrown by the predicate
          * @param predicate the tri-predicate to test the three elements
          * @return Optional containing this tuple if predicate returns true, empty otherwise
          * @throws E if the predicate throws an exception
@@ -1645,6 +1727,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the five elements.
+         * For five elements (odd number), returns the middle value when sorted.
          *
          * @return the middle value when sorted
          */
@@ -2026,6 +2109,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the seven elements.
+         * For seven elements (odd number), returns the middle value when sorted.
          *
          * @return the middle value when sorted
          */
@@ -2435,6 +2519,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
 
         /**
          * Returns the median value of the nine elements.
+         * For nine elements (odd number), returns the middle value when sorted.
          *
          * @return the middle value when sorted
          */

@@ -94,7 +94,7 @@ public final class Points {
         public record ByteBytePoint(byte x, byte y, byte v) {
 
             /**
-             * Creates a new ByteBytePoint with the specified x, y coordinates and value.
+             * Creates a new ByteBytePoint with the specified coordinates and value.
              * This factory method provides a convenient way to construct two-dimensional points
              * with byte-range coordinates and values, optimized for memory efficiency.
              *

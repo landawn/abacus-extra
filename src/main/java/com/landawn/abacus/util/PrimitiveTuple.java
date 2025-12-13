@@ -27,6 +27,7 @@ import com.landawn.abacus.util.u.Optional;
  *
  * <p><b>Usage Examples:</b></p>
  * <pre>{@code
+ * // Basic tuple operations
  * IntTuple3 tuple = IntTuple.of(1, 2, 3);
  * Optional<IntTuple3> filtered = tuple.filter(t -> t._1 > 0);
  * String mapped = tuple.map(t -> "Sum: " + (t._1 + t._2 + t._3));

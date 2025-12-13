@@ -1086,10 +1086,32 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through both elements in order (_1, then _2), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * // Output: Value: 10, Value: 20
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20]
+         *
+         * // Sum using accumulator
+         * AtomicInteger sum = new AtomicInteger();
+         * tuple.forEach(b -> sum.addAndGet(b));   // sum is 30
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -1099,16 +1121,36 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given bi-consumer to both elements of this tuple.
+         * <p>
+         * This method executes the provided action with both tuple elements as arguments.
+         * It is useful for performing side effects or operations that require access to
+         * both elements simultaneously. Unlike {@link #forEach}, which processes elements
+         * individually, this method processes both elements together in a single call.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
+         *
+         * // Print both values
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         * // Output: 10 + 20 = 30
+         *
+         * // Update external state with both values
+         * Map<String, Integer> results = new HashMap<>();
+         * tuple.accept((a, b) -> results.put("sum", (int)(a + b)));
+         *
+         * // Compare and log
+         * tuple.accept((a, b) -> {
+         *     if (a < b) {
+         *         System.out.println(a + " is less than " + b);
+         *     }
+         * });
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the bi-consumer to apply to both elements
-         * @throws E if the action throws an exception
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the bi-consumer to apply to both elements, must not be {@code null}
+         * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.ByteBiConsumer<E> action) throws E {
             action.accept(_1, _2);
@@ -1116,18 +1158,38 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given bi-function to both elements of this tuple and returns the result.
+         * <p>
+         * This method transforms both tuple elements into a single result value using the provided
+         * bi-function. It is useful for combining, computing, or deriving new values from the tuple
+         * elements. The result can be of any type, providing flexibility in how the tuple elements
+         * are processed and combined.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
+         *
+         * // Calculate sum
          * int sum = tuple.map((a, b) -> a + b);   // 30
+         *
+         * // Calculate product
+         * int product = tuple.map((a, b) -> a * b);   // 200
+         *
+         * // Create a formatted string
+         * String formatted = tuple.map((a, b) -> String.format("(%d, %d)", a, b));   // "(10, 20)"
+         *
+         * // Compare values
+         * boolean isAscending = tuple.map((a, b) -> a < b);   // true
+         *
+         * // Create a custom object
+         * Point point = tuple.map((x, y) -> new Point(x, y));
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the bi-function to apply to both elements
-         * @return the result of applying the bi-function
-         * @throws E if the mapper throws an exception
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the bi-function to apply to both elements, must not be {@code null}
+         * @return the result of applying the bi-function to both elements
+         * @throws E if the mapper throws an exception during execution
          */
         public <U, E extends Exception> U map(final Throwables.ByteBiFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2);
@@ -1136,17 +1198,40 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given bi-predicate,
          * otherwise returns an empty Optional.
+         * <p>
+         * This method conditionally returns the tuple based on a test of both elements.
+         * If the bi-predicate evaluates to {@code true} when applied to both elements,
+         * the tuple is wrapped in an Optional and returned. Otherwise, an empty Optional
+         * is returned. This is useful for conditional processing and filtering tuples
+         * based on relationships between their elements.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple2 tuple = ByteTuple.of((byte) 10, (byte) 20);
-         * Optional<ByteTuple2> result = tuple.filter((a, b) -> a < b);   // Optional containing the tuple
+         *
+         * // Filter where first < second
+         * Optional<ByteTuple2> result = tuple.filter((a, b) -> a < b);
+         * // result contains the tuple
+         *
+         * // Filter where sum exceeds threshold
+         * Optional<ByteTuple2> highSum = tuple.filter((a, b) -> (a + b) > 25);
+         * // highSum contains the tuple (10 + 20 = 30 > 25)
+         *
+         * // Filter with equality check
+         * Optional<ByteTuple2> equal = tuple.filter((a, b) -> a == b);
+         * // equal is empty (10 != 20)
+         *
+         * // Chain with other operations
+         * tuple.filter((a, b) -> a > 0 && b > 0)
+         *      .map(t -> t.sum())
+         *      .ifPresent(System.out::println);   // Prints: 30
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the bi-predicate to test both elements
-         * @return an Optional containing this tuple if the bi-predicate returns true, empty otherwise
-         * @throws E if the predicate throws an exception
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the bi-predicate to test both elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<ByteTuple2> filter(final Throwables.ByteBiPredicate<E> predicate) throws E {
             return predicate.test(_1, _2) ? Optional.of(this) : Optional.empty();
@@ -1322,10 +1407,32 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all three elements in order (_1, _2, then _3), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * // Output: Value: 10, Value: 20, Value: 30
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30]
+         *
+         * // Sum using accumulator
+         * AtomicInteger sum = new AtomicInteger();
+         * tuple.forEach(b -> sum.addAndGet(b));   // sum is 60
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -1336,16 +1443,40 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given tri-consumer to all three elements of this tuple.
+         * <p>
+         * This method executes the provided action with all three tuple elements as arguments.
+         * It is useful for performing side effects or operations that require access to
+         * all three elements simultaneously. Unlike {@link #forEach}, which processes elements
+         * individually, this method processes all three elements together in a single call.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+         *
+         * // Print all three values
          * tuple.accept((a, b, c) -> System.out.println(a + ", " + b + ", " + c));
+         * // Output: 10, 20, 30
+         *
+         * // Calculate and store result
+         * Map<String, Integer> results = new HashMap<>();
+         * tuple.accept((a, b, c) -> results.put("sum", (int)(a + b + c)));
+         *
+         * // Validate and log
+         * tuple.accept((a, b, c) -> {
+         *     if (a < b && b < c) {
+         *         System.out.println("Values are in ascending order");
+         *     }
+         * });
+         *
+         * // Update external state
+         * AtomicInteger max = new AtomicInteger();
+         * tuple.accept((a, b, c) -> max.set(Math.max(Math.max(a, b), c)));
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param action the tri-consumer to apply to all three elements
-         * @throws E if the action throws an exception
+         * @param <E> the type of exception that may be thrown by the action
+         * @param action the tri-consumer to apply to all three elements, must not be {@code null}
+         * @throws E if the action throws an exception during execution
          */
         public <E extends Exception> void accept(final Throwables.ByteTriConsumer<E> action) throws E {
             action.accept(_1, _2, _3);
@@ -1353,18 +1484,43 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given tri-function to all three elements of this tuple and returns the result.
+         * <p>
+         * This method transforms all three tuple elements into a single result value using the provided
+         * tri-function. It is useful for combining, computing, or deriving new values from all three
+         * tuple elements simultaneously. The result can be of any type, providing flexibility in how
+         * the elements are processed and combined.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
+         *
+         * // Calculate sum
          * int sum = tuple.map((a, b, c) -> a + b + c);   // 60
+         *
+         * // Calculate average
+         * double avg = tuple.map((a, b, c) -> (a + b + c) / 3.0);   // 20.0
+         *
+         * // Create formatted string
+         * String formatted = tuple.map((a, b, c) ->
+         *     String.format("RGB(%d, %d, %d)", a, b, c));   // "RGB(10, 20, 30)"
+         *
+         * // Find maximum
+         * byte max = tuple.map((a, b, c) -> (byte) Math.max(Math.max(a, b), c));   // 30
+         *
+         * // Create custom object
+         * Color color = tuple.map((r, g, b) -> new Color(r, g, b));
+         *
+         * // Complex calculation
+         * boolean inRange = tuple.map((a, b, c) ->
+         *     a >= 0 && a <= 100 && b >= 0 && b <= 100 && c >= 0 && c <= 100);
          * }</pre>
          *
-         * @param <U> the type of the result
-         * @param <E> the type of exception that may be thrown
-         * @param mapper the tri-function to apply to all three elements
-         * @return the result of applying the tri-function
-         * @throws E if the mapper throws an exception
+         * @param <U> the type of the result value
+         * @param <E> the type of exception that may be thrown by the mapper
+         * @param mapper the tri-function to apply to all three elements, must not be {@code null}
+         * @return the result of applying the tri-function to all three elements
+         * @throws E if the mapper throws an exception during execution
          */
         public <U, E extends Exception> U map(final Throwables.ByteTriFunction<U, E> mapper) throws E {
             return mapper.apply(_1, _2, _3);
@@ -1373,17 +1529,45 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if it matches the given tri-predicate,
          * otherwise returns an empty Optional.
+         * <p>
+         * This method conditionally returns the tuple based on a test of all three elements.
+         * If the tri-predicate evaluates to {@code true} when applied to all three elements,
+         * the tuple is wrapped in an Optional and returned. Otherwise, an empty Optional
+         * is returned. This is useful for conditional processing and filtering tuples
+         * based on relationships or conditions involving all three elements.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
-         * Optional<ByteTuple3> result = tuple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         *
+         * // Filter for ascending order
+         * Optional<ByteTuple3> ascending = tuple.filter((a, b, c) -> a < b && b < c);
+         * // ascending contains the tuple (10 < 20 < 30)
+         *
+         * // Filter where sum exceeds threshold
+         * Optional<ByteTuple3> highSum = tuple.filter((a, b, c) -> (a + b + c) > 50);
+         * // highSum contains the tuple (10 + 20 + 30 = 60 > 50)
+         *
+         * // Filter with range check
+         * Optional<ByteTuple3> inRange = tuple.filter((a, b, c) ->
+         *     a >= 0 && b >= 0 && c >= 0 && a <= 100 && b <= 100 && c <= 100);
+         * // inRange contains the tuple (all values in [0, 100])
+         *
+         * // Filter for equality
+         * Optional<ByteTuple3> allEqual = tuple.filter((a, b, c) -> a == b && b == c);
+         * // allEqual is empty (10 != 20 != 30)
+         *
+         * // Chain with other operations
+         * tuple.filter((a, b, c) -> a + b + c > 0)
+         *      .map(t -> t.average())
+         *      .ifPresent(System.out::println);   // Prints: 20.0
          * }</pre>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param predicate the tri-predicate to test all three elements
-         * @return an Optional containing this tuple if the tri-predicate returns true, empty otherwise
-         * @throws E if the predicate throws an exception
+         * @param <E> the type of exception that may be thrown by the predicate
+         * @param predicate the tri-predicate to test all three elements, must not be {@code null}
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
+         * @throws E if the predicate throws an exception during evaluation
          */
         public <E extends Exception> Optional<ByteTuple3> filter(final Throwables.ByteTriPredicate<E> predicate) throws E {
             return predicate.test(_1, _2, _3) ? Optional.of(this) : Optional.empty();
@@ -1563,10 +1747,28 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all four elements in order (_1, _2, _3, then _4), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         * // Output: Value: 10, Value: 20, Value: 30, Value: 40
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -1758,10 +1960,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all five elements in order (_1, _2, _3, _4, then _5), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple5 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -1957,10 +2176,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all six elements in order (_1 through _6), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple6 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -2161,10 +2397,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all seven elements in order (_1 through _7), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple7 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -2372,10 +2625,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all eight elements in order (_1 through _8), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple8 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70, 80]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {
@@ -2588,10 +2858,27 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
 
         /**
          * Performs the given action for each element in this tuple.
+         * <p>
+         * Iterates through all nine elements in order (_1 through _9), executing the provided
+         * consumer action for each element individually. This method is useful for side effects
+         * that should be applied to each element separately.
+         * </p>
          *
-         * @param <E> the type of exception that may be thrown
-         * @param consumer the action to be performed for each element
-         * @throws E if the consumer throws an exception
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * ByteTuple9 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40, (byte) 50, (byte) 60, (byte) 70, (byte) 80, (byte) 90);
+         *
+         * // Print each element
+         * tuple.forEach(b -> System.out.println("Value: " + b));
+         *
+         * // Collect to list
+         * List<Byte> list = new ArrayList<>();
+         * tuple.forEach(list::add);   // list contains [10, 20, 30, 40, 50, 60, 70, 80, 90]
+         * }</pre>
+         *
+         * @param <E> the type of exception that may be thrown by the consumer
+         * @param consumer the action to be performed for each element, must not be {@code null}
+         * @throws E if the consumer throws an exception during execution
          */
         @Override
         public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> consumer) throws E {

@@ -686,7 +686,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * CharTuple<CharTuple0> emptyTuple = CharTuple.create(new char[0]);
          * char min = emptyTuple.min();   // throws NoSuchElementException
          * }</pre>
          *
@@ -704,7 +704,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * CharTuple<CharTuple0> emptyTuple = CharTuple.create(new char[0]);
          * char max = emptyTuple.max();   // throws NoSuchElementException
          * }</pre>
          *
@@ -722,7 +722,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
-         * CharTuple0 emptyTuple = (CharTuple0) CharTuple.create(new char[0]);
+         * CharTuple<CharTuple0> emptyTuple = CharTuple.create(new char[0]);
          * char median = emptyTuple.median();   // throws NoSuchElementException
          * }</pre>
          *
@@ -830,6 +830,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the minimum char value in this tuple.
          * Since this tuple contains only one element, it returns that element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple1 tuple = CharTuple.of('A');
+         * char min = tuple.min();   // 'A'
+         * }</pre>
+         *
          * @return the single char value in this tuple
          */
         @Override
@@ -840,6 +846,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the maximum char value in this tuple.
          * Since this tuple contains only one element, it returns that element.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple1 tuple = CharTuple.of('A');
+         * char max = tuple.max();   // 'A'
+         * }</pre>
          *
          * @return the single char value in this tuple
          */
@@ -852,6 +864,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the median char value in this tuple.
          * Since this tuple contains only one element, it returns that element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple1 tuple = CharTuple.of('A');
+         * char median = tuple.median();   // 'A'
+         * }</pre>
+         *
          * @return the single char value in this tuple
          */
         @Override
@@ -863,6 +881,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the sum of all char values in this tuple.
          * Since this tuple contains only one element, it returns the numeric value of that element.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple1 tuple = CharTuple.of('A');   // 'A' = 65
+         * int sum = tuple.sum();                  // 65
+         * }</pre>
+         *
          * @return the numeric value of the single char in this tuple
          */
         @Override
@@ -873,6 +897,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the average of all char values in this tuple.
          * Since this tuple contains only one element, it returns the numeric value of that element as a double.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple1 tuple = CharTuple.of('A');   // 'A' = 65
+         * double avg = tuple.average();           // 65.0
+         * }</pre>
          *
          * @return the numeric value of the single char in this tuple as a double
          */
@@ -988,6 +1018,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the minimum char value in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple2 tuple = CharTuple.of('Z', 'A');
+         * char min = tuple.min();   // 'A'
+         * }</pre>
+         *
          * @return the smaller of the two char values
          */
         @Override
@@ -997,6 +1033,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the maximum char value in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple2 tuple = CharTuple.of('Z', 'A');
+         * char max = tuple.max();   // 'Z'
+         * }</pre>
          *
          * @return the larger of the two char values
          */
@@ -1009,6 +1051,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
          * Returns the median char value in this tuple.
          * For a tuple of two elements, returns the lower value.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple2 tuple = CharTuple.of('B', 'D');
+         * char median = tuple.median();   // 'B' (lower value)
+         * }</pre>
+         *
          * @return the median char value in this tuple
          */
         @Override
@@ -1019,6 +1067,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
         /**
          * Returns the sum of all char values in this tuple.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple2 tuple = CharTuple.of('A', 'B');   // 'A'=65, 'B'=66
+         * int sum = tuple.sum();                       // 131
+         * }</pre>
+         *
          * @return the sum of the numeric values of both chars
          */
         @Override
@@ -1028,6 +1082,12 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
 
         /**
          * Returns the average of all char values in this tuple.
+         *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * CharTuple2 tuple = CharTuple.of('A', 'C');   // 'A'=65, 'C'=67
+         * double avg = tuple.average();                // 66.0
+         * }</pre>
          *
          * @return the average of the numeric values of both chars
          */

@@ -858,6 +858,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          * Returns a new tuple with the elements in reverse order.
          * For a single-element tuple, returns a copy of itself.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple1 tuple = FloatTuple.of(3.14f);
+         * FloatTuple1 reversed = tuple.reverse();   // (3.14f)
+         * }</pre>
+         *
          * @return a new FloatTuple1 with the same value
          */
         @Override
@@ -877,9 +883,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on its single element.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed based on the single element.
          *
-         * @return the hash code
+         * @return a hash code based on the single element
          */
         @Override
         public int hashCode() {
@@ -888,9 +895,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple1 instances
+         * and the element is equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple1 with equal value
+         * @return {@code true} if obj is a FloatTuple1 with equal value, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -905,8 +914,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1) where the element is displayed.
          *
-         * @return "(value)" where value is _1
+         * @return a string representation in the format "(_1)"
          */
         @Override
         public String toString() {
@@ -1007,6 +1017,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple2 tuple = FloatTuple.of(1.5f, 2.5f);
+         * FloatTuple2 reversed = tuple.reverse();   // (2.5f, 1.5f)
+         * }</pre>
+         *
          * @return a new FloatTuple2 with (_2, _1)
          */
         @Override
@@ -1095,9 +1111,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on both elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on both elements.
          *
-         * @return the hash code
+         * @return a hash code based on both elements
          */
         @Override
         public int hashCode() {
@@ -1106,9 +1124,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple2 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple2 with equal elements
+         * @return {@code true} if obj is a FloatTuple2 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1123,8 +1143,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2) where each element is displayed in order.
          *
-         * @return "(_1, _2)"
+         * @return a string representation in the format "(_1, _2)"
          */
         @Override
         public String toString() {
@@ -1227,6 +1248,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         /**
          * Returns a new tuple with the elements in reverse order.
          *
+         * <p><b>Usage Examples:</b></p>
+         * <pre>{@code
+         * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
+         * FloatTuple3 reversed = tuple.reverse();   // (3.0f, 2.0f, 1.0f)
+         * }</pre>
+         *
          * @return a new FloatTuple3 with (_3, _2, _1)
          */
         @Override
@@ -1316,9 +1343,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns a hash code for this tuple based on all three elements.
+         * Returns a hash code value for this tuple.
+         * The hash code is computed using a polynomial hash function
+         * based on all three elements.
          *
-         * @return the hash code
+         * @return a hash code based on all three elements
          */
         @Override
         public int hashCode() {
@@ -1327,9 +1356,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Compares this tuple to another object for equality.
+         * Two tuples are equal if they are both FloatTuple3 instances
+         * and all corresponding elements are equal.
          *
          * @param obj the object to compare with
-         * @return {@code true} if obj is a FloatTuple3 with equal elements
+         * @return {@code true} if obj is a FloatTuple3 with equal elements, {@code false} otherwise
          */
         @Override
         public boolean equals(final Object obj) {
@@ -1344,8 +1375,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Returns a string representation of this tuple.
+         * The format is (_1, _2, _3) where each element is displayed in order.
          *
-         * @return "(_1, _2, _3)"
+         * @return a string representation in the format "(_1, _2, _3)"
          */
         @Override
         public String toString() {

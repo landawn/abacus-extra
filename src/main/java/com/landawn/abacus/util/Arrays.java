@@ -3740,7 +3740,6 @@ public sealed class Arrays permits Arrays.f {
         final char[] result = new char[minLen];
 
         for (int i = 0; i < minLen; i++) {
-            N.println((int) zipFunction.applyAsChar(a[i], b[i], c[i]));
             result[i] = zipFunction.applyAsChar(a[i], b[i], c[i]);
         }
 
@@ -4200,7 +4199,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{{'d'}}}};
+     * char[][][] array = {{{'a'}, {'b', 'c'}}, null, {{'d'}}};
      * long count = Arrays.totalCountOfElements(array);
      * // count is 4
      * }</pre>
@@ -4268,7 +4267,7 @@ public sealed class Arrays permits Arrays.f {
      * <pre>{@code
      * char[][] array = {{'a'}, {'b', 'c', 'd'}, null};
      * int maxLen = Arrays.maxSubArrayLen(array);
-     * // maxLen is 4
+     * // maxLen is 3
      * }</pre>
      *
      * @param a The two-dimensional character array to inspect.
@@ -14515,7 +14514,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] numbers = {"10", "20", "30"};
-         * int[] ints = Arrays.mapToInt(numbers, Integer::parseInt);
+         * int[] ints = Arrays.f.mapToInt(numbers, Integer::parseInt);
          * // Result: [10, 20, 30]
          * }</pre>
          *
@@ -14549,7 +14548,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] numbers = {"1000", "2000", "3000"};
-         * long[] longs = Arrays.mapToLong(numbers, Long::parseLong);
+         * long[] longs = Arrays.f.mapToLong(numbers, Long::parseLong);
          * // Result: [1000L, 2000L, 3000L]
          * }</pre>
          *
@@ -14583,7 +14582,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] numbers = {"1.5", "2.5", "3.5"};
-         * float[] floats = Arrays.mapToFloat(numbers, Float::parseFloat);
+         * float[] floats = Arrays.f.mapToFloat(numbers, Float::parseFloat);
          * // Result: [1.5f, 2.5f, 3.5f]
          * }</pre>
          *
@@ -14617,7 +14616,7 @@ public sealed class Arrays permits Arrays.f {
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * String[] numbers = {"1.5", "2.5", "3.5"};
-         * double[] doubles = Arrays.mapToDouble(numbers, Double::parseDouble);
+         * double[] doubles = Arrays.f.mapToDouble(numbers, Double::parseDouble);
          * // Result: [1.5, 2.5, 3.5]
          * }</pre>
          *

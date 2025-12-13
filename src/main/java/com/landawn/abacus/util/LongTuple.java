@@ -323,15 +323,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the median long value in this tuple.
-     * For tuples with an even number of elements, returns the lower middle value.
+     * <p>
+     * The median is calculated as follows:
+     * <ul>
+     *   <li>For tuples with an odd number of elements, returns the middle value when sorted</li>
+     *   <li>For tuples with an even number of elements, returns the lower middle value when sorted</li>
+     * </ul>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(3L, 1L, 2L);
      * long median = tuple.median();   // 2
      *
-     * LongTuple4 tuple = LongTuple.of(1L, 2L, 3L, 4L);
-     * long median = tuple.median();   // 2
+     * LongTuple4 quad = LongTuple.of(1L, 2L, 3L, 4L);
+     * long median = quad.median();   // 2 (lower middle value)
      * }</pre>
      *
      * @return the median long value in this tuple
@@ -343,11 +348,18 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns the sum of all elements in this tuple.
+     * <p>
+     * Note: This method does not check for overflow. If the sum exceeds {@code Long.MAX_VALUE},
+     * the result will wrap around according to standard long arithmetic.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long sum = tuple.sum();   // 6
+     *
+     * LongTuple2 pair = LongTuple.of(100L, 200L);
+     * long total = pair.sum();  // 300
      * }</pre>
      *
      * @return the sum of all long values in this tuple
@@ -378,11 +390,19 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates a new tuple instance and does not modify the current tuple.
+     * The original tuple remains unchanged.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     * // original tuple remains (1, 2, 3)
+     *
+     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongTuple2 flipped = pair.reverse();     // (20, 10)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -391,12 +411,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Checks if this tuple contains the specified long value.
+     * <p>
+     * This method performs a linear search through all elements of the tuple,
+     * comparing each element with the specified value using the == operator.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * boolean hasTwo = tuple.contains(2L);    // true
      * boolean hasFive = tuple.contains(5L);   // false
+     *
+     * LongTuple5 numbers = LongTuple.of(10L, 20L, 30L, 40L, 50L);
+     * if (numbers.contains(30L)) {
+     *     System.out.println("Found 30!");  // This will be printed
+     * }
      * }</pre>
      *
      * @param valueToFind the long value to search for
@@ -406,12 +435,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
+     * <p>
+     * This method creates a defensive copy of the internal array. Modifications to the
+     * returned array do not affect the tuple, maintaining immutability. The returned
+     * array has the same length as the arity of the tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long[] array = tuple.toArray();   // [1, 2, 3]
+     * array[0] = 100L;                  // tuple is unchanged
+     *
+     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * long[] values = pair.toArray();   // [10, 20]
      * }</pre>
      *
      * @return a new long array containing all tuple elements
@@ -422,11 +459,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a new LongList containing all elements of this tuple.
+     * <p>
+     * This method creates a mutable LongList from the tuple elements. The returned
+     * list is independent of the tuple and can be modified without affecting the
+     * original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * LongList list = tuple.toList();
+     * list.add(4L);  // list is now [1, 2, 3, 4], tuple is unchanged
+     *
+     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * LongList mutableList = pair.toList();
      * }</pre>
      *
      * @return a new LongList containing all tuple elements
@@ -436,12 +482,21 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
     }
 
     /**
-     * Performs the given action for each element in this tuple.
+     * Performs the given action for each element in this tuple in order.
+     * <p>
+     * Elements are processed in their natural order (from _1 to the last element).
+     * The action is applied to each element sequentially. If the consumer throws an
+     * exception, iteration stops and the exception is propagated.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
-     * tuple.forEach(System.out::println);   // prints each value
+     * tuple.forEach(System.out::println);   // prints 1, 2, 3 on separate lines
+     *
+     * LongList results = new LongList();
+     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * pair.forEach(results::add);  // results now contains [10, 20]
      * }</pre>
      *
      * @param <E> the type of exception that the consumer may throw
@@ -456,14 +511,24 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
     /**
      * Returns a LongStream of all elements in this tuple.
+     * <p>
+     * This method provides a functional way to process tuple elements using stream
+     * operations. The stream is sequential and contains elements in their natural order.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongTuple3 tuple = LongTuple.of(1L, 2L, 3L);
      * long sum = tuple.stream().sum();   // 6
+     *
+     * LongTuple5 numbers = LongTuple.of(1L, 2L, 3L, 4L, 5L);
+     * long evenCount = numbers.stream().filter(n -> n % 2 == 0).count();  // 2
+     *
+     * LongTuple2 pair = LongTuple.of(10L, 20L);
+     * long max = pair.stream().max().orElse(0L);  // 20
      * }</pre>
      *
-     * @return a LongStream containing all tuple elements
+     * @return a LongStream containing all tuple elements in order
      */
     public LongStream stream() {
         return LongStream.of(elements());
@@ -929,12 +994,20 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given bi-consumer on the two elements.
+         * Performs the given bi-consumer action on the two elements of this tuple.
+         * <p>
+         * This is a convenience method that passes both elements (_1 and _2) to the
+         * provided bi-consumer action. It's useful for operations that need to process
+         * both values together.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(3L, 4L);
          * pair.accept((a, b) -> System.out.println("Distance: " + Math.sqrt(a*a + b*b)));
+         *
+         * LongTuple2 coordinates = LongTuple.of(10L, 20L);
+         * coordinates.accept((x, y) -> System.out.println("Point at (" + x + ", " + y + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -947,17 +1020,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given bi-function to the two elements and returns the result.
+         * <p>
+         * This method transforms the pair of long values into a single value of type U
+         * using the provided mapper function. The mapper receives both _1 and _2 as arguments
+         * and can return any type, including primitive wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 3L);
          * long remainder = pair.map((a, b) -> a % b);   // 1
+         *
+         * LongTuple2 dimensions = LongTuple.of(5L, 10L);
+         * Long area = dimensions.map((width, height) -> width * height);  // 50
+         *
+         * LongTuple2 coords = LongTuple.of(3L, 4L);
+         * String result = coords.map((x, y) -> "(" + x + ", " + y + ")");  // "(3, 4)"
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the bi-function to apply to the two elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -968,16 +1052,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the two elements using the provided bi-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple2 pair = LongTuple.of(10L, 20L);
          * Optional<LongTuple2> result = pair.filter((a, b) -> a < b);   // Optional containing the tuple
+         *
+         * LongTuple2 values = LongTuple.of(5L, 3L);
+         * Optional<LongTuple2> empty = values.filter((a, b) -> a < b);  // Empty Optional
+         *
+         * LongTuple2 coords = LongTuple.of(10L, 10L);
+         * coords.filter((x, y) -> x == y)
+         *       .ifPresent(t -> System.out.println("Equal values!"));
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the bi-predicate to test the two elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<LongTuple2> filter(final Throwables.LongBiPredicate<E> predicate) throws E {
@@ -1165,7 +1261,12 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         }
 
         /**
-         * Performs the given tri-consumer action on the three elements.
+         * Performs the given tri-consumer action on the three elements of this tuple.
+         * <p>
+         * This is a convenience method that passes all three elements (_1, _2, and _3) to the
+         * provided tri-consumer action. It's useful for operations that need to process
+         * all three values together.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
@@ -1173,6 +1274,9 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * triple.accept((a, b, c) -> {
          *     if (a*a + b*b == c*c) System.out.println("Pythagorean triple!");
          * });
+         *
+         * LongTuple3 rgb = LongTuple.of(255L, 128L, 64L);
+         * rgb.accept((r, g, b) -> System.out.println("RGB(" + r + ", " + g + ", " + b + ")"));
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1185,17 +1289,29 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
 
         /**
          * Applies the given tri-function to the three elements and returns the result.
+         * <p>
+         * This method transforms the three long values into a single value of type U
+         * using the provided mapper function. The mapper receives all three elements
+         * (_1, _2, and _3) as arguments and can return any type, including primitive
+         * wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(2L, 3L, 4L);
          * long volume = triple.map((l, w, h) -> l * w * h);   // 24
+         *
+         * LongTuple3 dimensions = LongTuple.of(10L, 20L, 30L);
+         * String formatted = dimensions.map((x, y, z) -> x + "x" + y + "x" + z);  // "10x20x30"
+         *
+         * LongTuple3 values = LongTuple.of(1L, 2L, 3L);
+         * Double avg = values.map((a, b, c) -> (a + b + c) / 3.0);  // 2.0
          * }</pre>
          *
          * @param <U> the type of the result
          * @param <E> the type of exception that the mapper may throw
          * @param mapper the tri-function to apply to the three elements
-         * @return the result of applying the mapper function
+         * @return the result of applying the mapper function, may be {@code null}
          * @throws E if the mapper throws an exception
          */
         @MayReturnNull
@@ -1206,16 +1322,28 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the three elements using the provided tri-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * LongTuple3 triple = LongTuple.of(1L, 2L, 3L);
          * Optional<LongTuple3> result = triple.filter((a, b, c) -> a < b && b < c);   // Optional containing the tuple
+         *
+         * LongTuple3 pythagorean = LongTuple.of(3L, 4L, 5L);
+         * pythagorean.filter((a, b, c) -> a*a + b*b == c*c)
+         *            .ifPresent(t -> System.out.println("Pythagorean triple found!"));
+         *
+         * LongTuple3 descending = LongTuple.of(5L, 4L, 3L);
+         * Optional<LongTuple3> empty = descending.filter((a, b, c) -> a < b && b < c);  // Empty Optional
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
          * @param predicate the tri-predicate to test the three elements
-         * @return an Optional containing this tuple if the predicate returns true, empty otherwise
+         * @return an Optional containing this tuple if the predicate returns {@code true}, empty Optional otherwise
          * @throws E if the predicate throws an exception
          */
         public <E extends Exception> Optional<LongTuple3> filter(final Throwables.LongTriPredicate<E> predicate) throws E {

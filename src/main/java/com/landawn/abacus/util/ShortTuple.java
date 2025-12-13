@@ -350,15 +350,19 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
     }
 
     /**
-     * Returns the sum of all elements in this tuple.
+     * Returns the sum of all elements in this tuple as an int.
+     * <p>
+     * Note: While this tuple stores short values, the sum is returned as an int
+     * to prevent overflow when adding multiple short values together.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortTuple3 tuple = ShortTuple.of((short)1, (short)2, (short)3);
-     * int sum = tuple.sum();   // 6
+     * int sum = tuple.sum();   // 6 (returned as int, not short)
      * }</pre>
      *
-     * @return the sum of all short values in this tuple
+     * @return the sum of all short values in this tuple as an int
      */
     public int sum() {
         return N.sum(elements());
@@ -593,10 +597,10 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all values in this tuple.
+         * Returns the sum of all values in this tuple as an int.
          * For an empty tuple, the sum is 0.
          *
-         * @return 0
+         * @return 0 as an int
          */
         @Override
         public int sum() {
@@ -721,8 +725,8 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all values in this tuple.
-         * For a single-element tuple, this is the element itself.
+         * Returns the sum of all values in this tuple as an int.
+         * For a single-element tuple, this is the element itself converted to int.
          *
          * @return the single element value as an int
          */
@@ -886,7 +890,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of the two elements.
+         * Returns the sum of the two elements as an int.
          *
          * @return _1 + _2 as an int
          */
@@ -1119,7 +1123,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all three elements.
+         * Returns the sum of all three elements as an int.
          *
          * @return _1 + _2 + _3 as an int
          */
@@ -1350,7 +1354,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all four elements.
+         * Returns the sum of all four elements as an int.
          *
          * @return _1 + _2 + _3 + _4 as an int
          */
@@ -1534,7 +1538,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all five elements.
+         * Returns the sum of all five elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 as an int
          */
@@ -1722,7 +1726,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all six elements.
+         * Returns the sum of all six elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 as an int
          */
@@ -1914,7 +1918,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all seven elements.
+         * Returns the sum of all seven elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 as an int
          */
@@ -2115,7 +2119,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all eight elements.
+         * Returns the sum of all eight elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 as an int
          */
@@ -2322,7 +2326,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Returns the sum of all nine elements.
+         * Returns the sum of all nine elements as an int.
          *
          * @return _1 + _2 + _3 + _4 + _5 + _6 + _7 + _8 + _9 as an int
          */
