@@ -161,11 +161,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][cols];
 
         for (int i = 0, len = a.length; i < len; i++) {
-            final char[] aa = a[i];
-            final int[] cc = c[i];
+            final char[] sourceRow = a[i];
+            final int[] resultRow = c[i];
 
             for (int j = 0; j < cols; j++) {
-                cc[j] = aa[j]; // NOSONAR
+                resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
 
@@ -206,11 +206,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][cols];
 
         for (int i = 0, len = a.length; i < len; i++) {
-            final byte[] aa = a[i];
-            final int[] cc = c[i];
+            final byte[] sourceRow = a[i];
+            final int[] resultRow = c[i];
 
             for (int j = 0; j < cols; j++) {
-                cc[j] = aa[j]; // NOSONAR
+                resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
 
@@ -251,11 +251,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         final int[][] c = new int[a.length][cols];
 
         for (int i = 0, len = a.length; i < len; i++) {
-            final short[] aa = a[i];
-            final int[] cc = c[i];
+            final short[] sourceRow = a[i];
+            final int[] resultRow = c[i];
 
             for (int j = 0; j < cols; j++) {
-                cc[j] = aa[j]; // NOSONAR
+                resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
 
@@ -685,7 +685,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public int[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -711,7 +711,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public int[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final int[] c = new int[rows];
 
@@ -740,8 +740,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final int[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -764,8 +764,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final int[] column) throws IllegalArgumentException, ArrayIndexOutOfBoundsException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -874,7 +874,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public void setLU2RD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -953,7 +953,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public void setRU2LD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -1002,8 +1002,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsInt(a[i][j]);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.applyAsInt(a[i][j]);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1030,8 +1030,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Integer, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1058,8 +1058,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1087,8 +1087,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final int newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1117,9 +1117,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> IntMatrix map(final Throwables.IntUnaryOperator<E> func) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -1142,9 +1142,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.IntToLongFunction<E> func) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return LongMatrix.of(result);
     }
@@ -1167,9 +1167,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.IntToDoubleFunction<E> func) throws E {
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1194,9 +1194,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.IntFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return Matrix.of(result);
     }
@@ -1256,8 +1256,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
-        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rows);
-        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex, cols);
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rows, "fromRowIndex out of bounds: %s. Valid range is [0, %s]", fromRowIndex, rows);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= cols, "fromColumnIndex out of bounds: %s. Valid range is [0, %s]", fromColumnIndex, cols);
 
         for (int i = 0, minLen = N.min(rows - fromRowIndex, b.length); i < minLen; i++) {
             if (b[i] != null) {
@@ -1406,33 +1406,33 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public IntMatrix extend(final int newRows, final int newCols, final int defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
-        N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
 
         // Check for overflow before allocation
         if ((long) newRows * newCols > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newCols + " exceeds Integer.MAX_VALUE");
         }
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final int[][] b = new int[newRows][];
+            final int[][] extendedData = new int[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : new int[newCols];
+                extendedData[i] = i < rows ? N.copyOf(a[i], newCols) : new int[newCols];
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
-                        N.fill(b[i], defaultValueForNewCell);
+                        N.fill(extendedData[i], defaultValueForNewCell);
                     } else if (cols < newCols) {
-                        N.fill(b[i], cols, newCols, defaultValueForNewCell);
+                        N.fill(extendedData[i], cols, newCols, defaultValueForNewCell);
                     }
                 }
             }
 
-            return new IntMatrix(b);
+            return new IntMatrix(extendedData);
         }
     }
 
@@ -1504,48 +1504,48 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final int defaultValueForNewCell)
             throws IllegalArgumentException {
-        N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
-        N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
-        N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
-        N.checkArgument(toRight >= 0, "The 'toRight' can't be negative %s", toRight);
+        N.checkArgument(toUp >= 0, "toUp cannot be negative: %s", toUp);
+        N.checkArgument(toDown >= 0, "toDown cannot be negative: %s", toDown);
+        N.checkArgument(toLeft >= 0, "toLeft cannot be negative: %s", toLeft);
+        N.checkArgument(toRight >= 0, "toRight cannot be negative: %s", toRight);
 
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
         } else {
             if ((long) toUp + rows + toDown > Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Result would have too many rows: " + toUp + " + " + rows + " + " + toDown);
+                throw new IllegalArgumentException("Result row count overflow: " + toUp + " + " + rows + " + " + toDown + " exceeds Integer.MAX_VALUE");
             }
 
             if ((long) toLeft + cols + toRight > Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Result would have too many columns: " + toLeft + " + " + cols + " + " + toRight);
+                throw new IllegalArgumentException("Result column count overflow: " + toLeft + " + " + cols + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final int[][] b = new int[newRows][newCols];
+            final int[][] extendedData = new int[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
                 if (i >= toUp && i < toUp + rows) {
-                    N.copy(a[i - toUp], 0, b[i], toLeft, cols);
+                    N.copy(a[i - toUp], 0, extendedData[i], toLeft, cols);
                 }
 
                 if (fillDefaultValue) {
                     if (i < toUp || i >= toUp + rows) {
-                        N.fill(b[i], defaultValueForNewCell);
+                        N.fill(extendedData[i], defaultValueForNewCell);
                     } else if (cols < newCols) {
                         if (toLeft > 0) {
-                            N.fill(b[i], 0, toLeft, defaultValueForNewCell);
+                            N.fill(extendedData[i], 0, toLeft, defaultValueForNewCell);
                         }
 
                         if (toRight > 0) {
-                            N.fill(b[i], cols + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(extendedData[i], cols + toLeft, newCols, defaultValueForNewCell);
                         }
                     }
                 }
             }
 
-            return new IntMatrix(b);
+            return new IntMatrix(extendedData);
         }
     }
 
@@ -1855,28 +1855,28 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final int[][] c = new int[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final int[] aa = a[i];
-            final int[] fr = c[i * rowRepeats];
+            final int[] sourceRow = a[i];
+            final int[] firstRepeatedRow = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(sourceRow[j], colRepeats), 0, firstRepeatedRow, j * colRepeats, colRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
-                N.copy(fr, 0, c[i * rowRepeats + k], 0, fr.length);
+                N.copy(firstRepeatedRow, 0, c[i * rowRepeats + k], 0, firstRepeatedRow.length);
             }
         }
 
@@ -1905,14 +1905,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     @Override
     public IntMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final int[][] c = new int[rows * rowRepeats][cols * colRepeats];
@@ -1948,7 +1948,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     public IntList flatten() {
         // Check for overflow before allocation
         if ((long) rows * cols > Integer.MAX_VALUE) {
-            throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
+            throw new IllegalStateException(
+                    "Matrix too large to flatten into array: " + rows + " x " + cols + " = " + ((long) rows * cols) + " exceeds Integer.MAX_VALUE");
         }
 
         final int[] c = new int[rows * cols];
@@ -2006,7 +2007,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #hstack(IntMatrix)
      */
     public IntMatrix vstack(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
         final int[][] c = new int[rows + b.rows][];
         int j = 0;
@@ -2045,7 +2046,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #vstack(IntMatrix)
      */
     public IntMatrix hstack(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
         final int[][] c = new int[rows][cols + b.cols];
 
@@ -2074,13 +2075,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix add(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final int[][] ba = b.a;
+        final int[][] otherData = b.a;
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -2102,13 +2104,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public IntMatrix subtract(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final int[][] ba = b.a;
+        final int[][] otherData = b.a;
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -2130,13 +2133,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
     public IntMatrix multiply(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)",
+                rows, cols, b.rows, b.cols);
 
-        final int[][] ba = b.a;
+        final int[][] otherData = b.a;
         final int[][] result = new int[rows][b.cols];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * ba[k][j];
+        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, b, multiplyAction);
 
         return new IntMatrix(result);
     }
@@ -2157,11 +2161,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
-                final int[] aa = a[i];
-                final Integer[] cc = c[i];
+                final int[] sourceRow = a[i];
+                final Integer[] resultRow = c[i];
 
                 for (int j = 0; j < cols; j++) {
-                    cc[j] = aa[j]; // NOSONAR
+                    resultRow[j] = sourceRow[j]; // NOSONAR
                 }
             }
         } else {
@@ -2259,14 +2263,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final Throwables.IntBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows,
+                matrixB.cols);
 
-        final int[][] b = matrixB.a;
+        final int[][] matrixBData = matrixB.a;
         final int[][] result = new int[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsInt(a[i][j], b[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsInt(a[i][j], matrixBData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -2308,15 +2313,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final IntMatrix matrixC, final Throwables.IntTernaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
-        final int[][] b = matrixB.a;
-        final int[][] c = matrixC.a;
+        final int[][] matrixBData = matrixB.a;
+        final int[][] matrixCData = matrixC.a;
         final int[][] result = new int[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsInt(a[i][j], b[i][j], c[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsInt(a[i][j], matrixBData[i][j], matrixCData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -3021,14 +3026,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(a[i][j]);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
-                final int[] aa = a[i];
+                final int[] currentRow = a[i];
 
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                    action.accept(aa[j]);
+                    action.accept(currentRow[j]);
                 }
             }
         }

@@ -550,7 +550,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public char[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -576,7 +576,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public char[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final char[] c = new char[rows];
 
@@ -605,8 +605,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -630,8 +630,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -741,7 +741,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public void setLU2RD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -825,7 +825,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public void setRU2LD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -1815,7 +1815,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public CharMatrix vstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
         final char[][] c = new char[rows + b.rows][];
         int j = 0;
@@ -1848,7 +1848,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public CharMatrix hstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
         final char[][] c = new char[rows][cols + b.cols];
 
@@ -1876,7 +1876,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public CharMatrix add(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
         final char[][] ba = b.a;
         final char[][] result = new char[rows][cols];
@@ -1904,7 +1905,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public CharMatrix subtract(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
         final char[][] ba = b.a;
         final char[][] result = new char[rows][cols];
@@ -1936,7 +1938,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if this.cols != b.rows
      */
     public CharMatrix multiply(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)",
+                rows, cols, b.rows, b.cols);
 
         final char[][] ba = b.a;
         final char[][] result = new char[rows][b.cols];

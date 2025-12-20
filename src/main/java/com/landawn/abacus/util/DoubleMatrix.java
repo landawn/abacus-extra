@@ -602,7 +602,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public double[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -628,7 +628,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public double[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final double[] c = new double[rows];
 
@@ -657,8 +657,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final double[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -681,8 +681,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final double[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -792,7 +792,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public void setLU2RD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -872,7 +872,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public void setRU2LD(final double[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -922,8 +922,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsDouble(a[i][j]);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.applyAsDouble(a[i][j]);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -950,8 +950,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -978,8 +978,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1007,8 +1007,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final double newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1037,9 +1037,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> DoubleMatrix map(final Throwables.DoubleUnaryOperator<E> func) throws E {
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1064,9 +1064,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> IntMatrix mapToInt(final Throwables.DoubleToIntFunction<E> func) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -1091,9 +1091,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> LongMatrix mapToLong(final Throwables.DoubleToLongFunction<E> func) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return LongMatrix.of(result);
     }
@@ -1120,9 +1120,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return Matrix.of(result);
     }
@@ -1926,7 +1926,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see IntMatrix#vstack(IntMatrix)
      */
     public DoubleMatrix vstack(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
         final double[][] c = new double[rows + b.rows][];
         int j = 0;
@@ -1961,7 +1961,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see IntMatrix#hstack(IntMatrix)
      */
     public DoubleMatrix hstack(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
         final double[][] c = new double[rows][cols + b.cols];
 
@@ -1989,13 +1989,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public DoubleMatrix add(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final double[][] ba = b.a;
+        final double[][] otherData = b.a;
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2016,13 +2017,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public DoubleMatrix subtract(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final double[][] ba = b.a;
+        final double[][] otherData = b.a;
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2044,13 +2046,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
     public DoubleMatrix multiply(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)",
+                rows, cols, b.rows, b.cols);
 
-        final double[][] ba = b.a;
+        final double[][] otherData = b.a;
         final double[][] result = new double[rows][b.cols];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * ba[k][j];
+        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, b, multiplyAction);
 
         return new DoubleMatrix(result);
     }
@@ -2114,14 +2117,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Throwables.DoubleBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows,
+                matrixB.cols);
 
-        final double[][] b = matrixB.a;
+        final double[][] matrixBData = matrixB.a;
         final double[][] result = new double[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], b[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], matrixBData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2151,15 +2155,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
             final Throwables.DoubleTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
-        final double[][] b = matrixB.a;
-        final double[][] c = matrixC.a;
+        final double[][] matrixBData = matrixB.a;
+        final double[][] matrixCData = matrixC.a;
         final double[][] result = new double[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], b[i][j], c[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsDouble(a[i][j], matrixBData[i][j], matrixCData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -2797,14 +2801,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(a[i][j]);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
-                final double[] aa = a[i];
+                final double[] currentRow = a[i];
 
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                    action.accept(aa[j]);
+                    action.accept(currentRow[j]);
                 }
             }
         }

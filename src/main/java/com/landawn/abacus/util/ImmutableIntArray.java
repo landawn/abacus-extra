@@ -52,11 +52,11 @@ public final class ImmutableIntArray implements Immutable {
     /**
      * Package-private constructor that wraps the provided array.
      * If the array is null, an empty array is used instead.
-     * 
-     * @param a the array to wrap
+     *
+     * @param array the array to wrap
      */
-    ImmutableIntArray(final int[] a) {
-        elements = a == null ? N.EMPTY_INT_ARRAY : a;
+    ImmutableIntArray(final int[] array) {
+        elements = array == null ? N.EMPTY_INT_ARRAY : array;
         length = elements.length;
     }
 
@@ -82,12 +82,12 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(array.get(1));   // prints: 99 (not recommended!)
      * }</pre>
      *
-     * @param a the int array to wrap, or {@code null} to create an empty ImmutableIntArray
+     * @param array the int array to wrap, or {@code null} to create an empty ImmutableIntArray
      * @return an ImmutableIntArray wrapping the provided array, or an empty ImmutableIntArray if the input is {@code null}
      * @see #copyOf(int[])
      */
-    public static ImmutableIntArray of(final int[] a) {
-        return new ImmutableIntArray(a);
+    public static ImmutableIntArray of(final int[] array) {
+        return new ImmutableIntArray(array);
     }
 
     /**
@@ -112,13 +112,13 @@ public final class ImmutableIntArray implements Immutable {
      * System.out.println(array.get(0));   // still prints: 10
      * }</pre>
      *
-     * @param a the int array to copy, or {@code null} to create an empty ImmutableIntArray
+     * @param array the int array to copy, or {@code null} to create an empty ImmutableIntArray
      * @return a new ImmutableIntArray containing a defensive copy of the provided array,
      *         or an empty ImmutableIntArray if the input is {@code null}
      * @see #of(int[])
      */
-    public static ImmutableIntArray copyOf(final int[] a) {
-        return new ImmutableIntArray(a == null ? N.EMPTY_INT_ARRAY : a.clone());
+    public static ImmutableIntArray copyOf(final int[] array) {
+        return new ImmutableIntArray(array == null ? N.EMPTY_INT_ARRAY : array.clone());
     }
 
     /**

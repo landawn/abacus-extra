@@ -469,7 +469,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public boolean[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -495,7 +495,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public boolean[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final boolean[] c = new boolean[rows];
 
@@ -524,8 +524,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final boolean[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -548,8 +548,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final boolean[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -673,7 +673,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public void setLU2RD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -769,7 +769,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public void setRU2LD(final boolean[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -831,8 +831,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsBoolean(a[i][j]);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.applyAsBoolean(a[i][j]);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -859,8 +859,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -888,8 +888,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -918,8 +918,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final boolean newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
@@ -948,9 +948,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix map(final Throwables.BooleanUnaryOperator<E> func) throws E {
         final boolean[][] result = new boolean[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -985,9 +985,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return Matrix.of(result);
     }
@@ -1823,7 +1823,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if the matrices have different column counts
      */
     public BooleanMatrix vstack(final BooleanMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
         final boolean[][] c = new boolean[rows + b.rows][];
         int j = 0;
@@ -1866,7 +1866,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws IllegalArgumentException if the matrices have different row counts
      */
     public BooleanMatrix hstack(final BooleanMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
         final boolean[][] c = new boolean[rows][cols + b.cols];
 
@@ -1956,14 +1956,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Throwables.BooleanBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows,
+                matrixB.cols);
 
-        final boolean[][] b = matrixB.a;
+        final boolean[][] matrixBData = matrixB.a;
         final boolean[][] result = new boolean[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], matrixBData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -2000,15 +2001,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
             final Throwables.BooleanTernaryOperator<E> zipFunction) throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
-        final boolean[][] b = matrixB.a;
-        final boolean[][] c = matrixC.a;
+        final boolean[][] matrixBData = matrixB.a;
+        final boolean[][] matrixCData = matrixC.a;
         final boolean[][] result = new boolean[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], b[i][j], c[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = zipFunction.applyAsBoolean(a[i][j], matrixBData[i][j], matrixCData[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
         return BooleanMatrix.of(result);
     }
@@ -2799,14 +2800,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(a[i][j]);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
-                final boolean[] aa = a[i];
+                final boolean[] currentRow = a[i];
 
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                    action.accept(aa[j]);
+                    action.accept(currentRow[j]);
                 }
             }
         }

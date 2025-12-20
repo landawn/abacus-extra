@@ -279,41 +279,41 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends FloatTuple<TP>> TP create(final float[] a) {
-        if (a == null || a.length == 0) {
+    public static <TP extends FloatTuple<TP>> TP create(final float[] values) {
+        if (values == null || values.length == 0) {
             return (TP) FloatTuple0.EMPTY;
         }
 
-        switch (a.length) {
+        switch (values.length) {
             case 1:
-                return (TP) FloatTuple.of(a[0]);
+                return (TP) FloatTuple.of(values[0]);
 
             case 2:
-                return (TP) FloatTuple.of(a[0], a[1]);
+                return (TP) FloatTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) FloatTuple.of(a[0], a[1], a[2]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) FloatTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+                return (TP) FloatTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
-                throw new IllegalArgumentException("Too many elements((" + a.length + ") to fill in Tuple.");
+                throw new IllegalArgumentException("Too many elements (" + values.length + ") to fill in Tuple. Maximum allowed is 9");
         }
     }
 
@@ -544,8 +544,8 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.FloatConsumer<E> consumer) throws E {
-        for (final float e : elements()) {
-            consumer.accept(e);
+        for (final float element : elements()) {
+            consumer.accept(element);
         }
     }
 

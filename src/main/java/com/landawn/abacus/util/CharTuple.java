@@ -277,41 +277,41 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
     @SuppressWarnings("deprecation")
-    public static <TP extends CharTuple<TP>> TP create(final char[] a) {
-        if (a == null || a.length == 0) {
+    public static <TP extends CharTuple<TP>> TP create(final char[] values) {
+        if (values == null || values.length == 0) {
             return (TP) CharTuple0.EMPTY;
         }
 
-        switch (a.length) {
+        switch (values.length) {
             case 1:
-                return (TP) CharTuple.of(a[0]);
+                return (TP) CharTuple.of(values[0]);
 
             case 2:
-                return (TP) CharTuple.of(a[0], a[1]);
+                return (TP) CharTuple.of(values[0], values[1]);
 
             case 3:
-                return (TP) CharTuple.of(a[0], a[1], a[2]);
+                return (TP) CharTuple.of(values[0], values[1], values[2]);
 
             case 4:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3]);
 
             case 5:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4]);
 
             case 6:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5]);
 
             case 7:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 
             case 8:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             case 9:
-                return (TP) CharTuple.of(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
+                return (TP) CharTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
-                throw new IllegalArgumentException("Too many elements((" + a.length + ") to fill in Tuple.");
+                throw new IllegalArgumentException("Too many elements (" + values.length + ") to fill in Tuple. Maximum allowed is 9");
         }
     }
 
@@ -548,8 +548,8 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @throws E if the consumer throws an exception during execution
      */
     public <E extends Exception> void forEach(final Throwables.CharConsumer<E> consumer) throws E {
-        for (final char e : elements()) {
-            consumer.accept(e);
+        for (final char element : elements()) {
+            consumer.accept(element);
         }
     }
 

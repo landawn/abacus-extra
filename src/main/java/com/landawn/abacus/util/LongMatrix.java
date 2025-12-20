@@ -151,18 +151,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     a[i] == null ? 0 : a[i].length);
         }
 
-        final long[][] c = new long[a.length][cols];
+        final long[][] result = new long[a.length][cols];
 
-        for (int i = 0, len = a.length; i < len; i++) {
-            final int[] aa = a[i];
-            final long[] cc = c[i];
+        for (int i = 0, rowCount = a.length; i < rowCount; i++) {
+            final int[] sourceRow = a[i];
+            final long[] targetRow = result[i];
 
             for (int j = 0; j < cols; j++) {
-                cc[j] = aa[j]; // NOSONAR
+                targetRow[j] = sourceRow[j]; // NOSONAR
             }
         }
 
-        return new LongMatrix(c);
+        return new LongMatrix(result);
     }
 
     /**
@@ -602,7 +602,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public long[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -628,7 +628,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public long[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final long[] c = new long[rows];
 
@@ -657,8 +657,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final long[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -681,8 +681,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final long[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -792,7 +792,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public void setLU2RD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -871,7 +871,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public void setRU2LD(final long[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -920,8 +920,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.LongUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsLong(a[i][j]);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.applyAsLong(a[i][j]);
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -948,8 +948,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Long, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -976,8 +976,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1005,8 +1005,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final long newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -1035,9 +1035,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> LongMatrix map(final Throwables.LongUnaryOperator<E> func) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return LongMatrix.of(result);
     }
@@ -1062,9 +1062,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> IntMatrix mapToInt(final Throwables.LongToIntFunction<E> func) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return IntMatrix.of(result);
     }
@@ -1089,9 +1089,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.LongToDoubleFunction<E> func) throws E {
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return DoubleMatrix.of(result);
     }
@@ -1118,9 +1118,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.LongFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return Matrix.of(result);
     }
@@ -1923,7 +1923,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public LongMatrix vstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
         final long[][] c = new long[rows + b.rows][];
         int j = 0;
@@ -1959,7 +1959,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public LongMatrix hstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
         final long[][] c = new long[rows][cols + b.cols];
 
@@ -1990,7 +1990,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
     public LongMatrix add(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
         final long[][] ba = b.a;
         final long[][] result = new long[rows][cols];
@@ -2020,7 +2021,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
     public LongMatrix subtract(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
         final long[][] ba = b.a;
         final long[][] result = new long[rows][cols];
@@ -2053,7 +2055,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws IllegalArgumentException if the matrix dimensions are incompatible (this.cols != b.rows)
      */
     public LongMatrix multiply(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)",
+                rows, cols, b.rows, b.cols);
 
         final long[][] ba = b.a;
         final long[][] result = new long[rows][b.cols];
@@ -2196,7 +2199,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final Throwables.LongBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows,
+                matrixB.cols);
 
         final long[][] b = matrixB.a;
         final long[][] result = new long[rows][cols];
@@ -2236,7 +2240,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final LongMatrix matrixC, final Throwables.LongTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
         final long[][] b = matrixB.a;
         final long[][] c = matrixC.a;

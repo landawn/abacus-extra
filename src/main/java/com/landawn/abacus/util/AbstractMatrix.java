@@ -404,7 +404,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     protected AbstractMatrix(final A[] a) {
-        N.checkArgNotNull(a, "The array of arrays can't be null");
+        N.checkArgNotNull(a, "Matrix array cannot be null");
 
         this.a = a;
         rows = a.length;
@@ -413,7 +413,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (a.length > 1) {
             for (int i = 1, len = a.length; i < len; i++) {
                 if (length(a[i]) != cols) {
-                    throw new IllegalArgumentException("The length of sub arrays must be same");
+                    throw new IllegalArgumentException(
+                            "Matrix must be rectangular: row 0 has " + cols + " columns, but row " + i + " has " + length(a[i]) + " columns");
                 }
             }
         }
@@ -718,7 +719,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if newCols &lt;= 0
      */
     public X reshape(final int newCols) {
-        N.checkArgument(newCols > 0, "The 'newCols' must be > 0");
+        N.checkArgument(newCols > 0, "newCols must be positive, but got: %s", newCols);
 
         return reshape((int) (count % newCols == 0 ? count / newCols : count / newCols + 1), newCols);
     }
@@ -909,8 +910,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public <E extends Exception> void forEach(final Throwables.IntBiConsumer<E> action) throws E {
         if (Matrixes.isParallelable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
-            final Throwables.IntBiConsumer<E> cmd = action::accept;
-            Matrixes.run(rows, cols, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = action::accept;
+            Matrixes.run(rows, cols, elementAction, true);
         } else {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
@@ -957,8 +958,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
-            final Throwables.IntBiConsumer<E> cmd = action::accept;
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = action::accept;
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
@@ -994,14 +995,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws E if the action throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.BiIntObjConsumer<X, E> action) throws E {
-        final X x = (X) this;
+        final X matrix = (X) this;
         if (Matrixes.isParallelable(this)) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j, x);
-            Matrixes.run(rows, cols, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
+            Matrixes.run(rows, cols, elementAction, true);
         } else {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    action.accept(i, j, x);
+                    action.accept(i, j, matrix);
                 }
             }
         }
@@ -1045,15 +1046,15 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        final X x = (X) this;
+        final X matrix = (X) this;
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(i, j, x);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, elementAction, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                    action.accept(i, j, x);
+                    action.accept(i, j, matrix);
                 }
             }
         }
@@ -1762,7 +1763,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if the matrices have different shapes (different rows or cols)
      */
     protected void checkSameShape(final X x) {
-        N.checkArgument(this.isSameShape(x), "Must be same shape");
+        N.checkArgument(this.isSameShape(x), "Matrices must have same shape: this is %sx%s but provided matrix is %sx%s", rows, cols, x.rows, x.cols);
     }
 
     /**
@@ -1782,7 +1783,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     protected void checkIfRowAndColumnSizeAreSame() {
-        N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
+        N.checkState(rows == cols, "Matrix must be square to access diagonals: current dimensions are %s rows x %s cols", rows, cols);
     }
 
 }

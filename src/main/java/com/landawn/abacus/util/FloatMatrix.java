@@ -146,18 +146,18 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     a[i] == null ? 0 : a[i].length);
         }
 
-        final float[][] c = new float[a.length][cols];
+        final float[][] result = new float[a.length][cols];
 
-        for (int i = 0, len = a.length; i < len; i++) {
-            final int[] aa = a[i];
-            final float[] cc = c[i];
+        for (int i = 0, rowCount = a.length; i < rowCount; i++) {
+            final int[] sourceRow = a[i];
+            final float[] targetRow = result[i];
 
             for (int j = 0; j < cols; j++) {
-                cc[j] = aa[j]; // NOSONAR
+                targetRow[j] = sourceRow[j]; // NOSONAR
             }
         }
 
-        return new FloatMatrix(c);
+        return new FloatMatrix(result);
     }
 
     /**
@@ -270,22 +270,22 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return EMPTY_FLOAT_MATRIX;
         }
 
-        final int len = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
-        final float[][] c = new float[len][len];
+        final int diagonalLength = N.max(N.len(leftUp2RightDownDiagonal), N.len(rightUp2LeftDownDiagonal));
+        final float[][] result = new float[diagonalLength][diagonalLength];
 
         if (N.notEmpty(rightUp2LeftDownDiagonal)) {
-            for (int i = 0, j = len - 1; i < len; i++, j--) {
-                c[i][j] = rightUp2LeftDownDiagonal[i];
+            for (int i = 0, j = diagonalLength - 1; i < diagonalLength; i++, j--) {
+                result[i][j] = rightUp2LeftDownDiagonal[i];
             }
         }
 
         if (N.notEmpty(leftUp2RightDownDiagonal)) {
-            for (int i = 0; i < len; i++) {
-                c[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
+            for (int i = 0; i < diagonalLength; i++) {
+                result[i][i] = leftUp2RightDownDiagonal[i]; // NOSONAR
             }
         }
 
-        return new FloatMatrix(c);
+        return new FloatMatrix(result);
     }
 
     /**
@@ -501,7 +501,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public float[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -525,15 +525,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
      */
     public float[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
-        final float[] c = new float[rows];
+        final float[] columnValues = new float[rows];
 
         for (int i = 0; i < rows; i++) {
-            c[i] = a[i][columnIndex];
+            columnValues[i] = a[i][columnIndex];
         }
 
-        return c;
+        return columnValues;
     }
 
     /**
@@ -556,8 +556,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final float[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -582,8 +582,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final float[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -663,13 +663,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public float[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
-        final float[] res = new float[rows];
+        final float[] diagonal = new float[rows];
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][i]; // NOSONAR
+            diagonal[i] = a[i][i]; // NOSONAR
         }
 
-        return res;
+        return diagonal;
     }
 
     /**
@@ -692,7 +692,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public void setLU2RD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -742,13 +742,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     public float[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
 
-        final float[] res = new float[rows];
+        final float[] diagonal = new float[rows];
 
         for (int i = 0; i < rows; i++) {
-            res[i] = a[i][cols - i - 1];
+            diagonal[i] = a[i][cols - i - 1];
         }
 
-        return res;
+        return diagonal;
     }
 
     /**
@@ -772,7 +772,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public void setRU2LD(final float[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rows, "The length of specified array does not equal to rows=%s", rows);
+        N.checkArgument(diagonal.length == rows, "Diagonal array length must equal matrix size: expected %s but got %s", rows, diagonal.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][cols - i - 1] = diagonal[i];
@@ -822,8 +822,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.FloatUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsFloat(a[i][j]);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.applyAsFloat(a[i][j]);
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -850,8 +850,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E if the function throws an exception
      */
     public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Float, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(i, j);
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -878,8 +878,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(a[i][j]) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -907,8 +907,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E if the predicate throws an exception
      */
     public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final float newValue) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = predicate.test(i, j) ? newValue : a[i][j];
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
@@ -931,9 +931,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> FloatMatrix map(final Throwables.FloatUnaryOperator<E> func) throws E {
         final float[][] result = new float[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsFloat(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsFloat(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return FloatMatrix.of(result);
     }
@@ -962,9 +962,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.FloatFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.apply(a[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return Matrix.of(result);
     }
@@ -1612,22 +1612,22 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
         }
 
-        final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
+        final float[][] result = new float[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final float[] aa = a[i];
-            final float[] fr = c[i * rowRepeats];
+            final float[] sourceRow = a[i];
+            final float[] firstRepeatedRow = result[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(aa[j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.copy(Array.repeat(sourceRow[j], colRepeats), 0, firstRepeatedRow, j * colRepeats, colRepeats);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
-                N.copy(fr, 0, c[i * rowRepeats + k], 0, fr.length);
+                N.copy(firstRepeatedRow, 0, result[i * rowRepeats + k], 0, firstRepeatedRow.length);
             }
         }
 
-        return new FloatMatrix(c);
+        return new FloatMatrix(result);
     }
 
     /**
@@ -1662,21 +1662,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
         }
 
-        final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
+        final float[][] result = new float[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colRepeats; j++) {
-                N.copy(a[i], 0, c[i], j * cols, cols);
+                N.copy(a[i], 0, result[i], j * cols, cols);
             }
         }
 
         for (int i = 1; i < rowRepeats; i++) {
             for (int j = 0; j < rows; j++) {
-                N.copy(c[j], 0, c[i * rows + j], 0, c[j].length);
+                N.copy(result[j], 0, result[i * rows + j], 0, result[j].length);
             }
         }
 
-        return new FloatMatrix(c);
+        return new FloatMatrix(result);
     }
 
     /**
@@ -1697,13 +1697,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             throw new IllegalStateException("Matrix too large to flatten: " + rows + " x " + cols);
         }
 
-        final float[] c = new float[rows * cols];
+        final float[] flattenedArray = new float[rows * cols];
 
         for (int i = 0; i < rows; i++) {
-            N.copy(a[i], 0, c, i * cols, cols);
+            N.copy(a[i], 0, flattenedArray, i * cols, cols);
         }
 
-        return FloatList.of(c);
+        return FloatList.of(flattenedArray);
     }
 
     /**
@@ -1747,20 +1747,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see IntMatrix#vstack(IntMatrix)
      */
     public FloatMatrix vstack(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
+        N.checkArgument(cols == b.cols, "Column count mismatch for vstack: this matrix has %s columns but other has %s", cols, b.cols);
 
-        final float[][] c = new float[rows + b.rows][];
-        int j = 0;
+        final float[][] result = new float[rows + b.rows][];
+        int targetRow = 0;
 
         for (int i = 0; i < rows; i++) {
-            c[j++] = a[i].clone();
+            result[targetRow++] = a[i].clone();
         }
 
         for (int i = 0; i < b.rows; i++) {
-            c[j++] = b.a[i].clone();
+            result[targetRow++] = b.a[i].clone();
         }
 
-        return FloatMatrix.of(c);
+        return FloatMatrix.of(result);
     }
 
     /**
@@ -1782,16 +1782,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see IntMatrix#hstack(IntMatrix)
      */
     public FloatMatrix hstack(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
+        N.checkArgument(rows == b.rows, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rows, b.rows);
 
-        final float[][] c = new float[rows][cols + b.cols];
+        final float[][] result = new float[rows][cols + b.cols];
 
         for (int i = 0; i < rows; i++) {
-            N.copy(a[i], 0, c[i], 0, cols);
-            N.copy(b.a[i], 0, c[i], cols, b.cols);
+            N.copy(a[i], 0, result[i], 0, cols);
+            N.copy(b.a[i], 0, result[i], cols, b.cols);
         }
 
-        return FloatMatrix.of(c);
+        return FloatMatrix.of(result);
     }
 
     /**
@@ -1813,13 +1813,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public FloatMatrix add(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't add Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final float[][] ba = b.a;
+        final float[][] otherMatrix = b.a;
         final float[][] result = new float[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] + otherMatrix[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1843,13 +1844,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
     public FloatMatrix subtract(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Can't subtract Matrixes with different shape");
+        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, b.rows,
+                b.cols);
 
-        final float[][] ba = b.a;
+        final float[][] otherMatrix = b.a;
         final float[][] result = new float[rows][cols];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] - otherMatrix[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1877,13 +1879,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *         (i.e., this.cols != b.rows)
      */
     public FloatMatrix multiply(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(cols == b.rows, "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)",
+                rows, cols, b.rows, b.cols);
 
-        final float[][] ba = b.a;
+        final float[][] otherMatrix = b.a;
         final float[][] result = new float[rows][b.cols];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * ba[k][j];
+        final Throwables.IntTriConsumer<RuntimeException> operation = (i, j, k) -> result[i][j] += a[i][k] * otherMatrix[k][j];
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, b, operation);
 
         return new FloatMatrix(result);
     }
@@ -1900,26 +1903,26 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new Matrix containing boxed Float values
      */
     public Matrix<Float> boxed() {
-        final Float[][] c = new Float[rows][cols];
+        final Float[][] result = new Float[rows][cols];
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
-                final float[] aa = a[i];
-                final Float[] cc = c[i];
+                final float[] sourceRow = a[i];
+                final Float[] targetRow = result[i];
 
                 for (int j = 0; j < cols; j++) {
-                    cc[j] = aa[j]; // NOSONAR
+                    targetRow[j] = sourceRow[j]; // NOSONAR
                 }
             }
         } else {
             for (int j = 0; j < cols; j++) {
                 for (int i = 0; i < rows; i++) {
-                    c[i][j] = a[i][j];
+                    result[i][j] = a[i][j];
                 }
             }
         }
 
-        return new Matrix<>(c);
+        return new Matrix<>(result);
     }
 
     /**
@@ -1956,14 +1959,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Throwables.FloatBinaryOperator<E> zipFunction)
             throws IllegalArgumentException, E {
-        N.checkArgument(isSameShape(matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows,
+                matrixB.cols);
 
-        final float[][] b = matrixB.a;
+        final float[][] secondMatrix = matrixB.a;
         final float[][] result = new float[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], secondMatrix[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return FloatMatrix.of(result);
     }
@@ -1987,15 +1991,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC, final Throwables.FloatTernaryOperator<E> zipFunction)
             throws E {
-        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
-        final float[][] b = matrixB.a;
-        final float[][] c = matrixC.a;
+        final float[][] secondMatrix = matrixB.a;
+        final float[][] thirdMatrix = matrixC.a;
         final float[][] result = new float[rows][cols];
 
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], b[i][j], c[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = zipFunction.applyAsFloat(a[i][j], secondMatrix[i][j], thirdMatrix[i][j]);
 
-        Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
+        Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
         return FloatMatrix.of(result);
     }
@@ -2211,11 +2215,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             @Override
             public float[] toArray() {
-                final int len = (int) count();
-                final float[] c = new float[len];
+                final int elementCount = (int) count();
+                final float[] result = new float[elementCount];
 
-                for (int k = 0; k < len; k++) {
-                    c[k] = a[i][j++];
+                for (int k = 0; k < elementCount; k++) {
+                    result[k] = a[i][j++];
 
                     if (j >= cols) {
                         i++;
@@ -2223,7 +2227,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     }
                 }
 
-                return c;
+                return result;
             }
         });
     }
@@ -2332,11 +2336,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
             @Override
             public float[] toArray() {
-                final int len = (int) count();
-                final float[] c = new float[len];
+                final int elementCount = (int) count();
+                final float[] result = new float[elementCount];
 
-                for (int k = 0; k < len; k++) {
-                    c[k] = a[i++][j];
+                for (int k = 0; k < elementCount; k++) {
+                    result[k] = a[i++][j];
 
                     if (i >= rows) {
                         i = 0;
@@ -2344,7 +2348,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     }
                 }
 
-                return c;
+                return result;
             }
         });
     }
@@ -2581,14 +2585,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
-            final Throwables.IntBiConsumer<E> cmd = (i, j) -> action.accept(a[i][j]);
-            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, cmd, true);
+            final Throwables.IntBiConsumer<E> operation = (i, j) -> action.accept(a[i][j]);
+            Matrixes.run(fromRowIndex, toRowIndex, fromColumnIndex, toColumnIndex, operation, true);
         } else {
             for (int i = fromRowIndex; i < toRowIndex; i++) {
-                final float[] aa = a[i];
+                final float[] row = a[i];
 
                 for (int j = fromColumnIndex; j < toColumnIndex; j++) {
-                    action.accept(aa[j]);
+                    action.accept(row[j]);
                 }
             }
         }
@@ -2616,11 +2620,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return N.println("[]");
         } else {
             final StringBuilder sb = Objectory.createStringBuilder();
-            final int len = a.length;
+            final int rowCount = a.length;
             String str = null;
 
             try {
-                for (int i = 0; i < len; i++) {
+                for (int i = 0; i < rowCount; i++) {
                     if (i > 0) {
                         sb.append(ARRAY_PRINT_SEPARATOR);
                     }

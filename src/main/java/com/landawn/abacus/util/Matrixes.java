@@ -774,7 +774,8 @@ public final class Matrixes {
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd)
             throws IllegalArgumentException {
-        N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(a.cols == b.rows, "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.cols must equal b.rows)", a.rows,
+                a.cols, b.rows, b.cols);
 
         multiply(a, b, cmd, Matrixes.isParallelable(a, a.count * b.cols));
     }
@@ -813,7 +814,8 @@ public final class Matrixes {
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
-        N.checkArgument(a.cols == b.rows, "Illegal matrix dimensions");
+        N.checkArgument(a.cols == b.rows, "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.cols must equal b.rows)", a.rows,
+                a.cols, b.rows, b.cols);
 
         final int rowsA = a.rows;
         final int colsA = a.cols;

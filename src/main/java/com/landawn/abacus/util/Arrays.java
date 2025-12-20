@@ -2079,14 +2079,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final boolean[][] c = new boolean[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final boolean[][] result = new boolean[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -2114,18 +2114,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final boolean[][][] c = new boolean[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final boolean[][][] result = new boolean[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new boolean[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new boolean[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -2151,7 +2151,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final boolean[] c = new boolean[count];
+        final boolean[] result = new boolean[count];
         int from = 0;
 
         for (final boolean[] element : a) {
@@ -2159,12 +2159,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -3409,14 +3409,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final char[][] c = new char[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final char[][] result = new char[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -3445,18 +3445,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final char[][][] c = new char[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final char[][][] result = new char[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new char[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new char[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -3480,7 +3480,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final char[] c = new char[count];
+        final char[] result = new char[count];
         int from = 0;
 
         for (final char[] element : a) {
@@ -3488,12 +3488,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -3517,7 +3517,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final char[] c = new char[count];
+        final char[] result = new char[count];
         int from = 0;
 
         for (final char[][] element : a) {
@@ -3530,13 +3530,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(chars, 0, c, from, chars.length);
+                N.copy(chars, 0, result, from, chars.length);
 
                 from += chars.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -4743,7 +4743,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final byte[] c = new byte[count];
+        final byte[] result = new byte[count];
         int from = 0;
 
         for (final byte[] element : a) {
@@ -4751,12 +4751,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -4780,7 +4780,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final byte[] c = new byte[count];
+        final byte[] result = new byte[count];
         int from = 0;
 
         for (final byte[][] element : a) {
@@ -4793,13 +4793,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(bytes, 0, c, from, bytes.length);
+                N.copy(bytes, 0, result, from, bytes.length);
 
                 from += bytes.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -4901,14 +4901,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final byte[][] c = new byte[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final byte[][] result = new byte[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -4936,18 +4936,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final byte[][][] c = new byte[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final byte[][][] result = new byte[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new byte[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new byte[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -5997,14 +5997,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final short[][] c = new short[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final short[][] result = new short[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -6031,18 +6031,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final short[][][] c = new short[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final short[][][] result = new short[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new short[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new short[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -6066,7 +6066,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final short[] c = new short[count];
+        final short[] result = new short[count];
         int from = 0;
 
         for (final short[] element : a) {
@@ -6074,12 +6074,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -6103,7 +6103,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final short[] c = new short[count];
+        final short[] result = new short[count];
         int from = 0;
 
         for (final short[][] element : a) {
@@ -6116,13 +6116,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(shorts, 0, c, from, shorts.length);
+                N.copy(shorts, 0, result, from, shorts.length);
 
                 from += shorts.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -7268,14 +7268,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final int[][] c = new int[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int[][] result = new int[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -7306,18 +7306,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final int[][][] c = new int[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int[][][] result = new int[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new int[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new int[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -7344,7 +7344,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final int[] c = new int[count];
+        final int[] result = new int[count];
         int from = 0;
 
         for (final int[] element : a) {
@@ -7352,12 +7352,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -7384,7 +7384,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final int[] c = new int[count];
+        final int[] result = new int[count];
         int from = 0;
 
         for (final int[][] element : a) {
@@ -7397,13 +7397,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(ints, 0, c, from, ints.length);
+                N.copy(ints, 0, result, from, ints.length);
 
                 from += ints.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -8539,14 +8539,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final long[][] c = new long[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final long[][] result = new long[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -8574,18 +8574,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final long[][][] c = new long[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final long[][][] result = new long[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new long[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new long[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -8608,7 +8608,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final long[] c = new long[count];
+        final long[] result = new long[count];
         int from = 0;
 
         for (final long[] element : a) {
@@ -8616,12 +8616,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -8644,7 +8644,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final long[] c = new long[count];
+        final long[] result = new long[count];
         int from = 0;
 
         for (final long[][] element : a) {
@@ -8657,13 +8657,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(longs, 0, c, from, longs.length);
+                N.copy(longs, 0, result, from, longs.length);
 
                 from += longs.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -9784,14 +9784,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final float[][] c = new float[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final float[][] result = new float[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -9819,18 +9819,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final float[][][] c = new float[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final float[][][] result = new float[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new float[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new float[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -9854,7 +9854,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final float[] c = new float[count];
+        final float[] result = new float[count];
         int from = 0;
 
         for (final float[] element : a) {
@@ -9862,12 +9862,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -9891,7 +9891,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final float[] c = new float[count];
+        final float[] result = new float[count];
         int from = 0;
 
         for (final float[][] element : a) {
@@ -9904,13 +9904,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(floats, 0, c, from, floats.length);
+                N.copy(floats, 0, result, from, floats.length);
 
                 from += floats.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -11037,14 +11037,14 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
-        final double[][] c = new double[n][];
+        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final double[][] result = new double[numRows][];
 
-        for (int i = 0, from = 0; i < n; i++, from += cols) {
-            c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -11073,18 +11073,18 @@ public sealed class Arrays permits Arrays.f {
         }
 
         final int len = a.length;
-        final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
-        final double[][][] c = new double[n][][];
+        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final double[][][] result = new double[numBlocks][][];
 
-        for (int i = 0, from = 0; i < n; i++) {
-            c[i] = new double[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+        for (int i = 0, from = 0; i < numBlocks; i++) {
+            result[i] = new double[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
 
-            for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -11108,7 +11108,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final double[] c = new double[count];
+        final double[] result = new double[count];
         int from = 0;
 
         for (final double[] element : a) {
@@ -11116,12 +11116,12 @@ public sealed class Arrays permits Arrays.f {
                 continue;
             }
 
-            N.copy(element, 0, c, from, element.length);
+            N.copy(element, 0, result, from, element.length);
 
             from += element.length;
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -11145,7 +11145,7 @@ public sealed class Arrays permits Arrays.f {
 
         final int count = Numbers.toIntExact(totalCountOfElements(a));
 
-        final double[] c = new double[count];
+        final double[] result = new double[count];
         int from = 0;
 
         for (final double[][] element : a) {
@@ -11158,13 +11158,13 @@ public sealed class Arrays permits Arrays.f {
                     continue;
                 }
 
-                N.copy(doubles, 0, c, from, doubles.length);
+                N.copy(doubles, 0, result, from, doubles.length);
 
                 from += doubles.length;
             }
         }
 
-        return c;
+        return result;
     }
 
     /**
@@ -14311,11 +14311,11 @@ public sealed class Arrays permits Arrays.f {
     }
 
     private static void checkColsForReshape(final int m) { // NOSONAR
-        N.checkArgument(m > 0, "'cols' must be positive number: cols = %s", m);
+        N.checkArgument(m > 0, "cols must be a positive number, but got: %s", m);
     }
 
     private static void checkRowsAndColsForReshape(final int rows, final int cols) {
-        N.checkArgument(rows > 0 && cols > 0, "'rows' and 'cols' must be positive number: rows = %s, cols = %s", rows, cols);
+        N.checkArgument(rows > 0 && cols > 0, "rows and cols must be positive numbers: rows = %s, cols = %s", rows, cols);
     }
 
     /**
