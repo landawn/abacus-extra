@@ -1534,11 +1534,11 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
         IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
-        assertTrue(ex1.getMessage().contains("too many rows"));
+        assertTrue(ex1.getMessage().contains("row count overflow"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
         IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
-        assertTrue(ex2.getMessage().contains("too many columns"));
+        assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 
     @Test
@@ -1547,10 +1547,10 @@ public class ByteMatrix2025Test extends TestBase {
         ByteMatrix m = ByteMatrix.of(new byte[largeSize][2]);
 
         IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
-        assertTrue(ex1.getMessage().contains("too many rows"));
+        assertTrue(ex1.getMessage().contains("row count overflow"));
 
         ByteMatrix m2 = ByteMatrix.of(new byte[2][largeSize]);
         IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
-        assertTrue(ex2.getMessage().contains("too many columns"));
+        assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 }

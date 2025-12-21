@@ -1733,12 +1733,12 @@ public class BooleanMatrix2025Test extends TestBase {
 
         // Test row overflow
         IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repelem(50000, 1));
-        assertTrue(ex1.getMessage().contains("too many rows"));
+        assertTrue(ex1.getMessage().contains("row count overflow"));
 
         // Test column overflow
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
         IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repelem(1, 50000));
-        assertTrue(ex2.getMessage().contains("too many columns"));
+        assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 
     @Test
@@ -1749,11 +1749,11 @@ public class BooleanMatrix2025Test extends TestBase {
 
         // Test row overflow
         IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class, () -> m.repmat(50000, 1));
-        assertTrue(ex1.getMessage().contains("too many rows"));
+        assertTrue(ex1.getMessage().contains("row count overflow"));
 
         // Test column overflow
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[2][largeSize]);
         IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class, () -> m2.repmat(1, 50000));
-        assertTrue(ex2.getMessage().contains("too many columns"));
+        assertTrue(ex2.getMessage().contains("column count overflow"));
     }
 }
