@@ -779,7 +779,11 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly one float value.
-     * Provides direct access to the element via the public final field {@code _1}.
+     * <p>
+     * This class provides direct access to the single element through the public final field {@code _1}.
+     * For single-element tuples, all statistical operations (min, max, median, sum, average) return
+     * or are based on that single element.
+     * </p>
      */
     public static final class FloatTuple1 extends FloatTuple<FloatTuple1> {
 
@@ -935,7 +939,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly two float values.
-     * Provides direct access to elements via public final fields {@code _1} and {@code _2}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1} and {@code _2}.
+     * FloatTuple2 offers additional functional methods like {@link #accept(Throwables.FloatBiConsumer)},
+     * {@link #map(Throwables.FloatBiFunction)}, and {@link #filter(Throwables.FloatBiPredicate)} that
+     * operate on both elements simultaneously.
+     * </p>
      */
     public static final class FloatTuple2 extends FloatTuple<FloatTuple2> {
 
@@ -1055,12 +1064,22 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given bi-consumer on the two elements.
+         * Performs the given bi-consumer action on the two elements of this tuple.
+         * <p>
+         * This is a convenience method that passes both elements (_1 and _2) to the
+         * provided bi-consumer action. It's useful for operations that need to process
+         * both values together.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
          * tuple.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+         * // Prints: 3.0 + 4.0 = 7.0
+         *
+         * FloatTuple2 coordinates = FloatTuple.of(10.5f, 20.3f);
+         * coordinates.accept((x, y) -> System.out.printf("Point: (%.1f, %.1f)%n", x, y));
+         * // Prints: Point: (10.5, 20.3)
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1073,11 +1092,23 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Applies the given bi-function to the two elements and returns the result.
+         * <p>
+         * This method transforms the pair of float values into a single value of type U
+         * using the provided mapper function. The mapper receives both _1 and _2 as arguments
+         * and can return any type, including primitive wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
          * float product = tuple.map((a, b) -> a * b);   // 12.0f
+         *
+         * FloatTuple2 dimensions = FloatTuple.of(5.0f, 3.0f);
+         * String description = dimensions.map((w, h) -> String.format("%.0f x %.0f", w, h));
+         * // Returns: "5 x 3"
+         *
+         * FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
+         * Double distance = point.map((x, y) -> Math.sqrt(x * x + y * y));   // 5.0
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1094,11 +1125,25 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the two elements using the provided bi-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple2 tuple = FloatTuple.of(3.0f, 4.0f);
-         * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);   // present
+         * Optional<FloatTuple2> result = tuple.filter((a, b) -> a + b > 5);
+         * // Returns: Optional containing tuple (since 3.0f + 4.0f = 7.0f > 5)
+         *
+         * FloatTuple2 small = FloatTuple.of(1.0f, 2.0f);
+         * Optional<FloatTuple2> empty = small.filter((a, b) -> a + b > 10);
+         * // Returns: Optional.empty() (since 1.0f + 2.0f = 3.0f is not > 10)
+         *
+         * FloatTuple2 point = FloatTuple.of(3.0f, 4.0f);
+         * Optional<FloatTuple2> inRange = point.filter((x, y) -> x >= 0 && y >= 0);
+         * // Returns: Optional containing point (both coordinates are positive)
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw
@@ -1164,7 +1209,12 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
     /**
      * A FloatTuple containing exactly three float values.
-     * Provides direct access to elements via public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * <p>
+     * This class provides direct access to elements through public final fields {@code _1}, {@code _2}, and {@code _3}.
+     * FloatTuple3 offers additional functional methods like {@link #accept(Throwables.FloatTriConsumer)},
+     * {@link #map(Throwables.FloatTriFunction)}, and {@link #filter(Throwables.FloatTriPredicate)} that
+     * operate on all three elements simultaneously.
+     * </p>
      */
     public static final class FloatTuple3 extends FloatTuple<FloatTuple3> {
 
@@ -1287,12 +1337,26 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Performs the given tri-consumer on the three elements.
+         * Performs the given tri-consumer action on the three elements of this tuple.
+         * <p>
+         * This method applies the specified tri-consumer to all three elements simultaneously,
+         * allowing operations that need to work with all values together. The action is
+         * executed for its side effects only.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * tuple.accept((a, b, c) -> System.out.println("Sum: " + (a + b + c)));
+         * // Prints: Sum: 6.0
+         *
+         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * dimensions.accept((l, w, h) -> System.out.printf("Volume: %.1f%n", l * w * h));
+         * // Prints: Volume: 30.0
+         *
+         * FloatTuple3 rgb = FloatTuple.of(0.5f, 0.7f, 0.3f);
+         * rgb.accept((r, g, b) -> System.out.printf("Color: RGB(%.1f, %.1f, %.1f)%n", r, g, b));
+         * // Prints: Color: RGB(0.5, 0.7, 0.3)
          * }</pre>
          *
          * @param <E> the type of exception that the action may throw
@@ -1305,11 +1369,25 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
 
         /**
          * Applies the given tri-function to the three elements and returns the result.
+         * <p>
+         * This method transforms the three float values into a single value of type U
+         * using the provided mapper function. The mapper receives all three elements
+         * (_1, _2, and _3) as arguments and can return any type, including primitive
+         * wrapper types, objects, or null.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
          * float product = tuple.map((a, b, c) -> a * b * c);   // 6.0f
+         *
+         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * String description = dimensions.map((l, w, h) ->
+         *     String.format("Box: %.0f x %.0f x %.0f", l, w, h));
+         * // Returns: "Box: 5 x 3 x 2"
+         *
+         * FloatTuple3 point = FloatTuple.of(1.0f, 2.0f, 2.0f);
+         * Double distance = point.map((x, y, z) -> Math.sqrt(x*x + y*y + z*z));   // 3.0
          * }</pre>
          *
          * @param <U> the type of the result
@@ -1326,11 +1404,25 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         /**
          * Returns an Optional containing this tuple if the predicate is satisfied,
          * or an empty Optional otherwise.
+         * <p>
+         * This method tests the three elements using the provided tri-predicate. If the predicate
+         * returns {@code true}, an Optional containing this tuple is returned. Otherwise, an
+         * empty Optional is returned. This is useful for conditional processing in functional chains.
+         * </p>
          *
          * <p><b>Usage Examples:</b></p>
          * <pre>{@code
          * FloatTuple3 tuple = FloatTuple.of(1.0f, 2.0f, 3.0f);
-         * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);   // present
+         * Optional<FloatTuple3> result = tuple.filter((a, b, c) -> a + b + c > 5);
+         * // Returns: Optional containing tuple (since 1.0f + 2.0f + 3.0f = 6.0f > 5)
+         *
+         * FloatTuple3 small = FloatTuple.of(1.0f, 1.0f, 1.0f);
+         * Optional<FloatTuple3> empty = small.filter((a, b, c) -> a + b + c > 10);
+         * // Returns: Optional.empty() (since 1.0f + 1.0f + 1.0f = 3.0f is not > 10)
+         *
+         * FloatTuple3 dimensions = FloatTuple.of(5.0f, 3.0f, 2.0f);
+         * Optional<FloatTuple3> valid = dimensions.filter((l, w, h) -> l > 0 && w > 0 && h > 0);
+         * // Returns: Optional containing dimensions (all values are positive)
          * }</pre>
          *
          * @param <E> the type of exception that the predicate may throw

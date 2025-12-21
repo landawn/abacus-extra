@@ -21,18 +21,33 @@ import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.stream.IntStream;
 
 /**
- * Abstract base class for immutable tuples containing int primitive values.
- * This class provides a type-safe way to work with fixed-size collections of int values.
+ * Abstract base class for immutable tuple implementations that hold primitive int values.
+ * <p>
+ * This class provides common functionality for int-based tuples of various sizes (0 to 9 elements).
+ * IntTuple is designed to be a lightweight, type-safe container for multiple int values
+ * that can be used as a composite key, return multiple values from a method, or group related
+ * int values together. All int tuple implementations extend this class and are immutable by design.
+ * </p>
  *
- * <p>IntTuple and its subclasses offer:</p>
- * <ul>
- *   <li>Type safety for int collections of known size</li>
- *   <li>Immutability for thread-safe operations</li>
- *   <li>Convenient factory methods and utilities</li>
- *   <li>Statistical operations (min, max, median, sum, average)</li>
- * </ul>
+ * <p><b>Usage Examples:</b></p>
+ * <pre>{@code
+ * // Creating tuples
+ * IntTuple1 single = IntTuple.of(42);
+ * IntTuple2 pair = IntTuple.of(1, 2);
+ * IntTuple3 triple = IntTuple.of(1, 2, 3);
+ *
+ * // Using statistical operations
+ * int min = triple.min();   // 1
+ * int max = triple.max();   // 3
+ * double avg = triple.average();   // 2.0
+ *
+ * // Using functional operations
+ * pair.accept((a, b) -> System.out.println(a + " + " + b + " = " + (a + b)));
+ * int product = triple.map((a, b, c) -> a * b * c);   // 6
+ * }</pre>
  *
  * @param <TP> The specific IntTuple subtype for fluent method chaining
+ * @see PrimitiveTuple
  */
 @SuppressWarnings({ "java:S116", "java:S2160", "java:S1845" })
 public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<TP> {
@@ -235,16 +250,27 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Creates an IntTuple from an array of int values.
-     * The size of the returned tuple depends on the array length (0-9).
+     * <p>
+     * The size of the returned tuple depends on the length of the input array.
+     * This factory method supports arrays with 0 to 9 elements. For empty or null
+     * arrays, returns an empty IntTuple0. For arrays with 1-9 elements, returns
+     * the corresponding IntTuple1-9 instance.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * // Create from array
      * int[] values = {1, 2, 3};
      * IntTuple3 tuple = IntTuple.create(values);
-     * // tuple._1 == 1, tuple._2 == 2, tuple._3 == 3
+     *
+     * // Empty array returns IntTuple0
+     * IntTuple0 empty = IntTuple.create(new int[0]);
+     *
+     * // Single element
+     * IntTuple1 single = IntTuple.create(new int[]{42});
      * }</pre>
      *
-     * @param <TP> the specific IntTuple type to return
+     * @param <TP> the specific IntTuple subtype to return
      * @param values the array of int values (must have length 0-9), may be {@code null}
      * @return an IntTuple of appropriate size containing the array values, or an empty IntTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
@@ -290,11 +316,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns the minimum int value in this tuple.
+     * <p>
+     * This method finds and returns the smallest int value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int min = tuple.min();   // 1
+     *
+     * IntTuple2 pair = IntTuple.of(25, 15);
+     * int minPair = pair.min();   // 15
      * }</pre>
      *
      * @return the minimum int value in this tuple
@@ -306,11 +339,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns the maximum int value in this tuple.
+     * <p>
+     * This method finds and returns the largest int value among all elements
+     * in the tuple. For tuples with a single element, returns that element.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(3, 1, 2);
      * int max = tuple.max();   // 3
+     *
+     * IntTuple2 pair = IntTuple.of(15, 25);
+     * int maxPair = pair.max();   // 25
      * }</pre>
      *
      * @return the maximum int value in this tuple
@@ -321,23 +361,24 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Returns the median int value in this tuple.
-     * The median is the middle element when the values are sorted in ascending order.
-     * For tuples with an even number of elements, returns the lower of the two middle elements.
-     * For tuples with an odd number of elements, returns the single middle element.
+     * Returns the median value of the elements in this tuple.
+     * <p>
+     * For tuples with an odd number of elements, returns the middle value when sorted.
+     * For tuples with an even number of elements, returns the lower middle value.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Odd number of elements - returns middle element
-     * IntTuple3 tuple = IntTuple.of(3, 1, 2);
-     * int median = tuple.median();   // 2 (sorted: 1, 2, 3)
+     * // Odd number of elements
+     * IntTuple3 tuple3 = IntTuple.of(30, 10, 20);
+     * int median = tuple3.median();   // 20 (middle value when sorted: 10, 20, 30)
      *
-     * // Even number of elements - returns lower middle element
+     * // Even number of elements
      * IntTuple4 tuple4 = IntTuple.of(1, 2, 3, 4);
-     * int median2 = tuple4.median();   // 2 (sorted: 1, 2, 3, 4)
+     * int median2 = tuple4.median();   // 2 (lower middle value when sorted)
      * }</pre>
      *
-     * @return the median int value in this tuple
+     * @return the median int element in this tuple
      * @throws NoSuchElementException if the tuple is empty
      */
     public int median() {
@@ -346,11 +387,22 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns the sum of all elements in this tuple.
-     * 
+     * <p>
+     * This method calculates the sum by adding all int elements together.
+     * For an empty tuple, returns 0.
+     * </p>
+     * <p>
+     * Note: This method does not check for overflow. If the sum exceeds {@code Integer.MAX_VALUE},
+     * the result will wrap around according to standard int arithmetic.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.sum();   // 6
+     *
+     * IntTuple2 pair = IntTuple.of(100, 200);
+     * int total = pair.sum();  // 300
      * }</pre>
      *
      * @return the sum of all int values in this tuple
@@ -362,14 +414,18 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     /**
      * Returns the average of all int values in this tuple as a double.
      * <p>
-     * Note: The result is returned as a double to preserve precision. The average is
-     * calculated by converting int values to double during computation.
+     * This method calculates the arithmetic mean of all elements in the tuple.
+     * The result is always returned as a double to preserve precision, even when
+     * the average is a whole number.
      * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * double avg = tuple.average();   // 2.0
+     *
+     * IntTuple2 pair = IntTuple.of(1, 2);
+     * double avgPair = pair.average();   // 1.5
      * }</pre>
      *
      * @return the average of all int values in this tuple as a double
@@ -381,11 +437,19 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a new tuple with the elements in reverse order.
+     * <p>
+     * This method creates and returns a new tuple instance with all elements in reversed order.
+     * The original tuple remains unchanged. For example, a tuple (1, 2, 3) becomes
+     * (3, 2, 1) when reversed.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * IntTuple3 reversed = tuple.reverse();   // (3, 2, 1)
+     *
+     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntTuple2 reversedPair = pair.reverse();   // (25, 15)
      * }</pre>
      *
      * @return a new tuple with the elements in reverse order
@@ -394,12 +458,21 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Checks if this tuple contains the specified int value.
+     * <p>
+     * This method performs a linear search through all elements of the tuple,
+     * comparing each element with the specified value using the == operator.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * boolean hasTwo = tuple.contains(2);    // true
      * boolean hasFive = tuple.contains(5);   // false
+     *
+     * IntTuple5 numbers = IntTuple.of(10, 20, 30, 40, 50);
+     * if (numbers.contains(30)) {
+     *     System.out.println("Found 30!");  // This will be printed
+     * }
      * }</pre>
      *
      * @param valueToFind the int value to search for
@@ -409,12 +482,19 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a new array containing all elements of this tuple.
-     * Modifications to the returned array do not affect the tuple.
-     * 
+     * <p>
+     * This method creates a defensive copy of the internal array. Modifications to the
+     * returned array will not affect the tuple since tuples are immutable.
+     * </p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int[] array = tuple.toArray();   // [1, 2, 3]
+     * array[0] = 5;  // Does not modify the original tuple
+     *
+     * IntTuple0 empty = IntTuple.create(new int[0]);
+     * int[] emptyArray = empty.toArray();   // []
      * }</pre>
      *
      * @return a new int array containing all tuple elements
@@ -425,11 +505,19 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a new IntList containing all elements of this tuple.
+     * <p>
+     * This method converts the tuple into a mutable IntList. The returned list is a new
+     * instance, and modifications to it will not affect the original tuple.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * IntList list = tuple.toList();
+     * list.add(4);   // Does not affect the original tuple
+     *
+     * IntTuple2 pair = IntTuple.of(15, 25);
+     * IntList pairList = pair.toList();   // [15, 25]
      * }</pre>
      *
      * @return a new IntList containing all tuple elements
@@ -440,15 +528,23 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Performs the given action for each element in this tuple.
+     * <p>
+     * This method iterates through all elements in the tuple in order, applying the specified
+     * consumer action to each element. The action is performed for its side effects only.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
-     * tuple.forEach(System.out::println);   // prints each value
+     * tuple.forEach(i -> System.out.print(i + " "));   // prints "1 2 3 "
+     *
+     * IntTuple2 pair = IntTuple.of(15, 25);
+     * List<Integer> list = new ArrayList<>();
+     * pair.forEach(list::add);   // adds 15 and 25 to the list
      * }</pre>
      *
-     * @param <E> the type of exception that the consumer may throw
-     * @param consumer the action to perform for each element
+     * @param <E> the type of exception that may be thrown by the consumer
+     * @param consumer the action to be performed for each element
      * @throws E if the consumer throws an exception
      */
     public <E extends Exception> void forEach(final Throwables.IntConsumer<E> consumer) throws E {
@@ -459,11 +555,19 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns an IntStream of all elements in this tuple.
+     * <p>
+     * This method creates a sequential IntStream with all elements from the tuple.
+     * The stream provides a functional programming interface for processing the tuple elements
+     * through operations like filter, map, and reduce.
+     * </p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntTuple3 tuple = IntTuple.of(1, 2, 3);
      * int sum = tuple.stream().sum();   // 6
+     *
+     * IntTuple2 pair = IntTuple.of(15, 25);
+     * long count = pair.stream().filter(i -> i > 20).count();   // 1
      * }</pre>
      *
      * @return an IntStream containing all tuple elements
@@ -474,7 +578,11 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a hash code value for this tuple.
-     * The hash code is computed based on all elements using {@link N#hashCode(int[])}.
+     * <p>
+     * The hash code is computed based on the contents of the tuple's elements.
+     * Tuples with identical elements in the same order will have the same hash code.
+     * This implementation ensures consistency with the {@link #equals(Object)} method.
+     * </p>
      *
      * @return a hash code value for this tuple
      */
@@ -484,12 +592,17 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
     }
 
     /**
-     * Compares this tuple to another object for equality.
-     * Two tuples are equal if they are of the same class and contain equal elements
-     * in the same order.
+     * Compares this tuple to the specified object for equality.
+     * <p>
+     * Two tuples are considered equal if and only if:
+     * <ul>
+     *   <li>They are of the same class (same tuple type and arity)</li>
+     *   <li>All corresponding elements are equal in the same order</li>
+     * </ul>
+     * This method provides a consistent equals-hashCode contract with {@link #hashCode()}.
      *
      * @param obj the object to compare with
-     * @return {@code true} if the objects are equal, {@code false} otherwise
+     * @return {@code true} if the specified object is equal to this tuple, {@code false} otherwise
      */
     @Override
     public boolean equals(final Object obj) {
@@ -504,9 +617,12 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
 
     /**
      * Returns a string representation of this tuple.
-     * The format is (element1, element2, ...).
+     * <p>
+     * The string representation consists of a list of the tuple's elements in order,
+     * enclosed in parentheses ("()"). Adjacent elements are separated by a comma and space (", ").
+     * </p>
      *
-     * @return a string representation of this tuple
+     * @return a string representation of this tuple in the format "(element1, element2, ...)"
      */
     @Override
     public String toString() {
