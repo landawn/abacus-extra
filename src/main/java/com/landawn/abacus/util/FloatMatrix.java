@@ -1187,12 +1187,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public FloatMatrix extend(final int newRows, final int newCols, final float defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
-        N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
 
         // Check for overflow before allocation
         if ((long) newRows * newCols > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions too large: " + newRows + " x " + newCols);
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newCols + " exceeds Integer.MAX_VALUE");
         }
 
         if (newRows <= rows && newCols <= cols) {
@@ -1285,20 +1285,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final float defaultValueForNewCell)
             throws IllegalArgumentException {
-        N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
-        N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
-        N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
-        N.checkArgument(toRight >= 0, "The 'toRight' can't be negative %s", toRight);
+        N.checkArgument(toUp >= 0, "toUp cannot be negative: %s", toUp);
+        N.checkArgument(toDown >= 0, "toDown cannot be negative: %s", toDown);
+        N.checkArgument(toLeft >= 0, "toLeft cannot be negative: %s", toLeft);
+        N.checkArgument(toRight >= 0, "toRight cannot be negative: %s", toRight);
 
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
         } else {
             if ((long) toUp + rows + toDown > Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Result would have too many rows: " + toUp + " + " + rows + " + " + toDown);
+                throw new IllegalArgumentException("Result row count overflow: " + toUp + " + " + rows + " + " + toDown + " exceeds Integer.MAX_VALUE");
             }
 
             if ((long) toLeft + cols + toRight > Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Result would have too many columns: " + toLeft + " + " + cols + " + " + toRight);
+                throw new IllegalArgumentException("Result column count overflow: " + toLeft + " + " + cols + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
             final int newRows = toUp + rows + toDown;
@@ -1602,14 +1602,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final float[][] result = new float[rows * rowRepeats][cols * colRepeats];
@@ -1652,14 +1652,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     public FloatMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final float[][] result = new float[rows * rowRepeats][cols * colRepeats];

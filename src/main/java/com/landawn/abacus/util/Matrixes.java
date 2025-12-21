@@ -3031,12 +3031,12 @@ public final class Matrixes {
     }
 
     private static void checkShapeForZip(final AbstractMatrix<?, ?, ?, ?, ?> a, final AbstractMatrix<?, ?, ?, ?, ?> b) {
-        N.checkArgument(isSameShape(a, b), "Can't zip two or more matrices which don't have same shape.");
+        N.checkArgument(isSameShape(a, b), "Cannot zip matrices with different shapes");
     }
 
     private static void checkShapeForZip(final Collection<? extends AbstractMatrix<?, ?, ?, ?, ?>> c) {
         N.checkArgNotEmpty(c, "matrixes");
 
-        N.checkArgument(isSameShape(c), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(isSameShape(c), "Cannot zip matrices with different shapes");
     }
 }

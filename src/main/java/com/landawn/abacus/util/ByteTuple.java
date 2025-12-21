@@ -323,7 +323,7 @@ public abstract class ByteTuple<TP extends ByteTuple<TP>> extends PrimitiveTuple
                 return (TP) ByteTuple.of(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
 
             default:
-                throw new IllegalArgumentException("Too many elements (" + values.length + ") to fill in Tuple. Maximum allowed is 9");
+                throw new IllegalArgumentException("Too many elements (" + values.length + "). Maximum: 9");
         }
     }
 

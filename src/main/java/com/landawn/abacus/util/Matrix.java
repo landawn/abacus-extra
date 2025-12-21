@@ -580,7 +580,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if rowIndex is negative or greater than or equal to the number of rows
      */
     public T[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
 
         return a[rowIndex];
     }
@@ -604,7 +604,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if columnIndex is negative or greater than or equal to the number of columns
      */
     public T[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
 
         final T[] c = N.newArray(elementType, rows);
 
@@ -636,8 +636,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
-        N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
+        N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rows);
+        N.checkArgument(row.length == cols, "Row length mismatch: expected %s columns but got %s", cols, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
@@ -662,8 +662,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final T[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
-        N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
+        N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, cols);
+        N.checkArgument(column.length == rows, "Column length mismatch: expected %s rows but got %s", rows, column.length);
 
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = column[i];
@@ -1496,8 +1496,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if newRows or newCols is negative
      */
     public Matrix<T> extend(final int newRows, final int newCols, final T defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
-        N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
+        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
@@ -1564,10 +1564,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell)
             throws IllegalArgumentException {
-        N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
-        N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
-        N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
-        N.checkArgument(toRight >= 0, "The 'toRight' can't be negative %s", toRight);
+        N.checkArgument(toUp >= 0, "toUp cannot be negative: %s", toUp);
+        N.checkArgument(toDown >= 0, "toDown cannot be negative: %s", toDown);
+        N.checkArgument(toLeft >= 0, "toLeft cannot be negative: %s", toLeft);
+        N.checkArgument(toRight >= 0, "toRight cannot be negative: %s", toRight);
 
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
@@ -1964,14 +1964,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
@@ -2016,14 +2016,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     public Matrix<T> repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
 
         if ((long) rows * rowRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many rows: " + rows + " * " + rowRepeats);
+            throw new IllegalArgumentException("Result row count overflow: " + rows + " * " + rowRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         if ((long) cols * colRepeats > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Result would have too many columns: " + cols + " * " + colRepeats);
+            throw new IllegalArgumentException("Result column count overflow: " + cols + " * " + colRepeats + " exceeds Integer.MAX_VALUE");
         }
 
         final T[][] c = N.newArray(arrayType, rows * rowRepeats);
@@ -2235,7 +2235,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public <B, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Throwables.BiFunction<? super T, ? super B, R, E> zipFunction,
             final Class<R> targetElementType) throws IllegalArgumentException, E {
-        N.checkArgument(Matrixes.isSameShape(this, matrixB), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(Matrixes.isSameShape(this, matrixB), "Cannot zip matrices with different shapes: this is %sx%s but other is %sx%s", rows, cols, matrixB.rows, matrixB.cols);
 
         final B[][] b = matrixB.a;
         final R[][] result = Matrixes.newArray(rows, cols, targetElementType);
@@ -2307,7 +2307,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     public <B, C, R, E extends Exception> Matrix<R> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
             final Throwables.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction, final Class<R> targetElementType)
             throws IllegalArgumentException, E {
-        N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Can't zip two or more matrices which don't have same shape");
+        N.checkArgument(Matrixes.isSameShape(this, matrixB, matrixC), "Cannot zip matrices with different shapes: all matrices must be %sx%s", rows, cols);
 
         final B[][] b = matrixB.a;
         final C[][] c = matrixC.a;
