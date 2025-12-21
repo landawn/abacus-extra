@@ -2281,7 +2281,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][cols - ++cursor];
+                return a[cursor++][cols - cursor];
             }
 
             @Override

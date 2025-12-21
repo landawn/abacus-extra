@@ -824,7 +824,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) _1;
+            return Long.hashCode(_1);
         }
 
         /**

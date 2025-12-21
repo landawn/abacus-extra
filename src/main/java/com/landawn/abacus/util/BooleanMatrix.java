@@ -2127,7 +2127,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][cols - ++cursor];
+                return a[cursor++][cols - cursor];
             }
 
             @Override
@@ -2275,7 +2275,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     j = 0;
                 } else {
                     i += (int) ((n + j) / cols);
-                    j += (int) ((n + j) % cols);
+                    j = (int) ((n + j) % cols);
                 }
             }
 

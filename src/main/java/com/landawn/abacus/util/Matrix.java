@@ -2413,7 +2413,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor][cols - 1 - cursor++];
+                return a[cursor++][cols - cursor];
             }
 
             @Override
