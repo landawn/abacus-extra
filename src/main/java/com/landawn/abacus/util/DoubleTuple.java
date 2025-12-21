@@ -244,7 +244,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * @param _8 the eighth double value
      * @param _9 the ninth double value
      * @return a new DoubleTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more double values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more double values
      */
     @Deprecated
     public static DoubleTuple9 of(final double _1, final double _2, final double _3, final double _4, final double _5, final double _6, final double _7,
@@ -275,7 +275,7 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
      * }</pre>
      *
      * @param <TP> the specific DoubleTuple subtype to return
-     * @param a the array of double values (must have length 0-9), may be {@code null}
+     * @param values the array of double values (must have length 0-9), may be {@code null}
      * @return a DoubleTuple of appropriate size containing the array values, or an empty DoubleTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */

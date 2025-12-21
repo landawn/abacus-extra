@@ -241,7 +241,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth char value
      * @param _9 the ninth char value
      * @return a new CharTuple9 containing the specified values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more char values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more char values
      */
     @Deprecated
     public static CharTuple9 of(final char _1, final char _2, final char _3, final char _4, final char _5, final char _6, final char _7, final char _8,
@@ -272,7 +272,7 @@ public abstract class CharTuple<TP extends CharTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param <TP> the specific CharTuple subtype to return
-     * @param a the array of char values (must have length 0-9), may be {@code null}
+     * @param values the array of char values (must have length 0-9), may be {@code null}
      * @return a CharTuple of appropriate size containing the array values, or an empty CharTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */

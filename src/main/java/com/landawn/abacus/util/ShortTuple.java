@@ -229,7 +229,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * @param _8 the eighth short value
      * @param _9 the ninth short value
      * @return a new ShortTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more short values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more short values
      */
     @Deprecated
     public static ShortTuple9 of(final short _1, final short _2, final short _3, final short _4, final short _5, final short _6, final short _7, final short _8,
@@ -254,7 +254,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
-     * @param a the array of short values (must have length 0-9), may be {@code null}
+     * @param values the array of short values (must have length 0-9), may be {@code null}
      * @return a ShortTuple of appropriate size containing the array values, or an empty ShortTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */

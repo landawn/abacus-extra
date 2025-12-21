@@ -280,7 +280,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * }</pre>
      *
      * @param <TP> the specific BooleanTuple subtype to return
-     * @param a the array of boolean values (must have length 0-9), may be {@code null}
+     * @param values the array of boolean values (must have length 0-9), may be {@code null}
      * @return a BooleanTuple of appropriate size containing the array values, or an empty BooleanTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
@@ -1772,7 +1772,7 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
      * int arity = tuple.arity();   // 9
      * }</pre>
      *
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more boolean values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more boolean values
      */
     @Deprecated
     public static final class BooleanTuple9 extends BooleanTuple<BooleanTuple9> {

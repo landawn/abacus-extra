@@ -226,7 +226,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * @param _8 the eighth int value
      * @param _9 the ninth int value
      * @return a new IntTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more int values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more int values
      */
     @Deprecated
     public static IntTuple9 of(final int _1, final int _2, final int _3, final int _4, final int _5, final int _6, final int _7, final int _8, final int _9) {
@@ -245,7 +245,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
      * }</pre>
      *
      * @param <TP> the specific IntTuple type to return
-     * @param a the array of int values (must have length 0-9), may be {@code null}
+     * @param values the array of int values (must have length 0-9), may be {@code null}
      * @return an IntTuple of appropriate size containing the array values, or an empty IntTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */

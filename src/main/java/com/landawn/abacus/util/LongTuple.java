@@ -226,7 +226,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * @param _8 the eighth long value
      * @param _9 the ninth long value
      * @return a new LongTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more long values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more long values
      */
     @Deprecated
     public static LongTuple9 of(final long _1, final long _2, final long _3, final long _4, final long _5, final long _6, final long _7, final long _8,
@@ -246,7 +246,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
      * }</pre>
      *
      * @param <TP> the specific LongTuple type to return
-     * @param a the array of long values (must have length 0-9), may be {@code null}
+     * @param values the array of long values (must have length 0-9), may be {@code null}
      * @return a LongTuple of appropriate size containing the array values, or an empty LongTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */

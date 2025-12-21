@@ -400,7 +400,7 @@ public final class ImmutableIntArray implements Immutable {
      */
     @Override
     public boolean equals(final Object obj) {
-        return obj instanceof ImmutableIntArray immutableintarray && N.equals(elements, immutableintarray.elements);
+        return obj instanceof ImmutableIntArray other && N.equals(elements, other.elements);
     }
 
     /**

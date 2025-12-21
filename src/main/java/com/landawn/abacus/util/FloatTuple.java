@@ -243,7 +243,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * @param _8 the eighth float value
      * @param _9 the ninth float value
      * @return a new FloatTuple9 containing the provided values
-     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 8 or more float values
+     * @deprecated Consider using a custom class with meaningful property names for better code clarity when dealing with 9 or more float values
      */
     @Deprecated
     public static FloatTuple9 of(final float _1, final float _2, final float _3, final float _4, final float _5, final float _6, final float _7, final float _8,
@@ -274,7 +274,7 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
      * }</pre>
      *
      * @param <TP> the specific FloatTuple subtype to return
-     * @param a the array of float values (must have length 0-9), may be {@code null}
+     * @param values the array of float values (must have length 0-9), may be {@code null}
      * @return a FloatTuple of appropriate size containing the array values, or an empty FloatTuple if the array is null or empty
      * @throws IllegalArgumentException if the array has more than 9 elements
      */
