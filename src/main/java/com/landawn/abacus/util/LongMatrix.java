@@ -2483,7 +2483,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     j = 0;
                 } else {
                     i += (int) ((n + j) / cols);
-                    j += (int) ((n + j) % cols);
+                    j = (int) ((n + j) % cols);
                 }
             }
 

@@ -6773,7 +6773,7 @@ public sealed class Arrays permits Arrays.f {
             return 0;
         }
 
-        int minLen = 0;
+        int minLen = Integer.MAX_VALUE;
 
         for (final short[] shorts : a) {
             minLen = N.min(minLen, shorts == null ? 0 : shorts.length);

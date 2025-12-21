@@ -2389,7 +2389,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     j = 0;
                 } else {
                     i += (int) ((n + j) / cols);
-                    j += (int) ((n + j) % cols);
+                    j = (int) ((n + j) % cols);
                 }
             }
 
