@@ -2589,9 +2589,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % ByteMatrix.this.rows;
-                    j += offset / ByteMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % ByteMatrix.this.rows);
+                    j += (int) (offset / ByteMatrix.this.rows);
                 }
             }
 

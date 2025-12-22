@@ -2609,9 +2609,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % LongMatrix.this.rows;
-                    j += offset / LongMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % LongMatrix.this.rows);
+                    j += (int) (offset / LongMatrix.this.rows);
                 }
             }
 

@@ -2515,9 +2515,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % DoubleMatrix.this.rows;
-                    j += offset / DoubleMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % DoubleMatrix.this.rows);
+                    j += (int) (offset / DoubleMatrix.this.rows);
                 }
             }
 

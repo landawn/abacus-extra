@@ -2692,9 +2692,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % IntMatrix.this.rows;
-                    j += offset / IntMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % IntMatrix.this.rows);
+                    j += (int) (offset / IntMatrix.this.rows);
                 }
             }
 

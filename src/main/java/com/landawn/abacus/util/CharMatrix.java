@@ -2517,9 +2517,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % CharMatrix.this.rows;
-                    j += offset / CharMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % CharMatrix.this.rows);
+                    j += (int) (offset / CharMatrix.this.rows);
                 }
             }
 

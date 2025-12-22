@@ -2323,9 +2323,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % FloatMatrix.this.rows;
-                    j += offset / FloatMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % FloatMatrix.this.rows);
+                    j += (int) (offset / FloatMatrix.this.rows);
                 }
             }
 

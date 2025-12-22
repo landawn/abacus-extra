@@ -2564,9 +2564,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % ShortMatrix.this.rows;
-                    j += offset / ShortMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % ShortMatrix.this.rows);
+                    j += (int) (offset / ShortMatrix.this.rows);
                 }
             }
 

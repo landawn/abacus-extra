@@ -2431,9 +2431,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % BooleanMatrix.this.rows;
-                    j += offset / BooleanMatrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % BooleanMatrix.this.rows);
+                    j += (int) (offset / BooleanMatrix.this.rows);
                 }
             }
 

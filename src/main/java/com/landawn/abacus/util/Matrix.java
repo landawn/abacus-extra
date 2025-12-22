@@ -2657,9 +2657,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    final int offset = (int) (n + i);
-                    i = offset % Matrix.this.rows;
-                    j += offset / Matrix.this.rows;
+                    final long offset = n + i;
+                    i = (int) (offset % Matrix.this.rows);
+                    j += (int) (offset / Matrix.this.rows);
                 }
             }
 
