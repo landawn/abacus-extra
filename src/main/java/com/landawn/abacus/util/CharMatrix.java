@@ -463,6 +463,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalChar.empty() : OptionalChar.of(a[i - 1][j]);
     }
 
@@ -484,6 +486,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalChar.empty() : OptionalChar.of(a[i + 1][j]);
     }
 
@@ -505,6 +509,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalChar.empty() : OptionalChar.of(a[i][j - 1]);
     }
 
@@ -526,6 +532,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalChar.empty() : OptionalChar.of(a[i][j + 1]);
     }
 

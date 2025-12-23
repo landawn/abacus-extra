@@ -14316,6 +14316,8 @@ public sealed class Arrays permits Arrays.f {
 
     private static void checkRowsAndColsForReshape(final int rows, final int cols) {
         N.checkArgument(rows > 0 && cols > 0, "rows and cols must be positive numbers: rows = %s, cols = %s", rows, cols);
+        N.checkArgument((long) rows * (long) cols <= Integer.MAX_VALUE, "rows * cols must be <= %s, but got: rows = %s, cols = %s", Integer.MAX_VALUE, rows,
+                cols);
     }
 
     /**

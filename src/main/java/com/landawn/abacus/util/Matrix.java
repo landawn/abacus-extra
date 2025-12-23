@@ -494,6 +494,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public Nullable<T> upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? Nullable.empty() : Nullable.of(a[i - 1][j]);
     }
 
@@ -514,6 +516,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public Nullable<T> downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? Nullable.empty() : Nullable.of(a[i + 1][j]);
     }
 
@@ -534,6 +538,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public Nullable<T> leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? Nullable.empty() : Nullable.of(a[i][j - 1]);
     }
 
@@ -554,6 +560,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public Nullable<T> rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? Nullable.empty() : Nullable.of(a[i][j + 1]);
     }
 

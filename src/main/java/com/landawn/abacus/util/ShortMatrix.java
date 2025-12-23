@@ -477,6 +477,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
     }
 
@@ -498,6 +500,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
     }
 
@@ -519,6 +523,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
     }
 
@@ -540,6 +546,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalShort rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
     }
 

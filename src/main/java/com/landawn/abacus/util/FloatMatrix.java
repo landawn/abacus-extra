@@ -419,6 +419,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalFloat upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i - 1][j]);
     }
 
@@ -439,6 +441,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws ArrayIndexOutOfBoundsException if j is out of bounds
      */
     public OptionalFloat downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i + 1][j]);
     }
 
@@ -459,6 +463,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public OptionalFloat leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
     }
 
@@ -479,6 +485,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public OptionalFloat rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
     }
 

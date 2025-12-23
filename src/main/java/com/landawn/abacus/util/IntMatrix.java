@@ -598,6 +598,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
     }
 
@@ -619,6 +621,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
     }
 
@@ -640,6 +644,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
     }
 
@@ -661,6 +667,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
     }
 

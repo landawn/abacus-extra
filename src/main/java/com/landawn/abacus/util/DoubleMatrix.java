@@ -515,6 +515,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
     }
 
@@ -536,6 +538,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
     }
 
@@ -557,6 +561,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
     }
 
@@ -578,6 +584,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
     }
 

@@ -408,10 +408,16 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
         this.a = a;
         rows = a.length;
-        cols = a.length == 0 ? 0 : length(a[0]);
+
+        if (rows > 0) {
+            N.checkArgument(a[0] != null, "Row 0 cannot be null");
+        }
+
+        cols = rows == 0 ? 0 : length(a[0]);
 
         if (a.length > 1) {
             for (int i = 1, len = a.length; i < len; i++) {
+                N.checkArgument(a[i] != null, "Row %s cannot be null", i);
                 if (length(a[i]) != cols) {
                     throw new IllegalArgumentException(
                             "Matrix must be rectangular: row 0 has " + cols + " columns, but row " + i + " has " + length(a[i]) + " columns");
@@ -1087,6 +1093,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         final List<Point> points = new ArrayList<>(4);
 
         if (i > 0) {
@@ -1132,6 +1140,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         final List<Point> points = new ArrayList<>(8);
 
         if (i > 0 && j > 0) {
@@ -1764,6 +1774,16 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     protected void checkSameShape(final X x) {
         N.checkArgument(this.isSameShape(x), "Matrices must have same shape: this is %sx%s but provided matrix is %sx%s", rows, cols, x.rows, x.cols);
+    }
+
+    protected void checkRowColumnIndex(final int i, final int j) {
+        if (i < 0 || i >= rows) {
+            throw new ArrayIndexOutOfBoundsException("Row index out of bounds: " + i + ". Valid range is [0, " + rows + ")");
+        }
+
+        if (j < 0 || j >= cols) {
+            throw new ArrayIndexOutOfBoundsException("Column index out of bounds: " + j + ". Valid range is [0, " + cols + ")");
+        }
     }
 
     /**

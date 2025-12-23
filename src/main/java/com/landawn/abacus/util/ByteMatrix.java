@@ -471,6 +471,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
     }
 
@@ -492,6 +494,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
     }
 
@@ -513,6 +517,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
     }
 
@@ -534,6 +540,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalByte rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);
     }
 

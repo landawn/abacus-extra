@@ -382,6 +382,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean upOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i - 1][j]);
     }
 
@@ -403,6 +405,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean downOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return i == rows - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i + 1][j]);
     }
 
@@ -424,6 +428,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean leftOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
     }
 
@@ -445,6 +451,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalBoolean rightOf(final int i, final int j) {
+        checkRowColumnIndex(i, j);
+
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
     }
 
@@ -1627,6 +1635,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
     public BooleanMatrix reshape(final int newRows, final int newCols) {
+        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
+
         final boolean[][] c = new boolean[newRows][newCols];
 
         if (newRows == 0 || newCols == 0 || N.isEmpty(a)) {
