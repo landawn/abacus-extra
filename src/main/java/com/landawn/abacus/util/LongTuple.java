@@ -1083,11 +1083,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return 31 * _1 + _2
+         * @return 31 * Long.hashCode(_1) + Long.hashCode(_2)
          */
         @Override
         public int hashCode() {
-            return (int) (31 * _1 + _2);
+            return 31 * Long.hashCode(_1) + Long.hashCode(_2);
         }
 
         /**
@@ -1353,11 +1353,11 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Returns a hash code value for this tuple.
          *
-         * @return (31 * (31 * _1 + _2)) + _3
+         * @return (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2))) + Long.hashCode(_3)
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * _1 + _2)) + _3);
+            return (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2))) + Long.hashCode(_3);
         }
 
         /**
@@ -1537,7 +1537,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * _1 + _2) + _3)) + _4);
+            return (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3))) + Long.hashCode(_4);
         }
 
         /**
@@ -1724,7 +1724,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * _1 + _2) + _3) + _4)) + _5);
+            return (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4))) + Long.hashCode(_5);
         }
 
         /**
@@ -1914,7 +1914,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5)) + _6);
+            return (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5))) + Long.hashCode(_6);
         }
 
         /**
@@ -2110,7 +2110,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6)) + _7);
+            return (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6))) + Long.hashCode(_7);
         }
 
         /**
@@ -2313,7 +2313,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7)) + _8);
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6)) + Long.hashCode(_7))) + Long.hashCode(_8);
         }
 
         /**
@@ -2521,7 +2521,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (int) ((31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * _1 + _2) + _3) + _4) + _5) + _6) + _7) + _8)) + _9);
+            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6)) + Long.hashCode(_7)) + Long.hashCode(_8))) + Long.hashCode(_9);
         }
 
         /**
