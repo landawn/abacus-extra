@@ -2345,7 +2345,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor++][cols - cursor];
+                final byte result = a[cursor][cols - cursor - 1];
+                cursor++;
+                return result;
             }
 
             @Override

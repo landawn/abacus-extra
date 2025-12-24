@@ -2103,7 +2103,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     throw new NoSuchElementException(InternalUtil.ERROR_MSG_FOR_NO_SUCH_EX);
                 }
 
-                return a[cursor++][cols - cursor];
+                final float result = a[cursor][cols - cursor - 1];
+                cursor++;
+                return result;
             }
 
             @Override
