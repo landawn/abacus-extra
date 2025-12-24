@@ -1276,6 +1276,48 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
         }
 
         /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all four elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            return 31 * result + (_4 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple4 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple4 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ")";
+        }
+
+        /**
          * Returns the internal array of boolean elements.
          * The array is lazily initialized on first access.
          *
@@ -1382,6 +1424,49 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_3);
             consumer.accept(_4);
             consumer.accept(_5);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all five elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            result = 31 * result + (_4 ? 1231 : 1237);
+            return 31 * result + (_5 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple5 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple5 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ")";
         }
 
         /**
@@ -1495,6 +1580,50 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_4);
             consumer.accept(_5);
             consumer.accept(_6);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all six elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            result = 31 * result + (_4 ? 1231 : 1237);
+            result = 31 * result + (_5 ? 1231 : 1237);
+            return 31 * result + (_6 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple6 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple6 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ")";
         }
 
         /**
@@ -1613,6 +1742,51 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_5);
             consumer.accept(_6);
             consumer.accept(_7);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all seven elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            result = 31 * result + (_4 ? 1231 : 1237);
+            result = 31 * result + (_5 ? 1231 : 1237);
+            result = 31 * result + (_6 ? 1231 : 1237);
+            return 31 * result + (_7 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple7 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple7 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, element3, element4, element5, element6, element7)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ")";
         }
 
         /**
@@ -1739,6 +1913,53 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_6);
             consumer.accept(_7);
             consumer.accept(_8);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all eight elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            result = 31 * result + (_4 ? 1231 : 1237);
+            result = 31 * result + (_5 ? 1231 : 1237);
+            result = 31 * result + (_6 ? 1231 : 1237);
+            result = 31 * result + (_7 ? 1231 : 1237);
+            return 31 * result + (_8 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple8 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple8 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, ..., element8)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ")";
         }
 
         /**
@@ -1869,6 +2090,54 @@ public abstract class BooleanTuple<TP extends BooleanTuple<TP>> extends Primitiv
             consumer.accept(_7);
             consumer.accept(_8);
             consumer.accept(_9);
+        }
+
+        /**
+         * Returns a hash code value for this tuple.
+         *
+         * @return a hash code value calculated from all nine elements
+         */
+        @Override
+        public int hashCode() {
+            int result = 1;
+
+            result = 31 * result + (_1 ? 1231 : 1237);
+            result = 31 * result + (_2 ? 1231 : 1237);
+            result = 31 * result + (_3 ? 1231 : 1237);
+            result = 31 * result + (_4 ? 1231 : 1237);
+            result = 31 * result + (_5 ? 1231 : 1237);
+            result = 31 * result + (_6 ? 1231 : 1237);
+            result = 31 * result + (_7 ? 1231 : 1237);
+            result = 31 * result + (_8 ? 1231 : 1237);
+            return 31 * result + (_9 ? 1231 : 1237);
+        }
+
+        /**
+         * Compares this tuple to the specified object for equality.
+         *
+         * @param obj the object to be compared for equality with this tuple
+         * @return {@code true} if the specified object is a BooleanTuple9 with the same elements
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            } else if (!(obj instanceof final BooleanTuple9 other)) {
+                return false;
+            } else {
+                return _1 == other._1 && _2 == other._2 && _3 == other._3 && _4 == other._4 && _5 == other._5 && _6 == other._6 && _7 == other._7
+                        && _8 == other._8 && _9 == other._9;
+            }
+        }
+
+        /**
+         * Returns a string representation of this tuple.
+         *
+         * @return a string representation in the format "(element1, element2, ..., element9)"
+         */
+        @Override
+        public String toString() {
+            return "(" + _1 + ", " + _2 + ", " + _3 + ", " + _4 + ", " + _5 + ", " + _6 + ", " + _7 + ", " + _8 + ", " + _9 + ")";
         }
 
         /**

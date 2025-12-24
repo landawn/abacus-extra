@@ -1169,9 +1169,8 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
          */
         @Override
         public int hashCode() {
-            long bits1 = Double.doubleToLongBits(_1);
-            long bits2 = Double.doubleToLongBits(_2);
-            return (int) (31 * (bits1 ^ (bits1 >>> 32)) + (bits2 ^ (bits2 >>> 32)));
+            int result = Double.hashCode(_1);
+            return 31 * result + Double.hashCode(_2);
         }
 
         /**
