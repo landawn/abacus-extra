@@ -1914,7 +1914,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5))) + Long.hashCode(_6);
+            return (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)))
+                    + Long.hashCode(_6);
         }
 
         /**
@@ -2110,7 +2111,8 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6))) + Long.hashCode(_7);
+            return (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5))
+                    + Long.hashCode(_6))) + Long.hashCode(_7);
         }
 
         /**
@@ -2313,7 +2315,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6)) + Long.hashCode(_7))) + Long.hashCode(_8);
+            return (31
+                    * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5))
+                            + Long.hashCode(_6)) + Long.hashCode(_7)))
+                    + Long.hashCode(_8);
         }
 
         /**
@@ -2521,7 +2526,10 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          */
         @Override
         public int hashCode() {
-            return (31 * (31 * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5)) + Long.hashCode(_6)) + Long.hashCode(_7)) + Long.hashCode(_8))) + Long.hashCode(_9);
+            return (31 * (31
+                    * (31 * (31 * (31 * (31 * (31 * (31 * Long.hashCode(_1) + Long.hashCode(_2)) + Long.hashCode(_3)) + Long.hashCode(_4)) + Long.hashCode(_5))
+                            + Long.hashCode(_6)) + Long.hashCode(_7))
+                    + Long.hashCode(_8))) + Long.hashCode(_9);
         }
 
         /**

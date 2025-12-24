@@ -1329,7 +1329,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4);
         }
 
         /**
@@ -1339,7 +1339,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4);
         }
 
         /**
@@ -1350,7 +1350,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4);
         }
 
         /**
@@ -1360,7 +1360,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4);
         }
 
         /**
@@ -1370,7 +1370,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4);
         }
 
         /**
@@ -1513,7 +1513,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1523,7 +1523,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1534,7 +1534,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1544,7 +1544,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1554,7 +1554,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5);
         }
 
         /**
@@ -1701,7 +1701,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -1711,7 +1711,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -1722,7 +1722,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -1732,7 +1732,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -1742,7 +1742,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6);
         }
 
         /**
@@ -1893,7 +1893,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -1903,7 +1903,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -1914,7 +1914,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -1924,7 +1924,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -1934,7 +1934,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6, _7);
         }
 
         /**
@@ -2094,7 +2094,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2104,7 +2104,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2115,7 +2115,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2125,7 +2125,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2135,7 +2135,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8);
         }
 
         /**
@@ -2301,7 +2301,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short min() {
-            return N.min(elements());
+            return N.min(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2311,7 +2311,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short max() {
-            return N.max(elements());
+            return N.max(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2322,7 +2322,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public short median() {
-            return N.median(elements());
+            return N.median(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2332,7 +2332,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int sum() {
-            return N.sum(elements());
+            return N.sum(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**
@@ -2342,7 +2342,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          */
         @Override
         public double average() {
-            return N.average(elements());
+            return N.average(_1, _2, _3, _4, _5, _6, _7, _8, _9);
         }
 
         /**

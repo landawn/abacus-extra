@@ -1164,7 +1164,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int hashCode() {
-            return 31 * Float.floatToIntBits(_1) + Float.floatToIntBits(_2);
+            int result = Float.floatToIntBits(_1);
+            result = 31 * result + Float.floatToIntBits(_2);
+            return result;
         }
 
         /**
@@ -1443,7 +1445,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
          */
         @Override
         public int hashCode() {
-            return 31 * (31 * Float.floatToIntBits(_1) + Float.floatToIntBits(_2)) + Float.floatToIntBits(_3);
+            int result = Float.floatToIntBits(_1);
+            result = 31 * result + Float.floatToIntBits(_2);
+            return 31 * result + Float.floatToIntBits(_3);
         }
 
         /**
