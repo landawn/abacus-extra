@@ -813,7 +813,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
      * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * // matrix is now {{1L, 2L}, {3L, 16L}}
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -892,7 +894,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}});
      * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * // matrix is now {{1L, -2L}, {-3L, 4L}}
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -1233,7 +1237,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L}, {3L, 4L}, {5L, 6L}});
      * LongMatrix subset = matrix.copy(1, 3);   // Copies rows 1 and 2 (exclusive end)
+     * // subset is now {{3L, 4L}, {5L, 6L}}
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1259,7 +1265,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * LongMatrix matrix = LongMatrix.of(new long[][] {{1L, 2L, 3L}, {4L, 5L, 6L}, {7L, 8L, 9L}});
      * LongMatrix submatrix = matrix.copy(0, 2, 1, 3);   // Copies rows 0-1, columns 1-2
+     * // submatrix is now {{2L, 3L}, {5L, 6L}}
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)

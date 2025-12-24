@@ -895,7 +895,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
+     * // matrix is now {{1, 2}, {3, 16}}
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -974,7 +976,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
      * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
+     * // matrix is now {{1, -2}, {-3, 4}}
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
@@ -1309,7 +1313,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}, {5, 6}});
      * IntMatrix subset = matrix.copy(1, 3);   // Copies rows 1 and 2 (exclusive end)
+     * // subset is now {{3, 4}, {5, 6}}
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
@@ -1335,7 +1341,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}});
      * IntMatrix submatrix = matrix.copy(0, 2, 1, 3);   // Copies rows 0-1, columns 1-2
+     * // submatrix is now {{2, 3}, {5, 6}}
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
