@@ -1,3 +1,7 @@
+### 3.1.0
+
+* Improvements and bug fixes
+
 ### 3.0.2
 
 * Improve javadoc and add unit tests
