@@ -14888,9 +14888,10 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source two-dimensional array (can be {@code null}).
+         * @param a the source two-dimensional array (must not be {@code null}).
          * @param func the unary operator to apply to each element (must not be {@code null}).
-         * @return a new two-dimensional array with mapped elements, or an empty array if input is {@code null}.
+         * @return a new two-dimensional array with mapped elements.
+         * @throws NullPointerException if the specified array is null.
          * @throws E if the function throws an exception during mapping.
          */
         public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
@@ -16012,9 +16013,10 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
-         * @param a the source three-dimensional array. can be {@code null}.
+         * @param a the source three-dimensional array. must not be {@code null}.
          * @param func the unary operator to apply to each element (must not be {@code null}).
-         * @return a new array with mapped elements, or an empty array if input is {@code null}.
+         * @return a new array with mapped elements.
+         * @throws NullPointerException if the specified array is null.
          * @throws E if the function throws an exception.
          */
         public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
