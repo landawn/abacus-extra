@@ -65,7 +65,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * int size3 = tuple3.arity();   // returns 3
      * }</pre>
      *
-     * @return the number of elements in this tuple, which is a positive integer greater than zero
+     * @return the number of elements in this tuple; empty tuple types return 0
      */
     public abstract int arity();
 
