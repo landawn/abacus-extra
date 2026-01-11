@@ -1518,7 +1518,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a two-dimensional long array to a two-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value. This operation is useful for
-     * downcasting or converting long values to integers with custom logic.
+     * down casting or converting long values to integers with custom logic.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1551,7 +1551,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Maps a three-dimensional long array to a three-dimensional int array using the provided mapper function.
      * Each long element is transformed to an int value, preserving the three-dimensional structure.
-     * This operation is useful for downcasting or converting long values to integers with custom logic.
+     * This operation is useful for down casting or converting long values to integers with custom logic.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
