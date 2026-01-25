@@ -1565,7 +1565,7 @@ public class Matrix2025Test extends TestBase {
         Dataset dataset = m.toDatasetH(columnNames);
 
         assertNotNull(dataset);
-        assertEquals(3, dataset.columnNameList().size());
+        assertEquals(3, dataset.columnNames().size());
         assertEquals(2, dataset.size());
         assertEquals(Integer.valueOf(1), dataset.getColumn("A").get(0));
         assertEquals(Integer.valueOf(6), dataset.getColumn("C").get(1));
@@ -1585,7 +1585,7 @@ public class Matrix2025Test extends TestBase {
         Dataset dataset = m.toDatasetV(columnNames);
 
         assertNotNull(dataset);
-        assertEquals(2, dataset.columnNameList().size());
+        assertEquals(2, dataset.columnNames().size());
         assertEquals(3, dataset.size());
         assertEquals(Integer.valueOf(1), dataset.getColumn("Row1").get(0));
         assertEquals(Integer.valueOf(6), dataset.getColumn("Row2").get(2));

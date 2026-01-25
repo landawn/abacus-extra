@@ -62,8 +62,8 @@ public final class Matrixes {
         boolean tmp = false;
 
         try {
-            if (ClassUtil.forClass("com.landawn.abacus.util.stream.ParallelArrayIntStream") != null
-                    && ClassUtil.forClass("com.landawn.abacus.util.stream.ParallelIteratorIntStream") != null) {
+            if (ClassUtil.forName("com.landawn.abacus.util.stream.ParallelArrayIntStream") != null
+                    && ClassUtil.forName("com.landawn.abacus.util.stream.ParallelIteratorIntStream") != null) {
                 tmp = true;
             }
         } catch (final Exception e) {
