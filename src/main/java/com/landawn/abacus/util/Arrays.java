@@ -2343,13 +2343,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean valueForNoneA, final boolean valueForNoneB,
+    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -2364,11 +2364,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsBoolean(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsBoolean(a[i], defaultValueB);
             }
         }
 
@@ -2435,15 +2435,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean defaultValueA,
+            final boolean defaultValueB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2458,7 +2458,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsBoolean(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsBoolean(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -2524,13 +2524,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean defaultValueA, final boolean defaultValueB,
             final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -2540,16 +2540,16 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][] result = new boolean[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -2618,15 +2618,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean defaultValueA,
+            final boolean defaultValueB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2636,12 +2636,12 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][] result = new boolean[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -2706,14 +2706,14 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean defaultValueA,
+            final boolean defaultValueB, final Throwables.BooleanBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int minLen = N.min(lenA, lenB);
@@ -2722,16 +2722,16 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -2800,15 +2800,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean defaultValueA,
+            final boolean defaultValueB, final boolean valueForNoneC, final Throwables.BooleanTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -2818,11 +2818,11 @@ public sealed class Arrays permits Arrays.f {
         final boolean[][][] result = new boolean[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -3672,13 +3672,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3693,11 +3693,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsChar(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsChar(a[i], defaultValueB);
             }
         }
 
@@ -3768,14 +3768,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char valueForNoneA, final char valueForNoneB,
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char defaultValueA, final char defaultValueB,
             final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3791,7 +3791,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsChar(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsChar(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -3856,13 +3856,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3872,16 +3872,16 @@ public sealed class Arrays permits Arrays.f {
         final char[][] result = new char[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -3951,14 +3951,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char defaultValueA, final char defaultValueB,
             final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3969,12 +3969,12 @@ public sealed class Arrays permits Arrays.f {
         final char[][] result = new char[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -4040,13 +4040,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char defaultValueA, final char defaultValueB,
             final Throwables.CharBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -4056,16 +4056,16 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -4137,15 +4137,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
-            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char defaultValueA,
+            final char defaultValueB, final char valueForNoneC, final Throwables.CharTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4155,11 +4155,11 @@ public sealed class Arrays permits Arrays.f {
         final char[][][] result = new char[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -4998,13 +4998,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5019,11 +5019,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsByte(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsByte(a[i], defaultValueB);
             }
         }
 
@@ -5084,14 +5084,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte defaultValueA, final byte defaultValueB,
             final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5107,7 +5107,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsByte(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsByte(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -5162,13 +5162,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5178,16 +5178,16 @@ public sealed class Arrays permits Arrays.f {
         final byte[][] result = new byte[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -5248,14 +5248,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte defaultValueA, final byte defaultValueB,
             final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5266,12 +5266,12 @@ public sealed class Arrays permits Arrays.f {
         final byte[][] result = new byte[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -5327,13 +5327,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
+    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte defaultValueA, final byte defaultValueB,
             final Throwables.ByteBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -5343,16 +5343,16 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -5413,15 +5413,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
-            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte defaultValueA,
+            final byte defaultValueB, final byte valueForNoneC, final Throwables.ByteTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5431,11 +5431,11 @@ public sealed class Arrays permits Arrays.f {
         final byte[][][] result = new byte[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -6244,13 +6244,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6265,11 +6265,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsShort(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsShort(a[i], defaultValueB);
             }
         }
 
@@ -6330,14 +6330,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short defaultValueA, final short defaultValueB,
             final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6353,7 +6353,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsShort(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsShort(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -6408,13 +6408,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
+    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6424,16 +6424,16 @@ public sealed class Arrays permits Arrays.f {
         final short[][] result = new short[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -6494,15 +6494,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short defaultValueA,
+            final short defaultValueB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6512,12 +6512,12 @@ public sealed class Arrays permits Arrays.f {
         final short[][] result = new short[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -6574,13 +6574,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
+    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short defaultValueA, final short defaultValueB,
             final Throwables.ShortBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -6590,16 +6590,16 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -6660,15 +6660,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short defaultValueA,
+            final short defaultValueB, final short valueForNoneC, final Throwables.ShortTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -6678,11 +6678,11 @@ public sealed class Arrays permits Arrays.f {
         final short[][][] result = new short[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -7534,13 +7534,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7555,11 +7555,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsInt(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsInt(a[i], defaultValueB);
             }
         }
 
@@ -7619,14 +7619,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int defaultValueA, final int defaultValueB,
             final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7642,7 +7642,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsInt(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsInt(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -7697,13 +7697,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7713,16 +7713,16 @@ public sealed class Arrays permits Arrays.f {
         final int[][] result = new int[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -7783,14 +7783,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int defaultValueA, final int defaultValueB,
             final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7801,12 +7801,12 @@ public sealed class Arrays permits Arrays.f {
         final int[][] result = new int[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -7862,13 +7862,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int defaultValueA, final int defaultValueB,
             final Throwables.IntBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7878,16 +7878,16 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -7948,14 +7948,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
+    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int defaultValueA, final int defaultValueB,
             final int valueForNoneC, final Throwables.IntTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -7966,11 +7966,11 @@ public sealed class Arrays permits Arrays.f {
         final int[][][] result = new int[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -8786,13 +8786,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB,
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8807,11 +8807,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsLong(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsLong(a[i], defaultValueB);
             }
         }
 
@@ -8872,14 +8872,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long defaultValueA, final long defaultValueB,
             final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8895,7 +8895,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsLong(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsLong(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -8950,13 +8950,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB,
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -8966,16 +8966,16 @@ public sealed class Arrays permits Arrays.f {
         final long[][] result = new long[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -9036,14 +9036,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long defaultValueA, final long defaultValueB,
             final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9054,12 +9054,12 @@ public sealed class Arrays permits Arrays.f {
         final long[][] result = new long[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -9115,13 +9115,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
+    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long defaultValueA, final long defaultValueB,
             final Throwables.LongBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -9131,16 +9131,16 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -9201,15 +9201,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA,
-            final long valueForNoneB, final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long defaultValueA,
+            final long defaultValueB, final long valueForNoneC, final Throwables.LongTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -9219,11 +9219,11 @@ public sealed class Arrays permits Arrays.f {
         final long[][][] result = new long[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -10035,13 +10035,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10056,11 +10056,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsFloat(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsFloat(a[i], defaultValueB);
             }
         }
 
@@ -10121,14 +10121,14 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float defaultValueA, final float defaultValueB,
             final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10144,7 +10144,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsFloat(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsFloat(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -10199,13 +10199,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
+    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10215,16 +10215,16 @@ public sealed class Arrays permits Arrays.f {
         final float[][] result = new float[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -10285,15 +10285,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float defaultValueA,
+            final float defaultValueB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10303,12 +10303,12 @@ public sealed class Arrays permits Arrays.f {
         final float[][] result = new float[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -10365,13 +10365,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
+    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float defaultValueA, final float defaultValueB,
             final Throwables.FloatBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10381,16 +10381,16 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -10451,15 +10451,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float defaultValueA,
+            final float defaultValueB, final float valueForNoneC, final Throwables.FloatTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10469,11 +10469,11 @@ public sealed class Arrays permits Arrays.f {
         final float[][][] result = new float[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -11291,13 +11291,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
+    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11312,11 +11312,11 @@ public sealed class Arrays permits Arrays.f {
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(valueForNoneA, b[i]);
+                result[i] = zipFunction.applyAsDouble(defaultValueA, b[i]);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(a[i], valueForNoneB);
+                result[i] = zipFunction.applyAsDouble(a[i], defaultValueB);
             }
         }
 
@@ -11377,15 +11377,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first array (can be {@code null}, treated as empty).
      * @param b the second array (can be {@code null}, treated as empty).
      * @param c the third array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' is shorter.
-     * @param valueForNoneB the default value to use when array 'b' is shorter.
+     * @param defaultValueA the default value to use when array 'a' is shorter.
+     * @param defaultValueB the default value to use when array 'b' is shorter.
      * @param valueForNoneC the default value to use when array 'c' is shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new array with length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double defaultValueA,
+            final double defaultValueB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -11400,7 +11400,7 @@ public sealed class Arrays permits Arrays.f {
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zipFunction.applyAsDouble(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                result[i] = zipFunction.applyAsDouble(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
             }
         }
 
@@ -11455,13 +11455,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
+    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11471,16 +11471,16 @@ public sealed class Arrays permits Arrays.f {
         final double[][] result = new double[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -11541,15 +11541,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first two-dimensional array (can be {@code null}, treated as empty).
      * @param b the second two-dimensional array (can be {@code null}, treated as empty).
      * @param c the third two-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new two-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double defaultValueA,
+            final double defaultValueB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -11559,12 +11559,12 @@ public sealed class Arrays permits Arrays.f {
         final double[][] result = new double[maxLen][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         if (minLen < maxLen) {
             for (int i = minLen; i < maxLen; i++) {
-                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                         zipFunction);
             }
         }
@@ -11621,13 +11621,13 @@ public sealed class Arrays permits Arrays.f {
      * @param <E> the type of exception that the zip function may throw.
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the length of the longer input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
+    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double defaultValueA, final double defaultValueB,
             final Throwables.DoubleBinaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -11637,16 +11637,16 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction);
+            result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction);
         }
 
         if (lenA < maxLen) {
             for (int i = lenA; i < maxLen; i++) {
-                result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction);
             }
         } else if (lenB < maxLen) {
             for (int i = lenB; i < maxLen; i++) {
-                result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction);
+                result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction);
             }
         }
 
@@ -11707,15 +11707,15 @@ public sealed class Arrays permits Arrays.f {
      * @param a the first three-dimensional array (can be {@code null}, treated as empty).
      * @param b the second three-dimensional array (can be {@code null}, treated as empty).
      * @param c the third three-dimensional array (can be {@code null}, treated as empty).
-     * @param valueForNoneA the default value to use when array 'a' or its sub-arrays are shorter.
-     * @param valueForNoneB the default value to use when array 'b' or its sub-arrays are shorter.
+     * @param defaultValueA the default value to use when array 'a' or its sub-arrays are shorter.
+     * @param defaultValueB the default value to use when array 'b' or its sub-arrays are shorter.
      * @param valueForNoneC the default value to use when array 'c' or its sub-arrays are shorter.
      * @param zipFunction the function to apply to corresponding elements (must not be {@code null}).
      * @return a new three-dimensional array with outer length equal to the longest input array.
      * @throws E if the zip function throws an exception.
      */
-    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
+    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double defaultValueA,
+            final double defaultValueB, final double valueForNoneC, final Throwables.DoubleTernaryOperator<E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -11725,11 +11725,11 @@ public sealed class Arrays permits Arrays.f {
         final double[][][] result = new double[maxLen][][];
 
         for (int i = 0; i < minLen; i++) {
-            result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         for (int i = minLen; i < maxLen; i++) {
-            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
+            result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC, zipFunction);
         }
 
         return result;
@@ -15297,15 +15297,15 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array. can be {@code null}.
          * @param b the second two-dimensional array. can be {@code null}.
-         * @param valueForNoneA default value used when first array has no element at a position.
-         * @param valueForNoneB default value used when second array has no element at a position.
+         * @param defaultValueA default value used when first array has no element at a position.
+         * @param defaultValueB default value used when second array has no element at a position.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            return zip(a, b, defaultValueA, defaultValueB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
@@ -15329,14 +15329,14 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the zip function.
          * @param a the first two-dimensional array. can be {@code null}.
          * @param b the second two-dimensional array. can be {@code null}.
-         * @param valueForNoneA default value for the first array.
-         * @param valueForNoneB default value for the second array.
+         * @param defaultValueA default value for the first array.
+         * @param defaultValueB default value for the second array.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -15345,16 +15345,16 @@ public sealed class Arrays permits Arrays.f {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                result[i] = zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
             }
 
             if (lenA < len) {
                 for (int i = lenA; i < len; i++) {
-                    result[i] = zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                    result[i] = zip(null, b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
                 }
             } else if (lenB < len) {
                 for (int i = lenB; i < len; i++) {
-                    result[i] = zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                    result[i] = zip(a[i], null, defaultValueA, defaultValueB, zipFunction, targetElementType);
                 }
             }
 
@@ -15461,16 +15461,16 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first two-dimensional array. can be {@code null}.
          * @param b the second two-dimensional array. can be {@code null}.
          * @param c the third two-dimensional array. can be {@code null}.
-         * @param valueForNoneA default value for the first array.
-         * @param valueForNoneB default value for the second array.
+         * @param defaultValueA default value for the first array.
+         * @param defaultValueB default value for the second array.
          * @param valueForNoneC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @return a new two-dimensional array with combined elements using defaults where needed.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
+            return zip(a, b, c, defaultValueA, defaultValueB, valueForNoneC, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
@@ -15495,15 +15495,15 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first two-dimensional array. can be {@code null}.
          * @param b the second two-dimensional array. can be {@code null}.
          * @param c the third two-dimensional array. can be {@code null}.
-         * @param valueForNoneA default value for the first array.
-         * @param valueForNoneB default value for the second array.
+         * @param defaultValueA default value for the first array.
+         * @param defaultValueB default value for the second array.
          * @param valueForNoneC default value for the third array.
          * @param zipFunction the function to combine three elements (must not be {@code null}).
          * @param targetElementType the class of the result element type (must not be {@code null}).
          * @return a new two-dimensional array of the specified type with combined elements.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, C, R, E extends Exception> R[][] zip(final A[][] a, final B[][] b, final C[][] c, final A defaultValueA, final B defaultValueB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
@@ -15514,12 +15514,12 @@ public sealed class Arrays permits Arrays.f {
             final R[][] result = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
-                result[i] = zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
+                result[i] = zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction, targetElementType);
             }
 
             if (N.min(lenA, lenB, lenC) < len) {
                 for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                    result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                    result[i] = zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                             zipFunction, targetElementType);
                 }
             }
@@ -15531,8 +15531,8 @@ public sealed class Arrays permits Arrays.f {
          * A private helper method to zip elements of two one-dimensional arrays into a result array.
          * @param a first array.
          * @param b second array.
-         * @param valueForNoneA default value for first array.
-         * @param valueForNoneB default value for second array.
+         * @param defaultValueA default value for first array.
+         * @param defaultValueB default value for second array.
          * @param zipFunction function to combine elements (must not be {@code null}).
          * @param targetElementType class of the result element type (must not be {@code null}).
          *
@@ -15543,7 +15543,7 @@ public sealed class Arrays permits Arrays.f {
          * @return a new array of zipped elements.
          * @throws E if the zip function fails.
          */
-        private static <A, B, R, E extends Exception> R[] zip(final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
+        private static <A, B, R, E extends Exception> R[] zip(final A[] a, final B[] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -15557,11 +15557,11 @@ public sealed class Arrays permits Arrays.f {
 
             if (lenA < len) {
                 for (int i = lenA; i < len; i++) {
-                    result[i] = zipFunction.apply(valueForNoneA, b[i]);
+                    result[i] = zipFunction.apply(defaultValueA, b[i]);
                 }
             } else if (lenB < len) {
                 for (int i = lenB; i < len; i++) {
-                    result[i] = zipFunction.apply(a[i], valueForNoneB);
+                    result[i] = zipFunction.apply(a[i], defaultValueB);
                 }
             }
 
@@ -15579,15 +15579,15 @@ public sealed class Arrays permits Arrays.f {
          * @param a first array.
          * @param b second array.
          * @param c third array.
-         * @param valueForNoneA default value for first array.
-         * @param valueForNoneB default value for second array.
+         * @param defaultValueA default value for first array.
+         * @param defaultValueB default value for second array.
          * @param valueForNoneC default value for third array.
          * @param zipFunction function to combine elements (must not be {@code null}).
          * @param targetElementType class of the result element type (must not be {@code null}).
          * @return a new array of zipped elements.
          * @throws E if the zip function fails.
          */
-        private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
+        private static <A, B, C, R, E extends Exception> R[] zip(final A[] a, final B[] b, final C[] c, final A defaultValueA, final B defaultValueB,
                 final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
@@ -15603,7 +15603,7 @@ public sealed class Arrays permits Arrays.f {
 
             if (N.min(lenA, lenB, lenC) < len) {
                 for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                    result[i] = zipFunction.apply(i < lenA ? a[i] : valueForNoneA, i < lenB ? b[i] : valueForNoneB, i < lenC ? c[i] : valueForNoneC);
+                    result[i] = zipFunction.apply(i < lenA ? a[i] : defaultValueA, i < lenB ? b[i] : defaultValueB, i < lenC ? c[i] : valueForNoneC);
                 }
             }
 
@@ -16453,15 +16453,15 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
-         * @param valueForNoneA default value when first array element is missing.
-         * @param valueForNoneB default value when second array element is missing.
+         * @param defaultValueA default value when first array element is missing.
+         * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
-            return zip(a, b, valueForNoneA, valueForNoneB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
+            return zip(a, b, defaultValueA, defaultValueB, zipFunction, (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
@@ -16487,14 +16487,14 @@ public sealed class Arrays permits Arrays.f {
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
-         * @param valueForNoneA default value when first array element is missing.
-         * @param valueForNoneB default value when second array element is missing.
+         * @param defaultValueA default value when first array element is missing.
+         * @param defaultValueB default value when second array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
+        public static <A, B, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final A defaultValueA, final B defaultValueB,
                 final Throwables.BiFunction<? super A, ? super B, ? extends R, E> zipFunction, final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -16503,16 +16503,16 @@ public sealed class Arrays permits Arrays.f {
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB); i < min; i++) {
-                result[i] = ff.zip(a[i], b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                result[i] = ff.zip(a[i], b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
             }
 
             if (lenA < len) {
                 for (int i = lenA; i < len; i++) {
-                    result[i] = ff.zip(null, b[i], valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                    result[i] = ff.zip(null, b[i], defaultValueA, defaultValueB, zipFunction, targetElementType);
                 }
             } else if (lenB < len) {
                 for (int i = lenB; i < len; i++) {
-                    result[i] = ff.zip(a[i], null, valueForNoneA, valueForNoneB, zipFunction, targetElementType);
+                    result[i] = ff.zip(a[i], null, defaultValueA, defaultValueB, zipFunction, targetElementType);
                 }
             }
 
@@ -16622,16 +16622,16 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
          * @param c the third three-dimensional array.
-         * @param valueForNoneA default value when first array element is missing.
-         * @param valueForNoneB default value when second array element is missing.
+         * @param defaultValueA default value when first array element is missing.
+         * @param defaultValueB default value when second array element is missing.
          * @param valueForNoneC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @return a new array with combined elements.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
-                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
-            return zip(a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction,
+        public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
+                final B defaultValueB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            return zip(a, b, c, defaultValueA, defaultValueB, valueForNoneC, zipFunction,
                     (Class<A>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
@@ -16661,16 +16661,16 @@ public sealed class Arrays permits Arrays.f {
          * @param a the first three-dimensional array.
          * @param b the second three-dimensional array.
          * @param c the third three-dimensional array.
-         * @param valueForNoneA default value when first array element is missing.
-         * @param valueForNoneB default value when second array element is missing.
+         * @param defaultValueA default value when first array element is missing.
+         * @param defaultValueB default value when second array element is missing.
          * @param valueForNoneC default value when third array element is missing.
          * @param zipFunction the function to combine elements (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with combined elements of type R.
          * @throws E if the zip function throws an exception.
          */
-        public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
-                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
+        public static <A, B, C, R, E extends Exception> R[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A defaultValueA,
+                final B defaultValueB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, ? extends R, E> zipFunction,
                 final Class<R> targetElementType) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
@@ -16680,12 +16680,12 @@ public sealed class Arrays permits Arrays.f {
             final R[][][] result = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
             for (int i = 0, min = N.min(lenA, lenB, lenC); i < min; i++) {
-                result[i] = ff.zip(a[i], b[i], c[i], valueForNoneA, valueForNoneB, valueForNoneC, zipFunction, targetElementType);
+                result[i] = ff.zip(a[i], b[i], c[i], defaultValueA, defaultValueB, valueForNoneC, zipFunction, targetElementType);
             }
 
             if (N.min(lenA, lenB, lenC) < len) {
                 for (int i = N.min(lenA, lenB, lenC); i < len; i++) {
-                    result[i] = ff.zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, valueForNoneA, valueForNoneB, valueForNoneC,
+                    result[i] = ff.zip(i < lenA ? a[i] : null, i < lenB ? b[i] : null, i < lenC ? c[i] : null, defaultValueA, defaultValueB, valueForNoneC,
                             zipFunction, targetElementType);
                 }
             }

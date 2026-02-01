@@ -590,7 +590,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
      */
     public char[] row(final int rowIndex) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rowCount);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
 
         return a[rowIndex];
     }
@@ -616,7 +616,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public char[] column(final int columnIndex) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, columnCount);
+        N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
 
         final char[] c = new char[rowCount];
 
@@ -645,8 +645,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final char[] row) throws IllegalArgumentException {
-        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rowCount);
-        N.checkArgument(row.length == columnCount, "Row length mismatch: expected %s columns but got %s", columnCount, row.length);
+        N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, MSG_ROW_INDEX_OUT_OF_BOUNDS, rowIndex, rowCount);
+        N.checkArgument(row.length == columnCount, MSG_ROW_LENGTH_MISMATCH, columnCount, row.length);
 
         N.copy(row, 0, a[rowIndex], 0, columnCount);
     }
@@ -670,8 +670,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @throws IllegalArgumentException if columnIndex is out of bounds or column length does not match row count
      */
     public void setColumn(final int columnIndex, final char[] column) throws IllegalArgumentException {
-        N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, columnCount);
-        N.checkArgument(column.length == rowCount, "Column length mismatch: expected %s rows but got %s", rowCount, column.length);
+        N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, MSG_COLUMN_INDEX_OUT_OF_BOUNDS, columnIndex, columnCount);
+        N.checkArgument(column.length == rowCount, MSG_COLUMN_LENGTH_MISMATCH, rowCount, column.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnIndex] = column[i];
@@ -782,7 +782,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public void setLU2RD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][i] = diagonal[i]; // NOSONAR
@@ -866,7 +866,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public void setRU2LD(final char[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
-        N.checkArgument(diagonal.length == rowCount, "Diagonal array length must equal matrix size: expected %s but got %s", rowCount, diagonal.length);
+        N.checkArgument(diagonal.length == rowCount, MSG_DIAGONAL_LENGTH_MISMATCH, rowCount, diagonal.length);
 
         for (int i = 0; i < rowCount; i++) {
             a[i][columnCount - i - 1] = diagonal[i];
@@ -1271,8 +1271,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
     public CharMatrix extend(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
-        N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
+        N.checkArgument(newRowCount >= 0, MSG_NEGATIVE_DIMENSION, "newRowCount", newRowCount);
+        N.checkArgument(newColumnCount >= 0, MSG_NEGATIVE_DIMENSION, "newColumnCount", newColumnCount);
 
         // Check for overflow before allocation
         if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
@@ -1369,10 +1369,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell)
             throws IllegalArgumentException {
-        N.checkArgument(toUp >= 0, "toUp cannot be negative: %s", toUp);
-        N.checkArgument(toDown >= 0, "toDown cannot be negative: %s", toDown);
-        N.checkArgument(toLeft >= 0, "toLeft cannot be negative: %s", toLeft);
-        N.checkArgument(toRight >= 0, "toRight cannot be negative: %s", toRight);
+        N.checkArgument(toUp >= 0, MSG_NEGATIVE_DIMENSION, "toUp", toUp);
+        N.checkArgument(toDown >= 0, MSG_NEGATIVE_DIMENSION, "toDown", toDown);
+        N.checkArgument(toLeft >= 0, MSG_NEGATIVE_DIMENSION, "toLeft", toLeft);
+        N.checkArgument(toRight >= 0, MSG_NEGATIVE_DIMENSION, "toRight", toRight);
 
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
@@ -1707,7 +1707,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix repelem(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
@@ -1757,7 +1757,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     @Override
     public CharMatrix repmat(final int rowRepeats, final int colRepeats) throws IllegalArgumentException {
-        N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats and colRepeats must be positive: rowRepeats=%s, colRepeats=%s", rowRepeats, colRepeats);
+        N.checkArgument(rowRepeats > 0 && colRepeats > 0, MSG_REPEATS_NOT_POSITIVE, rowRepeats, colRepeats);
 
         // Check for overflow before allocation
         if ((long) rowCount * rowRepeats > Integer.MAX_VALUE) {
@@ -1858,8 +1858,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#vstack(IntMatrix)
      */
     public CharMatrix vstack(final CharMatrix other) throws IllegalArgumentException {
-        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                other.columnCount);
+        N.checkArgument(columnCount == other.columnCount, MSG_VSTACK_COLUMN_MISMATCH, columnCount, other.columnCount);
 
         final char[][] c = new char[rowCount + other.rowCount][];
         int j = 0;
@@ -1892,7 +1891,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see IntMatrix#hstack(IntMatrix)
      */
     public CharMatrix hstack(final CharMatrix other) throws IllegalArgumentException {
-        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
+        N.checkArgument(rowCount == other.rowCount, MSG_HSTACK_ROW_MISMATCH, rowCount, other.rowCount);
 
         final char[][] c = new char[rowCount][columnCount + other.columnCount];
 
