@@ -75,42 +75,42 @@ public class IntMatrixTest extends TestBase {
     @Test
     public void testCreateFromCharArray() {
         char[][] chars = { { 'A', 'B' }, { 'C', 'D' } };
-        IntMatrix m = IntMatrix.create(chars);
+        IntMatrix m = IntMatrix.from(chars);
         assertEquals(65, m.get(0, 0));   // 'A'
         assertEquals(66, m.get(0, 1));   // 'B'
         assertEquals(67, m.get(1, 0));   // 'C'
         assertEquals(68, m.get(1, 1));   // 'D'
 
         // Test with null/empty
-        IntMatrix empty = IntMatrix.create((char[][]) null);
+        IntMatrix empty = IntMatrix.from((char[][]) null);
         assertTrue(empty.isEmpty());
     }
 
     @Test
     public void testCreateFromByteArray() {
         byte[][] bytes = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(bytes);
+        IntMatrix m = IntMatrix.from(bytes);
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
         assertEquals(4, m.get(1, 1));
 
         // Test with null/empty
-        IntMatrix empty = IntMatrix.create((byte[][]) null);
+        IntMatrix empty = IntMatrix.from((byte[][]) null);
         assertTrue(empty.isEmpty());
     }
 
     @Test
     public void testCreateFromShortArray() {
         short[][] shorts = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(shorts);
+        IntMatrix m = IntMatrix.from(shorts);
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
         assertEquals(3, m.get(1, 0));
         assertEquals(4, m.get(1, 1));
 
         // Test with null/empty
-        IntMatrix empty = IntMatrix.create((short[][]) null);
+        IntMatrix empty = IntMatrix.from((short[][]) null);
         assertTrue(empty.isEmpty());
     }
 

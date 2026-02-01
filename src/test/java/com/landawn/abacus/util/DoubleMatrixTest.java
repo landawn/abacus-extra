@@ -53,20 +53,20 @@ public class DoubleMatrixTest extends TestBase {
     @Test
     public void testCreateFromInt() {
         int[][] intArr = { { 1, 2 }, { 3, 4 } };
-        DoubleMatrix matrix = DoubleMatrix.create(intArr);
+        DoubleMatrix matrix = DoubleMatrix.from(intArr);
         assertEquals(2, matrix.rows);
         assertEquals(2, matrix.cols);
         assertEquals(1.0, matrix.get(0, 0));
         assertEquals(4.0, matrix.get(1, 1));
 
         // Test empty
-        assertTrue(DoubleMatrix.create((int[][]) null).isEmpty());
+        assertTrue(DoubleMatrix.from((int[][]) null).isEmpty());
     }
 
     @Test
     public void testCreateFromLong() {
         long[][] longArr = { { 1L, 2L }, { 3L, 4L } };
-        DoubleMatrix matrix = DoubleMatrix.create(longArr);
+        DoubleMatrix matrix = DoubleMatrix.from(longArr);
         assertEquals(2, matrix.rows);
         assertEquals(2, matrix.cols);
         assertEquals(1.0, matrix.get(0, 0));
@@ -76,7 +76,7 @@ public class DoubleMatrixTest extends TestBase {
     @Test
     public void testCreateFromFloat() {
         float[][] floatArr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
-        DoubleMatrix matrix = DoubleMatrix.create(floatArr);
+        DoubleMatrix matrix = DoubleMatrix.from(floatArr);
         assertEquals(2, matrix.rows);
         assertEquals(2, matrix.cols);
         assertEquals(1.0, matrix.get(0, 0));

@@ -110,7 +110,7 @@ public class FloatMatrix2511Test extends TestBase {
     @Test
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        FloatMatrix m = FloatMatrix.create(ints);
+        FloatMatrix m = FloatMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0f, m.get(0, 0));
@@ -119,32 +119,32 @@ public class FloatMatrix2511Test extends TestBase {
 
     @Test
     public void testCreateFromIntArray_withNull() {
-        FloatMatrix m = FloatMatrix.create((int[][]) null);
+        FloatMatrix m = FloatMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withEmpty() {
-        FloatMatrix m = FloatMatrix.create(new int[0][0]);
+        FloatMatrix m = FloatMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withJaggedArray() {
         int[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromIntArray_withNullRow() {
         int[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromIntArray_withNullFirstRow() {
         int[][] nullFirstRow = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(nullFirstRow));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(nullFirstRow));
     }
 
     @Test

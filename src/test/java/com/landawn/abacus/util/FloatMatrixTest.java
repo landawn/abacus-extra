@@ -76,14 +76,14 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        FloatMatrix m = FloatMatrix.create(ints);
+        FloatMatrix m = FloatMatrix.from(ints);
         assertEquals(1.0f, m.get(0, 0), DELTA);
         assertEquals(2.0f, m.get(0, 1), DELTA);
         assertEquals(3.0f, m.get(1, 0), DELTA);
         assertEquals(4.0f, m.get(1, 1), DELTA);
 
         // Test with null/empty
-        FloatMatrix empty = FloatMatrix.create((int[][]) null);
+        FloatMatrix empty = FloatMatrix.from((int[][]) null);
         assertTrue(empty.isEmpty());
     }
 

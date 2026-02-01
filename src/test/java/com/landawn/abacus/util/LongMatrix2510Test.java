@@ -97,7 +97,7 @@ public class LongMatrix2510Test extends TestBase {
     @Test
     public void testCreate_fromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        LongMatrix m = LongMatrix.create(ints);
+        LongMatrix m = LongMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1L, m.get(0, 0));
@@ -106,26 +106,26 @@ public class LongMatrix2510Test extends TestBase {
 
     @Test
     public void testCreate_fromIntArray_empty() {
-        LongMatrix m = LongMatrix.create(new int[0][0]);
+        LongMatrix m = LongMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromIntArray_null() {
-        LongMatrix m = LongMatrix.create((int[][]) null);
+        LongMatrix m = LongMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromIntArray_nullFirstRow() {
         int[][] ints = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.from(ints));
     }
 
     @Test
     public void testCreate_fromIntArray_differentRowLengths() {
         int[][] ints = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.from(ints));
     }
 
     @Test

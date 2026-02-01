@@ -124,7 +124,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.create(new int[][] {{1, 2}, {3, 4}});
+     * FloatMatrix matrix = FloatMatrix.from(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * assert matrix.get(1, 0) == 3.0f;
      * assert matrix.rows == 2 && matrix.cols == 2;
@@ -134,7 +134,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new FloatMatrix with converted values, or an empty FloatMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static FloatMatrix create(final int[]... a) {
+    public static FloatMatrix from(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_FLOAT_MATRIX;
         }
@@ -1995,7 +1995,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a new DoubleMatrix with converted values
      */
     public DoubleMatrix toDoubleMatrix() {
-        return DoubleMatrix.create(a);
+        return DoubleMatrix.from(a);
     }
 
     /**

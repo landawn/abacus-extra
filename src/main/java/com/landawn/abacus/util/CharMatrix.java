@@ -2058,7 +2058,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @return a new IntMatrix with the same dimensions containing the int values of the characters
      */
     public IntMatrix toIntMatrix() {
-        return IntMatrix.create(a);
+        return IntMatrix.from(a);
     }
 
     /**

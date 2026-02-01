@@ -2067,7 +2067,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return a new {@code IntMatrix} with values converted from short to int
      */
     public IntMatrix toIntMatrix() {
-        return IntMatrix.create(a);
+        return IntMatrix.from(a);
     }
 
     /**

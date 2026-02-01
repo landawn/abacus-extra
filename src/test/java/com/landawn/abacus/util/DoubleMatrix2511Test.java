@@ -110,7 +110,7 @@ public class DoubleMatrix2511Test extends TestBase {
     @Test
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        DoubleMatrix m = DoubleMatrix.create(ints);
+        DoubleMatrix m = DoubleMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0));
@@ -119,38 +119,38 @@ public class DoubleMatrix2511Test extends TestBase {
 
     @Test
     public void testCreateFromIntArray_withNull() {
-        DoubleMatrix m = DoubleMatrix.create((int[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withEmpty() {
-        DoubleMatrix m = DoubleMatrix.create(new int[0][0]);
+        DoubleMatrix m = DoubleMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withJaggedArray() {
         int[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromIntArray_withNullRow() {
         int[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromIntArray_withNullFirstRow() {
         int[][] nullFirstRow = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(nullFirstRow));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(nullFirstRow));
     }
 
     @Test
     public void testCreateFromLongArray() {
         long[][] longs = { { 1L, 2L }, { 3L, 4L } };
-        DoubleMatrix m = DoubleMatrix.create(longs);
+        DoubleMatrix m = DoubleMatrix.from(longs);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0));
@@ -159,20 +159,20 @@ public class DoubleMatrix2511Test extends TestBase {
 
     @Test
     public void testCreateFromLongArray_withNull() {
-        DoubleMatrix m = DoubleMatrix.create((long[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((long[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromLongArray_withJaggedArray() {
         long[][] jagged = { { 1L, 2L }, { 3L } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromFloatArray() {
         float[][] floats = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
-        DoubleMatrix m = DoubleMatrix.create(floats);
+        DoubleMatrix m = DoubleMatrix.from(floats);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0), 0.001);
@@ -181,14 +181,14 @@ public class DoubleMatrix2511Test extends TestBase {
 
     @Test
     public void testCreateFromFloatArray_withNull() {
-        DoubleMatrix m = DoubleMatrix.create((float[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((float[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromFloatArray_withJaggedArray() {
         float[][] jagged = { { 1.0f, 2.0f }, { 3.0f } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(jagged));
     }
 
     @Test

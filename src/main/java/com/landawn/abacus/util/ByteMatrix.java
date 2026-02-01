@@ -2106,7 +2106,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see IntMatrix#create(byte[][])
      */
     public IntMatrix toIntMatrix() {
-        return IntMatrix.create(a);
+        return IntMatrix.from(a);
     }
 
     /**

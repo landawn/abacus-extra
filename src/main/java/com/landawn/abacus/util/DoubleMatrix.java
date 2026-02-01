@@ -138,7 +138,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.create(new int[][] {{1, 2}, {3, 4}});
+     * DoubleMatrix matrix = DoubleMatrix.from(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0, 2.0}, {3.0, 4.0}}
      * // matrix.get(0, 1) returns 2.0
      * }</pre>
@@ -147,7 +147,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static DoubleMatrix create(final int[]... a) {
+    public static DoubleMatrix from(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
         }
@@ -183,7 +183,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.create(new long[][] {{1L, 2L}, {3L, 4L}});
+     * DoubleMatrix matrix = DoubleMatrix.from(new long[][] {{1L, 2L}, {3L, 4L}});
      * // Creates a matrix with values {{1.0, 2.0}, {3.0, 4.0}}
      * // matrix.get(1, 0) returns 3.0
      * }</pre>
@@ -192,7 +192,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static DoubleMatrix create(final long[]... a) {
+    public static DoubleMatrix from(final long[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
         }
@@ -228,7 +228,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.create(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
+     * DoubleMatrix matrix = DoubleMatrix.from(new float[][] {{1.0f, 2.0f}, {3.0f, 4.0f}});
      * // Creates a matrix with values {{1.0, 2.0}, {3.0, 4.0}}
      * // matrix.get(1, 1) returns 4.0
      * }</pre>
@@ -237,7 +237,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return a new DoubleMatrix with converted values, or an empty DoubleMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static DoubleMatrix create(final float[]... a) {
+    public static DoubleMatrix from(final float[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_DOUBLE_MATRIX;
         }

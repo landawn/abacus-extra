@@ -127,19 +127,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * LongMatrix matrix = LongMatrix.create(new int[][] {{1, 2}, {3, 4}});
+     * LongMatrix matrix = LongMatrix.from(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1L, 2L}, {3L, 4L}}
      * // matrix.get(0, 0) returns 1L
      *
      * // Empty or null input creates an empty matrix
-     * LongMatrix empty = LongMatrix.create(null);   // Returns empty matrix
+     * LongMatrix empty = LongMatrix.from(null);   // Returns empty matrix
      * }</pre>
      *
      * @param a the two-dimensional int array to convert to a long matrix, or null/empty for an empty matrix
      * @return a new LongMatrix with converted values, or an empty LongMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static LongMatrix create(final int[]... a) {
+    public static LongMatrix from(final int[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_LONG_MATRIX;
         }
@@ -2230,7 +2230,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a new {@code DoubleMatrix} with values converted from long to double
      */
     public DoubleMatrix toDoubleMatrix() {
-        return DoubleMatrix.create(a);
+        return DoubleMatrix.from(a);
     }
 
     /**

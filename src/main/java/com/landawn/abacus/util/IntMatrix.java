@@ -137,7 +137,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.create(new char[][] {{'A', 'B'}, {'C', 'D'}});
+     * IntMatrix matrix = IntMatrix.from(new char[][] {{'A', 'B'}, {'C', 'D'}});
      * // Creates a matrix with ASCII values {{65, 66}, {67, 68}}
      * // matrix.get(0, 0) returns 65
      * }</pre>
@@ -146,7 +146,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static IntMatrix create(final char[]... a) {
+    public static IntMatrix from(final char[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
         }
@@ -182,7 +182,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.create(new byte[][] {{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.from(new byte[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1, 2}, {3, 4}}
      * // matrix.get(1, 0) returns 3
      * }</pre>
@@ -191,7 +191,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static IntMatrix create(final byte[]... a) {
+    public static IntMatrix from(final byte[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
         }
@@ -227,7 +227,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * IntMatrix matrix = IntMatrix.create(new short[][] {{1, 2}, {3, 4}});
+     * IntMatrix matrix = IntMatrix.from(new short[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1, 2}, {3, 4}}
      * // matrix.get(1, 1) returns 4
      * }</pre>
@@ -236,7 +236,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new IntMatrix with converted values, or an empty IntMatrix if input is null or empty
      * @throws IllegalArgumentException if the first row is null or if rows have different lengths (non-rectangular array)
      */
-    public static IntMatrix create(final short[]... a) {
+    public static IntMatrix from(final short[]... a) {
         if (N.isEmpty(a)) {
             return EMPTY_INT_MATRIX;
         }
@@ -2256,7 +2256,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new LongMatrix with converted values
      */
     public LongMatrix toLongMatrix() {
-        return LongMatrix.create(a);
+        return LongMatrix.from(a);
     }
 
     /**
@@ -2272,7 +2272,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new FloatMatrix with converted values
      */
     public FloatMatrix toFloatMatrix() {
-        return FloatMatrix.create(a);
+        return FloatMatrix.from(a);
     }
 
     /**
@@ -2288,7 +2288,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @return a new DoubleMatrix with converted values
      */
     public DoubleMatrix toDoubleMatrix() {
-        return DoubleMatrix.create(a);
+        return DoubleMatrix.from(a);
     }
 
     /**

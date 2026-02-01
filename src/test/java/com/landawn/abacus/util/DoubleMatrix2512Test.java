@@ -101,7 +101,7 @@ public class DoubleMatrix2512Test extends TestBase {
     @Test
     public void test_create_fromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        DoubleMatrix m = DoubleMatrix.create(ints);
+        DoubleMatrix m = DoubleMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0), 0.0);
@@ -110,32 +110,32 @@ public class DoubleMatrix2512Test extends TestBase {
 
     @Test
     public void test_create_fromIntArray_empty() {
-        DoubleMatrix m = DoubleMatrix.create(new int[0][0]);
+        DoubleMatrix m = DoubleMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromIntArray_null() {
-        DoubleMatrix m = DoubleMatrix.create((int[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromIntArray_nullFirstRow() {
         int[][] ints = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(ints));
     }
 
     @Test
     public void test_create_fromIntArray_differentRowLengths() {
         int[][] ints = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(ints));
     }
 
     @Test
     public void test_create_fromLongArray() {
         long[][] longs = { { 1L, 2L }, { 3L, 4L } };
-        DoubleMatrix m = DoubleMatrix.create(longs);
+        DoubleMatrix m = DoubleMatrix.from(longs);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0), 0.0);
@@ -144,26 +144,26 @@ public class DoubleMatrix2512Test extends TestBase {
 
     @Test
     public void test_create_fromLongArray_empty() {
-        DoubleMatrix m = DoubleMatrix.create(new long[0][0]);
+        DoubleMatrix m = DoubleMatrix.from(new long[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromLongArray_null() {
-        DoubleMatrix m = DoubleMatrix.create((long[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((long[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromLongArray_nullFirstRow() {
         long[][] longs = { null, { 1L, 2L } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(longs));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(longs));
     }
 
     @Test
     public void test_create_fromFloatArray() {
         float[][] floats = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
-        DoubleMatrix m = DoubleMatrix.create(floats);
+        DoubleMatrix m = DoubleMatrix.from(floats);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0, m.get(0, 0), 0.0);
@@ -172,20 +172,20 @@ public class DoubleMatrix2512Test extends TestBase {
 
     @Test
     public void test_create_fromFloatArray_empty() {
-        DoubleMatrix m = DoubleMatrix.create(new float[0][0]);
+        DoubleMatrix m = DoubleMatrix.from(new float[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromFloatArray_null() {
-        DoubleMatrix m = DoubleMatrix.create((float[][]) null);
+        DoubleMatrix m = DoubleMatrix.from((float[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromFloatArray_nullFirstRow() {
         float[][] floats = { null, { 1.0f, 2.0f } };
-        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.create(floats));
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.from(floats));
     }
 
     // ============ Random and Repeat Tests ============

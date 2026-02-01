@@ -96,7 +96,7 @@ public class IntMatrix2025Test extends TestBase {
     @Test
     public void testCreateFromCharArray() {
         char[][] chars = { { 'A', 'B' }, { 'C', 'D' } };
-        IntMatrix m = IntMatrix.create(chars);
+        IntMatrix m = IntMatrix.from(chars);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(65, m.get(0, 0));   // 'A' = 65
@@ -107,38 +107,38 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testCreateFromCharArray_withNull() {
-        IntMatrix m = IntMatrix.create((char[][]) null);
+        IntMatrix m = IntMatrix.from((char[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromCharArray_withEmpty() {
-        IntMatrix m = IntMatrix.create(new char[0][0]);
+        IntMatrix m = IntMatrix.from(new char[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromCharArray_withJaggedArray() {
         char[][] jagged = { { 'A', 'B' }, { 'C' } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromCharArray_withNullRow() {
         char[][] nullRow = { { 'A', 'B' }, null };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromCharArray_withNullFirstRow() {
         char[][] nullFirstRow = { null, { 'A', 'B' } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(nullFirstRow));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(nullFirstRow));
     }
 
     @Test
     public void testCreateFromByteArray() {
         byte[][] bytes = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(bytes);
+        IntMatrix m = IntMatrix.from(bytes);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1, m.get(0, 0));
@@ -147,26 +147,26 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testCreateFromByteArray_withNull() {
-        IntMatrix m = IntMatrix.create((byte[][]) null);
+        IntMatrix m = IntMatrix.from((byte[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromByteArray_withJaggedArray() {
         byte[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromByteArray_withNullRow() {
         byte[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromShortArray() {
         short[][] shorts = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(shorts);
+        IntMatrix m = IntMatrix.from(shorts);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1, m.get(0, 0));
@@ -175,20 +175,20 @@ public class IntMatrix2025Test extends TestBase {
 
     @Test
     public void testCreateFromShortArray_withNull() {
-        IntMatrix m = IntMatrix.create((short[][]) null);
+        IntMatrix m = IntMatrix.from((short[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromShortArray_withJaggedArray() {
         short[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromShortArray_withNullRow() {
         short[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(nullRow));
     }
 
     @Test

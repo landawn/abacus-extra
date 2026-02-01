@@ -97,7 +97,7 @@ public class IntMatrix2510Test extends TestBase {
     @Test
     public void testCreate_fromCharArray() {
         char[][] chars = { { 'A', 'B' }, { 'C', 'D' } };
-        IntMatrix m = IntMatrix.create(chars);
+        IntMatrix m = IntMatrix.from(chars);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(65, m.get(0, 0));   // ASCII 'A'
@@ -106,32 +106,32 @@ public class IntMatrix2510Test extends TestBase {
 
     @Test
     public void testCreate_fromCharArray_empty() {
-        IntMatrix m = IntMatrix.create(new char[0][0]);
+        IntMatrix m = IntMatrix.from(new char[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromCharArray_null() {
-        IntMatrix m = IntMatrix.create((char[][]) null);
+        IntMatrix m = IntMatrix.from((char[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromCharArray_nullFirstRow() {
         char[][] chars = { null, { 'A', 'B' } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(chars));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(chars));
     }
 
     @Test
     public void testCreate_fromCharArray_differentRowLengths() {
         char[][] chars = { { 'A', 'B' }, { 'C' } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(chars));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(chars));
     }
 
     @Test
     public void testCreate_fromByteArray() {
         byte[][] bytes = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(bytes);
+        IntMatrix m = IntMatrix.from(bytes);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1, m.get(0, 0));
@@ -140,32 +140,32 @@ public class IntMatrix2510Test extends TestBase {
 
     @Test
     public void testCreate_fromByteArray_empty() {
-        IntMatrix m = IntMatrix.create(new byte[0][0]);
+        IntMatrix m = IntMatrix.from(new byte[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromByteArray_null() {
-        IntMatrix m = IntMatrix.create((byte[][]) null);
+        IntMatrix m = IntMatrix.from((byte[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromByteArray_nullFirstRow() {
         byte[][] bytes = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(bytes));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(bytes));
     }
 
     @Test
     public void testCreate_fromByteArray_differentRowLengths() {
         byte[][] bytes = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(bytes));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(bytes));
     }
 
     @Test
     public void testCreate_fromShortArray() {
         short[][] shorts = { { 1, 2 }, { 3, 4 } };
-        IntMatrix m = IntMatrix.create(shorts);
+        IntMatrix m = IntMatrix.from(shorts);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1, m.get(0, 0));
@@ -174,26 +174,26 @@ public class IntMatrix2510Test extends TestBase {
 
     @Test
     public void testCreate_fromShortArray_empty() {
-        IntMatrix m = IntMatrix.create(new short[0][0]);
+        IntMatrix m = IntMatrix.from(new short[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromShortArray_null() {
-        IntMatrix m = IntMatrix.create((short[][]) null);
+        IntMatrix m = IntMatrix.from((short[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreate_fromShortArray_nullFirstRow() {
         short[][] shorts = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(shorts));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(shorts));
     }
 
     @Test
     public void testCreate_fromShortArray_differentRowLengths() {
         short[][] shorts = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> IntMatrix.create(shorts));
+        assertThrows(IllegalArgumentException.class, () -> IntMatrix.from(shorts));
     }
 
     @Test

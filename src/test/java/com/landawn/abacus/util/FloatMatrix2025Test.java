@@ -119,7 +119,7 @@ public class FloatMatrix2025Test extends TestBase {
     @Test
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        FloatMatrix m = FloatMatrix.create(ints);
+        FloatMatrix m = FloatMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0f, m.get(0, 0), DELTA);
@@ -128,38 +128,38 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testCreateFromIntArray_withNull() {
-        FloatMatrix m = FloatMatrix.create((int[][]) null);
+        FloatMatrix m = FloatMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withEmpty() {
-        FloatMatrix m = FloatMatrix.create(new int[0][0]);
+        FloatMatrix m = FloatMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withJaggedArray() {
         int[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromIntArray_withNullRow() {
         int[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromIntArray_withNullFirstRow() {
         int[][] nullFirstRow = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(nullFirstRow));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(nullFirstRow));
     }
 
     @Test
     public void testCreateFromIntArray_largeValues() {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 1000000, -1000000 } };
-        FloatMatrix m = FloatMatrix.create(ints);
+        FloatMatrix m = FloatMatrix.from(ints);
         assertEquals(Integer.MAX_VALUE, m.get(0, 0), 1.0f);
         assertEquals(Integer.MIN_VALUE, m.get(0, 1), 1.0f);
         assertEquals(1000000.0f, m.get(1, 0), DELTA);
@@ -1922,7 +1922,7 @@ public class FloatMatrix2025Test extends TestBase {
     public void testIntToFloatConversion() {
         // Test precision when converting large integers to float
         int[][] largeInts = { { 16777216, 16777217 }, { -16777216, -16777217 } };
-        FloatMatrix m = FloatMatrix.create(largeInts);
+        FloatMatrix m = FloatMatrix.from(largeInts);
 
         // 16777216 can be exactly represented in float
         assertEquals(16777216.0f, m.get(0, 0), DELTA);

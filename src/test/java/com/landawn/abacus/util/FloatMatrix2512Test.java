@@ -101,7 +101,7 @@ public class FloatMatrix2512Test extends TestBase {
     @Test
     public void test_create_fromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        FloatMatrix m = FloatMatrix.create(ints);
+        FloatMatrix m = FloatMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1.0f, m.get(0, 0), 0.0f);
@@ -110,26 +110,26 @@ public class FloatMatrix2512Test extends TestBase {
 
     @Test
     public void test_create_fromIntArray_empty() {
-        FloatMatrix m = FloatMatrix.create(new int[0][0]);
+        FloatMatrix m = FloatMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromIntArray_null() {
-        FloatMatrix m = FloatMatrix.create((int[][]) null);
+        FloatMatrix m = FloatMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_create_fromIntArray_nullFirstRow() {
         int[][] ints = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(ints));
     }
 
     @Test
     public void test_create_fromIntArray_differentRowLengths() {
         int[][] ints = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.create(ints));
+        assertThrows(IllegalArgumentException.class, () -> FloatMatrix.from(ints));
     }
 
     // ============ Random and Repeat Tests ============

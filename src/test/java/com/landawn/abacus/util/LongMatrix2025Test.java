@@ -106,7 +106,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
-        LongMatrix m = LongMatrix.create(ints);
+        LongMatrix m = LongMatrix.from(ints);
         assertEquals(2, m.rows);
         assertEquals(2, m.cols);
         assertEquals(1L, m.get(0, 0));
@@ -115,38 +115,38 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testCreateFromIntArray_withNull() {
-        LongMatrix m = LongMatrix.create((int[][]) null);
+        LongMatrix m = LongMatrix.from((int[][]) null);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withEmpty() {
-        LongMatrix m = LongMatrix.create(new int[0][0]);
+        LongMatrix m = LongMatrix.from(new int[0][0]);
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testCreateFromIntArray_withJaggedArray() {
         int[][] jagged = { { 1, 2 }, { 3 } };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.create(jagged));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.from(jagged));
     }
 
     @Test
     public void testCreateFromIntArray_withNullRow() {
         int[][] nullRow = { { 1, 2 }, null };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.create(nullRow));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.from(nullRow));
     }
 
     @Test
     public void testCreateFromIntArray_withNullFirstRow() {
         int[][] nullFirstRow = { null, { 1, 2 } };
-        assertThrows(IllegalArgumentException.class, () -> LongMatrix.create(nullFirstRow));
+        assertThrows(IllegalArgumentException.class, () -> LongMatrix.from(nullFirstRow));
     }
 
     @Test
     public void testCreateFromIntArray_withLargeInts() {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 1000000, -1000000 } };
-        LongMatrix m = LongMatrix.create(ints);
+        LongMatrix m = LongMatrix.from(ints);
         assertEquals(Integer.MAX_VALUE, m.get(0, 0));
         assertEquals(Integer.MIN_VALUE, m.get(0, 1));
         assertEquals(1000000L, m.get(1, 0));
@@ -1939,7 +1939,7 @@ public class LongMatrix2025Test extends TestBase {
     @Test
     public void testConversionFromIntWithMaxMin() {
         int[][] ints = { { Integer.MAX_VALUE, Integer.MIN_VALUE }, { 0, -1 } };
-        LongMatrix m = LongMatrix.create(ints);
+        LongMatrix m = LongMatrix.from(ints);
 
         // Verify proper conversion
         assertEquals(Integer.MAX_VALUE, m.get(0, 0));

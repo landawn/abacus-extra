@@ -50,13 +50,13 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testCreate() {
         int[][] a = { { 1, 2 }, { 3, 4 } };
-        LongMatrix matrix = LongMatrix.create(a);
+        LongMatrix matrix = LongMatrix.from(a);
         Assertions.assertEquals(2, matrix.rows);
         Assertions.assertEquals(2, matrix.cols);
         Assertions.assertEquals(1L, matrix.get(0, 0));
         Assertions.assertEquals(4L, matrix.get(1, 1));
 
-        LongMatrix emptyMatrix = LongMatrix.create((int[][]) null);
+        LongMatrix emptyMatrix = LongMatrix.from((int[][]) null);
         Assertions.assertTrue(emptyMatrix.isEmpty());
     }
 
