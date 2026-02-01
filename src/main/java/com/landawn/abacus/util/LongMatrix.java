@@ -1039,15 +1039,15 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new LongMatrix with transformed values
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.LongUnaryOperator)
      */
-    public <E extends Exception> LongMatrix map(final Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> LongMatrix map(final Throwables.LongUnaryOperator<E> mapper) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

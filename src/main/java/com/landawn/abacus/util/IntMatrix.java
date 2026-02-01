@@ -1121,15 +1121,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new IntMatrix with transformed values
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.IntUnaryOperator)
      */
-    public <E extends Exception> IntMatrix map(final Throwables.IntUnaryOperator<E> func) throws E {
+    public <E extends Exception> IntMatrix map(final Throwables.IntUnaryOperator<E> mapper) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 

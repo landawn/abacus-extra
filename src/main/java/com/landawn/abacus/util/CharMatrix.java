@@ -982,15 +982,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new CharMatrix with transformed values
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.CharUnaryOperator)
      */
-    public <E extends Exception> CharMatrix map(final Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> CharMatrix map(final Throwables.CharUnaryOperator<E> mapper) throws E {
         final char[][] result = new char[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsChar(a[i][j]);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.applyAsChar(a[i][j]);
 
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 

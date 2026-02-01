@@ -963,13 +963,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * }</pre>
      *
      * @param <E> the type of exception that may be thrown by the function
-     * @param func the unary operator to apply to each element, taking a byte and returning a byte
+     * @param mapper the unary operator to apply to each element, taking a byte and returning a byte
      * @return a new ByteMatrix with the transformed values; the original matrix is unchanged
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> ByteMatrix map(final Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> ByteMatrix map(final Throwables.ByteUnaryOperator<E> mapper) throws E {
         final byte[][] result = new byte[rows][cols];
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.applyAsByte(a[i][j]);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.applyAsByte(a[i][j]);
 
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 

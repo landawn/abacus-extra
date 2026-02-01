@@ -961,13 +961,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each element, taking a short and returning a short
+     * @param mapper the unary operator to apply to each element, taking a short and returning a short
      * @return a new ShortMatrix with the transformed values; the original matrix is unchanged
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> ShortMatrix map(final Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> ShortMatrix map(final Throwables.ShortUnaryOperator<E> mapper) throws E {
         final short[][] result = new short[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsShort(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsShort(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

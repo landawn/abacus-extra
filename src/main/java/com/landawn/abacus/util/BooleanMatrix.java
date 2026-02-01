@@ -950,13 +950,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each element; must not be null
+     * @param mapper the unary operator to apply to each element; must not be null
      * @return a new BooleanMatrix with the function applied to all elements
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> BooleanMatrix map(final Throwables.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> BooleanMatrix map(final Throwables.BooleanUnaryOperator<E> mapper) throws E {
         final boolean[][] result = new boolean[rows][cols];
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsBoolean(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 

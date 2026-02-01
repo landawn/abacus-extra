@@ -933,13 +933,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * }</pre>
      *
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function to apply to each element; must not be null
+     * @param mapper the mapping function to apply to each element; must not be null
      * @return a new FloatMatrix with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> FloatMatrix map(final Throwables.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> FloatMatrix map(final Throwables.FloatUnaryOperator<E> mapper) throws E {
         final float[][] result = new float[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsFloat(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsFloat(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

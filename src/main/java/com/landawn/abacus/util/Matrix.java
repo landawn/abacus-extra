@@ -1023,12 +1023,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the transformation function
+     * @param mapper the transformation function
      * @return a new matrix with transformed elements
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> func) throws E {
-        return map(func, elementType);
+    public <E extends Exception> Matrix<T> map(final Throwables.UnaryOperator<T, E> mapper) throws E {
+        return map(mapper, elementType);
     }
 
     /**
@@ -1050,14 +1050,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <R> the type of elements in the result matrix
      * @param <E> the type of exception that might be thrown
-     * @param func the transformation function
+     * @param mapper the transformation function
      * @param targetElementType the class of the result element type
      * @return a new matrix with transformed elements
      * @throws E if the function throws an exception
      */
-    public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> func, final Class<R> targetElementType) throws E {
+    public <R, E extends Exception> Matrix<R> map(final Throwables.Function<? super T, R, E> mapper, final Class<R> targetElementType) throws E {
         final R[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

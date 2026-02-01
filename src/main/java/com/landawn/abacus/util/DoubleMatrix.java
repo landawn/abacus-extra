@@ -1037,15 +1037,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param mapper the function to apply to each element; receives the current element value
      *             and returns the transformed value
      * @return a new DoubleMatrix with transformed values
      * @throws E if the function throws an exception
      * @see #updateAll(Throwables.DoubleUnaryOperator)
      */
-    public <E extends Exception> DoubleMatrix map(final Throwables.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> DoubleMatrix map(final Throwables.DoubleUnaryOperator<E> mapper) throws E {
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsDouble(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
