@@ -1354,16 +1354,16 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Stream<Boolean>> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).toList().size());
+        List<Stream<Boolean>> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).toList().size());
     }
 
     @Test
     public void testStreamC_withRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        List<Stream<Boolean>> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<Stream<Boolean>> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ Point Stream Tests ============

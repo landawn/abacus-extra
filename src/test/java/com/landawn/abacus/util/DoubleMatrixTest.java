@@ -995,11 +995,11 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> cols = matrix.streamC().map(stream -> stream.toArray()).toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).length);
-        assertEquals(1.0, cols.get(0)[0]);
-        assertEquals(3.0, cols.get(0)[1]);
+        List<double[]> columnCount = matrix.streamC().map(stream -> stream.toArray()).toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).length);
+        assertEquals(1.0, columnCount.get(0)[0]);
+        assertEquals(3.0, columnCount.get(0)[1]);
     }
 
     @Test
@@ -1007,8 +1007,8 @@ public class DoubleMatrixTest extends TestBase {
         double[][] arr = { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } };
         DoubleMatrix matrix = DoubleMatrix.of(arr);
 
-        List<double[]> cols = matrix.streamC(1, 3).map(stream -> stream.toArray()).toList();
-        assertEquals(2, cols.size());
+        List<double[]> columnCount = matrix.streamC(1, 3).map(stream -> stream.toArray()).toList();
+        assertEquals(2, columnCount.size());
 
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamC(-1, 2));
     }
@@ -1030,7 +1030,7 @@ public class DoubleMatrixTest extends TestBase {
 
         double[] sum = { 0.0 };
         matrix.forEach(0, 2, 1, 3, val -> sum[0] += val);
-        assertEquals(16.0, sum[0]);   // 2 + 3 + 5 + 6
+        assertEquals(16.0, sum[0]); // 2 + 3 + 5 + 6
 
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.forEach(-1, 2, 0, 2, val -> {
         }));
@@ -1089,15 +1089,15 @@ public class DoubleMatrixTest extends TestBase {
 
         // Test sum operation on streams
         double totalSum = matrix.streamH().sum();
-        assertEquals(45.0, totalSum, 0.0001);   // 1+2+3+4+5+6+7+8+9 = 45
+        assertEquals(45.0, totalSum, 0.0001); // 1+2+3+4+5+6+7+8+9 = 45
 
         // Test sum of specific row
         double row1Sum = matrix.streamH(1).sum();
-        assertEquals(15.0, row1Sum, 0.0001);   // 4+5+6 = 15
+        assertEquals(15.0, row1Sum, 0.0001); // 4+5+6 = 15
 
         // Test sum of specific column
         double col0Sum = matrix.streamV(0).sum();
-        assertEquals(12.0, col0Sum, 0.0001);   // 1+4+7 = 12
+        assertEquals(12.0, col0Sum, 0.0001); // 1+4+7 = 12
 
         // Test min/max on streams
         double min = matrix.streamH().min().orElse(0.0);
@@ -1112,10 +1112,10 @@ public class DoubleMatrixTest extends TestBase {
 
         // Test statistical operations on diagonal
         double diagonalSum = matrix.streamLU2RD().sum();
-        assertEquals(15.0, diagonalSum, 0.0001);   // 1+5+9 = 15
+        assertEquals(15.0, diagonalSum, 0.0001); // 1+5+9 = 15
 
         double antiDiagonalSum = matrix.streamRU2LD().sum();
-        assertEquals(15.0, antiDiagonalSum, 0.0001);   // 3+5+7 = 15
+        assertEquals(15.0, antiDiagonalSum, 0.0001); // 3+5+7 = 15
     }
 
     @Test
@@ -1126,16 +1126,16 @@ public class DoubleMatrixTest extends TestBase {
         // Test statistics on individual rows
         List<Double> rowSums = matrix.streamR().map(row -> row.sum()).toList();
         assertEquals(3, rowSums.size());
-        assertEquals(6.0, rowSums.get(0).doubleValue(), 0.0001);   // 1+2+3
-        assertEquals(15.0, rowSums.get(1).doubleValue(), 0.0001);   // 4+5+6
-        assertEquals(24.0, rowSums.get(2).doubleValue(), 0.0001);   // 7+8+9
+        assertEquals(6.0, rowSums.get(0).doubleValue(), 0.0001); // 1+2+3
+        assertEquals(15.0, rowSums.get(1).doubleValue(), 0.0001); // 4+5+6
+        assertEquals(24.0, rowSums.get(2).doubleValue(), 0.0001); // 7+8+9
 
         // Test statistics on individual columns
         List<Double> colSums = matrix.streamC().map(col -> col.sum()).toList();
         assertEquals(3, colSums.size());
-        assertEquals(12.0, colSums.get(0).doubleValue(), 0.0001);   // 1+4+7
-        assertEquals(15.0, colSums.get(1).doubleValue(), 0.0001);   // 2+5+8
-        assertEquals(18.0, colSums.get(2).doubleValue(), 0.0001);   // 3+6+9
+        assertEquals(12.0, colSums.get(0).doubleValue(), 0.0001); // 1+4+7
+        assertEquals(15.0, colSums.get(1).doubleValue(), 0.0001); // 2+5+8
+        assertEquals(18.0, colSums.get(2).doubleValue(), 0.0001); // 3+6+9
 
         // Test min/max per row
         List<Double> rowMins = matrix.streamR().map(row -> row.min().orElse(0.0)).toList();
@@ -1157,17 +1157,17 @@ public class DoubleMatrixTest extends TestBase {
 
         // Element-wise multiplication
         DoubleMatrix elementWiseProduct = m1.zipWith(m2, (a, b) -> a * b);
-        assertEquals(2.0, elementWiseProduct.get(0, 0), 0.0001);   // 1.0*2.0
-        assertEquals(6.0, elementWiseProduct.get(0, 1), 0.0001);   // 2.0*3.0
-        assertEquals(12.0, elementWiseProduct.get(1, 0), 0.0001);   // 3.0*4.0
-        assertEquals(20.0, elementWiseProduct.get(1, 1), 0.0001);   // 4.0*5.0
+        assertEquals(2.0, elementWiseProduct.get(0, 0), 0.0001); // 1.0*2.0
+        assertEquals(6.0, elementWiseProduct.get(0, 1), 0.0001); // 2.0*3.0
+        assertEquals(12.0, elementWiseProduct.get(1, 0), 0.0001); // 3.0*4.0
+        assertEquals(20.0, elementWiseProduct.get(1, 1), 0.0001); // 4.0*5.0
 
         // Element-wise division
         DoubleMatrix elementWiseDivision = m2.zipWith(m1, (a, b) -> a / b);
-        assertEquals(2.0, elementWiseDivision.get(0, 0), 0.0001);   // 2.0/1.0
-        assertEquals(1.5, elementWiseDivision.get(0, 1), 0.0001);   // 3.0/2.0
-        assertEquals(1.333333, elementWiseDivision.get(1, 0), 0.0001);   // 4.0/3.0
-        assertEquals(1.25, elementWiseDivision.get(1, 1), 0.0001);   // 5.0/4.0
+        assertEquals(2.0, elementWiseDivision.get(0, 0), 0.0001); // 2.0/1.0
+        assertEquals(1.5, elementWiseDivision.get(0, 1), 0.0001); // 3.0/2.0
+        assertEquals(1.333333, elementWiseDivision.get(1, 0), 0.0001); // 4.0/3.0
+        assertEquals(1.25, elementWiseDivision.get(1, 1), 0.0001); // 5.0/4.0
     }
 
     @Test
@@ -1315,8 +1315,8 @@ public class DoubleMatrixTest extends TestBase {
 
         // Test addition
         DoubleMatrix largeSum = large1.add(large2);
-        assertEquals(0.3, largeSum.get(0, 0), 0.0001);   // 0.1 + 0.2 = 0.3
-        assertEquals(30.0, largeSum.get(9, 9), 0.0001);   // 10.0 + 20.0 = 30.0
+        assertEquals(0.3, largeSum.get(0, 0), 0.0001); // 0.1 + 0.2 = 0.3
+        assertEquals(30.0, largeSum.get(9, 9), 0.0001); // 10.0 + 20.0 = 30.0
 
         // Test that sum of all elements is correct
         double totalSum = largeSum.streamH().sum();
@@ -1356,7 +1356,7 @@ public class DoubleMatrixTest extends TestBase {
         // Test logarithmic operations
         DoubleMatrix logConstants = constants.map(Math::log);
         assertEquals(Math.log(Math.PI), logConstants.get(0, 0), 0.0001);
-        assertEquals(1.0, logConstants.get(0, 1), 0.0001);   // log(e) = 1
+        assertEquals(1.0, logConstants.get(0, 1), 0.0001); // log(e) = 1
 
         // Test power operations
         DoubleMatrix squared = constants.map(x -> x * x);

@@ -345,7 +345,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setRow(0, new String[] { "X", "Y" });
         assertArrayEquals(new String[] { "X", "Y" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1));   // unchanged
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
     }
 
     @Test
@@ -360,7 +360,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.setColumn(0, new String[] { "X", "Y" });
         assertArrayEquals(new String[] { "X", "Y" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "D" }, m.column(1));   // unchanged
+        assertArrayEquals(new String[] { "B", "D" }, m.column(1)); // unchanged
     }
 
     @Test
@@ -375,7 +375,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateRow(0, x -> x + "1");
         assertArrayEquals(new String[] { "A1", "B1" }, m.row(0));
-        assertArrayEquals(new String[] { "C", "D" }, m.row(1));   // unchanged
+        assertArrayEquals(new String[] { "C", "D" }, m.row(1)); // unchanged
     }
 
     @Test
@@ -383,7 +383,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B" }, { "C", "D" } });
         m.updateColumn(0, x -> x + "2");
         assertArrayEquals(new String[] { "A2", "C2" }, m.column(0));
-        assertArrayEquals(new String[] { "B", "D" }, m.column(1));   // unchanged
+        assertArrayEquals(new String[] { "B", "D" }, m.column(1)); // unchanged
     }
 
     // ============ Diagonal Operations Tests ============
@@ -428,7 +428,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals("A1", m.get(0, 0));
         assertEquals("E1", m.get(1, 1));
         assertEquals("I1", m.get(2, 2));
-        assertEquals("B", m.get(0, 1));   // unchanged
+        assertEquals("B", m.get(0, 1)); // unchanged
     }
 
     @Test
@@ -477,7 +477,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals("C2", m.get(0, 2));
         assertEquals("E2", m.get(1, 1));
         assertEquals("G2", m.get(2, 0));
-        assertEquals("B", m.get(0, 1));   // unchanged
+        assertEquals("B", m.get(0, 1)); // unchanged
     }
 
     @Test
@@ -523,11 +523,11 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testReplaceIf_withIndices() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        m.replaceIf((i, j) -> i == j, "X");   // Replace diagonal
+        m.replaceIf((i, j) -> i == j, "X"); // Replace diagonal
         assertEquals("X", m.get(0, 0));
         assertEquals("X", m.get(1, 1));
         assertEquals("X", m.get(2, 2));
-        assertEquals("B", m.get(0, 1));   // unchanged
+        assertEquals("B", m.get(0, 1)); // unchanged
     }
 
     @Test
@@ -655,7 +655,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals("Y", m.get(0, 1));
         assertEquals("Z", m.get(1, 0));
         assertEquals("W", m.get(1, 1));
-        assertEquals("A", m.get(2, 2));   // unchanged
+        assertEquals("A", m.get(2, 2)); // unchanged
     }
 
     @Test
@@ -663,7 +663,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "A", "A" }, { "A", "A", "A" }, { "A", "A", "A" } });
         String[][] patch = { { "X", "Y" }, { "Z", "W" } };
         m.fill(1, 1, patch);
-        assertEquals("A", m.get(0, 0));   // unchanged
+        assertEquals("A", m.get(0, 0)); // unchanged
         assertEquals("X", m.get(1, 1));
         assertEquals("Y", m.get(1, 2));
         assertEquals("Z", m.get(2, 1));
@@ -738,7 +738,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals(4, extended.columnCount());
         assertEquals("A", extended.get(0, 0));
         assertEquals("D", extended.get(1, 1));
-        assertNull(extended.get(3, 3));   // new cells are null
+        assertNull(extended.get(3, 3)); // new cells are null
     }
 
     @Test
@@ -758,7 +758,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals(3, extended.rowCount());
         assertEquals(3, extended.columnCount());
         assertEquals("A", extended.get(0, 0));
-        assertEquals("X", extended.get(2, 2));   // new cell
+        assertEquals("X", extended.get(2, 2)); // new cell
     }
 
     @Test
@@ -773,8 +773,8 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
         m.println();
         Matrix<String> extended = m.extend(1, 1, 2, 2);
-        assertEquals(5, extended.rowCount());   // 1 + 3 + 1
-        assertEquals(7, extended.columnCount());   // 2 + 3 + 2
+        assertEquals(5, extended.rowCount()); // 1 + 3 + 1
+        assertEquals(7, extended.columnCount()); // 2 + 3 + 2
 
         extended.println();
 
@@ -965,7 +965,7 @@ public class Matrix2025Test extends TestBase {
         assertEquals("B", repeated.get(0, 3));
         assertEquals("B", repeated.get(0, 4));
         assertEquals("B", repeated.get(0, 5));
-        assertEquals("A", repeated.get(1, 0));   // second row same as first
+        assertEquals("A", repeated.get(1, 0)); // second row same as first
     }
 
     @Test
@@ -985,14 +985,14 @@ public class Matrix2025Test extends TestBase {
         // Check pattern
         assertEquals("A", repeated.get(0, 0));
         assertEquals("B", repeated.get(0, 1));
-        assertEquals("A", repeated.get(0, 2));   // repeat starts
+        assertEquals("A", repeated.get(0, 2)); // repeat starts
         assertEquals("B", repeated.get(0, 3));
 
         assertEquals("C", repeated.get(1, 0));
         assertEquals("D", repeated.get(1, 1));
 
         // Check vertical repeat
-        assertEquals("A", repeated.get(2, 0));   // vertical repeat starts
+        assertEquals("A", repeated.get(2, 0)); // vertical repeat starts
         assertEquals("B", repeated.get(2, 1));
     }
 
@@ -1271,8 +1271,8 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamV_withRange() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        List<String> cols = m.streamV(1, 3).toList();
-        assertEquals(6, cols.size());
+        List<String> columnCount = m.streamV(1, 3).toList();
+        assertEquals(6, columnCount.size());
     }
 
     @Test
@@ -1316,8 +1316,8 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamC() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
-        List<Stream<String>> cols = m.streamC().toList();
-        assertEquals(3, cols.size());
+        List<Stream<String>> columnCount = m.streamC().toList();
+        assertEquals(3, columnCount.size());
     }
 
     @Test
@@ -1329,8 +1329,8 @@ public class Matrix2025Test extends TestBase {
     @Test
     public void testStreamC_withRange() {
         Matrix<String> m = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" }, { "G", "H", "I" } });
-        List<Stream<String>> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<Stream<String>> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     @Test
@@ -1372,7 +1372,7 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m3 = Matrix.of(new String[][] { { "A", "B" }, { "X", "D" } });
 
         assertEquals(m1.hashCode(), m2.hashCode());
-        assertNotEquals(m1.hashCode(), m3.hashCode());   // Usually different
+        assertNotEquals(m1.hashCode(), m3.hashCode()); // Usually different
     }
 
     @Test
@@ -1382,10 +1382,10 @@ public class Matrix2025Test extends TestBase {
         Matrix<String> m3 = Matrix.of(new String[][] { { "A", "B" }, { "X", "D" } });
         Matrix<String> m4 = Matrix.of(new String[][] { { "A", "B", "C" }, { "D", "E", "F" } });
 
-        assertTrue(m1.equals(m1));   // Same object
-        assertTrue(m1.equals(m2));   // Same values
-        assertFalse(m1.equals(m3));   // Different values
-        assertFalse(m1.equals(m4));   // Different dimensions
+        assertTrue(m1.equals(m1)); // Same object
+        assertTrue(m1.equals(m2)); // Same values
+        assertFalse(m1.equals(m3)); // Different values
+        assertFalse(m1.equals(m4)); // Different dimensions
         assertFalse(m1.equals(null));
         assertFalse(m1.equals("not a matrix"));
     }

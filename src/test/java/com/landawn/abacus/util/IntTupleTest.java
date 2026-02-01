@@ -166,7 +166,7 @@ public class IntTupleTest extends TestBase {
         assertEquals(20, tuple.median());
 
         IntTuple.IntTuple4 evenTuple = IntTuple.of(10, 20, 30, 40);
-        assertEquals(20, tuple.median());   // Should be (20 + 30) / 2 = 25
+        assertEquals(20, tuple.median()); // Should be (20 + 30) / 2 = 25
 
         IntTuple.IntTuple0 empty = IntTuple.create(new int[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
@@ -415,6 +415,6 @@ public class IntTupleTest extends TestBase {
         IntTuple.IntTuple3 tuple = IntTuple.of(10, 20, 30);
         int[] elements1 = tuple.elements();
         int[] elements2 = tuple.elements();
-        assertSame(elements1, elements2);   // Should return same cached array
+        assertSame(elements1, elements2); // Should return same cached array
     }
 }

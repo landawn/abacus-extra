@@ -79,7 +79,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
      * DoubleMatrix matrix = new DoubleMatrix(data);
-     * // matrix.rows returns 2, matrix.cols returns 2
+     * // matrix.rows returns 2, matrix.columnCount returns 2
      * // Modifications to data will affect matrix
      *
      * // For a safe independent copy:
@@ -90,7 +90,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix safeMat = new DoubleMatrix(safeCopy);
      *
      * DoubleMatrix empty = new DoubleMatrix(null);
-     * // empty.rows returns 0, empty.cols returns 0
+     * // empty.rows returns 0, empty.columnCount returns 0
      * }</pre>
      *
      * @param a the two-dimensional double array to wrap, or null for an empty matrix
@@ -106,7 +106,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.empty();
      * // matrix.rows returns 0
-     * // matrix.cols returns 0
+     * // matrix.columnCount returns 0
      * }</pre>
      *
      * @return an empty double matrix
@@ -154,21 +154,21 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final double[][] c = new double[a.length][cols];
+        final double[][] c = new double[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final int[] aa = a[i];
             final double[] cc = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 cc[j] = aa[j]; // NOSONAR
             }
         }
@@ -199,21 +199,21 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final double[][] c = new double[a.length][cols];
+        final double[][] c = new double[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final long[] aa = a[i];
             final double[] cc = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 cc[j] = aa[j]; // NOSONAR
             }
         }
@@ -244,21 +244,21 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final double[][] c = new double[a.length][cols];
+        final double[][] c = new double[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final float[] aa = a[i];
             final double[] cc = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 cc[j] = aa[j]; // NOSONAR
             }
         }
@@ -292,14 +292,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
-     * @return a new DoubleMatrix of dimensions rows x cols filled with random values
+     * @param columnCount the number of columns in the new matrix
+     * @return a new DoubleMatrix of dimensions rows x columnCount filled with random values
      */
-    public static DoubleMatrix random(final int rows, final int cols) {
-        final double[][] a = new double[rows][cols];
+    public static DoubleMatrix random(final int rows, final int columnCount) {
+        final double[][] a = new double[rows][columnCount];
 
         for (double[] ea : a) {
-            for (int i = 0; i < cols; i++) {
+            for (int i = 0; i < columnCount; i++) {
                 ea[i] = RAND.nextDouble();
             }
         }
@@ -334,12 +334,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
+     * @param columnCount the number of columns in the new matrix
      * @param element the double value to fill the matrix with
-     * @return a new DoubleMatrix of dimensions rows x cols filled with the specified element
+     * @return a new DoubleMatrix of dimensions rows x columnCount filled with the specified element
      */
-    public static DoubleMatrix repeat(final int rows, final int cols, final double element) {
-        final double[][] a = new double[rows][cols];
+    public static DoubleMatrix repeat(final int rows, final int columnCount, final double element) {
+        final double[][] a = new double[rows][columnCount];
 
         for (double[] ea : a) {
             N.fill(ea, element);
@@ -629,7 +629,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (i, j+1), or empty if j == cols-1
+     * @return an OptionalDouble containing the element at position (i, j+1), or empty if j == columnCount-1
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalDouble rightOf(final int i, final int j) {
@@ -643,7 +643,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -682,7 +682,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param columnIndex the index of the column to retrieve (0-based)
      * @return a new array containing the values from the specified column
-     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public double[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, columnCount);
@@ -754,7 +754,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p>This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified row sequentially
-     * from left to right (column 0 to column cols-1).</p>
+     * from left to right (column 0 to column columnCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1249,7 +1249,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
-        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex,
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
 
         for (int i = 0, minLen = N.min(rowCount - fromRowIndex, b.length); i < minLen; i++) {
@@ -1369,12 +1369,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new DoubleMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
+     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative
      */
-    public DoubleMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, 0);
+    public DoubleMatrix extend(final int newRows, final int newColumnCount) {
+        return extend(newRows, newColumnCount, 0);
     }
 
     /**
@@ -1400,35 +1400,35 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the double value to fill new cells with during extension
      * @return a new DoubleMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public DoubleMatrix extend(final int newRows, final int newCols, final double defaultValueForNewCell) throws IllegalArgumentException {
+    public DoubleMatrix extend(final int newRows, final int newColumnCount, final double defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
-        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
+        N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
         // Check for overflow before allocation
-        if ((long) newRows * newCols > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newCols + " exceeds Integer.MAX_VALUE");
+        if ((long) newRows * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
         }
 
-        if (newRows <= rowCount && newCols <= columnCount) {
-            return copy(0, newRows, 0, newCols);
+        if (newRows <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRows, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
             final double[][] b = new double[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rowCount ? N.copyOf(a[i], newCols) : new double[newCols];
+                b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : new double[newColumnCount];
 
                 if (fillDefaultValue) {
                     if (i >= rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
-                        N.fill(b[i], columnCount, newCols, defaultValueForNewCell);
+                    } else if (columnCount < newColumnCount) {
+                        N.fill(b[i], columnCount, newColumnCount, defaultValueForNewCell);
                     }
                 }
             }
@@ -1457,7 +1457,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param toDown number of rows to add below; must be non-negative
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended DoubleMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @return a new extended DoubleMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1476,7 +1476,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p>The resulting matrix has dimensions:
      * <ul>
      *   <li>Rows: {@code toUp + this.rows + toDown}</li>
-     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1499,7 +1499,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
      * @param defaultValueForNewCell the double value to fill all new cells with
-     * @return a new extended DoubleMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @return a new extended DoubleMatrix with dimensions ((toUp+rows+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
      *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
@@ -1523,9 +1523,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
             }
 
             final int newRows = toUp + rowCount + toDown;
-            final int newCols = toLeft + columnCount + toRight;
+            final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final double[][] b = new double[newRows][newCols];
+            final double[][] b = new double[newRows][newColumnCount];
 
             for (int i = 0; i < newRows; i++) {
                 if (i >= toUp && i < toUp + rowCount) {
@@ -1535,13 +1535,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                 if (fillDefaultValue) {
                     if (i < toUp || i >= toUp + rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
+                    } else if (columnCount < newColumnCount) {
                         if (toLeft > 0) {
                             N.fill(b[i], 0, toLeft, defaultValueForNewCell);
                         }
 
                         if (toRight > 0) {
-                            N.fill(b[i], columnCount + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(b[i], columnCount + toLeft, newColumnCount, defaultValueForNewCell);
                         }
                     }
                 }
@@ -1733,7 +1733,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1747,7 +1747,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
      */
     @Override
     public DoubleMatrix transpose() {
@@ -1785,30 +1785,30 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix
-     * @param newCols the number of columns in the reshaped matrix
+     * @param newColumnCount the number of columns in the reshaped matrix
      * @return a new DoubleMatrix with the specified shape containing this matrix's elements
-     * @throws IllegalArgumentException if newRows or newCols is negative
+     * @throws IllegalArgumentException if newRows or newColumnCount is negative
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public DoubleMatrix reshape(final int newRows, final int newCols) {
-        final double[][] c = new double[newRows][newCols];
+    public DoubleMatrix reshape(final int newRows, final int newColumnCount) {
+        final double[][] c = new double[newRows][newColumnCount];
 
-        if (newRows == 0 || newCols == 0 || N.isEmpty(a)) {
+        if (newRows == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new DoubleMatrix(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1);
+        final int rowLen = (int) N.min(newRows, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, elementCount - (long) i * newCols));
+                N.copy(a[0], i * newColumnCount, c[i], 0, (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount));
             }
         } else {
             long cnt = 0;
 
             for (int i = 0; i < rowLen; i++) {
-                for (int j = 0, col = (int) N.min(newCols, elementCount - (long) i * newCols); j < col; j++, cnt++) {
+                for (int j = 0, col = (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / columnCount)][(int) (cnt % columnCount)];
                 }
             }
@@ -2095,7 +2095,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Performs matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the other matrix.
-     * Results in a matrix of dimensions (this.rows × b.cols).
+     * Results in a matrix of dimensions (this.rows × b.columnCount).
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2110,8 +2110,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      */
     public DoubleMatrix multiply(final DoubleMatrix b) throws IllegalArgumentException {
         N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rows)", rowCount,
+                columnCount, b.rowCount, b.columnCount);
 
         final double[][] otherData = b.a;
         final double[][] result = new double[rowCount][b.columnCount];
@@ -2694,7 +2694,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Creates a stream of streams, where each inner stream represents a complete column of the matrix.
      * This method is marked as Beta and may change in future versions.
-     * This is equivalent to calling {@code streamC(0, cols)}.
+     * This is equivalent to calling {@code streamC(0, columnCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2856,8 +2856,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param <E> the type of exception that the action may throw
      * @param fromRowIndex the starting row index (inclusive, 0-based, must be &gt;= 0 and &lt; rows)
      * @param toRowIndex the ending row index (exclusive, must be &gt; fromRowIndex and &lt;= rows)
-     * @param fromColumnIndex the starting column index (inclusive, 0-based, must be &gt;= 0 and &lt; cols)
-     * @param toColumnIndex the ending column index (exclusive, must be &gt; fromColumnIndex and &lt;= cols)
+     * @param fromColumnIndex the starting column index (inclusive, 0-based, must be &gt;= 0 and &lt; columnCount)
+     * @param toColumnIndex the ending column index (exclusive, must be &gt; fromColumnIndex and &lt;= columnCount)
      * @param action the action to perform on each element in the sub-region; must not be null
      * @throws IndexOutOfBoundsException if the indices are out of bounds or invalid
      * @throws E if the action throws an exception

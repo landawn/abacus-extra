@@ -808,8 +808,8 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testStreamV_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] cols = m.streamV(1, 3).toArray();
-        assertArrayEquals(new int[] { 2, 5, 3, 6 }, cols);
+        int[] columnCount = m.streamV(1, 3).toArray();
+        assertArrayEquals(new int[] { 2, 5, 3, 6 }, columnCount);
     }
 
     @Test
@@ -835,22 +835,22 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testStreamC() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<int[]> cols = m.streamC().map(s -> s.toArray()).toList();
+        List<int[]> columnCount = m.streamC().map(s -> s.toArray()).toList();
 
-        assertEquals(3, cols.size());
-        assertArrayEquals(new int[] { 1, 4 }, cols.get(0));
-        assertArrayEquals(new int[] { 2, 5 }, cols.get(1));
-        assertArrayEquals(new int[] { 3, 6 }, cols.get(2));
+        assertEquals(3, columnCount.size());
+        assertArrayEquals(new int[] { 1, 4 }, columnCount.get(0));
+        assertArrayEquals(new int[] { 2, 5 }, columnCount.get(1));
+        assertArrayEquals(new int[] { 3, 6 }, columnCount.get(2));
     }
 
     @Test
     public void testStreamC_withRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<int[]> cols = m.streamC(1, 3).map(s -> s.toArray()).toList();
+        List<int[]> columnCount = m.streamC(1, 3).map(s -> s.toArray()).toList();
 
-        assertEquals(2, cols.size());
-        assertArrayEquals(new int[] { 2, 5 }, cols.get(0));
-        assertArrayEquals(new int[] { 3, 6 }, cols.get(1));
+        assertEquals(2, columnCount.size());
+        assertArrayEquals(new int[] { 2, 5 }, columnCount.get(0));
+        assertArrayEquals(new int[] { 3, 6 }, columnCount.get(1));
     }
 
     // ============ Accept and Apply Tests ============

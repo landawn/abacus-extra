@@ -412,6 +412,6 @@ public class ByteTupleTest extends TestBase {
         ByteTuple.ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         byte[] elements1 = tuple.elements();
         byte[] elements2 = tuple.elements();
-        assertSame(elements1, elements2);   // Should return same cached array
+        assertSame(elements1, elements2); // Should return same cached array
     }
 }

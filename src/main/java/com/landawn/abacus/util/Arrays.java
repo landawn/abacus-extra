@@ -110,11 +110,11 @@ import com.landawn.abacus.annotation.SuppressFBWarnings;
  * <p><b>Array Reshaping Operations:</b>
  * <pre>{@code
  * // Reshape arrays to different dimensions
- * // reshape(array, cols) creates rows with specified number of columns
+ * // reshape(array, columnCount) creates rows with specified number of columns
  * int[] linear = {1, 2, 3, 4, 5, 6};
- * int[][] reshaped2D = Arrays.reshape(linear, 2);   // {{1, 2}, {3, 4}, {5, 6}} - 3 rows x 2 cols
+ * int[][] reshaped2D = Arrays.reshape(linear, 2);   // {{1, 2}, {3, 4}, {5, 6}} - 3 rows x 2 columnCount
  *
- * // reshape(array, rows, cols) creates blocks of rows x cols matrices
+ * // reshape(array, rows, columnCount) creates blocks of rows x columnCount matrices
  * int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
  * int[][][] reshaped3D = Arrays.reshape(arr, 2, 2);   // {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}}
  * }</pre>
@@ -2067,23 +2067,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional boolean array to reshape.
-     * @param cols the number of columns for the reshaped array.
+     * @param columnCount the number of columns for the reshaped array.
      * @return a two-dimensional boolean array with the specified number of columns.
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
      */
-    public static boolean[][] reshape(final boolean[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static boolean[][] reshape(final boolean[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new boolean[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final boolean[][] result = new boolean[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -2091,7 +2091,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional boolean array into a three-dimensional boolean array with the specified number of rows and columns.
-     * The array is divided into blocks of size rows × cols.
+     * The array is divided into blocks of size rows × columnCount.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2102,26 +2102,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional boolean array to reshape.
      * @param rows the number of rows for the reshaped subarray.
-     * @param cols the number of columns for the reshaped subarray.
+     * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional boolean array with the specified number of rows and columns.
      * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
      */
-    public static boolean[][][] reshape(final boolean[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static boolean[][][] reshape(final boolean[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new boolean[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final boolean[][][] result = new boolean[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new boolean[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new boolean[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -3386,7 +3386,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional character array into a two-dimensional character array with a specified number of columns.
-     * If the length of the input array is not a multiple of {@code cols}, the last sub-array
+     * If the length of the input array is not a multiple of {@code columnCount}, the last sub-array
      * will be shorter.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3397,23 +3397,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The one-dimensional character array to reshape.
-     * @param cols The number of columns in the new two-dimensional array.
+     * @param columnCount The number of columns in the new two-dimensional array.
      * @return A new two-dimensional character array.
-     * @throws IllegalArgumentException if {@code cols} is not positive.
+     * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
-    public static char[][] reshape(final char[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static char[][] reshape(final char[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new char[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final char[][] result = new char[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -3421,7 +3421,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional character array into a three-dimensional character array with specified dimensions.
-     * If the input array's length is not a perfect multiple of {@code rows * cols},
+     * If the input array's length is not a perfect multiple of {@code rows * columnCount},
      * the last sub-arrays may be shorter.
      *
      * <p><b>Usage Examples:</b></p>
@@ -3433,26 +3433,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a The one-dimensional character array to reshape.
      * @param rows The number of rows in each two-dimensional sub-array.
-     * @param cols The number of columns in each two-dimensional sub-array.
+     * @param columnCount The number of columns in each two-dimensional sub-array.
      * @return A new three-dimensional character array.
-     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
+     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
      */
-    public static char[][][] reshape(final char[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static char[][][] reshape(final char[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new char[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final char[][][] result = new char[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new char[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new char[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -4889,23 +4889,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional byte array to reshape.
-     * @param cols the number of columns for the reshaped array.
+     * @param columnCount the number of columns for the reshaped array.
      * @return a two-dimensional byte array with the specified number of columns.
      * @throws IllegalArgumentException if the number of columns is less than or equal to zero.
      */
-    public static byte[][] reshape(final byte[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static byte[][] reshape(final byte[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new byte[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final byte[][] result = new byte[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -4913,7 +4913,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional byte array into a three-dimensional byte array with the specified number of rows and columns.
-     * The array is divided into blocks of size rows × cols.
+     * The array is divided into blocks of size rows × columnCount.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -4924,26 +4924,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional byte array to reshape.
      * @param rows the number of rows for the reshaped subarray.
-     * @param cols the number of columns for the reshaped subarray.
+     * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional byte array with the specified number of rows and columns.
      * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
      */
-    public static byte[][][] reshape(final byte[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static byte[][][] reshape(final byte[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new byte[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final byte[][][] result = new byte[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new byte[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new byte[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -5976,7 +5976,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional short array into a two-dimensional array with the specified number of columns.
-     * The last row may have fewer elements if the array length is not evenly divisible by cols.
+     * The last row may have fewer elements if the array length is not evenly divisible by columnCount.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -5985,23 +5985,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the array to reshape.
-     * @param cols the number of columns in each row.
+     * @param columnCount the number of columns in each row.
      * @return a two-dimensional array with the specified column count.
-     * @throws IllegalArgumentException if cols is less than 1.
+     * @throws IllegalArgumentException if columnCount is less than 1.
      */
-    public static short[][] reshape(final short[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static short[][] reshape(final short[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new short[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final short[][] result = new short[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -6009,7 +6009,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional short array into a three-dimensional array with the specified dimensions.
-     * The array is divided into blocks of size rows×cols, with partial blocks allowed.
+     * The array is divided into blocks of size rows×columnCount, with partial blocks allowed.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -6019,26 +6019,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the array to reshape.
      * @param rows the number of rows in each two-dimensional block.
-     * @param cols the number of columns in each row.
+     * @param columnCount the number of columns in each row.
      * @return a three-dimensional array with the specified dimensions.
-     * @throws IllegalArgumentException if rows or cols is less than 1.
+     * @throws IllegalArgumentException if rows or columnCount is less than 1.
      */
-    public static short[][][] reshape(final short[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static short[][][] reshape(final short[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new short[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final short[][][] result = new short[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new short[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new short[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -7256,23 +7256,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
-     * @param cols the number of columns in each row.
+     * @param columnCount the number of columns in each row.
      * @return a new two-dimensional array containing the reshaped data.
-     * @throws IllegalArgumentException if cols is less than 1.
+     * @throws IllegalArgumentException if columnCount is less than 1.
      */
-    public static int[][] reshape(final int[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static int[][] reshape(final int[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new int[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final int[][] result = new int[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -7283,7 +7283,7 @@ public sealed class Arrays permits Arrays.f {
      *
      * <p>This method creates a new three-dimensional array by dividing the input array first into matrices
      * of the specified row and column counts. Each matrix may be incomplete if the array length
-     * is not evenly divisible by rows × cols. If the input array is null or empty, returns an empty three-dimensional array.</p>
+     * is not evenly divisible by rows × columnCount. If the input array is null or empty, returns an empty three-dimensional array.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -7294,26 +7294,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional array to reshape.
      * @param rows the number of rows in each two-dimensional matrix.
-     * @param cols the number of columns in each row.
+     * @param columnCount the number of columns in each row.
      * @return a new three-dimensional array containing the reshaped data.
-     * @throws IllegalArgumentException if rows or cols is less than 1.
+     * @throws IllegalArgumentException if rows or columnCount is less than 1.
      */
-    public static int[][][] reshape(final int[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static int[][][] reshape(final int[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new int[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final int[][][] result = new int[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new int[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new int[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -8517,7 +8517,7 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * Reshapes a one-dimensional long array into a two-dimensional long array with a specified number of columns.
-     * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
+     * The last row may be shorter if the total number of elements is not a multiple of {@code columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -8527,23 +8527,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The one-dimensional array to reshape.
-     * @param cols The number of columns in the resulting two-dimensional array.
+     * @param columnCount The number of columns in the resulting two-dimensional array.
      * @return A new two-dimensional long array.
-     * @throws IllegalArgumentException if {@code cols} is not positive.
+     * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
-    public static long[][] reshape(final long[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static long[][] reshape(final long[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new long[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final long[][] result = new long[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -8562,26 +8562,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a The one-dimensional array to reshape.
      * @param rows The number of rows in each two-dimensional sub-array.
-     * @param cols The number of columns in each two-dimensional sub-array.
+     * @param columnCount The number of columns in each two-dimensional sub-array.
      * @return A new three-dimensional long array.
-     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
+     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
      */
-    public static long[][][] reshape(final long[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static long[][][] reshape(final long[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new long[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final long[][][] result = new long[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new long[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new long[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -9763,7 +9763,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional float array into a two-dimensional float array with the specified number of columns.
      * The last row of the resulting two-dimensional array may have fewer elements if the length of the
-     * input array is not a multiple of {@code cols}.
+     * input array is not a multiple of {@code columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9772,23 +9772,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
-     * @param cols the number of columns in the new two-dimensional array.
+     * @param columnCount the number of columns in the new two-dimensional array.
      * @return a new two-dimensional array containing the elements of the input array.
-     * @throws IllegalArgumentException if {@code cols} is not positive.
+     * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
-    public static float[][] reshape(final float[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static float[][] reshape(final float[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new float[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final float[][] result = new float[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -9797,7 +9797,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional float array into a three-dimensional float array with the specified number of rows and columns.
      * The last sub-array may be smaller if the total number of elements is not a multiple
-     * of {@code rows * cols}.
+     * of {@code rows * columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -9807,26 +9807,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional array to reshape.
      * @param rows the number of rows in each two-dimensional sub-array.
-     * @param cols the number of columns in each two-dimensional sub-array.
+     * @param columnCount the number of columns in each two-dimensional sub-array.
      * @return a new three-dimensional array containing the elements of the input array.
-     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
+     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
      */
-    public static float[][][] reshape(final float[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static float[][][] reshape(final float[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new float[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final float[][][] result = new float[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new float[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new float[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -11015,7 +11015,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional array into a two-dimensional array with the specified number of columns.
      * The number of rows is determined by dividing the total number of elements by the number of columns.
-     * The last row may be shorter if the total number of elements is not a multiple of {@code cols}.
+     * The last row may be shorter if the total number of elements is not a multiple of {@code columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11025,23 +11025,23 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the one-dimensional array to reshape.
-     * @param cols the number of columns in the new two-dimensional array.
+     * @param columnCount the number of columns in the new two-dimensional array.
      * @return a new two-dimensional array.
-     * @throws IllegalArgumentException if {@code cols} is not positive.
+     * @throws IllegalArgumentException if {@code columnCount} is not positive.
      */
-    public static double[][] reshape(final double[] a, final int cols) throws IllegalArgumentException {
-        checkColsForReshape(cols);
+    public static double[][] reshape(final double[] a, final int columnCount) throws IllegalArgumentException {
+        checkColsForReshape(columnCount);
 
         if (N.isEmpty(a)) {
             return new double[0][];
         }
 
         final int len = a.length;
-        final int numRows = Numbers.divide(len, cols, RoundingMode.CEILING);
+        final int numRows = Numbers.divide(len, columnCount, RoundingMode.CEILING);
         final double[][] result = new double[numRows][];
 
-        for (int i = 0, from = 0; i < numRows; i++, from += cols) {
-            result[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+        for (int i = 0, from = 0; i < numRows; i++, from += columnCount) {
+            result[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
         }
 
         return result;
@@ -11050,7 +11050,7 @@ public sealed class Arrays permits Arrays.f {
     /**
      * Reshapes a one-dimensional array into a three-dimensional array with the specified number of rows and columns.
      * The dimensions of the resulting array are determined based on the total element count.
-     * The last sub-arrays may be shorter if the total count is not a multiple of {@code rows * cols}.
+     * The last sub-arrays may be shorter if the total count is not a multiple of {@code rows * columnCount}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -11061,26 +11061,26 @@ public sealed class Arrays permits Arrays.f {
      *
      * @param a the one-dimensional array to reshape.
      * @param rows the number of rows in each two-dimensional slice.
-     * @param cols the number of columns in each two-dimensional slice.
+     * @param columnCount the number of columns in each two-dimensional slice.
      * @return a new three-dimensional array.
-     * @throws IllegalArgumentException if {@code rows} or {@code cols} are not positive.
+     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
      */
-    public static double[][][] reshape(final double[] a, final int rows, final int cols) throws IllegalArgumentException {
-        checkRowsAndColsForReshape(rows, cols);
+    public static double[][][] reshape(final double[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+        checkRowsAndColsForReshape(rows, columnCount);
 
         if (N.isEmpty(a)) {
             return new double[0][][];
         }
 
         final int len = a.length;
-        final int numBlocks = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+        final int numBlocks = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
         final double[][][] result = new double[numBlocks][][];
 
         for (int i = 0, from = 0; i < numBlocks; i++) {
-            result[i] = new double[N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING))][];
+            result[i] = new double[N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING))][];
 
-            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += cols) {
-                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int j = 0, currentBlockRows = result[i].length; j < currentBlockRows; j++, from += columnCount) {
+                result[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
         }
 
@@ -14311,13 +14311,13 @@ public sealed class Arrays permits Arrays.f {
     }
 
     private static void checkColsForReshape(final int m) { // NOSONAR
-        N.checkArgument(m > 0, "cols must be a positive number, but got: %s", m);
+        N.checkArgument(m > 0, "columnCount must be a positive number, but got: %s", m);
     }
 
-    private static void checkRowsAndColsForReshape(final int rows, final int cols) {
-        N.checkArgument(rows > 0 && cols > 0, "rows and cols must be positive numbers: rows = %s, cols = %s", rows, cols);
-        N.checkArgument((long) rows * (long) cols <= Integer.MAX_VALUE, "rows * cols must be <= %s, but got: rows = %s, cols = %s", Integer.MAX_VALUE, rows,
-                cols);
+    private static void checkRowsAndColsForReshape(final int rows, final int columnCount) {
+        N.checkArgument(rows > 0 && columnCount > 0, "rows and columnCount must be positive numbers: rows = %s, columnCount = %s", rows, columnCount);
+        N.checkArgument((long) rows * (long) columnCount <= Integer.MAX_VALUE, "rows * columnCount must be <= %s, but got: rows = %s, columnCount = %s",
+                Integer.MAX_VALUE, rows, columnCount);
     }
 
     /**
@@ -14651,7 +14651,8 @@ public sealed class Arrays permits Arrays.f {
      * updating, replacing, reshaping, flattening, mapping, and zipping operations.
      * 
      * <p>All methods in this class are static and the class cannot be instantiated.
-     * The class name 'ff' is intentionally short for convenient static imports.</p>
+    
+                   * The class name 'ff' short for convenient static imports.</p>
      * 
      * <p>Key features include:</p>
      * <ul>
@@ -14769,24 +14770,24 @@ public sealed class Arrays permits Arrays.f {
          *
          * @param <T> the component type of the array.
          * @param a the one-dimensional array to reshape.
-         * @param cols the number of columns in each row.
+         * @param columnCount the number of columns in each row.
          * @return a new two-dimensional array with the specified column structure.
-         * @throws IllegalArgumentException if {@code cols} is not positive ({@code cols <= 0}).
+         * @throws IllegalArgumentException if {@code columnCount} is not positive ({@code columnCount <= 0}).
          */
-        public static <T> T[][] reshape(final T[] a, final int cols) throws IllegalArgumentException {
-            checkColsForReshape(cols);
+        public static <T> T[][] reshape(final T[] a, final int columnCount) throws IllegalArgumentException {
+            checkColsForReshape(columnCount);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][];
             //        }
 
             final int len = a.length;
-            final int n = Numbers.divide(len, cols, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, columnCount, RoundingMode.CEILING);
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
             final T[][] c = N.newArray(arrayClass, n);
 
-            for (int i = 0, from = 0; i < n; i++, from += cols) {
-                c[i] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+            for (int i = 0, from = 0; i < n; i++, from += columnCount) {
+                c[i] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
             }
 
             return c;
@@ -15875,12 +15876,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the array.
          * @param a the one-dimensional array to reshape.
          * @param rows the number of rows for each two-dimensional slice. Must be positive.
-         * @param cols the number of columns for each two-dimensional slice. Must be positive.
+         * @param columnCount the number of columns for each two-dimensional slice. Must be positive.
          * @return a new three-dimensional array containing all elements from the input.
-         * @throws IllegalArgumentException if rows or cols are not positive numbers.
+         * @throws IllegalArgumentException if rows or columnCount are not positive numbers.
          */
-        public static <T> T[][][] reshape(final T[] a, final int rows, final int cols) throws IllegalArgumentException {
-            checkRowsAndColsForReshape(rows, cols);
+        public static <T> T[][][] reshape(final T[] a, final int rows, final int columnCount) throws IllegalArgumentException {
+            checkRowsAndColsForReshape(rows, columnCount);
 
             //        if (N.isEmpty(a)) {
             //            return new T[0][][];
@@ -15888,15 +15889,15 @@ public sealed class Arrays permits Arrays.f {
 
             final Class<T[]> arrayClass = (Class<T[]>) a.getClass();
             final int len = a.length;
-            final int n = Numbers.divide(len, rows * cols, RoundingMode.CEILING);
+            final int n = Numbers.divide(len, rows * columnCount, RoundingMode.CEILING);
 
             final T[][][] c = N.newArray(N.newArray(arrayClass, 0).getClass(), n);
 
             for (int i = 0, from = 0; i < n; i++) {
-                c[i] = N.newArray(arrayClass, N.min(rows, Numbers.divide(len - from, cols, RoundingMode.CEILING)));
+                c[i] = N.newArray(arrayClass, N.min(rows, Numbers.divide(len - from, columnCount, RoundingMode.CEILING)));
 
-                for (int j = 0, y = c[i].length; j < y; j++, from += cols) {
-                    c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, cols));
+                for (int j = 0, y = c[i].length; j < y; j++, from += columnCount) {
+                    c[i][j] = N.copyOfRange(a, from, from + N.min(len - from, columnCount));
                 }
             }
 

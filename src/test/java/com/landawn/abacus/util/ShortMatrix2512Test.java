@@ -523,7 +523,7 @@ public class ShortMatrix2512Test extends TestBase {
         assertEquals(6, result.get(0, 1));
         assertEquals(9, result.get(1, 0));
         assertEquals(12, result.get(1, 1));
-        assertEquals(1, m.get(0, 0));   // original unchanged
+        assertEquals(1, m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -581,7 +581,7 @@ public class ShortMatrix2512Test extends TestBase {
         assertEquals(1, copy.get(0, 0));
 
         copy.set(0, 0, (short) 99);
-        assertEquals(1, m.get(0, 0));   // original unchanged
+        assertEquals(1, m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -674,7 +674,7 @@ public class ShortMatrix2512Test extends TestBase {
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix flipped = m.flipH();
         assertEquals(3, flipped.get(0, 0));
-        assertEquals(1, m.get(0, 0));   // original unchanged
+        assertEquals(1, m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -683,7 +683,7 @@ public class ShortMatrix2512Test extends TestBase {
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix flipped = m.flipV();
         assertEquals(3, flipped.get(0, 0));
-        assertEquals(1, m.get(0, 0));   // original unchanged
+        assertEquals(1, m.get(0, 0)); // original unchanged
     }
 
     // ============ Rotation Tests ============
@@ -763,7 +763,7 @@ public class ShortMatrix2512Test extends TestBase {
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(2, reshaped.get(0, 1));
         assertEquals(3, reshaped.get(1, 0));
-        assertEquals(0, reshaped.get(1, 1));   // filled with zero
+        assertEquals(0, reshaped.get(1, 1)); // filled with zero
     }
 
     // ============ Repelem Test ============

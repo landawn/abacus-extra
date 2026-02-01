@@ -609,9 +609,9 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_fill_withOffset_oversizedArray() {
         // According to javadoc, fill() copies what fits - does not throw when source array is larger
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
-        m.fill(0, 0, new float[][] { { 9.0f, 8.0f, 7.0f } });   // Third element should be ignored
+        m.fill(0, 0, new float[][] { { 9.0f, 8.0f, 7.0f } }); // Third element should be ignored
         assertEquals(9.0f, m.get(0, 0), 0.0f);
-        assertEquals(8.0f, m.get(0, 1), 0.0f);   // Only copies what fits
+        assertEquals(8.0f, m.get(0, 1), 0.0f); // Only copies what fits
     }
 
     // ============ Copy Tests ============
@@ -624,7 +624,7 @@ public class FloatMatrix2512Test extends TestBase {
         assertEquals(m.columnCount(), copy.columnCount());
         assertEquals(1.0f, copy.get(0, 0), 0.0f);
         copy.set(0, 0, 99.0f);
-        assertEquals(1.0f, m.get(0, 0), 0.0f);   // Original unchanged
+        assertEquals(1.0f, m.get(0, 0), 0.0f); // Original unchanged
     }
 
     @Test
@@ -824,7 +824,7 @@ public class FloatMatrix2512Test extends TestBase {
     public void test_reshape_differentSize() {
         // According to javadoc, reshape allows different sizes - excess elements truncated, missing filled with zeros
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        FloatMatrix reshaped = m.reshape(3, 3);   // 4 elements reshaped to 9 positions
+        FloatMatrix reshaped = m.reshape(3, 3); // 4 elements reshaped to 9 positions
         assertEquals(3, reshaped.rowCount());
         assertEquals(3, reshaped.columnCount());
         // Original elements

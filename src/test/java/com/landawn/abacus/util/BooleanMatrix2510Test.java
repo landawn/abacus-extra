@@ -1050,10 +1050,10 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        List<Boolean> cols = m.streamV(1, 3).toList();
-        assertEquals(4, cols.size());
-        assertFalse(cols.get(0));
-        assertTrue(cols.get(1));
+        List<Boolean> columnCount = m.streamV(1, 3).toList();
+        assertEquals(4, columnCount.size());
+        assertFalse(columnCount.get(0));
+        assertTrue(columnCount.get(1));
     }
 
     @Test
@@ -1074,16 +1074,16 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testStreamC() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
-        List<Stream<Boolean>> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<Stream<Boolean>> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     @Test
     public void testStreamC_columnRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
-        List<Stream<Boolean>> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<Stream<Boolean>> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ ForEach Tests ============
@@ -1178,9 +1178,9 @@ public class BooleanMatrix2510Test extends TestBase {
     @Test
     public void testPointsC() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[2][2]);
-        List<Stream<Point>> cols = m.pointsC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<Stream<Point>> columnCount = m.pointsC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     // ============ Utility Tests (Inherited) ============

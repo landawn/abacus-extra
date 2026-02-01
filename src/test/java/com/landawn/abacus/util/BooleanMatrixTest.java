@@ -884,11 +884,11 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        List<List<Boolean>> cols = matrix.streamC().map(stream -> stream.toList()).toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).size());
-        assertTrue(cols.get(0).get(0));
-        assertFalse(cols.get(0).get(1));
+        List<List<Boolean>> columnCount = matrix.streamC().map(stream -> stream.toList()).toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).size());
+        assertTrue(columnCount.get(0).get(0));
+        assertFalse(columnCount.get(0).get(1));
     }
 
     @Test
@@ -896,8 +896,8 @@ public class BooleanMatrixTest extends TestBase {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix matrix = BooleanMatrix.of(arr);
 
-        List<List<Boolean>> cols = matrix.streamC(1, 3).map(stream -> stream.toList()).toList();
-        assertEquals(2, cols.size());
+        List<List<Boolean>> columnCount = matrix.streamC(1, 3).map(stream -> stream.toList()).toList();
+        assertEquals(2, columnCount.size());
 
         assertThrows(IndexOutOfBoundsException.class, () -> matrix.streamC(-1, 2));
     }

@@ -417,6 +417,6 @@ public class FloatTupleTest extends TestBase {
         FloatTuple.FloatTuple3 tuple = FloatTuple.of(1.5f, 2.5f, 3.5f);
         float[] elements1 = tuple.elements();
         float[] elements2 = tuple.elements();
-        assertSame(elements1, elements2);   // Should return same cached array
+        assertSame(elements1, elements2); // Should return same cached array
     }
 }

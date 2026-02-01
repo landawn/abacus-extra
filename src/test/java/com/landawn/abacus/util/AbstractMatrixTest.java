@@ -470,22 +470,22 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testPointsC() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> cols = matrix.pointsC().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsC().map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
-        Assertions.assertEquals(3, cols.size());
-        Assertions.assertEquals(2, cols.get(0).size());
-        Assertions.assertEquals(Sheet.Point.of(0, 0), cols.get(0).get(0));
-        Assertions.assertEquals(Sheet.Point.of(1, 2), cols.get(2).get(1));
+        Assertions.assertEquals(3, columnCount.size());
+        Assertions.assertEquals(2, columnCount.get(0).size());
+        Assertions.assertEquals(Sheet.Point.of(0, 0), columnCount.get(0).get(0));
+        Assertions.assertEquals(Sheet.Point.of(1, 2), columnCount.get(2).get(1));
     }
 
     @Test
     public void testPointsCRange() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Sheet.Point>> cols = matrix.pointsC(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Sheet.Point>> columnCount = matrix.pointsC(1, 3).map(stream -> stream.collect(Collectors.toList())).collect(Collectors.toList());
 
-        Assertions.assertEquals(2, cols.size());
-        Assertions.assertEquals(2, cols.get(0).size());
-        Assertions.assertEquals(Sheet.Point.of(0, 1), cols.get(0).get(0));
+        Assertions.assertEquals(2, columnCount.size());
+        Assertions.assertEquals(2, columnCount.get(0).size());
+        Assertions.assertEquals(Sheet.Point.of(0, 1), columnCount.get(0).get(0));
     }
 
     @Test
@@ -566,11 +566,11 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamVRange() {
         IntMatrix matrix = createTestMatrix();
-        List<Integer> cols = matrix.streamV(1, 3).boxed().collect(Collectors.toList());
+        List<Integer> columnCount = matrix.streamV(1, 3).boxed().collect(Collectors.toList());
 
-        Assertions.assertEquals(6, cols.size());
-        Assertions.assertEquals(2, cols.get(0));
-        Assertions.assertEquals(5, cols.get(1));
+        Assertions.assertEquals(6, columnCount.size());
+        Assertions.assertEquals(2, columnCount.get(0));
+        Assertions.assertEquals(5, columnCount.get(1));
     }
 
     @Test
@@ -597,22 +597,22 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testStreamC() {
         IntMatrix matrix = createTestMatrix2x3();
-        List<List<Integer>> cols = matrix.streamC().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> columnCount = matrix.streamC().map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
-        Assertions.assertEquals(3, cols.size());
-        Assertions.assertEquals(2, cols.get(0).size());
-        Assertions.assertEquals(1, cols.get(0).get(0));
-        Assertions.assertEquals(6, cols.get(2).get(1));
+        Assertions.assertEquals(3, columnCount.size());
+        Assertions.assertEquals(2, columnCount.get(0).size());
+        Assertions.assertEquals(1, columnCount.get(0).get(0));
+        Assertions.assertEquals(6, columnCount.get(2).get(1));
     }
 
     @Test
     public void testStreamCRange() {
         IntMatrix matrix = createTestMatrix();
-        List<List<Integer>> cols = matrix.streamC(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
+        List<List<Integer>> columnCount = matrix.streamC(1, 3).map(stream -> stream.boxed().collect(Collectors.toList())).collect(Collectors.toList());
 
-        Assertions.assertEquals(2, cols.size());
-        Assertions.assertEquals(3, cols.get(0).size());
-        Assertions.assertEquals(2, cols.get(0).get(0));
+        Assertions.assertEquals(2, columnCount.size());
+        Assertions.assertEquals(3, columnCount.get(0).size());
+        Assertions.assertEquals(2, columnCount.get(0).get(0));
     }
 
     @Test

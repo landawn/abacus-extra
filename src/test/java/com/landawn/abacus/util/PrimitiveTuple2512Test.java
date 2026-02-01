@@ -253,7 +253,7 @@ public class PrimitiveTuple2512Test extends TestBase {
         IntTuple2 tuple = IntTuple.of(10, 0);
 
         assertThrows(ArithmeticException.class, () -> {
-            tuple.map(t -> t._1 / t._2);   // Division by zero
+            tuple.map(t -> t._1 / t._2); // Division by zero
         });
     }
 
@@ -352,7 +352,7 @@ public class PrimitiveTuple2512Test extends TestBase {
         IntTuple2 tuple = IntTuple.of(10, 0);
 
         assertThrows(ArithmeticException.class, () -> {
-            tuple.filter(t -> t._1 / t._2 > 5);   // Division by zero
+            tuple.filter(t -> t._1 / t._2 > 5); // Division by zero
         });
     }
 

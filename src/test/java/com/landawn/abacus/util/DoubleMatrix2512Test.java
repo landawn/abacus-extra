@@ -685,9 +685,9 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_fill_withOffset_clipsToFit() {
         // fill method clips data to fit within matrix bounds, doesn't throw exception
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 } });
-        m.fill(0, 0, new double[][] { { 9.0, 8.0, 7.0 } });   // Source has 3 elements but matrix only has 2 columns
+        m.fill(0, 0, new double[][] { { 9.0, 8.0, 7.0 } }); // Source has 3 elements but matrix only has 2 columns
         assertEquals(9.0, m.get(0, 0), 0.0);
-        assertEquals(8.0, m.get(0, 1), 0.0);   // Only first 2 elements are copied
+        assertEquals(8.0, m.get(0, 1), 0.0); // Only first 2 elements are copied
     }
 
     // ============ Copy Tests ============
@@ -700,7 +700,7 @@ public class DoubleMatrix2512Test extends TestBase {
         assertEquals(m.columnCount(), copy.columnCount());
         assertEquals(1.0, copy.get(0, 0), 0.0);
         copy.set(0, 0, 99.0);
-        assertEquals(1.0, m.get(0, 0), 0.0);   // Original unchanged
+        assertEquals(1.0, m.get(0, 0), 0.0); // Original unchanged
     }
 
     @Test
@@ -900,14 +900,14 @@ public class DoubleMatrix2512Test extends TestBase {
     public void test_reshape_largerSize() {
         // reshape allows different total element count, fills extra positions with zeros
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        DoubleMatrix reshaped = m.reshape(3, 3);   // 4 elements -> 9 positions
+        DoubleMatrix reshaped = m.reshape(3, 3); // 4 elements -> 9 positions
         assertEquals(3, reshaped.rowCount());
         assertEquals(3, reshaped.columnCount());
         assertEquals(1.0, reshaped.get(0, 0), 0.0);
         assertEquals(2.0, reshaped.get(0, 1), 0.0);
         assertEquals(3.0, reshaped.get(0, 2), 0.0);
         assertEquals(4.0, reshaped.get(1, 0), 0.0);
-        assertEquals(0.0, reshaped.get(1, 1), 0.0);   // Extra positions filled with zeros
+        assertEquals(0.0, reshaped.get(1, 1), 0.0); // Extra positions filled with zeros
         assertEquals(0.0, reshaped.get(1, 2), 0.0);
     }
 

@@ -92,7 +92,7 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
         matrix.forEach(0, 2, 0, 2, (i, j) -> sum.addAndGet(matrix.get(i, j)));
-        assertEquals(12, sum.get());   // 1+2+4+5
+        assertEquals(12, sum.get()); // 1+2+4+5
     }
 
     @Test
@@ -100,7 +100,7 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         AtomicInteger sum = new AtomicInteger(0);
         matrix.forEach(1, 3, 1, 3, (i, j, m) -> sum.addAndGet(m.get(i, j)));
-        assertEquals(28, sum.get());   // 5+6+8+9
+        assertEquals(28, sum.get()); // 5+6+8+9
     }
 
     @Test
@@ -118,10 +118,10 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         List<Point> points = matrix.adjacent4Points(1, 1).toList();
         assertEquals(4, points.size());
-        assertTrue(points.contains(Point.of(0, 1)));   // up
-        assertTrue(points.contains(Point.of(1, 2)));   // right
-        assertTrue(points.contains(Point.of(2, 1)));   // down
-        assertTrue(points.contains(Point.of(1, 0)));   // left
+        assertTrue(points.contains(Point.of(0, 1))); // up
+        assertTrue(points.contains(Point.of(1, 2))); // right
+        assertTrue(points.contains(Point.of(2, 1))); // down
+        assertTrue(points.contains(Point.of(1, 0))); // left
     }
 
     @Test
@@ -129,8 +129,8 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Point> points = matrix.adjacent4Points(0, 0).toList();
         assertEquals(2, points.size());
-        assertTrue(points.contains(Point.of(0, 1)));   // right
-        assertTrue(points.contains(Point.of(1, 0)));   // down
+        assertTrue(points.contains(Point.of(0, 1))); // right
+        assertTrue(points.contains(Point.of(1, 0))); // down
     }
 
     @Test
@@ -138,8 +138,8 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Point> points = matrix.adjacent4Points(1, 1).toList();
         assertEquals(2, points.size());
-        assertTrue(points.contains(Point.of(0, 1)));   // up
-        assertTrue(points.contains(Point.of(1, 0)));   // left
+        assertTrue(points.contains(Point.of(0, 1))); // up
+        assertTrue(points.contains(Point.of(1, 0))); // left
     }
 
     @Test
@@ -154,9 +154,9 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Point> points = matrix.adjacent8Points(0, 0).toList();
         assertEquals(3, points.size());
-        assertTrue(points.contains(Point.of(0, 1)));   // right
-        assertTrue(points.contains(Point.of(1, 1)));   // rightDown
-        assertTrue(points.contains(Point.of(1, 0)));   // down
+        assertTrue(points.contains(Point.of(0, 1))); // right
+        assertTrue(points.contains(Point.of(1, 1))); // rightDown
+        assertTrue(points.contains(Point.of(1, 0))); // down
     }
 
     @Test
@@ -164,9 +164,9 @@ public class AbstractMatrix2512Test extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         List<Point> points = matrix.adjacent8Points(1, 1).toList();
         assertEquals(3, points.size());
-        assertTrue(points.contains(Point.of(0, 0)));   // leftUp
-        assertTrue(points.contains(Point.of(0, 1)));   // up
-        assertTrue(points.contains(Point.of(1, 0)));   // left
+        assertTrue(points.contains(Point.of(0, 0))); // leftUp
+        assertTrue(points.contains(Point.of(0, 1))); // up
+        assertTrue(points.contains(Point.of(1, 0))); // left
     }
 
     // ============ Diagonal Point Stream Tests ============
@@ -292,19 +292,19 @@ public class AbstractMatrix2512Test extends TestBase {
     @Test
     public void test_pointsC_allColumns() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<List<Point>> cols = matrix.pointsC().map(Stream::toList).toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).size());
-        assertEquals(Point.of(0, 0), cols.get(0).get(0));
-        assertEquals(Point.of(1, 0), cols.get(0).get(1));
+        List<List<Point>> columnCount = matrix.pointsC().map(Stream::toList).toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).size());
+        assertEquals(Point.of(0, 0), columnCount.get(0).get(0));
+        assertEquals(Point.of(1, 0), columnCount.get(0).get(1));
     }
 
     @Test
     public void test_pointsC_columnRange() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<List<Point>> cols = matrix.pointsC(0, 2).map(Stream::toList).toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).size());
+        List<List<Point>> columnCount = matrix.pointsC(0, 2).map(Stream::toList).toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).size());
     }
 
     // ============ Accept and Apply Tests ============
@@ -352,8 +352,8 @@ public class AbstractMatrix2512Test extends TestBase {
         assertEquals(4, reshaped.columnCount());
         assertEquals(5, reshaped.get(1, 0));
         assertEquals(6, reshaped.get(1, 1));
-        assertEquals(0, reshaped.get(1, 2));   // Padded
-        assertEquals(0, reshaped.get(1, 3));   // Padded
+        assertEquals(0, reshaped.get(1, 2)); // Padded
+        assertEquals(0, reshaped.get(1, 3)); // Padded
     }
 
     // ============ Component Type Test ============
@@ -383,9 +383,9 @@ public class AbstractMatrix2512Test extends TestBase {
         int[][] arr = { { 1, 2 }, { 3, 4 } };
         IntMatrix matrix = IntMatrix.of(arr);
         int[][] returned = matrix.array();
-        assertEquals(arr, returned);   // Same reference
+        assertEquals(arr, returned); // Same reference
         returned[0][0] = 999;
-        assertEquals(999, matrix.get(0, 0));   // Modification affects matrix
+        assertEquals(999, matrix.get(0, 0)); // Modification affects matrix
     }
 
     // ============ Println Test ============

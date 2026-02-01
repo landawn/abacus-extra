@@ -166,7 +166,7 @@ public class LongTupleTest extends TestBase {
         assertEquals(200L, tuple.median());
 
         LongTuple.LongTuple4 evenTuple = LongTuple.of(100L, 200L, 300L, 400L);
-        assertEquals(200L, evenTuple.median());   // Should be (200L + 300L) / 2 = 250L
+        assertEquals(200L, evenTuple.median()); // Should be (200L + 300L) / 2 = 250L
 
         LongTuple.LongTuple0 empty = LongTuple.create(new long[0]);
         assertThrows(NoSuchElementException.class, () -> empty.median());
@@ -415,6 +415,6 @@ public class LongTupleTest extends TestBase {
         LongTuple.LongTuple3 tuple = LongTuple.of(100L, 200L, 300L);
         long[] elements1 = tuple.elements();
         long[] elements2 = tuple.elements();
-        assertSame(elements1, elements2);   // Should return same cached array
+        assertSame(elements1, elements2); // Should return same cached array
     }
 }

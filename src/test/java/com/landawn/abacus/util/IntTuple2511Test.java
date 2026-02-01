@@ -251,7 +251,7 @@ public class IntTuple2511Test extends TestBase {
     @Test
     public void testMedian_even() {
         IntTuple4 tuple = IntTuple.of(1, 2, 3, 4);
-        assertEquals(2, tuple.median());   // Lower middle for even length
+        assertEquals(2, tuple.median()); // Lower middle for even length
     }
 
     @Test
@@ -318,7 +318,7 @@ public class IntTuple2511Test extends TestBase {
         IntTuple1 reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals(42, reversed._1);
-        assertNotSame(tuple, reversed);   // Should be new instance
+        assertNotSame(tuple, reversed); // Should be new instance
     }
 
     @Test
@@ -550,7 +550,7 @@ public class IntTuple2511Test extends TestBase {
         IntTuple3 tuple = IntTuple.of(10, 20, 30);
         int[] array1 = tuple.toArray();
         int[] array2 = tuple.toArray();
-        assertNotSame(array1, array2);   // Should be independent copies
+        assertNotSame(array1, array2); // Should be independent copies
         assertArrayEquals(array1, array2);
     }
 

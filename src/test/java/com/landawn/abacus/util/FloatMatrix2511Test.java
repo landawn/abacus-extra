@@ -285,7 +285,7 @@ public class FloatMatrix2511Test extends TestBase {
         FloatMatrix m = FloatMatrix.diagonal(new float[] { 5.0f }, new float[] { 7.0f });
         assertEquals(1, m.rowCount());
         assertEquals(1, m.columnCount());
-        assertEquals(5.0f, m.get(0, 0));   // Main diagonal takes precedence
+        assertEquals(5.0f, m.get(0, 0)); // Main diagonal takes precedence
     }
 
     @Test

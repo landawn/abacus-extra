@@ -765,7 +765,7 @@ public class ByteTuple2512Test extends TestBase {
         ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         byte[] array = tuple.toArray();
         array[0] = 99;
-        assertEquals((byte) 10, tuple._1);   // Tuple should be unaffected
+        assertEquals((byte) 10, tuple._1); // Tuple should be unaffected
     }
 
     @Test
@@ -773,7 +773,7 @@ public class ByteTuple2512Test extends TestBase {
         ByteTuple3 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30);
         ByteList list = tuple.toList();
         list.set(0, (byte) 99);
-        assertEquals((byte) 10, tuple._1);   // Tuple should be unaffected
+        assertEquals((byte) 10, tuple._1); // Tuple should be unaffected
     }
 
     @Test
@@ -822,6 +822,6 @@ public class ByteTuple2512Test extends TestBase {
     @Test
     public void test_median_evenCount() {
         ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-        assertEquals((byte) 20, tuple.median());   // Lower middle value
+        assertEquals((byte) 20, tuple.median()); // Lower middle value
     }
 }

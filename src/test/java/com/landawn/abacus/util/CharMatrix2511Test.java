@@ -1434,16 +1434,16 @@ public class CharMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        List<CharStream> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).toArray().length);
+        List<CharStream> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).toArray().length);
     }
 
     @Test
     public void testStreamC_withRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        List<CharStream> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<CharStream> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ Point Stream Tests ============

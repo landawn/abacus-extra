@@ -492,7 +492,7 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertEquals(2, matrix.get(0, 1));
         Assertions.assertEquals(3, matrix.get(1, 0));
         Assertions.assertEquals(4, matrix.get(1, 1));
-        Assertions.assertEquals(0, matrix.get(2, 2));   // unchanged
+        Assertions.assertEquals(0, matrix.get(2, 2)); // unchanged
     }
 
     @Test
@@ -502,7 +502,7 @@ public class ByteMatrixTest extends TestBase {
 
         byte[][] b = { { 1, 2 } };
         matrix.fill(1, 1, b);
-        Assertions.assertEquals(0, matrix.get(0, 0));   // unchanged
+        Assertions.assertEquals(0, matrix.get(0, 0)); // unchanged
         Assertions.assertEquals(1, matrix.get(1, 1));
         Assertions.assertEquals(2, matrix.get(1, 2));
 
@@ -522,7 +522,7 @@ public class ByteMatrixTest extends TestBase {
         Assertions.assertEquals(4, copy.get(1, 1));
 
         copy.set(0, 0, (byte) 9);
-        Assertions.assertEquals(1, matrix.get(0, 0));   // original unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -647,7 +647,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix flipped = matrix.flipH();
         Assertions.assertEquals(3, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(0, 2));
-        Assertions.assertEquals(1, matrix.get(0, 0));   // original unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -658,7 +658,7 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix flipped = matrix.flipV();
         Assertions.assertEquals(5, flipped.get(0, 0));
         Assertions.assertEquals(1, flipped.get(2, 0));
-        Assertions.assertEquals(1, matrix.get(0, 0));   // original unchanged
+        Assertions.assertEquals(1, matrix.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -1094,11 +1094,11 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        List<ByteStream> cols = matrix.streamC().toList();
-        Assertions.assertEquals(3, cols.size());
-        Assertions.assertArrayEquals(new byte[] { 1, 4 }, cols.get(0).toArray());
-        Assertions.assertArrayEquals(new byte[] { 2, 5 }, cols.get(1).toArray());
-        Assertions.assertArrayEquals(new byte[] { 3, 6 }, cols.get(2).toArray());
+        List<ByteStream> columnCount = matrix.streamC().toList();
+        Assertions.assertEquals(3, columnCount.size());
+        Assertions.assertArrayEquals(new byte[] { 1, 4 }, columnCount.get(0).toArray());
+        Assertions.assertArrayEquals(new byte[] { 2, 5 }, columnCount.get(1).toArray());
+        Assertions.assertArrayEquals(new byte[] { 3, 6 }, columnCount.get(2).toArray());
     }
 
     @Test
@@ -1106,10 +1106,10 @@ public class ByteMatrixTest extends TestBase {
         byte[][] a = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix matrix = ByteMatrix.of(a);
 
-        List<ByteStream> cols = matrix.streamC(1, 3).toList();
-        Assertions.assertEquals(2, cols.size());
-        Assertions.assertArrayEquals(new byte[] { 2, 5 }, cols.get(0).toArray());
-        Assertions.assertArrayEquals(new byte[] { 3, 6 }, cols.get(1).toArray());
+        List<ByteStream> columnCount = matrix.streamC(1, 3).toList();
+        Assertions.assertEquals(2, columnCount.size());
+        Assertions.assertArrayEquals(new byte[] { 2, 5 }, columnCount.get(0).toArray());
+        Assertions.assertArrayEquals(new byte[] { 3, 6 }, columnCount.get(1).toArray());
     }
 
     @Test
@@ -1180,10 +1180,10 @@ public class ByteMatrixTest extends TestBase {
         ByteMatrix matrix3 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 5 } });
         ByteMatrix matrix4 = ByteMatrix.of(new byte[][] { { 1, 2 } });
 
-        Assertions.assertEquals(matrix1, matrix1);   // same instance
-        Assertions.assertEquals(matrix1, matrix2);   // same content
-        Assertions.assertNotEquals(matrix1, matrix3);   // different content
-        Assertions.assertNotEquals(matrix1, matrix4);   // different dimensions
+        Assertions.assertEquals(matrix1, matrix1); // same instance
+        Assertions.assertEquals(matrix1, matrix2); // same content
+        Assertions.assertNotEquals(matrix1, matrix3); // different content
+        Assertions.assertNotEquals(matrix1, matrix4); // different dimensions
         Assertions.assertNotEquals(matrix1, null);
         Assertions.assertNotEquals(matrix1, "not a matrix");
     }

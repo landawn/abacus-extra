@@ -153,17 +153,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <T> the type of elements in the matrix
      * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
+     * @param columnCount the number of columns in the new matrix
      * @param element the value to fill the matrix with (must not be null)
-     * @return a new Matrix of dimensions rows x cols filled with the specified element
-     * @throws IllegalArgumentException if rows or cols is negative, or if element is null
+     * @return a new Matrix of dimensions rows x columnCount filled with the specified element
+     * @throws IllegalArgumentException if rows or columnCount is negative, or if element is null
      */
-    public static <T> Matrix<T> repeat(final int rows, final int cols, final T element) throws IllegalArgumentException {
+    public static <T> Matrix<T> repeat(final int rows, final int columnCount, final T element) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
 
         final Class<?> elementClass = element.getClass();
 
-        final T[][] a = N.newArray(elementClass, rows, cols);
+        final T[][] a = N.newArray(elementClass, rows, columnCount);
 
         for (T[] ea : a) {
             N.fill(ea, element);
@@ -483,7 +483,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return a Nullable containing the element at position (i, j+1), or empty if j == cols-1
+     * @return a Nullable containing the element at position (i, j+1), or empty if j == columnCount-1
      * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
      */
     public Nullable<T> rightOf(final int i, final int j) {
@@ -567,7 +567,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param rowIndex the row index to replace (0-based)
-     * @param row the new row data (must have exactly {@code cols} elements)
+     * @param row the new row data (must have exactly {@code columnCount} elements)
      * @throws IllegalArgumentException if rowIndex is out of bounds or row length does not match column count
      */
     public void setRow(final int rowIndex, final T[] row) throws IllegalArgumentException {
@@ -670,7 +670,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a new array containing the diagonal elements from top-left to bottom-right
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public T[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -700,7 +700,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param diagonal the new diagonal values (must not be null and must have exactly {@code rows} elements)
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array length does not equal to rows
      */
     public void setLU2RD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
@@ -730,7 +730,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown by the operator
      * @param operator the operator to apply to each diagonal element (must not be null)
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -754,7 +754,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a new array containing the anti-diagonal elements from top-right to bottom-left
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public T[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -785,7 +785,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param diagonal the new anti-diagonal values (must not be null and must have exactly {@code rows} elements)
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      * @throws IllegalArgumentException if diagonal array does not have exactly {@code rows} elements
      */
     public void setRU2LD(final T[] diagonal) throws IllegalStateException, IllegalArgumentException {
@@ -815,7 +815,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <E> the type of exception that might be thrown by the operator
      * @param operator the operator to apply to each anti-diagonal element (must not be null)
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -924,7 +924,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.replaceIf((i, j) -> i < j, null);
      *
      * // Replace border elements
-     * matrix.replaceIf((i, j) -> i == 0 || i == rows-1 || j == 0 || j == cols-1, borderValue);
+     * matrix.replaceIf((i, j) -> i == 0 || i == rows-1 || j == 0 || j == columnCount-1, borderValue);
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown by the predicate
@@ -1276,14 +1276,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param fromRowIndex the starting row index (0-based, must be between 0 and rows inclusive)
-     * @param fromColumnIndex the starting column index (0-based, must be between 0 and cols inclusive)
+     * @param fromColumnIndex the starting column index (0-based, must be between 0 and columnCount inclusive)
      * @param b the source two-dimensional array to copy values from (must not be null)
      * @throws IllegalArgumentException if the starting indices are negative or exceed matrix dimensions
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
         N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
-        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex,
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
 
         for (int i = 0, minLen = N.min(rowCount - fromRowIndex, b.length); i < minLen; i++) {
@@ -1327,7 +1327,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * The returned matrix contains only the specified rows (with all columns) and is completely
      * independent from the original matrix.
      *
-     * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, cols)}.</p>
+     * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1341,7 +1341,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × cols
+     * @return a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × columnCount
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
      */
     @Override
@@ -1407,11 +1407,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param newRows the number of rows in the new matrix
-     * @param newCols the number of columns in the new matrix
+     * @param newColumnCount the number of columns in the new matrix
      * @return a new matrix with the specified dimensions
      */
-    public Matrix<T> extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, null);
+    public Matrix<T> extend(final int newRows, final int newColumnCount) {
+        return extend(newRows, newColumnCount, null);
     }
 
     /**
@@ -1426,29 +1426,29 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param newRows the number of rows in the new matrix
-     * @param newCols the number of columns in the new matrix
+     * @param newColumnCount the number of columns in the new matrix
      * @param defaultValueForNewCell the value to fill new cells with (can be null)
      * @return a new matrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newCols is negative
+     * @throws IllegalArgumentException if newRows or newColumnCount is negative
      */
-    public Matrix<T> extend(final int newRows, final int newCols, final T defaultValueForNewCell) throws IllegalArgumentException {
+    public Matrix<T> extend(final int newRows, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
         N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
-        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
+        N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
-        if (newRows <= rowCount && newCols <= columnCount) {
-            return copy(0, newRows, 0, newCols);
+        if (newRows <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRows, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != null;
             final T[][] b = N.newArray(arrayType, newRows);
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rowCount ? N.copyOf(a[i], newCols) : (T[]) N.newArray(elementType, newCols);
+                b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : (T[]) N.newArray(elementType, newColumnCount);
 
                 if (fillDefaultValue) {
                     if (i >= rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
-                        N.fill(b[i], columnCount, newCols, defaultValueForNewCell);
+                    } else if (columnCount < newColumnCount) {
+                        N.fill(b[i], columnCount, newColumnCount, defaultValueForNewCell);
                     }
                 }
             }
@@ -1472,7 +1472,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toDown number of rows to add at the bottom (must be non-negative)
      * @param toLeft number of columns to add on the left (must be non-negative)
      * @param toRight number of columns to add on the right (must be non-negative)
-     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + cols + toRight)
+     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + columnCount + toRight)
      * @throws IllegalArgumentException if any extension parameter is negative
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1495,7 +1495,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toLeft number of columns to add on the left (must be non-negative)
      * @param toRight number of columns to add on the right (must be non-negative)
      * @param defaultValueForNewCell the value to fill new cells with (can be null)
-     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + cols + toRight)
+     * @return a new extended matrix with dimensions (toUp + rows + toDown) x (toLeft + columnCount + toRight)
      * @throws IllegalArgumentException if any extension parameter is negative
      */
     public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell)
@@ -1509,12 +1509,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             return copy();
         } else {
             final int newRows = toUp + rowCount + toDown;
-            final int newCols = toLeft + columnCount + toRight;
+            final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != null;
             final T[][] b = N.newArray(arrayType, newRows);
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = N.newArray(elementType, newCols);
+                b[i] = N.newArray(elementType, newColumnCount);
 
                 if (i >= toUp && i < toUp + rowCount) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, columnCount);
@@ -1523,13 +1523,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 if (fillDefaultValue) {
                     if (i < toUp || i >= toUp + rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
+                    } else if (columnCount < newColumnCount) {
                         if (toLeft > 0) {
                             N.fill(b[i], 0, toLeft, defaultValueForNewCell);
                         }
 
                         if (toRight > 0) {
-                            N.fill(b[i], columnCount + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(b[i], columnCount + toLeft, newColumnCount, defaultValueForNewCell);
                         }
                     }
                 }
@@ -1653,7 +1653,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{5, 3, 1}, {6, 4, 2}}
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise with dimensions cols × rows
+     * @return a new matrix rotated 90 degrees clockwise with dimensions columnCount × rows
      */
     @Override
     public Matrix<T> rotate90() {
@@ -1687,7 +1687,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
-     * moves to position (rows - 1 - i, cols - 1 - j) in the rotated matrix.</p>
+     * moves to position (rows - 1 - i, columnCount - 1 - j) in the rotated matrix.</p>
      *
      * <p>This operation is equivalent to calling {@code rotate90().rotate90()}.</p>
      *
@@ -1701,7 +1701,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> rotated = matrix.rotate180();   // Dimensions remain 2×3
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees with the same dimensions (rows × cols)
+     * @return a new matrix rotated 180 degrees with the same dimensions (rows × columnCount)
      */
     @Override
     public Matrix<T> rotate180() {
@@ -1722,7 +1722,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
-     * moves to position (cols - 1 - j, i) in the rotated matrix.</p>
+     * moves to position (columnCount - 1 - j, i) in the rotated matrix.</p>
      *
      * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}
      * or {@code transpose().rotate180().transpose()}.</p>
@@ -1743,7 +1743,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{2, 4, 6}, {1, 3, 5}}
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise with dimensions cols × rows
+     * @return a new matrix rotated 270 degrees clockwise with dimensions columnCount × rows
      */
     @Override
     public Matrix<T> rotate270() {
@@ -1774,7 +1774,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Transpose formula: element at position (i, j) in the original matrix
@@ -1794,7 +1794,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> transposed = original.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
      */
     @Override
     public Matrix<T> transpose() {
@@ -1846,33 +1846,33 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param newRows the number of rows in the reshaped matrix (must be non-negative)
-     * @param newCols the number of columns in the reshaped matrix (must be non-negative)
-     * @return a new matrix with the specified dimensions (newRows × newCols)
+     * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
+     * @return a new matrix with the specified dimensions (newRows × newColumnCount)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public Matrix<T> reshape(final int newRows, final int newCols) {
+    public Matrix<T> reshape(final int newRows, final int newColumnCount) {
         final T[][] c = N.newArray(arrayType, newRows);
 
         for (int i = 0; i < newRows; i++) {
-            c[i] = N.newArray(elementType, newCols);
+            c[i] = N.newArray(elementType, newColumnCount);
         }
 
-        if (newRows == 0 || newCols == 0 || N.isEmpty(a)) {
+        if (newRows == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new Matrix<>(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1);
+        final int rowLen = (int) N.min(newRows, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, elementCount - (long) i * newCols));
+                N.copy(a[0], i * newColumnCount, c[i], 0, (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount));
             }
         } else {
             long cnt = 0;
 
             for (int i = 0; i < rowLen; i++) {
-                for (int j = 0, col = (int) N.min(newCols, elementCount - (long) i * newCols); j < col; j++, cnt++) {
+                for (int j = 0, col = (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / columnCount)][(int) (cnt % columnCount)];
                 }
             }
@@ -1894,7 +1894,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
-     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
      */
@@ -1946,7 +1946,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
-     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
      */
@@ -2003,7 +2003,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @return a new list containing all elements in row-major order with size equal to count
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols > Integer.MAX_VALUE)
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount > Integer.MAX_VALUE)
      */
     @Override
     public List<T> flatten() {
@@ -2064,7 +2064,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param b the matrix to stack below this matrix (must not be null)
-     * @return a new vertically stacked matrix with dimensions (this.rows + b.rows) × cols
+     * @return a new vertically stacked matrix with dimensions (this.rows + b.rows) × columnCount
      * @throws IllegalArgumentException if the matrices have different column counts
      * @see #hstack(Matrix)
      * @see IntMatrix#vstack(IntMatrix)
@@ -2102,7 +2102,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param b the matrix to stack to the right of this matrix (must not be null)
-     * @return a new horizontally stacked matrix with dimensions rows × (this.cols + b.cols)
+     * @return a new horizontally stacked matrix with dimensions rows × (this.columnCount + b.columnCount)
      * @throws IllegalArgumentException if the matrices have different row counts
      * @see #vstack(Matrix)
      * @see IntMatrix#hstack(IntMatrix)
@@ -2544,7 +2544,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Matrix<Integer> matrix = Matrix.of(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
-     * Stream<Integer> cols = matrix.streamV(1, 3);
+     * Stream<Integer> columnCount = matrix.streamV(1, 3);
      * // Stream contains: 2, 5, 3, 6
      * }</pre>
      *

@@ -110,7 +110,7 @@ import com.landawn.abacus.util.stream.Stream;
  *
  * <p><b>Core Matrix Operations Categories:</b>
  * <ul>
- *   <li><b>Dimensional Operations:</b> {@code rows}, {@code cols}, {@code count}, {@code isEmpty()}</li>
+ *   <li><b>Dimensional Operations:</b> {@code rowCount}, {@code columnCount}, {@code elementCount}, {@code isEmpty()}</li>
  *   <li><b>Access Patterns:</b> {@code get()}, {@code set()}, {@code row()}, {@code column()}</li>
  *   <li><b>Stream Operations:</b> {@code streamH()}, {@code streamV()}, {@code streamR()}, {@code streamC()}, {@code streamLU2RD()}, {@code streamRU2LD()}</li>
  *   <li><b>Transformation Operations:</b> {@code transpose()}, {@code rotate()}, {@code flip()}, {@code reshape()}</li>
@@ -158,10 +158,10 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
- *         IntMatrix result = IntMatrix.of(new int[matrix.rows][matrix.cols]);
+ *         IntMatrix result = IntMatrix.of(new int[matrix.rowCount][matrix.columnCount]);
  *
- *         for (int i = 1; i < matrix.rows - 1; i++) {
- *             for (int j = 1; j < matrix.cols - 1; j++) {
+ *         for (int i = 1; i < matrix.rowCount - 1; i++) {
+ *             for (int j = 1; j < matrix.columnCount - 1; j++) {
  *                 int current = matrix.get(i, j);
  *                 int finalI = i;
  *                 int finalJ = j;
@@ -176,7 +176,7 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static Matrix<Double> normalizeColumns(Matrix<Double> input) {
- *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rows, input.cols, input.componentType()));
+ *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rowCount, input.columnCount, input.componentType()));
  *
  *         input.pointsC().forEach(colStream -> {
  *             List<Point> colPoints = colStream.toList();
@@ -268,17 +268,17 @@ import com.landawn.abacus.util.stream.Stream;
  * <pre>{@code
  * public class LinearAlgebraOperations {
  *     
- *     // Matrix multiplication implementation
+ * *     // Matrix multiplication implementation
  *     public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
- *         if (a.cols != b.rows) {
+ *         if (a.columnCount != b.rowCount) {
  *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
  *         }
  *
- *         DoubleMatrix result = DoubleMatrix.of(new double[a.rows][b.cols]);
+ *         DoubleMatrix result = DoubleMatrix.of(new double[a.rowCount][b.columnCount]);
  *
- *         IntStream.range(0, a.rows).parallel().forEach(i -> {
- *             IntStream.range(0, b.cols).forEach(j -> {
- *                 double sum = IntStream.range(0, a.cols)
+ *         IntStream.range(0, a.rowCount).parallel().forEach(i -> {
+ *             IntStream.range(0, b.columnCount).forEach(j -> {
+ *                 double sum = IntStream.range(0, a.columnCount)
  *                     .mapToDouble(k -> a.get(i, k) * b.get(k, j))
  *                     .sum();
  *                 result.set(i, j, sum);
@@ -298,14 +298,14 @@ import com.landawn.abacus.util.stream.Stream;
  *             .toArray();
  *     }
  *     
- *     // Image processing convolution
+ * *     // Image processing convolution
  *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
- *         IntMatrix result = IntMatrix.of(new int[image.rows][image.cols]);
- *         int filterSize = filter.rows;
+ *         IntMatrix result = IntMatrix.of(new int[image.rowCount][image.columnCount]);
+ *         int filterSize = filter.rowCount;
  *         int offset = filterSize / 2;
  *
- *         IntStream.range(offset, image.rows - offset).parallel().forEach(i -> {
- *             IntStream.range(offset, image.cols - offset).forEach(j -> {
+ *         IntStream.range(offset, image.rowCount - offset).parallel().forEach(i -> {
+ *             IntStream.range(offset, image.columnCount - offset).forEach(j -> {
  *                 double sum = 0.0;
  *                 for (int fi = 0; fi < filterSize; fi++) {
  *                     for (int fj = 0; fj < filterSize; fj++) {
@@ -576,7 +576,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The returned matrix contains only the specified rows (with all columns) and is completely
      * independent from the original matrix.
      *
-     * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, cols)}.</p>
+     * <p>This is equivalent to calling {@code copy(fromRowIndex, toRowIndex, 0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -590,8 +590,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × cols
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @return a new matrix containing the specified rows with dimensions (toRowIndex - fromRowIndex) × columnCount
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     public abstract X copy(int fromRowIndex, int toRowIndex);
 
@@ -630,7 +630,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
-     * moves to position (j, rows - 1 - i) in the rotated matrix.</p>
+     * moves to position (j, rowCount - 1 - i) in the rotated matrix.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -643,7 +643,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix rotated = original.rotate90();   // 3×3 remains 3×3
      * }</pre>
      *
-     * @return a new matrix rotated 90 degrees clockwise with dimensions cols × rows
+     * @return a new matrix rotated 90 degrees clockwise with dimensions columnCount × rowCount
      */
     public abstract X rotate90();
 
@@ -654,7 +654,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
-     * moves to position (rows - 1 - i, cols - 1 - j) in the rotated matrix.</p>
+     * moves to position (rowCount - 1 - i, columnCount - 1 - j) in the rotated matrix.</p>
      *
      * <p>This operation is equivalent to calling {@code rotate90().rotate90()}.</p>
      *
@@ -669,7 +669,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix rotated = original.rotate180();   // Dimensions remain 2×3
      * }</pre>
      *
-     * @return a new matrix rotated 180 degrees with the same dimensions (rows × cols)
+     * @return a new matrix rotated 180 degrees with the same dimensions (rowCount × columnCount)
      */
     public abstract X rotate180();
 
@@ -680,7 +680,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Rotation formula: element at position (i, j) in the original matrix
-     * moves to position (cols - 1 - j, i) in the rotated matrix.</p>
+     * moves to position (columnCount - 1 - j, i) in the rotated matrix.</p>
      *
      * <p>This operation is equivalent to calling {@code rotate90().rotate90().rotate90()}
      * or {@code transpose().rotate180().transpose()}.</p>
@@ -696,7 +696,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix rotated = original.rotate270();   // 3×3 becomes 3×3
      * }</pre>
      *
-     * @return a new matrix rotated 270 degrees clockwise with dimensions cols × rows
+     * @return a new matrix rotated 270 degrees clockwise with dimensions columnCount × rowCount
      */
     public abstract X rotate270();
 
@@ -704,7 +704,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * matrix has dimensions swapped (rowCount × columnCount becomes columnCount × rowCount).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>Transpose formula: element at position (i, j) in the original matrix
@@ -724,7 +724,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix transposed = original.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rowCount
      */
     public abstract X transpose();
 
@@ -736,7 +736,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * the last row will be padded with default values (0 for numeric types, false for boolean, null for objects).
      * Creates a new matrix; the original matrix is not modified.
      *
-     * <p>The new row count is calculated as: {@code ceiling(count / newCols)}</p>
+     * <p>The new row count is calculated as: {@code ceiling(elementCount / newColumnCount)}</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -747,14 +747,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix reshaped2 = matrix2.reshape(4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
-     * @param newCols the number of columns in the reshaped matrix (must be positive)
+     * @param newColumnCount the number of columns in the reshaped matrix (must be positive)
      * @return a new matrix with the specified number of columns
-     * @throws IllegalArgumentException if newCols &lt;= 0
+     * @throws IllegalArgumentException if newColumnCount &lt;= 0
      */
-    public X reshape(final int newCols) {
-        N.checkArgument(newCols > 0, "newCols must be positive, but got: %s", newCols);
+    public X reshape(final int newColumnCount) {
+        N.checkArgument(newColumnCount > 0, "newColumnCount must be positive, but got: %s", newColumnCount);
 
-        return reshape((int) (elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1), newCols);
+        return reshape((int) (elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1), newColumnCount);
     }
 
     /**
@@ -776,12 +776,12 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntMatrix truncated = matrix.reshape(1, 3);   // Becomes [[1, 2, 3]] (remaining elements discarded)
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix (must be positive)
-     * @param newCols the number of columns in the reshaped matrix (must be positive)
-     * @return a new matrix with the specified dimensions (newRows × newCols)
-     * @throws IllegalArgumentException if newRows &lt;= 0 or newCols &lt;= 0
+     * @param newRowCount the number of rows in the reshaped matrix (must be positive)
+     * @param newColumnCount the number of columns in the reshaped matrix (must be positive)
+     * @return a new matrix with the specified dimensions (newRowCount × newColumnCount)
+     * @throws IllegalArgumentException if newRowCount &lt;= 0 or newColumnCount &lt;= 0
      */
-    public abstract X reshape(int newRows, int newCols);
+    public abstract X reshape(int newRowCount, int newColumnCount);
 
     /**
      * Checks if this matrix has the same shape (dimensions) as another matrix.
@@ -811,7 +811,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Repeats each element in the matrix the specified number of times in both dimensions.
      * Each element is expanded into a block of size rowRepeats × colRepeats.
-     * The resulting matrix has dimensions (rows × rowRepeats) × (cols × colRepeats).
+     * The resulting matrix has dimensions (rows × rowRepeats) × (columnCount × colRepeats).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repelem function. Each element becomes a block,
@@ -832,7 +832,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowRepeats number of times to repeat each element in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat each element in the column direction (must be &gt;= 1)
-     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @return a new matrix with repeated elements, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">MATLAB repelem</a>
      */
@@ -841,7 +841,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Repeats the entire matrix the specified number of times in both dimensions.
      * The matrix is tiled rowRepeats times vertically and colRepeats times horizontally.
-     * The resulting matrix has dimensions (rows × rowRepeats) × (cols × colRepeats).
+     * The resulting matrix has dimensions (rows × rowRepeats) × (columnCount × colRepeats).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p>This operation is similar to MATLAB's repmat function. The entire matrix pattern
@@ -861,7 +861,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowRepeats number of times to repeat the matrix in the row direction (must be &gt;= 1)
      * @param colRepeats number of times to repeat the matrix in the column direction (must be &gt;= 1)
-     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (cols × colRepeats)
+     * @return a new matrix with the original matrix repeated, dimensions (rows × rowRepeats) × (columnCount × colRepeats)
      * @throws IllegalArgumentException if rowRepeats &lt; 1 or colRepeats &lt; 1
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">MATLAB repmat</a>
      */
@@ -884,7 +884,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * IntList flat2 = matrix2.flatten();   // Returns [1, 2, 3, 4, 5, 6]
      * }</pre>
      *
-     * @return a new list containing all elements in row-major order with size equal to {@code count}
+     * @return a new list containing all elements in row-major order with size equal to {@code elementCount}
      */
     public abstract PL flatten();
 
@@ -970,7 +970,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * });
      *
      * // Process only the first column
-     * matrix.forEach(0, matrix.rows, 0, 1, (i, j) -> {
+     * matrix.forEach(0, matrix.rowCount, 0, 1, (i, j) -> {
      *     // Process each element in column 0
      * });
      * }</pre>
@@ -1059,7 +1059,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * });
      *
      * // Update subregion based on neighboring values
-     * matrix.forEach(1, matrix.rows - 1, 1, matrix.cols - 1, (i, j, m) -> {
+     * matrix.forEach(1, matrix.rowCount - 1, 1, matrix.columnCount - 1, (i, j, m) -> {
      *     int avg = (m.get(i-1, j) + m.get(i+1, j) + m.get(i, j-1) + m.get(i, j+1)) / 4;
      *     m.set(i, j, avg);
      * });
@@ -1117,7 +1117,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
-     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
+     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rowCount, j &lt; 0, or j &gt;= columnCount
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -1164,7 +1164,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
-     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rows, j &lt; 0, or j &gt;= cols
+     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rowCount, j &lt; 0, or j &gt;= columnCount
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -1209,7 +1209,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a stream of points along the main diagonal (left-up to right-down).
      * The main diagonal consists of elements where row index equals column index.
-     * The matrix must be square (rows == cols) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
      *
@@ -1221,7 +1221,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the main diagonal positions
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public Stream<Point> pointsLU2RD() {
         checkIfRowAndColumnSizeAreSame();
@@ -1232,8 +1232,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
 
     /**
      * Returns a stream of points along the anti-diagonal (right-up to left-down).
-     * The anti-diagonal consists of elements where row index + column index equals (cols - 1).
-     * The matrix must be square (rows == cols) for this operation.
+     * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
      *
@@ -1245,7 +1245,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @return a stream of {@link Point} objects representing the anti-diagonal positions
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public Stream<Point> pointsRU2LD() {
         checkIfRowAndColumnSizeAreSame();
@@ -1258,7 +1258,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in row-major order (horizontal traversal).
      * Points are generated row by row from left to right, top to bottom.
      *
-     * <p>H = Horizontal. This is equivalent to calling {@code pointsH(0, rows)}.</p>
+     * <p>H = Horizontal. This is equivalent to calling {@code pointsH(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1287,7 +1287,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowIndex the row index (0-based)
      * @return a stream of {@link Point} objects for all columns in the specified row
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     public Stream<Point> pointsH(final int rowIndex) {
         return pointsH(rowIndex, rowIndex + 1);
@@ -1307,7 +1307,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a stream of {@link Point} objects in the specified row range, in row-major order
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @SuppressWarnings("resource")
     public Stream<Point> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1321,7 +1321,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of all points in the matrix in column-major order (vertical traversal).
      * Points are generated column by column from top to bottom, left to right.
      *
-     * <p>V = Vertical. This is equivalent to calling {@code pointsV(0, cols)}.</p>
+     * <p>V = Vertical. This is equivalent to calling {@code pointsV(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1350,7 +1350,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param columnIndex the column index (0-based)
      * @return a stream of {@link Point} objects for all rows in the specified column
-     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public Stream<Point> pointsV(final int columnIndex) {
         return pointsV(columnIndex, columnIndex + 1);
@@ -1370,7 +1370,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a stream of {@link Point} objects in the specified column range, in column-major order
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols, or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @SuppressWarnings("resource")
     public Stream<Point> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -1384,7 +1384,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a row of points.
      * This allows for row-by-row processing of matrix positions.
      *
-     * <p>R = Row. This is equivalent to calling {@code pointsR(0, rows)}.</p>
+     * <p>R = Row. This is equivalent to calling {@code pointsR(0, rowCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1420,7 +1420,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one row
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @SuppressWarnings("resource")
     public Stream<Stream<Point>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
@@ -1434,7 +1434,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * Returns a stream of streams where each inner stream represents a column of points.
      * This allows for column-by-column processing of matrix positions.
      *
-     * <p>C = Column. This is equivalent to calling {@code pointsC(0, cols)}.</p>
+     * <p>C = Column. This is equivalent to calling {@code pointsC(0, columnCount)}.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1470,7 +1470,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one column
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols, or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @SuppressWarnings("resource")
     public Stream<Stream<Point>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -1483,7 +1483,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     /**
      * Returns a stream of elements along the main diagonal (left-up to right-down).
      * The main diagonal consists of elements where row index equals column index.
-     * The matrix must be square (rows == cols) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>LU2RD = Left-Up to Right-Down diagonal.</p>
      *
@@ -1495,14 +1495,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @return a stream of diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public abstract ES streamLU2RD();
 
     /**
      * Returns a stream of elements along the anti-diagonal (right-up to left-down).
-     * The anti-diagonal consists of elements where row index + column index equals (cols - 1).
-     * The matrix must be square (rows == cols) for this operation.
+     * The anti-diagonal consists of elements where row index + column index equals (columnCount - 1).
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>RU2LD = Right-Up to Left-Down diagonal.</p>
      *
@@ -1514,7 +1514,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * }</pre>
      *
      * @return a stream of anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public abstract ES streamRU2LD();
 
@@ -1548,7 +1548,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param rowIndex the row index (0-based)
      * @return a stream of elements in the specified row
-     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IndexOutOfBoundsException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     public abstract ES streamH(final int rowIndex);
 
@@ -1566,7 +1566,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a stream of elements in the specified row range
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
 
@@ -1600,7 +1600,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * @param columnIndex the column index (0-based)
      * @return a stream of elements in the specified column
-     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public abstract ES streamV(final int columnIndex);
 
@@ -1611,14 +1611,14 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2, 3}, {4, 5, 6}});
-     * IntStream cols1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
-     * double avg = cols1and2.average().orElse(0);   // 4.0
+     * IntStream columnCount1and2 = matrix.streamV(1, 3);   // Stream of: 2, 5, 3, 6
+     * double avg = columnCount1and2.average().orElse(0);   // 4.0
      * }</pre>
      *
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a stream of elements in the specified column range
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols, or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
 
@@ -1661,7 +1661,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
      * @return a stream of row streams for the specified range
-     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, or fromRowIndex &gt; toRowIndex
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
 
@@ -1704,7 +1704,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param fromColumnIndex the starting column index (inclusive, 0-based)
      * @param toColumnIndex the ending column index (exclusive)
      * @return a stream of column streams for the specified range
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols, or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
@@ -1720,7 +1720,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <pre>{@code
      * // Log matrix details
      * matrix.accept(m -> {
-     *     System.out.println("Matrix dimensions: " + m.rows + "x" + m.cols);
+     *     System.out.println("Matrix dimensions: " + m.rowCount + "x" + m.columnCount);
      *     m.println();
      * });
      *
@@ -1733,7 +1733,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      *
      * // Modify matrix elements in place
      * matrix.accept(m -> {
-     *     for (int i = 0; i < m.rows; i++) {
+     *     for (int i = 0; i < m.rowCount; i++) {
      *         m.set(i, 0, 0);   // Set first column to 0
      *     }
      * });
@@ -1758,7 +1758,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * double determinant = matrix.apply(MatrixUtils::calculateDeterminant);
-     * String info = matrix.apply(m -> "Matrix " + m.rows + "x" + m.cols);
+     * String info = matrix.apply(m -> "Matrix " + m.rowCount + "x" + m.columnCount);
      *
      * // Transform matrix into a different representation
      * List<Integer> allValues = matrix.apply(m -> m.flatten().toList());
@@ -1797,7 +1797,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * operations that require matrices of the same dimensions.
      *
      * @param x the matrix to compare with
-     * @throws IllegalArgumentException if the matrices have different shapes (different rows or cols)
+     * @throws IllegalArgumentException if the matrices have different shapes (different rows or columnCount)
      */
     protected void checkSameShape(final X x) {
         N.checkArgument(this.isSameShape(x), "Matrices must have same shape: this is %sx%s but provided matrix is %sx%s", rowCount, columnCount, x.rowCount,
@@ -1828,10 +1828,11 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * </ul>
      * </p>
      *
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     protected void checkIfRowAndColumnSizeAreSame() {
-        N.checkState(rowCount == columnCount, "Matrix must be square to access diagonals: current dimensions are %s rows x %s cols", rowCount, columnCount);
+        N.checkState(rowCount == columnCount, "Matrix must be square to access diagonals: current dimensions are %s rows x %s columnCount", rowCount,
+                columnCount);
     }
 
 }

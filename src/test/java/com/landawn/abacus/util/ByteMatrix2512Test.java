@@ -201,7 +201,7 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix primitive = ByteMatrix.unbox(boxed);
         assertEquals(1, primitive.get(0, 0));
         assertEquals(2, primitive.get(0, 1));
-        assertEquals(0, primitive.get(1, 0));   // null becomes 0
+        assertEquals(0, primitive.get(1, 0)); // null becomes 0
         assertEquals(4, primitive.get(1, 1));
     }
 
@@ -547,7 +547,7 @@ public class ByteMatrix2512Test extends TestBase {
         assertEquals(1, copy.get(0, 0));
         // Modify copy
         copy.set(0, 0, (byte) 99);
-        assertEquals(1, original.get(0, 0));   // Original unchanged
+        assertEquals(1, original.get(0, 0)); // Original unchanged
     }
 
     @Test
@@ -566,8 +566,8 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix copy = m.copy(0, 2, 1, 3);
         assertEquals(2, copy.rowCount());
         assertEquals(2, copy.columnCount());
-        assertEquals(2, copy.get(0, 0));   // From (0,1)
-        assertEquals(3, copy.get(0, 1));   // From (0,2)
+        assertEquals(2, copy.get(0, 0)); // From (0,1)
+        assertEquals(3, copy.get(0, 1)); // From (0,2)
     }
 
     // ============ Transformation Tests ============
@@ -773,10 +773,10 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 2, 3 }, { 4, 5 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix result = m1.multiply(m2);
-        assertEquals(11, result.get(0, 0));   // 2*1 + 3*3 = 11
-        assertEquals(16, result.get(0, 1));   // 2*2 + 3*4 = 16
-        assertEquals(19, result.get(1, 0));   // 4*1 + 5*3 = 19
-        assertEquals(28, result.get(1, 1));   // 4*2 + 5*4 = 28
+        assertEquals(11, result.get(0, 0)); // 2*1 + 3*3 = 11
+        assertEquals(16, result.get(0, 1)); // 2*2 + 3*4 = 16
+        assertEquals(19, result.get(1, 0)); // 4*1 + 5*3 = 19
+        assertEquals(28, result.get(1, 1)); // 4*2 + 5*4 = 28
     }
 
     // ============ Conversion Tests ============
@@ -918,16 +918,16 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_streamC() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<byte[]> cols = m.streamC().map(ByteStream::toArray).toList();
-        assertEquals(2, cols.size());
-        assertArrayEquals(new byte[] { 1, 3 }, cols.get(0));
+        List<byte[]> columnCount = m.streamC().map(ByteStream::toArray).toList();
+        assertEquals(2, columnCount.size());
+        assertArrayEquals(new byte[] { 1, 3 }, columnCount.get(0));
     }
 
     @Test
     public void test_streamC_columnRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<byte[]> cols = m.streamC(0, 2).map(ByteStream::toArray).toList();
-        assertEquals(2, cols.size());
+        List<byte[]> columnCount = m.streamC(0, 2).map(ByteStream::toArray).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ Extend Tests ============

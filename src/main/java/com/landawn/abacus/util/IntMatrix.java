@@ -104,8 +104,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.empty();
-     * // matrix.rows returns 0
-     * // matrix.cols returns 0
+     * // matrix.rowCount returns 0
+     * // matrix.columnCount returns 0
      * }</pre>
      *
      * @return an empty int matrix
@@ -153,21 +153,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final int[][] c = new int[a.length][cols];
+        final int[][] c = new int[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final char[] sourceRow = a[i];
             final int[] resultRow = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
@@ -198,21 +198,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final int[][] c = new int[a.length][cols];
+        final int[][] c = new int[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final byte[] sourceRow = a[i];
             final int[] resultRow = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
@@ -243,21 +243,21 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
         N.checkArgument(a[0] != null, "First row cannot be null");
 
-        final int cols = a[0].length;
+        final int columnCount = a[0].length;
 
         // Validate all rows have the same length
         for (int i = 1; i < a.length; i++) {
-            N.checkArgument(a[i] != null && a[i].length == cols, "All rows must have the same length. Row 0 has length %s but row %s has length %s", cols, i,
-                    a[i] == null ? 0 : a[i].length);
+            N.checkArgument(a[i] != null && a[i].length == columnCount, "All rows must have the same length. Row 0 has length %s but row %s has length %s",
+                    columnCount, i, a[i] == null ? 0 : a[i].length);
         }
 
-        final int[][] c = new int[a.length][cols];
+        final int[][] c = new int[a.length][columnCount];
 
         for (int i = 0, len = a.length; i < len; i++) {
             final short[] sourceRow = a[i];
             final int[] resultRow = c[i];
 
-            for (int j = 0; j < cols; j++) {
+            for (int j = 0; j < columnCount; j++) {
                 resultRow[j] = sourceRow[j]; // NOSONAR
             }
         }
@@ -290,15 +290,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: a 2x3 matrix with random int values
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
-     * @return a new IntMatrix of dimensions rows x cols filled with random values
+     * @param rowCount the number of rows in the new matrix
+     * @param columnCount the number of columns in the new matrix
+     * @return a new IntMatrix of dimensions rowCount x columnCount filled with random values
      */
-    public static IntMatrix random(final int rows, final int cols) {
-        final int[][] a = new int[rows][cols];
+    public static IntMatrix random(final int rowCount, final int columnCount) {
+        final int[][] a = new int[rowCount][columnCount];
 
         for (int[] ea : a) {
-            for (int i = 0; i < cols; i++) {
+            for (int i = 0; i < columnCount; i++) {
                 ea[i] = RAND.nextInt();
             }
         }
@@ -332,13 +332,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: [[1, 1, 1], [1, 1, 1]]
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
+     * @param rowCount the number of rows in the new matrix
+     * @param columnCount the number of columns in the new matrix
      * @param element the int value to fill the matrix with
-     * @return a new IntMatrix of dimensions rows x cols filled with the specified element
+     * @return a new IntMatrix of dimensions rowCount x columnCount filled with the specified element
      */
-    public static IntMatrix repeat(final int rows, final int cols, final int element) {
-        final int[][] a = new int[rows][cols];
+    public static IntMatrix repeat(final int rowCount, final int columnCount, final int element) {
+        final int[][] a = new int[rowCount][columnCount];
 
         for (int[] ea : a) {
             N.fill(ea, element);
@@ -665,7 +665,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (i+1, j), or empty if i == rows-1
+     * @return an OptionalInt containing the element at position (i+1, j), or empty if i == rowCount-1
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt downOf(final int i, final int j) {
@@ -711,7 +711,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalInt containing the element at position (i, j+1), or empty if j == cols-1
+     * @return an OptionalInt containing the element at position (i, j+1), or empty if j == columnCount-1
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalInt rightOf(final int i, final int j) {
@@ -725,7 +725,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -738,7 +738,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param rowIndex the index of the row to retrieve (0-based)
      * @return the specified row array (direct reference to internal storage)
-     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rows
+     * @throws IllegalArgumentException if rowIndex &lt; 0 or rowIndex &gt;= rowCount
      */
     public int[] row(final int rowIndex) throws IllegalArgumentException {
         N.checkArgument(rowIndex >= 0 && rowIndex < rowCount, "Row index out of bounds: %s. Valid range is [0, %s)", rowIndex, rowCount);
@@ -764,7 +764,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * @param columnIndex the index of the column to retrieve (0-based)
      * @return a new array containing the values from the specified column
-     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public int[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, columnCount);
@@ -833,7 +833,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified row sequentially
-     * from left to right (column 0 to column cols-1).</p>
+     * from left to right (column 0 to column columnCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -860,7 +860,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * This modifies the matrix directly.
      *
      * <p>The operator is applied to each element in the specified column sequentially
-     * from top to bottom (row 0 to row rows-1).</p>
+     * from top to bottom (row 0 to row rowCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -884,7 +884,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns a copy of the elements on the main diagonal from left-upper to right-down.
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
      * The returned array is a copy; modifications to it will not affect the matrix.
@@ -896,7 +896,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @return a new int array containing a copy of the main diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public int[] getLU2RD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -912,7 +912,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Sets the elements on the main diagonal from left-upper to right-down (main diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the main diagonal elements at positions (0,0), (1,1), (2,2), etc.
@@ -924,9 +924,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the main diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length does not equal to rows
+     * @param diagonal the new values for the main diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length does not equal to rowCount
      */
     public void setLU2RD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -963,7 +963,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns a copy of the elements on the anti-diagonal from right-upper to left-down.
-     * The matrix must be square (rows == columns) for this operation.
+     * The matrix must be square (rowCount == columnCount) for this operation.
      *
      * <p>This method extracts the anti-diagonal (secondary diagonal) elements from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
@@ -976,7 +976,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @return a new int array containing a copy of the anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     public int[] getRU2LD() throws IllegalStateException {
         checkIfRowAndColumnSizeAreSame();
@@ -992,7 +992,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Sets the elements on the anti-diagonal from right-upper to left-down (anti-diagonal).
-     * The matrix must be square (rows == columns), and the diagonal array must have
+     * The matrix must be square (rowCount == columnCount), and the diagonal array must have
      * exactly as many elements as the matrix has rows.
      *
      * <p>This method sets the anti-diagonal (secondary diagonal) elements from
@@ -1005,9 +1005,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Anti-diagonal is now [9, 8]
      * }</pre>
      *
-     * @param diagonal the new values for the anti-diagonal; must have length equal to rows
-     * @throws IllegalStateException if the matrix is not square (rows != columns)
-     * @throws IllegalArgumentException if diagonal array length != rows
+     * @param diagonal the new values for the anti-diagonal; must have length equal to rowCount
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
+     * @throws IllegalArgumentException if diagonal array length != rowCount
      */
     public void setRU2LD(final int[] diagonal) throws IllegalStateException, IllegalArgumentException {
         checkIfRowAndColumnSizeAreSame();
@@ -1309,10 +1309,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: [[0, 0, 0], [0, 1, 2], [0, 3, 4]]
      * }</pre>
      *
-     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rows)
-     * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= cols)
+     * @param fromRowIndex the starting row index in this matrix (0-based, must be 0 &lt;= fromRowIndex &lt;= rowCount)
+     * @param fromColumnIndex the starting column index in this matrix (0-based, must be 0 &lt;= fromColumnIndex &lt;= columnCount)
      * @param b the source array to copy values from
-     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rows, or if fromColumnIndex &lt; 0 or &gt; cols
+     * @throws IllegalArgumentException if fromRowIndex &lt; 0 or &gt; rowCount, or if fromColumnIndex &lt; 0 or &gt; columnCount
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
@@ -1432,13 +1432,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new IntMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public IntMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, 0);
+    public IntMatrix extend(final int newRowCount, final int newColumnCount) {
+        return extend(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1463,36 +1463,36 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the int value to fill new cells with during extension
      * @return a new IntMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public IntMatrix extend(final int newRows, final int newCols, final int defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
-        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
+    public IntMatrix extend(final int newRowCount, final int newColumnCount, final int defaultValueForNewCell) throws IllegalArgumentException {
+        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
+        N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
         // Check for overflow before allocation
-        if ((long) newRows * newCols > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newCols + " exceeds Integer.MAX_VALUE");
+        if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
         }
 
-        if (newRows <= rowCount && newCols <= columnCount) {
-            return copy(0, newRows, 0, newCols);
+        if (newRowCount <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRowCount, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final int[][] extendedData = new int[newRows][];
+            final int[][] extendedData = new int[newRowCount][];
 
-            for (int i = 0; i < newRows; i++) {
-                extendedData[i] = i < rowCount ? N.copyOf(a[i], newCols) : new int[newCols];
+            for (int i = 0; i < newRowCount; i++) {
+                extendedData[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : new int[newColumnCount];
 
                 if (fillDefaultValue) {
                     if (i >= rowCount) {
                         N.fill(extendedData[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
-                        N.fill(extendedData[i], columnCount, newCols, defaultValueForNewCell);
+                    } else if (columnCount < newColumnCount) {
+                        N.fill(extendedData[i], columnCount, newColumnCount, defaultValueForNewCell);
                     }
                 }
             }
@@ -1521,7 +1521,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toDown number of rows to add below; must be non-negative
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended IntMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @return a new extended IntMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1539,8 +1539,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
-     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1563,7 +1563,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toLeft number of columns to add to the left; must be non-negative
      * @param toRight number of columns to add to the right; must be non-negative
      * @param defaultValueForNewCell the int value to fill all new cells with
-     * @return a new extended IntMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @return a new extended IntMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
      *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
@@ -1586,12 +1586,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
                         "Result column count overflow: " + toLeft + " + " + columnCount + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
-            final int newRows = toUp + rowCount + toDown;
-            final int newCols = toLeft + columnCount + toRight;
+            final int newRowCount = toUp + rowCount + toDown;
+            final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final int[][] extendedData = new int[newRows][newCols];
+            final int[][] extendedData = new int[newRowCount][newColumnCount];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 if (i >= toUp && i < toUp + rowCount) {
                     N.copy(a[i - toUp], 0, extendedData[i], toLeft, columnCount);
                 }
@@ -1599,13 +1599,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
                 if (fillDefaultValue) {
                     if (i < toUp || i >= toUp + rowCount) {
                         N.fill(extendedData[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
+                    } else if (columnCount < newColumnCount) {
                         if (toLeft > 0) {
                             N.fill(extendedData[i], 0, toLeft, defaultValueForNewCell);
                         }
 
                         if (toRight > 0) {
-                            N.fill(extendedData[i], columnCount + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(extendedData[i], columnCount + toLeft, newColumnCount, defaultValueForNewCell);
                         }
                     }
                 }
@@ -1817,7 +1817,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1831,7 +1831,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
      */
     @Override
     public IntMatrix transpose() {
@@ -1869,30 +1869,30 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix extended = matrix.reshape(2, 4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix (must be non-negative)
-     * @param newCols the number of columns in the reshaped matrix (must be non-negative)
+     * @param newRowCount the number of rows in the reshaped matrix (must be non-negative)
+     * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
      * @return a new IntMatrix with the specified dimensions
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public IntMatrix reshape(final int newRows, final int newCols) {
-        final int[][] c = new int[newRows][newCols];
+    public IntMatrix reshape(final int newRowCount, final int newColumnCount) {
+        final int[][] c = new int[newRowCount][newColumnCount];
 
-        if (newRows == 0 || newCols == 0 || N.isEmpty(a)) {
+        if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new IntMatrix(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1);
+        final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, elementCount - (long) i * newCols));
+                N.copy(a[0], i * newColumnCount, c[i], 0, (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount));
             }
         } else {
             long cnt = 0;
 
             for (int i = 0; i < rowLen; i++) {
-                for (int j = 0, col = (int) N.min(newCols, elementCount - (long) i * newCols); j < col; j++, cnt++) {
+                for (int j = 0, col = (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / columnCount)][(int) (cnt % columnCount)];
                 }
             }
@@ -2008,7 +2008,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @return a list of all elements in row-major order
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount &gt; Integer.MAX_VALUE)
      */
     @Override
     public IntList flatten() {
@@ -2068,8 +2068,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param b the matrix to stack below this matrix (must have the same column count)
-     * @return a new IntMatrix with dimensions (this.rows + b.rows) x this.cols
-     * @throws IllegalArgumentException if {@code this.cols != b.cols}
+     * @return a new IntMatrix with dimensions (this.rowCount + b.rowCount) x this.columnCount
+     * @throws IllegalArgumentException if {@code this.columnCount != b.columnCount}
      * @see #hstack(IntMatrix)
      */
     public IntMatrix vstack(final IntMatrix b) throws IllegalArgumentException {
@@ -2108,8 +2108,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      *
      * @param b the matrix to stack to the right of this matrix (must have the same row count)
-     * @return a new IntMatrix with dimensions this.rows x (this.cols + b.cols)
-     * @throws IllegalArgumentException if {@code this.rows != b.rows}
+     * @return a new IntMatrix with dimensions this.rowCount x (this.columnCount + b.columnCount)
+     * @throws IllegalArgumentException if {@code this.rowCount != b.rowCount}
      * @see #vstack(IntMatrix)
      */
     public IntMatrix hstack(final IntMatrix b) throws IllegalArgumentException {
@@ -2201,8 +2201,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      */
     public IntMatrix multiply(final IntMatrix b) throws IllegalArgumentException {
         N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, b.rowCount, b.columnCount);
 
         final int[][] otherData = b.a;
         final int[][] result = new int[rowCount][b.columnCount];
@@ -2406,7 +2406,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an IntStream of diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
     public IntStream streamLU2RD() {
@@ -2461,7 +2461,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * }</pre>
      * 
      * @return an IntStream of anti-diagonal elements
-     * @throws IllegalStateException if the matrix is not square
+     * @throws IllegalStateException if the matrix is not square (rowCount != columnCount)
      */
     @Override
     public IntStream streamRU2LD() {
@@ -2690,7 +2690,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * 
      * @param columnIndex the index of the column to stream (0-based)
      * @return an IntStream of elements from the specified column
-     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IndexOutOfBoundsException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     @Override
     public IntStream streamV(final int columnIndex) {
@@ -2716,7 +2716,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toColumnIndex the ending column index (exclusive)
      * @return an IntStream of elements from the specified column range in column-major order,
      *         or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols,
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount,
      *         or fromColumnIndex &gt; toColumnIndex
      */
     @Override
@@ -2929,7 +2929,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @param toColumnIndex the ending column index (exclusive)
      * @return a Stream of IntStream objects for the specified column range,
      *         or an empty stream if the matrix is empty
-     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; cols,
+     * @throws IndexOutOfBoundsException if fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount,
      *         or fromColumnIndex &gt; toColumnIndex
      */
     @Override

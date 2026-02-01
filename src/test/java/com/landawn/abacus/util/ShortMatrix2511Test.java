@@ -1036,8 +1036,8 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        short[] cols = m.streamV(0, 2).toArray();
-        assertArrayEquals(new short[] { 1, 4, 2, 5 }, cols);
+        short[] columnCount = m.streamV(0, 2).toArray();
+        assertArrayEquals(new short[] { 1, 4, 2, 5 }, columnCount);
     }
 
     // ============ Stream of Streams Methods ============
@@ -1054,10 +1054,10 @@ public class ShortMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2 }, { 3, 4 } });
-        List<short[]> cols = m.streamC().map(ShortStream::toArray).toList();
-        assertEquals(2, cols.size());
-        assertArrayEquals(new short[] { 1, 3 }, cols.get(0));
-        assertArrayEquals(new short[] { 2, 4 }, cols.get(1));
+        List<short[]> columnCount = m.streamC().map(ShortStream::toArray).toList();
+        assertEquals(2, columnCount.size());
+        assertArrayEquals(new short[] { 1, 3 }, columnCount.get(0));
+        assertArrayEquals(new short[] { 2, 4 }, columnCount.get(1));
     }
 
     // ============ Inherited Methods from AbstractMatrix ============
@@ -1151,9 +1151,9 @@ public class ShortMatrix2511Test extends TestBase {
         ShortMatrix result = m.map(x -> (short) (x * 2)).transpose().map(x -> (short) (x + 1));
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
-        assertEquals((short) 3, result.get(0, 0));   // (1*2)+1
-        assertEquals((short) 7, result.get(0, 1));   // (3*2)+1
-        assertEquals((short) 5, result.get(1, 0));   // (2*2)+1
-        assertEquals((short) 9, result.get(1, 1));   // (4*2)+1
+        assertEquals((short) 3, result.get(0, 0)); // (1*2)+1
+        assertEquals((short) 7, result.get(0, 1)); // (3*2)+1
+        assertEquals((short) 5, result.get(1, 0)); // (2*2)+1
+        assertEquals((short) 9, result.get(1, 1)); // (4*2)+1
     }
 }

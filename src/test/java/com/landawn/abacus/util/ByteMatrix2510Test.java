@@ -1116,10 +1116,10 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<Byte> cols = m.streamV(1, 3).boxed().toList();
-        assertEquals(4, cols.size());
-        assertEquals((byte) 2, cols.get(0));
-        assertEquals((byte) 5, cols.get(1));
+        List<Byte> columnCount = m.streamV(1, 3).boxed().toList();
+        assertEquals(4, columnCount.size());
+        assertEquals((byte) 2, columnCount.get(0));
+        assertEquals((byte) 5, columnCount.get(1));
     }
 
     @Test
@@ -1140,16 +1140,16 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testStreamC() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<ByteStream> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<ByteStream> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     @Test
     public void testStreamC_columnRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<ByteStream> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<ByteStream> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ ForEach Tests ============
@@ -1244,9 +1244,9 @@ public class ByteMatrix2510Test extends TestBase {
     @Test
     public void testPointsC() {
         ByteMatrix m = ByteMatrix.of(new byte[2][2]);
-        List<Stream<Point>> cols = m.pointsC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<Stream<Point>> columnCount = m.pointsC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     // ============ Utility Tests (Inherited) ============

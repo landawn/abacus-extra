@@ -130,8 +130,8 @@ public class IntMatrix2511Test extends TestBase {
         IntMatrix m = IntMatrix.from(chars);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
-        assertEquals(65, m.get(0, 0));   // ASCII 'A'
-        assertEquals(68, m.get(1, 1));   // ASCII 'D'
+        assertEquals(65, m.get(0, 0)); // ASCII 'A'
+        assertEquals(68, m.get(1, 1)); // ASCII 'D'
     }
 
     @Test
@@ -1114,8 +1114,8 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        int[] cols = m.streamV(0, 2).toArray();
-        assertArrayEquals(new int[] { 1, 4, 2, 5 }, cols);
+        int[] columnCount = m.streamV(0, 2).toArray();
+        assertArrayEquals(new int[] { 1, 4, 2, 5 }, columnCount);
     }
 
     // ============ Stream of Streams Methods ============
@@ -1132,10 +1132,10 @@ public class IntMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        List<int[]> cols = m.streamC().map(IntStream::toArray).toList();
-        assertEquals(2, cols.size());
-        assertArrayEquals(new int[] { 1, 3 }, cols.get(0));
-        assertArrayEquals(new int[] { 2, 4 }, cols.get(1));
+        List<int[]> columnCount = m.streamC().map(IntStream::toArray).toList();
+        assertEquals(2, columnCount.size());
+        assertArrayEquals(new int[] { 1, 3 }, columnCount.get(0));
+        assertArrayEquals(new int[] { 2, 4 }, columnCount.get(1));
     }
 
     // ============ Inherited Methods from AbstractMatrix ============
@@ -1229,9 +1229,9 @@ public class IntMatrix2511Test extends TestBase {
         IntMatrix result = m.map(x -> x * 2).transpose().map(x -> x + 1);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
-        assertEquals(3, result.get(0, 0));   // (1*2)+1
-        assertEquals(7, result.get(0, 1));   // (3*2)+1
-        assertEquals(5, result.get(1, 0));   // (2*2)+1
-        assertEquals(9, result.get(1, 1));   // (4*2)+1
+        assertEquals(3, result.get(0, 0)); // (1*2)+1
+        assertEquals(7, result.get(0, 1)); // (3*2)+1
+        assertEquals(5, result.get(1, 0)); // (2*2)+1
+        assertEquals(9, result.get(1, 1)); // (4*2)+1
     }
 }

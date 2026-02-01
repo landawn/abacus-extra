@@ -104,8 +104,8 @@ public class IntMatrix2512Test extends TestBase {
         IntMatrix m = IntMatrix.from(chars);
         assertEquals(2, m.rowCount());
         assertEquals(2, m.columnCount());
-        assertEquals(65, m.get(0, 0));   // ASCII 'A'
-        assertEquals(68, m.get(1, 1));   // ASCII 'D'
+        assertEquals(65, m.get(0, 0)); // ASCII 'A'
+        assertEquals(68, m.get(1, 1)); // ASCII 'D'
     }
 
     @Test
@@ -755,7 +755,7 @@ public class IntMatrix2512Test extends TestBase {
         assertEquals(m.columnCount(), copy.columnCount());
         assertEquals(1, copy.get(0, 0));
         copy.set(0, 0, 99);
-        assertEquals(1, m.get(0, 0));   // Original unchanged
+        assertEquals(1, m.get(0, 0)); // Original unchanged
     }
 
     @Test

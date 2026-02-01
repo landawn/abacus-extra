@@ -1038,8 +1038,8 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L, 3L }, { 4L, 5L, 6L } });
-        long[] cols = m.streamV(0, 2).toArray();
-        assertArrayEquals(new long[] { 1L, 4L, 2L, 5L }, cols);
+        long[] columnCount = m.streamV(0, 2).toArray();
+        assertArrayEquals(new long[] { 1L, 4L, 2L, 5L }, columnCount);
     }
 
     // ============ Stream of Streams Methods ============
@@ -1056,10 +1056,10 @@ public class LongMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         LongMatrix m = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
-        List<long[]> cols = m.streamC().map(LongStream::toArray).toList();
-        assertEquals(2, cols.size());
-        assertArrayEquals(new long[] { 1L, 3L }, cols.get(0));
-        assertArrayEquals(new long[] { 2L, 4L }, cols.get(1));
+        List<long[]> columnCount = m.streamC().map(LongStream::toArray).toList();
+        assertEquals(2, columnCount.size());
+        assertArrayEquals(new long[] { 1L, 3L }, columnCount.get(0));
+        assertArrayEquals(new long[] { 2L, 4L }, columnCount.get(1));
     }
 
     // ============ Inherited Methods from AbstractMatrix ============
@@ -1153,9 +1153,9 @@ public class LongMatrix2511Test extends TestBase {
         LongMatrix result = m.map(x -> x * 2).transpose().map(x -> x + 1);
         assertEquals(2, result.rowCount());
         assertEquals(2, result.columnCount());
-        assertEquals(3L, result.get(0, 0));   // (1*2)+1
-        assertEquals(7L, result.get(0, 1));   // (3*2)+1
-        assertEquals(5L, result.get(1, 0));   // (2*2)+1
-        assertEquals(9L, result.get(1, 1));   // (4*2)+1
+        assertEquals(3L, result.get(0, 0)); // (1*2)+1
+        assertEquals(7L, result.get(0, 1)); // (3*2)+1
+        assertEquals(5L, result.get(1, 0)); // (2*2)+1
+        assertEquals(9L, result.get(1, 1)); // (4*2)+1
     }
 }

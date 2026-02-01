@@ -95,7 +95,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.empty();
      * // matrix.rows returns 0
-     * // matrix.cols returns 0
+     * // matrix.columnCount returns 0
      * }</pre>
      *
      * @return an empty char matrix
@@ -145,15 +145,15 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: a 2x3 matrix with random characters
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
-     * @return a new CharMatrix of dimensions rows x cols filled with random values
+     * @param rowCount the number of rows in the new matrix
+     * @param columnCount the number of columns in the new matrix
+     * @return a new CharMatrix of dimensions rowCount x columnCount filled with random values
      */
-    public static CharMatrix random(final int rows, final int cols) {
-        final char[][] a = new char[rows][cols];
+    public static CharMatrix random(final int rowCount, final int columnCount) {
+        final char[][] a = new char[rowCount][columnCount];
 
         for (char[] ea : a) {
-            for (int i = 0; i < cols; i++) {
+            for (int i = 0; i < columnCount; i++) {
                 ea[i] = (char) RAND.nextInt(BOUND);
             }
         }
@@ -187,13 +187,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: [['a', 'a', 'a'], ['a', 'a', 'a']]
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
-     * @param cols the number of columns in the new matrix
+     * @param rowCount the number of rows in the new matrix
+     * @param columnCount the number of columns in the new matrix
      * @param element the char value to fill the matrix with
-     * @return a new CharMatrix of dimensions rows x cols filled with the specified element
+     * @return a new CharMatrix of dimensions rowCount x columnCount filled with the specified element
      */
-    public static CharMatrix repeat(final int rows, final int cols, final char element) {
-        final char[][] a = new char[rows][cols];
+    public static CharMatrix repeat(final int rowCount, final int columnCount, final char element) {
+        final char[][] a = new char[rowCount][columnCount];
 
         for (char[] ea : a) {
             N.fill(ea, element);
@@ -577,7 +577,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalChar containing the element at position (i, j+1), or empty if j == cols-1
+     * @return an OptionalChar containing the element at position (i, j+1), or empty if j == columnCount-1
      * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
      */
     public OptionalChar rightOf(final int i, final int j) {
@@ -591,7 +591,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.cols)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -630,7 +630,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param columnIndex the index of the column to retrieve (0-based)
      * @return a new array containing the values from the specified column
-     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= cols
+     * @throws IllegalArgumentException if columnIndex &lt; 0 or columnIndex &gt;= columnCount
      */
     public char[] column(final int columnIndex) throws IllegalArgumentException {
         N.checkArgument(columnIndex >= 0 && columnIndex < columnCount, "Column index out of bounds: %s. Valid range is [0, %s)", columnIndex, columnCount);
@@ -701,7 +701,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * and replaced with the result.
      *
      * <p>The operator is applied to each element in the specified row sequentially
-     * from left to right (column 0 to column cols-1).</p>
+     * from left to right (column 0 to column columnCount-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -905,7 +905,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param <E> the exception type that the operator may throw
      * @param operator the operator to apply to each anti-diagonal element
      * @throws E if the operator throws an exception
-     * @throws IllegalStateException if the matrix is not square (rows != cols)
+     * @throws IllegalStateException if the matrix is not square (rows != columnCount)
      */
     public <E extends Exception> void updateRU2LD(final Throwables.CharUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
@@ -1139,8 +1139,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) throws IllegalArgumentException {
         N.checkArgNotNull(b, cs.b);
-        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rows(%s)", fromRowIndex, rowCount);
-        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and cols(%s)", fromColumnIndex,
+        N.checkArgument(fromRowIndex >= 0 && fromRowIndex <= rowCount, "fromRowIndex(%s) must be between 0 and rowCount(%s)", fromRowIndex, rowCount);
+        N.checkArgument(fromColumnIndex >= 0 && fromColumnIndex <= columnCount, "fromColumnIndex(%s) must be between 0 and columnCount(%s)", fromColumnIndex,
                 columnCount);
 
         for (int i = 0, minLen = N.min(rowCount - fromRowIndex, b.length); i < minLen; i++) {
@@ -1217,7 +1217,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new CharMatrix containing the specified region
      * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rows, fromRowIndex &gt; toRowIndex,
-     *         fromColumnIndex &lt; 0, toColumnIndex &gt; cols, or fromColumnIndex &gt; toColumnIndex
+     *         fromColumnIndex &lt; 0, toColumnIndex &gt; columnCount, or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
@@ -1249,13 +1249,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new CharMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public CharMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, CHAR_0);
+    public CharMatrix extend(final int newRowCount, final int newColumnCount) {
+        return extend(newRowCount, newColumnCount, CHAR_0);
     }
 
     /**
@@ -1280,36 +1280,36 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: [['a']]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
-     * @param newCols the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the char value to fill new cells with during extension
      * @return a new CharMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newCols} is negative,
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public CharMatrix extend(final int newRows, final int newCols, final char defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
-        N.checkArgument(newCols >= 0, "newCols cannot be negative: %s", newCols);
+    public CharMatrix extend(final int newRowCount, final int newColumnCount, final char defaultValueForNewCell) throws IllegalArgumentException {
+        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
+        N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
         // Check for overflow before allocation
-        if ((long) newRows * newCols > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newCols + " exceeds Integer.MAX_VALUE");
+        if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
         }
 
-        if (newRows <= rowCount && newCols <= columnCount) {
-            return copy(0, newRows, 0, newCols);
+        if (newRowCount <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRowCount, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
-            final char[][] b = new char[newRows][];
+            final char[][] b = new char[newRowCount][];
 
-            for (int i = 0; i < newRows; i++) {
-                b[i] = i < rowCount ? N.copyOf(a[i], newCols) : new char[newCols];
+            for (int i = 0; i < newRowCount; i++) {
+                b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : new char[newColumnCount];
 
                 if (fillDefaultValue) {
                     if (i >= rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
-                        N.fill(b[i], columnCount, newCols, defaultValueForNewCell);
+                    } else if (columnCount < newColumnCount) {
+                        N.fill(b[i], columnCount, newColumnCount, defaultValueForNewCell);
                     }
                 }
             }
@@ -1334,11 +1334,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
-     * @return a new extended CharMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @param toUp number of rowCount to add above; must be non-negative
+     * @param toDown number of rowCount to add below; must be non-negative
+     * @param toLeft number of columnCount to add to the left; must be non-negative
+     * @param toRight number of columnCount to add to the right; must be non-negative
+     * @return a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any parameter is negative
      */
     public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
@@ -1356,8 +1356,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
-     *   <li>Columns: {@code toLeft + this.cols + toRight}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
+     *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
      * <p><b>Usage Examples:</b></p>
@@ -1375,12 +1375,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['\u0000', '\u0000', '\u0000', '\u0000']]
      * }</pre>
      *
-     * @param toUp number of rows to add above; must be non-negative
-     * @param toDown number of rows to add below; must be non-negative
-     * @param toLeft number of columns to add to the left; must be non-negative
-     * @param toRight number of columns to add to the right; must be non-negative
+     * @param toUp number of rowCount to add above; must be non-negative
+     * @param toDown number of rowCount to add below; must be non-negative
+     * @param toLeft number of columnCount to add to the left; must be non-negative
+     * @param toRight number of columnCount to add to the right; must be non-negative
      * @param defaultValueForNewCell the char value to fill all new cells with
-     * @return a new extended CharMatrix with dimensions ((toUp+rows+toDown) x (toLeft+cols+toRight))
+     * @return a new extended CharMatrix with dimensions ((toUp+rowCount+toDown) x (toLeft+columnCount+toRight))
      * @throws IllegalArgumentException if any padding parameter is negative,
      *         or if the resulting dimensions would exceed Integer.MAX_VALUE
      */
@@ -1395,20 +1395,20 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
             return copy();
         } else {
             if ((long) toUp + rowCount + toDown > Integer.MAX_VALUE) {
-                throw new IllegalArgumentException("Result row count overflow: " + toUp + " + " + rowCount + " + " + toDown + " exceeds Integer.MAX_VALUE");
+                throw new IllegalArgumentException("Result rowCount overflow: " + toUp + " + " + rowCount + " + " + toDown + " exceeds Integer.MAX_VALUE");
             }
 
             if ((long) toLeft + columnCount + toRight > Integer.MAX_VALUE) {
                 throw new IllegalArgumentException(
-                        "Result column count overflow: " + toLeft + " + " + columnCount + " + " + toRight + " exceeds Integer.MAX_VALUE");
+                        "Result columnCount overflow: " + toLeft + " + " + columnCount + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
-            final int newRows = toUp + rowCount + toDown;
-            final int newCols = toLeft + columnCount + toRight;
+            final int newRowCount = toUp + rowCount + toDown;
+            final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
-            final char[][] b = new char[newRows][newCols];
+            final char[][] b = new char[newRowCount][newColumnCount];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 if (i >= toUp && i < toUp + rowCount) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, columnCount);
                 }
@@ -1416,13 +1416,13 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
                 if (fillDefaultValue) {
                     if (i < toUp || i >= toUp + rowCount) {
                         N.fill(b[i], defaultValueForNewCell);
-                    } else if (columnCount < newCols) {
+                    } else if (columnCount < newColumnCount) {
                         if (toLeft > 0) {
                             N.fill(b[i], 0, toLeft, defaultValueForNewCell);
                         }
 
                         if (toRight > 0) {
-                            N.fill(b[i], columnCount + toLeft, newCols, defaultValueForNewCell);
+                            N.fill(b[i], columnCount + toLeft, newColumnCount, defaultValueForNewCell);
                         }
                     }
                 }
@@ -1609,7 +1609,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Creates the transpose of this matrix by swapping rows and columns.
      * The transpose operation converts each row into a column, so element at position (i, j)
      * in the original matrix appears at position (j, i) in the transposed matrix. The resulting
-     * matrix has dimensions swapped (rows × cols becomes cols × rows).
+     * matrix has dimensions swapped (rows × columnCount becomes columnCount × rows).
      * Creates a new matrix; the original matrix is not modified.
      *
      * <p><b>Usage Examples:</b></p>
@@ -1623,7 +1623,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix transposed = matrix.transpose();   // 2×3 becomes 3×2
      * }</pre>
      *
-     * @return a new matrix that is the transpose of this matrix with dimensions cols × rows
+     * @return a new matrix that is the transpose of this matrix with dimensions columnCount × rows
      */
     @Override
     public CharMatrix transpose() {
@@ -1672,30 +1672,30 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Result: [['a', 'b', 'c', 'd']] - only first 4 elements used
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix (must be &gt;= 0)
-     * @param newCols the number of columns in the reshaped matrix (must be &gt;= 0)
+     * @param newRowCount the number of rows in the reshaped matrix (must be &gt;= 0)
+     * @param newColumnCount the number of columns in the reshaped matrix (must be &gt;= 0)
      * @return a new CharMatrix with the specified dimensions
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public CharMatrix reshape(final int newRows, final int newCols) {
-        final char[][] c = new char[newRows][newCols];
+    public CharMatrix reshape(final int newRowCount, final int newColumnCount) {
+        final char[][] c = new char[newRowCount][newColumnCount];
 
-        if (newRows == 0 || newCols == 0 || N.isEmpty(a)) {
+        if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new CharMatrix(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1);
+        final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
-                N.copy(a[0], i * newCols, c[i], 0, (int) N.min(newCols, elementCount - (long) i * newCols));
+                N.copy(a[0], i * newColumnCount, c[i], 0, (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount));
             }
         } else {
             long cnt = 0;
 
             for (int i = 0; i < rowLen; i++) {
-                for (int j = 0, col = (int) N.min(newCols, elementCount - (long) i * newCols); j < col; j++, cnt++) {
+                for (int j = 0, col = (int) N.min(newColumnCount, elementCount - (long) i * newColumnCount); j < col; j++, cnt++) {
                     c[i][j] = a[(int) (cnt / columnCount)][(int) (cnt % columnCount)];
                 }
             }
@@ -1815,7 +1815,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * }</pre>
      *
      * @return a new CharList containing all elements in row-major order
-     * @throws IllegalStateException if the matrix is too large to flatten (rows * cols &gt; Integer.MAX_VALUE)
+     * @throws IllegalStateException if the matrix is too large to flatten (rows * columnCount &gt; Integer.MAX_VALUE)
      */
     @Override
     public CharList flatten() {
@@ -1980,8 +1980,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
 
     /**
      * Performs matrix multiplication with another matrix.
-     * The number of columns in this matrix must equal the number of rows in the other matrix.
-     * The resulting matrix will have dimensions [this.rows x b.cols].
+     * The number of columnCount in this matrix must equal the number of rowCount in the other matrix.
+     * The resulting matrix will have dimensions [this.rowCount x b.columnCount].
      * 
      * <p>Note: Since char values are used, the multiplication may result in overflow
      * or unexpected character values. Consider using IntMatrix or DoubleMatrix for
@@ -1996,12 +1996,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param b the matrix to multiply with this matrix
      * @return a new CharMatrix containing the matrix product
-     * @throws IllegalArgumentException if this.cols != b.rows
+     * @throws IllegalArgumentException if this.columnCount != b.rowCount
      */
     public CharMatrix multiply(final CharMatrix b) throws IllegalArgumentException {
         N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.cols must equal other.rows)", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, b.rowCount, b.columnCount);
 
         final char[][] ba = b.a;
         final char[][] result = new char[rowCount][b.columnCount];
@@ -2396,22 +2396,22 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Returns a stream of elements from a range of rows, traversed horizontally.
-     * Elements are returned in row-major order within the specified range.
+     * Returns a CharStream of elements from a range of rowCount, traversed horizontally.
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b'}, {'c', 'd'}, {'e', 'f'}});
-     * CharStream stream = matrix.streamH(1, 3);   // Stream of: 'c', 'd', 'e', 'f'
+     * CharStream stream = matrix.streamH(1, 3);   // Elements from rows 1 and 2
+     * // stream contains: 'c', 'd', 'e', 'f'
      * }</pre>
      *
      * @param fromRowIndex the starting row index (inclusive, 0-based)
      * @param toRowIndex the ending row index (exclusive)
-     * @return a CharStream containing elements from the specified row range
-     * @throws IndexOutOfBoundsException if the indices are out of bounds or fromRowIndex &gt; toRowIndex
+     * @return a CharStream of elements from the specified rows
+     * @throws IndexOutOfBoundsException if fromRowIndex &lt; 0, toRowIndex &gt; rowCount, or fromRowIndex &gt; toRowIndex
      */
     @Override
-    public CharStream streamH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
+    public CharStream streamH(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         if (isEmpty()) {

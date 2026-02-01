@@ -677,8 +677,8 @@ public class Matrixes2025Test extends TestBase {
 
         assertEquals(10, result.rowCount());
         assertEquals(10, result.columnCount());
-        assertEquals(0, result.get(0, 0));   // 0 + 0
-        assertEquals(99, result.get(9, 9));   // 18 + 81
+        assertEquals(0, result.get(0, 0)); // 0 + 0
+        assertEquals(99, result.get(9, 9)); // 18 + 81
     }
 
     @Test
@@ -693,13 +693,13 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testMultiply_rectangularMatrices() {
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } });   // 1x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } });   // 3x1
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 } }); // 1x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 4 }, { 5 }, { 6 } }); // 3x1
         int[][] result = new int[1][1];
 
         Matrixes.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j));
 
-        assertEquals(32, result[0][0]);   // 1*4 + 2*5 + 3*6
+        assertEquals(32, result[0][0]); // 1*4 + 2*5 + 3*6
     }
 
     @Test
@@ -717,7 +717,7 @@ public class Matrixes2025Test extends TestBase {
     @Test
     public void testRun_withRange_moreRowsThanCols_sequential() {
         List<String> positions = new ArrayList<>();
-        // 5 rows x 2 cols - should iterate by columns first
+        // 5 rows x 2 columnCount - should iterate by columns first
         Matrixes.run(0, 5, 0, 2, (i, j) -> positions.add(i + "," + j), false);
         assertEquals(10, positions.size());
         // Should start with all rows for first column
@@ -729,7 +729,7 @@ public class Matrixes2025Test extends TestBase {
     public void testRun_withRange_moreRowsThanCols_parallel() {
         List<String> positions = new ArrayList<>();
         Matrixes.setParallelEnabled(ParallelEnabled.NO);
-        // 5 rows x 2 cols - parallel should iterate by columns
+        // 5 rows x 2 columnCount - parallel should iterate by columns
         Matrixes.run(0, 5, 0, 2, (i, j) -> {
             synchronized (positions) {
                 positions.add(i + "," + j);
@@ -740,7 +740,7 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testCall_withRange_moreRowsThanCols() {
-        // 4 rows x 2 cols - should iterate by columns
+        // 4 rows x 2 columnCount - should iterate by columns
         com.landawn.abacus.util.stream.Stream<String> result = Matrixes.call(0, 4, 0, 2, (i, j) -> i + ":" + j, false);
         List<String> list = result.toList();
         assertEquals(8, list.size());
@@ -748,7 +748,7 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testCall_withRange_moreRowsThanCols_parallel() {
-        // 4 rows x 2 cols - parallel should iterate by columns
+        // 4 rows x 2 columnCount - parallel should iterate by columns
         com.landawn.abacus.util.stream.Stream<Integer> result = Matrixes.call(0, 4, 0, 2, (i, j) -> i * 10 + j, true);
         List<Integer> list = result.toList();
         assertEquals(8, list.size());
@@ -756,7 +756,7 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testCallToInt_withRange_moreRowsThanCols() {
-        // 5 rows x 2 cols - should iterate by columns
+        // 5 rows x 2 columnCount - should iterate by columns
         IntStream result = Matrixes.callToInt(0, 5, 0, 2, (i, j) -> i + j, false);
         int[] array = result.toArray();
         assertEquals(10, array.length);
@@ -764,7 +764,7 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testCallToInt_withRange_moreRowsThanCols_parallel() {
-        // 5 rows x 2 cols - parallel should iterate by columns
+        // 5 rows x 2 columnCount - parallel should iterate by columns
         IntStream result = Matrixes.callToInt(0, 5, 0, 2, (i, j) -> i * j, true);
         int[] array = result.toArray();
         assertEquals(10, array.length);
@@ -772,35 +772,35 @@ public class Matrixes2025Test extends TestBase {
 
     @Test
     public void testMultiply_differentDimensionOrdering_smallestIsColsA() {
-        // Test case where colsA is smallest dimension
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });   // 3x2
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9, 10 }, { 11, 12, 13, 14 } });   // 2x4
+        // Test case where columnCountA is smallest dimension
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } }); // 3x2
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 7, 8, 9, 10 }, { 11, 12, 13, 14 } }); // 2x4
         int[][] result = new int[3][4];
 
         Matrixes.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
 
-        assertEquals(29, result[0][0]);   // 1*7 + 2*11
-        assertEquals(65, result[1][0]);   // 3*7 + 4*11 = 21 + 44 = 65
+        assertEquals(29, result[0][0]); // 1*7 + 2*11
+        assertEquals(65, result[1][0]); // 3*7 + 4*11 = 21 + 44 = 65
     }
 
     @Test
     public void testMultiply_differentDimensionOrdering_smallestIsColsB() {
-        // Test case where colsB is smallest dimension
-        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } });   // 4x3
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });   // 3x2
+        // Test case where columnCountB is smallest dimension
+        IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } }); // 4x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } }); // 3x2
         int[][] result = new int[4][2];
 
         Matrixes.multiply(m1, m2, (i, j, k) -> result[i][j] += m1.get(i, k) * m2.get(k, j), false);
 
-        assertEquals(22, result[0][0]);   // 1*1 + 2*3 + 3*5
-        assertEquals(28, result[0][1]);   // 1*2 + 2*4 + 3*6
+        assertEquals(22, result[0][0]); // 1*1 + 2*3 + 3*5
+        assertEquals(28, result[0][1]); // 1*2 + 2*4 + 3*6
     }
 
     @Test
     public void testMultiply_parallelExecution_variousDimensions() {
         // Test parallel execution with different dimension orderings
         IntMatrix m1 = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6, 7 }, { 8, 9, 10 } });   // 2x3
+        IntMatrix m2 = IntMatrix.of(new int[][] { { 5, 6, 7 }, { 8, 9, 10 } }); // 2x3
         int[][] result = new int[2][3];
 
         Matrixes.multiply(m1, m2, (i, j, k) -> {
@@ -809,9 +809,9 @@ public class Matrixes2025Test extends TestBase {
             }
         }, true);
 
-        assertEquals(21, result[0][0]);   // 1*5 + 2*8
-        assertEquals(24, result[0][1]);   // 1*6 + 2*9
-        assertEquals(27, result[0][2]);   // 1*7 + 2*10
+        assertEquals(21, result[0][0]); // 1*5 + 2*8
+        assertEquals(24, result[0][1]); // 1*6 + 2*9
+        assertEquals(27, result[0][2]); // 1*7 + 2*10
     }
 
     @Test

@@ -287,19 +287,19 @@ public class ByteTuple2511Test extends TestBase {
     @Test
     public void testTuple2_median() {
         ByteTuple2 tuple = ByteTuple.of((byte) 30, (byte) 10);
-        assertEquals((byte) 10, tuple.median());   // lower value for even-sized tuple
+        assertEquals((byte) 10, tuple.median()); // lower value for even-sized tuple
     }
 
     @Test
     public void testTuple3_median() {
         ByteTuple3 tuple = ByteTuple.of((byte) 30, (byte) 10, (byte) 20);
-        assertEquals((byte) 20, tuple.median());   // middle value
+        assertEquals((byte) 20, tuple.median()); // middle value
     }
 
     @Test
     public void testTuple4_median() {
         ByteTuple4 tuple = ByteTuple.of((byte) 10, (byte) 20, (byte) 30, (byte) 40);
-        assertEquals((byte) 20, tuple.median());   // lower of two middle values
+        assertEquals((byte) 20, tuple.median()); // lower of two middle values
     }
 
     // ============ Sum Tests ============

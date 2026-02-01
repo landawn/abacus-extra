@@ -82,7 +82,6 @@ public class Matrix2512Test extends TestBase {
         assertEquals(1, m.columnCount());
     }
 
-
     @Test
     public void test_diagonalLU2RD_createsMainDiagonal() {
         String[] diag = { "A", "B", "C" };
@@ -116,7 +115,7 @@ public class Matrix2512Test extends TestBase {
         assertEquals(3, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
-        assertEquals(2, m.get(1, 1));   // Main diagonal takes precedence
+        assertEquals(2, m.get(1, 1)); // Main diagonal takes precedence
         assertEquals(3, m.get(2, 2));
         assertEquals(7, m.get(0, 2));
         assertEquals(9, m.get(2, 0));
@@ -473,7 +472,7 @@ public class Matrix2512Test extends TestBase {
         assertEquals(6, result.get(0, 1));
         assertEquals(9, result.get(1, 0));
         assertEquals(12, result.get(1, 1));
-        assertEquals(1, m.get(0, 0));   // original unchanged
+        assertEquals(1, m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -605,7 +604,7 @@ public class Matrix2512Test extends TestBase {
         assertEquals("a", copy.get(0, 0));
 
         copy.set(0, 0, "CHANGED");
-        assertEquals("a", m.get(0, 0));   // original unchanged
+        assertEquals("a", m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -698,7 +697,7 @@ public class Matrix2512Test extends TestBase {
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> flipped = m.flipH();
         assertEquals("c", flipped.get(0, 0));
-        assertEquals("a", m.get(0, 0));   // original unchanged
+        assertEquals("a", m.get(0, 0)); // original unchanged
     }
 
     @Test
@@ -707,7 +706,7 @@ public class Matrix2512Test extends TestBase {
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> flipped = m.flipV();
         assertEquals("c", flipped.get(0, 0));
-        assertEquals("a", m.get(0, 0));   // original unchanged
+        assertEquals("a", m.get(0, 0)); // original unchanged
     }
 
     // ============ Rotation Tests ============
@@ -783,7 +782,7 @@ public class Matrix2512Test extends TestBase {
         assertEquals("a", reshaped.get(0, 0));
         assertEquals("b", reshaped.get(0, 1));
         assertEquals("c", reshaped.get(1, 0));
-        assertNull(reshaped.get(1, 1));   // Not enough elements, should be null
+        assertNull(reshaped.get(1, 1)); // Not enough elements, should be null
     }
 
     // ============ Repelem Test ============

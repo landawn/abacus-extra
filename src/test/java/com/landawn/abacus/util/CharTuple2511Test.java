@@ -239,7 +239,7 @@ public class CharTuple2511Test extends TestBase {
     @Test
     public void testMedian_even() {
         CharTuple4 tuple = CharTuple.of('A', 'B', 'C', 'D');
-        assertEquals('B', tuple.median());   // Lower middle for even length
+        assertEquals('B', tuple.median()); // Lower middle for even length
     }
 
     @Test
@@ -250,13 +250,13 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testSum_single() {
-        CharTuple1 tuple = CharTuple.of('A');   // 65
+        CharTuple1 tuple = CharTuple.of('A'); // 65
         assertEquals(65, tuple.sum());
     }
 
     @Test
     public void testSum_multiple() {
-        CharTuple2 tuple = CharTuple.of('A', 'B');   // 65 + 66 = 131
+        CharTuple2 tuple = CharTuple.of('A', 'B'); // 65 + 66 = 131
         assertEquals(131, tuple.sum());
     }
 
@@ -268,13 +268,13 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testAverage_single() {
-        CharTuple1 tuple = CharTuple.of('A');   // 65
+        CharTuple1 tuple = CharTuple.of('A'); // 65
         assertEquals(65.0, tuple.average());
     }
 
     @Test
     public void testAverage_multiple() {
-        CharTuple2 tuple = CharTuple.of('A', 'C');   // (65 + 67) / 2 = 66.0
+        CharTuple2 tuple = CharTuple.of('A', 'C'); // (65 + 67) / 2 = 66.0
         assertEquals(66.0, tuple.average());
     }
 
@@ -294,7 +294,7 @@ public class CharTuple2511Test extends TestBase {
         CharTuple1 reversed = tuple.reverse();
         assertNotNull(reversed);
         assertEquals('A', reversed._1);
-        assertNotSame(tuple, reversed);   // Should be new instance
+        assertNotSame(tuple, reversed); // Should be new instance
     }
 
     @Test
@@ -485,7 +485,7 @@ public class CharTuple2511Test extends TestBase {
         CharTuple3 tuple = CharTuple.of('A', 'B', 'C');
         char[] array1 = tuple.toArray();
         char[] array2 = tuple.toArray();
-        assertNotSame(array1, array2);   // Should be independent copies
+        assertNotSame(array1, array2); // Should be independent copies
         assertArrayEquals(array1, array2);
     }
 
@@ -528,14 +528,14 @@ public class CharTuple2511Test extends TestBase {
 
     @Test
     public void testStream_single() {
-        CharTuple1 tuple = CharTuple.of('A');   // 65
+        CharTuple1 tuple = CharTuple.of('A'); // 65
         int sum = tuple.stream().sum();
         assertEquals(65, sum);
     }
 
     @Test
     public void testStream_multiple() {
-        CharTuple3 tuple = CharTuple.of('A', 'B', 'C');   // 65 + 66 + 67 = 198
+        CharTuple3 tuple = CharTuple.of('A', 'B', 'C'); // 65 + 66 + 67 = 198
         int sum = tuple.stream().sum();
         assertEquals(198, sum);
     }
@@ -717,7 +717,7 @@ public class CharTuple2511Test extends TestBase {
         assertEquals('A', tuple.min());
         assertEquals('E', tuple.max());
         assertEquals('C', tuple.median());
-        assertEquals(65 + 69 + 67 + 66 + 68, tuple.sum());   // A(65)+E(69)+C(67)+B(66)+D(68)
+        assertEquals(65 + 69 + 67 + 66 + 68, tuple.sum()); // A(65)+E(69)+C(67)+B(66)+D(68)
         assertTrue(tuple.average() > 0);
     }
 
@@ -740,7 +740,7 @@ public class CharTuple2511Test extends TestBase {
         assertEquals('X', tuple.min());
         assertEquals('X', tuple.max());
         assertEquals('X', tuple.median());
-        assertEquals('X', tuple.average());   // 88.0
+        assertEquals('X', tuple.average()); // 88.0
         assertEquals(88, tuple.sum());
         assertTrue(tuple.contains('X'));
         assertFalse(tuple.contains('Y'));

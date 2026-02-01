@@ -1114,10 +1114,10 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testStreamV_columnRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        List<Character> cols = m.streamV(1, 3).boxed().toList();
-        assertEquals(4, cols.size());
-        assertEquals('b', cols.get(0));
-        assertEquals('e', cols.get(1));
+        List<Character> columnCount = m.streamV(1, 3).boxed().toList();
+        assertEquals(4, columnCount.size());
+        assertEquals('b', columnCount.get(0));
+        assertEquals('e', columnCount.get(1));
     }
 
     @Test
@@ -1138,16 +1138,16 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testStreamC() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b' }, { 'c', 'd' } });
-        List<CharStream> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<CharStream> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     @Test
     public void testStreamC_columnRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'a', 'b', 'c' }, { 'd', 'e', 'f' } });
-        List<CharStream> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<CharStream> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ ForEach Tests ============
@@ -1242,9 +1242,9 @@ public class CharMatrix2510Test extends TestBase {
     @Test
     public void testPointsC() {
         CharMatrix m = CharMatrix.of(new char[2][2]);
-        List<Stream<Point>> cols = m.pointsC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).count());
+        List<Stream<Point>> columnCount = m.pointsC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).count());
     }
 
     // ============ Utility Tests (Inherited) ============

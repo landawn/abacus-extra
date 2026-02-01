@@ -823,7 +823,7 @@ public class DoubleTuple2025Test extends TestBase {
         // Test min/max/median/sum/average via base class
         assertEquals(1.0, tuple.min(), 0.001);
         assertEquals(4.0, tuple.max(), 0.001);
-        assertEquals(2.0, tuple.median(), 0.001);   // For even-sized tuples, returns lower middle value
+        assertEquals(2.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
         assertEquals(10.0, tuple.sum(), 0.001);
         assertEquals(2.5, tuple.average(), 0.001);
 
@@ -889,7 +889,7 @@ public class DoubleTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals(1.0, tuple.min(), 0.001);
         assertEquals(6.0, tuple.max(), 0.001);
-        assertEquals(3.0, tuple.median(), 0.001);   // For even-sized tuples, returns lower middle value
+        assertEquals(3.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
         assertEquals(21.0, tuple.sum(), 0.001);
         assertEquals(3.5, tuple.average(), 0.001);
     }
@@ -938,7 +938,7 @@ public class DoubleTuple2025Test extends TestBase {
         // Test statistical operations
         assertEquals(1.0, tuple.min(), 0.001);
         assertEquals(8.0, tuple.max(), 0.001);
-        assertEquals(4.0, tuple.median(), 0.001);   // For even-sized tuples, returns lower middle value
+        assertEquals(4.0, tuple.median(), 0.001); // For even-sized tuples, returns lower middle value
         assertEquals(36.0, tuple.sum(), 0.001);
         assertEquals(4.5, tuple.average(), 0.001);
     }

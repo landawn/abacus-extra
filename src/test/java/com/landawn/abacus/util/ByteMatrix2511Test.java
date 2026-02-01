@@ -1439,16 +1439,16 @@ public class ByteMatrix2511Test extends TestBase {
     @Test
     public void testStreamC() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
-        List<ByteStream> cols = m.streamC().toList();
-        assertEquals(2, cols.size());
-        assertEquals(2, cols.get(0).toArray().length);
+        List<ByteStream> columnCount = m.streamC().toList();
+        assertEquals(2, columnCount.size());
+        assertEquals(2, columnCount.get(0).toArray().length);
     }
 
     @Test
     public void testStreamC_withRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        List<ByteStream> cols = m.streamC(1, 3).toList();
-        assertEquals(2, cols.size());
+        List<ByteStream> columnCount = m.streamC(1, 3).toList();
+        assertEquals(2, columnCount.size());
     }
 
     // ============ Point Stream Tests ============
@@ -1534,7 +1534,7 @@ public class ByteMatrix2511Test extends TestBase {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger sum = new AtomicInteger(0);
         m.forEach(val -> sum.addAndGet((int) val));
-        assertEquals(10, sum.get());   // 1+2+3+4 = 10
+        assertEquals(10, sum.get()); // 1+2+3+4 = 10
     }
 
     // ============ Utility Tests ============
