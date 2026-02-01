@@ -1016,14 +1016,14 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function that converts each char to an object of type T
+     * @param mapper the mapping function that converts each char to an object of type T
      * @param targetElementType the class object representing the target element type (required for array creation)
      * @return a new Matrix&lt;T&gt; with the mapped object values
      * @throws E if the function throws an exception
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.CharFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
 

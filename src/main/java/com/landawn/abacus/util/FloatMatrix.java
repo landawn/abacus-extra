@@ -963,14 +963,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function that converts each float element to type T; must not be null
+     * @param mapper the mapping function that converts each float element to type T; must not be null
      * @param targetElementType the class object representing the target element type (used for array creation); must not be null
      * @return a new Matrix&lt;T&gt; with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.FloatFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.FloatFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

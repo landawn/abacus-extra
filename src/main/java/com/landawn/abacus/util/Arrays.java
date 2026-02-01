@@ -14355,12 +14355,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the mapping function to apply to each element (must not be {@code null}).
+         * @param mapper the mapping function to apply to each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new array containing the mapped elements, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> func,
+        public static <T, R, E extends Exception> R[] map(final T[] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
                 return N.newArray(targetElementType, 0);
@@ -14370,7 +14370,7 @@ public sealed class Arrays permits Arrays.f {
             final R[] c = N.newArray(targetElementType, len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.apply(a[i]);
+                c[i] = mapper.apply(a[i]);
             }
 
             return c;
@@ -14390,11 +14390,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a boolean (must not be {@code null}).
+         * @param mapper the function that maps each element to a boolean (must not be {@code null}).
          * @return a boolean array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BOOLEAN_ARRAY;
             }
@@ -14403,7 +14403,7 @@ public sealed class Arrays permits Arrays.f {
             final boolean[] c = new boolean[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsBoolean(a[i]);
+                c[i] = mapper.applyAsBoolean(a[i]);
             }
 
             return c;
@@ -14423,11 +14423,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a char (must not be {@code null}).
+         * @param mapper the function that maps each element to a char (must not be {@code null}).
          * @return a char array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_CHAR_ARRAY;
             }
@@ -14436,7 +14436,7 @@ public sealed class Arrays permits Arrays.f {
             final char[] c = new char[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsChar(a[i]);
+                c[i] = mapper.applyAsChar(a[i]);
             }
 
             return c;
@@ -14456,11 +14456,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a byte (must not be {@code null}).
+         * @param mapper the function that maps each element to a byte (must not be {@code null}).
          * @return a byte array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_BYTE_ARRAY;
             }
@@ -14469,7 +14469,7 @@ public sealed class Arrays permits Arrays.f {
             final byte[] c = new byte[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsByte(a[i]);
+                c[i] = mapper.applyAsByte(a[i]);
             }
 
             return c;
@@ -14489,11 +14489,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map (can be {@code null}).
-         * @param func the function that maps each element to a short (must not be {@code null}).
+         * @param mapper the function that maps each element to a short (must not be {@code null}).
          * @return a short array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_SHORT_ARRAY;
             }
@@ -14502,7 +14502,7 @@ public sealed class Arrays permits Arrays.f {
             final short[] c = new short[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsShort(a[i]);
+                c[i] = mapper.applyAsShort(a[i]);
             }
 
             return c;
@@ -14523,11 +14523,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to an int (must not be {@code null}).
+         * @param mapper the function that maps each element to an int (must not be {@code null}).
          * @return an int array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_INT_ARRAY;
             }
@@ -14536,7 +14536,7 @@ public sealed class Arrays permits Arrays.f {
             final int[] c = new int[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsInt(a[i]);
+                c[i] = mapper.applyAsInt(a[i]);
             }
 
             return c;
@@ -14557,11 +14557,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a long (must not be {@code null}).
+         * @param mapper the function that maps each element to a long (must not be {@code null}).
          * @return a long array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_LONG_ARRAY;
             }
@@ -14570,7 +14570,7 @@ public sealed class Arrays permits Arrays.f {
             final long[] c = new long[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsLong(a[i]);
+                c[i] = mapper.applyAsLong(a[i]);
             }
 
             return c;
@@ -14591,11 +14591,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a float (must not be {@code null}).
+         * @param mapper the function that maps each element to a float (must not be {@code null}).
          * @return a float array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_FLOAT_ARRAY;
             }
@@ -14604,7 +14604,7 @@ public sealed class Arrays permits Arrays.f {
             final float[] c = new float[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsFloat(a[i]);
+                c[i] = mapper.applyAsFloat(a[i]);
             }
 
             return c;
@@ -14625,11 +14625,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the input array.
          * @param <E> the type of exception that the mapping function may throw.
          * @param a the input array to map.
-         * @param func the function that maps each element to a double (must not be {@code null}).
+         * @param mapper the function that maps each element to a double (must not be {@code null}).
          * @return a double array containing the mapped values, or an empty array if input is {@code null}.
          * @throws E if the mapping function throws an exception.
          */
-        public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return N.EMPTY_DOUBLE_ARRAY;
             }
@@ -14638,7 +14638,7 @@ public sealed class Arrays permits Arrays.f {
             final double[] c = new double[len];
 
             for (int i = 0; i < len; i++) {
-                c[i] = func.applyAsDouble(a[i]);
+                c[i] = mapper.applyAsDouble(a[i]);
             }
 
             return c;
@@ -14889,13 +14889,13 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (must not be {@code null}).
-         * @param func the unary operator to apply to each element (must not be {@code null}).
+         * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new two-dimensional array with mapped elements.
          * @throws NullPointerException if the specified array is null.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
-            return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType());
+        public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            return map(a, mapper, (Class<T>) a.getClass().getComponentType().getComponentType());
         }
 
         /**
@@ -14916,12 +14916,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to transform each element (must not be {@code null}).
+         * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the target element type (must not be {@code null}).
          * @return a new two-dimensional array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> func,
+        public static <T, R, E extends Exception> R[][] map(final T[][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(targetElementType, 0).getClass(), 0); // NOSONAR
@@ -14931,7 +14931,7 @@ public sealed class Arrays permits Arrays.f {
             final R[][] c = N.newArray(N.newArray(targetElementType, 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.map(a[i], func, targetElementType);
+                c[i] = com.landawn.abacus.util.Arrays.f.map(a[i], mapper, targetElementType);
             }
 
             return c;
@@ -14951,11 +14951,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the predicate function to test each element (must not be {@code null}).
+         * @param mapper the predicate function to test each element (must not be {@code null}).
          * @return a new two-dimensional boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new boolean[0][];
             }
@@ -14964,7 +14964,7 @@ public sealed class Arrays permits Arrays.f {
             final boolean[][] c = new boolean[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToBoolean(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToBoolean(a[i], mapper);
             }
 
             return c;
@@ -14984,11 +14984,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to extract a char from each element (must not be {@code null}).
+         * @param mapper the function to extract a char from each element (must not be {@code null}).
          * @return a new two-dimensional char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new char[0][];
             }
@@ -14997,7 +14997,7 @@ public sealed class Arrays permits Arrays.f {
             final char[][] c = new char[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToChar(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToChar(a[i], mapper);
             }
 
             return c;
@@ -15017,11 +15017,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a byte (must not be {@code null}).
+         * @param mapper the function to convert each element to a byte (must not be {@code null}).
          * @return a new two-dimensional byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new byte[0][];
             }
@@ -15030,7 +15030,7 @@ public sealed class Arrays permits Arrays.f {
             final byte[][] c = new byte[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToByte(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToByte(a[i], mapper);
             }
 
             return c;
@@ -15050,11 +15050,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a short (must not be {@code null}).
+         * @param mapper the function to convert each element to a short (must not be {@code null}).
          * @return a new two-dimensional short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new short[0][];
             }
@@ -15063,7 +15063,7 @@ public sealed class Arrays permits Arrays.f {
             final short[][] c = new short[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToShort(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToShort(a[i], mapper);
             }
 
             return c;
@@ -15083,11 +15083,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to an int (must not be {@code null}).
+         * @param mapper the function to convert each element to an int (must not be {@code null}).
          * @return a new two-dimensional int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new int[0][];
             }
@@ -15096,7 +15096,7 @@ public sealed class Arrays permits Arrays.f {
             final int[][] c = new int[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToInt(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToInt(a[i], mapper);
             }
 
             return c;
@@ -15116,11 +15116,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a long (must not be {@code null}).
+         * @param mapper the function to convert each element to a long (must not be {@code null}).
          * @return a new two-dimensional long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new long[0][];
             }
@@ -15129,7 +15129,7 @@ public sealed class Arrays permits Arrays.f {
             final long[][] c = new long[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToLong(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToLong(a[i], mapper);
             }
 
             return c;
@@ -15149,11 +15149,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a float (must not be {@code null}).
+         * @param mapper the function to convert each element to a float (must not be {@code null}).
          * @return a new two-dimensional float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new float[0][];
             }
@@ -15162,7 +15162,7 @@ public sealed class Arrays permits Arrays.f {
             final float[][] c = new float[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToFloat(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToFloat(a[i], mapper);
             }
 
             return c;
@@ -15182,11 +15182,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source two-dimensional array (can be {@code null}).
-         * @param func the function to convert each element to a double (must not be {@code null}).
+         * @param mapper the function to convert each element to a double (must not be {@code null}).
          * @return a new two-dimensional double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception during mapping.
          */
-        public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new double[0][];
             }
@@ -15195,7 +15195,7 @@ public sealed class Arrays permits Arrays.f {
             final double[][] c = new double[len][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = com.landawn.abacus.util.Arrays.f.mapToDouble(a[i], func);
+                c[i] = com.landawn.abacus.util.Arrays.f.mapToDouble(a[i], mapper);
             }
 
             return c;
@@ -16014,13 +16014,13 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in both source and result arrays.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. must not be {@code null}.
-         * @param func the unary operator to apply to each element (must not be {@code null}).
+         * @param mapper the unary operator to apply to each element (must not be {@code null}).
          * @return a new array with mapped elements.
          * @throws NullPointerException if the specified array is null.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
-            return map(a, func, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
+        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> mapper) throws E {
+            return map(a, mapper, (Class<T>) a.getClass().getComponentType().getComponentType().getComponentType());
         }
 
         /**
@@ -16043,12 +16043,12 @@ public sealed class Arrays permits Arrays.f {
          * @param <R> the type of elements in the result array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to transform each element (must not be {@code null}).
+         * @param mapper the function to transform each element (must not be {@code null}).
          * @param targetElementType the class of the result array's element type (must not be {@code null}).
          * @return a new array with transformed elements, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> func,
+        public static <T, R, E extends Exception> R[][][] map(final T[][][] a, final Throwables.Function<? super T, ? extends R, E> mapper,
                 final Class<R> targetElementType) throws E {
             if (N.isEmpty(a)) {
                 return N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), 0);
@@ -16058,7 +16058,7 @@ public sealed class Arrays permits Arrays.f {
             final R[][][] c = N.newArray(N.newArray(N.newArray(targetElementType, 0).getClass(), 0).getClass(), len);
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.map(a[i], func, targetElementType);
+                c[i] = ff.map(a[i], mapper, targetElementType);
             }
 
             return c;
@@ -16082,11 +16082,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the predicate function to test each element (must not be {@code null}).
+         * @param mapper the predicate function to test each element (must not be {@code null}).
          * @return a new boolean array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new boolean[0][][];
             }
@@ -16095,7 +16095,7 @@ public sealed class Arrays permits Arrays.f {
             final boolean[][][] c = new boolean[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToBoolean(a[i], func);
+                c[i] = ff.mapToBoolean(a[i], mapper);
             }
 
             return c;
@@ -16118,11 +16118,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to extract a char from each element (must not be {@code null}).
+         * @param mapper the function to extract a char from each element (must not be {@code null}).
          * @return a new char array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new char[0][][];
             }
@@ -16131,7 +16131,7 @@ public sealed class Arrays permits Arrays.f {
             final char[][][] c = new char[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToChar(a[i], func);
+                c[i] = ff.mapToChar(a[i], mapper);
             }
 
             return c;
@@ -16155,11 +16155,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to byte (must not be {@code null}).
+         * @param mapper the function to convert each element to byte (must not be {@code null}).
          * @return a new byte array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new byte[0][][];
             }
@@ -16168,7 +16168,7 @@ public sealed class Arrays permits Arrays.f {
             final byte[][][] c = new byte[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToByte(a[i], func);
+                c[i] = ff.mapToByte(a[i], mapper);
             }
 
             return c;
@@ -16192,11 +16192,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to short (must not be {@code null}).
+         * @param mapper the function to convert each element to short (must not be {@code null}).
          * @return a new short array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new short[0][][];
             }
@@ -16205,7 +16205,7 @@ public sealed class Arrays permits Arrays.f {
             final short[][][] c = new short[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToShort(a[i], func);
+                c[i] = ff.mapToShort(a[i], mapper);
             }
 
             return c;
@@ -16229,11 +16229,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to int (must not be {@code null}).
+         * @param mapper the function to convert each element to int (must not be {@code null}).
          * @return a new int array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new int[0][][];
             }
@@ -16242,7 +16242,7 @@ public sealed class Arrays permits Arrays.f {
             final int[][][] c = new int[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToInt(a[i], func);
+                c[i] = ff.mapToInt(a[i], mapper);
             }
 
             return c;
@@ -16266,11 +16266,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to long (must not be {@code null}).
+         * @param mapper the function to convert each element to long (must not be {@code null}).
          * @return a new long array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new long[0][][];
             }
@@ -16279,7 +16279,7 @@ public sealed class Arrays permits Arrays.f {
             final long[][][] c = new long[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToLong(a[i], func);
+                c[i] = ff.mapToLong(a[i], mapper);
             }
 
             return c;
@@ -16303,11 +16303,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to float (must not be {@code null}).
+         * @param mapper the function to convert each element to float (must not be {@code null}).
          * @return a new float array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new float[0][][];
             }
@@ -16316,7 +16316,7 @@ public sealed class Arrays permits Arrays.f {
             final float[][][] c = new float[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToFloat(a[i], func);
+                c[i] = ff.mapToFloat(a[i], mapper);
             }
 
             return c;
@@ -16340,11 +16340,11 @@ public sealed class Arrays permits Arrays.f {
          * @param <T> the type of elements in the source array.
          * @param <E> the type of exception that may be thrown by the function.
          * @param a the source three-dimensional array. can be {@code null}.
-         * @param func the function to convert each element to double (must not be {@code null}).
+         * @param mapper the function to convert each element to double (must not be {@code null}).
          * @return a new double array, or an empty array if input is {@code null}.
          * @throws E if the function throws an exception.
          */
-        public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
             if (N.isEmpty(a)) {
                 return new double[0][][];
             }
@@ -16353,7 +16353,7 @@ public sealed class Arrays permits Arrays.f {
             final double[][][] c = new double[len][][];
 
             for (int i = 0; i < len; i++) {
-                c[i] = ff.mapToDouble(a[i], func);
+                c[i] = ff.mapToDouble(a[i], mapper);
             }
 
             return c;

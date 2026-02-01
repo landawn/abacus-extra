@@ -986,14 +986,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param <T> the target element type
      * @param <E> the type of exception that the function may throw
-     * @param func the function to convert boolean values to the target type; must not be null
+     * @param mapper the function to convert boolean values to the target type; must not be null
      * @param targetElementType the Class object representing the target element type; must not be null
      * @return a new Matrix&lt;T&gt; containing the mapped values
      * @throws E if the function throws an exception
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.BooleanFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 

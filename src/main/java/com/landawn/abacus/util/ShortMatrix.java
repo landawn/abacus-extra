@@ -989,14 +989,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the type of exception that the function may throw
-     * @param func the function to transform each short to an object of type T
+     * @param mapper the function to transform each short to an object of type T
      * @param targetElementType the class of the target element type (used for array creation)
      * @return a new Matrix&lt;T&gt; with the transformed object values; the original matrix is unchanged
      * @throws E if the function throws an exception
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ShortFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.ShortFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 

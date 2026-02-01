@@ -1066,13 +1066,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function that converts each double element to an int; must not be null
+     * @param mapper the mapping function that converts each double element to an int; must not be null
      * @return a new IntMatrix with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> IntMatrix mapToInt(final Throwables.DoubleToIntFunction<E> func) throws E {
+    public <E extends Exception> IntMatrix mapToInt(final Throwables.DoubleToIntFunction<E> mapper) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
@@ -1093,13 +1093,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * }</pre>
      *
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function that converts each double element to a long; must not be null
+     * @param mapper the mapping function that converts each double element to a long; must not be null
      * @return a new LongMatrix with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> LongMatrix mapToLong(final Throwables.DoubleToLongFunction<E> func) throws E {
+    public <E extends Exception> LongMatrix mapToLong(final Throwables.DoubleToLongFunction<E> mapper) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 
@@ -1121,14 +1121,14 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param <T> the type of elements in the resulting matrix
      * @param <E> the exception type that the function may throw
-     * @param func the mapping function that converts each double element to type T; must not be null
+     * @param mapper the mapping function that converts each double element to type T; must not be null
      * @param targetElementType the class object representing the target element type (used for array creation); must not be null
      * @return a new Matrix&lt;T&gt; with the mapped values (same dimensions as the original)
      * @throws E if the function throws an exception
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> func, final Class<T> targetElementType) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Throwables.DoubleFunction<? extends T, E> mapper, final Class<T> targetElementType) throws E {
         final T[][] result = Matrixes.newArray(rows, cols, targetElementType);
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = func.apply(a[i][j]);
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> result[i][j] = mapper.apply(a[i][j]);
 
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
 

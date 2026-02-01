@@ -1081,13 +1081,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a boolean for each element
+     * @param mapper the function that returns a boolean for each element
      * @return a new BooleanMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> BooleanMatrix mapToBoolean(final Throwables.ToBooleanFunction<? super T, E> func) throws E {
+    public <E extends Exception> BooleanMatrix mapToBoolean(final Throwables.ToBooleanFunction<? super T, E> mapper) throws E {
         final boolean[][] result = new boolean[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsBoolean(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsBoolean(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1108,13 +1108,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a byte for each element
+     * @param mapper the function that returns a byte for each element
      * @return a new ByteMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> ByteMatrix mapToByte(final Throwables.ToByteFunction<? super T, E> func) throws E {
+    public <E extends Exception> ByteMatrix mapToByte(final Throwables.ToByteFunction<? super T, E> mapper) throws E {
         final byte[][] result = new byte[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsByte(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsByte(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1137,13 +1137,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a char for each element
+     * @param mapper the function that returns a char for each element
      * @return a new CharMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> CharMatrix mapToChar(final Throwables.ToCharFunction<? super T, E> func) throws E {
+    public <E extends Exception> CharMatrix mapToChar(final Throwables.ToCharFunction<? super T, E> mapper) throws E {
         final char[][] result = new char[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsChar(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsChar(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1164,13 +1164,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a short for each element
+     * @param mapper the function that returns a short for each element
      * @return a new ShortMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> ShortMatrix mapToShort(final Throwables.ToShortFunction<? super T, E> func) throws E {
+    public <E extends Exception> ShortMatrix mapToShort(final Throwables.ToShortFunction<? super T, E> mapper) throws E {
         final short[][] result = new short[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsShort(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsShort(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1194,13 +1194,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns an int for each element
+     * @param mapper the function that returns an int for each element
      * @return a new IntMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> IntMatrix mapToInt(final Throwables.ToIntFunction<? super T, E> func) throws E {
+    public <E extends Exception> IntMatrix mapToInt(final Throwables.ToIntFunction<? super T, E> mapper) throws E {
         final int[][] result = new int[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsInt(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsInt(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1224,13 +1224,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a long for each element
+     * @param mapper the function that returns a long for each element
      * @return a new LongMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> LongMatrix mapToLong(final Throwables.ToLongFunction<? super T, E> func) throws E {
+    public <E extends Exception> LongMatrix mapToLong(final Throwables.ToLongFunction<? super T, E> mapper) throws E {
         final long[][] result = new long[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsLong(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsLong(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1251,13 +1251,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a float for each element
+     * @param mapper the function that returns a float for each element
      * @return a new FloatMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> FloatMatrix mapToFloat(final Throwables.ToFloatFunction<? super T, E> func) throws E {
+    public <E extends Exception> FloatMatrix mapToFloat(final Throwables.ToFloatFunction<? super T, E> mapper) throws E {
         final float[][] result = new float[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsFloat(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsFloat(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
@@ -1281,13 +1281,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <E> the type of exception that might be thrown
-     * @param func the function that returns a double for each element
+     * @param mapper the function that returns a double for each element
      * @return a new DoubleMatrix
      * @throws E if the function throws an exception
      */
-    public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.ToDoubleFunction<? super T, E> func) throws E {
+    public <E extends Exception> DoubleMatrix mapToDouble(final Throwables.ToDoubleFunction<? super T, E> mapper) throws E {
         final double[][] result = new double[rows][cols];
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = func.applyAsDouble(a[i][j]);
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> result[i][j] = mapper.applyAsDouble(a[i][j]);
 
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
 
