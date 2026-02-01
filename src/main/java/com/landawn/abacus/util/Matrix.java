@@ -152,18 +152,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param rows the number of rows in the new matrix
+     * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
      * @param element the value to fill the matrix with (must not be null)
-     * @return a new Matrix of dimensions rows x columnCount filled with the specified element
-     * @throws IllegalArgumentException if rows or columnCount is negative, or if element is null
+     * @return a new Matrix of dimensions rowCount x columnCount filled with the specified element
+     * @throws IllegalArgumentException if rowCount or columnCount is negative, or if element is null
      */
-    public static <T> Matrix<T> repeat(final int rows, final int columnCount, final T element) throws IllegalArgumentException {
+    public static <T> Matrix<T> repeat(final int rowCount, final int columnCount, final T element) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
 
         final Class<?> elementClass = element.getClass();
 
-        final T[][] a = N.newArray(elementClass, rows, columnCount);
+        final T[][] a = N.newArray(elementClass, rowCount, columnCount);
 
         for (T[] ea : a) {
             N.fill(ea, element);
@@ -1406,12 +1406,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> extended = matrix.extend(3, 3);   // 3x3 matrix with nulls in new cells
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix
+     * @param newRowCount the number of rows in the new matrix
      * @param newColumnCount the number of columns in the new matrix
      * @return a new matrix with the specified dimensions
      */
-    public Matrix<T> extend(final int newRows, final int newColumnCount) {
-        return extend(newRows, newColumnCount, null);
+    public Matrix<T> extend(final int newRowCount, final int newColumnCount) {
+        return extend(newRowCount, newColumnCount, null);
     }
 
     /**
@@ -1425,23 +1425,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Matrix<Integer> extended = matrix.extend(3, 3, 0);   // 3x3 matrix with 0s in new cells
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix
+     * @param newRowCount the number of rows in the new matrix
      * @param newColumnCount the number of columns in the new matrix
      * @param defaultValueForNewCell the value to fill new cells with (can be null)
      * @return a new matrix with the specified dimensions
-     * @throws IllegalArgumentException if newRows or newColumnCount is negative
+     * @throws IllegalArgumentException if newRowCount or newColumnCount is negative
      */
-    public Matrix<T> extend(final int newRows, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+    public Matrix<T> extend(final int newRowCount, final int newColumnCount, final T defaultValueForNewCell) throws IllegalArgumentException {
+        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
         N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
-        if (newRows <= rowCount && newColumnCount <= columnCount) {
-            return copy(0, newRows, 0, newColumnCount);
+        if (newRowCount <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRowCount, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != null;
-            final T[][] b = N.newArray(arrayType, newRows);
+            final T[][] b = N.newArray(arrayType, newRowCount);
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : (T[]) N.newArray(elementType, newColumnCount);
 
                 if (fillDefaultValue) {
@@ -1508,12 +1508,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         if (toUp == 0 && toDown == 0 && toLeft == 0 && toRight == 0) {
             return copy();
         } else {
-            final int newRows = toUp + rowCount + toDown;
+            final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != null;
-            final T[][] b = N.newArray(arrayType, newRows);
+            final T[][] b = N.newArray(arrayType, newRowCount);
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 b[i] = N.newArray(elementType, newColumnCount);
 
                 if (i >= toUp && i < toUp + rowCount) {
@@ -1845,24 +1845,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2}, {3, 4}}
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix (must be non-negative)
+     * @param newRowCount the number of rows in the reshaped matrix (must be non-negative)
      * @param newColumnCount the number of columns in the reshaped matrix (must be non-negative)
-     * @return a new matrix with the specified dimensions (newRows × newColumnCount)
+     * @return a new matrix with the specified dimensions (newRowCount × newColumnCount)
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public Matrix<T> reshape(final int newRows, final int newColumnCount) {
-        final T[][] c = N.newArray(arrayType, newRows);
+    public Matrix<T> reshape(final int newRowCount, final int newColumnCount) {
+        final T[][] c = N.newArray(arrayType, newRowCount);
 
-        for (int i = 0; i < newRows; i++) {
+        for (int i = 0; i < newRowCount; i++) {
             c[i] = N.newArray(elementType, newColumnCount);
         }
 
-        if (newRows == 0 || newColumnCount == 0 || N.isEmpty(a)) {
+        if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new Matrix<>(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
+        final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {

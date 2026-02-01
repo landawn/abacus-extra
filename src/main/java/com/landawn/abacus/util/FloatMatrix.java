@@ -188,12 +188,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Result: a 2x3 matrix with random float values
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
+     * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
-     * @return a new FloatMatrix of dimensions rows x columnCount filled with random values
+     * @return a new FloatMatrix of dimensions rowCount x columnCount filled with random values
      */
-    public static FloatMatrix random(final int rows, final int columnCount) {
-        final float[][] a = new float[rows][columnCount];
+    public static FloatMatrix random(final int rowCount, final int columnCount) {
+        final float[][] a = new float[rowCount][columnCount];
 
         for (float[] ea : a) {
             for (int i = 0; i < columnCount; i++) {
@@ -230,13 +230,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Result: [[1.0f, 1.0f, 1.0f], [1.0f, 1.0f, 1.0f]]
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
+     * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
      * @param element the float value to fill the matrix with
-     * @return a new FloatMatrix of dimensions rows x columnCount filled with the specified element
+     * @return a new FloatMatrix of dimensions rowCount x columnCount filled with the specified element
      */
-    public static FloatMatrix repeat(final int rows, final int columnCount, final float element) {
-        final float[][] a = new float[rows][columnCount];
+    public static FloatMatrix repeat(final int rowCount, final int columnCount, final float element) {
+        final float[][] a = new float[rowCount][columnCount];
 
         for (float[] ea : a) {
             N.fill(ea, element);
@@ -1206,13 +1206,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //          [0.0, 0.0, 0.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
      * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new FloatMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public FloatMatrix extend(final int newRows, final int newColumnCount) {
-        return extend(newRows, newColumnCount, 0);
+    public FloatMatrix extend(final int newRowCount, final int newColumnCount) {
+        return extend(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1237,29 +1237,29 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * // Result: [[1.0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
      * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the float value to fill new cells with during extension
      * @return a new FloatMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative,
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public FloatMatrix extend(final int newRows, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+    public FloatMatrix extend(final int newRowCount, final int newColumnCount, final float defaultValueForNewCell) throws IllegalArgumentException {
+        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
         N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
         // Check for overflow before allocation
-        if ((long) newRows * newColumnCount > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
+        if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
         }
 
-        if (newRows <= rowCount && newColumnCount <= columnCount) {
-            return copy(0, newRows, 0, newColumnCount);
+        if (newRowCount <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRowCount, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final float[][] b = new float[newRows][];
+            final float[][] b = new float[newRowCount][];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : new float[newColumnCount];
 
                 if (fillDefaultValue) {
@@ -1360,12 +1360,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                         "Result column count overflow: " + toLeft + " + " + columnCount + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
-            final int newRows = toUp + rowCount + toDown;
+            final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final float[][] b = new float[newRows][newColumnCount];
+            final float[][] b = new float[newRowCount][newColumnCount];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 if (i >= toUp && i < toUp + rowCount) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, columnCount);
                 }
@@ -1609,20 +1609,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix extended = matrix.reshape(2, 4);   // Becomes [[1.0f, 2.0f, 3.0f, 4.0f], [5.0f, 6.0f, 0.0f, 0.0f]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix
+     * @param newRowCount the number of rows in the reshaped matrix
      * @param newColumnCount the number of columns in the reshaped matrix
      * @return a new FloatMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public FloatMatrix reshape(final int newRows, final int newColumnCount) {
-        final float[][] c = new float[newRows][newColumnCount];
+    public FloatMatrix reshape(final int newRowCount, final int newColumnCount) {
+        final float[][] c = new float[newRowCount][newColumnCount];
 
-        if (newRows == 0 || newColumnCount == 0 || N.isEmpty(a)) {
+        if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new FloatMatrix(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
+        final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {

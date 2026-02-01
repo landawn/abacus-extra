@@ -193,12 +193,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: a 2x3 matrix with random long values
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
+     * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
-     * @return a new LongMatrix of dimensions rows x columnCount filled with random values
+     * @return a new LongMatrix of dimensions rowCount x columnCount filled with random values
      */
-    public static LongMatrix random(final int rows, final int columnCount) {
-        final long[][] a = new long[rows][columnCount];
+    public static LongMatrix random(final int rowCount, final int columnCount) {
+        final long[][] a = new long[rowCount][columnCount];
 
         for (long[] ea : a) {
             for (int i = 0; i < columnCount; i++) {
@@ -235,13 +235,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: [[1, 1, 1], [1, 1, 1]]
      * }</pre>
      *
-     * @param rows the number of rows in the new matrix
+     * @param rowCount the number of rows in the new matrix
      * @param columnCount the number of columns in the new matrix
      * @param element the long value to fill the matrix with
-     * @return a new LongMatrix of dimensions rows x columnCount filled with the specified element
+     * @return a new LongMatrix of dimensions rowCount x columnCount filled with the specified element
      */
-    public static LongMatrix repeat(final int rows, final int columnCount, final long element) {
-        final long[][] a = new long[rows][columnCount];
+    public static LongMatrix repeat(final int rowCount, final int columnCount, final long element) {
+        final long[][] a = new long[rowCount][columnCount];
 
         for (long[] ea : a) {
             N.fill(ea, element);
@@ -1350,13 +1350,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [0, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
      * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @return a new LongMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
-    public LongMatrix extend(final int newRows, final int newColumnCount) {
-        return extend(newRows, newColumnCount, 0);
+    public LongMatrix extend(final int newRowCount, final int newColumnCount) {
+        return extend(newRowCount, newColumnCount, 0);
     }
 
     /**
@@ -1381,29 +1381,29 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // Result: [[1]]
      * }</pre>
      *
-     * @param newRows the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
+     * @param newRowCount the number of rows in the new matrix. It can be smaller than the row number of the current matrix but must be non-negative
      * @param newColumnCount the number of columns in the new matrix. It can be smaller than the column number of the current matrix but must be non-negative
      * @param defaultValueForNewCell the long value to fill new cells with during extension
      * @return a new LongMatrix with the specified dimensions
-     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative,
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative,
      *         or if the resulting matrix would be too large (dimensions exceeding Integer.MAX_VALUE elements)
      */
-    public LongMatrix extend(final int newRows, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException {
-        N.checkArgument(newRows >= 0, "newRows cannot be negative: %s", newRows);
+    public LongMatrix extend(final int newRowCount, final int newColumnCount, final long defaultValueForNewCell) throws IllegalArgumentException {
+        N.checkArgument(newRowCount >= 0, "newRowCount cannot be negative: %s", newRowCount);
         N.checkArgument(newColumnCount >= 0, "newColumnCount cannot be negative: %s", newColumnCount);
 
         // Check for overflow before allocation
-        if ((long) newRows * newColumnCount > Integer.MAX_VALUE) {
-            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRows + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
+        if ((long) newRowCount * newColumnCount > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("Matrix dimensions overflow: " + newRowCount + " x " + newColumnCount + " exceeds Integer.MAX_VALUE");
         }
 
-        if (newRows <= rowCount && newColumnCount <= columnCount) {
-            return copy(0, newRows, 0, newColumnCount);
+        if (newRowCount <= rowCount && newColumnCount <= columnCount) {
+            return copy(0, newRowCount, 0, newColumnCount);
         } else {
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final long[][] b = new long[newRows][];
+            final long[][] b = new long[newRowCount][];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 b[i] = i < rowCount ? N.copyOf(a[i], newColumnCount) : new long[newColumnCount];
 
                 if (fillDefaultValue) {
@@ -1504,12 +1504,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                         "Result column count overflow: " + toLeft + " + " + columnCount + " + " + toRight + " exceeds Integer.MAX_VALUE");
             }
 
-            final int newRows = toUp + rowCount + toDown;
+            final int newRowCount = toUp + rowCount + toDown;
             final int newColumnCount = toLeft + columnCount + toRight;
             final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final long[][] b = new long[newRows][newColumnCount];
+            final long[][] b = new long[newRowCount][newColumnCount];
 
-            for (int i = 0; i < newRows; i++) {
+            for (int i = 0; i < newRowCount; i++) {
                 if (i >= toUp && i < toUp + rowCount) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, columnCount);
                 }
@@ -1776,20 +1776,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * LongMatrix extended = matrix.reshape(2, 4);   // Becomes [[1, 2, 3, 4], [5, 6, 0, 0]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix
+     * @param newRowCount the number of rows in the reshaped matrix
      * @param newColumnCount the number of columns in the reshaped matrix
      * @return a new LongMatrix with the specified shape containing this matrix's elements
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override
-    public LongMatrix reshape(final int newRows, final int newColumnCount) {
-        final long[][] c = new long[newRows][newColumnCount];
+    public LongMatrix reshape(final int newRowCount, final int newColumnCount) {
+        final long[][] c = new long[newRowCount][newColumnCount];
 
-        if (newRows == 0 || newColumnCount == 0 || N.isEmpty(a)) {
+        if (newRowCount == 0 || newColumnCount == 0 || N.isEmpty(a)) {
             return new LongMatrix(c);
         }
 
-        final int rowLen = (int) N.min(newRows, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
+        final int rowLen = (int) N.min(newRowCount, elementCount % newColumnCount == 0 ? elementCount / newColumnCount : elementCount / newColumnCount + 1);
 
         if (a.length == 1) {
             for (int i = 0; i < rowLen; i++) {
