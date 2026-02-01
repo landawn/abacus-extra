@@ -179,12 +179,37 @@ public class FloatMatrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRandom_withRowsCols() {
+        FloatMatrix m = FloatMatrix.random(2, 3);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                float val = m.get(i, j);
+                assertTrue(val >= 0.0f && val < 1.0f);
+            }
+        }
+    }
+
+    @Test
     public void testRepeat() {
         FloatMatrix m = FloatMatrix.repeat(3.14f, 5);
         assertEquals(1, m.rows);
         assertEquals(5, m.cols);
         for (int i = 0; i < 5; i++) {
             assertEquals(3.14f, m.get(0, i), DELTA);
+        }
+    }
+
+    @Test
+    public void testRepeat_withRowsCols() {
+        FloatMatrix m = FloatMatrix.repeat(2, 3, 3.14f);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertEquals(3.14f, m.get(i, j), DELTA);
+            }
         }
     }
 

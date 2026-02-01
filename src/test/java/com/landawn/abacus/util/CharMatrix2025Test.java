@@ -105,12 +105,36 @@ public class CharMatrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRandom_withRowsCols() {
+        CharMatrix m = CharMatrix.random(2, 3);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertNotNull(m.get(i, j));
+            }
+        }
+    }
+
+    @Test
     public void testRepeat() {
         CharMatrix m = CharMatrix.repeat('Z', 5);
         assertEquals(1, m.rows);
         assertEquals(5, m.cols);
         for (int i = 0; i < 5; i++) {
             assertEquals('Z', m.get(0, i));
+        }
+    }
+
+    @Test
+    public void testRepeat_withRowsCols() {
+        CharMatrix m = CharMatrix.repeat(2, 3, 'Z');
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertEquals('Z', m.get(i, j));
+            }
         }
     }
 

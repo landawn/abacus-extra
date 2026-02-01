@@ -105,12 +105,36 @@ public class ByteMatrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRandom_withRowsCols() {
+        ByteMatrix m = ByteMatrix.random(2, 3);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertNotNull(m.get(i, j));
+            }
+        }
+    }
+
+    @Test
     public void testRepeat() {
         ByteMatrix m = ByteMatrix.repeat((byte) 42, 5);
         assertEquals(1, m.rows);
         assertEquals(5, m.cols);
         for (int i = 0; i < 5; i++) {
             assertEquals(42, m.get(0, i));
+        }
+    }
+
+    @Test
+    public void testRepeat_withRowsCols() {
+        ByteMatrix m = ByteMatrix.repeat(2, 3, (byte) 42);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertEquals(42, m.get(i, j));
+            }
         }
     }
 

@@ -206,12 +206,37 @@ public class DoubleMatrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRandom_withRowsCols() {
+        DoubleMatrix m = DoubleMatrix.random(2, 3);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                double val = m.get(i, j);
+                assertTrue(val >= 0.0 && val < 1.0);
+            }
+        }
+    }
+
+    @Test
     public void testRepeat() {
         DoubleMatrix m = DoubleMatrix.repeat(3.14, 5);
         assertEquals(1, m.rows);
         assertEquals(5, m.cols);
         for (int i = 0; i < 5; i++) {
             assertEquals(3.14, m.get(0, i), DELTA);
+        }
+    }
+
+    @Test
+    public void testRepeat_withRowsCols() {
+        DoubleMatrix m = DoubleMatrix.repeat(2, 3, 3.14);
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertEquals(3.14, m.get(i, j), DELTA);
+            }
         }
     }
 

@@ -102,6 +102,18 @@ public class Matrix2025Test extends TestBase {
     }
 
     @Test
+    public void testRepeat() {
+        Matrix<String> m = Matrix.repeat(2, 3, "a");
+        assertEquals(2, m.rows);
+        assertEquals(3, m.cols);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                assertEquals("a", m.get(i, j));
+            }
+        }
+    }
+
+    @Test
     public void testDiagonalLU2RD() {
         Matrix<Integer> m = Matrix.diagonalLU2RD(new Integer[] { 1, 2, 3 });
         assertEquals(3, m.rows);
