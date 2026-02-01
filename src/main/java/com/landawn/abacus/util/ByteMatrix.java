@@ -1874,24 +1874,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * //              [7, 8]]
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
-     * @return a new ByteMatrix with b appended below this matrix
+     * @param other the matrix to stack below this matrix
+     * @return a new ByteMatrix with other appended below this matrix
      * @throws IllegalArgumentException if the matrices have different column counts
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public ByteMatrix vstack(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public ByteMatrix vstack(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final byte[][] c = new byte[rowCount + b.rowCount][];
+        final byte[][] c = new byte[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return ByteMatrix.of(c);
@@ -1910,19 +1910,19 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * //              [3, 4, 7, 8]]
      * }</pre>
      *
-     * @param b the matrix to concatenate to the right of this matrix
-     * @return a new ByteMatrix with b appended to the right of this matrix
+     * @param other the matrix to concatenate to the right of this matrix
+     * @return a new ByteMatrix with other appended to the right of this matrix
      * @throws IllegalArgumentException if the matrices have different rowCount
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public ByteMatrix hstack(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rowCount but other has %s", rowCount, b.rowCount);
+    public ByteMatrix hstack(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rowCount but other has %s", rowCount, other.rowCount);
 
-        final byte[][] c = new byte[rowCount][columnCount + b.columnCount];
+        final byte[][] c = new byte[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return ByteMatrix.of(c);
@@ -1943,18 +1943,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // sum is: [[6, 8], [10, 12]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix; must have the same dimensions
+     * @param other the matrix to add to this matrix; must have the same dimensions
      * @return a new ByteMatrix containing the element-wise sum
      * @throws IllegalArgumentException if the matrices have different dimensions (rows or columns don't match)
      * @see #subtract(ByteMatrix)
      */
-    public ByteMatrix add(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public ByteMatrix add(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final byte[][] ba = b.a;
+        final byte[][] otherArray = other.a;
         final byte[][] result = new byte[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] + otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -1976,18 +1976,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // diff is: [[4, 4], [4, 4]]
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix; must have the same dimensions
+     * @param other the matrix to subtract from this matrix; must have the same dimensions
      * @return a new ByteMatrix containing the element-wise difference
      * @throws IllegalArgumentException if the matrices have different dimensions (rows or columns don't match)
      * @see #add(ByteMatrix)
      */
-    public ByteMatrix subtract(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public ByteMatrix subtract(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final byte[][] ba = b.a;
+        final byte[][] otherArray = other.a;
         final byte[][] result = new byte[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (byte) (a[i][j] - otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -2013,20 +2013,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // product is: [[19, 22], [43, 50]]
      * }</pre>
      *
-     * @param b the matrix to multiply with; must have row count equal to this matrix's column count
-     * @return a new ByteMatrix containing the matrix product with dimensions (this.rowCount x b.columnCount)
-     * @throws IllegalArgumentException if this.columnCount != b.rowCount (incompatible dimensions for multiplication)
+     * @param other the matrix to multiply with; must have row count equal to this matrix's column count
+     * @return a new ByteMatrix containing the matrix product with dimensions (this.rowCount x other.columnCount)
+     * @throws IllegalArgumentException if this.columnCount != other.rowCount (incompatible dimensions for multiplication)
      */
-    public ByteMatrix multiply(final ByteMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
+    public ByteMatrix multiply(final ByteMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+                columnCount, other.rowCount, other.columnCount);
 
-        final byte[][] otherData = b.a;
-        final byte[][] result = new byte[rowCount][b.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += (byte) (a[i][k] * otherData[k][j]);
+        final byte[][] otherArray = other.a;
+        final byte[][] result = new byte[rowCount][other.columnCount];
+        final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += (byte) (a[i][k] * otherArray[k][j]);
 
-        Matrixes.multiply(this, b, multiplyAction);
+        Matrixes.multiply(this, other, multiplyAction);
 
         return new ByteMatrix(result);
     }

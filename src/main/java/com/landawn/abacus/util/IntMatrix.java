@@ -2050,24 +2050,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //          [10, 11, 12]]
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix (must have the same column count)
-     * @return a new IntMatrix with dimensions (this.rowCount + b.rowCount) x this.columnCount
-     * @throws IllegalArgumentException if {@code this.columnCount != b.columnCount}
+     * @param other the matrix to stack below this matrix (must have the same column count)
+     * @return a new IntMatrix with dimensions (this.rowCount + other.rowCount) x this.columnCount
+     * @throws IllegalArgumentException if {@code this.columnCount != other.columnCount}
      * @see #hstack(IntMatrix)
      */
-    public IntMatrix vstack(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public IntMatrix vstack(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final int[][] c = new int[rowCount + b.rowCount][];
+        final int[][] c = new int[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return IntMatrix.of(c);
@@ -2090,19 +2090,19 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * //          [4, 5, 6, 10, 11, 12]]
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix (must have the same row count)
-     * @return a new IntMatrix with dimensions this.rowCount x (this.columnCount + b.columnCount)
-     * @throws IllegalArgumentException if {@code this.rowCount != b.rowCount}
+     * @param other the matrix to stack to the right of this matrix (must have the same row count)
+     * @return a new IntMatrix with dimensions this.rowCount x (this.columnCount + other.columnCount)
+     * @throws IllegalArgumentException if {@code this.rowCount != other.rowCount}
      * @see #vstack(IntMatrix)
      */
-    public IntMatrix hstack(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public IntMatrix hstack(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final int[][] c = new int[rowCount][columnCount + b.columnCount];
+        final int[][] c = new int[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return IntMatrix.of(c);
@@ -2120,15 +2120,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix sum = a.add(b);   // Result: [[6,8],[10,12]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param other the matrix to add to this matrix
      * @return a new IntMatrix containing the element-wise sum
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public IntMatrix add(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public IntMatrix add(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final int[][] otherData = b.a;
+        final int[][] otherData = other.a;
         final int[][] result = new int[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
 
@@ -2149,15 +2149,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix diff = a.subtract(b);   // Result: [[4,4],[4,4]]
      * }</pre>
      * 
-     * @param b the matrix to subtract from this matrix
+     * @param other the matrix to subtract from this matrix
      * @return a new IntMatrix containing the element-wise difference
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public IntMatrix subtract(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public IntMatrix subtract(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final int[][] otherData = b.a;
+        final int[][] otherData = other.a;
         final int[][] result = new int[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
 
@@ -2178,20 +2178,20 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * IntMatrix product = a.multiply(b);   // Result: [[19,22],[43,50]]
      * }</pre>
      *
-     * @param b the matrix to multiply with
+     * @param other the matrix to multiply with
      * @return a new IntMatrix containing the matrix product
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
-    public IntMatrix multiply(final IntMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
+    public IntMatrix multiply(final IntMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+                columnCount, other.rowCount, other.columnCount);
 
-        final int[][] otherData = b.a;
-        final int[][] result = new int[rowCount][b.columnCount];
+        final int[][] otherData = other.a;
+        final int[][] result = new int[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrixes.multiply(this, b, multiplyAction);
+        Matrixes.multiply(this, other, multiplyAction);
 
         return new IntMatrix(result);
     }

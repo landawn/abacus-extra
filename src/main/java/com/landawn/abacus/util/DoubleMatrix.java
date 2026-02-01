@@ -79,7 +79,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
      * DoubleMatrix matrix = new DoubleMatrix(data);
-     * // matrix.rows returns 2, matrix.columnCount returns 2
+     * // matrix.rowCount() returns 2, matrix.columnCount returns 2
      * // Modifications to data will affect matrix
      *
      * // For a safe independent copy:
@@ -90,7 +90,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix safeMat = new DoubleMatrix(safeCopy);
      *
      * DoubleMatrix empty = new DoubleMatrix(null);
-     * // empty.rows returns 0, empty.columnCount returns 0
+     * // empty.rowCount() returns 0, empty.columnCount returns 0
      * }</pre>
      *
      * @param a the two-dimensional double array to wrap, or null for an empty matrix
@@ -105,7 +105,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.empty();
-     * // matrix.rows returns 0
+     * // matrix.rowCount() returns 0
      * // matrix.columnCount returns 0
      * }</pre>
      *
@@ -1458,7 +1458,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
@@ -1965,24 +1965,24 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Result: [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
+     * @param other the matrix to stack below this matrix
      * @return a new matrix with combined rows
      * @throws IllegalArgumentException if the matrices have different number of columns
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public DoubleMatrix vstack(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public DoubleMatrix vstack(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final double[][] c = new double[rowCount + b.rowCount][];
+        final double[][] c = new double[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return DoubleMatrix.of(c);
@@ -2001,19 +2001,19 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // Result: [[1.0, 2.0, 5.0], [3.0, 4.0, 6.0]]
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix
+     * @param other the matrix to stack to the right of this matrix
      * @return a new matrix with combined columns
      * @throws IllegalArgumentException if the matrices have different number of rows
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public DoubleMatrix hstack(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public DoubleMatrix hstack(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final double[][] c = new double[rowCount][columnCount + b.columnCount];
+        final double[][] c = new double[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return DoubleMatrix.of(c);
@@ -2030,15 +2030,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix sum = a.add(b);   // [[6.0, 8.0], [10.0, 12.0]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param other the matrix to add to this matrix
      * @return a new matrix containing the element-wise sum
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public DoubleMatrix add(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public DoubleMatrix add(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final double[][] otherData = b.a;
+        final double[][] otherData = other.a;
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] + otherData[i][j]);
 
@@ -2058,15 +2058,15 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix diff = a.subtract(b);   // [[4.0, 4.0], [4.0, 4.0]]
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix
+     * @param other the matrix to subtract from this matrix
      * @return a new matrix containing the element-wise difference
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public DoubleMatrix subtract(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public DoubleMatrix subtract(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final double[][] otherData = b.a;
+        final double[][] otherData = other.a;
         final double[][] result = new double[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> elementAction = (i, j) -> result[i][j] = (a[i][j] - otherData[i][j]);
 
@@ -2078,7 +2078,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Performs matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the other matrix.
-     * Results in a matrix of dimensions (this.rows × b.columnCount).
+     * Results in a matrix of dimensions (this.rowCount × other.columnCount).
      * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2087,20 +2087,20 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * DoubleMatrix product = a.multiply(b);   // [[19.0, 22.0], [43.0, 50.0]]
      * }</pre>
      *
-     * @param b the matrix to multiply with this matrix
+     * @param other the matrix to multiply with this matrix
      * @return a new matrix containing the matrix product
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
      */
-    public DoubleMatrix multiply(final DoubleMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rows)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public DoubleMatrix multiply(final DoubleMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final double[][] otherData = b.a;
-        final double[][] result = new double[rowCount][b.columnCount];
+        final double[][] otherData = other.a;
+        final double[][] result = new double[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> multiplyAction = (i, j, k) -> result[i][j] += a[i][k] * otherData[k][j];
 
-        Matrixes.multiply(this, b, multiplyAction);
+        Matrixes.multiply(this, other, multiplyAction);
 
         return new DoubleMatrix(result);
     }

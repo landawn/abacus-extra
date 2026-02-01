@@ -86,7 +86,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.empty();
-     * // matrix.rows returns 0
+     * // matrix.rowCount() returns 0
      * // matrix.columnCount returns 0
      * }</pre>
      *
@@ -127,7 +127,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix matrix = FloatMatrix.from(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * assert matrix.get(1, 0) == 3.0f;
-     * assert matrix.rows == 2 && matrix.columnCount == 2;
+     * assert matrix.rowCount() == 2 && matrix.columnCount == 2;
      * }</pre>
      *
      * @param a the two-dimensional int array to convert to a float matrix, or null/empty for an empty matrix
@@ -1296,7 +1296,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
@@ -1783,24 +1783,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //          [7.0, 8.0]]
      * }</pre>
      * 
-     * @param b the matrix to stack below this matrix
-     * @return a new FloatMatrix with b stacked vertically below this matrix
+     * @param other the matrix to stack below this matrix
+     * @return a new FloatMatrix with other stacked vertically below this matrix
      * @throws IllegalArgumentException if the matrices don't have the same number of columns
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public FloatMatrix vstack(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public FloatMatrix vstack(final FloatMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final float[][] result = new float[rowCount + b.rowCount][];
+        final float[][] result = new float[rowCount + other.rowCount][];
         int targetRow = 0;
 
         for (int i = 0; i < rowCount; i++) {
             result[targetRow++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            result[targetRow++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            result[targetRow++] = other.a[i].clone();
         }
 
         return FloatMatrix.of(result);
@@ -1819,19 +1819,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * //          [3.0, 4.0, 7.0, 8.0]]
      * }</pre>
      * 
-     * @param b the matrix to stack to the right of this matrix
-     * @return a new FloatMatrix with b stacked horizontally to the right
+     * @param other the matrix to stack to the right of this matrix
+     * @return a new FloatMatrix with other stacked horizontally to the right
      * @throws IllegalArgumentException if the matrices don't have the same number of rows
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public FloatMatrix hstack(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public FloatMatrix hstack(final FloatMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final float[][] result = new float[rowCount][columnCount + b.columnCount];
+        final float[][] result = new float[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, result[i], 0, columnCount);
-            N.copy(b.a[i], 0, result[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, result[i], columnCount, other.columnCount);
         }
 
         return FloatMatrix.of(result);
@@ -1851,15 +1851,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix sum = a.add(b);   // Result: [[6.0, 8.0], [10.0, 12.0]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param other the matrix to add to this matrix
      * @return a new FloatMatrix containing the element-wise sum (same dimensions as inputs)
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public FloatMatrix add(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public FloatMatrix add(final FloatMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final float[][] otherMatrix = b.a;
+        final float[][] otherMatrix = other.a;
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] + otherMatrix[i][j]);
 
@@ -1882,15 +1882,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix diff = a.subtract(b);   // Result: [[4.0, 4.0], [4.0, 4.0]]
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix
+     * @param other the matrix to subtract from this matrix
      * @return a new FloatMatrix containing the element-wise difference (same dimensions as inputs)
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public FloatMatrix subtract(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public FloatMatrix subtract(final FloatMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final float[][] otherMatrix = b.a;
+        final float[][] otherMatrix = other.a;
         final float[][] result = new float[rowCount][columnCount];
         final Throwables.IntBiConsumer<RuntimeException> operation = (i, j) -> result[i][j] = (a[i][j] - otherMatrix[i][j]);
 
@@ -1902,7 +1902,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Performs matrix multiplication of this matrix with another matrix.
      * The number of columns in this matrix must equal the number of rows in the other matrix.
-     * The resulting matrix has dimensions (this.rows × b.columnCount).
+     * The resulting matrix has dimensions (this.rowCount × other.columnCount).
      *
      * <p>This operation uses standard matrix multiplication where each element (i,j) in the result
      * is computed as the dot product of row i from this matrix and column j from the other matrix.</p>
@@ -1916,21 +1916,21 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix product = a.multiply(b);   // Result: [[19.0, 22.0], [43.0, 50.0]]
      * }</pre>
      *
-     * @param b the matrix to multiply with this matrix
-     * @return a new FloatMatrix containing the matrix product with dimensions (this.rows × b.columnCount)
+     * @param other the matrix to multiply with this matrix
+     * @return a new FloatMatrix containing the matrix product with dimensions (this.rowCount × other.columnCount)
      * @throws IllegalArgumentException if the matrix dimensions are incompatible for multiplication
-     *         (i.e., this.columnCount != b.rows)
+     *         (i.e., this.columnCount != other.rowCount)
      */
-    public FloatMatrix multiply(final FloatMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rows)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public FloatMatrix multiply(final FloatMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final float[][] otherMatrix = b.a;
-        final float[][] result = new float[rowCount][b.columnCount];
+        final float[][] otherMatrix = other.a;
+        final float[][] result = new float[rowCount][other.columnCount];
         final Throwables.IntTriConsumer<RuntimeException> operation = (i, j, k) -> result[i][j] += a[i][k] * otherMatrix[k][j];
 
-        Matrixes.multiply(this, b, operation);
+        Matrixes.multiply(this, other, operation);
 
         return new FloatMatrix(result);
     }

@@ -94,7 +94,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.empty();
-     * // matrix.rows returns 0
+     * // matrix.rowCount() returns 0
      * // matrix.columnCount returns 0
      * }</pre>
      *
@@ -1852,24 +1852,24 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix stacked = a.vstack(b);   // Result: [['a', 'b'], ['c', 'd']]
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
-     * @return a new CharMatrix with b appended below this matrix
+     * @param other the matrix to stack below this matrix
+     * @return a new CharMatrix with other appended below this matrix
      * @throws IllegalArgumentException if the matrices have different column counts
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public CharMatrix vstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public CharMatrix vstack(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final char[][] c = new char[rowCount + b.rowCount][];
+        final char[][] c = new char[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return CharMatrix.of(c);
@@ -1886,19 +1886,19 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix stacked = a.hstack(b);   // Result: [['a', 'c'], ['b', 'd']]
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix
-     * @return a new CharMatrix with b appended to the right of this matrix
+     * @param other the matrix to stack to the right of this matrix
+     * @return a new CharMatrix with other appended to the right of this matrix
      * @throws IllegalArgumentException if the matrices have different row counts
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public CharMatrix hstack(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public CharMatrix hstack(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final char[][] c = new char[rowCount][columnCount + b.columnCount];
+        final char[][] c = new char[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return CharMatrix.of(c);
@@ -1915,17 +1915,17 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix sum = a.add(b);   // Result: [['b', 'd']] (a+1, b+2)
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param other the matrix to add to this matrix
      * @return a new CharMatrix containing the element-wise sum
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public CharMatrix add(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public CharMatrix add(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final char[][] ba = b.a;
+        final char[][] otherArray = other.a;
         final char[][] result = new char[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] + otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -1944,17 +1944,17 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix diff = a.subtract(b);   // Result: [['c', 'c']] (d-1, e-2)
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix
+     * @param other the matrix to subtract from this matrix
      * @return a new CharMatrix containing the element-wise difference
      * @throws IllegalArgumentException if the matrices have different dimensions
      */
-    public CharMatrix subtract(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public CharMatrix subtract(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final char[][] ba = b.a;
+        final char[][] otherArray = other.a;
         final char[][] result = new char[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (char) (a[i][j] - otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -1977,20 +1977,20 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * CharMatrix product = a.multiply(b);   // Standard matrix multiplication
      * }</pre>
      *
-     * @param b the matrix to multiply with this matrix
+     * @param other the matrix to multiply with this matrix
      * @return a new CharMatrix containing the matrix product
-     * @throws IllegalArgumentException if this.columnCount != b.rowCount
+     * @throws IllegalArgumentException if this.columnCount != other.rowCount
      */
-    public CharMatrix multiply(final CharMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
+    public CharMatrix multiply(final CharMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
                 "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+                columnCount, other.rowCount, other.columnCount);
 
-        final char[][] ba = b.a;
-        final char[][] result = new char[rowCount][b.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (char) (a[i][k] * ba[k][j]);
+        final char[][] otherArray = other.a;
+        final char[][] result = new char[rowCount][other.columnCount];
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (char) (a[i][k] * otherArray[k][j]);
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, other, cmd);
 
         return new CharMatrix(result);
     }

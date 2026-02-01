@@ -2063,25 +2063,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2}, {3, 4}, {5, 6}, {7, 8}}
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix (must not be null)
-     * @return a new vertically stacked matrix with dimensions (this.rows + b.rows) × columnCount
+     * @param other the matrix to stack below this matrix (must not be null)
+     * @return a new vertically stacked matrix with dimensions (this.rowCount + other.rowCount) × columnCount
      * @throws IllegalArgumentException if the matrices have different column counts
      * @see #hstack(Matrix)
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public Matrix<T> vstack(final Matrix<? extends T> b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public Matrix<T> vstack(final Matrix<? extends T> other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final T[][] c = N.newArray(arrayType, rowCount + b.rowCount);
+        final T[][] c = N.newArray(arrayType, rowCount + other.rowCount);
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return Matrix.of(c);
@@ -2101,20 +2101,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * // Result: {{1, 2, 5}, {3, 4, 6}}
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix (must not be null)
-     * @return a new horizontally stacked matrix with dimensions rows × (this.columnCount + b.columnCount)
+     * @param other the matrix to stack to the right of this matrix (must not be null)
+     * @return a new horizontally stacked matrix with dimensions rowCount × (this.columnCount + other.columnCount)
      * @throws IllegalArgumentException if the matrices have different row counts
      * @see #vstack(Matrix)
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public Matrix<T> hstack(final Matrix<? extends T> b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public Matrix<T> hstack(final Matrix<? extends T> other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
         final T[][] c = N.newArray(arrayType, rowCount);
 
         for (int i = 0; i < rowCount; i++) {
-            c[i] = N.copyOf(a[i], columnCount + b.columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            c[i] = N.copyOf(a[i], columnCount + other.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return Matrix.of(c);

@@ -92,7 +92,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.empty();
-     * // matrix.rows returns 0
+     * // matrix.rowCount() returns 0
      * // matrix.columnCount returns 0
      * }</pre>
      *
@@ -1440,7 +1440,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
@@ -1960,24 +1960,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [7, 8, 9]]
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
+     * @param other the matrix to stack below this matrix
      * @return a new matrix with rows from both matrices stacked vertically
      * @throws IllegalArgumentException if the matrices don't have the same number of columns
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public LongMatrix vstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public LongMatrix vstack(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final long[][] c = new long[rowCount + b.rowCount][];
+        final long[][] c = new long[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return LongMatrix.of(c);
@@ -1997,19 +1997,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [3, 4, 6]]
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix
+     * @param other the matrix to stack to the right of this matrix
      * @return a new matrix with columns from both matrices stacked horizontally
      * @throws IllegalArgumentException if the matrices don't have the same number of rows
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public LongMatrix hstack(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public LongMatrix hstack(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final long[][] c = new long[rowCount][columnCount + b.columnCount];
+        final long[][] c = new long[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return LongMatrix.of(c);
@@ -2029,17 +2029,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [10, 12]]
      * }</pre>
      *
-     * @param b the matrix to add to this matrix
+     * @param other the matrix to add to this matrix
      * @return a new matrix containing the element-wise sum
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
-    public LongMatrix add(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
-                b.rowCount, b.columnCount);
+    public LongMatrix add(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot add matrices with different shapes: this is %sx%s but other is %sx%s", rowCount, columnCount,
+                other.rowCount, other.columnCount);
 
-        final long[][] ba = b.a;
+        final long[][] otherArray = other.a;
         final long[][] result = new long[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] + otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -2060,17 +2060,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [4, 4]]
      * }</pre>
      *
-     * @param b the matrix to subtract from this matrix
+     * @param other the matrix to subtract from this matrix
      * @return a new matrix containing the element-wise difference
      * @throws IllegalArgumentException if the matrices don't have the same shape
      */
-    public LongMatrix subtract(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(Matrixes.isSameShape(this, b), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public LongMatrix subtract(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgument(Matrixes.isSameShape(this, other), "Cannot subtract matrices with different shapes: this is %sx%s but other is %sx%s", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final long[][] ba = b.a;
+        final long[][] otherArray = other.a;
         final long[][] result = new long[rowCount][columnCount];
-        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - ba[i][j]);
+        final Throwables.IntBiConsumer<RuntimeException> cmd = (i, j) -> result[i][j] = (a[i][j] - otherArray[i][j]);
 
         Matrixes.run(rowCount, columnCount, cmd, Matrixes.isParallelable(this));
 
@@ -2080,7 +2080,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Performs matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the specified matrix.
-     * The result is a new matrix with dimensions (this.rows × b.columnCount).
+     * The result is a new matrix with dimensions (this.rowCount × other.columnCount).
      * This implements standard matrix multiplication where each element (i,j) of the result is the
      * dot product of row i from this matrix and column j from matrix b.
      * <p><b>Note:</b> Long overflow may occur during multiplication.</p>
@@ -2094,20 +2094,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * //          [43, 50]]   // 3*5+4*7=43, 3*6+4*8=50
      * }</pre>
      *
-     * @param b the matrix to multiply with this matrix
+     * @param other the matrix to multiply with this matrix
      * @return a new matrix containing the matrix product
-     * @throws IllegalArgumentException if the matrix dimensions are incompatible (this.columnCount != b.rows)
+     * @throws IllegalArgumentException if the matrix dimensions are incompatible (this.columnCount != other.rowCount)
      */
-    public LongMatrix multiply(final LongMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rows)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public LongMatrix multiply(final LongMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final long[][] ba = b.a;
-        final long[][] result = new long[rowCount][b.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * ba[k][j];
+        final long[][] otherArray = other.a;
+        final long[][] result = new long[rowCount][other.columnCount];
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += a[i][k] * otherArray[k][j];
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, other, cmd);
 
         return new LongMatrix(result);
     }

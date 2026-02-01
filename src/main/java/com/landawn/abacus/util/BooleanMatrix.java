@@ -1862,23 +1862,23 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * BooleanMatrix combined = m1.vstack(m2).vstack(m3);   // 3x2 matrix
      * }</pre>
      *
-     * @param b the matrix to stack below this matrix
-     * @return a new BooleanMatrix with dimensions ((this.rowCount + b.rowCount) x columnCount)
+     * @param other the matrix to stack below this matrix
+     * @return a new BooleanMatrix with dimensions ((this.rowCount + other.rowCount) x columnCount)
      * @throws IllegalArgumentException if the matrices have different column counts
      */
-    public BooleanMatrix vstack(final BooleanMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
-                b.columnCount);
+    public BooleanMatrix vstack(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.columnCount, "Column count mismatch for vstack: this matrix has %s columns but other has %s", columnCount,
+                other.columnCount);
 
-        final boolean[][] c = new boolean[rowCount + b.rowCount][];
+        final boolean[][] c = new boolean[rowCount + other.rowCount][];
         int j = 0;
 
         for (int i = 0; i < rowCount; i++) {
             c[j++] = a[i].clone();
         }
 
-        for (int i = 0; i < b.rowCount; i++) {
-            c[j++] = b.a[i].clone();
+        for (int i = 0; i < other.rowCount; i++) {
+            c[j++] = other.a[i].clone();
         }
 
         return BooleanMatrix.of(c);
@@ -1906,18 +1906,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * BooleanMatrix wide = col1.hstack(col2);   // 3x2 matrix
      * }</pre>
      *
-     * @param b the matrix to stack to the right of this matrix
-     * @return a new BooleanMatrix with dimensions (rowCount x (this.columnCount + b.columnCount))
+     * @param other the matrix to stack to the right of this matrix
+     * @return a new BooleanMatrix with dimensions (rowCount x (this.columnCount + other.columnCount))
      * @throws IllegalArgumentException if the matrices have different row counts
      */
-    public BooleanMatrix hstack(final BooleanMatrix b) throws IllegalArgumentException {
-        N.checkArgument(rowCount == b.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, b.rowCount);
+    public BooleanMatrix hstack(final BooleanMatrix other) throws IllegalArgumentException {
+        N.checkArgument(rowCount == other.rowCount, "Row count mismatch for hstack: this matrix has %s rows but other has %s", rowCount, other.rowCount);
 
-        final boolean[][] c = new boolean[rowCount][columnCount + b.columnCount];
+        final boolean[][] c = new boolean[rowCount][columnCount + other.columnCount];
 
         for (int i = 0; i < rowCount; i++) {
             N.copy(a[i], 0, c[i], 0, columnCount);
-            N.copy(b.a[i], 0, c[i], columnCount, b.columnCount);
+            N.copy(other.a[i], 0, c[i], columnCount, other.columnCount);
         }
 
         return BooleanMatrix.of(c);

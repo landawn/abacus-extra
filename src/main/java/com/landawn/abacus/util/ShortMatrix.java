@@ -102,7 +102,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.empty();
-     * // matrix.rows returns 0
+     * // matrix.rowCount() returns 0
      * // matrix.columnCount returns 0
      * }</pre>
      *
@@ -1308,7 +1308,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p>The resulting matrix has dimensions:
      * <ul>
-     *   <li>Rows: {@code toUp + this.rows + toDown}</li>
+     *   <li>Rows: {@code toUp + this.rowCount + toDown}</li>
      *   <li>Columns: {@code toLeft + this.columnCount + toRight}</li>
      * </ul>
      *
@@ -1966,7 +1966,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     /**
      * Performs standard matrix multiplication with another matrix.
      * The number of columns in this matrix must equal the number of rows in the specified matrix.
-     * The result is a new matrix with dimensions (this.rows × b.columnCount).
+     * The result is a new matrix with dimensions (this.rowCount × other.columnCount).
      * The original matrices are not modified.
      * <p><b>Note:</b> Short overflow may occur during multiplication. This performs standard matrix multiplication,
      * not element-wise multiplication.</p>
@@ -1980,20 +1980,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * // where result[i][j] = sum of (matrix1[i][k] * matrix2[k][j]) for all k
      * }</pre>
      *
-     * @param b the matrix to multiply with this matrix (this.columnCount must equal b.rows)
-     * @return a new matrix of dimension (this.rows × b.columnCount) containing the matrix product
-     * @throws IllegalArgumentException if this.columnCount != b.rows (incompatible dimensions for multiplication)
+     * @param other the matrix to multiply with this matrix (this.columnCount must equal other.rowCount)
+     * @return a new matrix of dimension (this.rowCount × other.columnCount) containing the matrix product
+     * @throws IllegalArgumentException if this.columnCount != other.rowCount (incompatible dimensions for multiplication)
      */
-    public ShortMatrix multiply(final ShortMatrix b) throws IllegalArgumentException {
-        N.checkArgument(columnCount == b.rowCount,
-                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rows)", rowCount,
-                columnCount, b.rowCount, b.columnCount);
+    public ShortMatrix multiply(final ShortMatrix other) throws IllegalArgumentException {
+        N.checkArgument(columnCount == other.rowCount,
+                "Matrix dimensions incompatible for multiplication: this is %sx%s, other is %sx%s (this.columnCount must equal other.rowCount)", rowCount,
+                columnCount, other.rowCount, other.columnCount);
 
-        final short[][] ba = b.a;
-        final short[][] result = new short[rowCount][b.columnCount];
-        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (short) (a[i][k] * ba[k][j]);
+        final short[][] otherArray = other.a;
+        final short[][] result = new short[rowCount][other.columnCount];
+        final Throwables.IntTriConsumer<RuntimeException> cmd = (i, j, k) -> result[i][j] += (short) (a[i][k] * otherArray[k][j]);
 
-        Matrixes.multiply(this, b, cmd);
+        Matrixes.multiply(this, other, cmd);
 
         return new ShortMatrix(result);
     }
