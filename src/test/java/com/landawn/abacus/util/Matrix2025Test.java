@@ -102,56 +102,6 @@ public class Matrix2025Test extends TestBase {
     }
 
     @Test
-    public void testRepeat_withNonNullElement() {
-        Matrix<String> m = Matrix.repeat("X", 5, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
-        for (int i = 0; i < 5; i++) {
-            assertEquals("X", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withNullElement() {
-        Matrix<String> m = Matrix.repeat(null, 3, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        for (int i = 0; i < 3; i++) {
-            assertNull(m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_deprecated() {
-        Matrix<Double> m = Matrix.repeat(0.0, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
-        for (int i = 0; i < 5; i++) {
-            assertEquals(0.0, m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_deprecated_withNullElement() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeat(null, 3));
-    }
-
-    @Test
-    public void testRepeatNonNull() {
-        Matrix<String> m = Matrix.repeatNonNull("Y", 4);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
-        for (int i = 0; i < 4; i++) {
-            assertEquals("Y", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeatNonNull_withNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeatNonNull(null, 3));
-    }
-
-    @Test
     public void testDiagonalLU2RD() {
         Matrix<Integer> m = Matrix.diagonalLU2RD(new Integer[] { 1, 2, 3 });
         assertEquals(3, m.rows);

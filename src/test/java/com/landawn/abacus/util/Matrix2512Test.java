@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -83,40 +82,6 @@ public class Matrix2512Test extends TestBase {
         assertEquals(1, m.cols);
     }
 
-    @Test
-    public void test_repeat_withNonNullElement() {
-        Matrix<String> m = Matrix.repeat("X", 5, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
-        for (int i = 0; i < 5; i++) {
-            assertEquals("X", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void test_repeat_withNullElement() {
-        Matrix<String> m = Matrix.repeat(null, 3, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        for (int i = 0; i < 3; i++) {
-            assertNull(m.get(0, i));
-        }
-    }
-
-    @Test
-    public void test_repeatNonNull_withValidElement() {
-        Matrix<Integer> m = Matrix.repeatNonNull(99, 4);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
-        for (int i = 0; i < 4; i++) {
-            assertEquals(99, m.get(0, i));
-        }
-    }
-
-    @Test
-    public void test_repeatNonNull_withNullElement_throwsException() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeatNonNull(null, 3));
-    }
 
     @Test
     public void test_diagonalLU2RD_createsMainDiagonal() {

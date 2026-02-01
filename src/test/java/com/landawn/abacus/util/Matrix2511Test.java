@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -113,82 +112,6 @@ public class Matrix2511Test extends TestBase {
     }
 
     // ============ Factory Method Tests - repeat() ============
-
-    @Test
-    public void testRepeat_deprecated_withString() {
-        Matrix<String> m = Matrix.repeat("X", 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
-        for (int i = 0; i < 5; i++) {
-            assertEquals("X", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_deprecated_throwsOnNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeat(null, 5));
-    }
-
-    @Test
-    public void testRepeat_withElementClass_string() {
-        Matrix<String> m = Matrix.repeat("Hello", 3, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        for (int i = 0; i < 3; i++) {
-            assertEquals("Hello", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withElementClass_integer() {
-        Matrix<Integer> m = Matrix.repeat(999, 4, Integer.class);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
-        for (int i = 0; i < 4; i++) {
-            assertEquals(999, m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withElementClass_nullValue() {
-        Matrix<String> m = Matrix.repeat(null, 3, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        for (int i = 0; i < 3; i++) {
-            assertNull(m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withElementClass_zeroLength() {
-        Matrix<Integer> m = Matrix.repeat(42, 0, Integer.class);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
-    }
-
-    @Test
-    public void testRepeatNonNull_withString() {
-        Matrix<String> m = Matrix.repeatNonNull("A", 3);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        assertEquals("A", m.get(0, 0));
-        assertEquals("A", m.get(0, 1));
-        assertEquals("A", m.get(0, 2));
-    }
-
-    @Test
-    public void testRepeatNonNull_throwsOnNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeatNonNull(null, 5));
-    }
-
-    @Test
-    public void testRepeatNonNull_withInteger() {
-        Matrix<Integer> m = Matrix.repeatNonNull(777, 2);
-        assertEquals(1, m.rows);
-        assertEquals(2, m.cols);
-        assertEquals(777, m.get(0, 0));
-        assertEquals(777, m.get(0, 1));
-    }
 
     // ============ Factory Method Tests - diagonal ============
 

@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -66,6 +68,8 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 
+    static final Random RAND = new SecureRandom();
+    static final int BOUND = Byte.MAX_VALUE - Byte.MIN_VALUE + 1;
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
     /**
@@ -129,41 +133,85 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Creates a 1-row matrix filled with random byte values.
-     * Each element is a random byte value generated using the default random number generator.
-     * The values can range across the entire byte value space (from {@code Byte.MIN_VALUE} to {@code Byte.MAX_VALUE}).
+     * Creates a new 1xsize matrix filled with random byte values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.random(5);
-     * // Creates a 1x5 matrix with random byte values
-     * // Each value is in range [Byte.MIN_VALUE, Byte.MAX_VALUE]
+     * // Result: a 1x5 matrix with random byte values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix filled with random byte values
-     * @throws IllegalArgumentException if len is negative
+     * @param size the number of columns in the new matrix
+     * @return a new ByteMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static ByteMatrix random(final int len) {
-        return new ByteMatrix(new byte[][] { ByteList.random(len).array() });
+    public static ByteMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
+     * Creates a new matrix of the specified dimensions filled with random byte values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random byte values
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new ByteMatrix of dimensions rows x cols filled with random values
+     */
+    public static ByteMatrix random(final int rows, final int cols) {
+        final byte[][] a = new byte[rows][cols];
+
+        for (byte[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = (byte) (RAND.nextInt(BOUND) + Byte.MIN_VALUE);
+            }
+        }
+
+        return new ByteMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.repeat((byte) 42, 5);
-     * // Creates a 1x5 matrix where all elements are 42
+     * // Result: a 1x5 matrix filled with 42
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns
-     * @return a 1-row matrix with all elements set to val
+     * @param element the byte value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new ByteMatrix of dimensions 1 x size filled with the specified element
      */
-    public static ByteMatrix repeat(final byte val, final int len) {
-        return new ByteMatrix(new byte[][] { Array.repeat(val, len) });
+    public static ByteMatrix repeat(final byte element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ByteMatrix matrix = ByteMatrix.repeat(2, 3, (byte) 1);
+     * // Result: [[1, 1, 1], [1, 1, 1]]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the byte value to fill the matrix with
+     * @return a new ByteMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static ByteMatrix repeat(final int rows, final int cols, final byte element) {
+        final byte[][] a = new byte[rows][cols];
+
+        for (byte[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new ByteMatrix(a);
     }
 
     /**
@@ -654,8 +702,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements in the specified row by applying the given function to each element.
-     * The matrix is modified in-place. Each element in the row is transformed by the function
+     * Updates all elements in the specified row by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the row is transformed by the operator
      * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
@@ -665,21 +713,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // First row is now: [2, 4, 6]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
+     * @param <E> the type of exception that may be thrown by the operator
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the unary operator to apply to each element in the row, taking a byte and returning a byte
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the row, taking a byte and returning a byte
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ByteUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsByte(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsByte(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in the specified column by applying the given function to each element.
-     * The matrix is modified in-place. Each element in the column is transformed by the function
+     * Updates all elements in the specified column by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the column is transformed by the operator
      * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
@@ -689,15 +737,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Second column is now: [12, 15]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the unary operator to apply to each element in the column, taking a byte and returning a byte
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the column, taking a byte and returning a byte
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ByteUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsByte(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsByte(a[i][columnIndex]);
         }
     }
 
@@ -756,7 +804,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements on the main diagonal (left-up to right-down) by applying the given function.
+     * Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -767,16 +815,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Diagonal is now: [2, 10, 18]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
-     * @param func the function to apply to each diagonal element
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each diagonal element
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsByte(a[i][i]);
+            a[i][i] = operator.applyAsByte(a[i][i]);
         }
     }
 
@@ -837,7 +885,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given function.
+     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -848,21 +896,21 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Anti-diagonal is now: [4, 6, 8]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
-     * @param func the function to apply to each anti-diagonal element
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each anti-diagonal element
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsByte(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsByte(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix by applying the given function to each element.
+     * Updates all elements in the matrix by applying the given operator to each element.
      * The matrix is modified in-place. This operation may be performed in parallel for large matrices
      * to improve performance.
      *
@@ -873,18 +921,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Matrix is now: [[2, 4], [6, 8]]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
-     * @param func the unary operator to apply to each element, taking a byte and returning a byte
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the unary operator to apply to each element, taking a byte and returning a byte
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.ByteUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsByte(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.ByteUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.applyAsByte(a[i][j]);
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
-     * Updates all elements in the matrix based on their position by applying the given function.
-     * The function receives the row and column indices (0-based) and returns the new value for that position.
+     * Updates all elements in the matrix based on their position by applying the given operator.
+     * The operator receives the row and column indices (0-based) and returns the new value for that position.
      * The matrix is modified in-place. This operation may be performed in parallel for large matrices
      * to improve performance.
      *
@@ -895,12 +943,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * // Matrix is now: [[0, 1], [1, 2]]
      * }</pre>
      *
-     * @param <E> the type of exception that may be thrown by the function
-     * @param func the bi-function that takes (rowIndex, columnIndex) and returns the new byte value
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the bi-function that takes (rowIndex, columnIndex) and returns the new byte value
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Byte, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Byte, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 

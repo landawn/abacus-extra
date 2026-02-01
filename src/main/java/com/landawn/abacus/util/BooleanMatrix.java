@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -58,6 +60,7 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {
 
+    static final Random RAND = new SecureRandom();
     static final BooleanMatrix EMPTY_BOOLEAN_MATRIX = new BooleanMatrix(new boolean[0][0]);
 
     /**
@@ -114,40 +117,85 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Creates a 1-row matrix filled with random boolean values.
-     *
-     * <p>The random values are generated using the default random number generator
-     * with approximately equal probability for true and false values (50% distribution).</p>
+     * Creates a new 1xsize matrix filled with random boolean values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.random(5);
-     * // Creates a 1x5 matrix like [[true, false, true, true, false]]
+     * // Result: a 1x5 matrix with random boolean values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a new 1xlen BooleanMatrix filled with random boolean values, or an empty matrix if len is 0
+     * @param size the number of columns in the new matrix
+     * @return a new BooleanMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static BooleanMatrix random(final int len) {
-        return new BooleanMatrix(new boolean[][] { BooleanList.random(len).array() });
+    public static BooleanMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
+     * Creates a new matrix of the specified dimensions filled with random boolean values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random boolean values
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new BooleanMatrix of dimensions rows x cols filled with random values
+     */
+    public static BooleanMatrix random(final int rows, final int cols) {
+        final boolean[][] a = new boolean[rows][cols];
+
+        for (boolean[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = RAND.nextInt() % 2 == 0;
+            }
+        }
+
+        return new BooleanMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.repeat(true, 5);
-     * // Creates a 1x5 matrix [[true, true, true, true, true]]
+     * // Result: a 1x5 matrix filled with true
      * }</pre>
      *
-     * @param val the value to repeat in all positions
-     * @param len the number of columns (must be non-negative)
-     * @return a 1×n BooleanMatrix with all elements set to val, where n = len (or an empty matrix if len is 0)
+     * @param element the boolean value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new BooleanMatrix of dimensions 1 x size filled with the specified element
      */
-    public static BooleanMatrix repeat(final boolean val, final int len) {
-        return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
+    public static BooleanMatrix repeat(final boolean element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * BooleanMatrix matrix = BooleanMatrix.repeat(2, 3, true);
+     * // Result: [[true, true, true], [true, true, true]]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the boolean value to fill the matrix with
+     * @return a new BooleanMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static BooleanMatrix repeat(final int rows, final int cols, final boolean element) {
+        final boolean[][] a = new boolean[rows][cols];
+
+        for (boolean[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new BooleanMatrix(a);
     }
 
     /**
@@ -565,8 +613,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates all values in the specified row by applying the given function to each element.
-     * The function is applied in-place, modifying the matrix directly.
+     * Updates all values in the specified row by applying the given operator to each element.
+     * The operator is applied in-place, modifying the matrix directly.
      *
      * <p>This method is useful for row-wise transformations such as inverting values,
      * applying conditional logic, or performing element-wise operations on a specific row.
@@ -582,21 +630,21 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Row 1 is now [true, true, true]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the unary operator to apply to each element in the row; must not be null
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the row; must not be null
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsBoolean(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsBoolean(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all values in the specified column by applying the given function to each element.
-     * The function is applied in-place, modifying the matrix directly.
+     * Updates all values in the specified column by applying the given operator to each element.
+     * The operator is applied in-place, modifying the matrix directly.
      *
      * <p>This method is useful for column-wise transformations such as inverting values,
      * applying conditional logic, or performing element-wise operations on a specific column.
@@ -612,15 +660,15 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Column 0 is now [false, false]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the unary operator to apply to each element in the column; must not be null
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the column; must not be null
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsBoolean(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsBoolean(a[i][columnIndex]);
         }
     }
 
@@ -689,10 +737,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates the diagonal elements from left-up to right-down by applying the given function.
+     * Updates the diagonal elements from left-up to right-down by applying the given operator.
      * The matrix must be square (rows == columns).
      *
-     * <p>This method applies the function to each main diagonal element at positions (0,0), (1,1), (2,2), etc.
+     * <p>This method applies the operator to each main diagonal element at positions (0,0), (1,1), (2,2), etc.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -705,16 +753,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Diagonal is now [false, false, true]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each diagonal element; must not be null
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the unary operator to apply to each diagonal element; must not be null
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsBoolean(a[i][i]);
+            a[i][i] = operator.applyAsBoolean(a[i][i]);
         }
     }
 
@@ -785,10 +833,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Updates the diagonal elements from right-up to left-down by applying the given function.
+     * Updates the diagonal elements from right-up to left-down by applying the given operator.
      * The matrix must be square (rows == columns).
      *
-     * <p>This method applies the function to each anti-diagonal element from
+     * <p>This method applies the operator to each anti-diagonal element from
      * top-right to bottom-left, at positions (0,n-1), (1,n-2), (2,n-3), etc.
      *
      * <p><b>Usage Examples:</b></p>
@@ -802,25 +850,25 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Anti-diagonal is now [false, false, true]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each anti-diagonal element; must not be null
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the unary operator to apply to each anti-diagonal element; must not be null
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != columns)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.BooleanUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsBoolean(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsBoolean(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix in-place by applying the given function to each element.
+     * Updates all elements in the matrix in-place by applying the given operator to each element.
      * For large matrices, the operation may be automatically parallelized for better performance.
      *
-     * <p>This method applies the function to every element in the matrix, modifying the matrix
-     * directly. The function receives the current boolean value and returns the new value.
+     * <p>This method applies the operator to every element in the matrix, modifying the matrix
+     * directly. The operator receives the current boolean value and returns the new value.
      * Elements are processed in row-major order when not parallelized.
      *
      * <p><b>Usage Examples:</b></p>
@@ -834,17 +882,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Matrix is now [[true, true], [true, true]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each element; must not be null
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the unary operator to apply to each element; must not be null
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.applyAsBoolean(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.BooleanUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.applyAsBoolean(a[i][j]);
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
     /**
-     * Updates all elements in the matrix in-place based on their position using the given function.
+     * Updates all elements in the matrix in-place based on their position using the given operator.
      * For large matrices, the operation may be automatically parallelized for better performance.
      *
      * <p>This variant of updateAll allows you to set values based on the position (row and column indices)
@@ -862,12 +910,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * // Matrix is now [[true, false, true], [false, true, false], [true, false, true]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function that takes (rowIndex, columnIndex) and returns a boolean value; must not be null
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator that takes (rowIndex, columnIndex) and returns a boolean value; must not be null
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> func) throws E {
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Boolean, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 

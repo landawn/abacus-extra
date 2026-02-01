@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -60,6 +62,7 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
 
+    static final Random RAND = new SecureRandom();
     static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
 
     /**
@@ -166,46 +169,85 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a 1-row matrix filled with random long values.
-     * Each element is a random long value generated using the default random number generator.
-     * The values can range across the entire long value space (from {@code Long.MIN_VALUE} to {@code Long.MAX_VALUE}).
+     * Creates a new 1xsize matrix filled with random long values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.random(5);
-     * // Creates a 1x5 matrix with random long values
-     * // Each value is in range [Long.MIN_VALUE, Long.MAX_VALUE]
+     * // Result: a 1x5 matrix with random long values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a 1×n LongMatrix filled with random long values, where n = len (or an empty matrix if len is 0)
-     * @throws IllegalArgumentException if len is negative
+     * @param size the number of columns in the new matrix
+     * @return a new LongMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static LongMatrix random(final int len) {
-        return new LongMatrix(new long[][] { LongList.random(len).array() });
+    public static LongMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
-     * This is useful for initializing matrices with a constant value.
+     * Creates a new matrix of the specified dimensions filled with random long values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongMatrix matrix = LongMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random long values
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new LongMatrix of dimensions rows x cols filled with random values
+     */
+    public static LongMatrix random(final int rows, final int cols) {
+        final long[][] a = new long[rows][cols];
+
+        for (long[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = RAND.nextLong();
+            }
+        }
+
+        return new LongMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * LongMatrix matrix = LongMatrix.repeat(42L, 5);
-     * // Creates a 1x5 matrix: [[42, 42, 42, 42, 42]]
-     *
-     * LongMatrix zeros = LongMatrix.repeat(0L, 10);
-     * // Creates a 1x10 matrix filled with zeros
+     * // Result: a 1x5 matrix filled with 42
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns (must be non-negative)
-     * @return a 1×n LongMatrix with all elements set to val, where n = len (or an empty matrix if len is 0)
-     * @throws IllegalArgumentException if len is negative
+     * @param element the long value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new LongMatrix of dimensions 1 x size filled with the specified element
      */
-    public static LongMatrix repeat(final long val, final int len) {
-        return new LongMatrix(new long[][] { Array.repeat(val, len) });
+    public static LongMatrix repeat(final long element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * LongMatrix matrix = LongMatrix.repeat(2, 3, 1L);
+     * // Result: [[1, 1, 1], [1, 1, 1]]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the long value to fill the matrix with
+     * @return a new LongMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static LongMatrix repeat(final int rows, final int cols, final long element) {
+        final long[][] a = new long[rows][cols];
+
+        for (long[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new LongMatrix(a);
     }
 
     /**
@@ -698,10 +740,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Updates all elements in a row in-place by applying the specified function.
+     * Updates all elements in a row in-place by applying the specified operator to each element.
      * This modifies the matrix directly.
      *
-     * <p>The function is applied to each element in the specified row sequentially
+     * <p>The operator is applied to each element in the specified row sequentially
      * from left to right (column 0 to column cols-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -711,24 +753,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[2L, 4L, 6L], [4L, 5L, 6L]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the function to apply to each element in the row; receives the current
+     * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.LongUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsLong(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsLong(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified function.
+     * Updates all elements in a column in-place by applying the specified operator to each element.
      * This modifies the matrix directly.
      *
-     * <p>The function is applied to each element in the specified column sequentially
+     * <p>The operator is applied to each element in the specified column sequentially
      * from top to bottom (row 0 to row rows-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -738,16 +780,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[11L, 2L], [13L, 4L], [15L, 6L]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the function to apply to each element in the column; receives the current
+     * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.LongUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsLong(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsLong(a[i][columnIndex]);
         }
     }
 
@@ -808,7 +850,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
+     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -818,16 +860,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now {{1L, 2L}, {3L, 16L}}
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element; receives current element value and returns new value
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.LongUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsLong(a[i][i]);
+            a[i][i] = operator.applyAsLong(a[i][i]);
         }
     }
 
@@ -889,7 +931,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified function.
+     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -899,21 +941,21 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now {{1L, -2L}, {-3L, 4L}}
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element; receives current element value and returns new value
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each anti-diagonal element; receives current element value and returns new value
      * @throws IllegalStateException if the matrix is not square
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.LongUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsLong(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsLong(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix in-place by applying the specified function.
+     * Updates all elements in the matrix in-place by applying the specified operator.
      * This modifies the matrix directly.
      *
      * <p>The operation may be performed in parallel for large matrices to improve performance.
@@ -926,13 +968,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[2L, 4L], [6L, 8L]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each element; receives the current element value
      *             and returns the new value
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.LongUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.applyAsLong(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.LongUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.applyAsLong(a[i][j]);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
@@ -940,7 +982,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Updates all elements in the matrix in-place based on their position (row and column indices).
      * This modifies the matrix directly.
      *
-     * <p>The function receives the row and column indices for each element and returns the new value
+     * <p>The operator receives the row and column indices for each element and returns the new value
      * for that position. This is useful for initializing matrices based on position patterns or
      * mathematical formulas. The operation may be performed in parallel for large matrices.</p>
      *
@@ -954,13 +996,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * // matrix is now [[0L, 1L, 2L], [10L, 11L, 12L]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function that receives row index and column index (0-based) and returns
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator that receives row index and column index (0-based) and returns
      *             the new value for that position
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Long, E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Long, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 

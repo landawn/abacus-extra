@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -59,6 +61,8 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 
+    static final Random RAND = new SecureRandom();
+    static final int BOUND = Character.MAX_VALUE + 1;
     static final CharMatrix EMPTY_CHAR_MATRIX = new CharMatrix(new char[0][0]);
 
     /**
@@ -117,40 +121,85 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a 1-row matrix filled with random char values.
-     *
-     * <p>The random values are generated using the default random number generator
-     * and will span the entire range of possible char values (0 to 65535, or '\u0000' to '\uffff').</p>
+     * Creates a new 1xsize matrix filled with random char values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.random(5);
-     * // Creates a 1x5 matrix like [['ࠜ', '㘋', 'ဂ', '鎨', 'ￗ']]
+     * // Result: a 1x5 matrix with random char values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a new 1xlen CharMatrix filled with random char values, or an empty matrix if len is 0
+     * @param size the number of columns in the new matrix
+     * @return a new CharMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static CharMatrix random(final int len) {
-        return new CharMatrix(new char[][] { CharList.random(len).array() });
+    public static CharMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
+     * Creates a new matrix of the specified dimensions filled with random char values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharMatrix matrix = CharMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random characters
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new CharMatrix of dimensions rows x cols filled with random values
+     */
+    public static CharMatrix random(final int rows, final int cols) {
+        final char[][] a = new char[rows][cols];
+
+        for (char[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = (char) RAND.nextInt(BOUND);
+            }
+        }
+
+        return new CharMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.repeat('x', 5);
-     * // Creates a 1x5 matrix where all elements are 'x'
+     * // Result: a 1x5 matrix filled with 'x'
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns
-     * @return a 1-row matrix with all elements set to val
+     * @param element the char value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new CharMatrix of dimensions 1 x size filled with the specified element
      */
-    public static CharMatrix repeat(final char val, final int len) {
-        return new CharMatrix(new char[][] { Array.repeat(val, len) });
+    public static CharMatrix repeat(final char element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * CharMatrix matrix = CharMatrix.repeat(2, 3, 'a');
+     * // Result: [['a', 'a', 'a'], ['a', 'a', 'a']]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the char value to fill the matrix with
+     * @return a new CharMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static CharMatrix repeat(final int rows, final int cols, final char element) {
+        final char[][] a = new char[rows][cols];
+
+        for (char[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new CharMatrix(a);
     }
 
     /**
@@ -647,10 +696,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates all elements in a row in-place by applying the specified function.
-     * This modifies the matrix directly.
+     * Updates all elements in the specified row by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the row is transformed by the operator
+     * and replaced with the result.
      *
-     * <p>The function is applied to each element in the specified row sequentially
+     * <p>The operator is applied to each element in the specified row sequentially
      * from left to right (column 0 to column cols-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -660,24 +710,24 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // matrix is now [['A', 'B', 'C'], ['d', 'e', 'f']]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the function to apply to each element in the row; receives the current
+     * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsChar(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsChar(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified function.
+     * Updates all elements in a column in-place by applying the specified operator.
      * This modifies the matrix directly.
      *
-     * <p>The function is applied to each element in the specified column sequentially
+     * <p>The operator is applied to each element in the specified column sequentially
      * from top to bottom (row 0 to row rows-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -687,16 +737,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // matrix is now [['A', 'b'], ['C', 'd']]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the function to apply to each element in the column; receives the current
+     * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.CharUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsChar(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsChar(a[i][columnIndex]);
         }
     }
 
@@ -757,7 +807,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
+     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -767,16 +817,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Diagonal is now ['A', 'D'], matrix: [['A', 'b'], ['c', 'D']]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each diagonal element
      * @throws IllegalStateException if the matrix is not square
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.CharUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsChar(a[i][i]);
+            a[i][i] = operator.applyAsChar(a[i][i]);
         }
     }
 
@@ -841,9 +891,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Updates the elements on the anti-diagonal (right-upper to left-down) using the specified function.
+     * Updates the elements on the anti-diagonal (right-upper to left-down) using the specified operator.
      * The matrix must be square. Each anti-diagonal element is replaced with the result of applying
-     * the function to that element.
+     * the operator to that element.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -852,23 +902,23 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Anti-diagonal is now ['B', 'C'], matrix: [['a', 'B'], ['C', 'd']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param func the function to apply to each anti-diagonal element
-     * @throws E if the function throws an exception
+     * @param <E> the exception type that the operator may throw
+     * @param operator the operator to apply to each anti-diagonal element
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.CharUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.CharUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsChar(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsChar(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix using the specified function in-place.
+     * Updates all elements in the matrix using the specified operator in-place.
      *
-     * <p>Each element is replaced with the result of applying the function to that element.
+     * <p>Each element is replaced with the result of applying the operator to that element.
      * For large matrices, this operation may be performed in parallel to improve performance.
      *
      * <p><b>Usage Examples:</b></p>
@@ -878,19 +928,19 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * // Matrix is now [['A', 'B'], ['C', 'D']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param func the function to apply to each element
-     * @throws E if the function throws an exception
+     * @param <E> the exception type that the operator may throw
+     * @param operator the operator to apply to each element
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.CharUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.applyAsChar(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.CharUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.applyAsChar(a[i][j]);
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 
     /**
-     * Updates all elements in the matrix based on their position using a position-aware function.
+     * Updates all elements in the matrix based on their position using a position-aware operator.
      *
-     * <p>The function receives the row and column indices and returns the new value for that position.
+     * <p>The operator receives the row and column indices and returns the new value for that position.
      * This is useful when the new value depends on the element's location in the matrix.
      * For large matrices, this operation may be performed in parallel.
      *
@@ -904,12 +954,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * //          ['i', 'j', 'k', 'l']]
      * }</pre>
      *
-     * @param <E> the exception type that the function may throw
-     * @param func the function that takes (rowIndex, columnIndex) and returns the new char value
-     * @throws E if the function throws an exception
+     * @param <E> the exception type that the operator may throw
+     * @param operator the operator that takes (rowIndex, columnIndex) and returns the new char value
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Character, E> func) throws E {
-        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Character, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> cmd = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, cmd, Matrixes.isParallelable(this));
     }
 

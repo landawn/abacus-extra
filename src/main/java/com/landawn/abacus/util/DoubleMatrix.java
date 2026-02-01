@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -60,6 +62,7 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 
+    static final Random RAND = new SecureRandom();
     static final DoubleMatrix EMPTY_DOUBLE_MATRIX = new DoubleMatrix(new double[0][0]);
 
     /**
@@ -264,39 +267,85 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a 1-row matrix filled with random values between 0.0 (inclusive) and 1.0 (exclusive).
+     * Creates a new 1xsize matrix filled with random double values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.random(5);
-     * // Creates a 1x5 matrix with random double values in range [0.0, 1.0)
+     * // Result: a 1x5 matrix with random double values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix filled with random double values
-     * @throws IllegalArgumentException if len is negative
+     * @param size the number of columns in the new matrix
+     * @return a new DoubleMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static DoubleMatrix random(final int len) {
-        return new DoubleMatrix(new double[][] { DoubleList.random(len).array() });
+    public static DoubleMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
+     * Creates a new matrix of the specified dimensions filled with random double values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix matrix = DoubleMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random double values
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new DoubleMatrix of dimensions rows x cols filled with random values
+     */
+    public static DoubleMatrix random(final int rows, final int cols) {
+        final double[][] a = new double[rows][cols];
+
+        for (double[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = RAND.nextDouble();
+            }
+        }
+
+        return new DoubleMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.repeat(3.14, 5);
-     * // Creates a 1x5 matrix where all elements are 3.14
+     * // Result: a 1x5 matrix filled with 3.14
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix with all elements set to val
-     * @throws IllegalArgumentException if len is negative
+     * @param element the double value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new DoubleMatrix of dimensions 1 x size filled with the specified element
      */
-    public static DoubleMatrix repeat(final double val, final int len) {
-        return new DoubleMatrix(new double[][] { Array.repeat(val, len) });
+    public static DoubleMatrix repeat(final double element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * DoubleMatrix matrix = DoubleMatrix.repeat(2, 3, 1.0);
+     * // Result: [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0]]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the double value to fill the matrix with
+     * @return a new DoubleMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static DoubleMatrix repeat(final int rows, final int cols, final double element) {
+        final double[][] a = new double[rows][cols];
+
+        for (double[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new DoubleMatrix(a);
     }
 
     /**
@@ -698,10 +747,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates all elements in a row in-place by applying the specified function.
-     * This modifies the matrix directly.
+     * Updates all elements in the specified row by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the row is transformed by the operator
+     * and replaced with the result.
      *
-     * <p>The function is applied to each element in the specified row sequentially
+     * <p>This modifies the matrix directly.
+     *
+     * <p>The operator is applied to each element in the specified row sequentially
      * from left to right (column 0 to column cols-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -711,24 +763,24 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix is now [[2.0, 4.0, 6.0], [4.0, 5.0, 6.0]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the function to apply to each element in the row; receives the current
+     * @param operator the operator to apply to each element in the row; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsDouble(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsDouble(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in a column in-place by applying the specified function.
+     * Updates all elements in a column in-place by applying the specified operator.
      * This modifies the matrix directly.
      *
-     * <p>The function is applied to each element in the specified column sequentially
+     * <p>The operator is applied to each element in the specified column sequentially
      * from top to bottom (row 0 to row rows-1).</p>
      *
      * <p><b>Usage Examples:</b></p>
@@ -738,16 +790,16 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix is now [[11.0, 2.0], [13.0, 4.0], [15.0, 6.0]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the function to apply to each element in the column; receives the current
+     * @param operator the operator to apply to each element in the column; receives the current
      *             element value and returns the new value
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsDouble(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsDouble(a[i][columnIndex]);
         }
     }
 
@@ -808,7 +860,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates the values on the main diagonal (left-up to right-down) by applying the specified function.
+     * Updates the values on the main diagonal (left-up to right-down) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -816,17 +868,17 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * matrix.updateLU2RD(x -> x * x);   // Squares all diagonal values
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element; receives the current
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each diagonal element; receives the current
      *             element value and returns the new value
      * @throws IllegalStateException if the matrix is not square
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsDouble(a[i][i]);
+            a[i][i] = operator.applyAsDouble(a[i][i]);
         }
     }
 
@@ -888,7 +940,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified function.
+     * Updates the values on the anti-diagonal (right-up to left-down) by applying the specified operator.
      * The matrix must be square.
      *
      * <p><b>Usage Examples:</b></p>
@@ -896,22 +948,22 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * matrix.updateRU2LD(x -> -x);   // Negates all anti-diagonal values
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element; receives the current
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each anti-diagonal element; receives the current
      *             element value and returns the new value
      * @throws IllegalStateException if the matrix is not square
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsDouble(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsDouble(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix in-place by applying the specified function.
+     * Updates all elements in the matrix in-place by applying the specified operator.
      * This modifies the matrix directly.
      *
      * <p>The operation may be performed in parallel for large matrices to improve performance.
@@ -924,13 +976,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix is now [[2.0, 4.0], [6.0, 8.0]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each element; receives the current element value
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each element; receives the current element value
      *             and returns the new value
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.applyAsDouble(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.applyAsDouble(a[i][j]);
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 
@@ -938,7 +990,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Updates all elements in the matrix in-place based on their position (row and column indices).
      * This modifies the matrix directly.
      *
-     * <p>The function receives the row and column indices for each element and returns the new value
+     * <p>The operator receives the row and column indices for each element and returns the new value
      * for that position. This is useful for initializing matrices based on position patterns or
      * mathematical formulas. The operation may be performed in parallel for large matrices.</p>
      *
@@ -952,13 +1004,13 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * // matrix is now [[0.0, 1.0, 2.0], [10.0, 11.0, 12.0]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function that receives row index and column index (0-based) and returns
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator that receives row index and column index (0-based) and returns
      *             the new value for that position
-     * @throws E if the function throws an exception
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> func) throws E {
-        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> elementAction = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, elementAction, Matrixes.isParallelable(this));
     }
 

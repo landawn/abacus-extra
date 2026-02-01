@@ -143,106 +143,33 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Creates a matrix with a single row containing the specified element repeated.
-     * This method requires the element to be non-null to infer the element type.
-     * The element class is derived from the element's runtime type.
-     *
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     * 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
-     * // Create a 1×5 matrix filled with "X"
-     * Matrix<String> matrix = Matrix.repeat("X", 5);
-     * // Creates: [["X", "X", "X", "X", "X"]]
-     *
-     * // Create a 1×3 matrix filled with integers
-     * Matrix<Integer> numbers = Matrix.repeat(42, 3);
-     * // Creates: [[42, 42, 42]]
+     * Matrix<String> matrix = Matrix.repeat(2, 3, "a");
+     * // Result: [["a", "a", "a"], ["a", "a", "a"]]
      * }</pre>
      *
      * @param <T> the type of elements in the matrix
-     * @param element the element to repeat (must not be null)
-     * @param len the number of columns (must be non-negative)
-     * @return a 1×len matrix filled with the element
-     * @throws IllegalArgumentException if element is null
-     * @see #repeat(Object, int, Class)
-     * @see #repeatNonNull(Object, int)
-     * @deprecated Use {@link #repeat(Object, int, Class)} for better type safety and clarity
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the value to fill the matrix with (must not be null)
+     * @return a new Matrix of dimensions rows x cols filled with the specified element
+     * @throws IllegalArgumentException if rows or cols is negative, or if element is null
      */
-    @Deprecated
-    public static <T> Matrix<T> repeat(final T element, final int len) throws IllegalArgumentException {
+    public static <T> Matrix<T> repeat(final int rows, final int cols, final T element) throws IllegalArgumentException {
         N.checkArgNotNull(element, "element");
 
-        return repeat(element, len, (Class<T>) element.getClass());
-    }
+        final Class<?> elementClass = element.getClass();
 
-    /**
-     * Creates a matrix with a single row containing the specified element repeated.
-     * This method requires explicit specification of the element class for proper array creation.
-     * The element can be null, making this method more flexible than {@link #repeat(Object, int)}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Create a 1×5 matrix with explicit type specification
-     * Matrix<Double> matrix = Matrix.repeat(0.0, 5, Double.class);
-     * // Creates: [[0.0, 0.0, 0.0, 0.0, 0.0]]
-     *
-     * // Create a 1×3 matrix with null values
-     * Matrix<String> nullMatrix = Matrix.repeat(null, 3, String.class);
-     * // Creates: [[null, null, null]]
-     *
-     * // Create a 1×4 matrix with explicit String type
-     * Matrix<String> strMatrix = Matrix.repeat("default", 4, String.class);
-     * // Creates: [["default", "default", "default", "default"]]
-     * }</pre>
-     *
-     * @param <T> the type of elements in the matrix
-     * @param element the element to repeat (can be null)
-     * @param len the number of columns (must be non-negative)
-     * @param elementClass the class of the element type (must not be null)
-     * @return a 1×len matrix filled with the element
-     * @throws IllegalArgumentException if elementClass is null or len is negative
-     */
-    public static <T> Matrix<T> repeat(final T element, final int len, final Class<T> elementClass) throws IllegalArgumentException {
-        N.checkArgNotNull(elementClass, "elementClass");
+        final T[][] a = N.newArray(elementClass, rows, cols);
 
-        final T[][] c = N.newArray(N.newArray(elementClass, 0).getClass(), 1);
-        c[0] = N.newArray(elementClass, len);
-        N.fill(c[0], element);
-        return new Matrix<>(c);
-    }
+        for (T[] ea : a) {
+            N.fill(ea, element);
+        }
 
-    /**
-     * Creates a matrix with a single row containing the specified non-null element repeated.
-     * The element class is inferred from the element itself.
-     * This method is a convenience wrapper that ensures type safety for non-null elements,
-     * combining the simplicity of {@link #repeat(Object, int)} with the benefits of explicit type specification.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * // Create a 1×3 matrix with repeated string
-     * Matrix<String> matrix = Matrix.repeatNonNull("X", 3);
-     * // Creates: [["X", "X", "X"]]
-     *
-     * // Create a 1×4 matrix with repeated integer
-     * Matrix<Integer> numbers = Matrix.repeatNonNull(42, 4);
-     * // Creates: [[42, 42, 42, 42]]
-     *
-     * // Create a 1×5 matrix with repeated double
-     * Matrix<Double> doubles = Matrix.repeatNonNull(3.14, 5);
-     * // Creates: [[3.14, 3.14, 3.14, 3.14, 3.14]]
-     * }</pre>
-     *
-     * @param <T> the type of elements in the matrix
-     * @param element the element to repeat (must not be null)
-     * @param len the number of columns (must be non-negative)
-     * @return a 1×len matrix filled with the element
-     * @throws IllegalArgumentException if the specified element is null or len is negative
-     * @see #repeat(Object, int)
-     * @see #repeat(Object, int, Class)
-     */
-    public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
-        N.checkArgNotNull(element, "element");
-
-        return repeat(element, len, (Class<T>) element.getClass());
+        return new Matrix<>(a);
     }
 
     /**
@@ -679,8 +606,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Updates all elements in the specified row by applying the given function.
-     * The function is applied to each element in the row, and the result
+     * Updates all elements in the specified row by applying the given operator.
+     * The operator is applied to each element in the row, and the result
      * replaces the original value. The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -692,21 +619,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * stringMatrix.updateRow(1, String::toUpperCase);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
+     * @param <E> the type of exception that might be thrown by the operator
      * @param rowIndex the row index to update (0-based)
-     * @param func the function to apply to each element (must not be null)
-     * @throws E if the function throws an exception
+     * @param operator the operator to apply to each element (must not be null)
+     * @throws E if the operator throws an exception
      * @throws IndexOutOfBoundsException if rowIndex is negative or greater than or equal to the number of rows
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.apply(a[rowIndex][i]);
+            a[rowIndex][i] = operator.apply(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in the specified column by applying the given function.
-     * The function is applied to each element in the column, and the result
+     * Updates all elements in the specified column by applying the given operator.
+     * The operator is applied to each element in the column, and the result
      * replaces the original value. The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -718,15 +645,15 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * numberMatrix.updateColumn(0, n -> n * n);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
+     * @param <E> the type of exception that might be thrown by the operator
      * @param columnIndex the column index to update (0-based)
-     * @param func the function to apply to each element (must not be null)
-     * @throws E if the function throws an exception
+     * @param operator the operator to apply to each element (must not be null)
+     * @throws E if the operator throws an exception
      * @throws IndexOutOfBoundsException if columnIndex is negative or greater than or equal to the number of columns
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.UnaryOperator<T, E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.apply(a[i][columnIndex]);
+            a[i][columnIndex] = operator.apply(a[i][columnIndex]);
         }
     }
 
@@ -786,9 +713,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Updates the main diagonal elements (left-up to right-down) by applying the given function.
+     * Updates the main diagonal elements (left-up to right-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
-     * Each diagonal element is replaced by the result of the function.
+     * Each diagonal element is replaced by the result of the operator.
      * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -800,16 +727,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.updateLU2RD(x -> 0);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
-     * @param func the function to apply to each diagonal element (must not be null)
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that might be thrown by the operator
+     * @param operator the operator to apply to each diagonal element (must not be null)
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.apply(a[i][i]);
+            a[i][i] = operator.apply(a[i][i]);
         }
     }
 
@@ -871,9 +798,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Updates the anti-diagonal elements (right-up to left-down) by applying the given function.
+     * Updates the anti-diagonal elements (right-up to left-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
-     * Each anti-diagonal element is replaced by the result of the function.
+     * Each anti-diagonal element is replaced by the result of the operator.
      * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -885,25 +812,25 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * stringMatrix.updateRU2LD(String::toLowerCase);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
-     * @param func the function to apply to each anti-diagonal element (must not be null)
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that might be thrown by the operator
+     * @param operator the operator to apply to each anti-diagonal element (must not be null)
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.UnaryOperator<T, E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.apply(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.apply(a[i][cols - i - 1]);
         }
     }
 
     // TODO should the method name be "replaceAll"? If change the method name to replaceAll, what about updateLU2RD/updateRU2LD?
 
     /**
-     * Updates all elements in the matrix by applying the given function.
+     * Updates all elements in the matrix by applying the given operator.
      * The operation may be performed in parallel for large matrices.
-     * Each element is replaced by the result of applying the function.
+     * Each element is replaced by the result of applying the operator.
      * The matrix is modified in-place.
      *
      * <p><b>Usage Examples:</b></p>
@@ -918,18 +845,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.updateAll(x -> x == null ? defaultValue : x);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
-     * @param func the function to apply to each element (must not be null)
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that might be thrown by the operator
+     * @param operator the operator to apply to each element (must not be null)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.UnaryOperator<T, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(a[i][j]);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
      * Updates all elements in the matrix based on their position.
-     * The function receives the row and column indices (both 0-based) and returns the new value.
+     * The operator receives the row and column indices (both 0-based) and returns the new value.
      * This is useful for position-dependent transformations. The operation may be performed
      * in parallel for large matrices. The matrix is modified in-place.
      *
@@ -945,12 +872,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * matrix.updateAll((i, j) -> i == j ? diagonalValue : otherValue);
      * }</pre>
      *
-     * @param <E> the type of exception that might be thrown by the function
-     * @param func the function that takes row and column indices and returns the new value (must not be null)
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that might be thrown by the operator
+     * @param operator the operator that takes row and column indices and returns the new value (must not be null)
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<? extends T, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 

@@ -14,7 +14,9 @@
 
 package com.landawn.abacus.util;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.SuppressFBWarnings;
@@ -63,6 +65,8 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
 
+    static final Random RAND = new SecureRandom();
+    static final int BOUND = Short.MAX_VALUE - Short.MIN_VALUE + 1;
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
     /**
@@ -125,46 +129,85 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a 1-row matrix filled with random short values.
-     * Each element is a random short value generated using the default random number generator.
-     * The values can range across the entire short value space (from {@code Short.MIN_VALUE} to {@code Short.MAX_VALUE}).
+     * Creates a new 1xsize matrix filled with random short values.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.random(5);
-     * // Creates a 1x5 matrix with random short values
-     * // Each value is in range [Short.MIN_VALUE, Short.MAX_VALUE]
+     * // Result: a 1x5 matrix with random short values
      * }</pre>
      *
-     * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix filled with random short values
-     * @throws IllegalArgumentException if len is negative
+     * @param size the number of columns in the new matrix
+     * @return a new ShortMatrix of dimensions 1 x size filled with random values
      */
-    @SuppressWarnings("deprecation")
-    public static ShortMatrix random(final int len) {
-        return new ShortMatrix(new short[][] { ShortList.random(len).array() });
+    public static ShortMatrix random(final int size) {
+        return random(1, size);
     }
 
     /**
-     * Creates a 1-row matrix with all elements set to the specified value.
-     * This is useful for initializing matrices with a constant value.
+     * Creates a new matrix of the specified dimensions filled with random short values.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortMatrix matrix = ShortMatrix.random(2, 3);
+     * // Result: a 2x3 matrix with random short values
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @return a new ShortMatrix of dimensions rows x cols filled with random values
+     */
+    public static ShortMatrix random(final int rows, final int cols) {
+        final short[][] a = new short[rows][cols];
+
+        for (short[] ea : a) {
+            for (int i = 0; i < cols; i++) {
+                ea[i] = (short) (RAND.nextInt(BOUND) + Short.MIN_VALUE);
+            }
+        }
+
+        return new ShortMatrix(a);
+    }
+
+    /**
+     * Creates a new 1xsize matrix where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.repeat((short) 42, 5);
-     * // Creates a 1x5 matrix: [[42, 42, 42, 42, 42]]
-     *
-     * ShortMatrix zeros = ShortMatrix.repeat((short) 0, 10);
-     * // Creates a 1x10 matrix filled with zeros
+     * // Result: a 1x5 matrix filled with 42
      * }</pre>
      *
-     * @param val the value to repeat
-     * @param len the number of columns (must be non-negative)
-     * @return a 1-row matrix with all elements set to val
-     * @throws IllegalArgumentException if len is negative
+     * @param element the short value to fill the matrix with
+     * @param size the number of columns in the new matrix
+     * @return a new ShortMatrix of dimensions 1 x size filled with the specified element
      */
-    public static ShortMatrix repeat(final short val, final int len) {
-        return new ShortMatrix(new short[][] { Array.repeat(val, len) });
+    public static ShortMatrix repeat(final short element, final int size) {
+        return repeat(1, size, element);
+    }
+
+    /**
+     * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * ShortMatrix matrix = ShortMatrix.repeat(2, 3, (short) 1);
+     * // Result: [[1, 1, 1], [1, 1, 1]]
+     * }</pre>
+     *
+     * @param rows the number of rows in the new matrix
+     * @param cols the number of columns in the new matrix
+     * @param element the short value to fill the matrix with
+     * @return a new ShortMatrix of dimensions rows x cols filled with the specified element
+     */
+    public static ShortMatrix repeat(final int rows, final int cols, final short element) {
+        final short[][] a = new short[rows][cols];
+
+        for (short[] ea : a) {
+            N.fill(ea, element);
+        }
+
+        return new ShortMatrix(a);
     }
 
     /**
@@ -660,8 +703,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements in the specified row by applying the given function to each element.
-     * The matrix is modified in-place. Each element in the row is transformed by the function
+     * Updates all elements in the specified row by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the row is transformed by the operator
      * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
@@ -670,21 +713,21 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateRow(0, x -> (short)(x * 2));   // First row becomes [2, 4, 6]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param rowIndex the index of the row to update (0-based)
-     * @param func the unary operator to apply to each element in the row, taking a short and returning a short
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the row, taking a short and returning a short
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if rowIndex is out of bounds
      */
-    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(final int rowIndex, final Throwables.ShortUnaryOperator<E> operator) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsShort(a[rowIndex][i]);
+            a[rowIndex][i] = operator.applyAsShort(a[rowIndex][i]);
         }
     }
 
     /**
-     * Updates all elements in the specified column by applying the given function to each element.
-     * The matrix is modified in-place. Each element in the column is transformed by the function
+     * Updates all elements in the specified column by applying the given operator to each element.
+     * The matrix is modified in-place. Each element in the column is transformed by the operator
      * and replaced with the result.
      *
      * <p><b>Usage Examples:</b></p>
@@ -693,15 +736,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateColumn(1, x -> (short)(x + 10));   // Second column becomes [12, 15]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
+     * @param <E> the type of exception that the operator may throw
      * @param columnIndex the index of the column to update (0-based)
-     * @param func the unary operator to apply to each element in the column, taking a short and returning a short
-     * @throws E if the function throws an exception
+     * @param operator the unary operator to apply to each element in the column, taking a short and returning a short
+     * @throws E if the operator throws an exception
      * @throws ArrayIndexOutOfBoundsException if columnIndex is out of bounds
      */
-    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(final int columnIndex, final Throwables.ShortUnaryOperator<E> operator) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsShort(a[i][columnIndex]);
+            a[i][columnIndex] = operator.applyAsShort(a[i][columnIndex]);
         }
     }
 
@@ -761,7 +804,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the main diagonal (left-up to right-down) by applying the given function.
+     * Updates all elements on the main diagonal (left-up to right-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -771,16 +814,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateLU2RD(x -> (short)(x * 2));   // Diagonal [1, 5, 9] becomes [2, 10, 18]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each diagonal element
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each diagonal element
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateLU2RD(final Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.ShortUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsShort(a[i][i]);
+            a[i][i] = operator.applyAsShort(a[i][i]);
         }
     }
 
@@ -841,7 +884,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given function.
+     * Updates all elements on the anti-diagonal (right-up to left-down) by applying the given operator.
      * The matrix must be square (same number of rows and columns).
      * The matrix is modified in-place.
      *
@@ -851,21 +894,21 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateRU2LD(x -> (short)(x + 1));   // Anti-diagonal [3, 5, 7] becomes [4, 6, 8]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the function to apply to each anti-diagonal element
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the operator to apply to each anti-diagonal element
+     * @throws E if the operator throws an exception
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
-    public <E extends Exception> void updateRU2LD(final Throwables.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.ShortUnaryOperator<E> operator) throws E {
         checkIfRowAndColumnSizeAreSame();
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsShort(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = operator.applyAsShort(a[i][cols - i - 1]);
         }
     }
 
     /**
-     * Updates all elements in the matrix by applying the given function to each element.
+     * Updates all elements in the matrix by applying the given operator to each element.
      * The matrix is modified in-place. This operation may be performed in parallel for large matrices
      * to improve performance.
      *
@@ -875,18 +918,18 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateAll(x -> (short)(x * 2));   // All elements are doubled: [[2, 4], [6, 8]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the unary operator to apply to each element, taking a short and returning a short
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the unary operator to apply to each element, taking a short and returning a short
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.ShortUnaryOperator<E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.applyAsShort(a[i][j]);
+    public <E extends Exception> void updateAll(final Throwables.ShortUnaryOperator<E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.applyAsShort(a[i][j]);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 
     /**
-     * Updates all elements in the matrix based on their position by applying the given function.
-     * The function receives the row and column indices (0-based) and returns the new value for that position.
+     * Updates all elements in the matrix based on their position by applying the given operator.
+     * The operator receives the row and column indices (0-based) and returns the new value for that position.
      * The matrix is modified in-place. This operation may be performed in parallel for large matrices
      * to improve performance.
      *
@@ -896,12 +939,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * matrix.updateAll((i, j) -> (short)(i + j));   // Element at (i,j) becomes i+j: [[0, 1], [1, 2]]
      * }</pre>
      *
-     * @param <E> the type of exception that the function may throw
-     * @param func the bi-function that takes (rowIndex, columnIndex) and returns the new short value
-     * @throws E if the function throws an exception
+     * @param <E> the type of exception that the operator may throw
+     * @param operator the bi-function that takes (rowIndex, columnIndex) and returns the new short value
+     * @throws E if the operator throws an exception
      */
-    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Short, E> func) throws E {
-        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = func.apply(i, j);
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Short, E> operator) throws E {
+        final Throwables.IntBiConsumer<E> operation = (i, j) -> a[i][j] = operator.apply(i, j);
         Matrixes.run(rows, cols, operation, Matrixes.isParallelable(this));
     }
 

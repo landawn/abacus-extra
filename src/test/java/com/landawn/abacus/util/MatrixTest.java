@@ -60,63 +60,6 @@ public class MatrixTest extends TestBase {
         Assertions.assertEquals("a", matrix.get(0, 0));
     }
 
-    @Test
-    public void testRepeatWithNonNullElement() {
-        Matrix<String> matrix = Matrix.repeat("X", 5);
-
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
-        for (int i = 0; i < 5; i++) {
-            Assertions.assertEquals("X", matrix.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeatWithNullElement() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Matrix.repeat(null, 5);
-        });
-    }
-
-    @Test
-    public void testRepeatWithClass() {
-        Matrix<Double> matrix = Matrix.repeat(0.0, 5, Double.class);
-
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
-        for (int i = 0; i < 5; i++) {
-            Assertions.assertEquals(0.0, matrix.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeatWithClassAndNullElement() {
-        Matrix<String> matrix = Matrix.repeat(null, 3, String.class);
-
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(3, matrix.cols);
-        for (int i = 0; i < 3; i++) {
-            Assertions.assertNull(matrix.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeatNonNull() {
-        Matrix<Integer> matrix = Matrix.repeatNonNull(42, 4);
-
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(4, matrix.cols);
-        for (int i = 0; i < 4; i++) {
-            Assertions.assertEquals(42, matrix.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeatNonNullWithNull() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Matrix.repeatNonNull(null, 3);
-        });
-    }
 
     @Test
     public void testDiagonalLU2RD() {

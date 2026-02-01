@@ -81,62 +81,6 @@ public class Matrix2510Test extends TestBase {
 
     // ============ Factory Method Tests - repeat() ============
 
-    @Test
-    public void testRepeat_deprecated() {
-        Matrix<String> m = Matrix.repeat("X", 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
-        for (int i = 0; i < 5; i++) {
-            assertEquals("X", m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_deprecated_throwsOnNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeat(null, 5));
-    }
-
-    @Test
-    public void testRepeat_withElementClass() {
-        Matrix<Double> m = Matrix.repeat(3.14, 4, Double.class);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
-        for (int i = 0; i < 4; i++) {
-            assertEquals(3.14, m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withElementClass_nullValue() {
-        Matrix<String> m = Matrix.repeat(null, 3, String.class);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        for (int i = 0; i < 3; i++) {
-            assertNull(m.get(0, i));
-        }
-    }
-
-    @Test
-    public void testRepeat_withElementClass_zeroLength() {
-        Matrix<Integer> m = Matrix.repeat(42, 0, Integer.class);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
-    }
-
-    @Test
-    public void testRepeatNonNull() {
-        Matrix<String> m = Matrix.repeatNonNull("A", 3);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
-        assertEquals("A", m.get(0, 0));
-        assertEquals("A", m.get(0, 1));
-        assertEquals("A", m.get(0, 2));
-    }
-
-    @Test
-    public void testRepeatNonNull_throwsOnNull() {
-        assertThrows(IllegalArgumentException.class, () -> Matrix.repeatNonNull(null, 5));
-    }
 
     // ============ Factory Method Tests - diagonal ============
 
