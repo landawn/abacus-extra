@@ -173,7 +173,7 @@ public class FloatMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        FloatMatrix m = FloatMatrix.repeat(3.14f, 5);
+        FloatMatrix m = FloatMatrix.repeat(1, 5, 3.14f);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -183,14 +183,14 @@ public class FloatMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat_withZeroLength() {
-        FloatMatrix m = FloatMatrix.repeat(1.0f, 0);
+        FloatMatrix m = FloatMatrix.repeat(1, 0, 1.0f);
         assertEquals(1, m.rowCount());
         assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testRepeat_withNegativeValue() {
-        FloatMatrix m = FloatMatrix.repeat(-5.5f, 3);
+        FloatMatrix m = FloatMatrix.repeat(1, 3, -5.5f);
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(-5.5f, m.get(0, 0));

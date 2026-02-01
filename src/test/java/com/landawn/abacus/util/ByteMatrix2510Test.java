@@ -130,7 +130,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        ByteMatrix m = ByteMatrix.repeat((byte) 42, 5);
+        ByteMatrix m = ByteMatrix.repeat(1, 5, (byte) 42);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -140,7 +140,7 @@ public class ByteMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat_withZero() {
-        ByteMatrix m = ByteMatrix.repeat((byte) 0, 3);
+        ByteMatrix m = ByteMatrix.repeat(1, 3, (byte) 0);
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         for (int i = 0; i < 3; i++) {

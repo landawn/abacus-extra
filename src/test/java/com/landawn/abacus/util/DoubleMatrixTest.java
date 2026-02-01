@@ -92,7 +92,7 @@ public class DoubleMatrixTest extends TestBase {
 
     @Test
     public void testRepeat() {
-        DoubleMatrix matrix = DoubleMatrix.repeat(3.14, 5);
+        DoubleMatrix matrix = DoubleMatrix.repeat(1, 5, 3.14);
         assertEquals(1, matrix.rowCount());
         assertEquals(5, matrix.columnCount());
         for (int i = 0; i < 5; i++) {

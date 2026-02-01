@@ -59,7 +59,7 @@ public class BooleanMatrixTest extends TestBase {
 
     @Test
     public void testRepeat() {
-        BooleanMatrix matrix = BooleanMatrix.repeat(true, 5);
+        BooleanMatrix matrix = BooleanMatrix.repeat(1, 5, true);
         assertEquals(1, matrix.rowCount());
         assertEquals(5, matrix.columnCount());
         for (int i = 0; i < 5; i++) {

@@ -56,7 +56,7 @@ public class ByteMatrixTest extends TestBase {
 
     @Test
     public void testRepeat() {
-        ByteMatrix matrix = ByteMatrix.repeat((byte) 7, 4);
+        ByteMatrix matrix = ByteMatrix.repeat(1, 4, (byte) 7);
         Assertions.assertEquals(1, matrix.rowCount());
         Assertions.assertEquals(4, matrix.columnCount());
         for (int i = 0; i < 4; i++) {

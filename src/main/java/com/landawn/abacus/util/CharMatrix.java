@@ -162,23 +162,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * CharMatrix matrix = CharMatrix.repeat('x', 5);
-     * // Result: a 1x5 matrix filled with 'x'
-     * }</pre>
-     *
-     * @param element the char value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new CharMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static CharMatrix repeat(final char element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

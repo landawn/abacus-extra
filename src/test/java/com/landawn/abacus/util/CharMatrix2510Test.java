@@ -130,7 +130,7 @@ public class CharMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        CharMatrix m = CharMatrix.repeat('x', 5);
+        CharMatrix m = CharMatrix.repeat(1, 5, 'x');
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -140,7 +140,7 @@ public class CharMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat_withZero() {
-        CharMatrix m = CharMatrix.repeat('\0', 3);
+        CharMatrix m = CharMatrix.repeat(1, 3, '\0');
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         for (int i = 0; i < 3; i++) {

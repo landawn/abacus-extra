@@ -308,23 +308,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * DoubleMatrix matrix = DoubleMatrix.repeat(3.14, 5);
-     * // Result: a 1x5 matrix filled with 3.14
-     * }</pre>
-     *
-     * @param element the double value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new DoubleMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static DoubleMatrix repeat(final double element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

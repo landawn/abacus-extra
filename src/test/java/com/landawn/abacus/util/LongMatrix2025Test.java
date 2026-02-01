@@ -178,7 +178,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        LongMatrix m = LongMatrix.repeat(42L, 5);
+        LongMatrix m = LongMatrix.repeat(1, 5, 42L);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -200,7 +200,7 @@ public class LongMatrix2025Test extends TestBase {
 
     @Test
     public void testRepeat_withLargeValue() {
-        LongMatrix m = LongMatrix.repeat(Long.MAX_VALUE, 3);
+        LongMatrix m = LongMatrix.repeat(1, 3, Long.MAX_VALUE);
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         for (int i = 0; i < 3; i++) {

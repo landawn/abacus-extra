@@ -217,7 +217,7 @@ public class DoubleMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        DoubleMatrix m = DoubleMatrix.repeat(3.14, 5);
+        DoubleMatrix m = DoubleMatrix.repeat(1, 5, 3.14);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -227,14 +227,14 @@ public class DoubleMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat_withZeroLength() {
-        DoubleMatrix m = DoubleMatrix.repeat(1.0, 0);
+        DoubleMatrix m = DoubleMatrix.repeat(1, 0, 1.0);
         assertEquals(1, m.rowCount());
         assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testRepeat_withNegativeValue() {
-        DoubleMatrix m = DoubleMatrix.repeat(-5.5, 3);
+        DoubleMatrix m = DoubleMatrix.repeat(1, 3, -5.5);
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         assertEquals(-5.5, m.get(0, 0));

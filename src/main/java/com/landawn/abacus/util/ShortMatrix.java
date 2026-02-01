@@ -170,23 +170,6 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * ShortMatrix matrix = ShortMatrix.repeat((short) 42, 5);
-     * // Result: a 1x5 matrix filled with 42
-     * }</pre>
-     *
-     * @param element the short value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new ShortMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static ShortMatrix repeat(final short element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

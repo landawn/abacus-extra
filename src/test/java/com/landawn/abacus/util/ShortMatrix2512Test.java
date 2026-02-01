@@ -98,7 +98,7 @@ public class ShortMatrix2512Test extends TestBase {
 
     @Test
     public void test_repeat_createsRepeatedValues() {
-        ShortMatrix m = ShortMatrix.repeat((short) 7, 4);
+        ShortMatrix m = ShortMatrix.repeat(1, 4, (short) 7);
         assertEquals(1, m.rowCount());
         assertEquals(4, m.columnCount());
         for (int i = 0; i < 4; i++) {

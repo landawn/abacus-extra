@@ -69,7 +69,7 @@ public class LongMatrixTest extends TestBase {
 
     @Test
     public void testRepeat() {
-        LongMatrix matrix = LongMatrix.repeat(5L, 10);
+        LongMatrix matrix = LongMatrix.repeat(1, 10, 5L);
         Assertions.assertEquals(1, matrix.rowCount());
         Assertions.assertEquals(10, matrix.columnCount());
         for (int i = 0; i < 10; i++) {

@@ -210,23 +210,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * LongMatrix matrix = LongMatrix.repeat(42L, 5);
-     * // Result: a 1x5 matrix filled with 42
-     * }</pre>
-     *
-     * @param element the long value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new LongMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static LongMatrix repeat(final long element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

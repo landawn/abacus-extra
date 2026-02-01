@@ -141,7 +141,7 @@ public class ShortMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        ShortMatrix m = ShortMatrix.repeat((short) 42, 5);
+        ShortMatrix m = ShortMatrix.repeat(1, 5, (short) 42);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -151,7 +151,7 @@ public class ShortMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat_zeroLength() {
-        ShortMatrix m = ShortMatrix.repeat((short) 42, 0);
+        ShortMatrix m = ShortMatrix.repeat(1, 0, (short) 42);
         assertEquals(1, m.rowCount());
         assertEquals(0, m.columnCount());
     }

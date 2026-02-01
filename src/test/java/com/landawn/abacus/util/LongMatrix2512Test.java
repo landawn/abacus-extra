@@ -150,7 +150,7 @@ public class LongMatrix2512Test extends TestBase {
 
     @Test
     public void test_repeat() {
-        LongMatrix m = LongMatrix.repeat(42L, 5);
+        LongMatrix m = LongMatrix.repeat(1, 5, 42L);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -160,7 +160,7 @@ public class LongMatrix2512Test extends TestBase {
 
     @Test
     public void test_repeat_zeroLength() {
-        LongMatrix m = LongMatrix.repeat(42L, 0);
+        LongMatrix m = LongMatrix.repeat(1, 0, 42L);
         assertEquals(1, m.rowCount());
         assertEquals(0, m.columnCount());
     }

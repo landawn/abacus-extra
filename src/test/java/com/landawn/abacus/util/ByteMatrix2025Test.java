@@ -118,7 +118,7 @@ public class ByteMatrix2025Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        ByteMatrix m = ByteMatrix.repeat((byte) 42, 5);
+        ByteMatrix m = ByteMatrix.repeat(1, 5, (byte) 42);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {

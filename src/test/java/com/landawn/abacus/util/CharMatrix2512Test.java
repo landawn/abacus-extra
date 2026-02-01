@@ -110,7 +110,7 @@ public class CharMatrix2512Test extends TestBase {
 
     @Test
     public void test_repeat() {
-        CharMatrix m = CharMatrix.repeat('x', 5);
+        CharMatrix m = CharMatrix.repeat(1, 5, 'x');
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {

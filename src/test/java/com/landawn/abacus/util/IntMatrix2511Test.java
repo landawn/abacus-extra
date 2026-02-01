@@ -243,7 +243,7 @@ public class IntMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        IntMatrix m = IntMatrix.repeat(42, 5);
+        IntMatrix m = IntMatrix.repeat(1, 5, 42);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -253,7 +253,7 @@ public class IntMatrix2511Test extends TestBase {
 
     @Test
     public void testRepeat_zeroLength() {
-        IntMatrix m = IntMatrix.repeat(42, 0);
+        IntMatrix m = IntMatrix.repeat(1, 0, 42);
         assertEquals(1, m.rowCount());
         assertEquals(0, m.columnCount());
     }

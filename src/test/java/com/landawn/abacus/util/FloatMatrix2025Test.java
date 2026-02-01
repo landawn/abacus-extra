@@ -193,7 +193,7 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        FloatMatrix m = FloatMatrix.repeat(3.14f, 5);
+        FloatMatrix m = FloatMatrix.repeat(1, 5, 3.14f);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -215,12 +215,12 @@ public class FloatMatrix2025Test extends TestBase {
 
     @Test
     public void testRepeat_withSpecialValues() {
-        FloatMatrix m = FloatMatrix.repeat(Float.NaN, 3);
+        FloatMatrix m = FloatMatrix.repeat(1, 3, Float.NaN);
         for (int i = 0; i < 3; i++) {
             assertTrue(Float.isNaN(m.get(0, i)));
         }
 
-        FloatMatrix m2 = FloatMatrix.repeat(Float.POSITIVE_INFINITY, 2);
+        FloatMatrix m2 = FloatMatrix.repeat(1, 2, Float.POSITIVE_INFINITY);
         for (int i = 0; i < 2; i++) {
             assertEquals(Float.POSITIVE_INFINITY, m2.get(0, i), DELTA);
         }

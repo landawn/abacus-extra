@@ -205,23 +205,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * FloatMatrix matrix = FloatMatrix.repeat(3.14f, 5);
-     * // Result: a 1x5 matrix filled with 3.14f
-     * }</pre>
-     *
-     * @param element the float value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new FloatMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static FloatMatrix repeat(final float element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

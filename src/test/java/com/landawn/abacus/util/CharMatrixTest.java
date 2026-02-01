@@ -58,7 +58,7 @@ public class CharMatrixTest extends TestBase {
 
     @Test
     public void testRepeat() {
-        CharMatrix matrix = CharMatrix.repeat('x', 4);
+        CharMatrix matrix = CharMatrix.repeat(1, 4, 'x');
         Assertions.assertEquals(1, matrix.rowCount());
         Assertions.assertEquals(4, matrix.columnCount());
         for (int i = 0; i < 4; i++) {

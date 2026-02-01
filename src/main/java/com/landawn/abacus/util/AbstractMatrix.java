@@ -390,33 +390,6 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     final long elementCount;
 
     /**
-     * Returns the number of rows in this matrix.
-     *
-     * @return the number of rows
-     */
-    public int rowCount() {
-        return rowCount;
-    }
-
-    /**
-     * Returns the number of columns in this matrix.
-     *
-     * @return the number of columns
-     */
-    public int columnCount() {
-        return columnCount;
-    }
-
-    /**
-     * Returns the total number of elements in this matrix (rows × columns).
-     *
-     * @return the total number of elements
-     */
-    public long elementCount() {
-        return elementCount;
-    }
-
-    /**
      * The underlying two-dimensional array storing the matrix data.
      * Direct access to this array should be avoided; use the provided methods instead.
      */
@@ -501,29 +474,31 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     }
 
     /**
-     * Prints the matrix to standard output in a formatted, human-readable manner and returns the output string.
-     * Each concrete implementation provides its own formatting based on the element type.
-     * This method is primarily intended for debugging and logging purposes.
+     * Returns the number of rows in this matrix.
      *
-     * <p>The exact output format depends on the matrix type:
-     * <ul>
-     *   <li>Numeric matrices typically display values aligned in rows and columns</li>
-     *   <li>Object matrices display using the {@code toString()} method of elements</li>
-     * </ul>
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
-     * String output = matrix.println();
-     * // Prints to console:
-     * // [1, 2]
-     * // [3, 4]
-     * // And returns the same string
-     * }</pre>
-     *
-     * @return the formatted string representation of the matrix that was printed to standard output
+     * @return the number of rows
      */
-    public abstract String println();
+    public int rowCount() {
+        return rowCount;
+    }
+
+    /**
+     * Returns the number of columns in this matrix.
+     *
+     * @return the number of columns
+     */
+    public int columnCount() {
+        return columnCount;
+    }
+
+    /**
+     * Returns the total number of elements in this matrix (rows × columns).
+     *
+     * @return the total number of elements
+     */
+    public long elementCount() {
+        return elementCount;
+    }
 
     /**
      * Checks if the matrix is empty (contains no elements).
@@ -549,6 +524,31 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public boolean isEmpty() {
         return elementCount == 0;
     }
+
+    /**
+     * Prints the matrix to standard output in a formatted, human-readable manner and returns the output string.
+     * Each concrete implementation provides its own formatting based on the element type.
+     * This method is primarily intended for debugging and logging purposes.
+     *
+     * <p>The exact output format depends on the matrix type:
+     * <ul>
+     *   <li>Numeric matrices typically display values aligned in rows and columns</li>
+     *   <li>Object matrices display using the {@code toString()} method of elements</li>
+     * </ul>
+     *
+     * <p><b>Usage Examples:</b></p>
+     * <pre>{@code
+     * IntMatrix matrix = IntMatrix.of(new int[][] {{1, 2}, {3, 4}});
+     * String output = matrix.println();
+     * // Prints to console:
+     * // [1, 2]
+     * // [3, 4]
+     * // And returns the same string
+     * }</pre>
+     *
+     * @return the formatted string representation of the matrix that was printed to standard output
+     */
+    public abstract String println();
 
     /**
      * Creates a copy of this matrix.

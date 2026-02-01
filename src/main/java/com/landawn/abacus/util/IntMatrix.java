@@ -307,23 +307,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Creates a new 1xsize matrix where every element is the provided {@code element}.
-     *
-     * <p><b>Usage Examples:</b></p>
-     * <pre>{@code
-     * IntMatrix matrix = IntMatrix.repeat(42, 5);
-     * // Result: a 1x5 matrix filled with 42
-     * }</pre>
-     *
-     * @param element the int value to fill the matrix with
-     * @param size the number of columns in the new matrix
-     * @return a new IntMatrix of dimensions 1 x size filled with the specified element
-     */
-    public static IntMatrix repeat(final int element, final int size) {
-        return repeat(1, size, element);
-    }
-
-    /**
      * Creates a new matrix of the specified dimensions where every element is the provided {@code element}.
      *
      * <p><b>Usage Examples:</b></p>

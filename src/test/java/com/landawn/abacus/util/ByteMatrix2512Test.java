@@ -110,7 +110,7 @@ public class ByteMatrix2512Test extends TestBase {
 
     @Test
     public void test_repeat() {
-        ByteMatrix m = ByteMatrix.repeat((byte) 7, 5);
+        ByteMatrix m = ByteMatrix.repeat(1, 5, (byte) 7);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {

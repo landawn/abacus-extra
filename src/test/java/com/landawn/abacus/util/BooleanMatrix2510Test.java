@@ -121,7 +121,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat() {
-        BooleanMatrix m = BooleanMatrix.repeat(true, 5);
+        BooleanMatrix m = BooleanMatrix.repeat(1, 5, true);
         assertEquals(1, m.rowCount());
         assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
@@ -131,7 +131,7 @@ public class BooleanMatrix2510Test extends TestBase {
 
     @Test
     public void testRepeat_withFalse() {
-        BooleanMatrix m = BooleanMatrix.repeat(false, 3);
+        BooleanMatrix m = BooleanMatrix.repeat(1, 3, false);
         assertEquals(1, m.rowCount());
         assertEquals(3, m.columnCount());
         for (int i = 0; i < 3; i++) {
