@@ -27,9 +27,9 @@ public class AbstractMatrixTest extends TestBase {
     @Test
     public void testConstructor() {
         IntMatrix matrix = createTestMatrix();
-        Assertions.assertEquals(3, matrix.rows);
-        Assertions.assertEquals(3, matrix.cols);
-        Assertions.assertEquals(9, matrix.count);
+        Assertions.assertEquals(3, matrix.rowCount());
+        Assertions.assertEquals(3, matrix.columnCount());
+        Assertions.assertEquals(9, matrix.elementCount());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
         IntMatrix copy = matrix.copy();
 
-        Assertions.assertEquals(matrix.rows, copy.rows);
-        Assertions.assertEquals(matrix.cols, copy.cols);
+        Assertions.assertEquals(matrix.rowCount(), copy.rowCount());
+        Assertions.assertEquals(matrix.columnCount(), copy.columnCount());
         Assertions.assertEquals(matrix.get(0, 0), copy.get(0, 0));
         Assertions.assertEquals(matrix.get(2, 2), copy.get(2, 2));
 
@@ -83,8 +83,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
         IntMatrix copy = matrix.copy(0, 2);
 
-        Assertions.assertEquals(2, copy.rows);
-        Assertions.assertEquals(3, copy.cols);
+        Assertions.assertEquals(2, copy.rowCount());
+        Assertions.assertEquals(3, copy.columnCount());
         Assertions.assertEquals(1, copy.get(0, 0));
         Assertions.assertEquals(6, copy.get(1, 2));
     }
@@ -111,8 +111,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix();
         IntMatrix copy = matrix.copy(1, 3, 1, 3);
 
-        Assertions.assertEquals(2, copy.rows);
-        Assertions.assertEquals(2, copy.cols);
+        Assertions.assertEquals(2, copy.rowCount());
+        Assertions.assertEquals(2, copy.columnCount());
         Assertions.assertEquals(5, copy.get(0, 0));
         Assertions.assertEquals(6, copy.get(0, 1));
         Assertions.assertEquals(8, copy.get(1, 0));
@@ -137,8 +137,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix rotated = matrix.rotate90();
 
-        Assertions.assertEquals(3, rotated.rows);
-        Assertions.assertEquals(2, rotated.cols);
+        Assertions.assertEquals(3, rotated.rowCount());
+        Assertions.assertEquals(2, rotated.columnCount());
         Assertions.assertEquals(4, rotated.get(0, 0));
         Assertions.assertEquals(1, rotated.get(0, 1));
         Assertions.assertEquals(5, rotated.get(1, 0));
@@ -150,8 +150,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix rotated = matrix.rotate180();
 
-        Assertions.assertEquals(2, rotated.rows);
-        Assertions.assertEquals(3, rotated.cols);
+        Assertions.assertEquals(2, rotated.rowCount());
+        Assertions.assertEquals(3, rotated.columnCount());
         Assertions.assertEquals(6, rotated.get(0, 0));
         Assertions.assertEquals(5, rotated.get(0, 1));
         Assertions.assertEquals(4, rotated.get(0, 2));
@@ -163,8 +163,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix rotated = matrix.rotate270();
 
-        Assertions.assertEquals(3, rotated.rows);
-        Assertions.assertEquals(2, rotated.cols);
+        Assertions.assertEquals(3, rotated.rowCount());
+        Assertions.assertEquals(2, rotated.columnCount());
         Assertions.assertEquals(3, rotated.get(0, 0));
         Assertions.assertEquals(6, rotated.get(0, 1));
         Assertions.assertEquals(2, rotated.get(1, 0));
@@ -176,8 +176,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix transposed = matrix.transpose();
 
-        Assertions.assertEquals(3, transposed.rows);
-        Assertions.assertEquals(2, transposed.cols);
+        Assertions.assertEquals(3, transposed.rowCount());
+        Assertions.assertEquals(2, transposed.columnCount());
         Assertions.assertEquals(1, transposed.get(0, 0));
         Assertions.assertEquals(4, transposed.get(0, 1));
         Assertions.assertEquals(2, transposed.get(1, 0));
@@ -189,8 +189,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix reshaped = matrix.reshape(2);
 
-        Assertions.assertEquals(3, reshaped.rows);
-        Assertions.assertEquals(2, reshaped.cols);
+        Assertions.assertEquals(3, reshaped.rowCount());
+        Assertions.assertEquals(2, reshaped.columnCount());
         Assertions.assertEquals(1, reshaped.get(0, 0));
         Assertions.assertEquals(2, reshaped.get(0, 1));
         Assertions.assertEquals(3, reshaped.get(1, 0));
@@ -201,8 +201,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = createTestMatrix2x3();
         IntMatrix reshaped = matrix.reshape(3, 2);
 
-        Assertions.assertEquals(3, reshaped.rows);
-        Assertions.assertEquals(2, reshaped.cols);
+        Assertions.assertEquals(3, reshaped.rowCount());
+        Assertions.assertEquals(2, reshaped.columnCount());
         Assertions.assertEquals(1, reshaped.get(0, 0));
         Assertions.assertEquals(2, reshaped.get(0, 1));
         Assertions.assertEquals(3, reshaped.get(1, 0));
@@ -224,8 +224,8 @@ public class AbstractMatrixTest extends TestBase {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix repeated = matrix.repelem(2, 3);
 
-        Assertions.assertEquals(4, repeated.rows);
-        Assertions.assertEquals(6, repeated.cols);
+        Assertions.assertEquals(4, repeated.rowCount());
+        Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1, repeated.get(0, 0));
         Assertions.assertEquals(1, repeated.get(0, 2));
         Assertions.assertEquals(1, repeated.get(1, 0));
@@ -252,8 +252,8 @@ public class AbstractMatrixTest extends TestBase {
 
         tiled.println();
 
-        Assertions.assertEquals(4, tiled.rows);
-        Assertions.assertEquals(6, tiled.cols);
+        Assertions.assertEquals(4, tiled.rowCount());
+        Assertions.assertEquals(6, tiled.columnCount());
         Assertions.assertEquals(1, tiled.get(0, 0));
         Assertions.assertEquals(2, tiled.get(0, 1));
         Assertions.assertEquals(1, tiled.get(0, 2));
@@ -634,13 +634,13 @@ public class AbstractMatrixTest extends TestBase {
     public void testApply() throws Exception {
         IntMatrix matrix = createTestMatrix();
 
-        String result = matrix.apply(m -> "Matrix " + m.rows + "x" + m.cols);
+        String result = matrix.apply(m -> "Matrix " + m.rowCount() + "x" + m.columnCount());
         Assertions.assertEquals("Matrix 3x3", result);
 
         int sum = matrix.apply(m -> {
             int s = 0;
-            for (int i = 0; i < m.rows; i++) {
-                for (int j = 0; j < m.cols; j++) {
+            for (int i = 0; i < m.rowCount(); i++) {
+                for (int j = 0; j < m.columnCount(); j++) {
                     s += m.get(i, j);
                 }
             }
@@ -689,9 +689,9 @@ public class AbstractMatrixTest extends TestBase {
     public void testEmptyMatrix() {
         IntMatrix empty = IntMatrix.of(new int[0][0]);
 
-        Assertions.assertEquals(0, empty.rows);
-        Assertions.assertEquals(0, empty.cols);
-        Assertions.assertEquals(0, empty.count);
+        Assertions.assertEquals(0, empty.rowCount());
+        Assertions.assertEquals(0, empty.columnCount());
+        Assertions.assertEquals(0, empty.elementCount());
         Assertions.assertTrue(empty.isEmpty());
 
         IntList flatList = empty.flatten();
@@ -705,9 +705,9 @@ public class AbstractMatrixTest extends TestBase {
     public void testSingleElementMatrix() {
         IntMatrix single = IntMatrix.of(new int[][] { { 42 } });
 
-        Assertions.assertEquals(1, single.rows);
-        Assertions.assertEquals(1, single.cols);
-        Assertions.assertEquals(1, single.count);
+        Assertions.assertEquals(1, single.rowCount());
+        Assertions.assertEquals(1, single.columnCount());
+        Assertions.assertEquals(1, single.elementCount());
         Assertions.assertFalse(single.isEmpty());
         Assertions.assertEquals(42, single.get(0, 0));
 
@@ -727,9 +727,9 @@ public class AbstractMatrixTest extends TestBase {
         }
 
         IntMatrix matrix = IntMatrix.of(data);
-        Assertions.assertEquals(size, matrix.rows);
-        Assertions.assertEquals(size, matrix.cols);
-        Assertions.assertEquals(size * size, matrix.count);
+        Assertions.assertEquals(size, matrix.rowCount());
+        Assertions.assertEquals(size, matrix.columnCount());
+        Assertions.assertEquals(size * size, matrix.elementCount());
         Assertions.assertEquals(5050, matrix.get(50, 50));
 
         // Test operations on large matrix
@@ -737,7 +737,7 @@ public class AbstractMatrixTest extends TestBase {
         Assertions.assertEquals(matrix.get(10, 20), transposed.get(20, 10));
 
         IntMatrix copy = matrix.copy(0, 10, 0, 10);
-        Assertions.assertEquals(10, copy.rows);
-        Assertions.assertEquals(10, copy.cols);
+        Assertions.assertEquals(10, copy.rowCount());
+        Assertions.assertEquals(10, copy.columnCount());
     }
 }

@@ -29,8 +29,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testConstructor_withValidArray() {
         char[][] arr = { { 'A', 'B' }, { 'C', 'D' } };
         CharMatrix m = new CharMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals('A', m.get(0, 0));
         assertEquals('D', m.get(1, 1));
     }
@@ -38,24 +38,24 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testConstructor_withNullArray() {
         CharMatrix m = new CharMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withEmptyArray() {
         CharMatrix m = new CharMatrix(new char[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withSingleElement() {
         CharMatrix m = new CharMatrix(new char[][] { { 'X' } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals('X', m.get(0, 0));
     }
 
@@ -64,8 +64,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testEmpty() {
         CharMatrix empty = CharMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
 
         // Test singleton
@@ -76,8 +76,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testOf_withValidArray() {
         char[][] arr = { { 'A', 'B' }, { 'C', 'D' } };
         CharMatrix m = CharMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals('A', m.get(0, 0));
     }
 
@@ -96,8 +96,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRandom() {
         CharMatrix m = CharMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         // Just verify elements exist (values are random)
         for (int i = 0; i < 5; i++) {
             assertNotNull(m.get(0, i));
@@ -107,8 +107,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRandom_withRowsCols() {
         CharMatrix m = CharMatrix.random(2, 3);
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
                 assertNotNull(m.get(i, j));
@@ -119,8 +119,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRepeat() {
         CharMatrix m = CharMatrix.repeat('Z', 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertEquals('Z', m.get(0, i));
         }
@@ -129,8 +129,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRepeat_withRowsCols() {
         CharMatrix m = CharMatrix.repeat(2, 3, 'Z');
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 3; j++) {
                 assertEquals('Z', m.get(i, j));
@@ -141,48 +141,48 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testRange() {
         CharMatrix m = CharMatrix.range('A', 'F');
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.row(0));
     }
 
     @Test
     public void testRange_withStep() {
         CharMatrix m = CharMatrix.range('A', 'K', 2);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I' }, m.row(0));
     }
 
     @Test
     public void testRange_withNegativeStep() {
         CharMatrix m = CharMatrix.range('J', 'A', -2);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertArrayEquals(new char[] { 'J', 'H', 'F', 'D', 'B' }, m.row(0));
     }
 
     @Test
     public void testRangeClosed() {
         CharMatrix m = CharMatrix.rangeClosed('A', 'E');
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E' }, m.row(0));
     }
 
     @Test
     public void testRangeClosed_withStep() {
         CharMatrix m = CharMatrix.rangeClosed('A', 'K', 2);
-        assertEquals(1, m.rows);
-        assertEquals(6, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(6, m.columnCount());
         assertArrayEquals(new char[] { 'A', 'C', 'E', 'G', 'I', 'K' }, m.row(0));
     }
 
     @Test
     public void testDiagonalLU2RD() {
         CharMatrix m = CharMatrix.diagonalLU2RD(new char[] { 'A', 'B', 'C' });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals('A', m.get(0, 0));
         assertEquals('B', m.get(1, 1));
         assertEquals('C', m.get(2, 2));
@@ -193,8 +193,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         CharMatrix m = CharMatrix.diagonalRU2LD(new char[] { 'X', 'Y', 'Z' });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals('X', m.get(0, 2));
         assertEquals('Y', m.get(1, 1));
         assertEquals('Z', m.get(2, 0));
@@ -205,8 +205,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testDiagonal_withBothDiagonals() {
         CharMatrix m = CharMatrix.diagonal(new char[] { 'A', 'B', 'C' }, new char[] { 'X', 'Y', 'Z' });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals('A', m.get(0, 0));
         assertEquals('B', m.get(1, 1));
         assertEquals('C', m.get(2, 2));
@@ -217,8 +217,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
         CharMatrix m = CharMatrix.diagonal(new char[] { 'P', 'Q', 'R' }, null);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals('P', m.get(0, 0));
         assertEquals('Q', m.get(1, 1));
         assertEquals('R', m.get(2, 2));
@@ -227,8 +227,8 @@ public class CharMatrix2025Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
         CharMatrix m = CharMatrix.diagonal(null, new char[] { 'X', 'Y', 'Z' });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals('X', m.get(0, 2));
         assertEquals('Y', m.get(1, 1));
         assertEquals('Z', m.get(2, 0));
@@ -250,8 +250,8 @@ public class CharMatrix2025Test extends TestBase {
         Character[][] boxed = { { 'A', 'B' }, { 'C', 'D' } };
         Matrix<Character> boxedMatrix = Matrix.of(boxed);
         CharMatrix unboxed = CharMatrix.unbox(boxedMatrix);
-        assertEquals(2, unboxed.rows);
-        assertEquals(2, unboxed.cols);
+        assertEquals(2, unboxed.rowCount());
+        assertEquals(2, unboxed.columnCount());
         assertEquals('A', unboxed.get(0, 0));
         assertEquals('D', unboxed.get(1, 1));
     }
@@ -628,8 +628,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testFill_withValue() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         m.fill('Z');
-        for (int i = 0; i < m.rows; i++) {
-            for (int j = 0; j < m.cols; j++) {
+        for (int i = 0; i < m.rowCount(); i++) {
+            for (int j = 0; j < m.columnCount(); j++) {
                 assertEquals('Z', m.get(i, j));
             }
         }
@@ -672,8 +672,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testCopy() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix copy = m.copy();
-        assertEquals(m.rows, copy.rows);
-        assertEquals(m.cols, copy.cols);
+        assertEquals(m.rowCount(), copy.rowCount());
+        assertEquals(m.columnCount(), copy.columnCount());
         assertEquals('A', copy.get(0, 0));
 
         // Modify copy shouldn't affect original
@@ -686,8 +686,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testCopy_withRowRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix subset = m.copy(1, 3);
-        assertEquals(2, subset.rows);
-        assertEquals(3, subset.cols);
+        assertEquals(2, subset.rowCount());
+        assertEquals(3, subset.columnCount());
         assertEquals('D', subset.get(0, 0));
         assertEquals('I', subset.get(1, 2));
     }
@@ -704,8 +704,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testCopy_withFullRange() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix submatrix = m.copy(0, 2, 1, 3);
-        assertEquals(2, submatrix.rows);
-        assertEquals(2, submatrix.cols);
+        assertEquals(2, submatrix.rowCount());
+        assertEquals(2, submatrix.columnCount());
         assertEquals('B', submatrix.get(0, 0));
         assertEquals('F', submatrix.get(1, 1));
     }
@@ -723,8 +723,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testExtend_larger() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix extended = m.extend(4, 4);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals('A', extended.get(0, 0));
         assertEquals('D', extended.get(1, 1));
         assertEquals(0, extended.get(3, 3));   // new cells are 0
@@ -734,8 +734,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testExtend_smaller() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix truncated = m.extend(2, 2);
-        assertEquals(2, truncated.rows);
-        assertEquals(2, truncated.cols);
+        assertEquals(2, truncated.rowCount());
+        assertEquals(2, truncated.columnCount());
         assertEquals('A', truncated.get(0, 0));
         assertEquals('E', truncated.get(1, 1));
     }
@@ -744,8 +744,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testExtend_withDefaultValue() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix extended = m.extend(3, 3, '?');
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals('A', extended.get(0, 0));
         assertEquals('?', extended.get(2, 2));   // new cell
     }
@@ -761,8 +761,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testExtend_directional() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix extended = m.extend(1, 1, 2, 2);
-        assertEquals(5, extended.rows);   // 1 + 3 + 1
-        assertEquals(7, extended.cols);   // 2 + 3 + 2
+        assertEquals(5, extended.rowCount());   // 1 + 3 + 1
+        assertEquals(7, extended.columnCount());   // 2 + 3 + 2
 
         // Original values at offset position
         assertEquals('A', extended.get(1, 2));
@@ -776,8 +776,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testExtend_directionalWithDefault() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix extended = m.extend(1, 1, 1, 1, '?');
-        assertEquals(5, extended.rows);
-        assertEquals(5, extended.cols);
+        assertEquals(5, extended.rowCount());
+        assertEquals(5, extended.columnCount());
 
         // Check original values
         assertEquals('A', extended.get(1, 1));
@@ -845,8 +845,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testRotate90() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals('C', rotated.get(0, 0));
         assertEquals('A', rotated.get(0, 1));
         assertEquals('D', rotated.get(1, 0));
@@ -857,8 +857,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testRotate180() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix rotated = m.rotate180();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals('D', rotated.get(0, 0));
         assertEquals('C', rotated.get(0, 1));
         assertEquals('B', rotated.get(1, 0));
@@ -869,8 +869,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testRotate270() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix rotated = m.rotate270();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals('B', rotated.get(0, 0));
         assertEquals('D', rotated.get(0, 1));
         assertEquals('A', rotated.get(1, 0));
@@ -883,8 +883,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testTranspose() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' } });
         CharMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals('A', transposed.get(0, 0));
         assertEquals('D', transposed.get(0, 1));
         assertEquals('B', transposed.get(1, 0));
@@ -897,8 +897,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testTranspose_square() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix transposed = m.transpose();
-        assertEquals(2, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(2, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals('A', transposed.get(0, 0));
         assertEquals('C', transposed.get(0, 1));
         assertEquals('B', transposed.get(1, 0));
@@ -911,8 +911,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testReshape() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' } });
         CharMatrix reshaped = m.reshape(1, 9);
-        assertEquals(1, reshaped.rows);
-        assertEquals(9, reshaped.cols);
+        assertEquals(1, reshaped.rowCount());
+        assertEquals(9, reshaped.columnCount());
         assertArrayEquals(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }, reshaped.row(0));
     }
 
@@ -928,8 +928,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testReshape_empty() {
         CharMatrix empty = CharMatrix.empty();
         CharMatrix reshaped = empty.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
     }
 
     // ============ Repeat Tests ============
@@ -938,8 +938,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testRepelem() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' } });
         CharMatrix repeated = m.repelem(2, 3);
-        assertEquals(2, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(2, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
 
         // Check pattern
         assertEquals('A', repeated.get(0, 0));
@@ -962,8 +962,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testRepmat() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         CharMatrix repeated = m.repmat(2, 3);
-        assertEquals(4, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
 
         // Check pattern
         assertEquals('A', repeated.get(0, 0));
@@ -1029,8 +1029,8 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m2 = CharMatrix.of(new char[][] { { 'G', 'H', 'I' }, { 'J', 'K', 'L' } });
         CharMatrix stacked = m1.vstack(m2);
 
-        assertEquals(4, stacked.rows);
-        assertEquals(3, stacked.cols);
+        assertEquals(4, stacked.rowCount());
+        assertEquals(3, stacked.columnCount());
         assertEquals('A', stacked.get(0, 0));
         assertEquals('G', stacked.get(2, 0));
         assertEquals('L', stacked.get(3, 2));
@@ -1049,8 +1049,8 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m2 = CharMatrix.of(new char[][] { { 'E', 'F' }, { 'G', 'H' } });
         CharMatrix stacked = m1.hstack(m2);
 
-        assertEquals(2, stacked.rows);
-        assertEquals(4, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(4, stacked.columnCount());
         assertEquals('A', stacked.get(0, 0));
         assertEquals('E', stacked.get(0, 2));
         assertEquals('H', stacked.get(1, 3));
@@ -1128,8 +1128,8 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix m2 = CharMatrix.of(new char[][] { { 4 }, { 5 }, { 6 } });   // 3x1
         CharMatrix product = m1.multiply(m2);
 
-        assertEquals(1, product.rows);
-        assertEquals(1, product.cols);
+        assertEquals(1, product.rowCount());
+        assertEquals(1, product.columnCount());
         assertEquals(32, product.get(0, 0));   // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
     }
 
@@ -1139,8 +1139,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testBoxed() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B', 'C' }, { 'D', 'E', 'F' } });
         Matrix<Character> boxed = m.boxed();
-        assertEquals(2, boxed.rows);
-        assertEquals(3, boxed.cols);
+        assertEquals(2, boxed.rowCount());
+        assertEquals(3, boxed.columnCount());
         assertEquals(Character.valueOf('A'), boxed.get(0, 0));
         assertEquals(Character.valueOf('F'), boxed.get(1, 2));
     }
@@ -1149,8 +1149,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testToIntMatrix() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         IntMatrix intMatrix = m.toIntMatrix();
-        assertEquals(2, intMatrix.rows);
-        assertEquals(2, intMatrix.cols);
+        assertEquals(2, intMatrix.rowCount());
+        assertEquals(2, intMatrix.columnCount());
         assertEquals(65, intMatrix.get(0, 0));   // 'A' = 65
         assertEquals(68, intMatrix.get(1, 1));   // 'D' = 68
     }
@@ -1159,8 +1159,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testToLongMatrix() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         LongMatrix longMatrix = m.toLongMatrix();
-        assertEquals(2, longMatrix.rows);
-        assertEquals(2, longMatrix.cols);
+        assertEquals(2, longMatrix.rowCount());
+        assertEquals(2, longMatrix.columnCount());
         assertEquals(65L, longMatrix.get(0, 0));
         assertEquals(68L, longMatrix.get(1, 1));
     }
@@ -1169,8 +1169,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testToFloatMatrix() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         FloatMatrix floatMatrix = m.toFloatMatrix();
-        assertEquals(2, floatMatrix.rows);
-        assertEquals(2, floatMatrix.cols);
+        assertEquals(2, floatMatrix.rowCount());
+        assertEquals(2, floatMatrix.columnCount());
         assertEquals(65.0f, floatMatrix.get(0, 0), 0.0001f);
         assertEquals(68.0f, floatMatrix.get(1, 1), 0.0001f);
     }
@@ -1179,8 +1179,8 @@ public class CharMatrix2025Test extends TestBase {
     public void testToDoubleMatrix() {
         CharMatrix m = CharMatrix.of(new char[][] { { 'A', 'B' }, { 'C', 'D' } });
         DoubleMatrix doubleMatrix = m.toDoubleMatrix();
-        assertEquals(2, doubleMatrix.rows);
-        assertEquals(2, doubleMatrix.cols);
+        assertEquals(2, doubleMatrix.rowCount());
+        assertEquals(2, doubleMatrix.columnCount());
         assertEquals(65.0, doubleMatrix.get(0, 0), 0.0001);
         assertEquals(68.0, doubleMatrix.get(1, 1), 0.0001);
     }
@@ -1484,13 +1484,13 @@ public class CharMatrix2025Test extends TestBase {
         CharMatrix empty = CharMatrix.empty();
 
         assertTrue(empty.flatten().isEmpty());
-        assertEquals(0, empty.copy().rows);
+        assertEquals(0, empty.copy().rowCount);
         assertEquals(empty, empty.transpose());
         assertEquals(empty, empty.rotate90());
 
         CharMatrix extended = empty.extend(2, 2, 'X');
-        assertEquals(2, extended.rows);
-        assertEquals(2, extended.cols);
+        assertEquals(2, extended.rowCount());
+        assertEquals(2, extended.columnCount());
         assertEquals('X', extended.get(0, 0));
     }
 
@@ -1503,44 +1503,44 @@ public class CharMatrix2025Test extends TestBase {
 
         // Test rotate90() with tall matrix
         CharMatrix rotated90 = m.rotate90();
-        assertEquals(2, rotated90.rows);
-        assertEquals(4, rotated90.cols);
+        assertEquals(2, rotated90.rowCount());
+        assertEquals(4, rotated90.columnCount());
         assertEquals('g', rotated90.get(0, 0));
 
         // Test rotate270() with tall matrix
         CharMatrix rotated270 = m.rotate270();
-        assertEquals(2, rotated270.rows);
-        assertEquals(4, rotated270.cols);
+        assertEquals(2, rotated270.rowCount());
+        assertEquals(4, rotated270.columnCount());
         assertEquals('b', rotated270.get(0, 0));
 
         // Test transpose() with tall matrix
         CharMatrix transposed = m.transpose();
-        assertEquals(2, transposed.rows);
-        assertEquals(4, transposed.cols);
+        assertEquals(2, transposed.rowCount());
+        assertEquals(4, transposed.columnCount());
         assertEquals('a', transposed.get(0, 0));
         assertEquals('h', transposed.get(1, 3));
 
         // Test boxed() with tall matrix
         Matrix<Character> boxed = m.boxed();
-        assertEquals(4, boxed.rows);
-        assertEquals(2, boxed.cols);
+        assertEquals(4, boxed.rowCount());
+        assertEquals(2, boxed.columnCount());
         assertEquals(Character.valueOf('a'), boxed.get(0, 0));
 
         // Test toLongMatrix() with tall matrix
         LongMatrix longMat = m.toLongMatrix();
-        assertEquals(4, longMat.rows);
-        assertEquals(2, longMat.cols);
+        assertEquals(4, longMat.rowCount());
+        assertEquals(2, longMat.columnCount());
         assertEquals('a', longMat.get(0, 0));
 
         // Test toFloatMatrix() with tall matrix
         FloatMatrix floatMat = m.toFloatMatrix();
-        assertEquals(4, floatMat.rows);
-        assertEquals(2, floatMat.cols);
+        assertEquals(4, floatMat.rowCount());
+        assertEquals(2, floatMat.columnCount());
 
         // Test toDoubleMatrix() with tall matrix
         DoubleMatrix doubleMat = m.toDoubleMatrix();
-        assertEquals(4, doubleMat.rows);
-        assertEquals(2, doubleMat.cols);
+        assertEquals(4, doubleMat.rowCount());
+        assertEquals(2, doubleMat.columnCount());
     }
 
     @Test

@@ -36,21 +36,21 @@ public class FloatMatrixTest extends TestBase {
         // Test with valid array
         float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         FloatMatrix m = new FloatMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
 
         // Test with null array
         FloatMatrix nullMatrix = new FloatMatrix(null);
-        assertEquals(0, nullMatrix.rows);
-        assertEquals(0, nullMatrix.cols);
+        assertEquals(0, nullMatrix.rowCount());
+        assertEquals(0, nullMatrix.columnCount());
     }
 
     @Test
     public void testEmpty() {
         FloatMatrix empty = FloatMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
 
         // Test that empty() returns singleton
@@ -62,8 +62,8 @@ public class FloatMatrixTest extends TestBase {
         // Test with valid array
         float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         FloatMatrix m = FloatMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
 
         // Test with null/empty
         FloatMatrix empty1 = FloatMatrix.of(null);
@@ -90,8 +90,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testRandom() {
         FloatMatrix m = FloatMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         // Values should be random, just check they exist
         for (int i = 0; i < 5; i++) {
             assertNotNull(m.get(0, i));
@@ -101,8 +101,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testRepeat() {
         FloatMatrix m = FloatMatrix.repeat(42.5f, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertEquals(42.5f, m.get(0, i), DELTA);
         }
@@ -111,8 +111,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testDiagonalLU2RD() {
         FloatMatrix m = FloatMatrix.diagonalLU2RD(new float[] { 1.0f, 2.0f, 3.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
         assertEquals(2.0f, m.get(1, 1), DELTA);
         assertEquals(3.0f, m.get(2, 2), DELTA);
@@ -123,8 +123,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         FloatMatrix m = FloatMatrix.diagonalRU2LD(new float[] { 1.0f, 2.0f, 3.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 2), DELTA);
         assertEquals(2.0f, m.get(1, 1), DELTA);
         assertEquals(3.0f, m.get(2, 0), DELTA);
@@ -136,8 +136,8 @@ public class FloatMatrixTest extends TestBase {
     public void testDiagonal() {
         // Test with both diagonals
         FloatMatrix m = FloatMatrix.diagonal(new float[] { 1.0f, 2.0f, 3.0f }, new float[] { 4.0f, 5.0f, 6.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0), DELTA);
         assertEquals(2.0f, m.get(1, 1), DELTA);
         assertEquals(3.0f, m.get(2, 2), DELTA);
@@ -467,8 +467,8 @@ public class FloatMatrixTest extends TestBase {
     public void testFillWithValue() {
         FloatMatrix m = matrix.copy();
         m.fill(99.5f);
-        for (int i = 0; i < m.rows; i++) {
-            for (int j = 0; j < m.cols; j++) {
+        for (int i = 0; i < m.rowCount(); i++) {
+            for (int j = 0; j < m.columnCount(); j++) {
                 assertEquals(99.5f, m.get(i, j), DELTA);
             }
         }
@@ -506,8 +506,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testCopy() {
         FloatMatrix copy = matrix.copy();
-        assertEquals(matrix.rows, copy.rows);
-        assertEquals(matrix.cols, copy.cols);
+        assertEquals(matrix.rowCount(), copy.rowCount());
+        assertEquals(matrix.columnCount(), copy.columnCount());
         assertEquals(matrix.get(0, 0), copy.get(0, 0), DELTA);
 
         // Modify copy shouldn't affect original
@@ -519,8 +519,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testCopyRange() {
         FloatMatrix subset = matrix.copy(1, 3);
-        assertEquals(2, subset.rows);
-        assertEquals(3, subset.cols);
+        assertEquals(2, subset.rowCount());
+        assertEquals(3, subset.columnCount());
         assertEquals(4.0f, subset.get(0, 0), DELTA);
         assertEquals(7.0f, subset.get(1, 0), DELTA);
 
@@ -533,8 +533,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testCopySubMatrix() {
         FloatMatrix submatrix = matrix.copy(0, 2, 1, 3);
-        assertEquals(2, submatrix.rows);
-        assertEquals(2, submatrix.cols);
+        assertEquals(2, submatrix.rowCount());
+        assertEquals(2, submatrix.columnCount());
         assertEquals(2.0f, submatrix.get(0, 0), DELTA);
         assertEquals(3.0f, submatrix.get(0, 1), DELTA);
         assertEquals(5.0f, submatrix.get(1, 0), DELTA);
@@ -548,22 +548,22 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testExtend() {
         FloatMatrix extended = matrix.extend(5, 5);
-        assertEquals(5, extended.rows);
-        assertEquals(5, extended.cols);
+        assertEquals(5, extended.rowCount());
+        assertEquals(5, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
         assertEquals(0.0f, extended.get(3, 3), DELTA);   // new cells are 0
 
         // Test truncation
         FloatMatrix truncated = matrix.extend(2, 2);
-        assertEquals(2, truncated.rows);
-        assertEquals(2, truncated.cols);
+        assertEquals(2, truncated.rowCount());
+        assertEquals(2, truncated.columnCount());
     }
 
     @Test
     public void testExtendWithDefaultValue() {
         FloatMatrix extended = matrix.extend(4, 4, -1.0f);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0), DELTA);
         assertEquals(-1.0f, extended.get(3, 3), DELTA);   // new cell
 
@@ -575,8 +575,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testExtendDirectional() {
         FloatMatrix extended = matrix.extend(1, 1, 2, 2);
-        assertEquals(5, extended.rows);   // 1 + 3 + 1
-        assertEquals(7, extended.cols);   // 2 + 3 + 2
+        assertEquals(5, extended.rowCount());   // 1 + 3 + 1
+        assertEquals(7, extended.columnCount());   // 2 + 3 + 2
 
         // Original values should be at offset position
         assertEquals(1.0f, extended.get(1, 2), DELTA);
@@ -589,8 +589,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testExtendDirectionalWithDefaultValue() {
         FloatMatrix extended = matrix.extend(1, 1, 1, 1, -1.0f);
-        assertEquals(5, extended.rows);
-        assertEquals(5, extended.cols);
+        assertEquals(5, extended.rowCount());
+        assertEquals(5, extended.columnCount());
 
         // Check original values
         assertEquals(1.0f, extended.get(1, 1), DELTA);
@@ -653,8 +653,8 @@ public class FloatMatrixTest extends TestBase {
     public void testRotate90() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3.0f, rotated.get(0, 0), DELTA);
         assertEquals(1.0f, rotated.get(0, 1), DELTA);
         assertEquals(4.0f, rotated.get(1, 0), DELTA);
@@ -665,8 +665,8 @@ public class FloatMatrixTest extends TestBase {
     public void testRotate180() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix rotated = m.rotate180();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(4.0f, rotated.get(0, 0), DELTA);
         assertEquals(3.0f, rotated.get(0, 1), DELTA);
         assertEquals(2.0f, rotated.get(1, 0), DELTA);
@@ -677,8 +677,8 @@ public class FloatMatrixTest extends TestBase {
     public void testRotate270() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix rotated = m.rotate270();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(2.0f, rotated.get(0, 0), DELTA);
         assertEquals(4.0f, rotated.get(0, 1), DELTA);
         assertEquals(1.0f, rotated.get(1, 0), DELTA);
@@ -689,8 +689,8 @@ public class FloatMatrixTest extends TestBase {
     public void testTranspose() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
         FloatMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1.0f, transposed.get(0, 0), DELTA);
         assertEquals(4.0f, transposed.get(0, 1), DELTA);
         assertEquals(2.0f, transposed.get(1, 0), DELTA);
@@ -700,8 +700,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testReshape() {
         FloatMatrix reshaped = matrix.reshape(1, 9);
-        assertEquals(1, reshaped.rows);
-        assertEquals(9, reshaped.cols);
+        assertEquals(1, reshaped.rowCount());
+        assertEquals(9, reshaped.columnCount());
         for (int i = 0; i < 9; i++) {
             assertEquals(i + 1, reshaped.get(0, i), DELTA);
         }
@@ -712,16 +712,16 @@ public class FloatMatrixTest extends TestBase {
 
         // Test empty matrix
         FloatMatrix emptyReshaped = emptyMatrix.reshape(2, 3);
-        assertEquals(2, emptyReshaped.rows);
-        assertEquals(3, emptyReshaped.cols);
+        assertEquals(2, emptyReshaped.rowCount());
+        assertEquals(3, emptyReshaped.columnCount());
     }
 
     @Test
     public void testRepelem() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f } });
         FloatMatrix repeated = m.repelem(2, 3);
-        assertEquals(2, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(2, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
 
         // Check pattern
         assertEquals(1.0f, repeated.get(0, 0), DELTA);
@@ -741,8 +741,8 @@ public class FloatMatrixTest extends TestBase {
     public void testRepmat() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix repeated = m.repmat(2, 3);
-        assertEquals(4, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
 
         // Check pattern
         assertEquals(1.0f, repeated.get(0, 0), DELTA);
@@ -793,8 +793,8 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 7.0f, 8.0f, 9.0f }, { 10.0f, 11.0f, 12.0f } });
         FloatMatrix stacked = m1.vstack(m2);
 
-        assertEquals(4, stacked.rows);
-        assertEquals(3, stacked.cols);
+        assertEquals(4, stacked.rowCount());
+        assertEquals(3, stacked.columnCount());
         assertEquals(1.0f, stacked.get(0, 0), DELTA);
         assertEquals(7.0f, stacked.get(2, 0), DELTA);
         assertEquals(12.0f, stacked.get(3, 2), DELTA);
@@ -810,8 +810,8 @@ public class FloatMatrixTest extends TestBase {
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
         FloatMatrix stacked = m1.hstack(m2);
 
-        assertEquals(2, stacked.rows);
-        assertEquals(4, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(4, stacked.columnCount());
         assertEquals(1.0f, stacked.get(0, 0), DELTA);
         assertEquals(5.0f, stacked.get(0, 2), DELTA);
         assertEquals(8.0f, stacked.get(1, 3), DELTA);
@@ -872,8 +872,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testBoxed() {
         Matrix<Float> boxed = matrix.boxed();
-        assertEquals(3, boxed.rows);
-        assertEquals(3, boxed.cols);
+        assertEquals(3, boxed.rowCount());
+        assertEquals(3, boxed.columnCount());
         assertEquals(Float.valueOf(1.0f), boxed.get(0, 0));
         assertEquals(Float.valueOf(5.0f), boxed.get(1, 1));
     }
@@ -881,8 +881,8 @@ public class FloatMatrixTest extends TestBase {
     @Test
     public void testToDoubleMatrix() {
         DoubleMatrix doubleMatrix = matrix.toDoubleMatrix();
-        assertEquals(3, doubleMatrix.rows);
-        assertEquals(3, doubleMatrix.cols);
+        assertEquals(3, doubleMatrix.rowCount());
+        assertEquals(3, doubleMatrix.columnCount());
         assertEquals(1.0, doubleMatrix.get(0, 0), 0.0001);
         assertEquals(5.0, doubleMatrix.get(1, 1), 0.0001);
     }
@@ -1143,13 +1143,13 @@ public class FloatMatrixTest extends TestBase {
     public void testEmptyMatrixOperations() {
         // Test various operations on empty matrix
         assertTrue(emptyMatrix.flatten().isEmpty());
-        assertEquals(0, emptyMatrix.copy().rows);
+        assertEquals(0, emptyMatrix.copy().rowCount);
         assertEquals(emptyMatrix, emptyMatrix.transpose());
         assertEquals(emptyMatrix, emptyMatrix.rotate90());
 
         FloatMatrix extended = emptyMatrix.extend(2, 2, 5.0f);
-        assertEquals(2, extended.rows);
-        assertEquals(2, extended.cols);
+        assertEquals(2, extended.rowCount());
+        assertEquals(2, extended.columnCount());
         assertEquals(5.0f, extended.get(0, 0), DELTA);
     }
 }

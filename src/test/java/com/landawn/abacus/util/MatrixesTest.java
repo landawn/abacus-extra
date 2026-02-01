@@ -810,8 +810,8 @@ class MatrixesTest extends TestBase {
 
         //    final IntMatrix mxc = mxa.multiply(mxb);
         //
-        //    assertEquals(rows, mxc.rows);
-        //    assertEquals(rows, mxc.cols);
+        //    assertEquals(rows, mxc.rowCount());
+        //    assertEquals(rows, mxc.columnCount());
         // mxc.println();
 
         Profiler.run(1, 1, 1, "seq-multiply(" + rows + ", " + cols + ")", () -> {

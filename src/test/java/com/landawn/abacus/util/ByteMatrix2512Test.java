@@ -28,8 +28,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_constructor_validArray() {
         byte[][] arr = { { 1, 2 }, { 3, 4 } };
         ByteMatrix m = new ByteMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(0, 1));
     }
@@ -37,8 +37,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_constructor_nullArray() {
         ByteMatrix m = new ByteMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
@@ -51,8 +51,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_constructor_singleElement() {
         ByteMatrix m = new ByteMatrix(new byte[][] { { 5 } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals(5, m.get(0, 0));
     }
 
@@ -60,8 +60,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_constructor_nonSquare() {
         byte[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ByteMatrix m = new ByteMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
     }
 
     // ============ Factory Method Tests ============
@@ -77,8 +77,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_of_validArray() {
         byte[][] arr = { { 1, 2 }, { 3, 4 } };
         ByteMatrix m = ByteMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
     }
 
     @Test
@@ -90,29 +90,29 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_of_singleRow() {
         ByteMatrix m = ByteMatrix.of(new byte[] { 1, 2, 3 });
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(3, m.columnCount());
     }
 
     @Test
     public void test_random() {
         ByteMatrix m = ByteMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
     }
 
     @Test
     public void test_random_zeroLength() {
         ByteMatrix m = ByteMatrix.random(0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void test_repeat() {
         ByteMatrix m = ByteMatrix.repeat((byte) 7, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertEquals(7, m.get(0, i));
         }
@@ -121,8 +121,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_range() {
         ByteMatrix m = ByteMatrix.range((byte) 0, (byte) 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertEquals(0, m.get(0, 0));
         assertEquals(4, m.get(0, 4));
     }
@@ -130,8 +130,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_range_withBy() {
         ByteMatrix m = ByteMatrix.range((byte) 0, (byte) 10, (byte) 2);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertEquals(0, m.get(0, 0));
         assertEquals(8, m.get(0, 4));
     }
@@ -139,8 +139,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_rangeClosed() {
         ByteMatrix m = ByteMatrix.rangeClosed((byte) 0, (byte) 5);
-        assertEquals(1, m.rows);
-        assertEquals(6, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(6, m.columnCount());
         assertEquals(0, m.get(0, 0));
         assertEquals(5, m.get(0, 5));
     }
@@ -148,8 +148,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_rangeClosed_withBy() {
         ByteMatrix m = ByteMatrix.rangeClosed((byte) 0, (byte) 10, (byte) 2);
-        assertEquals(1, m.rows);
-        assertEquals(6, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(6, m.columnCount());
         assertEquals(0, m.get(0, 0));
         assertEquals(10, m.get(0, 5));
     }
@@ -157,8 +157,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_diagonalLU2RD() {
         ByteMatrix m = ByteMatrix.diagonalLU2RD(new byte[] { 1, 2, 3 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 2));
@@ -174,8 +174,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_diagonalRU2LD() {
         ByteMatrix m = ByteMatrix.diagonalRU2LD(new byte[] { 1, 2, 3 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 0));
@@ -184,8 +184,8 @@ public class ByteMatrix2512Test extends TestBase {
     @Test
     public void test_diagonal_both() {
         ByteMatrix m = ByteMatrix.diagonal(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(4, m.get(0, 2));
     }
@@ -542,8 +542,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_copy() {
         ByteMatrix original = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix copy = original.copy();
-        assertEquals(original.rows, copy.rows);
-        assertEquals(original.cols, copy.cols);
+        assertEquals(original.rowCount(), copy.rowCount());
+        assertEquals(original.columnCount(), copy.columnCount());
         assertEquals(1, copy.get(0, 0));
         // Modify copy
         copy.set(0, 0, (byte) 99);
@@ -554,8 +554,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_copy_rowRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         ByteMatrix copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(3, copy.get(0, 0));
         assertEquals(4, copy.get(0, 1));
     }
@@ -564,8 +564,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_copy_fullRange() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         ByteMatrix copy = m.copy(0, 2, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(2, copy.get(0, 0));   // From (0,1)
         assertEquals(3, copy.get(0, 1));   // From (0,2)
     }
@@ -576,8 +576,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_rotate90() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3, rotated.get(0, 0));
         assertEquals(1, rotated.get(0, 1));
     }
@@ -596,16 +596,16 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_rotate270() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix rotated = m.rotate270();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
     }
 
     @Test
     public void test_transpose() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         ByteMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1, transposed.get(0, 0));
         assertEquals(4, transposed.get(0, 1));
         assertEquals(2, transposed.get(1, 0));
@@ -650,8 +650,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_reshape() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         ByteMatrix reshaped = m.reshape(3, 2);
-        assertEquals(3, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(3, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(2, reshaped.get(0, 1));
     }
@@ -662,8 +662,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_repelem() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix repeated = m.repelem(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
         assertEquals(1, repeated.get(0, 1));
         assertEquals(1, repeated.get(1, 0));
@@ -674,8 +674,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_repmat() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix tiled = m.repmat(2, 2);
-        assertEquals(4, tiled.rows);
-        assertEquals(4, tiled.cols);
+        assertEquals(4, tiled.rowCount());
+        assertEquals(4, tiled.columnCount());
         assertEquals(1, tiled.get(0, 0));
         assertEquals(2, tiled.get(0, 1));
         assertEquals(1, tiled.get(2, 2));
@@ -713,8 +713,8 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1, 2 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 3, 4 } });
         ByteMatrix stacked = m1.vstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1, stacked.get(0, 0));
         assertEquals(3, stacked.get(1, 0));
     }
@@ -731,8 +731,8 @@ public class ByteMatrix2512Test extends TestBase {
         ByteMatrix m1 = ByteMatrix.of(new byte[][] { { 1 }, { 3 } });
         ByteMatrix m2 = ByteMatrix.of(new byte[][] { { 2 }, { 4 } });
         ByteMatrix stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1, stacked.get(0, 0));
         assertEquals(2, stacked.get(0, 1));
     }
@@ -936,8 +936,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_extend_twoParams() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix extended = m.extend(3, 3);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
         assertEquals(0, extended.get(2, 2));
     }
@@ -946,8 +946,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_extend_twoParamsWithDefault() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix extended = m.extend(3, 3, (byte) 9);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(9, extended.get(2, 2));
     }
 
@@ -955,8 +955,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_extend_fourParams() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix extended = m.extend(1, 1, 1, 1);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(1, 1));
     }
 
@@ -964,8 +964,8 @@ public class ByteMatrix2512Test extends TestBase {
     public void test_extend_fourParamsWithDefault() {
         ByteMatrix m = ByteMatrix.of(new byte[][] { { 1, 2 }, { 3, 4 } });
         ByteMatrix extended = m.extend(1, 1, 1, 1, (byte) 9);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals(9, extended.get(0, 0));
         assertEquals(9, extended.get(3, 3));
     }

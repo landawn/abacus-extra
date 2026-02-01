@@ -26,8 +26,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testConstructor_withValidArray() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix m = new DoubleMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(4.0, m.get(1, 1));
     }
@@ -35,24 +35,24 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testConstructor_withNullArray() {
         DoubleMatrix m = new DoubleMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withEmptyArray() {
         DoubleMatrix m = new DoubleMatrix(new double[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withSingleElement() {
         DoubleMatrix m = new DoubleMatrix(new double[][] { { 42.5 } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals(42.5, m.get(0, 0));
     }
 
@@ -61,8 +61,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testEmpty() {
         DoubleMatrix empty = DoubleMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
         assertSame(DoubleMatrix.empty(), DoubleMatrix.empty());
     }
@@ -71,8 +71,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testOf_withValidArray() {
         double[][] arr = { { 1.0, 2.0 }, { 3.0, 4.0 } };
         DoubleMatrix m = DoubleMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
     }
 
@@ -92,8 +92,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
         DoubleMatrix m = DoubleMatrix.from(ints);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(4.0, m.get(1, 1));
     }
@@ -132,8 +132,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testCreateFromLongArray() {
         long[][] longs = { { 1L, 2L }, { 3L, 4L } };
         DoubleMatrix m = DoubleMatrix.from(longs);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(4.0, m.get(1, 1));
     }
@@ -160,8 +160,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testCreateFromFloatArray() {
         float[][] floats = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         DoubleMatrix m = DoubleMatrix.from(floats);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0), 0.001);
         assertEquals(4.0, m.get(1, 1), 0.001);
     }
@@ -187,8 +187,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testRandom() {
         DoubleMatrix m = DoubleMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertNotNull(m.get(0, i));
         }
@@ -197,15 +197,15 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testRandom_withZeroLength() {
         DoubleMatrix m = DoubleMatrix.random(0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testRepeat() {
         DoubleMatrix m = DoubleMatrix.repeat(3.14, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertEquals(3.14, m.get(0, i));
         }
@@ -214,15 +214,15 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testRepeat_withZeroLength() {
         DoubleMatrix m = DoubleMatrix.repeat(1.0, 0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testDiagonalLU2RD() {
         DoubleMatrix m = DoubleMatrix.diagonalLU2RD(new double[] { 1.0, 2.0, 3.0 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(2.0, m.get(1, 1));
         assertEquals(3.0, m.get(2, 2));
@@ -239,8 +239,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         DoubleMatrix m = DoubleMatrix.diagonalRU2LD(new double[] { 1.0, 2.0, 3.0 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 2));
         assertEquals(2.0, m.get(1, 1));
         assertEquals(3.0, m.get(2, 0));
@@ -257,8 +257,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withBothDiagonals() {
         DoubleMatrix m = DoubleMatrix.diagonal(new double[] { 1.0, 4.0 }, new double[] { 2.0, 3.0 });
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(2.0, m.get(0, 1));
         assertEquals(3.0, m.get(1, 0));
@@ -268,8 +268,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
         DoubleMatrix m = DoubleMatrix.diagonal(new double[] { 1.0, 2.0, 3.0 }, null);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(2.0, m.get(1, 1));
         assertEquals(3.0, m.get(2, 2));
@@ -278,8 +278,8 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
         DoubleMatrix m = DoubleMatrix.diagonal(null, new double[] { 1.0, 2.0, 3.0 });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0, m.get(0, 2));
         assertEquals(2.0, m.get(1, 1));
         assertEquals(3.0, m.get(2, 0));
@@ -300,8 +300,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testUnbox() {
         Matrix<Double> boxed = Matrix.of(new Double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m = DoubleMatrix.unbox(boxed);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(4.0, m.get(1, 1));
     }
@@ -310,8 +310,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testUnbox_withNullValues() {
         Matrix<Double> boxed = Matrix.of(new Double[][] { { 1.0, null }, { null, 4.0 } });
         DoubleMatrix m = DoubleMatrix.unbox(boxed);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0, m.get(0, 0));
         assertEquals(0.0, m.get(0, 1));
         assertEquals(0.0, m.get(1, 0));
@@ -690,8 +690,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testCopy_rows() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 }, { 5.0, 6.0 } });
         DoubleMatrix copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(3.0, copy.get(0, 0));
         assertEquals(6.0, copy.get(1, 1));
     }
@@ -700,8 +700,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testCopy_subMatrix() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 }, { 7.0, 8.0, 9.0 } });
         DoubleMatrix copy = m.copy(1, 3, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(5.0, copy.get(0, 0));
         assertEquals(9.0, copy.get(1, 1));
     }
@@ -712,8 +712,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testExtend_simple() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix extended = m.extend(3, 3);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(1.0, extended.get(0, 0));
         assertEquals(4.0, extended.get(1, 1));
         assertEquals(0.0, extended.get(2, 2));
@@ -723,8 +723,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testExtend_withDefaultValue() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix extended = m.extend(3, 3, 9.0);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(9.0, extended.get(2, 2));
     }
 
@@ -732,8 +732,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testExtend_directions() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 5.0 } });
         DoubleMatrix extended = m.extend(1, 1, 1, 1);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(5.0, extended.get(1, 1));
         assertEquals(0.0, extended.get(0, 0));
     }
@@ -742,8 +742,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testExtend_directionsWithDefault() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 5.0 } });
         DoubleMatrix extended = m.extend(1, 1, 1, 1, 9.0);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(5.0, extended.get(1, 1));
         assertEquals(9.0, extended.get(0, 0));
     }
@@ -794,8 +794,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testRotate90() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3.0, rotated.get(0, 0));
         assertEquals(1.0, rotated.get(0, 1));
         assertEquals(4.0, rotated.get(1, 0));
@@ -828,8 +828,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testTranspose() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0 }, { 4.0, 5.0, 6.0 } });
         DoubleMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1.0, transposed.get(0, 0));
         assertEquals(4.0, transposed.get(0, 1));
         assertEquals(3.0, transposed.get(2, 0));
@@ -852,8 +852,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testReshape() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 } });
         DoubleMatrix reshaped = m.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(1.0, reshaped.get(0, 0));
         assertEquals(4.0, reshaped.get(1, 0));
     }
@@ -862,8 +862,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testReshape_invalidSize() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix reshaped = m.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(1.0, reshaped.get(0, 0));
         assertEquals(4.0, reshaped.get(1, 0));
 
@@ -875,8 +875,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testRepelem() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix result = m.repelem(2, 2);
-        assertEquals(4, result.rows);
-        assertEquals(4, result.cols);
+        assertEquals(4, result.rowCount());
+        assertEquals(4, result.columnCount());
         assertEquals(1.0, result.get(0, 0));
         assertEquals(1.0, result.get(0, 1));
         assertEquals(1.0, result.get(1, 0));
@@ -891,8 +891,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testRepmat() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix result = m.repmat(2, 2);
-        assertEquals(4, result.rows);
-        assertEquals(4, result.cols);
+        assertEquals(4, result.rowCount());
+        assertEquals(4, result.columnCount());
         assertEquals(1.0, result.get(0, 0));
         assertEquals(2.0, result.get(0, 1));
         assertEquals(1.0, result.get(0, 2));
@@ -932,8 +932,8 @@ public class DoubleMatrix2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         DoubleMatrix stacked = m1.vstack(m2);
-        assertEquals(4, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(4, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1.0, stacked.get(0, 0));
         assertEquals(5.0, stacked.get(2, 0));
     }
@@ -950,8 +950,8 @@ public class DoubleMatrix2510Test extends TestBase {
         DoubleMatrix m1 = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
         DoubleMatrix m2 = DoubleMatrix.of(new double[][] { { 5.0, 6.0 }, { 7.0, 8.0 } });
         DoubleMatrix stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(4, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(4, stacked.columnCount());
         assertEquals(1.0, stacked.get(0, 0));
         assertEquals(5.0, stacked.get(0, 2));
     }
@@ -1186,8 +1186,8 @@ public class DoubleMatrix2510Test extends TestBase {
     public void testReshape_singleParam() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 } });
         DoubleMatrix reshaped = m.reshape(3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
     }
 
     @Test
@@ -1287,7 +1287,7 @@ public class DoubleMatrix2510Test extends TestBase {
     @Test
     public void testApply() {
         DoubleMatrix m = DoubleMatrix.of(new double[][] { { 1.0, 2.0 }, { 3.0, 4.0 } });
-        int result = m.apply(matrix -> matrix.rows * matrix.cols);
+        int result = m.apply(matrix -> matrix.rowCount() * matrix.columnCount());
         assertEquals(4, result);
     }
 

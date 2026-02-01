@@ -27,8 +27,8 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_constructor_withValidArray() {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(4, m.get(1, 1));
     }
@@ -36,23 +36,23 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_constructor_withNullArray() {
         ShortMatrix m = new ShortMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_constructor_withEmptyArray() {
         ShortMatrix m = new ShortMatrix(new short[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void test_constructor_withSingleElement() {
         ShortMatrix m = new ShortMatrix(new short[][] { { 42 } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals(42, m.get(0, 0));
     }
 
@@ -61,8 +61,8 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_empty_returnsEmptyMatrix() {
         ShortMatrix empty = ShortMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
         assertSame(ShortMatrix.empty(), ShortMatrix.empty());
     }
@@ -71,8 +71,8 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_of_withValidArray() {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = ShortMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(6, m.get(1, 2));
     }
@@ -92,15 +92,15 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_random_createsRandomMatrix() {
         ShortMatrix m = ShortMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
     }
 
     @Test
     public void test_repeat_createsRepeatedValues() {
         ShortMatrix m = ShortMatrix.repeat((short) 7, 4);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(4, m.columnCount());
         for (int i = 0; i < 4; i++) {
             assertEquals(7, m.get(0, i));
         }
@@ -109,8 +109,8 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_range_withTwoParameters() {
         ShortMatrix m = ShortMatrix.range((short) 1, (short) 5);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(4, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(4, m.get(0, 3));
     }
@@ -118,8 +118,8 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_range_withThreeParameters() {
         ShortMatrix m = ShortMatrix.range((short) 0, (short) 10, (short) 2);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertEquals(0, m.get(0, 0));
         assertEquals(8, m.get(0, 4));
     }
@@ -127,8 +127,8 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_rangeClosed_withTwoParameters() {
         ShortMatrix m = ShortMatrix.rangeClosed((short) 1, (short) 4);
-        assertEquals(1, m.rows);
-        assertEquals(4, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(4, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(4, m.get(0, 3));
     }
@@ -136,8 +136,8 @@ public class ShortMatrix2512Test extends TestBase {
     @Test
     public void test_rangeClosed_withThreeParameters() {
         ShortMatrix m = ShortMatrix.rangeClosed((short) 1, (short) 9, (short) 2);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(9, m.get(0, 4));
     }
@@ -146,8 +146,8 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_diagonalLU2RD_createsMainDiagonal() {
         short[] diag = { 1, 2, 3 };
         ShortMatrix m = ShortMatrix.diagonalLU2RD(diag);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 2));
@@ -158,8 +158,8 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_diagonalRU2LD_createsAntiDiagonal() {
         short[] diag = { 1, 2, 3 };
         ShortMatrix m = ShortMatrix.diagonalRU2LD(diag);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 0));
@@ -170,8 +170,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[] lu = { 1, 2, 3 };
         short[] ru = { 4, 5, 6 };
         ShortMatrix m = ShortMatrix.diagonal(lu, ru);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 2));
@@ -197,8 +197,8 @@ public class ShortMatrix2512Test extends TestBase {
         Short[][] boxed = { { 1, 2 }, { 3, 4 } };
         Matrix<Short> boxedMatrix = Matrix.of(boxed);
         ShortMatrix m = ShortMatrix.unbox(boxedMatrix);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(4, m.get(1, 1));
     }
@@ -576,8 +576,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix copy = m.copy();
-        assertEquals(m.rows, copy.rows);
-        assertEquals(m.cols, copy.cols);
+        assertEquals(m.rowCount(), copy.rowCount());
+        assertEquals(m.columnCount(), copy.columnCount());
         assertEquals(1, copy.get(0, 0));
 
         copy.set(0, 0, (short) 99);
@@ -589,8 +589,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(3, copy.get(0, 0));
         assertEquals(6, copy.get(1, 1));
     }
@@ -600,8 +600,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix copy = m.copy(0, 2, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(2, copy.get(0, 0));
         assertEquals(6, copy.get(1, 1));
     }
@@ -613,8 +613,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix extended = m.extend(3, 3);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(1, extended.get(0, 0));
         assertEquals(0, extended.get(2, 2));
     }
@@ -632,8 +632,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix extended = m.extend(1, 1, 1, 1);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals(1, extended.get(1, 1));
     }
 
@@ -695,8 +695,8 @@ public class ShortMatrix2512Test extends TestBase {
         m.println();
         ShortMatrix rotated = m.rotate90();
         rotated.println();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3, rotated.get(0, 0));
         assertEquals(1, rotated.get(0, 1));
         assertEquals(4, rotated.get(1, 0));
@@ -734,8 +734,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2, 3 }, { 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1, transposed.get(0, 0));
         assertEquals(4, transposed.get(0, 1));
         assertEquals(6, transposed.get(2, 1));
@@ -748,8 +748,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2, 3, 4, 5, 6 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix reshaped = m.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(6, reshaped.get(1, 2));
     }
@@ -758,8 +758,8 @@ public class ShortMatrix2512Test extends TestBase {
     public void test_reshape_incompatibleSize_fillsWithZeros() {
         ShortMatrix m = ShortMatrix.of(new short[][] { { 1, 2, 3 } });
         ShortMatrix reshaped = m.reshape(2, 2);
-        assertEquals(2, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(2, reshaped.get(0, 1));
         assertEquals(3, reshaped.get(1, 0));
@@ -773,8 +773,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix repeated = m.repelem(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
         assertEquals(1, repeated.get(1, 1));
         assertEquals(4, repeated.get(2, 2));
@@ -787,8 +787,8 @@ public class ShortMatrix2512Test extends TestBase {
         short[][] arr = { { 1, 2 }, { 3, 4 } };
         ShortMatrix m = new ShortMatrix(arr);
         ShortMatrix repeated = m.repmat(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
         assertEquals(1, repeated.get(2, 2));
         assertEquals(4, repeated.get(3, 3));
@@ -828,8 +828,8 @@ public class ShortMatrix2512Test extends TestBase {
         ShortMatrix m1 = new ShortMatrix(arr1);
         ShortMatrix m2 = new ShortMatrix(arr2);
         ShortMatrix stacked = m1.vstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1, stacked.get(0, 0));
         assertEquals(3, stacked.get(1, 0));
     }
@@ -848,8 +848,8 @@ public class ShortMatrix2512Test extends TestBase {
         ShortMatrix m1 = new ShortMatrix(arr1);
         ShortMatrix m2 = new ShortMatrix(arr2);
         ShortMatrix stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1, stacked.get(0, 0));
         assertEquals(3, stacked.get(0, 1));
     }

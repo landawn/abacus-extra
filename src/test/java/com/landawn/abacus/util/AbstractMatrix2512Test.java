@@ -313,21 +313,21 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_accept() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         AtomicInteger rows = new AtomicInteger(0);
-        matrix.accept(m -> rows.set(m.rows));
+        matrix.accept(m -> rows.set(m.rowCount()));
         assertEquals(2, rows.get());
     }
 
     @Test
     public void test_apply() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        int totalElements = matrix.apply(m -> m.rows * m.cols);
+        int totalElements = matrix.apply(m -> m.rowCount() * m.columnCount());
         assertEquals(4, totalElements);
     }
 
     @Test
     public void test_apply_returnString() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        String result = matrix.apply(m -> "Matrix " + m.rows + "x" + m.cols);
+        String result = matrix.apply(m -> "Matrix " + m.rowCount() + "x" + m.columnCount());
         assertEquals("Matrix 2x2", result);
     }
 
@@ -337,8 +337,8 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_reshape_singleParameter() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix reshaped = matrix.reshape(2);
-        assertEquals(3, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(3, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(2, reshaped.get(0, 1));
         assertEquals(3, reshaped.get(1, 0));
@@ -348,8 +348,8 @@ public class AbstractMatrix2512Test extends TestBase {
     public void test_reshape_singleParameter_withPadding() {
         IntMatrix matrix = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix reshaped = matrix.reshape(4);
-        assertEquals(2, reshaped.rows);
-        assertEquals(4, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(4, reshaped.columnCount());
         assertEquals(5, reshaped.get(1, 0));
         assertEquals(6, reshaped.get(1, 1));
         assertEquals(0, reshaped.get(1, 2));   // Padded

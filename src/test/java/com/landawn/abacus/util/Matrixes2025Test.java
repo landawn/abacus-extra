@@ -675,8 +675,8 @@ public class Matrixes2025Test extends TestBase {
         m2.println();
         result.println();
 
-        assertEquals(10, result.rows);
-        assertEquals(10, result.cols);
+        assertEquals(10, result.rowCount());
+        assertEquals(10, result.columnCount());
         assertEquals(0, result.get(0, 0));   // 0 + 0
         assertEquals(99, result.get(9, 9));   // 18 + 81
     }

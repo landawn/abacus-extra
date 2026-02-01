@@ -29,8 +29,8 @@ public class Matrix2512Test extends TestBase {
     public void test_constructor_withValidArray() {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals("a", m.get(0, 0));
         assertEquals("d", m.get(1, 1));
     }
@@ -43,16 +43,16 @@ public class Matrix2512Test extends TestBase {
     @Test
     public void test_constructor_withEmptyArray() {
         Matrix<String> m = new Matrix<>(new String[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void test_constructor_withSingleElement() {
         Matrix<Integer> m = new Matrix<>(new Integer[][] { { 42 } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals(42, m.get(0, 0));
     }
 
@@ -62,8 +62,8 @@ public class Matrix2512Test extends TestBase {
     public void test_of_withValidArray() {
         String[][] arr = { { "x", "y", "z" }, { "a", "b", "c" } };
         Matrix<String> m = Matrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals("x", m.get(0, 0));
         assertEquals("c", m.get(1, 2));
     }
@@ -71,15 +71,15 @@ public class Matrix2512Test extends TestBase {
     @Test
     public void test_of_withSingleRow() {
         Matrix<String> m = Matrix.of(new String[][] { { "one", "two", "three" } });
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(3, m.columnCount());
     }
 
     @Test
     public void test_of_withSingleColumn() {
         Matrix<String> m = Matrix.of(new String[][] { { "a" }, { "b" }, { "c" } });
-        assertEquals(3, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(1, m.columnCount());
     }
 
 
@@ -87,8 +87,8 @@ public class Matrix2512Test extends TestBase {
     public void test_diagonalLU2RD_createsMainDiagonal() {
         String[] diag = { "A", "B", "C" };
         Matrix<String> m = Matrix.diagonalLU2RD(diag);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals("A", m.get(0, 0));
         assertEquals("B", m.get(1, 1));
         assertEquals("C", m.get(2, 2));
@@ -100,8 +100,8 @@ public class Matrix2512Test extends TestBase {
     public void test_diagonalRU2LD_createsAntiDiagonal() {
         Integer[] diag = { 1, 2, 3 };
         Matrix<Integer> m = Matrix.diagonalRU2LD(diag);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 2));
         assertEquals(2, m.get(1, 1));
         assertEquals(3, m.get(2, 0));
@@ -113,8 +113,8 @@ public class Matrix2512Test extends TestBase {
         Integer[] lu = { 1, 2, 3 };
         Integer[] ru = { 7, 8, 9 };
         Matrix<Integer> m = Matrix.diagonal(lu, ru);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1, m.get(0, 0));
         assertEquals(2, m.get(1, 1));   // Main diagonal takes precedence
         assertEquals(3, m.get(2, 2));
@@ -600,8 +600,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> copy = m.copy();
-        assertEquals(m.rows, copy.rows);
-        assertEquals(m.cols, copy.cols);
+        assertEquals(m.rowCount(), copy.rowCount());
+        assertEquals(m.columnCount(), copy.columnCount());
         assertEquals("a", copy.get(0, 0));
 
         copy.set(0, 0, "CHANGED");
@@ -613,8 +613,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" }, { "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals("c", copy.get(0, 0));
         assertEquals("f", copy.get(1, 1));
     }
@@ -624,8 +624,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> copy = m.copy(0, 2, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals("b", copy.get(0, 0));
         assertEquals("f", copy.get(1, 1));
     }
@@ -637,8 +637,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> extended = m.extend(3, 3);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals("a", extended.get(0, 0));
         assertNull(extended.get(2, 2));
     }
@@ -656,8 +656,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> extended = m.extend(1, 1, 1, 1);
-        assertEquals(4, extended.rows);
-        assertEquals(4, extended.cols);
+        assertEquals(4, extended.rowCount());
+        assertEquals(4, extended.columnCount());
         assertEquals("a", extended.get(1, 1));
     }
 
@@ -717,8 +717,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals("c", rotated.get(0, 0));
         assertEquals("a", rotated.get(0, 1));
         assertEquals("d", rotated.get(1, 0));
@@ -754,8 +754,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b", "c" }, { "d", "e", "f" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals("a", transposed.get(0, 0));
         assertEquals("d", transposed.get(0, 1));
         assertEquals("f", transposed.get(2, 1));
@@ -768,8 +768,8 @@ public class Matrix2512Test extends TestBase {
         Integer[][] arr = { { 1, 2, 3, 4, 5, 6 } };
         Matrix<Integer> m = new Matrix<>(arr);
         Matrix<Integer> reshaped = m.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(6, reshaped.get(1, 2));
     }
@@ -778,8 +778,8 @@ public class Matrix2512Test extends TestBase {
     public void test_reshape_incompatibleSize_fillsWithNull() {
         Matrix<String> m = Matrix.of(new String[][] { { "a", "b", "c" } });
         Matrix<String> reshaped = m.reshape(2, 2);
-        assertEquals(2, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals("a", reshaped.get(0, 0));
         assertEquals("b", reshaped.get(0, 1));
         assertEquals("c", reshaped.get(1, 0));
@@ -793,8 +793,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> repeated = m.repelem(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertEquals("a", repeated.get(0, 0));
         assertEquals("a", repeated.get(1, 1));
         assertEquals("d", repeated.get(2, 2));
@@ -807,8 +807,8 @@ public class Matrix2512Test extends TestBase {
         String[][] arr = { { "a", "b" }, { "c", "d" } };
         Matrix<String> m = new Matrix<>(arr);
         Matrix<String> repeated = m.repmat(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertEquals("a", repeated.get(0, 0));
         assertEquals("a", repeated.get(2, 2));
         assertEquals("d", repeated.get(3, 3));
@@ -848,8 +848,8 @@ public class Matrix2512Test extends TestBase {
         Matrix<String> m1 = new Matrix<>(arr1);
         Matrix<String> m2 = new Matrix<>(arr2);
         Matrix<String> stacked = m1.vstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals("a", stacked.get(0, 0));
         assertEquals("c", stacked.get(1, 0));
     }
@@ -868,8 +868,8 @@ public class Matrix2512Test extends TestBase {
         Matrix<String> m1 = new Matrix<>(arr1);
         Matrix<String> m2 = new Matrix<>(arr2);
         Matrix<String> stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals("a", stacked.get(0, 0));
         assertEquals("c", stacked.get(0, 1));
     }

@@ -375,19 +375,46 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * The number of rows in this matrix.
      * This value is immutable after matrix creation.
      */
-    public final int rows;
+    final int rowCount;
 
     /**
      * The number of columns in this matrix.
      * This value is immutable after matrix creation.
      */
-    public final int cols;
+    final int columnCount;
 
     /**
      * The total number of elements in this matrix (rows × columns).
      * This value is cached for performance and is immutable after matrix creation.
      */
-    public final long count;
+    final long elementCount;
+
+    /**
+     * Returns the number of rows in this matrix.
+     *
+     * @return the number of rows
+     */
+    public int rowCount() {
+        return rowCount;
+    }
+
+    /**
+     * Returns the number of columns in this matrix.
+     *
+     * @return the number of columns
+     */
+    public int columnCount() {
+        return columnCount;
+    }
+
+    /**
+     * Returns the total number of elements in this matrix (rows × columns).
+     *
+     * @return the total number of elements
+     */
+    public long elementCount() {
+        return elementCount;
+    }
 
     /**
      * The underlying two-dimensional array storing the matrix data.
@@ -407,25 +434,25 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         N.checkArgNotNull(a, "Matrix array cannot be null");
 
         this.a = a;
-        rows = a.length;
+        rowCount = a.length;
 
-        if (rows > 0) {
+        if (rowCount > 0) {
             N.checkArgument(a[0] != null, "Row 0 cannot be null");
         }
 
-        cols = rows == 0 ? 0 : length(a[0]);
+        columnCount = rowCount == 0 ? 0 : length(a[0]);
 
         if (a.length > 1) {
             for (int i = 1, len = a.length; i < len; i++) {
                 N.checkArgument(a[i] != null, "Row %s cannot be null", i);
-                if (length(a[i]) != cols) {
+                if (length(a[i]) != columnCount) {
                     throw new IllegalArgumentException(
-                            "Matrix must be rectangular: row 0 has " + cols + " columns, but row " + i + " has " + length(a[i]) + " columns");
+                            "Matrix must be rectangular: row 0 has " + columnCount + " columns, but row " + i + " has " + length(a[i]) + " columns");
                 }
             }
         }
 
-        count = (long) cols * rows;
+        elementCount = (long) columnCount * rowCount;
     }
 
     /**
@@ -520,7 +547,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return {@code true} if the matrix has no elements (count == 0), {@code false} otherwise
      */
     public boolean isEmpty() {
-        return count == 0;
+        return elementCount == 0;
     }
 
     /**
@@ -727,7 +754,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
     public X reshape(final int newCols) {
         N.checkArgument(newCols > 0, "newCols must be positive, but got: %s", newCols);
 
-        return reshape((int) (count % newCols == 0 ? count / newCols : count / newCols + 1), newCols);
+        return reshape((int) (elementCount % newCols == 0 ? elementCount / newCols : elementCount / newCols + 1), newCols);
     }
 
     /**
@@ -778,7 +805,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return {@code true} if both matrices have the same dimensions, {@code false} otherwise
      */
     public boolean isSameShape(final X x) {
-        return rows == x.rows && cols == x.cols;
+        return rowCount == x.rowCount && columnCount == x.columnCount;
     }
 
     /**
@@ -917,10 +944,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (Matrixes.isParallelable(this)) {
             //noinspection FunctionalExpressionCanBeFolded
             final Throwables.IntBiConsumer<E> elementAction = action::accept;
-            Matrixes.run(rows, cols, elementAction, true);
+            Matrixes.run(rowCount, columnCount, elementAction, true);
         } else {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < columnCount; j++) {
                     action.accept(i, j);
                 }
             }
@@ -959,8 +986,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.IntBiConsumer<E> action) throws IndexOutOfBoundsException, E {
-        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
-        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         if (Matrixes.isParallelable(this, ((long) (toRowIndex - fromRowIndex)) * (toColumnIndex - fromColumnIndex))) {
             //noinspection FunctionalExpressionCanBeFolded
@@ -1004,10 +1031,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         final X matrix = (X) this;
         if (Matrixes.isParallelable(this)) {
             final Throwables.IntBiConsumer<E> elementAction = (i, j) -> action.accept(i, j, matrix);
-            Matrixes.run(rows, cols, elementAction, true);
+            Matrixes.run(rowCount, columnCount, elementAction, true);
         } else {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
+            for (int i = 0; i < rowCount; i++) {
+                for (int j = 0; j < columnCount; j++) {
                     action.accept(i, j, matrix);
                 }
             }
@@ -1049,8 +1076,8 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Throwables.BiIntObjConsumer<X, E> action) throws IndexOutOfBoundsException, E {
-        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
-        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         final X matrix = (X) this;
 
@@ -1100,10 +1127,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         if (i > 0) {
             points.add(Point.of(i - 1, j)); // up
         }
-        if (j < cols - 1) {
+        if (j < columnCount - 1) {
             points.add(Point.of(i, j + 1)); // right
         }
-        if (i < rows - 1) {
+        if (i < rowCount - 1) {
             points.add(Point.of(i + 1, j)); // down
         }
         if (j > 0) {
@@ -1152,23 +1179,23 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
             points.add(Point.of(i - 1, j)); // up
         }
 
-        if (i > 0 && j < cols - 1) {
+        if (i > 0 && j < columnCount - 1) {
             points.add(Point.of(i - 1, j + 1)); // rightUp
         }
 
-        if (j < cols - 1) {
+        if (j < columnCount - 1) {
             points.add(Point.of(i, j + 1)); // right
         }
 
-        if (i < rows - 1 && j < cols - 1) {
+        if (i < rowCount - 1 && j < columnCount - 1) {
             points.add(Point.of(i + 1, j + 1)); // rightDown
         }
 
-        if (i < rows - 1) {
+        if (i < rowCount - 1) {
             points.add(Point.of(i + 1, j)); // down
         }
 
-        if (i < rows - 1 && j > 0) {
+        if (i < rowCount - 1 && j > 0) {
             points.add(Point.of(i + 1, j - 1)); // leftDown
         }
 
@@ -1200,7 +1227,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         checkIfRowAndColumnSizeAreSame();
 
         //noinspection resource
-        return IntStream.range(0, rows).mapToObj(i -> Point.of(i, i));
+        return IntStream.range(0, rowCount).mapToObj(i -> Point.of(i, i));
     }
 
     /**
@@ -1224,7 +1251,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
         checkIfRowAndColumnSizeAreSame();
 
         //noinspection resource
-        return IntStream.range(0, rows).mapToObj(i -> Point.of(i, cols - i - 1));
+        return IntStream.range(0, rowCount).mapToObj(i -> Point.of(i, columnCount - i - 1));
     }
 
     /**
@@ -1244,7 +1271,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of all {@link Point} objects in row-major order
      */
     public Stream<Point> pointsH() {
-        return pointsH(0, rows);
+        return pointsH(0, rowCount);
     }
 
     /**
@@ -1284,10 +1311,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     @SuppressWarnings("resource")
     public Stream<Point> pointsH(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return IntStream.range(fromRowIndex, toRowIndex)
-                .flatMapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
+                .flatMapToObj(rowIndex -> IntStream.range(0, columnCount).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -1307,7 +1334,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of all {@link Point} objects in column-major order
      */
     public Stream<Point> pointsV() {
-        return pointsV(0, cols);
+        return pointsV(0, columnCount);
     }
 
     /**
@@ -1347,10 +1374,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     @SuppressWarnings("resource")
     public Stream<Point> pointsV(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
-                .flatMapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
+                .flatMapToObj(columnIndex -> IntStream.range(0, rowCount).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -1374,7 +1401,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one row
      */
     public Stream<Stream<Point>> pointsR() {
-        return pointsR(0, rows);
+        return pointsR(0, rowCount);
     }
 
     /**
@@ -1397,10 +1424,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     @SuppressWarnings("resource")
     public Stream<Stream<Point>> pointsR(final int fromRowIndex, final int toRowIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
+        N.checkFromToIndex(fromRowIndex, toRowIndex, rowCount);
 
         return IntStream.range(fromRowIndex, toRowIndex)
-                .mapToObj(rowIndex -> IntStream.range(0, cols).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
+                .mapToObj(rowIndex -> IntStream.range(0, columnCount).mapToObj(columnIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -1424,7 +1451,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @return a stream of streams, where each inner stream contains {@link Point} objects for one column
      */
     public Stream<Stream<Point>> pointsC() {
-        return pointsC(0, cols);
+        return pointsC(0, columnCount);
     }
 
     /**
@@ -1447,10 +1474,10 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      */
     @SuppressWarnings("resource")
     public Stream<Stream<Point>> pointsC(final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {
-        N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
+        N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnCount);
 
         return IntStream.range(fromColumnIndex, toColumnIndex)
-                .mapToObj(columnIndex -> IntStream.range(0, rows).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
+                .mapToObj(columnIndex -> IntStream.range(0, rowCount).mapToObj(rowIndex -> Point.of(rowIndex, columnIndex)));
     }
 
     /**
@@ -1773,16 +1800,17 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalArgumentException if the matrices have different shapes (different rows or cols)
      */
     protected void checkSameShape(final X x) {
-        N.checkArgument(this.isSameShape(x), "Matrices must have same shape: this is %sx%s but provided matrix is %sx%s", rows, cols, x.rows, x.cols);
+        N.checkArgument(this.isSameShape(x), "Matrices must have same shape: this is %sx%s but provided matrix is %sx%s", rowCount, columnCount, x.rowCount,
+                x.columnCount);
     }
 
     protected void checkRowColumnIndex(final int i, final int j) {
-        if (i < 0 || i >= rows) {
-            throw new ArrayIndexOutOfBoundsException("Row index out of bounds: " + i + ". Valid range is [0, " + rows + ")");
+        if (i < 0 || i >= rowCount) {
+            throw new ArrayIndexOutOfBoundsException("Row index out of bounds: " + i + ". Valid range is [0, " + rowCount + ")");
         }
 
-        if (j < 0 || j >= cols) {
-            throw new ArrayIndexOutOfBoundsException("Column index out of bounds: " + j + ". Valid range is [0, " + cols + ")");
+        if (j < 0 || j >= columnCount) {
+            throw new ArrayIndexOutOfBoundsException("Column index out of bounds: " + j + ". Valid range is [0, " + columnCount + ")");
         }
     }
 
@@ -1803,7 +1831,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @throws IllegalStateException if the matrix is not square (rows != cols)
      */
     protected void checkIfRowAndColumnSizeAreSame() {
-        N.checkState(rows == cols, "Matrix must be square to access diagonals: current dimensions are %s rows x %s cols", rows, cols);
+        N.checkState(rowCount == columnCount, "Matrix must be square to access diagonals: current dimensions are %s rows x %s cols", rowCount, columnCount);
     }
 
 }

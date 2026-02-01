@@ -26,8 +26,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testConstructor_withValidArray() {
         float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         FloatMatrix m = new FloatMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(4.0f, m.get(1, 1));
     }
@@ -35,24 +35,24 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testConstructor_withNullArray() {
         FloatMatrix m = new FloatMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withEmptyArray() {
         FloatMatrix m = new FloatMatrix(new float[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withSingleElement() {
         FloatMatrix m = new FloatMatrix(new float[][] { { 42.5f } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertEquals(42.5f, m.get(0, 0));
     }
 
@@ -61,8 +61,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testEmpty() {
         FloatMatrix empty = FloatMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
         assertSame(FloatMatrix.empty(), FloatMatrix.empty());
     }
@@ -71,8 +71,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testOf_withValidArray() {
         float[][] arr = { { 1.0f, 2.0f }, { 3.0f, 4.0f } };
         FloatMatrix m = FloatMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
     }
 
@@ -92,8 +92,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testCreateFromIntArray() {
         int[][] ints = { { 1, 2 }, { 3, 4 } };
         FloatMatrix m = FloatMatrix.from(ints);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(4.0f, m.get(1, 1));
     }
@@ -131,8 +131,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRandom() {
         FloatMatrix m = FloatMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertNotNull(m.get(0, i));
         }
@@ -141,15 +141,15 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRandom_withZeroLength() {
         FloatMatrix m = FloatMatrix.random(0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testRepeat() {
         FloatMatrix m = FloatMatrix.repeat(3.14f, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertEquals(3.14f, m.get(0, i));
         }
@@ -158,15 +158,15 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testRepeat_withZeroLength() {
         FloatMatrix m = FloatMatrix.repeat(1.0f, 0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testDiagonalLU2RD() {
         FloatMatrix m = FloatMatrix.diagonalLU2RD(new float[] { 1.0f, 2.0f, 3.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(2.0f, m.get(1, 1));
         assertEquals(3.0f, m.get(2, 2));
@@ -183,8 +183,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDiagonalRU2LD() {
         FloatMatrix m = FloatMatrix.diagonalRU2LD(new float[] { 1.0f, 2.0f, 3.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 2));
         assertEquals(2.0f, m.get(1, 1));
         assertEquals(3.0f, m.get(2, 0));
@@ -201,8 +201,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withBothDiagonals() {
         FloatMatrix m = FloatMatrix.diagonal(new float[] { 1.0f, 4.0f }, new float[] { 2.0f, 3.0f });
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(2.0f, m.get(0, 1));
         assertEquals(3.0f, m.get(1, 0));
@@ -212,8 +212,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
         FloatMatrix m = FloatMatrix.diagonal(new float[] { 1.0f, 2.0f, 3.0f }, null);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(2.0f, m.get(1, 1));
         assertEquals(3.0f, m.get(2, 2));
@@ -222,8 +222,8 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
         FloatMatrix m = FloatMatrix.diagonal(null, new float[] { 1.0f, 2.0f, 3.0f });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertEquals(1.0f, m.get(0, 2));
         assertEquals(2.0f, m.get(1, 1));
         assertEquals(3.0f, m.get(2, 0));
@@ -244,8 +244,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testUnbox() {
         Matrix<Float> boxed = Matrix.of(new Float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix m = FloatMatrix.unbox(boxed);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(4.0f, m.get(1, 1));
     }
@@ -254,8 +254,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testUnbox_withNullValues() {
         Matrix<Float> boxed = Matrix.of(new Float[][] { { 1.0f, null }, { null, 4.0f } });
         FloatMatrix m = FloatMatrix.unbox(boxed);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertEquals(1.0f, m.get(0, 0));
         assertEquals(0.0f, m.get(0, 1));
         assertEquals(0.0f, m.get(1, 0));
@@ -618,8 +618,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testCopy_rows() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f }, { 5.0f, 6.0f } });
         FloatMatrix copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(3.0f, copy.get(0, 0));
         assertEquals(6.0f, copy.get(1, 1));
     }
@@ -628,8 +628,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testCopy_subMatrix() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f }, { 7.0f, 8.0f, 9.0f } });
         FloatMatrix copy = m.copy(1, 3, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertEquals(5.0f, copy.get(0, 0));
         assertEquals(9.0f, copy.get(1, 1));
     }
@@ -640,8 +640,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testExtend_simple() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix extended = m.extend(3, 3);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(1.0f, extended.get(0, 0));
         assertEquals(4.0f, extended.get(1, 1));
         assertEquals(0.0f, extended.get(2, 2));
@@ -651,8 +651,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testExtend_withDefaultValue() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix extended = m.extend(3, 3, 9.0f);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(9.0f, extended.get(2, 2));
     }
 
@@ -660,8 +660,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testExtend_directions() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 5.0f } });
         FloatMatrix extended = m.extend(1, 1, 1, 1);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(5.0f, extended.get(1, 1));
         assertEquals(0.0f, extended.get(0, 0));
     }
@@ -670,8 +670,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testExtend_directionsWithDefault() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 5.0f } });
         FloatMatrix extended = m.extend(1, 1, 1, 1, 9.0f);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertEquals(5.0f, extended.get(1, 1));
         assertEquals(9.0f, extended.get(0, 0));
     }
@@ -722,8 +722,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testRotate90() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3.0f, rotated.get(0, 0));
         assertEquals(1.0f, rotated.get(0, 1));
         assertEquals(4.0f, rotated.get(1, 0));
@@ -756,8 +756,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testTranspose() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f }, { 4.0f, 5.0f, 6.0f } });
         FloatMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1.0f, transposed.get(0, 0));
         assertEquals(4.0f, transposed.get(0, 1));
         assertEquals(3.0f, transposed.get(2, 0));
@@ -780,8 +780,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testReshape() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f } });
         FloatMatrix reshaped = m.reshape(2, 3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(1.0f, reshaped.get(0, 0));
         assertEquals(4.0f, reshaped.get(1, 0));
     }
@@ -792,8 +792,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testRepelem() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix result = m.repelem(2, 2);
-        assertEquals(4, result.rows);
-        assertEquals(4, result.cols);
+        assertEquals(4, result.rowCount());
+        assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0));
         assertEquals(1.0f, result.get(0, 1));
         assertEquals(1.0f, result.get(1, 0));
@@ -808,8 +808,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testRepmat() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix result = m.repmat(2, 2);
-        assertEquals(4, result.rows);
-        assertEquals(4, result.cols);
+        assertEquals(4, result.rowCount());
+        assertEquals(4, result.columnCount());
         assertEquals(1.0f, result.get(0, 0));
         assertEquals(2.0f, result.get(0, 1));
         assertEquals(1.0f, result.get(0, 2));
@@ -849,8 +849,8 @@ public class FloatMatrix2510Test extends TestBase {
         FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
         FloatMatrix stacked = m1.vstack(m2);
-        assertEquals(4, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(4, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertEquals(1.0f, stacked.get(0, 0));
         assertEquals(5.0f, stacked.get(2, 0));
     }
@@ -867,8 +867,8 @@ public class FloatMatrix2510Test extends TestBase {
         FloatMatrix m1 = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         FloatMatrix m2 = FloatMatrix.of(new float[][] { { 5.0f, 6.0f }, { 7.0f, 8.0f } });
         FloatMatrix stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(4, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(4, stacked.columnCount());
         assertEquals(1.0f, stacked.get(0, 0));
         assertEquals(5.0f, stacked.get(0, 2));
     }
@@ -943,8 +943,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testToDoubleMatrix() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
         DoubleMatrix dm = m.toDoubleMatrix();
-        assertEquals(2, dm.rows);
-        assertEquals(2, dm.cols);
+        assertEquals(2, dm.rowCount());
+        assertEquals(2, dm.columnCount());
         assertEquals(1.0, dm.get(0, 0));
         assertEquals(4.0, dm.get(1, 1));
     }
@@ -1113,8 +1113,8 @@ public class FloatMatrix2510Test extends TestBase {
     public void testReshape_singleParam() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f } });
         FloatMatrix reshaped = m.reshape(3);
-        assertEquals(2, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
     }
 
     @Test
@@ -1214,7 +1214,7 @@ public class FloatMatrix2510Test extends TestBase {
     @Test
     public void testApply() {
         FloatMatrix m = FloatMatrix.of(new float[][] { { 1.0f, 2.0f }, { 3.0f, 4.0f } });
-        int result = m.apply(matrix -> matrix.rows * matrix.cols);
+        int result = m.apply(matrix -> matrix.rowCount() * matrix.columnCount());
         assertEquals(4, result);
     }
 

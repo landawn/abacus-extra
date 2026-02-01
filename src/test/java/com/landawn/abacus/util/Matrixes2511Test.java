@@ -600,8 +600,8 @@ public class Matrixes2511Test extends TestBase {
         ByteMatrix result = Matrixes.zip(a, b, (x, y) -> (byte) (x + y));
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
-        assertEquals(2, result.cols);
+        assertEquals(2, result.rowCount());
+        assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0));   // 1 + 5
         assertEquals(12, result.get(1, 1));   // 4 + 8
     }
@@ -615,7 +615,7 @@ public class Matrixes2511Test extends TestBase {
         ByteMatrix result = Matrixes.zip(a, b, c, (x, y, z) -> (byte) (x + y + z));
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(7, result.get(0, 0));   // 1 + 5 + 1
     }
 
@@ -626,7 +626,7 @@ public class Matrixes2511Test extends TestBase {
         ByteMatrix result = Matrixes.zip(matrices, (a, b) -> (byte) (a + b));
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6, result.get(0, 0));   // 1 + 5
     }
 
@@ -640,8 +640,8 @@ public class Matrixes2511Test extends TestBase {
         IntMatrix result = Matrixes.zip(a, b, (x, y) -> x + y);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
-        assertEquals(2, result.cols);
+        assertEquals(2, result.rowCount());
+        assertEquals(2, result.columnCount());
         assertEquals(6, result.get(0, 0));   // 1 + 5
         assertEquals(12, result.get(1, 1));   // 4 + 8
     }
@@ -655,7 +655,7 @@ public class Matrixes2511Test extends TestBase {
         IntMatrix result = Matrixes.zip(a, b, c, (x, y, z) -> x + y + z);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(7, result.get(0, 0));   // 1 + 5 + 1
     }
 
@@ -666,7 +666,7 @@ public class Matrixes2511Test extends TestBase {
         IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6, result.get(0, 0));   // 1 + 5
     }
 
@@ -678,7 +678,7 @@ public class Matrixes2511Test extends TestBase {
         LongMatrix result = Matrixes.zipToLong(a, b, (x, y) -> (long) x + y);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6L, result.get(0, 0));   // 1 + 5
     }
 
@@ -690,7 +690,7 @@ public class Matrixes2511Test extends TestBase {
         DoubleMatrix result = Matrixes.zipToDouble(a, b, (x, y) -> x + y + 0.5);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6.5, result.get(0, 0), 0.01);   // 1 + 5 + 0.5
     }
 
@@ -704,7 +704,7 @@ public class Matrixes2511Test extends TestBase {
         LongMatrix result = Matrixes.zip(a, b, (x, y) -> x + y);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6L, result.get(0, 0));   // 1 + 5
     }
 
@@ -716,7 +716,7 @@ public class Matrixes2511Test extends TestBase {
         DoubleMatrix result = Matrixes.zipToDouble(a, b, (x, y) -> (double) (x + y));
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6.0, result.get(0, 0), 0.01);   // 1 + 5
     }
 
@@ -730,7 +730,7 @@ public class Matrixes2511Test extends TestBase {
         DoubleMatrix result = Matrixes.zip(a, b, (x, y) -> x + y);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(6.0, result.get(0, 0), 0.01);   // 1 + 5
     }
 
@@ -743,7 +743,7 @@ public class Matrixes2511Test extends TestBase {
         DoubleMatrix result = Matrixes.zip(a, b, c, (x, y, z) -> x + y + z);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertEquals(7.0, result.get(0, 0), 0.01);   // 1 + 5 + 1
     }
 
@@ -762,7 +762,7 @@ public class Matrixes2511Test extends TestBase {
         }, String.class);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
         assertNotNull(result.get(0, 0));
     }
 
@@ -773,6 +773,6 @@ public class Matrixes2511Test extends TestBase {
         IntMatrix result = Matrixes.zip(matrices, (a, b) -> a + b);
 
         assertNotNull(result);
-        assertEquals(2, result.rows);
+        assertEquals(2, result.rowCount());
     }
 }

@@ -28,33 +28,33 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testRowsColsCount() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
-        assertEquals(6, m.count);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
+        assertEquals(6, m.elementCount());
     }
 
     @Test
     public void testRowsColsCount_squareMatrix() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
-        assertEquals(4, m.count);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
+        assertEquals(4, m.elementCount());
     }
 
     @Test
     public void testRowsColsCount_singleElement() {
         IntMatrix m = IntMatrix.of(new int[][] { { 42 } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
-        assertEquals(1, m.count);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
+        assertEquals(1, m.elementCount());
     }
 
     @Test
     public void testRowsColsCount_emptyMatrix() {
         IntMatrix m = IntMatrix.empty();
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
-        assertEquals(0, m.count);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
+        assertEquals(0, m.elementCount());
     }
 
     @Test
@@ -115,8 +115,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix original = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix copy = original.copy();
 
-        assertEquals(original.rows, copy.rows);
-        assertEquals(original.cols, copy.cols);
+        assertEquals(original.rowCount(), copy.rowCount());
+        assertEquals(original.columnCount(), copy.columnCount());
         assertEquals(1, copy.get(0, 0));
         assertEquals(4, copy.get(1, 1));
 
@@ -131,8 +131,8 @@ public class AbstractMatrix2025Test extends TestBase {
         DoubleMatrix original = DoubleMatrix.of(new double[][] { { 1.5, 2.5 }, { 3.5, 4.5 } });
         DoubleMatrix copy = original.copy();
 
-        assertEquals(original.rows, copy.rows);
-        assertEquals(original.cols, copy.cols);
+        assertEquals(original.rowCount(), copy.rowCount());
+        assertEquals(original.columnCount(), copy.columnCount());
         assertEquals(1.5, copy.get(0, 0), 0.0001);
         assertEquals(4.5, copy.get(1, 1), 0.0001);
     }
@@ -142,8 +142,8 @@ public class AbstractMatrix2025Test extends TestBase {
         Matrix<String> original = Matrix.of(new String[][] { { "a", "b" }, { "c", "d" } });
         Matrix<String> copy = original.copy();
 
-        assertEquals(original.rows, copy.rows);
-        assertEquals(original.cols, copy.cols);
+        assertEquals(original.rowCount(), copy.rowCount());
+        assertEquals(original.columnCount(), copy.columnCount());
         assertEquals("a", copy.get(0, 0));
         assertEquals("d", copy.get(1, 1));
     }
@@ -160,8 +160,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         IntMatrix subset = m.copy(1, 3);
 
-        assertEquals(2, subset.rows);
-        assertEquals(3, subset.cols);
+        assertEquals(2, subset.rowCount());
+        assertEquals(3, subset.columnCount());
         assertEquals(4, subset.get(0, 0));
         assertEquals(9, subset.get(1, 2));
     }
@@ -171,8 +171,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         IntMatrix subset = m.copy(1, 2);
 
-        assertEquals(1, subset.rows);
-        assertEquals(3, subset.cols);
+        assertEquals(1, subset.rowCount());
+        assertEquals(3, subset.columnCount());
         assertArrayEquals(new int[] { 4, 5, 6 }, subset.row(0));
     }
 
@@ -189,8 +189,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } });
         IntMatrix submatrix = m.copy(0, 2, 1, 3);
 
-        assertEquals(2, submatrix.rows);
-        assertEquals(2, submatrix.cols);
+        assertEquals(2, submatrix.rowCount());
+        assertEquals(2, submatrix.columnCount());
         assertEquals(2, submatrix.get(0, 0));
         assertEquals(6, submatrix.get(1, 1));
     }
@@ -219,8 +219,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix rotated = m.rotate90();
 
-        assertEquals(3, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(3, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(4, rotated.get(0, 0));
         assertEquals(1, rotated.get(0, 1));
         assertEquals(6, rotated.get(2, 0));
@@ -232,8 +232,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix rotated = m.rotate90();
 
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3, rotated.get(0, 0));
         assertEquals(1, rotated.get(0, 1));
         assertEquals(4, rotated.get(1, 0));
@@ -245,8 +245,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix rotated = m.rotate180();
 
-        assertEquals(2, rotated.rows);
-        assertEquals(3, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(3, rotated.columnCount());
         assertEquals(6, rotated.get(0, 0));
         assertEquals(5, rotated.get(0, 1));
         assertEquals(4, rotated.get(0, 2));
@@ -271,8 +271,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix rotated = m.rotate270();
 
-        assertEquals(3, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(3, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertEquals(3, rotated.get(0, 0));
         assertEquals(6, rotated.get(0, 1));
         assertEquals(1, rotated.get(2, 0));
@@ -295,8 +295,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix transposed = m.transpose();
 
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1, transposed.get(0, 0));
         assertEquals(4, transposed.get(0, 1));
         assertEquals(2, transposed.get(1, 0));
@@ -310,8 +310,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix transposed = m.transpose();
 
-        assertEquals(2, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(2, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertEquals(1, transposed.get(0, 0));
         assertEquals(3, transposed.get(0, 1));
         assertEquals(2, transposed.get(1, 0));
@@ -333,8 +333,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } });
         IntMatrix reshaped = m.reshape(2);
 
-        assertEquals(4, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(4, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
     }
 
     @Test
@@ -342,8 +342,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix reshaped = m.reshape(3, 2);
 
-        assertEquals(3, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(3, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals(1, reshaped.get(0, 0));
         assertEquals(2, reshaped.get(0, 1));
         assertEquals(3, reshaped.get(1, 0));
@@ -357,8 +357,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix reshaped = m.reshape(1, 4);
 
-        assertEquals(1, reshaped.rows);
-        assertEquals(4, reshaped.cols);
+        assertEquals(1, reshaped.rowCount());
+        assertEquals(4, reshaped.columnCount());
         assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.row(0));
     }
 
@@ -367,8 +367,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix reshaped = m.reshape(4, 1);
 
-        assertEquals(4, reshaped.rows);
-        assertEquals(1, reshaped.cols);
+        assertEquals(4, reshaped.rowCount());
+        assertEquals(1, reshaped.columnCount());
         assertArrayEquals(new int[] { 1, 2, 3, 4 }, reshaped.column(0));
     }
 
@@ -416,8 +416,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 } });
         IntMatrix repeated = m.repelem(2, 3);
 
-        assertEquals(2, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(2, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
         assertEquals(1, repeated.get(0, 1));
         assertEquals(1, repeated.get(0, 2));
@@ -439,8 +439,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix repeated = m.repmat(2, 3);
 
-        assertEquals(4, repeated.rows);
-        assertEquals(6, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(6, repeated.columnCount());
         assertEquals(1, repeated.get(0, 0));
         assertEquals(2, repeated.get(0, 1));
         assertEquals(1, repeated.get(0, 2));
@@ -862,8 +862,8 @@ public class AbstractMatrix2025Test extends TestBase {
 
         m.accept(matrix -> {
             int sum = 0;
-            for (int i = 0; i < matrix.rows; i++) {
-                for (int j = 0; j < matrix.cols; j++) {
+            for (int i = 0; i < matrix.rowCount(); i++) {
+                for (int j = 0; j < matrix.columnCount(); j++) {
                     sum += matrix.get(i, j);
                 }
             }
@@ -880,8 +880,8 @@ public class AbstractMatrix2025Test extends TestBase {
 
         Integer sum = m.apply(matrix -> {
             int total = 0;
-            for (int i = 0; i < matrix.rows; i++) {
-                for (int j = 0; j < matrix.cols; j++) {
+            for (int i = 0; i < matrix.rowCount(); i++) {
+                for (int j = 0; j < matrix.columnCount(); j++) {
                     total += matrix.get(i, j);
                 }
             }
@@ -894,7 +894,7 @@ public class AbstractMatrix2025Test extends TestBase {
     @Test
     public void testApply_returnString() {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
-        String result = m.apply(matrix -> "Matrix is " + matrix.rows + "x" + matrix.cols);
+        String result = m.apply(matrix -> "Matrix is " + matrix.rowCount() + "x" + matrix.columnCount());
         assertEquals("Matrix is 2x2", result);
     }
 
@@ -926,9 +926,9 @@ public class AbstractMatrix2025Test extends TestBase {
         int[][] large = new int[1000][1000];
         IntMatrix m = IntMatrix.of(large);
 
-        assertEquals(1000, m.rows);
-        assertEquals(1000, m.cols);
-        assertEquals(1000000L, m.count);
+        assertEquals(1000, m.rowCount());
+        assertEquals(1000, m.columnCount());
+        assertEquals(1000000L, m.elementCount());
     }
 
     // ============ Constructor Validation Tests ============
@@ -937,8 +937,8 @@ public class AbstractMatrix2025Test extends TestBase {
     public void testConstructor_nullArray() {
         IntMatrix m = IntMatrix.of(null);
         assertTrue(m.isEmpty());
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
@@ -957,17 +957,17 @@ public class AbstractMatrix2025Test extends TestBase {
     public void testConstructor_singleRowArray() {
         int[][] singleRow = new int[][] { { 1, 2, 3 } };
         IntMatrix m = IntMatrix.of(singleRow);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(3, m.columnCount());
     }
 
     @Test
     public void testConstructor_emptyRowsInArray() {
         int[][] emptyRows = new int[][] { {}, {} };
         IntMatrix m = IntMatrix.of(emptyRows);
-        assertEquals(2, m.rows);
-        assertEquals(0, m.cols);
-        assertEquals(0, m.count);
+        assertEquals(2, m.rowCount());
+        assertEquals(0, m.columnCount());
+        assertEquals(0, m.elementCount());
     }
 
     // ============ Reshape Edge Cases ============
@@ -977,8 +977,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix reshaped = m.reshape(4);
 
-        assertEquals(2, reshaped.rows);
-        assertEquals(4, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(4, reshaped.columnCount());
     }
 
     @Test
@@ -986,8 +986,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         IntMatrix reshaped = m.reshape(2);
 
-        assertEquals(3, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(3, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
     }
 
     @Test
@@ -995,8 +995,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix reshaped = m.reshape(3, 3);
 
-        assertEquals(3, reshaped.rows);
-        assertEquals(3, reshaped.cols);
+        assertEquals(3, reshaped.rowCount());
+        assertEquals(3, reshaped.columnCount());
         assertEquals(0, reshaped.get(2, 2));
     }
 
@@ -1129,8 +1129,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 }, { 5, 6 } });
         IntMatrix subset = m.copy(1, 1);
 
-        assertEquals(0, subset.rows);
-        assertEquals(0, subset.cols);
+        assertEquals(0, subset.rowCount());
+        assertEquals(0, subset.columnCount());
         assertTrue(subset.isEmpty());
     }
 
@@ -1139,8 +1139,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         IntMatrix subset = m.copy(1, 1, 0, 2);
 
-        assertEquals(0, subset.rows);
-        assertEquals(0, subset.cols);
+        assertEquals(0, subset.rowCount());
+        assertEquals(0, subset.columnCount());
         assertTrue(subset.isEmpty());
     }
 
@@ -1155,8 +1155,8 @@ public class AbstractMatrix2025Test extends TestBase {
         IntMatrix m = IntMatrix.of(new int[][] { { 1, 2 }, { 3, 4 } });
         IntMatrix reshaped = m.reshape(2, 2);
 
-        assertEquals(2, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertEquals(m, reshaped);
     }
 }

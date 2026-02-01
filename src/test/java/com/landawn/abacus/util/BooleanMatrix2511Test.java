@@ -30,8 +30,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testConstructor_withValidArray() {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix m = new BooleanMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertTrue(m.get(0, 0));
         assertFalse(m.get(0, 1));
         assertFalse(m.get(1, 0));
@@ -41,24 +41,24 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testConstructor_withNullArray() {
         BooleanMatrix m = new BooleanMatrix(null);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withEmptyArray() {
         BooleanMatrix m = new BooleanMatrix(new boolean[0][0]);
-        assertEquals(0, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(0, m.rowCount());
+        assertEquals(0, m.columnCount());
         assertTrue(m.isEmpty());
     }
 
     @Test
     public void testConstructor_withSingleElement() {
         BooleanMatrix m = new BooleanMatrix(new boolean[][] { { true } });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertTrue(m.get(0, 0));
     }
 
@@ -66,8 +66,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testConstructor_withNonSquareMatrix() {
         boolean[][] arr = { { true, false, true }, { false, true, false } };
         BooleanMatrix m = new BooleanMatrix(arr);
-        assertEquals(2, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(3, m.columnCount());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class BooleanMatrix2511Test extends TestBase {
             }
         }
         BooleanMatrix m = new BooleanMatrix(arr);
-        assertEquals(100, m.rows);
-        assertEquals(100, m.cols);
+        assertEquals(100, m.rowCount());
+        assertEquals(100, m.columnCount());
         assertTrue(m.get(0, 0));
         assertFalse(m.get(0, 1));
     }
@@ -90,8 +90,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testEmpty() {
         BooleanMatrix empty = BooleanMatrix.empty();
-        assertEquals(0, empty.rows);
-        assertEquals(0, empty.cols);
+        assertEquals(0, empty.rowCount());
+        assertEquals(0, empty.columnCount());
         assertTrue(empty.isEmpty());
         assertSame(BooleanMatrix.empty(), BooleanMatrix.empty());
     }
@@ -100,8 +100,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testOf_withValidArray() {
         boolean[][] arr = { { true, false }, { false, true } };
         BooleanMatrix m = BooleanMatrix.of(arr);
-        assertEquals(2, m.rows);
-        assertEquals(2, m.cols);
+        assertEquals(2, m.rowCount());
+        assertEquals(2, m.columnCount());
         assertTrue(m.get(0, 0));
     }
 
@@ -120,8 +120,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testOf_withSingleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[] { true, false, true });
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
         assertFalse(m.get(0, 1));
         assertTrue(m.get(0, 2));
@@ -130,8 +130,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRandom() {
         BooleanMatrix m = BooleanMatrix.random(5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertNotNull(m.get(0, i));
         }
@@ -140,22 +140,22 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRandom_withZeroLength() {
         BooleanMatrix m = BooleanMatrix.random(0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testRandom_withLargeLength() {
         BooleanMatrix m = BooleanMatrix.random(1000);
-        assertEquals(1, m.rows);
-        assertEquals(1000, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1000, m.columnCount());
     }
 
     @Test
     public void testRepeat() {
         BooleanMatrix m = BooleanMatrix.repeat(true, 5);
-        assertEquals(1, m.rows);
-        assertEquals(5, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(5, m.columnCount());
         for (int i = 0; i < 5; i++) {
             assertTrue(m.get(0, i));
         }
@@ -164,8 +164,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepeat_withFalse() {
         BooleanMatrix m = BooleanMatrix.repeat(false, 3);
-        assertEquals(1, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(3, m.columnCount());
         for (int i = 0; i < 3; i++) {
             assertFalse(m.get(0, i));
         }
@@ -174,15 +174,15 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testRepeat_withZeroLength() {
         BooleanMatrix m = BooleanMatrix.repeat(true, 0);
-        assertEquals(1, m.rows);
-        assertEquals(0, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(0, m.columnCount());
     }
 
     @Test
     public void testDiagonalLU2RD() {
         BooleanMatrix m = BooleanMatrix.diagonalLU2RD(new boolean[] { true, false, true });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
         assertFalse(m.get(1, 1));
         assertTrue(m.get(2, 2));
@@ -199,16 +199,16 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDiagonalLU2RD_singleElement() {
         BooleanMatrix m = BooleanMatrix.diagonalLU2RD(new boolean[] { true });
-        assertEquals(1, m.rows);
-        assertEquals(1, m.cols);
+        assertEquals(1, m.rowCount());
+        assertEquals(1, m.columnCount());
         assertTrue(m.get(0, 0));
     }
 
     @Test
     public void testDiagonalRU2LD() {
         BooleanMatrix m = BooleanMatrix.diagonalRU2LD(new boolean[] { true, false, true });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 2));
         assertFalse(m.get(1, 1));
         assertTrue(m.get(2, 0));
@@ -225,8 +225,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDiagonal_withBothDiagonals() {
         BooleanMatrix m = BooleanMatrix.diagonal(new boolean[] { true, true, true }, new boolean[] { false, false, false });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
         assertTrue(m.get(1, 1));
         assertTrue(m.get(2, 2));
@@ -237,8 +237,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyMainDiagonal() {
         BooleanMatrix m = BooleanMatrix.diagonal(new boolean[] { true, false, true }, null);
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertTrue(m.get(0, 0));
         assertFalse(m.get(1, 1));
         assertTrue(m.get(2, 2));
@@ -247,8 +247,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDiagonal_withOnlyAntiDiagonal() {
         BooleanMatrix m = BooleanMatrix.diagonal(null, new boolean[] { false, true, false });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         assertFalse(m.get(0, 2));
         assertTrue(m.get(1, 1));
         assertFalse(m.get(2, 0));
@@ -268,8 +268,8 @@ public class BooleanMatrix2511Test extends TestBase {
     @Test
     public void testDiagonal_withBothDiagonalsOverlapping() {
         BooleanMatrix m = BooleanMatrix.diagonal(new boolean[] { true, false, true }, new boolean[] { false, false, false });
-        assertEquals(3, m.rows);
-        assertEquals(3, m.cols);
+        assertEquals(3, m.rowCount());
+        assertEquals(3, m.columnCount());
         // Center element should be from main diagonal (set second)
         assertFalse(m.get(1, 1));
     }
@@ -279,8 +279,8 @@ public class BooleanMatrix2511Test extends TestBase {
         Boolean[][] boxed = { { true, false }, { false, true } };
         Matrix<Boolean> boxedMatrix = Matrix.of(boxed);
         BooleanMatrix unboxed = BooleanMatrix.unbox(boxedMatrix);
-        assertEquals(2, unboxed.rows);
-        assertEquals(2, unboxed.cols);
+        assertEquals(2, unboxed.rowCount());
+        assertEquals(2, unboxed.columnCount());
         assertTrue(unboxed.get(0, 0));
         assertFalse(unboxed.get(0, 1));
     }
@@ -290,7 +290,7 @@ public class BooleanMatrix2511Test extends TestBase {
         Boolean[][] boxed = { { true, null }, { null, false } };
         Matrix<Boolean> boxedMatrix = Matrix.of(boxed);
         BooleanMatrix unboxed = BooleanMatrix.unbox(boxedMatrix);
-        assertEquals(2, unboxed.rows);
+        assertEquals(2, unboxed.rowCount());
         assertTrue(unboxed.get(0, 0));
         assertFalse(unboxed.get(0, 1));
         assertFalse(unboxed.get(1, 0));
@@ -301,8 +301,8 @@ public class BooleanMatrix2511Test extends TestBase {
         Boolean[][] boxed = { { null, null }, { null, null } };
         Matrix<Boolean> boxedMatrix = Matrix.of(boxed);
         BooleanMatrix unboxed = BooleanMatrix.unbox(boxedMatrix);
-        assertEquals(2, unboxed.rows);
-        assertEquals(2, unboxed.cols);
+        assertEquals(2, unboxed.rowCount());
+        assertEquals(2, unboxed.columnCount());
         assertFalse(unboxed.get(0, 0));
         assertFalse(unboxed.get(1, 1));
     }
@@ -861,8 +861,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testCopy() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix copy = m.copy();
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertTrue(copy.get(0, 0));
         assertFalse(copy.get(0, 1));
         copy.set(0, 0, false);
@@ -880,8 +880,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testCopy_withRowRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
         BooleanMatrix copy = m.copy(1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertFalse(copy.get(0, 0));
         assertTrue(copy.get(0, 1));
     }
@@ -897,8 +897,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testCopy_withRowRange_singleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
         BooleanMatrix copy = m.copy(1, 2);
-        assertEquals(1, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(1, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertFalse(copy.get(0, 0));
         assertTrue(copy.get(0, 1));
     }
@@ -907,8 +907,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testCopy_withFullRange() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false }, { true, true, false } });
         BooleanMatrix copy = m.copy(1, 3, 1, 3);
-        assertEquals(2, copy.rows);
-        assertEquals(2, copy.cols);
+        assertEquals(2, copy.rowCount());
+        assertEquals(2, copy.columnCount());
         assertTrue(copy.get(0, 0));
         assertFalse(copy.get(0, 1));
         assertTrue(copy.get(1, 0));
@@ -926,8 +926,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testCopy_withFullRange_singleCell() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
         BooleanMatrix copy = m.copy(0, 1, 1, 2);
-        assertEquals(1, copy.rows);
-        assertEquals(1, copy.cols);
+        assertEquals(1, copy.rowCount());
+        assertEquals(1, copy.columnCount());
         assertFalse(copy.get(0, 0));
     }
 
@@ -937,8 +937,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testExtend_withDefaultValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
         BooleanMatrix extended = m.extend(2, 3);
-        assertEquals(2, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(2, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertTrue(extended.get(0, 0));
         assertFalse(extended.get(0, 1));
         assertFalse(extended.get(0, 2));
@@ -949,8 +949,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testExtend_withCustomDefaultValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false, false } });
         BooleanMatrix extended = m.extend(2, 3, true);
-        assertEquals(2, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(2, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertFalse(extended.get(0, 0));
         assertFalse(extended.get(0, 1));
         assertTrue(extended.get(0, 2));
@@ -961,8 +961,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testExtend_withDirections() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true } });
         BooleanMatrix extended = m.extend(1, 1, 1, 1);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertTrue(extended.get(1, 1));
         assertFalse(extended.get(0, 0));
     }
@@ -971,8 +971,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testExtend_withDirectionsAndValue() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { false } });
         BooleanMatrix extended = m.extend(1, 1, 1, 1, true);
-        assertEquals(3, extended.rows);
-        assertEquals(3, extended.cols);
+        assertEquals(3, extended.rowCount());
+        assertEquals(3, extended.columnCount());
         assertFalse(extended.get(1, 1));
         assertTrue(extended.get(0, 0));
     }
@@ -982,16 +982,16 @@ public class BooleanMatrix2511Test extends TestBase {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
 
         BooleanMatrix extended = m.extend(1, 1);
-        assertEquals(1, extended.rows);
-        assertEquals(1, extended.cols);
+        assertEquals(1, extended.rowCount());
+        assertEquals(1, extended.columnCount());
     }
 
     @Test
     public void testExtend_noExtension() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
         BooleanMatrix extended = m.extend(1, 2);
-        assertEquals(1, extended.rows);
-        assertEquals(2, extended.cols);
+        assertEquals(1, extended.rowCount());
+        assertEquals(2, extended.columnCount());
         assertTrue(extended.get(0, 0));
         assertFalse(extended.get(0, 1));
     }
@@ -1032,8 +1032,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testFlipH() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
         BooleanMatrix flipped = m.flipH();
-        assertEquals(2, flipped.rows);
-        assertEquals(3, flipped.cols);
+        assertEquals(2, flipped.rowCount());
+        assertEquals(3, flipped.columnCount());
         assertArrayEquals(new boolean[] { true, false, true }, flipped.row(0));
         assertArrayEquals(new boolean[] { false, true, false }, flipped.row(1));
         assertNotSame(m, flipped);
@@ -1043,8 +1043,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testFlipV() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true }, { true, true } });
         BooleanMatrix flipped = m.flipV();
-        assertEquals(3, flipped.rows);
-        assertEquals(2, flipped.cols);
+        assertEquals(3, flipped.rowCount());
+        assertEquals(2, flipped.columnCount());
         assertArrayEquals(new boolean[] { true, false, true }, flipped.column(0));
         assertArrayEquals(new boolean[] { true, true, false }, flipped.column(1));
         assertNotSame(m, flipped);
@@ -1054,8 +1054,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRotate90() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix rotated = m.rotate90();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertFalse(rotated.get(0, 0));
         assertTrue(rotated.get(0, 1));
         assertTrue(rotated.get(1, 0));
@@ -1066,16 +1066,16 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRotate90_nonSquare() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
         BooleanMatrix rotated = m.rotate90();
-        assertEquals(3, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(3, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
     }
 
     @Test
     public void testRotate180() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix rotated = m.rotate180();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertTrue(rotated.get(0, 0));
         assertFalse(rotated.get(0, 1));
         assertFalse(rotated.get(1, 0));
@@ -1086,8 +1086,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRotate270() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix rotated = m.rotate270();
-        assertEquals(2, rotated.rows);
-        assertEquals(2, rotated.cols);
+        assertEquals(2, rotated.rowCount());
+        assertEquals(2, rotated.columnCount());
         assertFalse(rotated.get(0, 0));
         assertTrue(rotated.get(0, 1));
         assertTrue(rotated.get(1, 0));
@@ -1098,8 +1098,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testTranspose() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true }, { false, true, false } });
         BooleanMatrix transposed = m.transpose();
-        assertEquals(3, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(3, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertTrue(transposed.get(0, 0));
         assertFalse(transposed.get(0, 1));
         assertFalse(transposed.get(1, 0));
@@ -1110,8 +1110,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testTranspose_squareMatrix() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix transposed = m.transpose();
-        assertEquals(2, transposed.rows);
-        assertEquals(2, transposed.cols);
+        assertEquals(2, transposed.rowCount());
+        assertEquals(2, transposed.columnCount());
         assertTrue(transposed.get(0, 0));
         assertFalse(transposed.get(0, 1));
     }
@@ -1120,8 +1120,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testReshape() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false, true, false } });
         BooleanMatrix reshaped = m.reshape(2, 2);
-        assertEquals(2, reshaped.rows);
-        assertEquals(2, reshaped.cols);
+        assertEquals(2, reshaped.rowCount());
+        assertEquals(2, reshaped.columnCount());
         assertTrue(reshaped.get(0, 0));
         assertFalse(reshaped.get(0, 1));
         assertTrue(reshaped.get(1, 0));
@@ -1132,16 +1132,16 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testReshape_toSingleRow() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { true, false } });
         BooleanMatrix reshaped = m.reshape(1, 4);
-        assertEquals(1, reshaped.rows);
-        assertEquals(4, reshaped.cols);
+        assertEquals(1, reshaped.rowCount());
+        assertEquals(4, reshaped.columnCount());
     }
 
     @Test
     public void testRepelem() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix repeated = m.repelem(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
         assertTrue(repeated.get(0, 1));
         assertTrue(repeated.get(1, 0));
@@ -1153,8 +1153,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRepelem_singleRepeat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
         BooleanMatrix repeated = m.repelem(1, 1);
-        assertEquals(1, repeated.rows);
-        assertEquals(2, repeated.cols);
+        assertEquals(1, repeated.rowCount());
+        assertEquals(2, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
         assertFalse(repeated.get(0, 1));
     }
@@ -1163,8 +1163,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRepmat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         BooleanMatrix repeated = m.repmat(2, 2);
-        assertEquals(4, repeated.rows);
-        assertEquals(4, repeated.cols);
+        assertEquals(4, repeated.rowCount());
+        assertEquals(4, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
         assertFalse(repeated.get(0, 1));
         assertTrue(repeated.get(2, 2));
@@ -1174,8 +1174,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testRepmat_singleRepeat() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false } });
         BooleanMatrix repeated = m.repmat(1, 1);
-        assertEquals(1, repeated.rows);
-        assertEquals(2, repeated.cols);
+        assertEquals(1, repeated.rowCount());
+        assertEquals(2, repeated.columnCount());
         assertTrue(repeated.get(0, 0));
     }
 
@@ -1204,8 +1204,8 @@ public class BooleanMatrix2511Test extends TestBase {
         BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true, false } });
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[][] { { false, true } });
         BooleanMatrix stacked = m1.vstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertTrue(stacked.get(0, 0));
         assertFalse(stacked.get(0, 1));
         assertFalse(stacked.get(1, 0));
@@ -1224,8 +1224,8 @@ public class BooleanMatrix2511Test extends TestBase {
         BooleanMatrix m1 = BooleanMatrix.of(new boolean[][] { { true }, { false } });
         BooleanMatrix m2 = BooleanMatrix.of(new boolean[][] { { false }, { true } });
         BooleanMatrix stacked = m1.hstack(m2);
-        assertEquals(2, stacked.rows);
-        assertEquals(2, stacked.cols);
+        assertEquals(2, stacked.rowCount());
+        assertEquals(2, stacked.columnCount());
         assertTrue(stacked.get(0, 0));
         assertFalse(stacked.get(0, 1));
         assertFalse(stacked.get(1, 0));
@@ -1245,8 +1245,8 @@ public class BooleanMatrix2511Test extends TestBase {
     public void testBoxed() {
         BooleanMatrix m = BooleanMatrix.of(new boolean[][] { { true, false }, { false, true } });
         Matrix<Boolean> boxed = m.boxed();
-        assertEquals(2, boxed.rows);
-        assertEquals(2, boxed.cols);
+        assertEquals(2, boxed.rowCount());
+        assertEquals(2, boxed.columnCount());
         assertEquals(Boolean.TRUE, boxed.get(0, 0));
         assertEquals(Boolean.FALSE, boxed.get(0, 1));
         assertEquals(Boolean.FALSE, boxed.get(1, 0));

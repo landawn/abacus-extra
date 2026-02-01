@@ -17,19 +17,19 @@ public class LongMatrixTest extends TestBase {
     public void testConstructor() {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = new LongMatrix(a);
-        Assertions.assertEquals(2, matrix.rows);
-        Assertions.assertEquals(2, matrix.cols);
+        Assertions.assertEquals(2, matrix.rowCount());
+        Assertions.assertEquals(2, matrix.columnCount());
 
         LongMatrix nullMatrix = new LongMatrix(null);
-        Assertions.assertEquals(0, nullMatrix.rows);
-        Assertions.assertEquals(0, nullMatrix.cols);
+        Assertions.assertEquals(0, nullMatrix.rowCount());
+        Assertions.assertEquals(0, nullMatrix.columnCount());
     }
 
     @Test
     public void testEmpty() {
         LongMatrix empty = LongMatrix.empty();
-        Assertions.assertEquals(0, empty.rows);
-        Assertions.assertEquals(0, empty.cols);
+        Assertions.assertEquals(0, empty.rowCount());
+        Assertions.assertEquals(0, empty.columnCount());
         Assertions.assertTrue(empty.isEmpty());
     }
 
@@ -37,8 +37,8 @@ public class LongMatrixTest extends TestBase {
     public void testOf() {
         long[][] a = { { 1L, 2L }, { 3L, 4L } };
         LongMatrix matrix = LongMatrix.of(a);
-        Assertions.assertEquals(2, matrix.rows);
-        Assertions.assertEquals(2, matrix.cols);
+        Assertions.assertEquals(2, matrix.rowCount());
+        Assertions.assertEquals(2, matrix.columnCount());
 
         LongMatrix emptyMatrix = LongMatrix.of();
         Assertions.assertTrue(emptyMatrix.isEmpty());
@@ -51,8 +51,8 @@ public class LongMatrixTest extends TestBase {
     public void testCreate() {
         int[][] a = { { 1, 2 }, { 3, 4 } };
         LongMatrix matrix = LongMatrix.from(a);
-        Assertions.assertEquals(2, matrix.rows);
-        Assertions.assertEquals(2, matrix.cols);
+        Assertions.assertEquals(2, matrix.rowCount());
+        Assertions.assertEquals(2, matrix.columnCount());
         Assertions.assertEquals(1L, matrix.get(0, 0));
         Assertions.assertEquals(4L, matrix.get(1, 1));
 
@@ -63,15 +63,15 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testRandom() {
         LongMatrix matrix = LongMatrix.random(5);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(5, matrix.columnCount());
     }
 
     @Test
     public void testRepeat() {
         LongMatrix matrix = LongMatrix.repeat(5L, 10);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(10, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(10, matrix.columnCount());
         for (int i = 0; i < 10; i++) {
             Assertions.assertEquals(5L, matrix.get(0, i));
         }
@@ -80,8 +80,8 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testRange() {
         LongMatrix matrix = LongMatrix.range(0L, 5L);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(5, matrix.columnCount());
         for (int i = 0; i < 5; i++) {
             Assertions.assertEquals(i, matrix.get(0, i));
         }
@@ -90,8 +90,8 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testRangeWithStep() {
         LongMatrix matrix = LongMatrix.range(0L, 10L, 2L);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(5, matrix.columnCount());
         for (int i = 0; i < 5; i++) {
             Assertions.assertEquals(i * 2L, matrix.get(0, i));
         }
@@ -100,8 +100,8 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testRangeClosed() {
         LongMatrix matrix = LongMatrix.rangeClosed(0L, 4L);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(5, matrix.columnCount());
         for (int i = 0; i < 5; i++) {
             Assertions.assertEquals(i, matrix.get(0, i));
         }
@@ -110,8 +110,8 @@ public class LongMatrixTest extends TestBase {
     @Test
     public void testRangeClosedWithStep() {
         LongMatrix matrix = LongMatrix.rangeClosed(0L, 9L, 2L);
-        Assertions.assertEquals(1, matrix.rows);
-        Assertions.assertEquals(5, matrix.cols);
+        Assertions.assertEquals(1, matrix.rowCount());
+        Assertions.assertEquals(5, matrix.columnCount());
         Assertions.assertEquals(0L, matrix.get(0, 0));
         Assertions.assertEquals(2L, matrix.get(0, 1));
         Assertions.assertEquals(4L, matrix.get(0, 2));
@@ -123,8 +123,8 @@ public class LongMatrixTest extends TestBase {
     public void testDiagonalLU2RD() {
         long[] diagonal = { 1L, 2L, 3L };
         LongMatrix matrix = LongMatrix.diagonalLU2RD(diagonal);
-        Assertions.assertEquals(3, matrix.rows);
-        Assertions.assertEquals(3, matrix.cols);
+        Assertions.assertEquals(3, matrix.rowCount());
+        Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals(1L, matrix.get(0, 0));
         Assertions.assertEquals(2L, matrix.get(1, 1));
         Assertions.assertEquals(3L, matrix.get(2, 2));
@@ -135,8 +135,8 @@ public class LongMatrixTest extends TestBase {
     public void testDiagonalRU2LD() {
         long[] diagonal = { 1L, 2L, 3L };
         LongMatrix matrix = LongMatrix.diagonalRU2LD(diagonal);
-        Assertions.assertEquals(3, matrix.rows);
-        Assertions.assertEquals(3, matrix.cols);
+        Assertions.assertEquals(3, matrix.rowCount());
+        Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals(1L, matrix.get(0, 2));
         Assertions.assertEquals(2L, matrix.get(1, 1));
         Assertions.assertEquals(3L, matrix.get(2, 0));
@@ -148,8 +148,8 @@ public class LongMatrixTest extends TestBase {
         long[] main = { 1L, 2L, 3L };
         long[] anti = { 4L, 5L, 6L };
         LongMatrix matrix = LongMatrix.diagonal(main, anti);
-        Assertions.assertEquals(3, matrix.rows);
-        Assertions.assertEquals(3, matrix.cols);
+        Assertions.assertEquals(3, matrix.rowCount());
+        Assertions.assertEquals(3, matrix.columnCount());
         Assertions.assertEquals(1L, matrix.get(0, 0));
         Assertions.assertEquals(2L, matrix.get(1, 1));
         Assertions.assertEquals(3L, matrix.get(2, 2));
@@ -168,8 +168,8 @@ public class LongMatrixTest extends TestBase {
         Long[][] boxed = { { 1L, 2L }, { 3L, 4L } };
         Matrix<Long> boxedMatrix = Matrix.of(boxed);
         LongMatrix unboxed = LongMatrix.unbox(boxedMatrix);
-        Assertions.assertEquals(2, unboxed.rows);
-        Assertions.assertEquals(2, unboxed.cols);
+        Assertions.assertEquals(2, unboxed.rowCount());
+        Assertions.assertEquals(2, unboxed.columnCount());
         Assertions.assertEquals(1L, unboxed.get(0, 0));
         Assertions.assertEquals(4L, unboxed.get(1, 1));
     }
@@ -545,8 +545,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
         LongMatrix copy = matrix.copy();
 
-        Assertions.assertEquals(matrix.rows, copy.rows);
-        Assertions.assertEquals(matrix.cols, copy.cols);
+        Assertions.assertEquals(matrix.rowCount(), copy.rowCount());
+        Assertions.assertEquals(matrix.columnCount(), copy.columnCount());
         Assertions.assertEquals(1L, copy.get(0, 0));
         Assertions.assertEquals(4L, copy.get(1, 1));
 
@@ -560,8 +560,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
         LongMatrix copy = matrix.copy(1, 3);
 
-        Assertions.assertEquals(2, copy.rows);
-        Assertions.assertEquals(2, copy.cols);
+        Assertions.assertEquals(2, copy.rowCount());
+        Assertions.assertEquals(2, copy.columnCount());
         Assertions.assertEquals(3L, copy.get(0, 0));
         Assertions.assertEquals(6L, copy.get(1, 1));
 
@@ -576,8 +576,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
         LongMatrix copy = matrix.copy(1, 3, 0, 2);
 
-        Assertions.assertEquals(2, copy.rows);
-        Assertions.assertEquals(2, copy.cols);
+        Assertions.assertEquals(2, copy.rowCount());
+        Assertions.assertEquals(2, copy.columnCount());
         Assertions.assertEquals(4L, copy.get(0, 0));
         Assertions.assertEquals(5L, copy.get(0, 1));
         Assertions.assertEquals(7L, copy.get(1, 0));
@@ -590,15 +590,15 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix extended = matrix.extend(3, 3);
-        Assertions.assertEquals(3, extended.rows);
-        Assertions.assertEquals(3, extended.cols);
+        Assertions.assertEquals(3, extended.rowCount());
+        Assertions.assertEquals(3, extended.columnCount());
         Assertions.assertEquals(1L, extended.get(0, 0));
         Assertions.assertEquals(4L, extended.get(1, 1));
         Assertions.assertEquals(0L, extended.get(2, 2));
 
         LongMatrix truncated = matrix.extend(1, 1);
-        Assertions.assertEquals(1, truncated.rows);
-        Assertions.assertEquals(1, truncated.cols);
+        Assertions.assertEquals(1, truncated.rowCount());
+        Assertions.assertEquals(1, truncated.columnCount());
         Assertions.assertEquals(1L, truncated.get(0, 0));
     }
 
@@ -622,8 +622,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix extended = matrix.extend(1, 1, 1, 1);
-        Assertions.assertEquals(4, extended.rows);
-        Assertions.assertEquals(4, extended.cols);
+        Assertions.assertEquals(4, extended.rowCount());
+        Assertions.assertEquals(4, extended.columnCount());
         Assertions.assertEquals(1L, extended.get(1, 1));
         Assertions.assertEquals(4L, extended.get(2, 2));
         Assertions.assertEquals(0L, extended.get(0, 0));
@@ -696,8 +696,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix rotated = matrix.rotate90();
-        Assertions.assertEquals(2, rotated.rows);
-        Assertions.assertEquals(2, rotated.cols);
+        Assertions.assertEquals(2, rotated.rowCount());
+        Assertions.assertEquals(2, rotated.columnCount());
         Assertions.assertEquals(3L, rotated.get(0, 0));
         Assertions.assertEquals(1L, rotated.get(0, 1));
         Assertions.assertEquals(4L, rotated.get(1, 0));
@@ -710,8 +710,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix rotated = matrix.rotate180();
-        Assertions.assertEquals(2, rotated.rows);
-        Assertions.assertEquals(2, rotated.cols);
+        Assertions.assertEquals(2, rotated.rowCount());
+        Assertions.assertEquals(2, rotated.columnCount());
         Assertions.assertEquals(4L, rotated.get(0, 0));
         Assertions.assertEquals(3L, rotated.get(0, 1));
         Assertions.assertEquals(2L, rotated.get(1, 0));
@@ -724,8 +724,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix rotated = matrix.rotate270();
-        Assertions.assertEquals(2, rotated.rows);
-        Assertions.assertEquals(2, rotated.cols);
+        Assertions.assertEquals(2, rotated.rowCount());
+        Assertions.assertEquals(2, rotated.columnCount());
         Assertions.assertEquals(2L, rotated.get(0, 0));
         Assertions.assertEquals(4L, rotated.get(0, 1));
         Assertions.assertEquals(1L, rotated.get(1, 0));
@@ -738,8 +738,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix transposed = matrix.transpose();
-        Assertions.assertEquals(3, transposed.rows);
-        Assertions.assertEquals(2, transposed.cols);
+        Assertions.assertEquals(3, transposed.rowCount());
+        Assertions.assertEquals(2, transposed.columnCount());
         Assertions.assertEquals(1L, transposed.get(0, 0));
         Assertions.assertEquals(4L, transposed.get(0, 1));
         Assertions.assertEquals(2L, transposed.get(1, 0));
@@ -752,16 +752,16 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix reshaped = matrix.reshape(3, 2);
-        Assertions.assertEquals(3, reshaped.rows);
-        Assertions.assertEquals(2, reshaped.cols);
+        Assertions.assertEquals(3, reshaped.rowCount());
+        Assertions.assertEquals(2, reshaped.columnCount());
         Assertions.assertEquals(1L, reshaped.get(0, 0));
         Assertions.assertEquals(2L, reshaped.get(0, 1));
         Assertions.assertEquals(3L, reshaped.get(1, 0));
         Assertions.assertEquals(4L, reshaped.get(1, 1));
 
         LongMatrix empty = LongMatrix.empty().reshape(2, 3);
-        Assertions.assertEquals(2, empty.rows);
-        Assertions.assertEquals(3, empty.cols);
+        Assertions.assertEquals(2, empty.rowCount());
+        Assertions.assertEquals(3, empty.columnCount());
     }
 
     @Test
@@ -770,8 +770,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix repeated = matrix.repelem(2, 3);
-        Assertions.assertEquals(4, repeated.rows);
-        Assertions.assertEquals(6, repeated.cols);
+        Assertions.assertEquals(4, repeated.rowCount());
+        Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1L, repeated.get(0, 0));
         Assertions.assertEquals(1L, repeated.get(0, 2));
         Assertions.assertEquals(1L, repeated.get(1, 0));
@@ -788,8 +788,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         LongMatrix repeated = matrix.repmat(2, 3);
-        Assertions.assertEquals(4, repeated.rows);
-        Assertions.assertEquals(6, repeated.cols);
+        Assertions.assertEquals(4, repeated.rowCount());
+        Assertions.assertEquals(6, repeated.columnCount());
         Assertions.assertEquals(1L, repeated.get(0, 0));
         Assertions.assertEquals(1L, repeated.get(0, 2));
         Assertions.assertEquals(1L, repeated.get(0, 4));
@@ -840,8 +840,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrixB = LongMatrix.of(b);
 
         LongMatrix stacked = matrixA.vstack(matrixB);
-        Assertions.assertEquals(3, stacked.rows);
-        Assertions.assertEquals(3, stacked.cols);
+        Assertions.assertEquals(3, stacked.rowCount());
+        Assertions.assertEquals(3, stacked.columnCount());
         Assertions.assertEquals(1L, stacked.get(0, 0));
         Assertions.assertEquals(4L, stacked.get(1, 0));
         Assertions.assertEquals(9L, stacked.get(2, 2));
@@ -858,8 +858,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrixB = LongMatrix.of(b);
 
         LongMatrix stacked = matrixA.hstack(matrixB);
-        Assertions.assertEquals(2, stacked.rows);
-        Assertions.assertEquals(3, stacked.cols);
+        Assertions.assertEquals(2, stacked.rowCount());
+        Assertions.assertEquals(3, stacked.columnCount());
         Assertions.assertEquals(1L, stacked.get(0, 0));
         Assertions.assertEquals(5L, stacked.get(0, 2));
         Assertions.assertEquals(6L, stacked.get(1, 2));
@@ -910,8 +910,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrixB = LongMatrix.of(b);
 
         LongMatrix product = matrixA.multiply(matrixB);
-        Assertions.assertEquals(2, product.rows);
-        Assertions.assertEquals(2, product.cols);
+        Assertions.assertEquals(2, product.rowCount());
+        Assertions.assertEquals(2, product.columnCount());
         Assertions.assertEquals(19L, product.get(0, 0));
         Assertions.assertEquals(22L, product.get(0, 1));
         Assertions.assertEquals(43L, product.get(1, 0));
@@ -927,8 +927,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         Matrix<Long> boxed = matrix.boxed();
-        Assertions.assertEquals(2, boxed.rows);
-        Assertions.assertEquals(2, boxed.cols);
+        Assertions.assertEquals(2, boxed.rowCount());
+        Assertions.assertEquals(2, boxed.columnCount());
         Assertions.assertEquals(Long.valueOf(1L), boxed.get(0, 0));
         Assertions.assertEquals(Long.valueOf(4L), boxed.get(1, 1));
     }
@@ -939,8 +939,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         FloatMatrix floatMatrix = matrix.toFloatMatrix();
-        Assertions.assertEquals(2, floatMatrix.rows);
-        Assertions.assertEquals(2, floatMatrix.cols);
+        Assertions.assertEquals(2, floatMatrix.rowCount());
+        Assertions.assertEquals(2, floatMatrix.columnCount());
         Assertions.assertEquals(1.0f, floatMatrix.get(0, 0));
         Assertions.assertEquals(4.0f, floatMatrix.get(1, 1));
     }
@@ -951,8 +951,8 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(a);
 
         DoubleMatrix doubleMatrix = matrix.toDoubleMatrix();
-        Assertions.assertEquals(2, doubleMatrix.rows);
-        Assertions.assertEquals(2, doubleMatrix.cols);
+        Assertions.assertEquals(2, doubleMatrix.rowCount());
+        Assertions.assertEquals(2, doubleMatrix.columnCount());
         Assertions.assertEquals(1.0, doubleMatrix.get(0, 0));
         Assertions.assertEquals(4.0, doubleMatrix.get(1, 1));
     }
@@ -1124,7 +1124,7 @@ public class LongMatrixTest extends TestBase {
         LongMatrix matrix = LongMatrix.of(new long[][] { { 1L, 2L }, { 3L, 4L } });
         // length is protected, cannot test directly from here
         // It's tested indirectly through other operations
-        Assertions.assertEquals(2, matrix.cols);
+        Assertions.assertEquals(2, matrix.columnCount());
     }
 
     @Test
