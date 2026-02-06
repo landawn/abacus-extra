@@ -40,9 +40,9 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li><b>Stream Integration:</b> Comprehensive stream-based access patterns for functional programming</li>
  *   <li><b>Memory Efficiency:</b> Optimal memory layout with minimal boxing overhead for primitives</li>
  *   <li><b>Mathematical Operations:</b> Full suite of linear algebra and matrix manipulation operations</li>
- *   <li><b>Dimensional Flexibility:</b> Support for matrices of arbitrary dimensions with dynamic resizing</li>
+ *   <li><b>Dimensional Flexibility:</b> Support for two-dimensional matrices with rich reshape and extension operations</li>
  *   <li><b>Performance Optimized:</b> Specialized algorithms for different matrix types and operations</li>
- *   <li><b>Immutable Operations:</b> Operations return new matrix instances preserving original data</li>
+ *   <li><b>Immutable Operations:</b> Many transformation operations return new matrix instances while mutating operations are also available</li>
  * </ul>
  *
  * <p><b>Design Philosophy:</b>
@@ -150,18 +150,18 @@ import com.landawn.abacus.util.stream.Stream;
  * public class MatrixAnalytics {
  *     public static double calculateRowVariance(DoubleMatrix matrix, int rowIndex) {
  *         double[] row = matrix.row(rowIndex);
- *         double mean = DoubleStream.of(row).average().orElse(0.0);
- *         return DoubleStream.of(row)
+ *         double mean = java.util.stream.DoubleStream.of(row).average().orElse(0.0);
+ *         return java.util.stream.DoubleStream.of(row)
  *             .map(x -> Math.pow(x - mean, 2))
  *             .average()
  *             .orElse(0.0);
  *     }
  *
  *     public static IntMatrix findLocalMaxima(IntMatrix matrix) {
- *         IntMatrix result = IntMatrix.of(new int[matrix.rowCount][matrix.columnCount]);
+ *         IntMatrix result = IntMatrix.of(new int[matrix.rowCount()][matrix.columnCount()]);
  *
- *         for (int i = 1; i < matrix.rowCount - 1; i++) {
- *             for (int j = 1; j < matrix.columnCount - 1; j++) {
+ *         for (int i = 1; i < matrix.rowCount() - 1; i++) {
+ *             for (int j = 1; j < matrix.columnCount() - 1; j++) {
  *                 int current = matrix.get(i, j);
  *                 int finalI = i;
  *                 int finalJ = j;
@@ -176,7 +176,7 @@ import com.landawn.abacus.util.stream.Stream;
  *     }
  *
  *     public static Matrix<Double> normalizeColumns(Matrix<Double> input) {
- *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rowCount, input.columnCount, input.componentType()));
+ *         Matrix<Double> result = Matrix.of(Matrixes.newArray(input.rowCount(), input.columnCount(), Double.class));
  *
  *         input.pointsC().forEach(colStream -> {
  *             List<Point> colPoints = colStream.toList();
@@ -268,17 +268,17 @@ import com.landawn.abacus.util.stream.Stream;
  * <pre>{@code
  * public class LinearAlgebraOperations {
  *     
- * *     // Matrix multiplication implementation
+ *     // Matrix multiplication implementation
  *     public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
- *         if (a.columnCount != b.rowCount) {
+ *         if (a.columnCount() != b.rowCount()) {
  *             throw new IllegalArgumentException("Matrix dimensions incompatible for multiplication");
  *         }
  *
- *         DoubleMatrix result = DoubleMatrix.of(new double[a.rowCount][b.columnCount]);
+ *         DoubleMatrix result = DoubleMatrix.of(new double[a.rowCount()][b.columnCount()]);
  *
- *         IntStream.range(0, a.rowCount).parallel().forEach(i -> {
- *             IntStream.range(0, b.columnCount).forEach(j -> {
- *                 double sum = IntStream.range(0, a.columnCount)
+ *         IntStream.range(0, a.rowCount()).parallel().forEach(i -> {
+ *             IntStream.range(0, b.columnCount()).forEach(j -> {
+ *                 double sum = IntStream.range(0, a.columnCount())
  *                     .mapToDouble(k -> a.get(i, k) * b.get(k, j))
  *                     .sum();
  *                 result.set(i, j, sum);
@@ -290,22 +290,24 @@ import com.landawn.abacus.util.stream.Stream;
  *     
  *     // Statistical analysis
  *     public static double[] computeColumnStatistics(DoubleMatrix matrix) {
- *         return matrix.streamV()
- *             .mapToDouble(column -> DoubleStream.of(column)
+ *         double[] stats = new double[matrix.columnCount()];
+ *         for (int c = 0; c < matrix.columnCount(); c++) {
+ *             stats[c] = java.util.stream.DoubleStream.of(matrix.column(c))
  *                 .filter(x -> !Double.isNaN(x))
  *                 .average()
- *                 .orElse(0.0))
- *             .toArray();
+ *                 .orElse(0.0);
+ *         }
+ *         return stats;
  *     }
  *     
- * *     // Image processing convolution
+ *     // Image processing convolution
  *     public static IntMatrix applyFilter(IntMatrix image, DoubleMatrix filter) {
- *         IntMatrix result = IntMatrix.of(new int[image.rowCount][image.columnCount]);
- *         int filterSize = filter.rowCount;
+ *         IntMatrix result = IntMatrix.of(new int[image.rowCount()][image.columnCount()]);
+ *         int filterSize = filter.rowCount();
  *         int offset = filterSize / 2;
  *
- *         IntStream.range(offset, image.rowCount - offset).parallel().forEach(i -> {
- *             IntStream.range(offset, image.columnCount - offset).forEach(j -> {
+ *         IntStream.range(offset, image.rowCount() - offset).parallel().forEach(i -> {
+ *             IntStream.range(offset, image.columnCount() - offset).forEach(j -> {
  *                 double sum = 0.0;
  *                 for (int fi = 0; fi < filterSize; fi++) {
  *                     for (int fj = 0; fj < filterSize; fj++) {

@@ -104,8 +104,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * IntMatrix matrix = IntMatrix.empty();
-     * // matrix.rowCount returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.rowCount() returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty int matrix
@@ -569,6 +569,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #get(int, int)
      */
     public int get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -608,6 +610,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * @see #set(int, int, int)
      */
     public void set(final Point point, final int val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -708,7 +712,7 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

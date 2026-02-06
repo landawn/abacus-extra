@@ -87,7 +87,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.empty();
      * // matrix.rowCount() returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty float matrix
@@ -127,7 +127,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * FloatMatrix matrix = FloatMatrix.from(new int[][] {{1, 2}, {3, 4}});
      * // Creates a matrix with values {{1.0f, 2.0f}, {3.0f, 4.0f}}
      * assert matrix.get(1, 0) == 3.0f;
-     * assert matrix.rowCount() == 2 && matrix.columnCount == 2;
+     * assert matrix.rowCount() == 2 && matrix.columnCount() == 2;
      * }</pre>
      *
      * @param a the two-dimensional int array to convert to a float matrix, or null/empty for an empty matrix
@@ -392,6 +392,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see #get(int, int)
      */
     public float get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -431,6 +433,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see #set(int, int, float)
      */
     public void set(final Point point, final float val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -527,7 +531,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(rowIndex), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(rowIndex), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2282,6 +2286,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Returns a stream of all elements in column-major order (vertical).
      * Elements are streamed column by column from top to bottom.
      * 
+     * <p>This method is marked as @Beta and may be subject to change.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * FloatMatrix matrix = FloatMatrix.of(new float[][] {{1,2},{3,4}});
@@ -2314,6 +2320,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of elements from a range of columns in column-major order.
+     *
+     * <p>This method is marked as @Beta and may be subject to change.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2475,6 +2483,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Returns a stream where each element is a FloatStream representing a column.
      * This allows processing the matrix column by column with stream operations.
      *
+     * <p>This method is marked as @Beta and may be subject to change.</p>
+     *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * Stream<FloatStream> colStreams = matrix.streamC();
@@ -2491,6 +2501,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns a stream of FloatStream for a range of columns.
+     *
+     * <p>This method is marked as @Beta and may be subject to change.</p>
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

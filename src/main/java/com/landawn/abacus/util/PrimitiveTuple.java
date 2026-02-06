@@ -132,7 +132,7 @@ abstract class PrimitiveTuple<TP extends PrimitiveTuple<TP>> implements Immutabl
      * <p>
      * This method does not modify the tuple itself (tuples are immutable), but creates a
      * new value based on the tuple's contents. The result may be {@code null} if the mapper
-     * returns null (use {@link #toOptional()} to handle nullable results safely).
+     * returns null (for example, use {@code Optional.ofNullable(mapper.apply(tuple))} when a nullable result is expected).
      * </p>
      *
      * <p><b>Usage Examples:</b></p>

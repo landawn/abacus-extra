@@ -363,6 +363,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @MayReturnNull
     public T get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -401,6 +403,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws IllegalArgumentException if point is null
      */
     public void set(final Point point, final T val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 

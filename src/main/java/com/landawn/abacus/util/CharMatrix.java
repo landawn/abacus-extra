@@ -95,7 +95,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.empty();
      * // matrix.rowCount() returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty char matrix
@@ -435,6 +435,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see #get(int, int)
      */
     public char get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -474,6 +476,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * @see #set(int, int, char)
      */
     public void set(final Point point, final char val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -574,7 +578,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2879,17 +2883,16 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Prints the matrix to standard output in a formatted, human-readable manner.
      *
-     * <p>Each row is printed on a separate line with elements displayed as character literals
-     * (enclosed in single quotes), separated by commas, and the row enclosed in square brackets.
-     * This provides a clear visual representation of the matrix structure.
+     * <p>Each row is printed on a separate line with elements separated by commas and enclosed
+     * in square brackets, providing a clear visual representation of the matrix structure.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * CharMatrix matrix = CharMatrix.of(new char[][] {{'a', 'b', 'c'}, {'d', 'e', 'f'}});
      * matrix.println();
      * // Output:
-     * // ['a', 'b', 'c']
-     * // ['d', 'e', 'f']
+     * // [a, b, c]
+     * // [d, e, f]
      * }</pre>
      * 
      * @return the formatted string representation of the matrix

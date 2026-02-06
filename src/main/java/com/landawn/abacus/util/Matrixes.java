@@ -180,6 +180,7 @@ public final class Matrixes {
      * @see #setParallelEnabled(ParallelEnabled)
      */
     public static boolean isParallelable(final AbstractMatrix<?, ?, ?, ?, ?> x) {
+        N.checkArgNotNull(x, "x");
         return isParallelable(x, x.elementCount);
     }
 
@@ -217,6 +218,7 @@ public final class Matrixes {
      * @see ParallelEnabled
      */
     public static boolean isParallelable(@SuppressWarnings("unused") final AbstractMatrix<?, ?, ?, ?, ?> x, final long count) { // NOSONAR
+        N.checkArgNotNull(x, "x");
         return IS_PARALLEL_STREAM_SUPPORTED && (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.YES
                 || (Matrixes.isParallelEnabled_TL.get() == ParallelEnabled.DEFAULT && count >= MIN_COUNT_FOR_PARALLEL));
     }
@@ -246,6 +248,8 @@ public final class Matrixes {
      * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b) {
+        N.checkArgNotNull(a, "a");
+        N.checkArgNotNull(b, "b");
         return a.rowCount == b.rowCount && a.columnCount == b.columnCount;
     }
 
@@ -269,7 +273,7 @@ public final class Matrixes {
      * @param b the second matrix to compare, must not be {@code null}
      * @param c the third matrix to compare, must not be {@code null}
      * @return {@code true} if all three matrices have the same number of rows and columns; {@code false} otherwise
-     * @throws IllegalArgumentException if {@code a}, {@code b}, or {@code c} is {@code null}
+     * @throws NullPointerException if {@code a}, {@code b}, or {@code c} is {@code null}
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final X a, final X b, final X c) {
         return a.rowCount == b.rowCount && a.rowCount == c.rowCount && a.columnCount == b.columnCount && a.columnCount == c.columnCount;
@@ -356,6 +360,9 @@ public final class Matrixes {
      * @throws IllegalArgumentException if {@code rowCount} or {@code columnCount} is negative, or if {@code targetElementType} is {@code null}
      */
     public static <T> T[][] newArray(final int rowCount, final int columnCount, final Class<T> targetElementType) {
+        N.checkArgNotNull(targetElementType, "targetElementType");
+        N.checkArgument(rowCount >= 0, "rowCount cannot be negative: %s", rowCount);
+        N.checkArgument(columnCount >= 0, "columnCount cannot be negative: %s", columnCount);
         final Class<T> eleType = (Class<T>) ClassUtil.wrap(targetElementType);
         final Class<T[]> subArrayType = (Class<T[]>) N.newArray(eleType, 0).getClass();
 
@@ -1027,7 +1034,7 @@ public final class Matrixes {
      * sequentially across all matrices at each position. For a collection of matrices [m1, m2, m3, ...],
      * the result at position (i, j) is computed as:</p>
      * <pre>{@code
-     * result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
+     * // result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
      * }</pre>
      *
      * <p>All matrices in the collection must have identical dimensions. The operation is optimized
@@ -1488,7 +1495,7 @@ public final class Matrixes {
      * sequentially across all matrices at each position. For a collection of matrices [m1, m2, m3, ...],
      * the result at position (i, j) is computed as:</p>
      * <pre>{@code
-     * result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
+     * // result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
      * }</pre>
      *
      * <p>All matrices in the collection must have identical dimensions. The operation is optimized
@@ -2850,7 +2857,7 @@ public final class Matrixes {
      * sequentially across all matrices at each position. For a collection of matrices [m1, m2, m3, ...],
      * the result at position (i, j) is computed as:</p>
      * <pre>{@code
-     * result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
+     * // result[i][j] = zipFunction(zipFunction(m1[i][j], m2[i][j]), m3[i][j])...
      * }</pre>
      *
      * <p>All matrices in the collection must have identical dimensions and element type. The operation

@@ -20,7 +20,7 @@ import com.landawn.abacus.util.stream.IntStream;
 /**
  * An immutable wrapper for primitive int arrays that provides a read-only view of the underlying array.
  * This class is useful when you need to expose an int array without allowing modifications,
- * ensuring thread-safety and preventing accidental mutations.
+ * preventing accidental mutations through this wrapper. For thread-safe publication, prefer {@link #copyOf(int[])} or ensure the backing array is not modified externally.
  * 
  * <p>This class provides two factory methods:</p>
  * <ul>

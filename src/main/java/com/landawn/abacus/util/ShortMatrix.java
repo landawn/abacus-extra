@@ -103,7 +103,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * <pre>{@code
      * ShortMatrix matrix = ShortMatrix.empty();
      * // matrix.rowCount() returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty short matrix
@@ -443,6 +443,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @see #get(int, int)
      */
     public short get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -482,6 +484,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @see #set(int, int, short)
      */
     public void set(final Point point, final short val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -582,7 +586,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

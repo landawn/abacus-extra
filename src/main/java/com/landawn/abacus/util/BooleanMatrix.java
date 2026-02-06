@@ -41,7 +41,7 @@ import com.landawn.abacus.util.stream.Stream;
  *   <li>Functional operations (map, filter, forEach)</li>
  * </ul>
  * 
- * <p>Usage example:
+ * <p><b>Usage Examples:</b></p>
  * <pre>{@code
  * BooleanMatrix matrix = BooleanMatrix.of(new boolean[][] {{true, false}, {false, true}});
  * boolean value = matrix.get(0, 1);   // false
@@ -90,8 +90,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * BooleanMatrix matrix = BooleanMatrix.empty();
-     * // matrix.rowCount returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.rowCount() returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty boolean matrix
@@ -353,6 +353,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see #get(int, int)
      */
     public boolean get(final Point point) { // NOSONAR
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -392,6 +394,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see #set(int, int, boolean)
      */
     public void set(final Point point, final boolean val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -492,7 +496,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -1646,7 +1650,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Reshapes this matrix to the specified dimensions.
      * Elements are read from the original matrix in row-major order (row by row, left to right)
      * and placed into the new matrix shape in the same order. The total number of elements
-     * that can be reshaped is limited by min(original_count, newRows * newColumnCount).
+     * that can be reshaped is limited by min(original_count, newRowCount * newColumnCount).
      *
      * <p>If the new shape requires more elements than available, the excess positions
      * will be filled with {@code false}. If the new shape requires fewer elements,
@@ -1660,10 +1664,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * //          [true, false]]
      * }</pre>
      *
-     * @param newRows the number of rows in the reshaped matrix; must be non-negative
+     * @param newRowCount the number of rows in the reshaped matrix; must be non-negative
      * @param newColumnCount the number of columns in the reshaped matrix; must be non-negative
      * @return a new BooleanMatrix with the specified shape
-     * @throws IllegalArgumentException if {@code newRows} or {@code newColumnCount} is negative
+     * @throws IllegalArgumentException if {@code newRowCount} or {@code newColumnCount} is negative
      */
     @SuppressFBWarnings("ICAST_INTEGER_MULTIPLY_CAST_TO_LONG")
     @Override

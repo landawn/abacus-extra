@@ -79,7 +79,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * double[][] data = {{1.0, 2.0}, {3.0, 4.0}};
      * DoubleMatrix matrix = new DoubleMatrix(data);
-     * // matrix.rowCount() returns 2, matrix.columnCount returns 2
+     * // matrix.rowCount() returns 2, matrix.columnCount() returns 2
      * // Modifications to data will affect matrix
      *
      * // For a safe independent copy:
@@ -106,7 +106,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * <pre>{@code
      * DoubleMatrix matrix = DoubleMatrix.empty();
      * // matrix.rowCount() returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty double matrix
@@ -487,6 +487,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see #get(int, int)
      */
     public double get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -526,6 +528,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @see #set(int, int, double)
      */
     public void set(final Point point, final double val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -626,7 +630,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code

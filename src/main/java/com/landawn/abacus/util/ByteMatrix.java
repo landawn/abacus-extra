@@ -105,8 +105,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
      * ByteMatrix matrix = ByteMatrix.empty();
-     * // matrix.rowCount returns 0
-     * // matrix.columnCount returns 0
+     * // matrix.rowCount() returns 0
+     * // matrix.columnCount() returns 0
      * }</pre>
      *
      * @return an empty byte matrix
@@ -442,6 +442,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see #get(int, int)
      */
     public byte get(final Point point) {
+        N.checkArgNotNull(point, "point");
+
         return a[point.rowIndex()][point.columnIndex()];
     }
 
@@ -481,6 +483,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see #set(int, int, byte)
      */
     public void set(final Point point, final byte val) {
+        N.checkArgNotNull(point, "point");
+
         a[point.rowIndex()][point.columnIndex()] = val;
     }
 
@@ -581,7 +585,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      *
      * <p><b>Note:</b> This method returns a reference to the internal array, not a copy.
      * Modifications to the returned array will affect the matrix. If you need an independent
-     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount)}.
+     * copy, use {@code Arrays.copyOf(matrix.row(i), matrix.columnCount())}.
      *
      * <p><b>Usage Examples:</b></p>
      * <pre>{@code
@@ -2089,7 +2093,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @see #toLongMatrix()
      * @see #toFloatMatrix()
      * @see #toDoubleMatrix()
-     * @see IntMatrix#create(byte[][])
+     * @see IntMatrix#from(byte[][])
      */
     public IntMatrix toIntMatrix() {
         return IntMatrix.from(a);
