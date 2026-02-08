@@ -761,10 +761,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          * Since this tuple is empty, this method always returns false.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the double value to search for
          * @return false always, as there are no elements
          */
         @Override
@@ -887,9 +887,9 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the double value to search for
          * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
          */
         @Override
@@ -1047,10 +1047,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1316,10 +1316,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1590,10 +1590,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1772,10 +1772,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -1960,10 +1960,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2154,10 +2154,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2356,10 +2356,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {
@@ -2564,10 +2564,10 @@ public abstract class DoubleTuple<TP extends DoubleTuple<TP>> extends PrimitiveT
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified double value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the double value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final double valueToFind) {

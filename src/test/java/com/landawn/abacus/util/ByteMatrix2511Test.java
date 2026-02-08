@@ -375,7 +375,7 @@ public class ByteMatrix2511Test extends TestBase {
     }
 
     @Test
-    public void testUnbox_allNulls() {
+    public void testUnbox_isAllNulls() {
         Byte[][] boxed = { { null, null }, { null, null } };
         Matrix<Byte> boxedMatrix = Matrix.of(boxed);
         ByteMatrix unboxed = ByteMatrix.unbox(boxedMatrix);

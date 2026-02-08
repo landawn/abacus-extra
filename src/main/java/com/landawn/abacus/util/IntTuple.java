@@ -743,7 +743,7 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
          * Checks if this tuple contains the specified value.
          * Since this tuple is empty, always returns false.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the int value to search for
          * @return {@code false} always, as the tuple is empty
          */
         @Override
@@ -858,9 +858,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the int value to search for
          * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
          */
         @Override
@@ -1008,9 +1008,9 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the int value to search for
          * @return {@code true} if either element equals valueToFind
          */
         @Override
@@ -1230,10 +1230,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1456,10 +1456,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1635,10 +1635,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -1818,10 +1818,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -2005,10 +2005,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -2200,10 +2200,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {
@@ -2400,10 +2400,10 @@ public abstract class IntTuple<TP extends IntTuple<TP>> extends PrimitiveTuple<T
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified int value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the int value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final int valueToFind) {

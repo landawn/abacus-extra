@@ -660,8 +660,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new matrix containing the specified region with dimensions
      *         (toRowIndex - fromRowIndex) × (toColumnIndex - fromColumnIndex)
-     * @throws IndexOutOfBoundsException if any index is out of bounds or if fromRowIndex &gt; toRowIndex
-     *                                   or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if any index is out of bounds, fromRowIndex &gt; toRowIndex, or fromColumnIndex &gt; toColumnIndex
      */
     public abstract X copy(int fromRowIndex, int toRowIndex, int fromColumnIndex, int toColumnIndex);
 
@@ -1159,7 +1158,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in cardinal directions (0-4 points depending on position)
-     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rowCount, j &lt; 0, or j &gt;= columnCount
+     * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Stream<Point> adjacent4Points(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -1206,7 +1205,7 @@ public abstract sealed class AbstractMatrix<A, PL, ES, RS, X extends AbstractMat
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @return a stream of adjacent points in all 8 directions (0-8 points depending on position)
-     * @throws IndexOutOfBoundsException if i &lt; 0, i &gt;= rowCount, j &lt; 0, or j &gt;= columnCount
+     * @throws IndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public Stream<Point> adjacent8Points(final int i, final int j) {
         checkRowColumnIndex(i, j);

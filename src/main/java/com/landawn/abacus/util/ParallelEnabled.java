@@ -21,7 +21,7 @@ package com.landawn.abacus.util;
  *
  * <p>The parallelization decision affects how matrix operations distribute work
  * across multiple threads. When enabled, operations on large matrices can utilize
- * multiple CPU cores for better performance. This setting applies globally to all
+ * multiple CPU cores for better performance. This setting applies to matrix operations executed on the current thread and affects all
  * subsequent matrix operations until changed.</p>
  *
  * <p><b>Performance Considerations:</b></p>

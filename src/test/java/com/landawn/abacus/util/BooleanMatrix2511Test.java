@@ -297,7 +297,7 @@ public class BooleanMatrix2511Test extends TestBase {
     }
 
     @Test
-    public void testUnbox_allNulls() {
+    public void testUnbox_isAllNulls() {
         Boolean[][] boxed = { { null, null }, { null, null } };
         Matrix<Boolean> boxedMatrix = Matrix.of(boxed);
         BooleanMatrix unboxed = BooleanMatrix.unbox(boxedMatrix);

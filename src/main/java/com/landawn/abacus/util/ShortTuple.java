@@ -250,7 +250,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
      * short[] empty = {};
      * ShortTuple0 emptyTuple = ShortTuple.create(empty);  // returns ShortTuple0.EMPTY
      *
-     * ShortTuple1 nullTuple = ShortTuple.create(null);    // returns ShortTuple0.EMPTY
+     * ShortTuple0 nullTuple = ShortTuple.create(null);    // returns ShortTuple0.EMPTY
      * }</pre>
      *
      * @param <TP> the specific ShortTuple type to return
@@ -634,7 +634,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
          * Checks if this tuple contains the specified value.
          * An empty tuple contains no values.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code false} always, as the tuple is empty
          */
         @Override
@@ -760,7 +760,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
@@ -922,7 +922,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if either element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals _1 or _2
          */
         @Override
@@ -1155,7 +1155,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals _1, _2, or _3
          */
         @Override
@@ -1386,7 +1386,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the four elements
          */
         @Override
@@ -1570,7 +1570,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the five elements
          */
         @Override
@@ -1758,7 +1758,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the six elements
          */
         @Override
@@ -1950,7 +1950,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the seven elements
          */
         @Override
@@ -2151,7 +2151,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the eight elements
          */
         @Override
@@ -2358,7 +2358,7 @@ public abstract class ShortTuple<TP extends ShortTuple<TP>> extends PrimitiveTup
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the short value to search for
          * @return {@code true} if valueToFind equals any of the nine elements
          */
         @Override

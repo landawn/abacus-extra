@@ -3482,8 +3482,8 @@ public class ArraysTest extends TestBase {
             Assertions.assertArrayEquals(new Integer[] {}, flattened4);
 
             // Test with all null sub-arrays
-            Integer[][] allNulls = { null, null, null };
-            Integer[] flattened5 = ff.flatten(allNulls);
+            Integer[][] isAllNulls = { null, null, null };
+            Integer[] flattened5 = ff.flatten(isAllNulls);
             Assertions.assertArrayEquals(new Integer[] {}, flattened5);
 
             // Test with String array
@@ -3965,8 +3965,8 @@ public class ArraysTest extends TestBase {
             Assertions.assertEquals(0, ff.totalCountOfElements(nullArray));
 
             // Test array with all nulls
-            Object[][] allNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.totalCountOfElements(allNulls));
+            Object[][] isAllNulls = { null, null, null };
+            Assertions.assertEquals(0, ff.totalCountOfElements(isAllNulls));
 
             // Test array with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, {}, { 3, 4, 5 } };
@@ -4025,8 +4025,8 @@ public class ArraysTest extends TestBase {
             Assertions.assertEquals(0, ff.maxSubArrayLen(nullArray));
 
             // Test with all nulls
-            Object[][] allNulls = { null, null, null };
-            Assertions.assertEquals(0, ff.maxSubArrayLen(allNulls));
+            Object[][] isAllNulls = { null, null, null };
+            Assertions.assertEquals(0, ff.maxSubArrayLen(isAllNulls));
 
             // Test with empty sub-arrays
             Object[][] withEmpty = { {}, { 1, 2 }, { 3, 4, 5, 6, 7 } };

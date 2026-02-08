@@ -456,8 +456,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the element at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @return the element at position (rowIndex, columnIndex)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public long get(final int i, final int j) {
         return a[i][j];
@@ -497,7 +497,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public void set(final int i, final int j, final long val) {
         a[i][j] = val;
@@ -540,8 +540,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalLong containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong upOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -563,8 +563,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalLong containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong downOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -586,8 +586,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalLong containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong leftOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -609,8 +609,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalLong containing the element at position (i, j+1), or empty if j == columnCount-1
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalLong containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalLong rightOf(final int i, final int j) {
         checkRowColumnIndex(i, j);

@@ -303,16 +303,16 @@ public final class Matrixes {
      * }</pre>
      *
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
-     * @param xs the collection of matrices to check, may be {@code null} or empty
+     * @param matrices the collection of matrices to check, may be {@code null} or empty
      * @return {@code true} if all matrices have the same number of rows and columns, or if the collection
      *         is {@code null}, empty, or contains only one matrix; {@code false} if any matrix has different dimensions
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final Collection<? extends X> xs) {
-        if (N.isEmpty(xs) || xs.size() == 1) {
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final Collection<? extends X> matrices) {
+        if (N.isEmpty(matrices) || matrices.size() == 1) {
             return true;
         }
 
-        final Iterator<? extends X> iterator = xs.iterator();
+        final Iterator<? extends X> iterator = matrices.iterator();
         final X first = iterator.next();
         final int rowCount = first.rowCount;
         final int columnCount = first.columnCount;
@@ -777,17 +777,17 @@ public final class Matrixes {
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix (left operand), must not be {@code null}
      * @param b the second matrix (right operand), must not be {@code null}
-     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
-     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code cmd} is {@code null}
+     * @param action the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
+     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code action} is {@code null}
      * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer, boolean)
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd)
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> action)
             throws IllegalArgumentException {
         N.checkArgument(a.columnCount == b.rowCount,
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
                 b.rowCount, b.columnCount);
 
-        multiply(a, b, cmd, Matrixes.isParallelable(a, a.elementCount * b.columnCount));
+        multiply(a, b, action, Matrixes.isParallelable(a, a.elementCount * b.columnCount));
     }
 
     /**
@@ -817,12 +817,12 @@ public final class Matrixes {
      * @param <X> the type of matrix, must extend {@link AbstractMatrix}
      * @param a the first matrix (left operand), must not be {@code null}
      * @param b the second matrix (right operand), must not be {@code null}
-     * @param cmd the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
+     * @param action the accumulator function called for each (i, j, k) triple in the multiplication, must not be {@code null}
      * @param inParallel {@code true} to force parallel execution; {@code false} for sequential execution
-     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code cmd} is {@code null}
+     * @throws IllegalArgumentException if {@code a} or {@code b} is {@code null}, if matrix dimensions are incompatible ({@code a.columnCount != b.rowCount}), or if {@code action} is {@code null}
      * @see #multiply(AbstractMatrix, AbstractMatrix, Throwables.IntTriConsumer)
      */
-    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> cmd, // NOSONAR
+    public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> void multiply(final X a, final X b, final Throwables.IntTriConsumer<RuntimeException> action, // NOSONAR
             final boolean inParallel) throws IllegalArgumentException {
         N.checkArgument(a.columnCount == b.rowCount,
                 "Matrix dimensions incompatible for multiplication: a is %sx%s, b is %sx%s (a.columnCount must equal b.rowCount)", a.rowCount, a.columnCount,
@@ -839,7 +839,7 @@ public final class Matrixes {
                     IntStream.range(0, rowsA).parallel().forEach(i -> {
                         for (int k = 0; k < columnCountA; k++) {
                             for (int j = 0; j < columnCountB; j++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -848,7 +848,7 @@ public final class Matrixes {
                     IntStream.range(0, rowsA).parallel().forEach(i -> {
                         for (int j = 0; j < columnCountB; j++) {
                             for (int k = 0; k < columnCountA; k++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -859,7 +859,7 @@ public final class Matrixes {
                     IntStream.range(0, columnCountA).parallel().forEach(k -> {
                         for (int i = 0; i < rowsA; i++) {
                             for (int j = 0; j < columnCountB; j++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -868,7 +868,7 @@ public final class Matrixes {
                     IntStream.range(0, columnCountA).parallel().forEach(k -> {
                         for (int j = 0; j < columnCountB; j++) {
                             for (int i = 0; i < rowsA; i++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -879,7 +879,7 @@ public final class Matrixes {
                     IntStream.range(0, columnCountB).parallel().forEach(j -> {
                         for (int i = 0; i < rowsA; i++) {
                             for (int k = 0; k < columnCountA; k++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -888,7 +888,7 @@ public final class Matrixes {
                     IntStream.range(0, columnCountB).parallel().forEach(j -> {
                         for (int k = 0; k < columnCountA; k++) {
                             for (int i = 0; i < rowsA; i++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     });
@@ -900,7 +900,7 @@ public final class Matrixes {
                     for (int i = 0; i < rowsA; i++) {
                         for (int k = 0; k < columnCountA; k++) {
                             for (int j = 0; j < columnCountB; j++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }
@@ -908,7 +908,7 @@ public final class Matrixes {
                     for (int i = 0; i < rowsA; i++) {
                         for (int j = 0; j < columnCountB; j++) {
                             for (int k = 0; k < columnCountA; k++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }
@@ -918,7 +918,7 @@ public final class Matrixes {
                     for (int k = 0; k < columnCountA; k++) {
                         for (int i = 0; i < rowsA; i++) {
                             for (int j = 0; j < columnCountB; j++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }
@@ -926,7 +926,7 @@ public final class Matrixes {
                     for (int k = 0; k < columnCountA; k++) {
                         for (int j = 0; j < columnCountB; j++) {
                             for (int i = 0; i < rowsA; i++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }
@@ -936,7 +936,7 @@ public final class Matrixes {
                     for (int j = 0; j < columnCountB; j++) {
                         for (int i = 0; i < rowsA; i++) {
                             for (int k = 0; k < columnCountA; k++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }
@@ -944,7 +944,7 @@ public final class Matrixes {
                     for (int j = 0; j < columnCountB; j++) {
                         for (int k = 0; k < columnCountA; k++) {
                             for (int i = 0; i < rowsA; i++) {
-                                cmd.accept(i, j, k);
+                                action.accept(i, j, k);
                             }
                         }
                     }

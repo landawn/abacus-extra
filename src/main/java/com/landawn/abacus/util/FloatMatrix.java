@@ -368,8 +368,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the element at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @return the element at position (rowIndex, columnIndex)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public float get(final int i, final int j) {
         return a[i][j];
@@ -409,7 +409,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public void set(final int i, final int j, final float val) {
         a[i][j] = val;
@@ -451,8 +451,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalFloat containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @return an OptionalFloat containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalFloat upOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -473,8 +473,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalFloat containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if j is out of bounds
+     * @return an OptionalFloat containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalFloat downOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -495,8 +495,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalFloat containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @return an OptionalFloat containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalFloat leftOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -517,8 +517,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalFloat containing the element at position (i, j+1), or empty if j == columnCount-1
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @return an OptionalFloat containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalFloat rightOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -1160,8 +1160,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new FloatMatrix containing the specified region with dimensions
      *         (toRowIndex - fromRowIndex) × (toColumnIndex - fromColumnIndex)
-     * @throws IndexOutOfBoundsException if any index is out of bounds or if fromRowIndex &gt; toRowIndex
-     *                                   or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if any index is out of bounds, fromRowIndex &gt; toRowIndex, or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) throws IndexOutOfBoundsException {

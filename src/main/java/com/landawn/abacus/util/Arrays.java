@@ -430,7 +430,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(boolean[][], Throwables.BooleanFunction, Class) for two-dimensional arrays
      * @see #mapToObj(boolean[][][], Throwables.BooleanFunction, Class) for three-dimensional arrays
@@ -468,7 +468,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -504,7 +504,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional boolean array to map (can be {@code null}).
      * @param mapper the function that maps each boolean to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper,
@@ -539,7 +539,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final char[] a, final Throwables.CharFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -575,7 +575,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final char[][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -611,7 +611,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional char array to map (can be {@code null}).
      * @param mapper the function that maps each char to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper,
@@ -646,7 +646,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -682,7 +682,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -718,7 +718,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional byte array to map (can be {@code null}).
      * @param mapper the function that maps each byte to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper,
@@ -753,7 +753,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final short[] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -789,7 +789,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -825,7 +825,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional short array to map (can be {@code null}).
      * @param mapper the function that maps each short to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper,
@@ -861,7 +861,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final int[] a, final Throwables.IntFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -897,7 +897,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final int[][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -933,7 +933,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional int array to map (can be {@code null}).
      * @param mapper the function that maps each int to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper,
@@ -968,7 +968,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[] mapToObj(final long[] a, final Throwables.LongFunction<? extends T, E> mapper, final Class<T> targetElementType)
@@ -1004,7 +1004,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final long[][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -1040,7 +1040,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional long array to map (can be {@code null}).
      * @param mapper the function that maps each long to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper,
@@ -1078,7 +1078,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(float[][], Throwables.FloatFunction, Class) for two-dimensional arrays
      * @see #mapToObj(float[][][], Throwables.FloatFunction, Class) for three-dimensional arrays
@@ -1116,7 +1116,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][] mapToObj(final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -1152,7 +1152,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional float array to map (can be {@code null}).
      * @param mapper the function that maps each float to an object (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      */
     public static <T, E extends Exception> T[][][] mapToObj(final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper,
@@ -1190,7 +1190,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the double array to map (can be {@code null}).
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return an object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return an object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1227,7 +1227,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the two-dimensional double array to map (can be {@code null}).
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a two-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][][], Throwables.DoubleFunction, Class) for three-dimensional arrays
@@ -1264,7 +1264,7 @@ public sealed class Arrays permits Arrays.f {
      * @param a the three-dimensional double array to map (can be {@code null}).
      * @param mapper the function to transform each double element (must not be {@code null}).
      * @param targetElementType the class of the target element type (must not be {@code null}).
-     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null}.
+     * @return a three-dimensional object array containing the mapped values, or an empty array if input is {@code null} or empty.
      * @throws E if the {@code mapper} function throws an exception.
      * @see #mapToObj(double[], Throwables.DoubleFunction, Class) for one-dimensional arrays
      * @see #mapToObj(double[][], Throwables.DoubleFunction, Class) for two-dimensional arrays
@@ -2104,7 +2104,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional boolean array with the specified number of rows and columns.
-     * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static boolean[][][] reshape(final boolean[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -2140,7 +2141,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional boolean array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      * @see #flatten(boolean[][][]) for flattening three-dimensional arrays
      * @see #flatOp(boolean[][], Throwables.Consumer) for performing operations on flattened arrays
      */
@@ -2179,7 +2180,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional boolean array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      * @see #flatten(boolean[][]) for flattening two-dimensional arrays
      * @see #flatOp(boolean[][][], Throwables.Consumer) for performing operations on flattened three-dimensional arrays
      */
@@ -3435,7 +3436,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows The number of rows in each two-dimensional sub-array.
      * @param columnCount The number of columns in each two-dimensional sub-array.
      * @return A new three-dimensional character array.
-     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static char[][][] reshape(final char[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -3471,7 +3473,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The two-dimensional character array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static char[] flatten(final char[][] a) {
         if (N.isEmpty(a)) {
@@ -3508,7 +3510,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The three-dimensional character array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static char[] flatten(final char[][][] a) {
         if (N.isEmpty(a)) {
@@ -4734,7 +4736,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional byte array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static byte[] flatten(final byte[][] a) {
         if (N.isEmpty(a)) {
@@ -4771,7 +4773,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional byte array to flatten (can be {@code null}).
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static byte[] flatten(final byte[][][] a) {
         if (N.isEmpty(a)) {
@@ -4926,7 +4928,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows for the reshaped subarray.
      * @param columnCount the number of columns for the reshaped subarray.
      * @return a three-dimensional byte array with the specified number of rows and columns.
-     * @throws IllegalArgumentException if the number of rows or columns is less than or equal to zero.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static byte[][][] reshape(final byte[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -6021,7 +6024,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows in each two-dimensional block.
      * @param columnCount the number of columns in each row.
      * @return a three-dimensional array with the specified dimensions.
-     * @throws IllegalArgumentException if rows or columnCount is less than 1.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static short[][][] reshape(final short[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -6057,7 +6061,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static short[] flatten(final short[][] a) {
         if (N.isEmpty(a)) {
@@ -6094,7 +6098,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static short[] flatten(final short[][][] a) {
         if (N.isEmpty(a)) {
@@ -7296,7 +7300,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows in each two-dimensional matrix.
      * @param columnCount the number of columns in each row.
      * @return a new three-dimensional array containing the reshaped data.
-     * @throws IllegalArgumentException if rows or columnCount is less than 1.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static int[][][] reshape(final int[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -7335,7 +7340,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static int[] flatten(final int[][] a) {
         if (N.isEmpty(a)) {
@@ -7375,7 +7380,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static int[] flatten(final int[][][] a) {
         if (N.isEmpty(a)) {
@@ -8564,7 +8569,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows The number of rows in each two-dimensional sub-array.
      * @param columnCount The number of columns in each two-dimensional sub-array.
      * @return A new three-dimensional long array.
-     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static long[][][] reshape(final long[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -8599,7 +8605,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static long[] flatten(final long[][] a) {
         if (N.isEmpty(a)) {
@@ -8635,7 +8641,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a The three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static long[] flatten(final long[][][] a) {
         if (N.isEmpty(a)) {
@@ -9809,7 +9815,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows in each two-dimensional sub-array.
      * @param columnCount the number of columns in each two-dimensional sub-array.
      * @return a new three-dimensional array containing the elements of the input array.
-     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static float[][][] reshape(final float[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -9845,7 +9852,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static float[] flatten(final float[][] a) {
         if (N.isEmpty(a)) {
@@ -9882,7 +9889,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static float[] flatten(final float[][][] a) {
         if (N.isEmpty(a)) {
@@ -11063,7 +11070,8 @@ public sealed class Arrays permits Arrays.f {
      * @param rows the number of rows in each two-dimensional slice.
      * @param columnCount the number of columns in each two-dimensional slice.
      * @return a new three-dimensional array.
-     * @throws IllegalArgumentException if {@code rows} or {@code columnCount} are not positive.
+     * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+     *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
      */
     public static double[][][] reshape(final double[] a, final int rows, final int columnCount) throws IllegalArgumentException {
         checkRowsAndColsForReshape(rows, columnCount);
@@ -11099,7 +11107,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the two-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static double[] flatten(final double[][] a) {
         if (N.isEmpty(a)) {
@@ -11136,7 +11144,7 @@ public sealed class Arrays permits Arrays.f {
      * }</pre>
      *
      * @param a the three-dimensional array to flatten.
-     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null/empty.
+     * @return a new one-dimensional array containing all elements from the input array, or an empty array if input is null or empty.
      */
     public static double[] flatten(final double[][][] a) {
         if (N.isEmpty(a)) {
@@ -14647,22 +14655,20 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * A utility class providing functional-style operations on two-dimensional arrays.
-     * This class offers a comprehensive set of methods for manipulating two-dimensional arrays including
-     * updating, replacing, reshaping, flattening, mapping, and zipping operations.
-     * 
-     * <p>All methods in this class are static and the class cannot be instantiated.
-    
-                   * The class name 'ff' short for convenient static imports.</p>
-     * 
+     * It provides methods for updating, replacing, reshaping, flattening, mapping, and zipping.
+     *
+     * <p>All methods are static, and this class cannot be instantiated. The short name {@code ff}
+     * is intended to support convenient static imports.</p>
+     *
      * <p>Key features include:</p>
      * <ul>
      *   <li>In-place update and replacement operations</li>
      *   <li>Array reshaping and flattening</li>
      *   <li>Type-safe mapping to primitive arrays</li>
      *   <li>Advanced zipping operations with multiple arrays</li>
-     *   <li>Null-safe operations throughout</li>
+     *   <li>Null-safe handling in many operations</li>
      * </ul>
-     * 
+     *
      * @see Arrays.f
      * @see Arrays.fff
      */
@@ -14671,8 +14677,6 @@ public sealed class Arrays permits Arrays.f {
 
         /**
          * Private constructor to prevent instantiation of this utility class.
-         * 
-         * @throws AssertionError if called.
          */
         private ff() {
             // Singleton
@@ -15762,14 +15766,12 @@ public sealed class Arrays permits Arrays.f {
 
     /**
      * A utility class providing functional-style operations on three-dimensional arrays.
-     * This class offers a comprehensive set of methods for manipulating three-dimensional arrays including
-     * updating, replacing, reshaping, flattening, mapping, and zipping operations.
-     * 
-     * <p>The class follows a functional programming paradigm, allowing for declarative
-     * transformations of three-dimensional array data structures. All methods are static
-     * and the class cannot be instantiated.</p>
-     * 
-     * <p>Common use cases include:
+     * It provides methods for updating, replacing, reshaping, flattening, mapping, and zipping.
+     *
+     * <p>All methods are static, and this class cannot be instantiated. The short name {@code fff}
+     * is intended to support convenient static imports.</p>
+     *
+     * <p>Common use cases include:</p>
      * <ul>
      *   <li>Bulk updates of array elements using functions</li>
      *   <li>Conditional replacement of values</li>
@@ -15787,8 +15789,6 @@ public sealed class Arrays permits Arrays.f {
         /**
          * Private constructor to prevent instantiation of this utility class.
          * This class is designed to be used statically only.
-         * 
-         * @throws AssertionError if instantiation is attempted.
          */
         private fff() {
             // Singleton
@@ -15878,7 +15878,8 @@ public sealed class Arrays permits Arrays.f {
          * @param rows the number of rows for each two-dimensional slice. Must be positive.
          * @param columnCount the number of columns for each two-dimensional slice. Must be positive.
          * @return a new three-dimensional array containing all elements from the input.
-         * @throws IllegalArgumentException if rows or columnCount are not positive numbers.
+         * @throws IllegalArgumentException if {@code rows <= 0}, {@code columnCount <= 0}, or
+         *             {@code (long) rows * columnCount > Integer.MAX_VALUE}.
          */
         public static <T> T[][][] reshape(final T[] a, final int rows, final int columnCount) throws IllegalArgumentException {
             checkRowsAndColsForReshape(rows, columnCount);

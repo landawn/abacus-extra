@@ -370,7 +370,7 @@ public class CharMatrix2511Test extends TestBase {
     }
 
     @Test
-    public void testUnbox_allNulls() {
+    public void testUnbox_isAllNulls() {
         Character[][] boxed = { { null, null }, { null, null } };
         Matrix<Character> boxedMatrix = Matrix.of(boxed);
         CharMatrix unboxed = CharMatrix.unbox(boxedMatrix);

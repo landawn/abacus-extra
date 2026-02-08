@@ -876,9 +876,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the float value to search for
          * @return {@code true} if _1 equals valueToFind, {@code false} otherwise
          */
         @Override
@@ -1040,9 +1040,9 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the float value to search for
          * @return {@code true} if either element equals valueToFind
          */
         @Override
@@ -1314,10 +1314,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1594,10 +1594,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1780,10 +1780,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -1973,10 +1973,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2171,10 +2171,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2378,10 +2378,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {
@@ -2590,10 +2590,10 @@ public abstract class FloatTuple<TP extends FloatTuple<TP>> extends PrimitiveTup
         }
 
         /**
-         * Checks whether this tuple contains the specified value.
+         * Checks if this tuple contains the specified float value.
          *
-         * @param valueToFind the value to search for
-         * @return {@code true} if any element equals valueToFind
+         * @param valueToFind the float value to search for
+         * @return {@code true} if the value is found in this tuple, {@code false} otherwise
          */
         @Override
         public boolean contains(final float valueToFind) {

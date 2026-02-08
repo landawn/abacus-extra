@@ -463,8 +463,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return the element at position (i, j)
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @return the element at position (rowIndex, columnIndex)
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public double get(final int i, final int j) {
         return a[i][j];
@@ -504,7 +504,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param i the row index (0-based)
      * @param j the column index (0-based)
      * @param val the value to set
-     * @throws ArrayIndexOutOfBoundsException if indices are out of bounds
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public void set(final int i, final int j, final double val) {
         a[i][j] = val;
@@ -547,8 +547,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (i-1, j), or empty if i == 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalDouble containing the element at position (rowIndex - 1, columnIndex), or empty if rowIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble upOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -570,8 +570,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (i+1, j), or empty if i == rows-1
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalDouble containing the element at position (rowIndex + 1, columnIndex), or empty if rowIndex == rowCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble downOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -593,8 +593,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (i, j-1), or empty if j == 0
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalDouble containing the element at position (rowIndex, columnIndex - 1), or empty if columnIndex == 0
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble leftOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -616,8 +616,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      *
      * @param i the row index (0-based)
      * @param j the column index (0-based)
-     * @return an OptionalDouble containing the element at position (i, j+1), or empty if j == columnCount-1
-     * @throws ArrayIndexOutOfBoundsException if i or j is out of bounds
+     * @return an OptionalDouble containing the element at position (rowIndex, columnIndex + 1), or empty if columnIndex == columnCount - 1
+     * @throws ArrayIndexOutOfBoundsException if rowIndex or columnIndex is out of bounds
      */
     public OptionalDouble rightOf(final int i, final int j) {
         checkRowColumnIndex(i, j);
@@ -1321,8 +1321,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param toColumnIndex the ending column index (exclusive)
      * @return a new DoubleMatrix containing the specified region with dimensions
      *         (toRowIndex - fromRowIndex) × (toColumnIndex - fromColumnIndex)
-     * @throws IndexOutOfBoundsException if any index is out of bounds or if fromRowIndex &gt; toRowIndex
-     *                                   or fromColumnIndex &gt; toColumnIndex
+     * @throws IndexOutOfBoundsException if any index is out of bounds, fromRowIndex &gt; toRowIndex, or fromColumnIndex &gt; toColumnIndex
      */
     @Override
     public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex)

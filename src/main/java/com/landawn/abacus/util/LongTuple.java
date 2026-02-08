@@ -683,7 +683,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
          * Checks if this tuple contains the specified value.
          * An empty tuple contains no values.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code false} always, as the tuple is empty
          */
         @Override
@@ -809,7 +809,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if the value equals _1, {@code false} otherwise
          */
         @Override
@@ -972,7 +972,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if either element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals _1 or _2
          */
         @Override
@@ -1238,7 +1238,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals _1, _2, or _3
          */
         @Override
@@ -1454,7 +1454,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the four elements
          */
         @Override
@@ -1691,7 +1691,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if any element equals the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if valueToFind equals any of the five elements
          */
         @Override
@@ -1829,7 +1829,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
@@ -2024,7 +2024,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
@@ -2227,7 +2227,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
@@ -2437,7 +2437,7 @@ public abstract class LongTuple<TP extends LongTuple<TP>> extends PrimitiveTuple
         /**
          * Checks if this tuple contains the specified value.
          *
-         * @param valueToFind the value to search for
+         * @param valueToFind the long value to search for
          * @return {@code true} if any element equals the value, {@code false} otherwise
          */
         @Override
