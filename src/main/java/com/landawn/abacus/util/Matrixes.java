@@ -308,12 +308,17 @@ public final class Matrixes {
      *         is {@code null}, empty, or contains only one matrix; {@code false} if any matrix has different dimensions
      */
     public static <X extends AbstractMatrix<?, ?, ?, ?, ?>> boolean isSameShape(final Collection<? extends X> matrices) {
-        if (N.isEmpty(matrices) || matrices.size() == 1) {
+        if (N.isEmpty(matrices)) {
             return true;
         }
 
         final Iterator<? extends X> iterator = matrices.iterator();
         final X first = iterator.next();
+
+        if (first == null) {
+            return false;
+        }
+
         final int rowCount = first.rowCount;
         final int columnCount = first.columnCount;
         X next = null;
@@ -321,7 +326,7 @@ public final class Matrixes {
         while (iterator.hasNext()) {
             next = iterator.next();
 
-            if (next.rowCount != rowCount || next.columnCount != columnCount) {
+            if (next == null || next.rowCount != rowCount || next.columnCount != columnCount) {
                 return false;
             }
         }
